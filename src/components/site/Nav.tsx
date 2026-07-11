@@ -6,6 +6,14 @@ import { openSiteAssistant } from "@/lib/site-assistant";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -21,53 +29,58 @@ export function Nav() {
 
   return (
     <header
-      className="sticky top-0 z-40 backdrop-blur"
+      className="sticky top-0 z-40 backdrop-blur transition-colors"
       style={{
-        backgroundColor: "color-mix(in oklab, var(--background) 90%, transparent)",
-        borderBottom: "1px solid var(--border)",
+        backgroundColor: scrolled
+          ? "color-mix(in oklab, var(--background) 82%, transparent)"
+          : "color-mix(in oklab, var(--background) 60%, transparent)",
+        borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
       }}
     >
-      <div className="container-page flex items-center justify-between h-14 md:h-16">
-        <Link to="/" className="flex items-center gap-2" aria-label="Domov">
-          <Symbol size={32} />
-        </Link>
+      <div className="container-page flex items-center justify-between h-13 md:h-15" style={{ height: undefined }}>
+        <div className="flex items-center justify-between w-full" style={{ minHeight: 56 }}>
+          <Link to="/" className="flex items-center gap-2" aria-label="Domov">
+            <Symbol size={34} />
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
-          {siteConfig.nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="text-sm transition-colors"
-              activeProps={{ style: { color: "var(--primary)" } }}
-              inactiveProps={{ style: { color: "var(--text-secondary)" } }}
+          <nav className="hidden md:flex items-center gap-8">
+            {siteConfig.nav.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="text-[13.5px] tracking-tight transition-colors"
+                activeProps={{ style: { color: "var(--primary)" } }}
+                inactiveProps={{ style: { color: "var(--text-secondary)" } }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => openSiteAssistant({ source: "nav" })}
+              className="hidden sm:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
+              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
             >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => openSiteAssistant({ source: "nav" })}
-            className="hidden sm:inline-flex items-center rounded-md px-3.5 py-2 text-sm font-medium transition-colors"
-            style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
-          >
-            Nájsť riešenie
-          </button>
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
-            aria-expanded={open}
-            className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-            style={{
-              border: "1px solid var(--border-strong)",
-              // @ts-expect-error CSS var
-              "--tw-ring-color": "var(--primary)",
-              "--tw-ring-offset-color": "var(--background)",
-            }}
-          >
-            <MenuIcon open={open} />
-          </button>
+              Nájsť riešenie
+            </button>
+            <button
+              onClick={() => setOpen((v) => !v)}
+              aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
+              aria-expanded={open}
+              className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style={{
+                border: "1px solid var(--border-strong)",
+                backgroundColor: "var(--surface)",
+                // @ts-expect-error CSS var
+                "--tw-ring-color": "var(--primary)",
+                "--tw-ring-offset-color": "var(--background)",
+              }}
+            >
+              <MenuIcon open={open} />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -93,7 +106,7 @@ export function Nav() {
                 setOpen(false);
                 openSiteAssistant({ source: "nav-mobile" });
               }}
-              className="mt-3 rounded-md px-4 py-3 text-sm font-medium text-left"
+              className="mt-3 rounded-[10px] px-4 py-3 text-sm font-medium text-left"
               style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
             >
               Nájsť riešenie
@@ -107,33 +120,33 @@ export function Nav() {
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
       <line
         x1="3"
-        y1={open ? "10" : "7"}
-        x2="17"
-        y2={open ? "10" : "7"}
+        y1="7"
+        x2="15"
+        y2="7"
         stroke="var(--text-primary)"
-        strokeWidth="1.5"
+        strokeWidth="1.4"
         strokeLinecap="round"
         style={{
-          transform: open ? "rotate(45deg)" : "none",
-          transformOrigin: "10px 10px",
-          transition: "transform 180ms ease, y1 180ms ease, y2 180ms ease",
+          transform: open ? "rotate(45deg) translate(1px, 1px)" : "none",
+          transformOrigin: "9px 9px",
+          transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       />
       <line
         x1="3"
-        y1={open ? "10" : "13"}
-        x2="17"
-        y2={open ? "10" : "13"}
+        y1="11"
+        x2="15"
+        y2="11"
         stroke="var(--text-primary)"
-        strokeWidth="1.5"
+        strokeWidth="1.4"
         strokeLinecap="round"
         style={{
-          transform: open ? "rotate(-45deg)" : "none",
-          transformOrigin: "10px 10px",
-          transition: "transform 180ms ease, y1 180ms ease, y2 180ms ease",
+          transform: open ? "rotate(-45deg) translate(1px, -1px)" : "none",
+          transformOrigin: "9px 9px",
+          transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       />
     </svg>
