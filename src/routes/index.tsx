@@ -982,19 +982,25 @@ function PortfolioSection() {
 function PortfolioCard({
   project: p,
   featured,
+  medium,
   onTry,
 }: {
   project: (typeof projects)[number];
   featured?: boolean;
+  medium?: boolean;
   onTry: () => void;
 }) {
+  const span = featured
+    ? "sm:col-span-2 lg:col-span-4"
+    : medium
+    ? "lg:col-span-3"
+    : "lg:col-span-2";
+  const radius = featured ? "rounded-[20px]" : "rounded-[14px]";
   return (
     <motion.article
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className={`group rounded-2xl overflow-hidden flex flex-col ${
-        featured ? "sm:col-span-2 lg:col-span-1" : ""
-      }`}
+      className={`group ${radius} overflow-hidden flex flex-col ${span}`}
       style={{
         backgroundColor: "var(--surface-raised)",
         border: "1px solid var(--border)",
