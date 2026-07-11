@@ -953,12 +953,13 @@ function PortfolioSection() {
           </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-6 auto-rows-fr">
           {projects.map((p, i) => (
             <PortfolioCard
               key={p.slug}
               project={p}
               featured={i === 0}
+              medium={i === 1 || i === 2}
               onTry={() => setDemoSlug(p.slug)}
             />
           ))}
