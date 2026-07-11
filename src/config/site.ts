@@ -1,10 +1,10 @@
 export const siteConfig = {
-  title: "Interaktívne kalkulačky, konfigurátory a dopytoví asistenti",
+  title: "Chatboty, kalkulačky a interaktívne nástroje na mieru",
   description:
-    "Navrhujem a staviam kalkulačky, dopytových asistentov a produktové aj 3D konfigurátory pre malé a stredné firmy. Návštevník si zvolí, čo potrebuje, a firma dostane použiteľný dopyt.",
+    "Tvorím chatboty, kalkulačky a krokové konfigurátory, ktoré zákazníka prevedú výberom a firme odošlú presný dopyt.",
   nav: [
-    { label: "Čo staviam", to: "/sluzby" as const },
-    { label: "Projekty", to: "/projekty" as const },
-    { label: "Ako to prebieha", to: "/postup" as const },
+    { label: "Čo tvorím", to: "/sluzby" as const },
+    { label: "Ukážky", to: "/projekty" as const },
+    { label: "Spolupráca", to: "/postup" as const },
   ],
 };

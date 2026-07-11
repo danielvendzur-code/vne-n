@@ -5,10 +5,17 @@ import { openSiteAssistant } from "@/lib/site-assistant";
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
     meta: [
-      { title: "Čo staviam — kalkulačky, asistenti, konfigurátory" },
-      { name: "description", content: "Rozdiel medzi kalkulačkou, dopytovým asistentom, produktovým konfigurátorom a 3D konfigurátorom. Kedy má ktorý zmysel." },
-      { property: "og:title", content: "Čo staviam" },
-      { property: "og:description", content: "Kalkulačka počíta. Asistent sa pýta. Konfigurátor skladá. 3D konfigurátor ukáže." },
+      { title: "Čo tvorím — chatboty, kalkulačky, konfigurátory" },
+      {
+        name: "description",
+        content:
+          "Tri nástroje: chatbot a dopytový asistent, pokročilá cenová kalkulačka, krokový produktový a službový konfigurátor.",
+      },
+      { property: "og:title", content: "Čo tvorím" },
+      {
+        property: "og:description",
+        content: "Chatbot sa pýta. Kalkulačka počíta. Konfigurátor skladá.",
+      },
     ],
   }),
   component: ServicesPage,
@@ -16,40 +23,28 @@ export const Route = createFileRoute("/sluzby")({
 
 const services = [
   {
+    id: "chatbot",
+    name: "Chatbot a dopytový asistent",
+    intro: "Zákazníka prevedie otázkami a pripraví údaje pre firmu.",
+    when: "Zadanie je zakaždým iné a potrebujete pochopiť situáciu skôr, než pripravíte ponuku.",
+    input: "Otázky prispôsobené odpovediam. Bez zbytočností.",
+    output: "Prehľadný dopyt s odpoveďami a kontaktom.",
+  },
+  {
     id: "kalkulacka",
-    name: "Kalkulačka",
-    intro: "Zadanie parametrov a orientačný cenový rozsah.",
-    when: "Ceny sa dajú spočítať podľa merateľných veličín — rozmerov, počtu kusov, plochy alebo rozsahu prác.",
-    input: "Rozmery, typ, počet, doplnky.",
-    output: "Cenový rozsah + zoznam vybraných položiek odoslaný firme.",
-    example: "MojPlot, Derat.",
+    name: "Pokročilá cenová kalkulačka",
+    intro: "Cena podľa reálnych pravidiel firmy.",
+    when: "Cena sa dá odvodiť z merateľných vstupov — rozmerov, materiálu, dopravy, montáže.",
+    input: "Rozmery, typ, materiál, doprava, montáž, doplnky.",
+    output: "Presná cena podľa cenníka alebo orientačný rozsah.",
   },
   {
-    id: "asistent",
-    name: "Dopytový asistent",
-    intro: "Krátky sprievodca, ktorý zistí, čo klient reálne potrebuje.",
-    when: "Zadanie je zakaždým iné. Nedá sa spočítať cena bez pochopenia situácie.",
-    input: "Otázky prispôsobené odpovediam. Bez zbytočného obťažovania.",
-    output: "Prehľadný dopyt s údajmi, ktoré firma potrebuje na prvú konzultáciu.",
-    example: "Aplan.",
-  },
-  {
-    id: "produktovy",
-    name: "Produktový konfigurátor",
-    intro: "Poskladanie produktu z reálne dostupných variantov.",
-    when: "Ponuka je široká a klient sa v nej sám nezorientuje. Kombinácie majú pravidlá.",
-    input: "Typ produktu, materiál, rozmer, doplnky.",
+    id: "konfigurator",
+    name: "Krokový konfigurátor",
+    intro: "Poskladanie produktu alebo služby z dostupných možností.",
+    when: "Ponuka má viac variantov a klient sa v nej sám nezorientuje.",
+    input: "Typ, materiál, rozmer, farba, doplnky, montáž, doprava.",
     output: "Konkrétna konfigurácia pripravená na výrobu alebo cenovú ponuku.",
-    example: "VašaSauna.",
-  },
-  {
-    id: "3d",
-    name: "Vizuálny a 3D konfigurátor",
-    intro: "Zmeny vidno okamžite v 3D náhľade alebo na obrázku.",
-    when: "Klient si vec bez ukážky nevie predstaviť a odkladá rozhodnutie.",
-    input: "Konštrukcia, farby, rozmery, doplnky.",
-    output: "Vizuál + presná konfigurácia. Klient odchádza s predstavou.",
-    example: "Koverta, Kamenárstvo.",
   },
 ];
 
@@ -57,29 +52,32 @@ function ServicesPage() {
   return (
     <SiteLayout>
       <section>
-        <div className="container-page pt-16 pb-8 md:pt-24 md:pb-12">
-          <div className="eyebrow mb-4">Čo staviam</div>
-          <h1 className="font-semibold max-w-3xl" style={{ fontSize: "clamp(2rem, 4.5vw, 3.4rem)" }}>
-            Štyri odlišné nástroje. Vyberáme podľa toho, čo klient potrebuje spraviť.
+        <div className="container-page pt-12 pb-8 md:pt-20 md:pb-12">
+          <div className="eyebrow mb-3">Čo tvorím</div>
+          <h1 className="font-semibold max-w-3xl" style={{ fontSize: "clamp(2rem, 6vw, 3.2rem)" }}>
+            Tri nástroje. Vyberáme podľa toho, čo klient potrebuje spraviť.
           </h1>
-          <p className="mt-6 max-w-2xl text-base" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
-            Nie všetko je chatbot. Rozdiely nižšie vám pomôžu zistiť, ktorý typ zapadá do vášho biznisu.
+          <p className="mt-5 max-w-2xl text-base md:text-lg" style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}>
+            Každý nástroj sa skladá podľa služieb, cien a procesu konkrétnej firmy.
           </p>
         </div>
       </section>
 
       <section>
-        <div className="container-page pb-24 grid gap-16 md:gap-24">
+        <div className="container-page pb-20 md:pb-28 grid gap-12 md:gap-16">
           {services.map((s, i) => (
-            <article key={s.id} className="grid gap-8 md:grid-cols-12 items-start" style={{ borderTop: "1px solid var(--border)", paddingTop: "3rem" }}>
+            <article
+              key={s.id}
+              className="grid gap-6 md:gap-8 md:grid-cols-12 items-start"
+              style={{ borderTop: "1px solid var(--border)", paddingTop: "2rem" }}
+            >
               <div className="md:col-span-4">
                 <div className="text-xs tabular-nums mb-2" style={{ color: "var(--text-light)" }}>0{i + 1}</div>
-                <h2 className="text-3xl font-semibold">{s.name}</h2>
+                <h2 className="text-2xl md:text-3xl font-semibold">{s.name}</h2>
                 <p className="mt-3 text-base" style={{ color: "var(--text-secondary)" }}>{s.intro}</p>
               </div>
-              <div className="md:col-span-8 grid gap-6 sm:grid-cols-2">
+              <div className="md:col-span-8 grid gap-5 sm:grid-cols-2">
                 <Row label="Kedy dáva zmysel" body={s.when} />
-                <Row label="Príklad" body={s.example} />
                 <Row label="Vstup od klienta" body={s.input} />
                 <Row label="Výstup pre firmu" body={s.output} />
               </div>
@@ -89,8 +87,11 @@ function ServicesPage() {
       </section>
 
       <section>
-        <div className="container-page pb-24">
-          <div className="rounded-2xl p-10 md:p-14" style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}>
+        <div className="container-page pb-20 md:pb-24">
+          <div
+            className="rounded-2xl p-8 md:p-12"
+            style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
+          >
             <h2 className="text-2xl md:text-3xl font-semibold max-w-2xl">
               Neviete, čo je pre vás vhodné? Napíšte situáciu, poradím konkrétny typ.
             </h2>
@@ -100,7 +101,7 @@ function ServicesPage() {
                 className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
                 style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
               >
-                Napísať zadanie
+                Nájsť riešenie
               </button>
             </div>
           </div>

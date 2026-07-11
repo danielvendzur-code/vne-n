@@ -1,16 +1,18 @@
 export type ProjectCategory =
-  | "Kalkulačka a konfigurátor"
-  | "3D konfigurátor"
-  | "Dopytový asistent"
-  | "Produktový konfigurátor"
-  | "Kalkulačka a dopytový asistent";
+  | "Pokročilý cenový výpočet"
+  | "Presné zadanie"
+  | "Výber produktu"
+  | "Cena podľa kombinácie možností"
+  | "Produkty a objednávky"
+  | "Dopyt a termín";
 
-export type PreviewType = "form" | "configurator" | "assistant" | "viewer-3d";
+export type PreviewType = "assistant" | "calculator" | "configurator";
 
-export type DemoPresentation = "inline" | "dialog" | "fullscreen";
+export type DemoPresentation = "compact" | "wide";
 
 export interface Project {
   slug: string;
+  label: string; // "Ukážka 01"
   title: string;
   category: ProjectCategory;
   shortDescription: string;
@@ -26,111 +28,104 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: "mojplot",
-    title: "MojPlot",
-    category: "Kalkulačka a konfigurátor",
+    slug: "ukazka-01",
+    label: "Ukážka 01",
+    title: "Kalkulačka pre služby",
+    category: "Pokročilý cenový výpočet",
     shortDescription:
-      "Výber typu plota, rozmerov, brány, bránky, montáže a orientačného cenového rozsahu.",
+      "Výber služby, rozsahu, dopravy, doplnkov a údajov potrebných na výpočet ceny.",
     problem:
-      "Návštevník na stránke firmy nevedel odhadnúť, koľko bude jeho plot stáť, a písal krátke správy bez rozmerov.",
+      "Zákazník sa opýta na cenu, ale bez rozsahu a doplnkov sa nedá odpovedať.",
     solution:
-      "Kalkulačka vedie klienta cez typ plota, dĺžku, výšku, počet brán a montáž. Na konci zobrazí orientačný cenový rozsah a odošle firme kompletné zadanie.",
-    result:
-      "Firma dostáva dopyty s rozmermi, typom a vybranou bránou. Cenovú ponuku pripraví bez viacnásobnej výmeny e-mailov.",
+      "Kalkulačka vedie klienta cez rozsah, doplnky a lokalitu. Na konci zobrazí orientačný rozsah a odošle firme kompletné zadanie.",
+    result: "Firma dostáva dopyty s údajmi potrebnými na presnú ponuku.",
     accent: "#175e50",
-    previewType: "configurator",
+    previewType: "calculator",
     demoUrl: null,
-    demoPresentation: "dialog",
+    demoPresentation: "wide",
     featured: true,
   },
   {
-    slug: "koverta",
-    title: "Koverta",
-    category: "3D konfigurátor",
+    slug: "ukazka-02",
+    label: "Ukážka 02",
+    title: "Dopytový asistent",
+    category: "Presné zadanie",
     shortDescription:
-      "Výber konštrukcie, rozmerov, farieb a doplnkov prístrešku v jednom prehľadnom rozhraní.",
-    problem:
-      "Klient si prístrešok bez ukážky nevedel predstaviť a rozhodnutie odkladal.",
-    solution:
-      "3D konfigurátor mení podobu prístrešku v reálnom čase podľa výberu konštrukcie, farby, rozmerov a doplnkov.",
-    result:
-      "Návštevník odchádza s konkrétnou predstavou. Firma pozná presnú konfiguráciu ešte pred prvým hovorom.",
+      "Postupné otázky, ktoré z krátkej správy pripravia konkrétny dopyt.",
+    problem: "Kontaktný formulár prichádza s vetou bez kontextu.",
+    solution: "Asistent sa opýta na to, čo je pre danú službu podstatné.",
+    result: "Prvá odpoveď firmy môže byť konkrétna.",
     accent: "#e58a5b",
-    previewType: "viewer-3d",
-    demoUrl: null,
-    demoPresentation: "fullscreen",
-    featured: true,
-  },
-  {
-    slug: "kamenarstvo",
-    title: "Kamenárstvo",
-    category: "3D konfigurátor",
-    shortDescription:
-      "Výber typu hrobu, tvaru pomníka, farby kameňa, písma a ďalších detailov.",
-    problem:
-      "Citlivá téma, pri ktorej klient potrebuje pokoj a jasné možnosti bez nátlaku predavača.",
-    solution:
-      "Konfigurátor zobrazuje pomník v 3D a umožňuje pokojne prejsť tvar, kameň, písmo a doplnky vlastným tempom.",
-    result:
-      "Klient príde do predajne pripravený. Konzultácia sa venuje detailom, nie základnému výberu.",
-    accent: "#5e6964",
-    previewType: "viewer-3d",
-    demoUrl: null,
-    demoPresentation: "fullscreen",
-    featured: true,
-  },
-  {
-    slug: "aplan",
-    title: "Aplan",
-    category: "Dopytový asistent",
-    shortDescription:
-      "Asistent návštevníka nasmeruje podľa jeho situácie a pripraví údaje potrebné na prvú konzultáciu.",
-    problem:
-      "Klienti nevedeli, do ktorej služby patrí ich zadanie, a e-maily boli príliš všeobecné.",
-    solution:
-      "Asistent kladie krátke otázky, rozpozná typ zadania a zozbiera údaje, ktoré firma reálne potrebuje.",
-    result:
-      "Prvá konzultácia začína pri konkrétnom zadaní, nie pri základných otázkach.",
-    accent: "#175e50",
     previewType: "assistant",
     demoUrl: null,
-    demoPresentation: "dialog",
-    featured: false,
+    demoPresentation: "compact",
+    featured: true,
   },
   {
-    slug: "vasasauna",
-    title: "VašaSauna",
-    category: "Produktový konfigurátor",
+    slug: "ukazka-03",
+    label: "Ukážka 03",
+    title: "Produktový poradca",
+    category: "Výber produktu",
     shortDescription:
-      "Výber typu sauny, umiestnenia, veľkosti, materiálu, skla a doplnkov.",
-    problem:
-      "Široká ponuka materiálov a rozmerov klienta odrádzala od vyplnenia formulára.",
-    solution:
-      "Produktový konfigurátor rozdelí rozhodnutie na zrozumiteľné kroky a ukáže dostupné kombinácie.",
-    result:
-      "Firma dostáva dopyty s vybraným typom, materiálom a doplnkami. Ponuka odchádza rýchlejšie.",
+      "Pomoc s výberom podľa spôsobu použitia, preferencií a rozpočtu.",
+    problem: "Široká ponuka klienta paralyzuje.",
+    solution: "Krátky sprievodca zúži výber na relevantné varianty.",
+    result: "Klient sa vie ľahšie rozhodnúť.",
     accent: "#c9a85f",
     previewType: "configurator",
     demoUrl: null,
-    demoPresentation: "dialog",
+    demoPresentation: "compact",
     featured: true,
   },
   {
-    slug: "derat",
-    title: "Derat",
-    category: "Kalkulačka a dopytový asistent",
+    slug: "ukazka-04",
+    label: "Ukážka 04",
+    title: "Kalkulačka s viacerými pravidlami",
+    category: "Cena podľa kombinácie možností",
     shortDescription:
-      "Zistenie typu problému, rozsahu zásahu, lokality a údajov potrebných na cenovú ponuku.",
-    problem:
-      "Zákazník v strese potrebuje rýchlu odpoveď. Klasický formulár ho spomalí.",
+      "Výpočet podľa rozmerov, materiálu, montáže, dopravy a doplnkov.",
+    problem: "Ceny závisia od kombinácie viacerých premenných.",
     solution:
-      "Nástroj zistí typ problému a rozsah, ponúkne orientačnú cenu a odovzdá firme jasný dopyt s lokalitou.",
-    result:
-      "Zásah je možné naplánovať bez zbytočných telefonátov navyše.",
-    accent: "#cd7146",
+      "Kalkulačka pozná pravidlá firmy a použije správnu sadzbu pre danú kombináciu.",
+    result: "Cena alebo rozsah zodpovedá cenníku.",
+    accent: "#175e50",
+    previewType: "calculator",
+    demoUrl: null,
+    demoPresentation: "wide",
+    featured: true,
+  },
+  {
+    slug: "ukazka-05",
+    label: "Ukážka 05",
+    title: "Asistent pre e-shop",
+    category: "Produkty a objednávky",
+    shortDescription:
+      "Výber produktu, otázky o doprave a informácie o objednávke po napojení systému.",
+    problem: "E-shop stráca zákazníkov pri otázkach o produkte alebo objednávke.",
+    solution:
+      "Asistent poradí s výberom, doručením a po napojení odpovedá na stav objednávky.",
+    result: "Menej opakovaných otázok na podporu.",
+    accent: "#e58a5b",
     previewType: "assistant",
     demoUrl: null,
-    demoPresentation: "dialog",
+    demoPresentation: "compact",
+    featured: false,
+  },
+  {
+    slug: "ukazka-06",
+    label: "Ukážka 06",
+    title: "Rezervačný asistent",
+    category: "Dopyt a termín",
+    shortDescription:
+      "Zistí základné údaje a následne otvorí dostupné termíny v kalendári.",
+    problem: "Klient chce rovno termín, nie výmenu e-mailov.",
+    solution:
+      "Asistent zistí typ služby a otvorí kalendár s reálnymi voľnými termínmi.",
+    result: "Konzultácia je dohodnutá v jednom kroku.",
+    accent: "#c9a85f",
+    previewType: "assistant",
+    demoUrl: null,
+    demoPresentation: "compact",
     featured: false,
   },
 ];
