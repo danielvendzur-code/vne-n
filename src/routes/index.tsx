@@ -753,7 +753,7 @@ function PortfolioSection() {
         open={!!active}
         onClose={() => setDemoSlug(null)}
         title={active?.title ?? ""}
-        category={(active?.category ?? "Presné zadanie") as never}
+        category={active?.category ?? "Presné zadanie"}
         accent={active?.accent ?? "#175e50"}
         presentation={active?.demoPresentation ?? "compact"}
         demoUrl={active?.demoUrl ?? null}
