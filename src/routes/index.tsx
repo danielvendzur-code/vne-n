@@ -1328,5 +1328,3 @@ function FinalCta() {
   );
 }
 
-// Retain SecondaryLink export in case it becomes reused
-export { SecondaryLink, PrimaryBtn };
