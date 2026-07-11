@@ -80,17 +80,6 @@ function PrimaryLink({
     </a>
   );
 }
-function SecondaryLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <a
-      href={href}
-      className={`${btnBase} px-4 py-2.5`}
-      style={{ border: "1px solid var(--border-strong)", color: "var(--text-primary)" }}
-    >
-      {children}
-    </a>
-  );
-}
 
 /* ============================================================
    HERO
