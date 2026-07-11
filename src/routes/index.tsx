@@ -665,44 +665,65 @@ function CalculatorSection() {
   ];
 
   return (
-    <section style={{ backgroundColor: "var(--background-soft)" }}>
-      <div className="container-page py-14 md:py-24">
+    <section style={{ backgroundColor: "var(--primary-dark)", color: "#f3efe6" }}>
+      <div className="container-page py-16 md:py-28">
         <div className="grid gap-10 md:grid-cols-12 md:gap-14 items-start">
           <div className="md:col-span-5">
-            <div className="eyebrow mb-2">Pokročilá kalkulačka</div>
+            <div
+              className="eyebrow mb-3"
+              style={{ color: "color-mix(in oklab, #f3efe6 65%, transparent)" }}
+            >
+              Pokročilá kalkulačka
+            </div>
             <h2
               className="font-semibold tracking-tight"
-              style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
+              style={{
+                fontSize: "clamp(2rem, 5vw, 3rem)",
+                color: "#f3efe6",
+                lineHeight: 1.05,
+              }}
             >
               Nie je to metre krát jedna&nbsp;sadzba.
             </h2>
             <p
-              className="mt-5 text-base"
-              style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+              className="mt-6 max-w-md text-base md:text-[17px]"
+              style={{
+                color: "color-mix(in oklab, #f3efe6 78%, transparent)",
+                lineHeight: 1.55,
+              }}
             >
               Výpočet sa nastaví podľa pravidiel, ktoré firma reálne používa pri
-              príprave ponúk.
+              príprave ponúk. Nie generický template.
             </p>
           </div>
 
           <div className="md:col-span-7">
             <div
-              className="rounded-2xl p-5 md:p-6"
+              className="rounded-[20px] p-6 md:p-8"
               style={{
-                backgroundColor: "var(--surface-raised)",
-                border: "1px solid var(--border)",
+                backgroundColor: "color-mix(in oklab, #f3efe6 6%, transparent)",
+                border: "1px solid color-mix(in oklab, #f3efe6 18%, transparent)",
               }}
             >
+              <div
+                className="text-[11px] uppercase tracking-[0.14em] mb-4"
+                style={{ color: "color-mix(in oklab, #f3efe6 55%, transparent)" }}
+              >
+                Príklad výpočtu
+              </div>
               <div className="flex flex-wrap items-center gap-1.5">
                 {parts.map((p, i) => (
                   <div key={p} className="flex items-center gap-1.5">
                     <span
-                      className="rounded-md px-2.5 py-1.5 text-xs md:text-[13px]"
+                      className="rounded-[10px] px-3 py-1.5 text-[13px]"
                       style={{
                         backgroundColor:
-                          i === 0 ? "var(--primary-soft)" : "var(--background-soft)",
-                        color: "var(--text-primary)",
-                        border: "1px solid var(--border)",
+                          i === 0
+                            ? "color-mix(in oklab, #f3efe6 15%, transparent)"
+                            : "color-mix(in oklab, #f3efe6 6%, transparent)",
+                        color: "#f3efe6",
+                        border:
+                          "1px solid color-mix(in oklab, #f3efe6 15%, transparent)",
                       }}
                     >
                       {p}
@@ -710,61 +731,78 @@ function CalculatorSection() {
                     {i < parts.length - 1 && (
                       <span
                         className="text-xs"
-                        style={{ color: "var(--text-light)" }}
+                        style={{
+                          color:
+                            "color-mix(in oklab, var(--highlight) 90%, transparent)",
+                        }}
                       >
                         +
                       </span>
                     )}
                   </div>
                 ))}
-                <span
-                  className="mx-1 text-xs"
-                  style={{ color: "var(--text-light)" }}
-                >
-                  =
-                </span>
-                <span
-                  className="rounded-md px-3 py-1.5 text-xs md:text-[13px] font-medium"
-                  style={{
-                    backgroundColor: "var(--primary)",
-                    color: "var(--primary-foreground)",
-                  }}
-                >
-                  cena alebo rozsah
-                </span>
               </div>
 
-              <dl
-                className="mt-6 pt-5 grid gap-3 text-sm"
-                style={{ borderTop: "1px solid var(--border)" }}
+              <div
+                className="mt-6 pt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2"
+                style={{
+                  borderTop:
+                    "1px dashed color-mix(in oklab, var(--highlight) 60%, transparent)",
+                }}
               >
-                {rules.map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="grid grid-cols-[auto_1fr] gap-3 items-baseline"
-                  >
-                    <dt
-                      className="text-[13px] font-medium"
-                      style={{ color: "var(--primary)" }}
-                    >
-                      {k}
-                    </dt>
-                    <dd style={{ color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                      {v}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+                <span
+                  className="text-[11px] uppercase tracking-[0.14em]"
+                  style={{ color: "color-mix(in oklab, #f3efe6 60%, transparent)" }}
+                >
+                  Výsledok
+                </span>
+                <span
+                  className="font-semibold tabular-nums"
+                  style={{
+                    fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
+                    color: "#f3efe6",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  1 240 – 1 480 €
+                </span>
+                <span
+                  className="text-xs"
+                  style={{ color: "color-mix(in oklab, #f3efe6 55%, transparent)" }}
+                >
+                  · orientačný rozsah
+                </span>
+              </div>
             </div>
 
-            <p
-              className="mt-5 text-sm max-w-2xl"
-              style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}
-            >
-              Ak sú známe vstupy aj cenové pravidlá, kalkulačka vypočíta presnú
-              cenu. Ak je potrebná obhliadka, zobrazí rozsah a odošle podklady
-              firme.
-            </p>
+            <dl className="mt-8 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+              {rules.map(([k, v]) => (
+                <div
+                  key={k}
+                  className="grid grid-cols-[auto_1fr] gap-3 items-baseline pb-3"
+                  style={{
+                    borderBottom:
+                      "1px solid color-mix(in oklab, #f3efe6 12%, transparent)",
+                  }}
+                >
+                  <dt
+                    className="text-[13px] font-medium tabular-nums"
+                    style={{ color: "var(--highlight)" }}
+                  >
+                    {k}
+                  </dt>
+                  <dd
+                    className="text-[13.5px]"
+                    style={{
+                      color: "color-mix(in oklab, #f3efe6 78%, transparent)",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </div>
@@ -915,12 +953,13 @@ function PortfolioSection() {
           </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-6 auto-rows-fr">
           {projects.map((p, i) => (
             <PortfolioCard
               key={p.slug}
               project={p}
               featured={i === 0}
+              medium={i === 1 || i === 2}
               onTry={() => setDemoSlug(p.slug)}
             />
           ))}
@@ -943,19 +982,25 @@ function PortfolioSection() {
 function PortfolioCard({
   project: p,
   featured,
+  medium,
   onTry,
 }: {
   project: (typeof projects)[number];
   featured?: boolean;
+  medium?: boolean;
   onTry: () => void;
 }) {
+  const span = featured
+    ? "sm:col-span-2 lg:col-span-4"
+    : medium
+    ? "lg:col-span-3"
+    : "lg:col-span-2";
+  const radius = featured ? "rounded-[20px]" : "rounded-[14px]";
   return (
     <motion.article
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
-      className={`group rounded-2xl overflow-hidden flex flex-col ${
-        featured ? "sm:col-span-2 lg:col-span-1" : ""
-      }`}
+      className={`group ${radius} overflow-hidden flex flex-col ${span}`}
       style={{
         backgroundColor: "var(--surface-raised)",
         border: "1px solid var(--border)",
@@ -1237,80 +1282,72 @@ function PricingSection() {
 
 function FinalCta() {
   return (
-    <section>
-      <div className="container-page py-16 md:py-24">
-        <div
-          className="rounded-2xl px-6 py-10 md:px-14 md:py-16 relative overflow-hidden"
-          style={{
-            backgroundColor: "var(--primary)",
-            color: "var(--primary-foreground)",
-          }}
-        >
-          {/* subtle decorative arc, using accent */}
-          <span
-            aria-hidden
-            className="absolute -right-16 -bottom-16 h-56 w-56 rounded-full opacity-20"
-            style={{
-              background: `radial-gradient(circle at center, var(--accent) 0%, transparent 70%)`,
-            }}
-          />
-          <div className="relative grid gap-8 md:grid-cols-12 md:gap-10 items-start">
-            <div className="md:col-span-8">
-              <div
-                className="eyebrow mb-3"
-                style={{
-                  color:
-                    "color-mix(in oklab, var(--primary-foreground) 70%, transparent)",
-                }}
-              >
-                Ďalší krok
-              </div>
-              <h2
-                className="font-semibold tracking-tight"
-                style={{
-                  fontSize: "clamp(1.5rem, 3.6vw, 2.15rem)",
-                  color: "var(--primary-foreground)",
-                  lineHeight: 1.15,
-                  maxWidth: "22ch",
-                }}
-              >
-                Máte službu, pri ktorej zákazníci riešia cenu alebo výber?
-              </h2>
-              <p
-                className="mt-4 max-w-lg text-[15px] md:text-base"
-                style={{
-                  color:
-                    "color-mix(in oklab, var(--primary-foreground) 80%, transparent)",
-                  lineHeight: 1.55,
-                }}
-              >
-                Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo
-                výpočet by na ňom dávali zmysel.
-              </p>
+    <section style={{ backgroundColor: "var(--primary-dark)", color: "#f3efe6" }}>
+      <div className="container-page py-16 md:py-24 relative">
+        <span
+          aria-hidden
+          className="hidden md:block absolute right-6 top-6 h-2 w-2 rounded-full"
+          style={{ backgroundColor: "var(--accent)" }}
+        />
+        <div className="grid gap-8 md:grid-cols-12 md:gap-14 items-end">
+          <div className="md:col-span-8">
+            <div
+              className="eyebrow mb-3"
+              style={{ color: "color-mix(in oklab, #f3efe6 65%, transparent)" }}
+            >
+              Ďalší krok
             </div>
-            <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-3 md:items-end md:pt-2">
-              <button
-                onClick={() => openSiteAssistant({ source: "home-cta" })}
-                className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
-                style={{
-                  backgroundColor: "var(--accent)",
-                  color: "var(--accent-foreground)",
-                }}
+            <h2
+              className="font-semibold tracking-tight"
+              style={{
+                fontSize: "clamp(2rem, 5vw, 3rem)",
+                color: "#f3efe6",
+                lineHeight: 1.05,
+                maxWidth: "18ch",
+              }}
+            >
+              Máte službu, pri ktorej zákazníci{" "}
+              <span style={{ color: "var(--accent)" }}>riešia cenu</span> alebo výber?
+            </h2>
+            <p
+              className="mt-5 max-w-xl text-base md:text-[17px]"
+              style={{
+                color: "color-mix(in oklab, #f3efe6 80%, transparent)",
+                lineHeight: 1.55,
+              }}
+            >
+              Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo
+              výpočet by na ňom dávali zmysel.
+            </p>
+          </div>
+          <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col md:items-end gap-3">
+            <button
+              onClick={() => openSiteAssistant({ source: "home-cta" })}
+              className={`${btnBase} px-5 py-3 w-full sm:w-auto group`}
+              style={{
+                backgroundColor: "var(--accent)",
+                color: "var(--accent-foreground)",
+              }}
+            >
+              Nájsť vhodné riešenie
+              <span
+                aria-hidden
+                className="ml-2 inline-block transition-transform group-hover:translate-x-1"
               >
-                Nájsť vhodné riešenie
-              </button>
-              <a
-                href="#ukazky"
-                className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
-                style={{
-                  border:
-                    "1px solid color-mix(in oklab, var(--primary-foreground) 35%, transparent)",
-                  color: "var(--primary-foreground)",
-                }}
-              >
-                Pozrieť ukážky
-              </a>
-            </div>
+                →
+              </span>
+            </button>
+            <a
+              href="#ukazky"
+              className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
+              style={{
+                border:
+                  "1px solid color-mix(in oklab, #f3efe6 30%, transparent)",
+                color: "#f3efe6",
+              }}
+            >
+              Pozrieť ukážky
+            </a>
           </div>
         </div>
       </div>

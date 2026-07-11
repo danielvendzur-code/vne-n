@@ -5,33 +5,35 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f4f0e8;
-  --background-soft: #ece8de;
-  --surface: #fcfbf7;
-  --surface-raised: #ffffff;
+  --background: #f3efe6;
+  --background-soft: #eae4d8;
+  --surface: #fffcf7;
+  --surface-raised: #fffcf7;
+  --surface-muted: #ede9df;
 
-  --text-primary: #10231d;
-  --text-secondary: #5e6964;
-  --text-light: #89918d;
+  --text-primary: #10251e;
+  --text-secondary: #68716c;
+  --text-light: #96988f;
 
-  --primary: #175e50;
-  --primary-hover: #10483d;
-  --primary-soft: #dcebe5;
-  --primary-foreground: #fcfbf7;
+  --primary: #236654;
+  --primary-hover: #17493d;
+  --primary-soft: #dce9e3;
+  --primary-foreground: #fffcf7;
+  --primary-dark: #17493d;
 
-  --accent: #e58a5b;
-  --accent-hover: #cd7146;
-  --accent-soft: #f5ded1;
-  --accent-foreground: #10231d;
+  --accent: #e18b60;
+  --accent-hover: #c8744a;
+  --accent-soft: #f2dccf;
+  --accent-foreground: #10251e;
 
-  --highlight: #c9a85f;
+  --highlight: #c5a55e;
   --highlight-soft: #eee4c9;
 
-  --border: rgba(16, 35, 29, 0.12);
-  --border-strong: rgba(16, 35, 29, 0.22);
+  --border: rgba(16, 37, 30, 0.13);
+  --border-strong: rgba(16, 37, 30, 0.24);
 
-  --shadow-soft: 0 16px 50px rgba(16, 35, 29, 0.08);
-  --shadow-dialog: 0 32px 100px rgba(16, 35, 29, 0.2);
+  --shadow-soft: 0 1px 0 rgba(16, 37, 30, 0.04);
+  --shadow-dialog: 0 24px 80px rgba(16, 37, 30, 0.18);
 
   --radius: 0.625rem;
 
