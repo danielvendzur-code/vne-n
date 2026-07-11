@@ -4,10 +4,10 @@ interface SymbolProps {
 }
 
 /**
- * Small neutral abstract symbol used in the navigation.
- * No letters. Easy to replace later — swap this file.
+ * Compact brand mark: a rising quarter-arc anchored by a dot.
+ * Stroke-only, aligns to a 32px grid, crisp on retina.
  */
-export function Symbol({ size = 28, className }: SymbolProps) {
+export function Symbol({ size = 34, className }: SymbolProps) {
   return (
     <svg
       width={size}
@@ -18,12 +18,12 @@ export function Symbol({ size = 28, className }: SymbolProps) {
       aria-hidden="true"
     >
       <path
-        d="M4 22C4 12 12 4 22 4"
+        d="M6 24C6 13.5074 13.5074 6 24 6"
         stroke="var(--primary)"
-        strokeWidth="2.2"
+        strokeWidth="2"
         strokeLinecap="round"
       />
-      <circle cx="22" cy="22" r="4" fill="var(--accent)" />
+      <circle cx="24" cy="24" r="3" fill="var(--accent)" />
     </svg>
   );
 }
