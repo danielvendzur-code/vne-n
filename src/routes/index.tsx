@@ -1275,80 +1275,72 @@ function PricingSection() {
 
 function FinalCta() {
   return (
-    <section>
-      <div className="container-page py-16 md:py-24">
-        <div
-          className="rounded-2xl px-6 py-10 md:px-14 md:py-16 relative overflow-hidden"
-          style={{
-            backgroundColor: "var(--primary)",
-            color: "var(--primary-foreground)",
-          }}
-        >
-          {/* subtle decorative arc, using accent */}
-          <span
-            aria-hidden
-            className="absolute -right-16 -bottom-16 h-56 w-56 rounded-full opacity-20"
-            style={{
-              background: `radial-gradient(circle at center, var(--accent) 0%, transparent 70%)`,
-            }}
-          />
-          <div className="relative grid gap-8 md:grid-cols-12 md:gap-10 items-start">
-            <div className="md:col-span-8">
-              <div
-                className="eyebrow mb-3"
-                style={{
-                  color:
-                    "color-mix(in oklab, var(--primary-foreground) 70%, transparent)",
-                }}
-              >
-                Ďalší krok
-              </div>
-              <h2
-                className="font-semibold tracking-tight"
-                style={{
-                  fontSize: "clamp(1.5rem, 3.6vw, 2.15rem)",
-                  color: "var(--primary-foreground)",
-                  lineHeight: 1.15,
-                  maxWidth: "22ch",
-                }}
-              >
-                Máte službu, pri ktorej zákazníci riešia cenu alebo výber?
-              </h2>
-              <p
-                className="mt-4 max-w-lg text-[15px] md:text-base"
-                style={{
-                  color:
-                    "color-mix(in oklab, var(--primary-foreground) 80%, transparent)",
-                  lineHeight: 1.55,
-                }}
-              >
-                Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo
-                výpočet by na ňom dávali zmysel.
-              </p>
+    <section style={{ backgroundColor: "var(--primary-dark)", color: "#f3efe6" }}>
+      <div className="container-page py-16 md:py-24 relative">
+        <span
+          aria-hidden
+          className="hidden md:block absolute right-6 top-6 h-2 w-2 rounded-full"
+          style={{ backgroundColor: "var(--accent)" }}
+        />
+        <div className="grid gap-8 md:grid-cols-12 md:gap-14 items-end">
+          <div className="md:col-span-8">
+            <div
+              className="eyebrow mb-3"
+              style={{ color: "color-mix(in oklab, #f3efe6 65%, transparent)" }}
+            >
+              Ďalší krok
             </div>
-            <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-3 md:items-end md:pt-2">
-              <button
-                onClick={() => openSiteAssistant({ source: "home-cta" })}
-                className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
-                style={{
-                  backgroundColor: "var(--accent)",
-                  color: "var(--accent-foreground)",
-                }}
+            <h2
+              className="font-semibold tracking-tight"
+              style={{
+                fontSize: "clamp(2rem, 5vw, 3rem)",
+                color: "#f3efe6",
+                lineHeight: 1.05,
+                maxWidth: "18ch",
+              }}
+            >
+              Máte službu, pri ktorej zákazníci{" "}
+              <span style={{ color: "var(--accent)" }}>riešia cenu</span> alebo výber?
+            </h2>
+            <p
+              className="mt-5 max-w-xl text-base md:text-[17px]"
+              style={{
+                color: "color-mix(in oklab, #f3efe6 80%, transparent)",
+                lineHeight: 1.55,
+              }}
+            >
+              Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo
+              výpočet by na ňom dávali zmysel.
+            </p>
+          </div>
+          <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col md:items-end gap-3">
+            <button
+              onClick={() => openSiteAssistant({ source: "home-cta" })}
+              className={`${btnBase} px-5 py-3 w-full sm:w-auto group`}
+              style={{
+                backgroundColor: "var(--accent)",
+                color: "var(--accent-foreground)",
+              }}
+            >
+              Nájsť vhodné riešenie
+              <span
+                aria-hidden
+                className="ml-2 inline-block transition-transform group-hover:translate-x-1"
               >
-                Nájsť vhodné riešenie
-              </button>
-              <a
-                href="#ukazky"
-                className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
-                style={{
-                  border:
-                    "1px solid color-mix(in oklab, var(--primary-foreground) 35%, transparent)",
-                  color: "var(--primary-foreground)",
-                }}
-              >
-                Pozrieť ukážky
-              </a>
-            </div>
+                →
+              </span>
+            </button>
+            <a
+              href="#ukazky"
+              className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
+              style={{
+                border:
+                  "1px solid color-mix(in oklab, #f3efe6 30%, transparent)",
+                color: "#f3efe6",
+              }}
+            >
+              Pozrieť ukážky
+            </a>
           </div>
         </div>
       </div>
