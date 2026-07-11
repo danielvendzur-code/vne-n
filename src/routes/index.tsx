@@ -47,7 +47,32 @@ function HomePage() {
 }
 
 /* ============================================================
-   HERO with interactive product preview
+   Shared buttons — single source of truth
+============================================================ */
+
+const btnBase =
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-150 active:translate-y-px";
+
+function PrimaryLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      className={`${btnBase} px-4 py-2.5`}
+      style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+    >
+      {children}
+    </a>
+  );
+}
+
+/* ============================================================
+   HERO
 ============================================================ */
 
 type HeroPath = "cena" | "riesenie" | "dopyt" | "termin";
@@ -60,7 +85,7 @@ const heroPaths: { id: HeroPath; label: string; next: string }[] = [
 ];
 
 const heroSecondStep: Record<HeroPath, string[]> = {
-  cena: ["Rozmery", "Materiál", "Doprava", "Montáž", "Viac možností"],
+  cena: ["Rozmery", "Materiál", "Doprava", "Montáž"],
   riesenie: ["Použitie", "Rozpočet", "Priestor", "Preferencia"],
   dopyt: ["Kontakt", "Lokalita", "Termín", "Poznámka"],
   termin: ["Ráno", "Poobede", "Víkend", "Ktorýkoľvek"],
@@ -86,42 +111,47 @@ function Hero() {
 
   return (
     <section>
-      <div className="container-page pt-10 pb-14 md:pt-20 md:pb-24">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-14 items-start">
-          <div className="md:col-span-6">
-            <div className="eyebrow mb-4">Chatboty, kalkulačky a interaktívne nástroje</div>
+      <div className="container-page pt-6 pb-10 md:pt-14 md:pb-20">
+        <div className="grid gap-6 md:gap-12 md:grid-cols-12 items-start">
+          <div className="md:col-span-6 md:pt-6">
+            <div className="eyebrow mb-3">Chatboty · kalkulačky · konfigurátory</div>
             <h1
-              className="font-semibold"
+              className="font-semibold tracking-tight"
               style={{
-                fontSize: "clamp(2.25rem, 8vw, 4rem)",
-                lineHeight: 1.05,
+                fontSize: "clamp(2.1rem, 8vw, 3.9rem)",
+                lineHeight: 1.03,
               }}
             >
-              Návštevník si vyberie.
-              <br />
-              <span style={{ color: "var(--primary)" }}>Vy dostanete presný dopyt.</span>
+              Návštevník si vyberie.{" "}
+              <span style={{ color: "var(--primary)" }}>
+                Vy dostanete presný&nbsp;dopyt.
+              </span>
             </h1>
             <p
-              className="mt-6 max-w-xl"
-              style={{ color: "var(--text-secondary)", fontSize: "clamp(1rem, 2.4vw, 1.15rem)", lineHeight: 1.55 }}
+              className="mt-5 max-w-lg"
+              style={{
+                color: "var(--text-secondary)",
+                fontSize: "clamp(0.98rem, 2.2vw, 1.1rem)",
+                lineHeight: 1.55,
+              }}
             >
-              Tvorím chatboty, kalkulačky a krokové konfigurátory, ktoré zákazníka prevedú
-              výberom a firme odošlú všetky potrebné údaje.
+              Interaktívne nástroje, ktoré zákazníka prevedú výberom a firme
+              pripravia všetky potrebné údaje.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#ukazky"
-                className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
-                style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
-              >
-                Pozrieť ukážky
-              </a>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <PrimaryLink href="#ukazky">Pozrieť ukážky</PrimaryLink>
               <a
                 href="#spolupraca"
-                className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
-                style={{ border: "1px solid var(--border-strong)", color: "var(--text-primary)" }}
+                className="inline-flex items-center gap-1.5 text-sm font-medium py-2.5 group"
+                style={{ color: "var(--text-primary)" }}
               >
                 Ako to funguje
+                <span
+                  className="transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                >
+                  →
+                </span>
               </a>
             </div>
           </div>
@@ -166,6 +196,8 @@ function HeroPreview({
   onBack: () => void;
   onReset: () => void;
 }) {
+  const pathLabel = path ? heroPaths.find((p) => p.id === path)!.label : null;
+
   return (
     <div
       className="rounded-2xl overflow-hidden"
@@ -177,31 +209,41 @@ function HeroPreview({
     >
       <div
         className="flex items-center justify-between px-4 py-2.5"
-        style={{ borderBottom: "1px solid var(--border)", backgroundColor: "var(--background-soft)" }}
+        style={{
+          borderBottom: "1px solid var(--border)",
+          backgroundColor: "var(--background-soft)",
+        }}
       >
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "var(--accent)" }} />
-          <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+          <span
+            className="h-1.5 w-1.5 rounded-full"
+            style={{ backgroundColor: "var(--accent)" }}
+          />
+          <span className="text-[11px] tracking-wide uppercase" style={{ color: "var(--text-secondary)" }}>
             Interaktívna ukážka
           </span>
         </div>
         <StepDots step={step} />
       </div>
 
-      <div className="p-5 md:p-6" style={{ minHeight: 320 }}>
-        <AnimatePresence mode="wait">
+      <div className="px-5 py-5 md:px-6 md:py-6">
+        <AnimatePresence mode="wait" initial={false}>
           {step === 0 && (
             <motion.div
               key="s0"
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.18 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.16 }}
             >
-              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
-                Krok 1 z 3
-              </p>
-              <h3 className="text-xl font-semibold mb-5">Čo zákazník potrebuje?</h3>
+              <div className="flex items-baseline justify-between mb-3">
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                  Krok 1 z 3
+                </span>
+              </div>
+              <h3 className="text-lg md:text-xl font-semibold mb-4">
+                Čo zákazník potrebuje?
+              </h3>
               <div className="grid grid-cols-2 gap-2">
                 {heroPaths.map((p) => (
                   <Chip key={p.id} onClick={() => onPick(p.id)}>
@@ -215,18 +257,23 @@ function HeroPreview({
           {step === 1 && path && (
             <motion.div
               key="s1"
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.18 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.16 }}
             >
-              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
-                Krok 2 z 3
-              </p>
-              <h3 className="text-xl font-semibold mb-5">
+              <div className="flex items-baseline justify-between mb-3">
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                  Krok 2 z 3
+                </span>
+                <span className="text-xs" style={{ color: "var(--primary)" }}>
+                  {pathLabel}
+                </span>
+              </div>
+              <h3 className="text-lg md:text-xl font-semibold mb-4">
                 {heroPaths.find((p) => p.id === path)!.next}
               </h3>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 {heroSecondStep[path].map((c) => (
                   <Chip key={c} onClick={() => onChoice(c)}>
                     {c}
@@ -239,25 +286,31 @@ function HeroPreview({
           {step === 2 && path && choice && (
             <motion.div
               key="s2"
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.18 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.16 }}
             >
-              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
-                Krok 3 z 3
-              </p>
-              <div className="eyebrow mb-2">Výsledok</div>
-              <h3 className="text-xl font-semibold mb-4">
-                Prehľadný dopyt s vybranými údajmi
-              </h3>
+              <div className="flex items-baseline justify-between mb-3">
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                  Hotovo
+                </span>
+                <span className="text-xs" style={{ color: "var(--primary)" }}>
+                  Dopyt pripravený
+                </span>
+              </div>
               <div
-                className="rounded-lg p-4 text-sm space-y-2"
-                style={{ backgroundColor: "var(--background-soft)", border: "1px solid var(--border)" }}
+                className="rounded-lg divide-y"
+                style={{
+                  backgroundColor: "var(--background-soft)",
+                  border: "1px solid var(--border)",
+                  borderColor: "var(--border)",
+                }}
               >
-                <SummaryRow label="Zámer" value={heroPaths.find((p) => p.id === path)!.label} />
+                <SummaryRow label="Zámer" value={pathLabel!} />
                 <SummaryRow label="Detail" value={choice} />
-                <SummaryRow label="Ďalší krok" value="Odoslať firme" />
+                <SummaryRow label="Kontakt" value="Vyplnený" />
+                <SummaryRow label="Ďalší krok" value="Odoslať firme" accent />
               </div>
             </motion.div>
           )}
@@ -265,18 +318,23 @@ function HeroPreview({
       </div>
 
       <div
-        className="flex items-center justify-between px-4 py-2.5 text-xs"
-        style={{ borderTop: "1px solid var(--border)", color: "var(--text-secondary)" }}
+        className="flex items-center justify-between px-4 py-2 text-xs"
+        style={{ borderTop: "1px solid var(--border)" }}
       >
         <button
           onClick={onBack}
           disabled={step === 0}
-          className="disabled:opacity-40"
+          className="inline-flex items-center gap-1 py-1.5 disabled:opacity-30 transition-opacity"
           style={{ color: "var(--text-primary)" }}
         >
-          ← Späť
+          <span aria-hidden>←</span> Späť
         </button>
-        <button onClick={onReset} disabled={step === 0} className="disabled:opacity-40">
+        <button
+          onClick={onReset}
+          disabled={step === 0}
+          className="py-1.5 disabled:opacity-30 transition-opacity"
+          style={{ color: "var(--text-secondary)" }}
+        >
           Reset
         </button>
       </div>
@@ -286,12 +344,13 @@ function HeroPreview({
 
 function StepDots({ step }: { step: 0 | 1 | 2 }) {
   return (
-    <div className="flex gap-1.5">
+    <div className="flex gap-1">
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="h-1.5 w-4 rounded-full transition-colors"
+          className="h-1 rounded-full transition-all"
           style={{
+            width: i === step ? 18 : 8,
             backgroundColor: i <= step ? "var(--primary)" : "var(--border-strong)",
           }}
         />
@@ -300,12 +359,20 @@ function StepDots({ step }: { step: 0 | 1 | 2 }) {
   );
 }
 
-function Chip({ children, onClick, active }: { children: React.ReactNode; onClick?: () => void; active?: boolean }) {
+function Chip({
+  children,
+  onClick,
+  active,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  active?: boolean;
+}) {
   return (
     <motion.button
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className="rounded-full px-3.5 py-2 text-sm text-left transition-colors"
+      className="rounded-full px-3.5 py-2.5 text-sm text-left transition-colors"
       style={{
         border: `1px solid ${active ? "var(--primary)" : "var(--border-strong)"}`,
         backgroundColor: active ? "var(--primary-soft)" : "transparent",
@@ -317,11 +384,24 @@ function Chip({ children, onClick, active }: { children: React.ReactNode; onClic
   );
 }
 
-function SummaryRow({ label, value }: { label: string; value: string }) {
+function SummaryRow({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+}) {
   return (
-    <div className="flex justify-between gap-3">
-      <span style={{ color: "var(--text-secondary)" }}>{label}</span>
-      <span className="font-medium text-right" style={{ color: "var(--text-primary)" }}>
+    <div className="flex items-center justify-between gap-3 px-3.5 py-2.5">
+      <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+        {label}
+      </span>
+      <span
+        className="text-sm font-medium text-right"
+        style={{ color: accent ? "var(--primary)" : "var(--text-primary)" }}
+      >
         {value}
       </span>
     </div>
@@ -335,20 +415,20 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 const productTypes = [
   {
     key: "chatbot" as const,
-    name: "Chatbot a dopytový asistent",
+    name: "Dopytový asistent",
     desc:
-      "Zákazníka prevedie otázkami, vysvetlí možnosti a pripraví údaje potrebné na ďalší kontakt.",
+      "Prevedie zákazníka otázkami, vysvetlí možnosti a pripraví údaje na kontakt.",
   },
   {
     key: "kalkulacka" as const,
-    name: "Pokročilá cenová kalkulačka",
+    name: "Pokročilá kalkulačka",
     desc:
-      "Vypočíta cenu alebo cenový rozsah podľa rozmerov, materiálu, dopravy, montáže a ďalších pravidiel firmy.",
+      "Vypočíta cenu alebo rozsah podľa rozmerov, materiálu, dopravy a ďalších pravidiel firmy.",
   },
   {
     key: "konfigurator" as const,
     name: "Krokový konfigurátor",
-    desc: "Pomôže zákazníkovi vybrať produkt alebo službu z reálne dostupných možností.",
+    desc: "Zúži výber produktu alebo služby na to, čo je reálne dostupné.",
   },
 ];
 
@@ -363,19 +443,22 @@ function ProductTypesSection() {
 
   return (
     <section id="co-tvorim" style={{ backgroundColor: "var(--background-soft)" }}>
-      <div className="container-page py-16 md:py-24">
-        <div className="mb-10 md:mb-12 max-w-3xl">
-          <div className="eyebrow mb-3">Čo tvorím</div>
-          <h2 className="font-semibold" style={{ fontSize: "clamp(1.75rem, 4.5vw, 2.6rem)" }}>
+      <div className="container-page py-14 md:py-24">
+        <div className="mb-8 md:mb-12 max-w-2xl">
+          <div className="eyebrow mb-2">Čo tvorím</div>
+          <h2
+            className="font-semibold tracking-tight"
+            style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
+          >
             Tri nástroje. Každý rieši inú časť dopytu.
           </h2>
-          <p className="mt-4 text-base md:text-lg" style={{ color: "var(--text-secondary)" }}>
-            Každý nástroj sa skladá podľa služieb, cien a procesu konkrétnej firmy.
-          </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-12 md:gap-10 items-start">
-          <ul className="md:col-span-6 flex flex-col" style={{ borderTop: "1px solid var(--border)" }}>
+        <div className="grid gap-8 md:grid-cols-12 md:gap-12 items-start">
+          <ul
+            className="md:col-span-6 flex flex-col"
+            style={{ borderTop: "1px solid var(--border)" }}
+          >
             {productTypes.map((t, i) => {
               const isActive = active === t.key;
               return (
@@ -384,23 +467,39 @@ function ProductTypesSection() {
                     onClick={() => setActive(t.key)}
                     onMouseEnter={() => setActive(t.key)}
                     onFocus={() => setActive(t.key)}
-                    className="w-full text-left py-5 md:py-6 grid grid-cols-[auto_1fr] gap-4 items-baseline transition-colors"
+                    className="w-full text-left py-5 grid grid-cols-[auto_1fr] gap-4 items-baseline group"
                     aria-pressed={isActive}
                   >
                     <span
-                      className="text-sm tabular-nums"
+                      className="text-xs tabular-nums transition-colors"
                       style={{ color: isActive ? "var(--primary)" : "var(--text-light)" }}
                     >
                       0{i + 1}
                     </span>
                     <div className="min-w-0">
-                      <div
-                        className="text-lg md:text-xl font-semibold transition-colors"
-                        style={{ color: isActive ? "var(--primary)" : "var(--text-primary)" }}
-                      >
-                        {t.name}
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="text-lg md:text-xl font-semibold transition-colors"
+                          style={{
+                            color: isActive ? "var(--primary)" : "var(--text-primary)",
+                          }}
+                        >
+                          {t.name}
+                        </span>
+                        <span
+                          className="ml-auto text-xs transition-opacity"
+                          style={{
+                            color: "var(--primary)",
+                            opacity: isActive ? 1 : 0,
+                          }}
+                        >
+                          ●
+                        </span>
                       </div>
-                      <p className="mt-1.5 text-sm md:text-base" style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}>
+                      <p
+                        className="mt-1.5 text-sm md:text-[15px]"
+                        style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+                      >
                         {t.desc}
                       </p>
                     </div>
@@ -408,18 +507,26 @@ function ProductTypesSection() {
                 </li>
               );
             })}
+            <li className="pt-5">
+              <p
+                className="text-sm"
+                style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+              >
+                Každý nástroj sa skladá podľa služieb, cien a procesu konkrétnej firmy.
+              </p>
+            </li>
           </ul>
 
-          <div className="md:col-span-6">
+          <div className="md:col-span-6 md:sticky md:top-24">
             <div
-              className="rounded-2xl p-4 md:p-5"
+              className="rounded-2xl overflow-hidden"
               style={{
                 backgroundColor: "var(--surface-raised)",
                 border: "1px solid var(--border)",
                 boxShadow: "var(--shadow-soft)",
               }}
             >
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={active}
                   initial={{ opacity: 0, y: 6 }}
@@ -439,7 +546,7 @@ function ProductTypesSection() {
 }
 
 /* ============================================================
-   CHATBOT capabilities section
+   CHATBOT — editorial columns, not three white boxes
 ============================================================ */
 
 function ChatbotSection() {
@@ -461,16 +568,16 @@ function ChatbotSection() {
         "pridelí vlastné číslo dopytu",
         "pripojí všetky odpovede a kontakt",
         "zachová kontext celej konverzácie",
-        "podľa zvoleného riešenia umožní históriu dopytov",
+        "podľa riešenia umožní históriu dopytov",
       ],
     },
     {
-      title: "Po napojení na ďalšie systémy",
+      title: "Po napojení systémov",
       items: [
         "Calendly alebo iný kalendár",
         "dostupnosť produktu",
         "stav objednávky",
-        "požiadavka na zmenu alebo zrušenie objednávky",
+        "požiadavka na zmenu alebo zrušenie",
         "interný systém alebo CRM",
       ],
     },
@@ -478,90 +585,122 @@ function ChatbotSection() {
 
   return (
     <section>
-      <div className="container-page py-16 md:py-24">
-        <div className="mb-10 md:mb-14 max-w-3xl">
-          <div className="eyebrow mb-3">Chatbot a dopytový asistent</div>
-          <h2 className="font-semibold" style={{ fontSize: "clamp(1.75rem, 4.5vw, 2.6rem)" }}>
-            Neodpovedá len na otázky. Pripraví ďalší krok.
-          </h2>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {areas.map((a) => (
-            <div
-              key={a.title}
-              className="rounded-2xl p-6 md:p-7"
-              style={{
-                backgroundColor: "var(--surface-raised)",
-                border: "1px solid var(--border)",
-              }}
+      <div className="container-page py-14 md:py-24">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-14">
+          <div className="md:col-span-4">
+            <div className="eyebrow mb-2">Dopytový asistent</div>
+            <h2
+              className="font-semibold tracking-tight"
+              style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
             >
-              <div className="eyebrow mb-4">{a.title}</div>
-              <ul className="space-y-2.5 text-[15px]" style={{ color: "var(--text-primary)" }}>
-                {a.items.map((it) => (
-                  <li key={it} className="flex gap-2.5">
-                    <span
-                      className="mt-2 h-1 w-1 rounded-full shrink-0"
-                      style={{ backgroundColor: "var(--primary)" }}
-                    />
-                    <span style={{ lineHeight: 1.5 }}>{it}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+              Neodpovedá len na otázky.<br />Pripraví ďalší krok.
+            </h2>
+            <p
+              className="mt-5 max-w-sm text-sm"
+              style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}
+            >
+              Funkcie spojené s objednávkami, dostupnosťou alebo interným
+              systémom vyžadujú samostatné napojenie.
+            </p>
+          </div>
 
-        <p
-          className="mt-8 max-w-2xl text-sm"
-          style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}
-        >
-          Funkcie spojené s objednávkami, dostupnosťou alebo interným systémom vyžadujú samostatné napojenie.
-        </p>
+          <div className="md:col-span-8">
+            <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+              {areas.map((a) => (
+                <div key={a.title}>
+                  <dt
+                    className="pb-3 mb-4 text-sm font-semibold"
+                    style={{
+                      borderBottom: "1px solid var(--border-strong)",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    {a.title}
+                  </dt>
+                  <dd>
+                    <ul
+                      className="space-y-2 text-[14.5px]"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {a.items.map((it) => (
+                        <li key={it} className="flex gap-2.5">
+                          <span
+                            className="mt-2 h-1 w-1 rounded-full shrink-0"
+                            style={{ backgroundColor: "var(--primary)" }}
+                          />
+                          <span style={{ lineHeight: 1.5 }}>{it}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
 /* ============================================================
-   CALCULATOR section
+   CALCULATOR
 ============================================================ */
 
 function CalculatorSection() {
-  const parts = ["Základná služba", "rozmery", "materiál", "doprava", "montáž", "doplnky", "cenové podmienky"];
+  const parts = [
+    "Základ",
+    "rozmery",
+    "materiál",
+    "doprava",
+    "montáž",
+    "doplnky",
+    "cenové podmienky",
+  ];
   const rules = [
-    "Ak je zákazka pod minimálnym rozsahom, použije sa minimálna cena.",
-    "Pri väčšej vzdialenosti sa dopočíta doprava.",
-    "Montáž a demontáž sa započítajú samostatne.",
-    "Neštandardný výber sa odošle na individuálne potvrdenie.",
+    ["Minimálna cena", "ak je zákazka pod minimálnym rozsahom"],
+    ["Doprava", "dopočítaná podľa vzdialenosti"],
+    ["Montáž a demontáž", "samostatné položky"],
+    ["Neštandardný výber", "individuálne potvrdenie firmou"],
   ];
 
   return (
     <section style={{ backgroundColor: "var(--background-soft)" }}>
-      <div className="container-page py-16 md:py-24">
+      <div className="container-page py-14 md:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-14 items-start">
           <div className="md:col-span-5">
-            <div className="eyebrow mb-3">Pokročilá kalkulačka</div>
-            <h2 className="font-semibold" style={{ fontSize: "clamp(1.75rem, 4.5vw, 2.6rem)" }}>
-              Nie je to len počet metrov krát jedna sadzba.
+            <div className="eyebrow mb-2">Pokročilá kalkulačka</div>
+            <h2
+              className="font-semibold tracking-tight"
+              style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
+            >
+              Nie je to metre krát jedna&nbsp;sadzba.
             </h2>
-            <p className="mt-5 text-base md:text-lg" style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}>
-              Výpočet sa nastaví podľa pravidiel, ktoré firma reálne používa pri príprave ponúk.
+            <p
+              className="mt-5 text-base"
+              style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+            >
+              Výpočet sa nastaví podľa pravidiel, ktoré firma reálne používa pri
+              príprave ponúk.
             </p>
           </div>
 
           <div className="md:col-span-7">
             <div
               className="rounded-2xl p-5 md:p-6"
-              style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
+              style={{
+                backgroundColor: "var(--surface-raised)",
+                border: "1px solid var(--border)",
+              }}
             >
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
                 {parts.map((p, i) => (
-                  <div key={p} className="flex items-center gap-2">
+                  <div key={p} className="flex items-center gap-1.5">
                     <span
-                      className="rounded-full px-3 py-1.5 text-xs md:text-sm"
+                      className="rounded-md px-2.5 py-1.5 text-xs md:text-[13px]"
                       style={{
-                        backgroundColor: i === 0 ? "var(--primary-soft)" : "var(--background-soft)",
+                        backgroundColor:
+                          i === 0 ? "var(--primary-soft)" : "var(--background-soft)",
                         color: "var(--text-primary)",
                         border: "1px solid var(--border)",
                       }}
@@ -569,36 +708,62 @@ function CalculatorSection() {
                       {p}
                     </span>
                     {i < parts.length - 1 && (
-                      <span style={{ color: "var(--text-light)" }}>+</span>
+                      <span
+                        className="text-xs"
+                        style={{ color: "var(--text-light)" }}
+                      >
+                        +
+                      </span>
                     )}
                   </div>
                 ))}
-                <span className="mx-1" style={{ color: "var(--text-light)" }}>=</span>
                 <span
-                  className="rounded-full px-3.5 py-1.5 text-xs md:text-sm font-medium"
-                  style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+                  className="mx-1 text-xs"
+                  style={{ color: "var(--text-light)" }}
                 >
-                  cena alebo cenový rozsah
+                  =
+                </span>
+                <span
+                  className="rounded-md px-3 py-1.5 text-xs md:text-[13px] font-medium"
+                  style={{
+                    backgroundColor: "var(--primary)",
+                    color: "var(--primary-foreground)",
+                  }}
+                >
+                  cena alebo rozsah
                 </span>
               </div>
 
-              <ul className="mt-6 space-y-2 text-sm" style={{ color: "var(--text-primary)" }}>
-                {rules.map((r) => (
-                  <li key={r} className="flex gap-2.5">
-                    <span
-                      className="mt-2 h-1 w-1 rounded-full shrink-0"
-                      style={{ backgroundColor: "var(--accent)" }}
-                    />
-                    <span style={{ lineHeight: 1.55 }}>{r}</span>
-                  </li>
+              <dl
+                className="mt-6 pt-5 grid gap-3 text-sm"
+                style={{ borderTop: "1px solid var(--border)" }}
+              >
+                {rules.map(([k, v]) => (
+                  <div
+                    key={k}
+                    className="grid grid-cols-[auto_1fr] gap-3 items-baseline"
+                  >
+                    <dt
+                      className="text-[13px] font-medium"
+                      style={{ color: "var(--primary)" }}
+                    >
+                      {k}
+                    </dt>
+                    <dd style={{ color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                      {v}
+                    </dd>
+                  </div>
                 ))}
-              </ul>
+              </dl>
             </div>
 
-            <p className="mt-5 text-sm max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
-              Ak sú známe všetky vstupy a cenové pravidlá, kalkulačka môže vypočítať presnú cenu
-              podľa cenníka. Ak je potrebná obhliadka alebo individuálne posúdenie, zobrazí
-              orientačný rozsah a odošle podklady firme.
+            <p
+              className="mt-5 text-sm max-w-2xl"
+              style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}
+            >
+              Ak sú známe vstupy aj cenové pravidlá, kalkulačka vypočíta presnú
+              cenu. Ak je potrebná obhliadka, zobrazí rozsah a odošle podklady
+              firme.
             </p>
           </div>
         </div>
@@ -615,7 +780,7 @@ function OwnerOutputSection() {
   const rows: [string, string][] = [
     ["Typ služby", "Vybraná možnosť"],
     ["Rozsah", "42 m"],
-    ["Materiál", "Vybraný variant"],
+    ["Materiál", "Variant B"],
     ["Montáž", "Áno"],
     ["Lokalita", "Nitra"],
     ["Preferovaný termín", "Do jedného mesiaca"],
@@ -624,40 +789,83 @@ function OwnerOutputSection() {
 
   return (
     <section>
-      <div className="container-page py-16 md:py-24">
+      <div className="container-page py-14 md:py-24">
         <div className="grid gap-10 md:grid-cols-12 md:gap-14 items-start">
           <div className="md:col-span-5">
-            <div className="eyebrow mb-3">Čo príde firme</div>
-            <h2 className="font-semibold" style={{ fontSize: "clamp(1.75rem, 4.5vw, 2.6rem)" }}>
-              Dopyt, ktorý netreba znova celý zisťovať.
+            <div className="eyebrow mb-2">Čo príde firme</div>
+            <h2
+              className="font-semibold tracking-tight"
+              style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
+            >
+              Dopyt, ktorý netreba znova&nbsp;zisťovať.
             </h2>
-            <p className="mt-5 text-base" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
-              Podľa riešenia môže dopyt obsahovať aj fotografie, poznámku, históriu rozhovoru alebo rezervovaný termín.
+            <p
+              className="mt-5 max-w-md text-base"
+              style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}
+            >
+              Podľa riešenia môže dopyt obsahovať fotografie, poznámku, históriu
+              rozhovoru alebo rezervovaný termín.
             </p>
           </div>
 
           <div className="md:col-span-7">
             <div
               className="rounded-2xl overflow-hidden"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--surface-raised)", boxShadow: "var(--shadow-soft)" }}
+              style={{
+                border: "1px solid var(--border)",
+                backgroundColor: "var(--surface-raised)",
+                boxShadow: "var(--shadow-soft)",
+              }}
             >
               <div
-                className="flex items-center justify-between px-5 py-3"
-                style={{ backgroundColor: "var(--background-soft)", borderBottom: "1px solid var(--border)" }}
+                className="flex items-center justify-between px-5 py-3.5"
+                style={{
+                  backgroundColor: "var(--background-soft)",
+                  borderBottom: "1px solid var(--border)",
+                }}
               >
-                <div className="text-sm font-semibold">Dopyt #00124</div>
+                <div className="flex items-baseline gap-2.5">
+                  <span
+                    className="text-[11px] uppercase tracking-wider"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    Dopyt
+                  </span>
+                  <span
+                    className="text-sm font-semibold tabular-nums"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    #00124
+                  </span>
+                </div>
                 <span
-                  className="text-xs rounded-full px-2.5 py-1"
-                  style={{ backgroundColor: "var(--primary-soft)", color: "var(--primary)" }}
+                  className="text-[11px] uppercase tracking-wider rounded-full px-2.5 py-1"
+                  style={{
+                    backgroundColor: "var(--primary-soft)",
+                    color: "var(--primary)",
+                    fontWeight: 600,
+                    letterSpacing: "0.08em",
+                  }}
                 >
                   Nový
                 </span>
               </div>
-              <dl className="divide-y" style={{ borderColor: "var(--border)" }}>
-                {rows.map(([k, v]) => (
-                  <div key={k} className="grid grid-cols-2 gap-3 px-5 py-3 text-sm" style={{ borderColor: "var(--border)" }}>
+              <dl>
+                {rows.map(([k, v], i) => (
+                  <div
+                    key={k}
+                    className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 px-5 py-3 text-sm"
+                    style={{
+                      borderTop: i === 0 ? "none" : "1px solid var(--border)",
+                    }}
+                  >
                     <dt style={{ color: "var(--text-secondary)" }}>{k}</dt>
-                    <dd className="text-right font-medium" style={{ color: "var(--text-primary)" }}>{v}</dd>
+                    <dd
+                      className="text-right font-medium"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {v}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -670,7 +878,7 @@ function OwnerOutputSection() {
 }
 
 /* ============================================================
-   PORTFOLIO — 6 neutral examples
+   PORTFOLIO
 ============================================================ */
 
 function PortfolioSection() {
@@ -679,72 +887,42 @@ function PortfolioSection() {
 
   return (
     <section id="ukazky" style={{ backgroundColor: "var(--background-soft)" }}>
-      <div className="container-page py-16 md:py-24">
-        <div className="mb-10 md:mb-12 max-w-3xl">
-          <div className="eyebrow mb-3">Ukážky</div>
-          <h2 className="font-semibold" style={{ fontSize: "clamp(1.75rem, 4.5vw, 2.6rem)" }}>
-            Vyskúšajte, ako môžu jednotlivé riešenia fungovať.
-          </h2>
+      <div className="container-page py-14 md:py-24">
+        <div className="mb-8 md:mb-12 grid gap-3 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-8">
+            <div className="eyebrow mb-2">Ukážky</div>
+            <h2
+              className="font-semibold tracking-tight"
+              style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
+            >
+              Vyskúšajte, ako môžu riešenia fungovať.
+            </h2>
+          </div>
+          <div className="md:col-span-4 md:text-right">
+            <Link
+              to="/projekty"
+              className="text-sm inline-flex items-center gap-1 group"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Všetky ukážky
+              <span
+                aria-hidden
+                className="transition-transform group-hover:translate-x-0.5"
+              >
+                →
+              </span>
+            </Link>
+          </div>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p) => (
-            <article
+          {projects.map((p, i) => (
+            <PortfolioCard
               key={p.slug}
-              className="group rounded-2xl overflow-hidden flex flex-col"
-              style={{
-                backgroundColor: "var(--surface-raised)",
-                border: "1px solid var(--border)",
-              }}
-            >
-              <div
-                className="p-4"
-                style={{
-                  background: `linear-gradient(135deg, ${p.accent}18 0%, ${p.accent}05 100%)`,
-                }}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                    {p.label}
-                  </span>
-                  <span className="text-xs" style={{ color: "var(--text-light)" }}>
-                    {p.category}
-                  </span>
-                </div>
-                <div
-                  className="rounded-lg overflow-hidden"
-                  style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
-                >
-                  <MiniByType type={p.previewType} accent={p.accent} />
-                </div>
-              </div>
-              <div className="p-5 flex-1 flex flex-col">
-                <h3 className="text-lg font-semibold">{p.title}</h3>
-                <p
-                  className="mt-1.5 text-sm flex-1"
-                  style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
-                >
-                  {p.shortDescription}
-                </p>
-                <div className="mt-4 flex items-center justify-between">
-                  <button
-                    onClick={() => setDemoSlug(p.slug)}
-                    className="text-sm font-medium"
-                    style={{ color: "var(--primary)" }}
-                  >
-                    Vyskúšať ukážku
-                  </button>
-                  <Link
-                    to="/projekty/$slug"
-                    params={{ slug: p.slug }}
-                    className="text-sm inline-flex items-center gap-1 transition-transform group-hover:translate-x-0.5"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    Ako funguje →
-                  </Link>
-                </div>
-              </div>
-            </article>
+              project={p}
+              featured={i === 0}
+              onTry={() => setDemoSlug(p.slug)}
+            />
           ))}
         </div>
       </div>
@@ -762,59 +940,209 @@ function PortfolioSection() {
   );
 }
 
-function MiniByType({ type, accent }: { type: "assistant" | "calculator" | "configurator"; accent: string }) {
+function PortfolioCard({
+  project: p,
+  featured,
+  onTry,
+}: {
+  project: (typeof projects)[number];
+  featured?: boolean;
+  onTry: () => void;
+}) {
+  return (
+    <motion.article
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2 }}
+      className={`group rounded-2xl overflow-hidden flex flex-col ${
+        featured ? "sm:col-span-2 lg:col-span-1" : ""
+      }`}
+      style={{
+        backgroundColor: "var(--surface-raised)",
+        border: "1px solid var(--border)",
+      }}
+    >
+      <div
+        className="p-3"
+        style={{
+          background: `linear-gradient(160deg, ${p.accent}1c 0%, ${p.accent}05 100%)`,
+        }}
+      >
+        <div
+          className="rounded-lg overflow-hidden"
+          style={{
+            backgroundColor: "var(--surface-raised)",
+            border: "1px solid var(--border)",
+          }}
+        >
+          <MiniByType type={p.previewType} accent={p.accent} />
+        </div>
+      </div>
+      <div className="px-5 pt-4 pb-5 flex-1 flex flex-col">
+        <div className="flex items-center justify-between mb-2">
+          <span
+            className="text-[11px] uppercase tracking-wider"
+            style={{ color: "var(--text-light)" }}
+          >
+            {p.label}
+          </span>
+          <span
+            className="inline-flex items-center gap-1.5 text-[11px]"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            <span
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: p.accent }}
+            />
+            {p.category}
+          </span>
+        </div>
+        <h3 className="text-lg font-semibold" style={{ lineHeight: 1.25 }}>
+          {p.title}
+        </h3>
+        <p
+          className="mt-2 text-sm flex-1"
+          style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+        >
+          {p.shortDescription}
+        </p>
+        <div
+          className="mt-4 pt-4 flex items-center justify-between"
+          style={{ borderTop: "1px solid var(--border)" }}
+        >
+          <button
+            onClick={onTry}
+            className="text-sm font-medium inline-flex items-center gap-1"
+            style={{ color: "var(--primary)" }}
+          >
+            Vyskúšať ukážku
+          </button>
+          <Link
+            to="/projekty/$slug"
+            params={{ slug: p.slug }}
+            className="text-sm inline-flex items-center gap-1 group/link"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Ako funguje
+            <span
+              aria-hidden
+              className="transition-transform group-hover/link:translate-x-0.5"
+            >
+              →
+            </span>
+          </Link>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+function MiniByType({
+  type,
+  accent,
+}: {
+  type: "assistant" | "calculator" | "configurator";
+  accent: string;
+}) {
   if (type === "assistant") return <AssistantMini compact accent={accent} />;
   if (type === "calculator") return <CalculatorMini compact accent={accent} />;
   return <ConfiguratorMini compact accent={accent} />;
 }
 
 /* ============================================================
-   PROCESS
+   PROCESS — connected timeline
 ============================================================ */
 
 const steps = [
-  { n: "01", h: "Pozriem si web a služby.", p: "Zistím, čo zákazníci potrebujú vedieť a ktoré údaje firma zisťuje ručne." },
-  { n: "02", h: "Navrhnem otázky a výpočet.", p: "Určíme kroky, možnosti, cenové pravidlá a výsledok pre zákazníka." },
-  { n: "03", h: "Pripravím dizajn.", p: "Rozhranie sa prispôsobí farbám a štýlu existujúceho webu." },
-  { n: "04", h: "Vytvorím a otestujem riešenie.", p: "Skontroluje sa logika, výpočty, počítač aj mobil." },
-  { n: "05", h: "Prepojím dopyty a služby.", p: "Dopyty môžu chodiť na e-mail. Podľa potreby sa pripojí kalendár alebo ďalší systém." },
-  { n: "06", h: "Widget sa vloží na web.", p: "Vo väčšine prípadov nie je potrebné prerábať celý web." },
+  {
+    n: "01",
+    h: "Pozriem si web a služby.",
+    p: "Zistím, čo zákazníci potrebujú vedieť a ktoré údaje firma zisťuje ručne.",
+  },
+  {
+    n: "02",
+    h: "Navrhnem otázky a výpočet.",
+    p: "Určíme kroky, možnosti, cenové pravidlá a výsledok pre zákazníka.",
+  },
+  {
+    n: "03",
+    h: "Pripravím dizajn.",
+    p: "Rozhranie sa prispôsobí farbám a štýlu existujúceho webu.",
+  },
+  {
+    n: "04",
+    h: "Vytvorím a otestujem riešenie.",
+    p: "Skontroluje sa logika, výpočty, počítač aj mobil.",
+  },
+  {
+    n: "05",
+    h: "Prepojím dopyty a služby.",
+    p: "Dopyty chodia na e-mail. Podľa potreby sa pripojí kalendár alebo iný systém.",
+  },
+  {
+    n: "06",
+    h: "Widget sa vloží na web.",
+    p: "Vo väčšine prípadov nie je potrebné prerábať celý web.",
+  },
 ];
 
 function ProcessSection() {
   return (
     <section id="spolupraca">
-      <div className="container-page py-16 md:py-24">
-        <div className="mb-10 md:mb-12 max-w-3xl">
-          <div className="eyebrow mb-3">Spolupráca</div>
-          <h2 className="font-semibold" style={{ fontSize: "clamp(1.75rem, 4.5vw, 2.6rem)" }}>
+      <div className="container-page py-14 md:py-24">
+        <div className="mb-8 md:mb-14 max-w-2xl">
+          <div className="eyebrow mb-2">Spolupráca</div>
+          <h2
+            className="font-semibold tracking-tight"
+            style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
+          >
             Od prvých otázok po nástroj na vašom webe.
           </h2>
         </div>
 
-        <ol className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {steps.map((s) => (
-            <li
+        <ol className="relative max-w-3xl">
+          {/* connecting line */}
+          <span
+            aria-hidden
+            className="absolute left-[11px] top-2 bottom-2 w-px md:left-[15px]"
+            style={{ backgroundColor: "var(--border)" }}
+          />
+          {steps.map((s, i) => (
+            <motion.li
               key={s.n}
-              className="rounded-2xl p-5 md:p-6"
+              initial={{ opacity: 0, x: -6 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.3, delay: i * 0.04 }}
+              className="relative grid grid-cols-[auto_1fr] gap-4 md:gap-6 py-4 md:py-5"
               style={{
-                backgroundColor: "var(--surface-raised)",
-                border: "1px solid var(--border)",
+                borderTop: i === 0 ? "none" : "1px solid var(--border)",
               }}
             >
-              <div
-                className="text-2xl md:text-3xl font-semibold tabular-nums mb-3"
-                style={{ color: "var(--primary)", fontFamily: "var(--font-display)" }}
+              <span
+                className="relative z-10 mt-0.5 grid h-6 w-6 md:h-8 md:w-8 place-items-center rounded-full text-[10px] md:text-xs font-semibold tabular-nums shrink-0"
+                style={{
+                  backgroundColor: "var(--background)",
+                  border: "1px solid var(--border-strong)",
+                  color: "var(--primary)",
+                }}
               >
                 {s.n}
+              </span>
+              <div className="min-w-0 pt-0.5">
+                <h3
+                  className="text-base md:text-lg font-semibold"
+                  style={{ lineHeight: 1.3 }}
+                >
+                  {s.h}
+                </h3>
+                <p
+                  className="mt-1 text-sm md:text-[15px]"
+                  style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+                >
+                  {s.p}
+                </p>
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2" style={{ lineHeight: 1.25 }}>
-                {s.h}
-              </h3>
-              <p className="text-[17px]" style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}>
-                {s.p}
-              </p>
-            </li>
+            </motion.li>
           ))}
         </ol>
       </div>
@@ -823,7 +1151,7 @@ function ProcessSection() {
 }
 
 /* ============================================================
-   PRICING
+   PRICING — editorial rows, not three identical cards
 ============================================================ */
 
 function PricingSection() {
@@ -835,51 +1163,76 @@ function PricingSection() {
     },
     {
       name: "Pokročilá kalkulačka",
-      price: "Cena podľa rozsahu",
+      price: "podľa rozsahu",
       note: "Cena závisí od počtu možností, výpočtov a cenových pravidiel.",
     },
     {
       name: "Prevádzka a úpravy",
-      price: "od 20 € mesačne",
+      price: "od 20 € / mesiac",
       note: "Hosting, technická prevádzka a dohodnuté úpravy.",
     },
   ];
   return (
     <section id="cena" style={{ backgroundColor: "var(--background-soft)" }}>
-      <div className="container-page py-16 md:py-24">
-        <div className="mb-10 md:mb-12 max-w-3xl">
-          <div className="eyebrow mb-3">Cena</div>
-          <h2 className="font-semibold" style={{ fontSize: "clamp(1.75rem, 4.5vw, 2.6rem)" }}>
-            Cena sa odvíja od rozsahu, nie od balíka.
-          </h2>
-        </div>
-        <div className="grid gap-5 md:grid-cols-3">
-          {items.map((i) => (
-            <div
-              key={i.name}
-              className="rounded-2xl p-6 flex flex-col gap-3"
-              style={{
-                backgroundColor: "var(--surface-raised)",
-                border: "1px solid var(--border)",
-              }}
+      <div className="container-page py-14 md:py-24">
+        <div className="mb-8 md:mb-12 grid gap-3 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-8">
+            <div className="eyebrow mb-2">Cena</div>
+            <h2
+              className="font-semibold tracking-tight"
+              style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
             >
-              <div className="eyebrow">{i.name}</div>
-              <div className="text-2xl md:text-3xl font-semibold" style={{ color: "var(--primary)" }}>
+              Cena sa odvíja od rozsahu, nie od balíka.
+            </h2>
+          </div>
+          <p
+            className="md:col-span-4 text-sm"
+            style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+          >
+            Bez fixných tarifov. Rozsah nastavíme podľa toho, čo firma reálne potrebuje.
+          </p>
+        </div>
+
+        <ul style={{ borderTop: "1px solid var(--border-strong)" }}>
+          {items.map((i) => (
+            <li
+              key={i.name}
+              className="grid grid-cols-[minmax(0,1fr)_auto] md:grid-cols-12 gap-4 md:gap-6 py-6 md:py-7 items-baseline"
+              style={{ borderBottom: "1px solid var(--border)" }}
+            >
+              <div className="md:col-span-5 min-w-0">
+                <h3
+                  className="text-lg md:text-xl font-semibold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {i.name}
+                </h3>
+              </div>
+              <div
+                className="md:col-span-3 order-first md:order-none text-right md:text-left tabular-nums font-semibold"
+                style={{
+                  color: "var(--primary)",
+                  fontSize: "clamp(1.1rem, 2.6vw, 1.4rem)",
+                }}
+              >
                 {i.price}
               </div>
-              <p className="text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}>
+              <p
+                className="col-span-full md:col-span-4 text-sm"
+                style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+              >
                 {i.note}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
 }
 
 /* ============================================================
-   FINAL CTA
+   FINAL CTA — lighter, editorial
 ============================================================ */
 
 function FinalCta() {
@@ -887,44 +1240,73 @@ function FinalCta() {
     <section>
       <div className="container-page py-16 md:py-24">
         <div
-          className="rounded-2xl p-8 md:p-14"
-          style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+          className="rounded-2xl px-6 py-10 md:px-14 md:py-16 relative overflow-hidden"
+          style={{
+            backgroundColor: "var(--primary)",
+            color: "var(--primary-foreground)",
+          }}
         >
-          <div className="grid gap-8 md:grid-cols-12 items-end">
+          {/* subtle decorative arc, using accent */}
+          <span
+            aria-hidden
+            className="absolute -right-16 -bottom-16 h-56 w-56 rounded-full opacity-20"
+            style={{
+              background: `radial-gradient(circle at center, var(--accent) 0%, transparent 70%)`,
+            }}
+          />
+          <div className="relative grid gap-8 md:grid-cols-12 md:gap-10 items-start">
             <div className="md:col-span-8">
-              <h2
-                className="font-semibold"
+              <div
+                className="eyebrow mb-3"
                 style={{
-                  fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
+                  color:
+                    "color-mix(in oklab, var(--primary-foreground) 70%, transparent)",
+                }}
+              >
+                Ďalší krok
+              </div>
+              <h2
+                className="font-semibold tracking-tight"
+                style={{
+                  fontSize: "clamp(1.5rem, 3.6vw, 2.15rem)",
                   color: "var(--primary-foreground)",
                   lineHeight: 1.15,
+                  maxWidth: "22ch",
                 }}
               >
-                Máte službu alebo produkt, pri ktorom zákazníci riešia cenu alebo výber?
+                Máte službu, pri ktorej zákazníci riešia cenu alebo výber?
               </h2>
               <p
-                className="mt-4 max-w-xl"
+                className="mt-4 max-w-lg text-[15px] md:text-base"
                 style={{
-                  color: "color-mix(in oklab, var(--primary-foreground) 82%, transparent)",
-                  fontSize: "clamp(1rem, 2.4vw, 1.1rem)",
+                  color:
+                    "color-mix(in oklab, var(--primary-foreground) 80%, transparent)",
+                  lineHeight: 1.55,
                 }}
               >
-                Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo výpočet by na ňom
-                dávali zmysel.
+                Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo
+                výpočet by na ňom dávali zmysel.
               </p>
             </div>
-            <div className="md:col-span-4 flex flex-wrap gap-3 md:justify-end">
+            <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-3 md:items-end md:pt-2">
               <button
                 onClick={() => openSiteAssistant({ source: "home-cta" })}
-                className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
-                style={{ backgroundColor: "var(--accent)", color: "var(--accent-foreground)" }}
+                className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
+                style={{
+                  backgroundColor: "var(--accent)",
+                  color: "var(--accent-foreground)",
+                }}
               >
                 Nájsť vhodné riešenie
               </button>
               <a
                 href="#ukazky"
-                className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
-                style={{ border: "1px solid color-mix(in oklab, var(--primary-foreground) 30%, transparent)", color: "var(--primary-foreground)" }}
+                className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
+                style={{
+                  border:
+                    "1px solid color-mix(in oklab, var(--primary-foreground) 35%, transparent)",
+                  color: "var(--primary-foreground)",
+                }}
               >
                 Pozrieť ukážky
               </a>
@@ -935,3 +1317,4 @@ function FinalCta() {
     </section>
   );
 }
+
