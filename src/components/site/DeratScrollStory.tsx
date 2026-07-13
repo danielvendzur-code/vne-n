@@ -4,42 +4,42 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const frames = [
   {
-    src: "/work/derat/01-home.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/01-home.webp`,
     label: "Jasný vstup do služby",
     alt: "Mobilná domovská stránka DERAT s úvodom Bez škodcov",
   },
   {
-    src: "/work/derat/02-service.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/02-service.webp`,
     label: "Výber typu zásahu",
     alt: "Prvý krok kalkulačky DERAT s výberom služby",
   },
   {
-    src: "/work/derat/03-pest.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/03-pest.webp`,
     label: "Konkrétny problém",
     alt: "Druhý krok kalkulačky DERAT s výberom škodcu",
   },
   {
-    src: "/work/derat/04-space.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/04-space.webp`,
     label: "Typ priestoru",
     alt: "Tretí krok kalkulačky DERAT s výberom priestoru",
   },
   {
-    src: "/work/derat/05-area.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/05-area.webp`,
     label: "Rozsah zásahu",
     alt: "Štvrtý krok kalkulačky DERAT s nastavením rozlohy",
   },
   {
-    src: "/work/derat/06-intensity.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/06-intensity.webp`,
     label: "Miera výskytu",
     alt: "Piaty krok kalkulačky DERAT s výberom intenzity výskytu",
   },
   {
-    src: "/work/derat/07-location.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/07-location.webp`,
     label: "Lokalita a termín",
     alt: "Šiesty krok kalkulačky DERAT s lokalitou a termínom",
   },
   {
-    src: "/work/derat/08-result.webp",
+    src: `${import.meta.env.BASE_URL}work/derat/08-result.webp`,
     label: "Cena a hotový dopyt",
     alt: "Výsledok kalkulačky DERAT s cenou a číslom dopytu",
   },

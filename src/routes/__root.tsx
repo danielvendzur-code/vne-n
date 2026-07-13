@@ -13,15 +13,20 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4" style={{ backgroundColor: "var(--background)" }}>
+    <div
+      className="flex min-h-screen items-center justify-center px-4"
+      style={{ backgroundColor: "var(--background)" }}
+    >
       <div className="max-w-md text-center">
         <div className="eyebrow mb-3">404</div>
-        <h1 className="text-3xl font-semibold" style={{ color: "var(--text-primary)" }}>Stránka neexistuje</h1>
+        <h1 className="text-3xl font-semibold" style={{ color: "var(--text-primary)" }}>
+          Stránka neexistuje
+        </h1>
         <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>
           Adresa, ktorú ste zadali, nič nezobrazuje. Skúste hlavnú stránku.
         </p>
         <a
-          href="/"
+          href={import.meta.env.BASE_URL}
           className="mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium"
           style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
         >
@@ -40,21 +45,33 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4" style={{ backgroundColor: "var(--background)" }}>
+    <div
+      className="flex min-h-screen items-center justify-center px-4"
+      style={{ backgroundColor: "var(--background)" }}
+    >
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>Stránka sa nenačítala</h1>
+        <h1 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>
+          Stránka sa nenačítala
+        </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
           Niečo sa pokazilo. Skúste to prosím znova.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium"
             style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
           >
             Skúsiť znova
           </button>
-          <a href="/" className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium" style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}>
+          <a
+            href={import.meta.env.BASE_URL}
+            className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium"
+            style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}
+          >
             Späť na úvod
           </a>
         </div>
@@ -69,7 +86,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Chatboty, kalkulačky a interaktívne nástroje na mieru" },
-      { name: "description", content: "Tvorím chatboty, kalkulačky a krokové konfigurátory, ktoré zákazníka prevedú výberom a firme odošlú presný dopyt." },
+      {
+        name: "description",
+        content:
+          "Tvorím chatboty, kalkulačky a krokové konfigurátory, ktoré zákazníka prevedú výberom a firme odošlú presný dopyt.",
+      },
       { property: "og:title", content: "Chatboty, kalkulačky a interaktívne nástroje na mieru" },
       { property: "og:description", content: "Návštevník si vyberie. Vy dostanete presný dopyt." },
       { property: "og:type", content: "website" },
@@ -77,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
