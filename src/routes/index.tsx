@@ -15,12 +15,12 @@ import {
   Chip,
   Segmented,
   Slider,
-  Stepper,
   Swatches,
   Toggle,
   SummaryRow,
   StepProgress,
 } from "@/components/ui/Controls";
+
 
 
 export const Route = createFileRoute("/")({
