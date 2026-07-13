@@ -89,29 +89,54 @@ function PrimaryLink({
 
 type HeroPath = "cena" | "riesenie" | "dopyt" | "termin";
 
-const heroPaths: { id: HeroPath; label: string; next: string }[] = [
-  { id: "cena", label: "Vypočítať cenu", next: "Od čoho sa cena odvíja?" },
-  { id: "riesenie", label: "Vybrať riešenie", next: "Podľa čoho vyberáme?" },
-  { id: "dopyt", label: "Poslať presný dopyt", next: "Aké údaje sú dôležité?" },
-  { id: "termin", label: "Rezervovať termín", next: "Kedy vám vyhovuje?" },
+const heroPaths: { id: HeroPath; label: string; step2Title: string }[] = [
+  { id: "cena", label: "Vypočítať cenu", step2Title: "Od čoho sa cena odvíja?" },
+  { id: "riesenie", label: "Vybrať riešenie", step2Title: "Podľa čoho vyberáme?" },
+  { id: "dopyt", label: "Poslať presný dopyt", step2Title: "Čo firma potrebuje vedieť?" },
+  { id: "termin", label: "Rezervovať termín", step2Title: "Kedy vám vyhovuje?" },
 ];
 
-const heroSecondStep: Record<HeroPath, string[]> = {
-  cena: ["Rozmery", "Materiál", "Doprava", "Montáž"],
-  riesenie: ["Použitie", "Rozpočet", "Priestor", "Preferencia"],
-  dopyt: ["Kontakt", "Lokalita", "Termín", "Poznámka"],
-  termin: ["Ráno", "Poobede", "Víkend", "Ktorýkoľvek"],
+interface HeroState {
+  // cena
+  rozsah: number;
+  material: "A" | "B" | "C";
+  montaz: boolean;
+  // riesenie
+  ucel: "domov" | "firma" | "verejny";
+  rozpocet: number;
+  farba: string;
+  // dopyt
+  sluzba: "konzultacia" | "obhliadka" | "ponuka";
+  lokalita: "ba" | "nr" | "ke" | "ostatne";
+  // termin
+  den: "pon" | "str" | "pia";
+  cas: "rano" | "poobede" | "vecer";
+}
+
+const initialState: HeroState = {
+  rozsah: 42,
+  material: "B",
+  montaz: true,
+  ucel: "domov",
+  rozpocet: 1200,
+  farba: "#246653",
+  sluzba: "obhliadka",
+  lokalita: "nr",
+  den: "str",
+  cas: "poobede",
 };
 
 function Hero() {
   const [step, setStep] = useState<0 | 1 | 2>(0);
   const [path, setPath] = useState<HeroPath | null>(null);
-  const [choice, setChoice] = useState<string | null>(null);
+  const [state, setState] = useState<HeroState>(initialState);
+  const update = <K extends keyof HeroState>(k: K, v: HeroState[K]) =>
+    setState((s) => ({ ...s, [k]: v }));
 
   const reset = () => {
     setStep(0);
     setPath(null);
-    setChoice(null);
+    setState(initialState);
   };
   const back = () => {
     if (step === 2) setStep(1);
@@ -124,14 +149,15 @@ function Hero() {
   return (
     <section>
       <div className="container-page pt-6 pb-10 md:pt-14 md:pb-20">
-        <div className="grid gap-6 md:gap-12 md:grid-cols-12 items-start">
-          <div className="md:col-span-6 md:pt-6">
+        <div className="grid gap-8 md:gap-12 md:grid-cols-12 items-start">
+          <div className="md:col-span-6 md:pt-4">
             <div className="eyebrow mb-3">Chatboty · kalkulačky · konfigurátory</div>
             <h1
               className="font-semibold tracking-tight"
               style={{
-                fontSize: "clamp(2.1rem, 8vw, 3.9rem)",
-                lineHeight: 1.03,
+                fontSize: "clamp(2.6rem, 8vw, 5.5rem)",
+                lineHeight: 1.0,
+                letterSpacing: "-0.03em",
               }}
             >
               Návštevník si vyberie.{" "}
@@ -140,31 +166,37 @@ function Hero() {
               </span>
             </h1>
             <p
-              className="mt-5 max-w-lg"
+              className="mt-6 max-w-lg"
               style={{
                 color: "var(--text-secondary)",
-                fontSize: "clamp(0.98rem, 2.2vw, 1.1rem)",
-                lineHeight: 1.55,
+                fontSize: "clamp(1.05rem, 2.2vw, 1.2rem)",
+                lineHeight: 1.5,
               }}
             >
               Interaktívne nástroje, ktoré zákazníka prevedú výberom a firme
               pripravia všetky potrebné údaje.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <PrimaryLink href="#ukazky">Pozrieť ukážky</PrimaryLink>
-              <a
-                href="#spolupraca"
-                className="inline-flex items-center gap-1.5 text-sm font-medium py-2.5 group"
-                style={{ color: "var(--text-primary)" }}
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <Button
+                variant="primary"
+                arrow
+                onClick={() => {
+                  const el = document.getElementById("ukazky");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Pozrieť ukážky
+              </Button>
+              <Button
+                variant="text"
+                arrow
+                onClick={() => {
+                  const el = document.getElementById("spolupraca");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 Ako to funguje
-                <span
-                  className="transition-transform group-hover:translate-x-0.5"
-                  aria-hidden
-                >
-                  →
-                </span>
-              </a>
+              </Button>
             </div>
           </div>
 
@@ -172,15 +204,10 @@ function Hero() {
             <HeroPreview
               step={step}
               path={path}
-              choice={choice}
-              onPick={(p) => {
-                setPath(p);
-                setStep(1);
-              }}
-              onChoice={(c) => {
-                setChoice(c);
-                setStep(2);
-              }}
+              state={state}
+              update={update}
+              onPick={(p) => { setPath(p); setStep(1); }}
+              onConfirm={() => setStep(2)}
               onBack={back}
               onReset={reset}
             />
@@ -194,25 +221,26 @@ function Hero() {
 function HeroPreview({
   step,
   path,
-  choice,
+  state,
+  update,
   onPick,
-  onChoice,
+  onConfirm,
   onBack,
   onReset,
 }: {
   step: 0 | 1 | 2;
   path: HeroPath | null;
-  choice: string | null;
+  state: HeroState;
+  update: <K extends keyof HeroState>(k: K, v: HeroState[K]) => void;
   onPick: (p: HeroPath) => void;
-  onChoice: (c: string) => void;
+  onConfirm: () => void;
   onBack: () => void;
   onReset: () => void;
 }) {
   const pathLabel = path ? heroPaths.find((p) => p.id === path)!.label : null;
-
   return (
     <div
-      className="rounded-2xl overflow-hidden"
+      className="rounded-[16px] overflow-hidden"
       style={{
         backgroundColor: "var(--surface-raised)",
         border: "1px solid var(--border)",
@@ -231,36 +259,42 @@ function HeroPreview({
             className="h-1.5 w-1.5 rounded-full"
             style={{ backgroundColor: "var(--accent)" }}
           />
-          <span className="text-[11px] tracking-wide uppercase" style={{ color: "var(--text-secondary)" }}>
+          <span className="text-[11px] tracking-wider uppercase" style={{ color: "var(--text-secondary)" }}>
             Interaktívna ukážka
           </span>
         </div>
-        <StepDots step={step} />
+        <StepProgress step={step} total={3} />
       </div>
 
-      <div className="px-5 py-5 md:px-6 md:py-6">
+      <div className="px-5 py-5 md:px-6 md:py-6" style={{ minHeight: 360 }}>
         <AnimatePresence mode="wait" initial={false}>
           {step === 0 && (
             <motion.div
               key="s0"
-              initial={{ opacity: 0, y: 4 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.16 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
             >
-              <div className="flex items-baseline justify-between mb-3">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Krok 1 z 3
-                </span>
+              <div className="mb-3 text-xs" style={{ color: "var(--text-secondary)" }}>
+                Krok 1 z 3
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-4">
-                Čo zákazník potrebuje?
-              </h3>
-              <div className="grid grid-cols-2 gap-2">
+              <h3 className="text-lg md:text-xl font-semibold mb-4">Čo zákazník potrebuje?</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {heroPaths.map((p) => (
-                  <Chip key={p.id} onClick={() => onPick(p.id)}>
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => onPick(p.id)}
+                    className="text-left rounded-[10px] px-4 py-3 text-sm font-medium transition-colors hover:border-[var(--primary)]"
+                    style={{
+                      border: "1px solid var(--border-strong)",
+                      backgroundColor: "transparent",
+                      color: "var(--text-primary)",
+                    }}
+                  >
                     {p.label}
-                  </Chip>
+                  </button>
                 ))}
               </div>
             </motion.div>
@@ -268,62 +302,41 @@ function HeroPreview({
 
           {step === 1 && path && (
             <motion.div
-              key="s1"
-              initial={{ opacity: 0, y: 4 }}
+              key={`s1-${path}`}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.16 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
             >
-              <div className="flex items-baseline justify-between mb-3">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Krok 2 z 3
-                </span>
-                <span className="text-xs" style={{ color: "var(--primary)" }}>
-                  {pathLabel}
-                </span>
+              <div className="mb-3 flex items-baseline justify-between">
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>Krok 2 z 3</span>
+                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>{pathLabel}</span>
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-4">
-                {heroPaths.find((p) => p.id === path)!.next}
+              <h3 className="text-lg md:text-xl font-semibold mb-5">
+                {heroPaths.find((p) => p.id === path)!.step2Title}
               </h3>
-              <div className="grid grid-cols-2 gap-2">
-                {heroSecondStep[path].map((c) => (
-                  <Chip key={c} onClick={() => onChoice(c)}>
-                    {c}
-                  </Chip>
-                ))}
+              <HeroStep1 path={path} state={state} update={update} />
+              <div className="mt-6">
+                <Button variant="primary" arrow onClick={onConfirm} full>
+                  Pokračovať
+                </Button>
               </div>
             </motion.div>
           )}
 
-          {step === 2 && path && choice && (
+          {step === 2 && path && (
             <motion.div
               key="s2"
-              initial={{ opacity: 0, y: 4 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.16 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
             >
-              <div className="flex items-baseline justify-between mb-3">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Hotovo
-                </span>
-                <span className="text-xs" style={{ color: "var(--primary)" }}>
-                  Dopyt pripravený
-                </span>
+              <div className="mb-3 flex items-baseline justify-between">
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>Hotovo</span>
+                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>Dopyt pripravený</span>
               </div>
-              <div
-                className="rounded-lg divide-y"
-                style={{
-                  backgroundColor: "var(--background-soft)",
-                  border: "1px solid var(--border)",
-                  borderColor: "var(--border)",
-                }}
-              >
-                <SummaryRow label="Zámer" value={pathLabel!} />
-                <SummaryRow label="Detail" value={choice} />
-                <SummaryRow label="Kontakt" value="Vyplnený" />
-                <SummaryRow label="Ďalší krok" value="Odoslať firme" accent />
-              </div>
+              <HeroSummary path={path} state={state} pathLabel={pathLabel!} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -336,7 +349,7 @@ function HeroPreview({
         <button
           onClick={onBack}
           disabled={step === 0}
-          className="inline-flex items-center gap-1 py-1.5 disabled:opacity-30 transition-opacity"
+          className="inline-flex items-center gap-1 py-2 px-1 disabled:opacity-30 transition-opacity"
           style={{ color: "var(--text-primary)" }}
         >
           <span aria-hidden>←</span> Späť
@@ -344,7 +357,7 @@ function HeroPreview({
         <button
           onClick={onReset}
           disabled={step === 0}
-          className="py-1.5 disabled:opacity-30 transition-opacity"
+          className="py-2 px-1 disabled:opacity-30 transition-opacity"
           style={{ color: "var(--text-secondary)" }}
         >
           Reset
@@ -354,71 +367,241 @@ function HeroPreview({
   );
 }
 
-function StepDots({ step }: { step: 0 | 1 | 2 }) {
-  return (
-    <div className="flex gap-1">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="h-1 rounded-full transition-all"
-          style={{
-            width: i === step ? 18 : 8,
-            backgroundColor: i <= step ? "var(--primary)" : "var(--border-strong)",
-          }}
+function HeroStep1({
+  path,
+  state,
+  update,
+}: {
+  path: HeroPath;
+  state: HeroState;
+  update: <K extends keyof HeroState>(k: K, v: HeroState[K]) => void;
+}) {
+  if (path === "cena") {
+    return (
+      <div className="space-y-5">
+        <Slider
+          value={state.rozsah}
+          onChange={(v) => update("rozsah", v)}
+          min={5}
+          max={100}
+          label="Rozsah zákazky"
+          unit="m"
         />
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Materiál
+          </div>
+          <Segmented
+            value={state.material}
+            onChange={(v) => update("material", v)}
+            options={[
+              { value: "A", label: "Variant A" },
+              { value: "B", label: "Variant B" },
+              { value: "C", label: "Variant C" },
+            ]}
+            label="Materiál"
+          />
+        </div>
+        <div className="pt-1">
+          <Toggle
+            checked={state.montaz}
+            onChange={(v) => update("montaz", v)}
+            label="Vrátane montáže"
+          />
+        </div>
+      </div>
+    );
+  }
+  if (path === "riesenie") {
+    return (
+      <div className="space-y-5">
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Účel použitia
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {(["domov", "firma", "verejny"] as const).map((v) => (
+              <Chip key={v} active={state.ucel === v} onClick={() => update("ucel", v)}>
+                {v === "domov" ? "Domácnosť" : v === "firma" ? "Firma" : "Verejný priestor"}
+              </Chip>
+            ))}
+          </div>
+        </div>
+        <Slider
+          value={state.rozpocet}
+          onChange={(v) => update("rozpocet", v)}
+          min={250}
+          max={5000}
+          step={50}
+          label="Rozpočet"
+          unit="€"
+        />
+        <Swatches
+          value={state.farba}
+          onChange={(v) => update("farba", v)}
+          label="Farebné ladenie"
+          options={[
+            { value: "#246653", label: "Zelená", color: "#246653" },
+            { value: "#c5a45e", label: "Zlatá", color: "#c5a45e" },
+            { value: "#df8b61", label: "Terrakota", color: "#df8b61" },
+            { value: "#4a5651", label: "Antracit", color: "#4a5651" },
+          ]}
+        />
+      </div>
+    );
+  }
+  if (path === "dopyt") {
+    return (
+      <div className="space-y-5">
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Typ služby
+          </div>
+          <Segmented
+            value={state.sluzba}
+            onChange={(v) => update("sluzba", v)}
+            options={[
+              { value: "konzultacia", label: "Konzultácia" },
+              { value: "obhliadka", label: "Obhliadka" },
+              { value: "ponuka", label: "Ponuka" },
+            ]}
+            label="Typ služby"
+          />
+        </div>
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Lokalita
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {([
+              ["ba", "Bratislava"],
+              ["nr", "Nitra"],
+              ["ke", "Košice"],
+              ["ostatne", "Iná"],
+            ] as const).map(([v, l]) => (
+              <Chip key={v} active={state.lokalita === v} onClick={() => update("lokalita", v)}>
+                {l}
+              </Chip>
+            ))}
+          </div>
+        </div>
+        <div
+          className="rounded-[10px] px-3.5 py-3 flex items-center gap-2 text-xs"
+          style={{
+            backgroundColor: "var(--surface-muted)",
+            border: "1px dashed var(--border-strong)",
+            color: "var(--text-secondary)",
+          }}
+        >
+          <span aria-hidden>📎</span> Miesto pre nahrané fotografie (v ostrej verzii).
+        </div>
+      </div>
+    );
+  }
+  // termin
+  return (
+    <div className="space-y-5">
+      <div>
+        <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          Deň v týždni
+        </div>
+        <Segmented
+          value={state.den}
+          onChange={(v) => update("den", v)}
+          options={[
+            { value: "pon", label: "Pondelok" },
+            { value: "str", label: "Streda" },
+            { value: "pia", label: "Piatok" },
+          ]}
+          label="Deň"
+        />
+      </div>
+      <div>
+        <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          Čas
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {([
+            ["rano", "Ráno · 9:00"],
+            ["poobede", "Poobede · 14:30"],
+            ["vecer", "Podvečer · 17:00"],
+          ] as const).map(([v, l]) => (
+            <Chip key={v} active={state.cas === v} onClick={() => update("cas", v)}>
+              {l}
+            </Chip>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroSummary({
+  path,
+  state,
+  pathLabel,
+}: {
+  path: HeroPath;
+  state: HeroState;
+  pathLabel: string;
+}) {
+  const rows: [string, string][] = (() => {
+    if (path === "cena") {
+      const base = state.rozsah * (state.material === "A" ? 24 : state.material === "B" ? 32 : 42);
+      const low = base + (state.montaz ? 180 : 0);
+      const high = Math.round(low * 1.18);
+      return [
+        ["Rozsah", `${state.rozsah} m`],
+        ["Materiál", `Variant ${state.material}`],
+        ["Montáž", state.montaz ? "Áno" : "Nie"],
+        ["Orientačná cena", `${low.toLocaleString("sk")} – ${high.toLocaleString("sk")} €`],
+      ];
+    }
+    if (path === "riesenie") {
+      return [
+        ["Účel", state.ucel === "domov" ? "Domácnosť" : state.ucel === "firma" ? "Firma" : "Verejný priestor"],
+        ["Rozpočet", `${state.rozpocet} €`],
+        ["Farba", state.farba],
+        ["Odporúčanie", "Variant B · v rámci rozpočtu"],
+      ];
+    }
+    if (path === "dopyt") {
+      return [
+        ["Služba", state.sluzba === "konzultacia" ? "Konzultácia" : state.sluzba === "obhliadka" ? "Obhliadka" : "Cenová ponuka"],
+        ["Lokalita", state.lokalita === "ba" ? "Bratislava" : state.lokalita === "nr" ? "Nitra" : state.lokalita === "ke" ? "Košice" : "Iná"],
+        ["Prílohy", "Pripravené"],
+        ["Odoslať firme", "Áno"],
+      ];
+    }
+    return [
+      ["Deň", state.den === "pon" ? "Pondelok" : state.den === "str" ? "Streda" : "Piatok"],
+      ["Čas", state.cas === "rano" ? "9:00" : state.cas === "poobede" ? "14:30" : "17:00"],
+      ["Kontakt", "Vyplnený"],
+      ["Rezervácia", "Potvrdiť"],
+    ];
+  })();
+
+  return (
+    <div
+      className="rounded-[12px] px-4 py-3"
+      style={{
+        backgroundColor: "var(--background-soft)",
+        border: "1px solid var(--border)",
+      }}
+    >
+      <div
+        className="pb-2 mb-1 text-xs uppercase tracking-wider"
+        style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border)" }}
+      >
+        {pathLabel}
+      </div>
+      {rows.map(([k, v], i) => (
+        <SummaryRow key={k} label={k} value={v} accent={i === rows.length - 1} />
       ))}
     </div>
   );
 }
 
-function Chip({
-  children,
-  onClick,
-  active,
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  active?: boolean;
-}) {
-  return (
-    <motion.button
-      whileTap={{ scale: 0.97 }}
-      onClick={onClick}
-      className="rounded-full px-3.5 py-2.5 text-sm text-left transition-colors"
-      style={{
-        border: `1px solid ${active ? "var(--primary)" : "var(--border-strong)"}`,
-        backgroundColor: active ? "var(--primary-soft)" : "transparent",
-        color: "var(--text-primary)",
-      }}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-function SummaryRow({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-3 px-3.5 py-2.5">
-      <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-        {label}
-      </span>
-      <span
-        className="text-sm font-medium text-right"
-        style={{ color: accent ? "var(--primary)" : "var(--text-primary)" }}
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
 
 /* ============================================================
    PRODUCT TYPES — three interactive rows
