@@ -58,30 +58,6 @@ function HomePage() {
   );
 }
 
-/* ============================================================
-   Shared buttons — single source of truth
-============================================================ */
-
-const btnBase =
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-150 active:translate-y-px";
-
-function PrimaryLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      className={`${btnBase} px-4 py-2.5`}
-      style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
-    >
-      {children}
-    </a>
-  );
-}
 
 /* ============================================================
    HERO
