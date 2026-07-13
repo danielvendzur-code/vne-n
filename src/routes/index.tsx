@@ -10,6 +10,18 @@ import {
   CalculatorMini,
   ConfiguratorMini,
 } from "@/components/site/MiniPreviews";
+import {
+  Button,
+  Chip,
+  Segmented,
+  Slider,
+  Stepper,
+  Swatches,
+  Toggle,
+  SummaryRow,
+  StepProgress,
+} from "@/components/ui/Controls";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
