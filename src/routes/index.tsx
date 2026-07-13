@@ -10,6 +10,18 @@ import {
   CalculatorMini,
   ConfiguratorMini,
 } from "@/components/site/MiniPreviews";
+import {
+  Button,
+  Chip,
+  Segmented,
+  Slider,
+  Swatches,
+  Toggle,
+  SummaryRow,
+  StepProgress,
+} from "@/components/ui/Controls";
+
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,30 +58,6 @@ function HomePage() {
   );
 }
 
-/* ============================================================
-   Shared buttons — single source of truth
-============================================================ */
-
-const btnBase =
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-150 active:translate-y-px";
-
-function PrimaryLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      className={`${btnBase} px-4 py-2.5`}
-      style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
-    >
-      {children}
-    </a>
-  );
-}
 
 /* ============================================================
    HERO
@@ -77,29 +65,54 @@ function PrimaryLink({
 
 type HeroPath = "cena" | "riesenie" | "dopyt" | "termin";
 
-const heroPaths: { id: HeroPath; label: string; next: string }[] = [
-  { id: "cena", label: "Vypočítať cenu", next: "Od čoho sa cena odvíja?" },
-  { id: "riesenie", label: "Vybrať riešenie", next: "Podľa čoho vyberáme?" },
-  { id: "dopyt", label: "Poslať presný dopyt", next: "Aké údaje sú dôležité?" },
-  { id: "termin", label: "Rezervovať termín", next: "Kedy vám vyhovuje?" },
+const heroPaths: { id: HeroPath; label: string; step2Title: string }[] = [
+  { id: "cena", label: "Vypočítať cenu", step2Title: "Od čoho sa cena odvíja?" },
+  { id: "riesenie", label: "Vybrať riešenie", step2Title: "Podľa čoho vyberáme?" },
+  { id: "dopyt", label: "Poslať presný dopyt", step2Title: "Čo firma potrebuje vedieť?" },
+  { id: "termin", label: "Rezervovať termín", step2Title: "Kedy vám vyhovuje?" },
 ];
 
-const heroSecondStep: Record<HeroPath, string[]> = {
-  cena: ["Rozmery", "Materiál", "Doprava", "Montáž"],
-  riesenie: ["Použitie", "Rozpočet", "Priestor", "Preferencia"],
-  dopyt: ["Kontakt", "Lokalita", "Termín", "Poznámka"],
-  termin: ["Ráno", "Poobede", "Víkend", "Ktorýkoľvek"],
+interface HeroState {
+  // cena
+  rozsah: number;
+  material: "A" | "B" | "C";
+  montaz: boolean;
+  // riesenie
+  ucel: "domov" | "firma" | "verejny";
+  rozpocet: number;
+  farba: string;
+  // dopyt
+  sluzba: "konzultacia" | "obhliadka" | "ponuka";
+  lokalita: "ba" | "nr" | "ke" | "ostatne";
+  // termin
+  den: "pon" | "str" | "pia";
+  cas: "rano" | "poobede" | "vecer";
+}
+
+const initialState: HeroState = {
+  rozsah: 42,
+  material: "B",
+  montaz: true,
+  ucel: "domov",
+  rozpocet: 1200,
+  farba: "#246653",
+  sluzba: "obhliadka",
+  lokalita: "nr",
+  den: "str",
+  cas: "poobede",
 };
 
 function Hero() {
   const [step, setStep] = useState<0 | 1 | 2>(0);
   const [path, setPath] = useState<HeroPath | null>(null);
-  const [choice, setChoice] = useState<string | null>(null);
+  const [state, setState] = useState<HeroState>(initialState);
+  const update = <K extends keyof HeroState>(k: K, v: HeroState[K]) =>
+    setState((s) => ({ ...s, [k]: v }));
 
   const reset = () => {
     setStep(0);
     setPath(null);
-    setChoice(null);
+    setState(initialState);
   };
   const back = () => {
     if (step === 2) setStep(1);
@@ -112,14 +125,15 @@ function Hero() {
   return (
     <section>
       <div className="container-page pt-6 pb-10 md:pt-14 md:pb-20">
-        <div className="grid gap-6 md:gap-12 md:grid-cols-12 items-start">
-          <div className="md:col-span-6 md:pt-6">
+        <div className="grid gap-8 md:gap-12 md:grid-cols-12 items-start">
+          <div className="md:col-span-6 md:pt-4">
             <div className="eyebrow mb-3">Chatboty · kalkulačky · konfigurátory</div>
             <h1
               className="font-semibold tracking-tight"
               style={{
-                fontSize: "clamp(2.1rem, 8vw, 3.9rem)",
-                lineHeight: 1.03,
+                fontSize: "clamp(2.6rem, 8vw, 5.5rem)",
+                lineHeight: 1.0,
+                letterSpacing: "-0.03em",
               }}
             >
               Návštevník si vyberie.{" "}
@@ -128,31 +142,37 @@ function Hero() {
               </span>
             </h1>
             <p
-              className="mt-5 max-w-lg"
+              className="mt-6 max-w-lg"
               style={{
                 color: "var(--text-secondary)",
-                fontSize: "clamp(0.98rem, 2.2vw, 1.1rem)",
-                lineHeight: 1.55,
+                fontSize: "clamp(1.05rem, 2.2vw, 1.2rem)",
+                lineHeight: 1.5,
               }}
             >
               Interaktívne nástroje, ktoré zákazníka prevedú výberom a firme
               pripravia všetky potrebné údaje.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <PrimaryLink href="#ukazky">Pozrieť ukážky</PrimaryLink>
-              <a
-                href="#spolupraca"
-                className="inline-flex items-center gap-1.5 text-sm font-medium py-2.5 group"
-                style={{ color: "var(--text-primary)" }}
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <Button
+                variant="primary"
+                arrow
+                onClick={() => {
+                  const el = document.getElementById("ukazky");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Pozrieť ukážky
+              </Button>
+              <Button
+                variant="text"
+                arrow
+                onClick={() => {
+                  const el = document.getElementById("spolupraca");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 Ako to funguje
-                <span
-                  className="transition-transform group-hover:translate-x-0.5"
-                  aria-hidden
-                >
-                  →
-                </span>
-              </a>
+              </Button>
             </div>
           </div>
 
@@ -160,15 +180,10 @@ function Hero() {
             <HeroPreview
               step={step}
               path={path}
-              choice={choice}
-              onPick={(p) => {
-                setPath(p);
-                setStep(1);
-              }}
-              onChoice={(c) => {
-                setChoice(c);
-                setStep(2);
-              }}
+              state={state}
+              update={update}
+              onPick={(p) => { setPath(p); setStep(1); }}
+              onConfirm={() => setStep(2)}
               onBack={back}
               onReset={reset}
             />
@@ -182,25 +197,26 @@ function Hero() {
 function HeroPreview({
   step,
   path,
-  choice,
+  state,
+  update,
   onPick,
-  onChoice,
+  onConfirm,
   onBack,
   onReset,
 }: {
   step: 0 | 1 | 2;
   path: HeroPath | null;
-  choice: string | null;
+  state: HeroState;
+  update: <K extends keyof HeroState>(k: K, v: HeroState[K]) => void;
   onPick: (p: HeroPath) => void;
-  onChoice: (c: string) => void;
+  onConfirm: () => void;
   onBack: () => void;
   onReset: () => void;
 }) {
   const pathLabel = path ? heroPaths.find((p) => p.id === path)!.label : null;
-
   return (
     <div
-      className="rounded-2xl overflow-hidden"
+      className="rounded-[16px] overflow-hidden"
       style={{
         backgroundColor: "var(--surface-raised)",
         border: "1px solid var(--border)",
@@ -219,36 +235,42 @@ function HeroPreview({
             className="h-1.5 w-1.5 rounded-full"
             style={{ backgroundColor: "var(--accent)" }}
           />
-          <span className="text-[11px] tracking-wide uppercase" style={{ color: "var(--text-secondary)" }}>
+          <span className="text-[11px] tracking-wider uppercase" style={{ color: "var(--text-secondary)" }}>
             Interaktívna ukážka
           </span>
         </div>
-        <StepDots step={step} />
+        <StepProgress step={step} total={3} />
       </div>
 
-      <div className="px-5 py-5 md:px-6 md:py-6">
+      <div className="px-5 py-5 md:px-6 md:py-6" style={{ minHeight: 360 }}>
         <AnimatePresence mode="wait" initial={false}>
           {step === 0 && (
             <motion.div
               key="s0"
-              initial={{ opacity: 0, y: 4 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.16 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
             >
-              <div className="flex items-baseline justify-between mb-3">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Krok 1 z 3
-                </span>
+              <div className="mb-3 text-xs" style={{ color: "var(--text-secondary)" }}>
+                Krok 1 z 3
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-4">
-                Čo zákazník potrebuje?
-              </h3>
-              <div className="grid grid-cols-2 gap-2">
+              <h3 className="text-lg md:text-xl font-semibold mb-4">Čo zákazník potrebuje?</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {heroPaths.map((p) => (
-                  <Chip key={p.id} onClick={() => onPick(p.id)}>
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => onPick(p.id)}
+                    className="text-left rounded-[10px] px-4 py-3 text-sm font-medium transition-colors hover:border-[var(--primary)]"
+                    style={{
+                      border: "1px solid var(--border-strong)",
+                      backgroundColor: "transparent",
+                      color: "var(--text-primary)",
+                    }}
+                  >
                     {p.label}
-                  </Chip>
+                  </button>
                 ))}
               </div>
             </motion.div>
@@ -256,62 +278,41 @@ function HeroPreview({
 
           {step === 1 && path && (
             <motion.div
-              key="s1"
-              initial={{ opacity: 0, y: 4 }}
+              key={`s1-${path}`}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.16 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
             >
-              <div className="flex items-baseline justify-between mb-3">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Krok 2 z 3
-                </span>
-                <span className="text-xs" style={{ color: "var(--primary)" }}>
-                  {pathLabel}
-                </span>
+              <div className="mb-3 flex items-baseline justify-between">
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>Krok 2 z 3</span>
+                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>{pathLabel}</span>
               </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-4">
-                {heroPaths.find((p) => p.id === path)!.next}
+              <h3 className="text-lg md:text-xl font-semibold mb-5">
+                {heroPaths.find((p) => p.id === path)!.step2Title}
               </h3>
-              <div className="grid grid-cols-2 gap-2">
-                {heroSecondStep[path].map((c) => (
-                  <Chip key={c} onClick={() => onChoice(c)}>
-                    {c}
-                  </Chip>
-                ))}
+              <HeroStep1 path={path} state={state} update={update} />
+              <div className="mt-6">
+                <Button variant="primary" arrow onClick={onConfirm} full>
+                  Pokračovať
+                </Button>
               </div>
             </motion.div>
           )}
 
-          {step === 2 && path && choice && (
+          {step === 2 && path && (
             <motion.div
               key="s2"
-              initial={{ opacity: 0, y: 4 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.16 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
             >
-              <div className="flex items-baseline justify-between mb-3">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Hotovo
-                </span>
-                <span className="text-xs" style={{ color: "var(--primary)" }}>
-                  Dopyt pripravený
-                </span>
+              <div className="mb-3 flex items-baseline justify-between">
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>Hotovo</span>
+                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>Dopyt pripravený</span>
               </div>
-              <div
-                className="rounded-lg divide-y"
-                style={{
-                  backgroundColor: "var(--background-soft)",
-                  border: "1px solid var(--border)",
-                  borderColor: "var(--border)",
-                }}
-              >
-                <SummaryRow label="Zámer" value={pathLabel!} />
-                <SummaryRow label="Detail" value={choice} />
-                <SummaryRow label="Kontakt" value="Vyplnený" />
-                <SummaryRow label="Ďalší krok" value="Odoslať firme" accent />
-              </div>
+              <HeroSummary path={path} state={state} pathLabel={pathLabel!} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -324,7 +325,7 @@ function HeroPreview({
         <button
           onClick={onBack}
           disabled={step === 0}
-          className="inline-flex items-center gap-1 py-1.5 disabled:opacity-30 transition-opacity"
+          className="inline-flex items-center gap-1 py-2 px-1 disabled:opacity-30 transition-opacity"
           style={{ color: "var(--text-primary)" }}
         >
           <span aria-hidden>←</span> Späť
@@ -332,7 +333,7 @@ function HeroPreview({
         <button
           onClick={onReset}
           disabled={step === 0}
-          className="py-1.5 disabled:opacity-30 transition-opacity"
+          className="py-2 px-1 disabled:opacity-30 transition-opacity"
           style={{ color: "var(--text-secondary)" }}
         >
           Reset
@@ -342,71 +343,241 @@ function HeroPreview({
   );
 }
 
-function StepDots({ step }: { step: 0 | 1 | 2 }) {
-  return (
-    <div className="flex gap-1">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="h-1 rounded-full transition-all"
-          style={{
-            width: i === step ? 18 : 8,
-            backgroundColor: i <= step ? "var(--primary)" : "var(--border-strong)",
-          }}
+function HeroStep1({
+  path,
+  state,
+  update,
+}: {
+  path: HeroPath;
+  state: HeroState;
+  update: <K extends keyof HeroState>(k: K, v: HeroState[K]) => void;
+}) {
+  if (path === "cena") {
+    return (
+      <div className="space-y-5">
+        <Slider
+          value={state.rozsah}
+          onChange={(v) => update("rozsah", v)}
+          min={5}
+          max={100}
+          label="Rozsah zákazky"
+          unit="m"
         />
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Materiál
+          </div>
+          <Segmented
+            value={state.material}
+            onChange={(v) => update("material", v)}
+            options={[
+              { value: "A", label: "Variant A" },
+              { value: "B", label: "Variant B" },
+              { value: "C", label: "Variant C" },
+            ]}
+            label="Materiál"
+          />
+        </div>
+        <div className="pt-1">
+          <Toggle
+            checked={state.montaz}
+            onChange={(v) => update("montaz", v)}
+            label="Vrátane montáže"
+          />
+        </div>
+      </div>
+    );
+  }
+  if (path === "riesenie") {
+    return (
+      <div className="space-y-5">
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Účel použitia
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {(["domov", "firma", "verejny"] as const).map((v) => (
+              <Chip key={v} active={state.ucel === v} onClick={() => update("ucel", v)}>
+                {v === "domov" ? "Domácnosť" : v === "firma" ? "Firma" : "Verejný priestor"}
+              </Chip>
+            ))}
+          </div>
+        </div>
+        <Slider
+          value={state.rozpocet}
+          onChange={(v) => update("rozpocet", v)}
+          min={250}
+          max={5000}
+          step={50}
+          label="Rozpočet"
+          unit="€"
+        />
+        <Swatches
+          value={state.farba}
+          onChange={(v) => update("farba", v)}
+          label="Farebné ladenie"
+          options={[
+            { value: "#246653", label: "Zelená", color: "#246653" },
+            { value: "#c5a45e", label: "Zlatá", color: "#c5a45e" },
+            { value: "#df8b61", label: "Terrakota", color: "#df8b61" },
+            { value: "#4a5651", label: "Antracit", color: "#4a5651" },
+          ]}
+        />
+      </div>
+    );
+  }
+  if (path === "dopyt") {
+    return (
+      <div className="space-y-5">
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Typ služby
+          </div>
+          <Segmented
+            value={state.sluzba}
+            onChange={(v) => update("sluzba", v)}
+            options={[
+              { value: "konzultacia", label: "Konzultácia" },
+              { value: "obhliadka", label: "Obhliadka" },
+              { value: "ponuka", label: "Ponuka" },
+            ]}
+            label="Typ služby"
+          />
+        </div>
+        <div>
+          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+            Lokalita
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {([
+              ["ba", "Bratislava"],
+              ["nr", "Nitra"],
+              ["ke", "Košice"],
+              ["ostatne", "Iná"],
+            ] as const).map(([v, l]) => (
+              <Chip key={v} active={state.lokalita === v} onClick={() => update("lokalita", v)}>
+                {l}
+              </Chip>
+            ))}
+          </div>
+        </div>
+        <div
+          className="rounded-[10px] px-3.5 py-3 flex items-center gap-2 text-xs"
+          style={{
+            backgroundColor: "var(--surface-muted)",
+            border: "1px dashed var(--border-strong)",
+            color: "var(--text-secondary)",
+          }}
+        >
+          <span aria-hidden>📎</span> Miesto pre nahrané fotografie (v ostrej verzii).
+        </div>
+      </div>
+    );
+  }
+  // termin
+  return (
+    <div className="space-y-5">
+      <div>
+        <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          Deň v týždni
+        </div>
+        <Segmented
+          value={state.den}
+          onChange={(v) => update("den", v)}
+          options={[
+            { value: "pon", label: "Pondelok" },
+            { value: "str", label: "Streda" },
+            { value: "pia", label: "Piatok" },
+          ]}
+          label="Deň"
+        />
+      </div>
+      <div>
+        <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          Čas
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {([
+            ["rano", "Ráno · 9:00"],
+            ["poobede", "Poobede · 14:30"],
+            ["vecer", "Podvečer · 17:00"],
+          ] as const).map(([v, l]) => (
+            <Chip key={v} active={state.cas === v} onClick={() => update("cas", v)}>
+              {l}
+            </Chip>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroSummary({
+  path,
+  state,
+  pathLabel,
+}: {
+  path: HeroPath;
+  state: HeroState;
+  pathLabel: string;
+}) {
+  const rows: [string, string][] = (() => {
+    if (path === "cena") {
+      const base = state.rozsah * (state.material === "A" ? 24 : state.material === "B" ? 32 : 42);
+      const low = base + (state.montaz ? 180 : 0);
+      const high = Math.round(low * 1.18);
+      return [
+        ["Rozsah", `${state.rozsah} m`],
+        ["Materiál", `Variant ${state.material}`],
+        ["Montáž", state.montaz ? "Áno" : "Nie"],
+        ["Orientačná cena", `${low.toLocaleString("sk")} – ${high.toLocaleString("sk")} €`],
+      ];
+    }
+    if (path === "riesenie") {
+      return [
+        ["Účel", state.ucel === "domov" ? "Domácnosť" : state.ucel === "firma" ? "Firma" : "Verejný priestor"],
+        ["Rozpočet", `${state.rozpocet} €`],
+        ["Farba", state.farba],
+        ["Odporúčanie", "Variant B · v rámci rozpočtu"],
+      ];
+    }
+    if (path === "dopyt") {
+      return [
+        ["Služba", state.sluzba === "konzultacia" ? "Konzultácia" : state.sluzba === "obhliadka" ? "Obhliadka" : "Cenová ponuka"],
+        ["Lokalita", state.lokalita === "ba" ? "Bratislava" : state.lokalita === "nr" ? "Nitra" : state.lokalita === "ke" ? "Košice" : "Iná"],
+        ["Prílohy", "Pripravené"],
+        ["Odoslať firme", "Áno"],
+      ];
+    }
+    return [
+      ["Deň", state.den === "pon" ? "Pondelok" : state.den === "str" ? "Streda" : "Piatok"],
+      ["Čas", state.cas === "rano" ? "9:00" : state.cas === "poobede" ? "14:30" : "17:00"],
+      ["Kontakt", "Vyplnený"],
+      ["Rezervácia", "Potvrdiť"],
+    ];
+  })();
+
+  return (
+    <div
+      className="rounded-[12px] px-4 py-3"
+      style={{
+        backgroundColor: "var(--background-soft)",
+        border: "1px solid var(--border)",
+      }}
+    >
+      <div
+        className="pb-2 mb-1 text-xs uppercase tracking-wider"
+        style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border)" }}
+      >
+        {pathLabel}
+      </div>
+      {rows.map(([k, v], i) => (
+        <SummaryRow key={k} label={k} value={v} accent={i === rows.length - 1} />
       ))}
     </div>
   );
 }
 
-function Chip({
-  children,
-  onClick,
-  active,
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  active?: boolean;
-}) {
-  return (
-    <motion.button
-      whileTap={{ scale: 0.97 }}
-      onClick={onClick}
-      className="rounded-full px-3.5 py-2.5 text-sm text-left transition-colors"
-      style={{
-        border: `1px solid ${active ? "var(--primary)" : "var(--border-strong)"}`,
-        backgroundColor: active ? "var(--primary-soft)" : "transparent",
-        color: "var(--text-primary)",
-      }}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-function SummaryRow({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-3 px-3.5 py-2.5">
-      <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-        {label}
-      </span>
-      <span
-        className="text-sm font-medium text-right"
-        style={{ color: accent ? "var(--primary)" : "var(--text-primary)" }}
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
 
 /* ============================================================
    PRODUCT TYPES — three interactive rows
@@ -648,39 +819,23 @@ function ChatbotSection() {
 ============================================================ */
 
 function CalculatorSection() {
-  const parts = [
-    "Základ",
-    "rozmery",
-    "materiál",
-    "doprava",
-    "montáž",
-    "doplnky",
-    "cenové podmienky",
-  ];
-  const rules = [
-    ["Minimálna cena", "ak je zákazka pod minimálnym rozsahom"],
-    ["Doprava", "dopočítaná podľa vzdialenosti"],
-    ["Montáž a demontáž", "samostatné položky"],
-    ["Neštandardný výber", "individuálne potvrdenie firmou"],
-  ];
-
   return (
-    <section style={{ backgroundColor: "var(--primary-dark)", color: "#f3efe6" }}>
+    <section style={{ backgroundColor: "var(--primary-dark)", color: "#fffdf8" }}>
       <div className="container-page py-16 md:py-28">
         <div className="grid gap-10 md:grid-cols-12 md:gap-14 items-start">
           <div className="md:col-span-5">
             <div
               className="eyebrow mb-3"
-              style={{ color: "color-mix(in oklab, #f3efe6 65%, transparent)" }}
+              style={{ color: "color-mix(in oklab, #fffdf8 65%, transparent)" }}
             >
               Pokročilá kalkulačka
             </div>
             <h2
               className="font-semibold tracking-tight"
               style={{
-                fontSize: "clamp(2rem, 5vw, 3rem)",
-                color: "#f3efe6",
-                lineHeight: 1.05,
+                fontSize: "clamp(2rem, 5vw, 3.4rem)",
+                color: "#fffdf8",
+                lineHeight: 1.02,
               }}
             >
               Nie je to metre krát jedna&nbsp;sadzba.
@@ -688,127 +843,241 @@ function CalculatorSection() {
             <p
               className="mt-6 max-w-md text-base md:text-[17px]"
               style={{
-                color: "color-mix(in oklab, #f3efe6 78%, transparent)",
+                color: "color-mix(in oklab, #fffdf8 78%, transparent)",
                 lineHeight: 1.55,
               }}
             >
               Výpočet sa nastaví podľa pravidiel, ktoré firma reálne používa pri
-              príprave ponúk. Nie generický template.
+              príprave ponúk. Vyskúšajte, ako sa cena mení podľa vstupov.
             </p>
-          </div>
 
-          <div className="md:col-span-7">
-            <div
-              className="rounded-[20px] p-6 md:p-8"
-              style={{
-                backgroundColor: "color-mix(in oklab, #f3efe6 6%, transparent)",
-                border: "1px solid color-mix(in oklab, #f3efe6 18%, transparent)",
-              }}
-            >
-              <div
-                className="text-[11px] uppercase tracking-[0.14em] mb-4"
-                style={{ color: "color-mix(in oklab, #f3efe6 55%, transparent)" }}
-              >
-                Príklad výpočtu
-              </div>
-              <div className="flex flex-wrap items-center gap-1.5">
-                {parts.map((p, i) => (
-                  <div key={p} className="flex items-center gap-1.5">
-                    <span
-                      className="rounded-[10px] px-3 py-1.5 text-[13px]"
-                      style={{
-                        backgroundColor:
-                          i === 0
-                            ? "color-mix(in oklab, #f3efe6 15%, transparent)"
-                            : "color-mix(in oklab, #f3efe6 6%, transparent)",
-                        color: "#f3efe6",
-                        border:
-                          "1px solid color-mix(in oklab, #f3efe6 15%, transparent)",
-                      }}
-                    >
-                      {p}
-                    </span>
-                    {i < parts.length - 1 && (
-                      <span
-                        className="text-xs"
-                        style={{
-                          color:
-                            "color-mix(in oklab, var(--highlight) 90%, transparent)",
-                        }}
-                      >
-                        +
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <div
-                className="mt-6 pt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2"
-                style={{
-                  borderTop:
-                    "1px dashed color-mix(in oklab, var(--highlight) 60%, transparent)",
-                }}
-              >
-                <span
-                  className="text-[11px] uppercase tracking-[0.14em]"
-                  style={{ color: "color-mix(in oklab, #f3efe6 60%, transparent)" }}
-                >
-                  Výsledok
-                </span>
-                <span
-                  className="font-semibold tabular-nums"
-                  style={{
-                    fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
-                    color: "#f3efe6",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  1 240 – 1 480 €
-                </span>
-                <span
-                  className="text-xs"
-                  style={{ color: "color-mix(in oklab, #f3efe6 55%, transparent)" }}
-                >
-                  · orientačný rozsah
-                </span>
-              </div>
-            </div>
-
-            <dl className="mt-8 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-              {rules.map(([k, v]) => (
+            <dl className="mt-8 space-y-4">
+              {[
+                ["Minimálna cena", "ak je zákazka pod minimálnym rozsahom"],
+                ["Doprava", "dopočítaná podľa vzdialenosti"],
+                ["Montáž a demontáž", "samostatné položky"],
+                ["Neštandardný výber", "individuálne potvrdenie firmou"],
+              ].map(([k, v]) => (
                 <div
                   key={k}
-                  className="grid grid-cols-[auto_1fr] gap-3 items-baseline pb-3"
+                  className="grid grid-cols-[1fr_auto] gap-3 items-baseline pb-3"
                   style={{
-                    borderBottom:
-                      "1px solid color-mix(in oklab, #f3efe6 12%, transparent)",
+                    borderBottom: "1px solid color-mix(in oklab, #fffdf8 12%, transparent)",
                   }}
                 >
+                  <dd
+                    className="text-[13.5px]"
+                    style={{ color: "color-mix(in oklab, #fffdf8 82%, transparent)", lineHeight: 1.5 }}
+                  >
+                    {v}
+                  </dd>
                   <dt
-                    className="text-[13px] font-medium tabular-nums"
+                    className="text-[12px] font-medium tabular-nums text-right"
                     style={{ color: "var(--highlight)" }}
                   >
                     {k}
                   </dt>
-                  <dd
-                    className="text-[13.5px]"
-                    style={{
-                      color: "color-mix(in oklab, #f3efe6 78%, transparent)",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {v}
-                  </dd>
                 </div>
               ))}
             </dl>
+          </div>
+
+          <div className="md:col-span-7">
+            <LiveCalculator />
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+function LiveCalculator() {
+  const [rozmery, setRozmery] = useState(42);
+  const [material, setMaterial] = useState<"A" | "B" | "C">("B");
+  const [doprava, setDoprava] = useState(35);
+  const [montaz, setMontaz] = useState(true);
+  const [doplnky, setDoplnky] = useState(1);
+  const [open, setOpen] = useState(false);
+
+  const materialRate = material === "A" ? 22 : material === "B" ? 32 : 44;
+  const zaklad = rozmery * materialRate;
+  const dopravaCena = Math.max(0, doprava - 10) * 0.9;
+  const montazCena = montaz ? Math.round(rozmery * 4.2) : 0;
+  const doplnkyCena = doplnky * 65;
+  const medzisucet = zaklad + dopravaCena + montazCena + doplnkyCena;
+  const minCena = 320;
+  const spolu = Math.max(minCena, medzisucet);
+  const rozsahHigh = Math.round(spolu * 1.15);
+
+  return (
+    <div
+      className="rounded-[20px] p-5 md:p-7"
+      style={{
+        backgroundColor: "color-mix(in oklab, #fffdf8 6%, transparent)",
+        border: "1px solid color-mix(in oklab, #fffdf8 18%, transparent)",
+      }}
+    >
+      <div
+        className="text-[11px] uppercase tracking-[0.14em] mb-5"
+        style={{ color: "color-mix(in oklab, #fffdf8 60%, transparent)" }}
+      >
+        Živý výpočet
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-2 md:gap-x-8 md:gap-y-6">
+        <Slider dark value={rozmery} onChange={setRozmery} min={5} max={100} label="Rozmery" unit="m" />
+        <Slider dark value={doprava} onChange={setDoprava} min={0} max={150} label="Doprava" unit="km" />
+        <div className="md:col-span-2">
+          <div
+            className="mb-2 text-xs uppercase tracking-wider font-medium"
+            style={{ color: "color-mix(in oklab, #fffdf8 65%, transparent)" }}
+          >
+            Materiál
+          </div>
+          <div
+            className="inline-flex p-1 rounded-[10px] w-full"
+            style={{ backgroundColor: "color-mix(in oklab, #fffdf8 6%, transparent)", border: "1px solid color-mix(in oklab, #fffdf8 16%, transparent)" }}
+          >
+            {(["A", "B", "C"] as const).map((m) => {
+              const active = m === material;
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMaterial(m)}
+                  className="relative flex-1 px-3 py-2 text-sm font-medium rounded-[7px] transition-colors"
+                  style={{
+                    color: active ? "var(--primary-dark)" : "color-mix(in oklab, #fffdf8 75%, transparent)",
+                    backgroundColor: active ? "#fffdf8" : "transparent",
+                  }}
+                >
+                  Variant {m}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex items-center">
+          <label className="inline-flex items-center gap-3 cursor-pointer select-none">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={montaz}
+              onClick={() => setMontaz(!montaz)}
+              className="relative h-6 w-11 rounded-full transition-colors"
+              style={{ backgroundColor: montaz ? "var(--highlight)" : "color-mix(in oklab, #fffdf8 25%, transparent)" }}
+            >
+              <motion.span
+                layout
+                transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                className="absolute top-0.5 h-5 w-5 rounded-full bg-white shadow"
+                style={{ left: montaz ? "calc(100% - 22px)" : "2px" }}
+              />
+            </button>
+            <span className="text-sm" style={{ color: "#fffdf8" }}>Vrátane montáže</span>
+          </label>
+        </div>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-sm" style={{ color: "#fffdf8" }}>Doplnky</span>
+          <div
+            className="inline-flex items-center rounded-[10px]"
+            style={{ border: "1px solid color-mix(in oklab, #fffdf8 25%, transparent)", backgroundColor: "color-mix(in oklab, #fffdf8 8%, transparent)" }}
+          >
+            <button
+              type="button"
+              onClick={() => setDoplnky(Math.max(0, doplnky - 1))}
+              className="h-9 w-9 grid place-items-center text-lg"
+              aria-label="Znížiť"
+              style={{ color: "#fffdf8" }}
+            >
+              −
+            </button>
+            <span className="min-w-8 text-center text-sm font-semibold tabular-nums" style={{ color: "#fffdf8" }}>{doplnky}</span>
+            <button
+              type="button"
+              onClick={() => setDoplnky(Math.min(6, doplnky + 1))}
+              className="h-9 w-9 grid place-items-center text-lg"
+              aria-label="Zvýšiť"
+              style={{ color: "#fffdf8" }}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="mt-7 pt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2"
+        style={{ borderTop: "1px dashed color-mix(in oklab, var(--highlight) 55%, transparent)" }}
+      >
+        <span
+          className="text-[11px] uppercase tracking-[0.14em]"
+          style={{ color: "color-mix(in oklab, #fffdf8 60%, transparent)" }}
+        >
+          Orientačný rozsah
+        </span>
+        <span
+          className="font-semibold tabular-nums"
+          style={{
+            fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+            color: "#fffdf8",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {Math.round(spolu).toLocaleString("sk")} – {rozsahHigh.toLocaleString("sk")} €
+        </span>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="mt-4 inline-flex items-center gap-1.5 text-sm"
+        aria-expanded={open}
+        style={{ color: "color-mix(in oklab, #fffdf8 78%, transparent)" }}
+      >
+        <span aria-hidden style={{ transform: open ? "rotate(90deg)" : "none", display: "inline-block", transition: "transform 180ms" }}>›</span>
+        Ako sa cena vypočítala?
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.dl
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="mt-3 overflow-hidden text-[13.5px]"
+            style={{ color: "color-mix(in oklab, #fffdf8 85%, transparent)" }}
+          >
+            <div className="grid gap-y-1.5">
+              <BreakRow label={`Základ · ${rozmery} m × ${materialRate} €`} value={`${zaklad.toLocaleString("sk")} €`} />
+              <BreakRow label={`Doprava · nad 10 km`} value={`${dopravaCena.toFixed(0)} €`} />
+              <BreakRow label={`Montáž`} value={montaz ? `${montazCena.toLocaleString("sk")} €` : "—"} />
+              <BreakRow label={`Doplnky · ${doplnky} ks`} value={`${doplnkyCena} €`} />
+              {spolu === minCena && (
+                <BreakRow label="Minimálna zákazka" value={`${minCena} €`} accent />
+              )}
+            </div>
+          </motion.dl>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function BreakRow({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3">
+      <span>{label}</span>
+      <span
+        className="tabular-nums font-medium"
+        style={{ color: accent ? "var(--highlight)" : "#fffdf8" }}
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
+
 
 /* ============================================================
    OWNER OUTPUT
@@ -1321,34 +1590,27 @@ function FinalCta() {
             </p>
           </div>
           <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col md:items-end gap-3">
-            <button
+            <Button
+              variant="terracotta"
+              arrow
+              full
               onClick={() => openSiteAssistant({ source: "home-cta" })}
-              className={`${btnBase} px-5 py-3 w-full sm:w-auto group`}
-              style={{
-                backgroundColor: "var(--accent)",
-                color: "var(--accent-foreground)",
-              }}
             >
               Nájsť vhodné riešenie
-              <span
-                aria-hidden
-                className="ml-2 inline-block transition-transform group-hover:translate-x-1"
-              >
-                →
-              </span>
-            </button>
+            </Button>
             <a
               href="#ukazky"
-              className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
+              className="btn w-full sm:w-auto text-center"
               style={{
-                border:
-                  "1px solid color-mix(in oklab, #f3efe6 30%, transparent)",
-                color: "#f3efe6",
+                border: "1px solid color-mix(in oklab, #fffdf8 30%, transparent)",
+                color: "#fffdf8",
+                backgroundColor: "transparent",
               }}
             >
               Pozrieť ukážky
             </a>
           </div>
+
         </div>
       </div>
     </section>
