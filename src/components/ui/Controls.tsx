@@ -88,6 +88,7 @@ export function Segmented<T extends string>({
   options: { value: T; label: string }[];
   label?: string;
 }) {
+  const groupId = useId();
   return (
     <div role="radiogroup" aria-label={label}>
       <div
@@ -110,7 +111,7 @@ export function Segmented<T extends string>({
             >
               {active && (
                 <motion.span
-                  layoutId={`seg-${label ?? "s"}-${useIdSafe()}`}
+                  layoutId={`seg-${groupId}`}
                   className="absolute inset-0 rounded-[7px]"
                   style={{
                     backgroundColor: "var(--surface)",
@@ -129,10 +130,6 @@ export function Segmented<T extends string>({
   );
 }
 
-// Stable id per render tree
-function useIdSafe() {
-  return useId();
-}
 
 /* ============================================================
    Toggle switch
