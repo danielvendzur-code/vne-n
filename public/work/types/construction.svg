@@ -1,0 +1,21 @@
+<svg width="720" height="440" viewBox="0 0 720 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="440" rx="24" fill="#0B2C24"/>
+  <circle cx="652" cy="45" r="185" fill="#B9F36B" fill-opacity=".11"/>
+  <rect x="52" y="38" width="616" height="364" rx="18" fill="#F8F6EF"/>
+  <rect x="52" y="38" width="616" height="50" rx="18" fill="#E9E7DE"/>
+  <circle cx="78" cy="63" r="5" fill="#FF7049"/><circle cx="94" cy="63" r="5" fill="#D1D4CC"/><circle cx="110" cy="63" r="5" fill="#D1D4CC"/>
+  <rect x="470" y="54" width="78" height="18" rx="9" fill="#D9EEE7"/><rect x="558" y="51" width="90" height="24" rx="12" fill="#08775C"/>
+  <text x="82" y="139" fill="#08775C" font-family="Arial" font-size="11" font-weight="700" letter-spacing="1.2">KONFIGURÁTOR PERGOLY</text>
+  <text x="82" y="181" fill="#071D17" font-family="Arial" font-size="31" font-weight="700">Navrhnite si rozmer.</text>
+  <text x="82" y="214" fill="#071D17" font-family="Arial" font-size="31" font-weight="700">Cenu uvidíte hneď.</text>
+  <rect x="82" y="253" width="191" height="62" rx="12" fill="#FFF" stroke="#C6CBC4"/>
+  <text x="100" y="275" fill="#78817C" font-family="Arial" font-size="9">ŠÍRKA</text><text x="100" y="299" fill="#071D17" font-family="Arial" font-size="18" font-weight="700">4 200 mm</text>
+  <rect x="282" y="253" width="116" height="62" rx="12" fill="#D9EEE7" stroke="#08775C"/>
+  <text x="300" y="275" fill="#08775C" font-family="Arial" font-size="9">MONTÁŽ</text><text x="300" y="299" fill="#071D17" font-family="Arial" font-size="14" font-weight="700">Áno ✓</text>
+  <rect x="82" y="335" width="190" height="39" rx="19.5" fill="#08775C"/><text x="122" y="359" fill="white" font-family="Arial" font-size="12" font-weight="700">Vypočítať cenu →</text>
+  <path d="M466 302V183L534 142L603 183V302" fill="#D9EEE7" stroke="#08775C" stroke-width="3"/>
+  <path d="M454 185L534 136L616 185" stroke="#B9F36B" stroke-width="8" stroke-linecap="round"/>
+  <rect x="493" y="213" width="82" height="89" fill="#F8F6EF" stroke="#08775C" stroke-width="3"/>
+  <path d="M534 214V301" stroke="#08775C" stroke-width="2"/>
+  <rect x="570" y="325" width="77" height="48" rx="12" fill="#071D17"/><text x="582" y="344" fill="#AEB7B1" font-family="Arial" font-size="8">ODHAD</text><text x="582" y="362" fill="#B9F36B" font-family="Arial" font-size="15" font-weight="700">6 840 €</text>
+</svg>

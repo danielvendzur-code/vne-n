@@ -1,0 +1,28 @@
+<svg width="720" height="440" viewBox="0 0 720 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="440" rx="24" fill="#FFD9CC"/>
+  <circle cx="90" cy="360" r="180" fill="#FF7049" fill-opacity=".14"/>
+  <rect x="42" y="35" width="636" height="370" rx="20" fill="#FFFDF8"/>
+  <rect x="42" y="35" width="636" height="54" rx="20" fill="#071D17"/>
+  <text x="69" y="68" fill="#B9F36B" font-family="Arial" font-size="16" font-weight="700">NOVA</text>
+  <rect x="267" y="53" width="55" height="18" rx="9" fill="#20362F"/><rect x="333" y="53" width="71" height="18" rx="9" fill="#20362F"/><rect x="415" y="53" width="50" height="18" rx="9" fill="#20362F"/>
+  <circle cx="638" cy="62" r="14" fill="#B9F36B"/>
+  <text x="68" y="133" fill="#071D17" font-family="Arial" font-size="25" font-weight="700">Vyberte si variant,</text><text x="68" y="162" fill="#071D17" font-family="Arial" font-size="25" font-weight="700">ktorý vám naozaj sadne.</text>
+  <g transform="translate(68 198)">
+    <rect width="172" height="160" rx="14" fill="#E9E7DE"/>
+    <path d="M62 41H109L126 101H45L62 41Z" fill="#08775C"/><rect x="54" y="101" width="62" height="13" rx="5" fill="#071D17"/>
+    <text x="14" y="137" fill="#071D17" font-family="Arial" font-size="11" font-weight="700">LINE / zelená</text><text x="124" y="137" fill="#08775C" font-family="Arial" font-size="11" font-weight="700">89 €</text>
+  </g>
+  <g transform="translate(252 198)">
+    <rect width="172" height="160" rx="14" fill="#FFF5EF" stroke="#FF7049" stroke-width="3"/>
+    <path d="M62 41H109L126 101H45L62 41Z" fill="#FF7049"/><rect x="54" y="101" width="62" height="13" rx="5" fill="#071D17"/>
+    <circle cx="153" cy="20" r="12" fill="#FF7049"/><path d="M148 20L152 24L159 16" stroke="white" stroke-width="2"/>
+    <text x="14" y="137" fill="#071D17" font-family="Arial" font-size="11" font-weight="700">LINE / coral</text><text x="124" y="137" fill="#08775C" font-family="Arial" font-size="11" font-weight="700">89 €</text>
+  </g>
+  <rect x="457" y="195" width="188" height="168" rx="14" fill="#071D17"/>
+  <text x="477" y="224" fill="#A5AEA9" font-family="Arial" font-size="9">VAŠA KONFIGURÁCIA</text>
+  <text x="477" y="257" fill="white" font-family="Arial" font-size="14" font-weight="700">Model LINE / coral</text>
+  <text x="477" y="283" fill="#A5AEA9" font-family="Arial" font-size="10">2 kusy · doprava</text>
+  <line x1="477" y1="301" x2="625" y2="301" stroke="#31463F"/>
+  <text x="477" y="330" fill="#B9F36B" font-family="Arial" font-size="20" font-weight="700">192 €</text>
+  <rect x="571" y="314" width="55" height="27" rx="13" fill="#B9F36B"/><text x="584" y="331" fill="#071D17" font-family="Arial" font-size="9" font-weight="700">ĎALEJ</text>
+</svg>

@@ -70,7 +70,7 @@ export function Nav() {
               className="hidden sm:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
               style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
             >
-              Nájsť riešenie
+              Nezáväzná konzultácia
             </button>
             <button
               onClick={() => setOpen((v) => !v)}
@@ -120,7 +120,7 @@ export function Nav() {
               className="mt-3 rounded-[10px] px-4 py-3 text-sm font-medium text-left"
               style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
             >
-              Nájsť riešenie
+              Nezáväzná konzultácia
             </button>
           </div>
         </div>

@@ -1,0 +1,21 @@
+<svg width="720" height="440" viewBox="0 0 720 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="440" rx="24" fill="#161F1C"/>
+  <path d="M0 360L720 158V440H0V360Z" fill="#1F302A"/>
+  <circle cx="633" cy="67" r="160" fill="#FF7049" fill-opacity=".13"/>
+  <rect x="45" y="39" width="630" height="362" rx="20" fill="#F4F1E9"/>
+  <rect x="45" y="39" width="630" height="55" rx="20" fill="#FFFDF8"/>
+  <text x="72" y="73" fill="#071D17" font-family="Arial" font-size="15" font-weight="700">FORM</text><text x="116" y="73" fill="#08775C" font-family="Arial" font-size="15" font-weight="700">LAB</text>
+  <text x="72" y="139" fill="#08775C" font-family="Arial" font-size="9" font-weight="700" letter-spacing="1.1">KROK 3 Z 4 · POVRCH</text>
+  <text x="72" y="177" fill="#071D17" font-family="Arial" font-size="26" font-weight="700">Ako má výsledok vyzerať?</text>
+  <rect x="72" y="209" width="165" height="78" rx="13" fill="#FFFDF8" stroke="#C7CEC9"/>
+  <circle cx="98" cy="235" r="10" fill="#C4B89F"/><text x="116" y="238" fill="#071D17" font-family="Arial" font-size="11" font-weight="700">Prírodný povrch</text><text x="116" y="257" fill="#7A847F" font-family="Arial" font-size="9">jemná štruktúra</text>
+  <rect x="247" y="209" width="165" height="78" rx="13" fill="#D9EEE7" stroke="#08775C" stroke-width="2"/>
+  <circle cx="273" cy="235" r="10" fill="#34443E"/><text x="291" y="238" fill="#071D17" font-family="Arial" font-size="11" font-weight="700">Antracit mat</text><text x="291" y="257" fill="#08775C" font-family="Arial" font-size="9">vybrané ✓</text>
+  <rect x="72" y="313" width="340" height="48" rx="24" fill="#08775C"/><text x="169" y="342" fill="white" font-family="Arial" font-size="12" font-weight="700">Potvrdiť konfiguráciu →</text>
+  <rect x="448" y="131" width="186" height="233" rx="16" fill="#071D17"/>
+  <path d="M491 247L540 181L591 247V313H491V247Z" fill="#3B4C46" stroke="#B9F36B" stroke-width="3"/>
+  <path d="M478 249L540 166L604 249" stroke="#FF7049" stroke-width="8" stroke-linecap="round"/>
+  <rect x="518" y="262" width="45" height="51" fill="#182620" stroke="#B9F36B"/>
+  <text x="469" y="153" fill="#94A49D" font-family="Arial" font-size="8" letter-spacing="1">ŽIVÝ NÁHĽAD</text>
+  <rect x="472" y="326" width="138" height="22" rx="11" fill="#20332B"/><text x="495" y="341" fill="#B9F36B" font-family="Arial" font-size="8" font-weight="700">KOMPATIBILNÉ ✓</text>
+</svg>

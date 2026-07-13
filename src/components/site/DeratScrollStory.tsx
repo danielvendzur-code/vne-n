@@ -138,13 +138,18 @@ export function DeratScrollStory() {
     >
       <div className="container-page case-study-heading">
         <div>
-          <p className="case-kicker">DERAT · produktová ukážka</p>
-          <h2 id="derat-story-title">Od prvej voľby po dopyt, s ktorým sa dá pracovať.</h2>
+          <p className="case-kicker">DERAT · reálny tok zákazníka</p>
+          <h2 id="derat-story-title">Od problému so škodcom po cenu a kontakt.</h2>
         </div>
-        <p>
-          Kalkulačka a asistent v jednom rozhraní. Osem obrazoviek tvorí jeden súvislý tok — bez
-          preskakovania do formulára na konci.
-        </p>
+        <div className="case-heading-aside">
+          <p>
+            Kalkulačka a asistent v jednom rozhraní. Cielené otázky určia škodcu, priestor, termín
+            aj orientačnú cenu — bez opakovaného zisťovania pri telefonáte.
+          </p>
+          <a href="https://derat-chatbot-backend.vercel.app/" target="_blank" rel="noreferrer">
+            Vyskúšať živý DERAT widget <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
 
       <div className="container-page case-story-desktop">
