@@ -28,17 +28,24 @@ export function Nav() {
   }, [open]);
 
   return (
-    <header
-      className="sticky top-0 z-40 backdrop-blur transition-colors"
-      style={{
-        backgroundColor: scrolled
-          ? "color-mix(in oklab, var(--background) 82%, transparent)"
-          : "color-mix(in oklab, var(--background) 60%, transparent)",
-        borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-      }}
-    >
-      <div className="container-page flex items-center justify-between h-13 md:h-15" style={{ height: undefined }}>
-        <div className="flex items-center justify-between w-full" style={{ minHeight: 56 }}>
+    <header className="sticky top-0 z-40 py-3 md:py-4 pointer-events-none">
+      <div
+        className="container-page flex items-center justify-between h-13 md:h-15"
+        style={{ height: undefined }}
+      >
+        <div
+          className="flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"
+          style={{
+            minHeight: 56,
+            backgroundColor: scrolled
+              ? "color-mix(in oklab, var(--surface) 92%, transparent)"
+              : "color-mix(in oklab, var(--surface) 74%, transparent)",
+            border: "1px solid var(--border)",
+            boxShadow: scrolled
+              ? "0 12px 34px rgba(16, 38, 31, 0.08)"
+              : "0 4px 20px rgba(16, 38, 31, 0.035)",
+          }}
+        >
           <Link to="/" className="flex items-center gap-2" aria-label="Domov">
             <Symbol size={34} />
           </Link>
@@ -85,11 +92,15 @@ export function Nav() {
       </div>
 
       {open && (
-        <div
-          className="md:hidden"
-          style={{ borderTop: "1px solid var(--border)", backgroundColor: "var(--background)" }}
-        >
-          <div className="container-page py-4 flex flex-col gap-1">
+        <div className="md:hidden pointer-events-auto">
+          <div
+            className="container-page mt-2 py-4 flex flex-col gap-1 rounded-[18px]"
+            style={{
+              backgroundColor: "var(--surface)",
+              border: "1px solid var(--border)",
+              boxShadow: "0 18px 48px rgba(16, 38, 31, 0.12)",
+            }}
+          >
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.to}

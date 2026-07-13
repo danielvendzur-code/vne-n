@@ -1,7 +1,6 @@
-/**
- * Empty mount point for the future website chatbot.
- * Renders nothing today. Do not add UI here.
- */
+import { ChameleonWidget } from "@/components/chatbot/ChameleonWidget";
+import "@/chatbot-widget.css";
+
 export function SiteAssistantMount() {
-  return null;
+  return <ChameleonWidget />;
 }

@@ -6,8 +6,13 @@ import { SiteAssistantMount } from "@/components/SiteAssistantMount";
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
+      <a className="skip-link" href="#main-content">
+        Preskočiť na obsah
+      </a>
       <Nav />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1 overflow-x-clip">
+        {children}
+      </main>
       <Footer />
       <SiteAssistantMount />
     </div>

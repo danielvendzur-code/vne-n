@@ -5,11 +5,7 @@ import { SiteLayout } from "@/components/site/Layout";
 import { projects } from "@/data/projects";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { DemoViewer } from "@/components/DemoViewer";
-import {
-  AssistantMini,
-  CalculatorMini,
-  ConfiguratorMini,
-} from "@/components/site/MiniPreviews";
+import { AssistantMini, CalculatorMini, ConfiguratorMini } from "@/components/site/MiniPreviews";
 import {
   Button,
   Chip,
@@ -20,8 +16,7 @@ import {
   SummaryRow,
   StepProgress,
 } from "@/components/ui/Controls";
-
-
+import { DeratScrollStory, SelectedWork } from "@/components/site/DeratScrollStory";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,6 +45,8 @@ function HomePage() {
       <ChatbotSection />
       <CalculatorSection />
       <OwnerOutputSection />
+      <DeratScrollStory />
+      <SelectedWork />
       <PortfolioSection />
       <ProcessSection />
       <PricingSection />
@@ -57,7 +54,6 @@ function HomePage() {
     </SiteLayout>
   );
 }
-
 
 /* ============================================================
    HERO
@@ -125,21 +121,20 @@ function Hero() {
   return (
     <section>
       <div className="container-page pt-6 pb-10 md:pt-14 md:pb-20">
-        <div className="grid gap-8 md:gap-12 md:grid-cols-12 items-start">
-          <div className="md:col-span-6 md:pt-4">
+        <div className="grid gap-8 xl:gap-12 xl:grid-cols-[minmax(0,5fr)_minmax(27rem,3fr)] items-start">
+          <div className="xl:pt-4">
             <div className="eyebrow mb-3">Chatboty · kalkulačky · konfigurátory</div>
             <h1
               className="font-semibold tracking-tight"
               style={{
-                fontSize: "clamp(2.6rem, 8vw, 5.5rem)",
+                fontSize: "clamp(2.75rem, 5vw, 4rem)",
                 lineHeight: 1.0,
                 letterSpacing: "-0.03em",
+                maxWidth: "760px",
               }}
             >
               Návštevník si vyberie.{" "}
-              <span style={{ color: "var(--primary)" }}>
-                Vy dostanete presný&nbsp;dopyt.
-              </span>
+              <span style={{ color: "var(--primary)" }}>Vy dostanete presný&nbsp;dopyt.</span>
             </h1>
             <p
               className="mt-6 max-w-lg"
@@ -149,8 +144,8 @@ function Hero() {
                 lineHeight: 1.5,
               }}
             >
-              Interaktívne nástroje, ktoré zákazníka prevedú výberom a firme
-              pripravia všetky potrebné údaje.
+              Interaktívne nástroje, ktoré zákazníka prevedú výberom a firme pripravia všetky
+              potrebné údaje.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <Button
@@ -176,13 +171,16 @@ function Hero() {
             </div>
           </div>
 
-          <div className="md:col-span-6">
+          <div>
             <HeroPreview
               step={step}
               path={path}
               state={state}
               update={update}
-              onPick={(p) => { setPath(p); setStep(1); }}
+              onPick={(p) => {
+                setPath(p);
+                setStep(1);
+              }}
               onConfirm={() => setStep(2)}
               onBack={back}
               onReset={reset}
@@ -231,11 +229,11 @@ function HeroPreview({
         }}
       >
         <div className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "var(--accent)" }} />
           <span
-            className="h-1.5 w-1.5 rounded-full"
-            style={{ backgroundColor: "var(--accent)" }}
-          />
-          <span className="text-[11px] tracking-wider uppercase" style={{ color: "var(--text-secondary)" }}>
+            className="text-[11px] tracking-wider uppercase"
+            style={{ color: "var(--text-secondary)" }}
+          >
             Interaktívna ukážka
           </span>
         </div>
@@ -285,8 +283,12 @@ function HeroPreview({
               transition={{ duration: 0.18 }}
             >
               <div className="mb-3 flex items-baseline justify-between">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>Krok 2 z 3</span>
-                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>{pathLabel}</span>
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                  Krok 2 z 3
+                </span>
+                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>
+                  {pathLabel}
+                </span>
               </div>
               <h3 className="text-lg md:text-xl font-semibold mb-5">
                 {heroPaths.find((p) => p.id === path)!.step2Title}
@@ -309,8 +311,12 @@ function HeroPreview({
               transition={{ duration: 0.18 }}
             >
               <div className="mb-3 flex items-baseline justify-between">
-                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>Hotovo</span>
-                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>Dopyt pripravený</span>
+                <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                  Hotovo
+                </span>
+                <span className="text-xs font-medium" style={{ color: "var(--primary)" }}>
+                  Dopyt pripravený
+                </span>
               </div>
               <HeroSummary path={path} state={state} pathLabel={pathLabel!} />
             </motion.div>
@@ -364,7 +370,10 @@ function HeroStep1({
           unit="m"
         />
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          <div
+            className="mb-2 text-xs uppercase tracking-wider font-medium"
+            style={{ color: "var(--text-secondary)" }}
+          >
             Materiál
           </div>
           <Segmented
@@ -392,7 +401,10 @@ function HeroStep1({
     return (
       <div className="space-y-5">
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          <div
+            className="mb-2 text-xs uppercase tracking-wider font-medium"
+            style={{ color: "var(--text-secondary)" }}
+          >
             Účel použitia
           </div>
           <div className="flex flex-wrap gap-2">
@@ -430,7 +442,10 @@ function HeroStep1({
     return (
       <div className="space-y-5">
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          <div
+            className="mb-2 text-xs uppercase tracking-wider font-medium"
+            style={{ color: "var(--text-secondary)" }}
+          >
             Typ služby
           </div>
           <Segmented
@@ -445,16 +460,21 @@ function HeroStep1({
           />
         </div>
         <div>
-          <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+          <div
+            className="mb-2 text-xs uppercase tracking-wider font-medium"
+            style={{ color: "var(--text-secondary)" }}
+          >
             Lokalita
           </div>
           <div className="flex flex-wrap gap-2">
-            {([
-              ["ba", "Bratislava"],
-              ["nr", "Nitra"],
-              ["ke", "Košice"],
-              ["ostatne", "Iná"],
-            ] as const).map(([v, l]) => (
+            {(
+              [
+                ["ba", "Bratislava"],
+                ["nr", "Nitra"],
+                ["ke", "Košice"],
+                ["ostatne", "Iná"],
+              ] as const
+            ).map(([v, l]) => (
               <Chip key={v} active={state.lokalita === v} onClick={() => update("lokalita", v)}>
                 {l}
               </Chip>
@@ -478,7 +498,10 @@ function HeroStep1({
   return (
     <div className="space-y-5">
       <div>
-        <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+        <div
+          className="mb-2 text-xs uppercase tracking-wider font-medium"
+          style={{ color: "var(--text-secondary)" }}
+        >
           Deň v týždni
         </div>
         <Segmented
@@ -493,15 +516,20 @@ function HeroStep1({
         />
       </div>
       <div>
-        <div className="mb-2 text-xs uppercase tracking-wider font-medium" style={{ color: "var(--text-secondary)" }}>
+        <div
+          className="mb-2 text-xs uppercase tracking-wider font-medium"
+          style={{ color: "var(--text-secondary)" }}
+        >
           Čas
         </div>
         <div className="flex flex-wrap gap-2">
-          {([
-            ["rano", "Ráno · 9:00"],
-            ["poobede", "Poobede · 14:30"],
-            ["vecer", "Podvečer · 17:00"],
-          ] as const).map(([v, l]) => (
+          {(
+            [
+              ["rano", "Ráno · 9:00"],
+              ["poobede", "Poobede · 14:30"],
+              ["vecer", "Podvečer · 17:00"],
+            ] as const
+          ).map(([v, l]) => (
             <Chip key={v} active={state.cas === v} onClick={() => update("cas", v)}>
               {l}
             </Chip>
@@ -535,7 +563,14 @@ function HeroSummary({
     }
     if (path === "riesenie") {
       return [
-        ["Účel", state.ucel === "domov" ? "Domácnosť" : state.ucel === "firma" ? "Firma" : "Verejný priestor"],
+        [
+          "Účel",
+          state.ucel === "domov"
+            ? "Domácnosť"
+            : state.ucel === "firma"
+              ? "Firma"
+              : "Verejný priestor",
+        ],
         ["Rozpočet", `${state.rozpocet} €`],
         ["Farba", state.farba],
         ["Odporúčanie", "Variant B · v rámci rozpočtu"],
@@ -543,8 +578,24 @@ function HeroSummary({
     }
     if (path === "dopyt") {
       return [
-        ["Služba", state.sluzba === "konzultacia" ? "Konzultácia" : state.sluzba === "obhliadka" ? "Obhliadka" : "Cenová ponuka"],
-        ["Lokalita", state.lokalita === "ba" ? "Bratislava" : state.lokalita === "nr" ? "Nitra" : state.lokalita === "ke" ? "Košice" : "Iná"],
+        [
+          "Služba",
+          state.sluzba === "konzultacia"
+            ? "Konzultácia"
+            : state.sluzba === "obhliadka"
+              ? "Obhliadka"
+              : "Cenová ponuka",
+        ],
+        [
+          "Lokalita",
+          state.lokalita === "ba"
+            ? "Bratislava"
+            : state.lokalita === "nr"
+              ? "Nitra"
+              : state.lokalita === "ke"
+                ? "Košice"
+                : "Iná",
+        ],
         ["Prílohy", "Pripravené"],
         ["Odoslať firme", "Áno"],
       ];
@@ -578,7 +629,6 @@ function HeroSummary({
   );
 }
 
-
 /* ============================================================
    PRODUCT TYPES — three interactive rows
 ============================================================ */
@@ -587,14 +637,12 @@ const productTypes = [
   {
     key: "chatbot" as const,
     name: "Dopytový asistent",
-    desc:
-      "Prevedie zákazníka otázkami, vysvetlí možnosti a pripraví údaje na kontakt.",
+    desc: "Prevedie zákazníka otázkami, vysvetlí možnosti a pripraví údaje na kontakt.",
   },
   {
     key: "kalkulacka" as const,
     name: "Pokročilá kalkulačka",
-    desc:
-      "Vypočíta cenu alebo rozsah podľa rozmerov, materiálu, dopravy a ďalších pravidiel firmy.",
+    desc: "Vypočíta cenu alebo rozsah podľa rozmerov, materiálu, dopravy a ďalších pravidiel firmy.",
   },
   {
     key: "konfigurator" as const,
@@ -679,10 +727,7 @@ function ProductTypesSection() {
               );
             })}
             <li className="pt-5">
-              <p
-                className="text-sm"
-                style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
-              >
+              <p className="text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}>
                 Každý nástroj sa skladá podľa služieb, cien a procesu konkrétnej firmy.
               </p>
             </li>
@@ -764,14 +809,16 @@ function ChatbotSection() {
               className="font-semibold tracking-tight"
               style={{ fontSize: "clamp(1.7rem, 4.5vw, 2.5rem)" }}
             >
-              Neodpovedá len na otázky.<br />Pripraví ďalší krok.
+              Neodpovedá len na otázky.
+              <br />
+              Pripraví ďalší krok.
             </h2>
             <p
               className="mt-5 max-w-sm text-sm"
               style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}
             >
-              Funkcie spojené s objednávkami, dostupnosťou alebo interným
-              systémom vyžadujú samostatné napojenie.
+              Funkcie spojené s objednávkami, dostupnosťou alebo interným systémom vyžadujú
+              samostatné napojenie.
             </p>
           </div>
 
@@ -847,8 +894,8 @@ function CalculatorSection() {
                 lineHeight: 1.55,
               }}
             >
-              Výpočet sa nastaví podľa pravidiel, ktoré firma reálne používa pri
-              príprave ponúk. Vyskúšajte, ako sa cena mení podľa vstupov.
+              Výpočet sa nastaví podľa pravidiel, ktoré firma reálne používa pri príprave ponúk.
+              Vyskúšajte, ako sa cena mení podľa vstupov.
             </p>
 
             <dl className="mt-8 space-y-4">
@@ -867,7 +914,10 @@ function CalculatorSection() {
                 >
                   <dd
                     className="text-[13.5px]"
-                    style={{ color: "color-mix(in oklab, #fffdf8 82%, transparent)", lineHeight: 1.5 }}
+                    style={{
+                      color: "color-mix(in oklab, #fffdf8 82%, transparent)",
+                      lineHeight: 1.5,
+                    }}
                   >
                     {v}
                   </dd>
@@ -925,8 +975,24 @@ function LiveCalculator() {
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 md:gap-x-8 md:gap-y-6">
-        <Slider dark value={rozmery} onChange={setRozmery} min={5} max={100} label="Rozmery" unit="m" />
-        <Slider dark value={doprava} onChange={setDoprava} min={0} max={150} label="Doprava" unit="km" />
+        <Slider
+          dark
+          value={rozmery}
+          onChange={setRozmery}
+          min={5}
+          max={100}
+          label="Rozmery"
+          unit="m"
+        />
+        <Slider
+          dark
+          value={doprava}
+          onChange={setDoprava}
+          min={0}
+          max={150}
+          label="Doprava"
+          unit="km"
+        />
         <div className="md:col-span-2">
           <div
             className="mb-2 text-xs uppercase tracking-wider font-medium"
@@ -936,7 +1002,10 @@ function LiveCalculator() {
           </div>
           <div
             className="inline-flex p-1 rounded-[10px] w-full"
-            style={{ backgroundColor: "color-mix(in oklab, #fffdf8 6%, transparent)", border: "1px solid color-mix(in oklab, #fffdf8 16%, transparent)" }}
+            style={{
+              backgroundColor: "color-mix(in oklab, #fffdf8 6%, transparent)",
+              border: "1px solid color-mix(in oklab, #fffdf8 16%, transparent)",
+            }}
           >
             {(["A", "B", "C"] as const).map((m) => {
               const active = m === material;
@@ -947,7 +1016,9 @@ function LiveCalculator() {
                   onClick={() => setMaterial(m)}
                   className="relative flex-1 px-3 py-2 text-sm font-medium rounded-[7px] transition-colors"
                   style={{
-                    color: active ? "var(--primary-dark)" : "color-mix(in oklab, #fffdf8 75%, transparent)",
+                    color: active
+                      ? "var(--primary-dark)"
+                      : "color-mix(in oklab, #fffdf8 75%, transparent)",
                     backgroundColor: active ? "#fffdf8" : "transparent",
                   }}
                 >
@@ -965,7 +1036,11 @@ function LiveCalculator() {
               aria-checked={montaz}
               onClick={() => setMontaz(!montaz)}
               className="relative h-6 w-11 rounded-full transition-colors"
-              style={{ backgroundColor: montaz ? "var(--highlight)" : "color-mix(in oklab, #fffdf8 25%, transparent)" }}
+              style={{
+                backgroundColor: montaz
+                  ? "var(--highlight)"
+                  : "color-mix(in oklab, #fffdf8 25%, transparent)",
+              }}
             >
               <motion.span
                 layout
@@ -974,14 +1049,21 @@ function LiveCalculator() {
                 style={{ left: montaz ? "calc(100% - 22px)" : "2px" }}
               />
             </button>
-            <span className="text-sm" style={{ color: "#fffdf8" }}>Vrátane montáže</span>
+            <span className="text-sm" style={{ color: "#fffdf8" }}>
+              Vrátane montáže
+            </span>
           </label>
         </div>
         <div className="flex items-center justify-between gap-3">
-          <span className="text-sm" style={{ color: "#fffdf8" }}>Doplnky</span>
+          <span className="text-sm" style={{ color: "#fffdf8" }}>
+            Doplnky
+          </span>
           <div
             className="inline-flex items-center rounded-[10px]"
-            style={{ border: "1px solid color-mix(in oklab, #fffdf8 25%, transparent)", backgroundColor: "color-mix(in oklab, #fffdf8 8%, transparent)" }}
+            style={{
+              border: "1px solid color-mix(in oklab, #fffdf8 25%, transparent)",
+              backgroundColor: "color-mix(in oklab, #fffdf8 8%, transparent)",
+            }}
           >
             <button
               type="button"
@@ -992,7 +1074,12 @@ function LiveCalculator() {
             >
               −
             </button>
-            <span className="min-w-8 text-center text-sm font-semibold tabular-nums" style={{ color: "#fffdf8" }}>{doplnky}</span>
+            <span
+              className="min-w-8 text-center text-sm font-semibold tabular-nums"
+              style={{ color: "#fffdf8" }}
+            >
+              {doplnky}
+            </span>
             <button
               type="button"
               onClick={() => setDoplnky(Math.min(6, doplnky + 1))}
@@ -1035,7 +1122,16 @@ function LiveCalculator() {
         aria-expanded={open}
         style={{ color: "color-mix(in oklab, #fffdf8 78%, transparent)" }}
       >
-        <span aria-hidden style={{ transform: open ? "rotate(90deg)" : "none", display: "inline-block", transition: "transform 180ms" }}>›</span>
+        <span
+          aria-hidden
+          style={{
+            transform: open ? "rotate(90deg)" : "none",
+            display: "inline-block",
+            transition: "transform 180ms",
+          }}
+        >
+          ›
+        </span>
         Ako sa cena vypočítala?
       </button>
       <AnimatePresence initial={false}>
@@ -1049,9 +1145,15 @@ function LiveCalculator() {
             style={{ color: "color-mix(in oklab, #fffdf8 85%, transparent)" }}
           >
             <div className="grid gap-y-1.5">
-              <BreakRow label={`Základ · ${rozmery} m × ${materialRate} €`} value={`${zaklad.toLocaleString("sk")} €`} />
+              <BreakRow
+                label={`Základ · ${rozmery} m × ${materialRate} €`}
+                value={`${zaklad.toLocaleString("sk")} €`}
+              />
               <BreakRow label={`Doprava · nad 10 km`} value={`${dopravaCena.toFixed(0)} €`} />
-              <BreakRow label={`Montáž`} value={montaz ? `${montazCena.toLocaleString("sk")} €` : "—"} />
+              <BreakRow
+                label={`Montáž`}
+                value={montaz ? `${montazCena.toLocaleString("sk")} €` : "—"}
+              />
               <BreakRow label={`Doplnky · ${doplnky} ks`} value={`${doplnkyCena} €`} />
               {spolu === minCena && (
                 <BreakRow label="Minimálna zákazka" value={`${minCena} €`} accent />
@@ -1077,7 +1179,6 @@ function BreakRow({ label, value, accent }: { label: string; value: string; acce
     </div>
   );
 }
-
 
 /* ============================================================
    OWNER OUTPUT
@@ -1110,8 +1211,8 @@ function OwnerOutputSection() {
               className="mt-5 max-w-md text-base"
               style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}
             >
-              Podľa riešenia môže dopyt obsahovať fotografie, poznámku, históriu
-              rozhovoru alebo rezervovaný termín.
+              Podľa riešenia môže dopyt obsahovať fotografie, poznámku, históriu rozhovoru alebo
+              rezervovaný termín.
             </p>
           </div>
 
@@ -1167,10 +1268,7 @@ function OwnerOutputSection() {
                     }}
                   >
                     <dt style={{ color: "var(--text-secondary)" }}>{k}</dt>
-                    <dd
-                      className="text-right font-medium"
-                      style={{ color: "var(--text-primary)" }}
-                    >
+                    <dd className="text-right font-medium" style={{ color: "var(--text-primary)" }}>
                       {v}
                     </dd>
                   </div>
@@ -1212,10 +1310,7 @@ function PortfolioSection() {
               style={{ color: "var(--text-primary)" }}
             >
               Všetky ukážky
-              <span
-                aria-hidden
-                className="transition-transform group-hover:translate-x-0.5"
-              >
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
                 →
               </span>
             </Link>
@@ -1262,8 +1357,8 @@ function PortfolioCard({
   const span = featured
     ? "sm:col-span-2 lg:col-span-4"
     : medium
-    ? "lg:col-span-3"
-    : "lg:col-span-2";
+      ? "lg:col-span-3"
+      : "lg:col-span-2";
   const radius = featured ? "rounded-[20px]" : "rounded-[14px]";
   return (
     <motion.article
@@ -1303,10 +1398,7 @@ function PortfolioCard({
             className="inline-flex items-center gap-1.5 text-[11px]"
             style={{ color: "var(--text-secondary)" }}
           >
-            <span
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ backgroundColor: p.accent }}
-            />
+            <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: p.accent }} />
             {p.category}
           </span>
         </div>
@@ -1337,10 +1429,7 @@ function PortfolioCard({
             style={{ color: "var(--text-secondary)" }}
           >
             Ako funguje
-            <span
-              aria-hidden
-              className="transition-transform group-hover/link:translate-x-0.5"
-            >
+            <span aria-hidden className="transition-transform group-hover/link:translate-x-0.5">
               →
             </span>
           </Link>
@@ -1443,10 +1532,7 @@ function ProcessSection() {
                 {s.n}
               </span>
               <div className="min-w-0 pt-0.5">
-                <h3
-                  className="text-base md:text-lg font-semibold"
-                  style={{ lineHeight: 1.3 }}
-                >
+                <h3 className="text-base md:text-lg font-semibold" style={{ lineHeight: 1.3 }}>
                   {s.h}
                 </h3>
                 <p
@@ -1585,8 +1671,8 @@ function FinalCta() {
                 lineHeight: 1.55,
               }}
             >
-              Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo
-              výpočet by na ňom dávali zmysel.
+              Pozriem sa na váš web a navrhnem, ktoré otázky, možnosti alebo výpočet by na ňom
+              dávali zmysel.
             </p>
           </div>
           <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col md:items-end gap-3">
@@ -1610,10 +1696,8 @@ function FinalCta() {
               Pozrieť ukážky
             </a>
           </div>
-
         </div>
       </div>
     </section>
   );
 }
-
