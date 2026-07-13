@@ -1492,34 +1492,27 @@ function FinalCta() {
             </p>
           </div>
           <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col md:items-end gap-3">
-            <button
+            <Button
+              variant="terracotta"
+              arrow
+              full
               onClick={() => openSiteAssistant({ source: "home-cta" })}
-              className={`${btnBase} px-5 py-3 w-full sm:w-auto group`}
-              style={{
-                backgroundColor: "var(--accent)",
-                color: "var(--accent-foreground)",
-              }}
             >
               Nájsť vhodné riešenie
-              <span
-                aria-hidden
-                className="ml-2 inline-block transition-transform group-hover:translate-x-1"
-              >
-                →
-              </span>
-            </button>
+            </Button>
             <a
               href="#ukazky"
-              className={`${btnBase} px-5 py-3 w-full sm:w-auto`}
+              className="btn w-full sm:w-auto text-center"
               style={{
-                border:
-                  "1px solid color-mix(in oklab, #f3efe6 30%, transparent)",
-                color: "#f3efe6",
+                border: "1px solid color-mix(in oklab, #fffdf8 30%, transparent)",
+                color: "#fffdf8",
+                backgroundColor: "transparent",
               }}
             >
               Pozrieť ukážky
             </a>
           </div>
+
         </div>
       </div>
     </section>
