@@ -819,39 +819,23 @@ function ChatbotSection() {
 ============================================================ */
 
 function CalculatorSection() {
-  const parts = [
-    "Základ",
-    "rozmery",
-    "materiál",
-    "doprava",
-    "montáž",
-    "doplnky",
-    "cenové podmienky",
-  ];
-  const rules = [
-    ["Minimálna cena", "ak je zákazka pod minimálnym rozsahom"],
-    ["Doprava", "dopočítaná podľa vzdialenosti"],
-    ["Montáž a demontáž", "samostatné položky"],
-    ["Neštandardný výber", "individuálne potvrdenie firmou"],
-  ];
-
   return (
-    <section style={{ backgroundColor: "var(--primary-dark)", color: "#f3efe6" }}>
+    <section style={{ backgroundColor: "var(--primary-dark)", color: "#fffdf8" }}>
       <div className="container-page py-16 md:py-28">
         <div className="grid gap-10 md:grid-cols-12 md:gap-14 items-start">
           <div className="md:col-span-5">
             <div
               className="eyebrow mb-3"
-              style={{ color: "color-mix(in oklab, #f3efe6 65%, transparent)" }}
+              style={{ color: "color-mix(in oklab, #fffdf8 65%, transparent)" }}
             >
               Pokročilá kalkulačka
             </div>
             <h2
               className="font-semibold tracking-tight"
               style={{
-                fontSize: "clamp(2rem, 5vw, 3rem)",
-                color: "#f3efe6",
-                lineHeight: 1.05,
+                fontSize: "clamp(2rem, 5vw, 3.4rem)",
+                color: "#fffdf8",
+                lineHeight: 1.02,
               }}
             >
               Nie je to metre krát jedna&nbsp;sadzba.
@@ -859,127 +843,241 @@ function CalculatorSection() {
             <p
               className="mt-6 max-w-md text-base md:text-[17px]"
               style={{
-                color: "color-mix(in oklab, #f3efe6 78%, transparent)",
+                color: "color-mix(in oklab, #fffdf8 78%, transparent)",
                 lineHeight: 1.55,
               }}
             >
               Výpočet sa nastaví podľa pravidiel, ktoré firma reálne používa pri
-              príprave ponúk. Nie generický template.
+              príprave ponúk. Vyskúšajte, ako sa cena mení podľa vstupov.
             </p>
-          </div>
 
-          <div className="md:col-span-7">
-            <div
-              className="rounded-[20px] p-6 md:p-8"
-              style={{
-                backgroundColor: "color-mix(in oklab, #f3efe6 6%, transparent)",
-                border: "1px solid color-mix(in oklab, #f3efe6 18%, transparent)",
-              }}
-            >
-              <div
-                className="text-[11px] uppercase tracking-[0.14em] mb-4"
-                style={{ color: "color-mix(in oklab, #f3efe6 55%, transparent)" }}
-              >
-                Príklad výpočtu
-              </div>
-              <div className="flex flex-wrap items-center gap-1.5">
-                {parts.map((p, i) => (
-                  <div key={p} className="flex items-center gap-1.5">
-                    <span
-                      className="rounded-[10px] px-3 py-1.5 text-[13px]"
-                      style={{
-                        backgroundColor:
-                          i === 0
-                            ? "color-mix(in oklab, #f3efe6 15%, transparent)"
-                            : "color-mix(in oklab, #f3efe6 6%, transparent)",
-                        color: "#f3efe6",
-                        border:
-                          "1px solid color-mix(in oklab, #f3efe6 15%, transparent)",
-                      }}
-                    >
-                      {p}
-                    </span>
-                    {i < parts.length - 1 && (
-                      <span
-                        className="text-xs"
-                        style={{
-                          color:
-                            "color-mix(in oklab, var(--highlight) 90%, transparent)",
-                        }}
-                      >
-                        +
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <div
-                className="mt-6 pt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2"
-                style={{
-                  borderTop:
-                    "1px dashed color-mix(in oklab, var(--highlight) 60%, transparent)",
-                }}
-              >
-                <span
-                  className="text-[11px] uppercase tracking-[0.14em]"
-                  style={{ color: "color-mix(in oklab, #f3efe6 60%, transparent)" }}
-                >
-                  Výsledok
-                </span>
-                <span
-                  className="font-semibold tabular-nums"
-                  style={{
-                    fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
-                    color: "#f3efe6",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  1 240 – 1 480 €
-                </span>
-                <span
-                  className="text-xs"
-                  style={{ color: "color-mix(in oklab, #f3efe6 55%, transparent)" }}
-                >
-                  · orientačný rozsah
-                </span>
-              </div>
-            </div>
-
-            <dl className="mt-8 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-              {rules.map(([k, v]) => (
+            <dl className="mt-8 space-y-4">
+              {[
+                ["Minimálna cena", "ak je zákazka pod minimálnym rozsahom"],
+                ["Doprava", "dopočítaná podľa vzdialenosti"],
+                ["Montáž a demontáž", "samostatné položky"],
+                ["Neštandardný výber", "individuálne potvrdenie firmou"],
+              ].map(([k, v]) => (
                 <div
                   key={k}
-                  className="grid grid-cols-[auto_1fr] gap-3 items-baseline pb-3"
+                  className="grid grid-cols-[1fr_auto] gap-3 items-baseline pb-3"
                   style={{
-                    borderBottom:
-                      "1px solid color-mix(in oklab, #f3efe6 12%, transparent)",
+                    borderBottom: "1px solid color-mix(in oklab, #fffdf8 12%, transparent)",
                   }}
                 >
+                  <dd
+                    className="text-[13.5px]"
+                    style={{ color: "color-mix(in oklab, #fffdf8 82%, transparent)", lineHeight: 1.5 }}
+                  >
+                    {v}
+                  </dd>
                   <dt
-                    className="text-[13px] font-medium tabular-nums"
+                    className="text-[12px] font-medium tabular-nums text-right"
                     style={{ color: "var(--highlight)" }}
                   >
                     {k}
                   </dt>
-                  <dd
-                    className="text-[13.5px]"
-                    style={{
-                      color: "color-mix(in oklab, #f3efe6 78%, transparent)",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {v}
-                  </dd>
                 </div>
               ))}
             </dl>
+          </div>
+
+          <div className="md:col-span-7">
+            <LiveCalculator />
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+function LiveCalculator() {
+  const [rozmery, setRozmery] = useState(42);
+  const [material, setMaterial] = useState<"A" | "B" | "C">("B");
+  const [doprava, setDoprava] = useState(35);
+  const [montaz, setMontaz] = useState(true);
+  const [doplnky, setDoplnky] = useState(1);
+  const [open, setOpen] = useState(false);
+
+  const materialRate = material === "A" ? 22 : material === "B" ? 32 : 44;
+  const zaklad = rozmery * materialRate;
+  const dopravaCena = Math.max(0, doprava - 10) * 0.9;
+  const montazCena = montaz ? Math.round(rozmery * 4.2) : 0;
+  const doplnkyCena = doplnky * 65;
+  const medzisucet = zaklad + dopravaCena + montazCena + doplnkyCena;
+  const minCena = 320;
+  const spolu = Math.max(minCena, medzisucet);
+  const rozsahHigh = Math.round(spolu * 1.15);
+
+  return (
+    <div
+      className="rounded-[20px] p-5 md:p-7"
+      style={{
+        backgroundColor: "color-mix(in oklab, #fffdf8 6%, transparent)",
+        border: "1px solid color-mix(in oklab, #fffdf8 18%, transparent)",
+      }}
+    >
+      <div
+        className="text-[11px] uppercase tracking-[0.14em] mb-5"
+        style={{ color: "color-mix(in oklab, #fffdf8 60%, transparent)" }}
+      >
+        Živý výpočet
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-2 md:gap-x-8 md:gap-y-6">
+        <Slider dark value={rozmery} onChange={setRozmery} min={5} max={100} label="Rozmery" unit="m" />
+        <Slider dark value={doprava} onChange={setDoprava} min={0} max={150} label="Doprava" unit="km" />
+        <div className="md:col-span-2">
+          <div
+            className="mb-2 text-xs uppercase tracking-wider font-medium"
+            style={{ color: "color-mix(in oklab, #fffdf8 65%, transparent)" }}
+          >
+            Materiál
+          </div>
+          <div
+            className="inline-flex p-1 rounded-[10px] w-full"
+            style={{ backgroundColor: "color-mix(in oklab, #fffdf8 6%, transparent)", border: "1px solid color-mix(in oklab, #fffdf8 16%, transparent)" }}
+          >
+            {(["A", "B", "C"] as const).map((m) => {
+              const active = m === material;
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMaterial(m)}
+                  className="relative flex-1 px-3 py-2 text-sm font-medium rounded-[7px] transition-colors"
+                  style={{
+                    color: active ? "var(--primary-dark)" : "color-mix(in oklab, #fffdf8 75%, transparent)",
+                    backgroundColor: active ? "#fffdf8" : "transparent",
+                  }}
+                >
+                  Variant {m}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex items-center">
+          <label className="inline-flex items-center gap-3 cursor-pointer select-none">
+            <button
+              type="button"
+              role="switch"
+              aria-checked={montaz}
+              onClick={() => setMontaz(!montaz)}
+              className="relative h-6 w-11 rounded-full transition-colors"
+              style={{ backgroundColor: montaz ? "var(--highlight)" : "color-mix(in oklab, #fffdf8 25%, transparent)" }}
+            >
+              <motion.span
+                layout
+                transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                className="absolute top-0.5 h-5 w-5 rounded-full bg-white shadow"
+                style={{ left: montaz ? "calc(100% - 22px)" : "2px" }}
+              />
+            </button>
+            <span className="text-sm" style={{ color: "#fffdf8" }}>Vrátane montáže</span>
+          </label>
+        </div>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-sm" style={{ color: "#fffdf8" }}>Doplnky</span>
+          <div
+            className="inline-flex items-center rounded-[10px]"
+            style={{ border: "1px solid color-mix(in oklab, #fffdf8 25%, transparent)", backgroundColor: "color-mix(in oklab, #fffdf8 8%, transparent)" }}
+          >
+            <button
+              type="button"
+              onClick={() => setDoplnky(Math.max(0, doplnky - 1))}
+              className="h-9 w-9 grid place-items-center text-lg"
+              aria-label="Znížiť"
+              style={{ color: "#fffdf8" }}
+            >
+              −
+            </button>
+            <span className="min-w-8 text-center text-sm font-semibold tabular-nums" style={{ color: "#fffdf8" }}>{doplnky}</span>
+            <button
+              type="button"
+              onClick={() => setDoplnky(Math.min(6, doplnky + 1))}
+              className="h-9 w-9 grid place-items-center text-lg"
+              aria-label="Zvýšiť"
+              style={{ color: "#fffdf8" }}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="mt-7 pt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2"
+        style={{ borderTop: "1px dashed color-mix(in oklab, var(--highlight) 55%, transparent)" }}
+      >
+        <span
+          className="text-[11px] uppercase tracking-[0.14em]"
+          style={{ color: "color-mix(in oklab, #fffdf8 60%, transparent)" }}
+        >
+          Orientačný rozsah
+        </span>
+        <span
+          className="font-semibold tabular-nums"
+          style={{
+            fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+            color: "#fffdf8",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {Math.round(spolu).toLocaleString("sk")} – {rozsahHigh.toLocaleString("sk")} €
+        </span>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="mt-4 inline-flex items-center gap-1.5 text-sm"
+        aria-expanded={open}
+        style={{ color: "color-mix(in oklab, #fffdf8 78%, transparent)" }}
+      >
+        <span aria-hidden style={{ transform: open ? "rotate(90deg)" : "none", display: "inline-block", transition: "transform 180ms" }}>›</span>
+        Ako sa cena vypočítala?
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.dl
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="mt-3 overflow-hidden text-[13.5px]"
+            style={{ color: "color-mix(in oklab, #fffdf8 85%, transparent)" }}
+          >
+            <div className="grid gap-y-1.5">
+              <BreakRow label={`Základ · ${rozmery} m × ${materialRate} €`} value={`${zaklad.toLocaleString("sk")} €`} />
+              <BreakRow label={`Doprava · nad 10 km`} value={`${dopravaCena.toFixed(0)} €`} />
+              <BreakRow label={`Montáž`} value={montaz ? `${montazCena.toLocaleString("sk")} €` : "—"} />
+              <BreakRow label={`Doplnky · ${doplnky} ks`} value={`${doplnkyCena} €`} />
+              {spolu === minCena && (
+                <BreakRow label="Minimálna zákazka" value={`${minCena} €`} accent />
+              )}
+            </div>
+          </motion.dl>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function BreakRow({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3">
+      <span>{label}</span>
+      <span
+        className="tabular-nums font-medium"
+        style={{ color: accent ? "var(--highlight)" : "#fffdf8" }}
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
+
 
 /* ============================================================
    OWNER OUTPUT
