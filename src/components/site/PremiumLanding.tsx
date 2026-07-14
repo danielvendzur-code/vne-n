@@ -13,56 +13,47 @@ import {
   Gauge,
   Mail,
   MessageCircle,
-  MousePointer2,
   Plug,
   Settings2,
   Sparkles,
   Target,
   Workflow,
+  X,
   Zap,
 } from "lucide-react";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
-const DERAT_URL = "https://derat-chatbot-backend.vercel.app/";
-const APLAN_URL = "https://danielvendzur-code.github.io/aplan-chatbot-backend/";
-
 type ToolKey = "chatbot" | "calculator" | "configurator";
+type ServiceKey = "derat" | "dezinsekcia" | "dezinfekcia";
+type UrgencyKey = "standard" | "weekend" | "urgent";
 
 const tools = [
   {
     key: "chatbot" as const,
     number: "01",
-    eyebrow: "Custom chatbot",
-    title: "Odpovie, spresní a zachytí kontakt — aj keď práve nepracujete.",
-    copy: "Asistent používa vaše služby, pravidlá a tón komunikácie. Návštevníka nepustí do slepej uličky; otázkami ho dovedie ku konkrétnemu ďalšiemu kroku.",
-    value: [
-      "Menej opakovaných otázok",
-      "Dopyty a kontakty 24/7",
-      "Prirodzené nasadenie na váš web",
-    ],
+    eyebrow: "Chatbot na mieru",
+    title: "Odpovie a zachytí kontakt, aj keď práve nepracujete.",
+    copy: "Pozná vaše služby, položí správne otázky a dovedie návštevníka ku konkrétnemu ďalšiemu kroku.",
+    value: ["Menej opakovaných otázok", "Dopyty 24/7", "Váš tón komunikácie"],
     Icon: Bot,
   },
   {
     key: "calculator" as const,
     number: "02",
-    eyebrow: "Advanced price calculator",
+    eyebrow: "Pokročilá kalkulačka",
     title: "Zložitý cenník premení na jednoduché rozhodnutie.",
-    copy: "Cena môže reagovať na rozlohu, materiál, lokalitu, termín aj minimálnu hodnotu objednávky. Zákazník výsledku rozumie a vy poznáte celý kontext.",
-    value: ["Okamžitý cenový odhad", "Vaše reálne cenové pravidlá", "Kompletné vstupy pri dopyte"],
+    copy: "Rozloha, materiál, lokalita aj termín sa premietnu do ceny. Zákazník výsledku rozumie a vy poznáte celý kontext.",
+    value: ["Odhad ceny ihneď", "Reálne cenové pravidlá", "Kompletné vstupy"],
     Icon: Calculator,
   },
   {
     key: "configurator" as const,
     number: "03",
-    eyebrow: "Interactive configurator",
+    eyebrow: "Interaktívny konfigurátor",
     title: "Ukáže iba možnosti, ktoré spolu naozaj fungujú.",
-    copy: "Konfigurátor skladá produkt alebo službu krok po kroku. Stráži kompatibilitu, odporučí vhodný variant a pripraví presnú špecifikáciu pre obchodníka.",
-    value: [
-      "Menej nesprávnych kombinácií",
-      "Rýchlejšie rozhodnutie",
-      "Hotová špecifikácia pre predaj",
-    ],
+    copy: "Zúži výber, stráži kompatibilitu a pripraví presnú špecifikáciu pre váš obchod alebo výrobu.",
+    value: ["Menej chybných kombinácií", "Rýchlejší výber", "Hotová špecifikácia"],
     Icon: Settings2,
   },
 ];
@@ -71,26 +62,41 @@ const websiteTypes = [
   {
     tag: "Stavebníctvo",
     title: "Rozpočet podľa rozmerov, materiálu a montáže.",
-    cta: "Pozrieť ukážku pre stavebníctvo",
+    cta: "Ukážka pre stavebníctvo",
     image: "work/types/construction.svg",
   },
   {
     tag: "E-shopy",
     title: "Výber produktu, variantov a doplnkov bez neistoty.",
-    cta: "Pozrieť ukážku pre e-shopy",
+    cta: "Ukážka pre e-shopy",
     image: "work/types/ecommerce.svg",
   },
   {
     tag: "Lokálne služby",
-    title: "Kvalifikovaný dopyt s lokalitou, termínom a prioritou.",
-    cta: "Pozrieť ukážku pre služby",
+    title: "Dopyt s lokalitou, termínom a prioritou.",
+    cta: "Ukážka pre služby",
     image: "work/types/services.svg",
   },
+];
+
+const processSteps = [
   {
-    tag: "Výroba na mieru",
-    title: "Konfigurácia produktu pripravená rovno do výroby.",
-    cta: "Pozrieť ukážku pre výrobu",
-    image: "work/types/manufacturing.svg",
+    number: "01",
+    icon: MessageCircle,
+    title: "Krátka analýza",
+    copy: "Prejdeme služby, cenník a otázky, ktoré dnes zisťujete ručne.",
+  },
+  {
+    number: "02",
+    icon: Workflow,
+    title: "Logika a dizajn",
+    copy: "Navrhnem tok, výpočty a rozhranie, ktoré zapadne do vašej značky.",
+  },
+  {
+    number: "03",
+    icon: CalendarCheck,
+    title: "Nasadenie na web",
+    copy: "Nástroj prepojím, otestujem a spustím bez prerábky celého webu.",
   },
 ];
 
@@ -118,14 +124,20 @@ function SectionHeading({
   inverse?: boolean;
 }) {
   return (
-    <div className={`sales-heading ${inverse ? "sales-heading-inverse" : ""}`}>
+    <motion.div
+      className={`sales-heading ${inverse ? "sales-heading-inverse" : ""}`}
+      initial={{ opacity: 0, x: -30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-90px" }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+    >
       <p className="sales-kicker">
         <span />
         {eyebrow}
       </p>
       <h2>{title}</h2>
       {copy ? <p className="sales-heading-copy">{copy}</p> : null}
-    </div>
+    </motion.div>
   );
 }
 
@@ -137,21 +149,26 @@ function Hero() {
       <div className="sales-hero-orb sales-hero-orb-one" aria-hidden="true" />
       <div className="sales-hero-orb sales-hero-orb-two" aria-hidden="true" />
       <div className="container-page sales-hero-grid">
-        <div className="sales-hero-copy">
+        <motion.div
+          className="sales-hero-copy"
+          initial={{ opacity: 0, x: -34 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="sales-availability">
             <span /> Prijímam nové projekty
           </div>
           <h1>
-            Webové nástroje, ktoré z návštevnosti robia <em>konkrétne dopyty.</em>
+            Webové nástroje, ktoré z návštevníkov robia <em>zákazníkov.</em>
           </h1>
           <p>
-            Navrhnem chatbot, inteligentnú kalkulačku alebo konfigurátor podľa vášho predaja — aby
-            zákazník dostal odpoveď hneď a vy všetky údaje pre ďalší krok.
+            Chatbot, cenová kalkulačka alebo konfigurátor na mieru — zákazník dostane odpoveď hneď a
+            vy hotový dopyt namiesto ďalšieho zisťovania.
           </p>
           <div className="sales-hero-actions">
-            <PrimaryButton source="hero-consultation">Nezáväzná konzultácia</PrimaryButton>
-            <a className="sales-button sales-button-ghost" href="#realne-ukazky">
-              Pozrieť živé ukážky <ChevronRight size={17} aria-hidden="true" />
+            <PrimaryButton source="hero-interest">Mám záujem o riešenie</PrimaryButton>
+            <a className="sales-button sales-button-ghost" href="#porovnanie">
+              Ukážte mi rozdiel <ChevronRight size={17} aria-hidden="true" />
             </a>
           </div>
           <div className="sales-hero-proof" aria-label="Hlavné výhody">
@@ -159,15 +176,21 @@ function Hero() {
               <CircleCheck size={16} /> Na mieru vašej logike
             </span>
             <span>
-              <CircleCheck size={16} /> Mobil aj desktop
+              <CircleCheck size={16} /> Funguje 24/7
             </span>
             <span>
-              <CircleCheck size={16} /> Bez prerábky celého webu
+              <CircleCheck size={16} /> Mobil aj desktop
             </span>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="sales-hero-visual" aria-label="Ukážka automatizovaného dopytu">
+        <motion.div
+          className="sales-hero-visual"
+          aria-label="Ukážka automatizovaného dopytu"
+          initial={{ opacity: 0, x: 42 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="sales-hero-browser">
             <div className="sales-browser-bar">
               <div>
@@ -180,9 +203,9 @@ function Hero() {
             </div>
             <div className="sales-browser-body">
               <div className="sales-browser-copy">
-                <span>Služba dostupná online</span>
+                <span>Odpoveď do jednej minúty</span>
                 <strong>Koľko bude stáť váš projekt?</strong>
-                <p>Odpovedzte na 3 krátke otázky.</p>
+                <p>Stačia 3 krátke odpovede.</p>
               </div>
               <div className="sales-browser-chips">
                 <button onClick={() => setFocus("price")} data-active={focus === "price"}>
@@ -200,10 +223,10 @@ function Hero() {
               <motion.div
                 className="sales-floating-card sales-price-card"
                 key="price"
-                initial={{ opacity: 0, y: 14, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0, x: 18 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.22 }}
               >
                 <div className="sales-card-label">
                   <Calculator size={15} /> Orientačný rozpočet
@@ -220,10 +243,10 @@ function Hero() {
               <motion.div
                 className="sales-floating-card sales-chat-card"
                 key="chat"
-                initial={{ opacity: 0, y: 14, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0, x: 18 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.22 }}
               >
                 <div className="sales-card-label">
                   <MessageCircle size={15} /> Asistent je online
@@ -247,18 +270,171 @@ function Hero() {
             </div>
             <CircleCheck size={21} />
           </div>
-        </div>
+        </motion.div>
       </div>
-      <div className="container-page sales-client-line">
-        <span>Jeden systém namiesto</span>
-        <div>
-          <b>7×</b> opakovanej otázky
-        </div>
-        <div>
-          <b>24/7</b> zachytávania dopytov
-        </div>
-        <div>
-          <b>1×</b> pripraveného zadania
+    </section>
+  );
+}
+
+const comparison = {
+  without: {
+    eyebrow: "Bez chatbota a kalkulačky",
+    title: "Návštevník čaká. Vy sa pýtate znova.",
+    copy: "Nejasný formulár odošle iba meno a telefón. Cenu, rozsah aj termín musíte zisťovať pri ďalšom kontakte.",
+    items: [
+      "Odpoveď až počas pracovnej doby",
+      "5–7 doplňujúcich otázok",
+      "Časť návštevníkov odíde bez kontaktu",
+    ],
+  },
+  with: {
+    eyebrow: "S chatbotom a kalkulačkou",
+    title: "Zákazník má jasno. Vy máte hotový dopyt.",
+    copy: "Systém odpovie, vypočíta odhad a uloží všetky vstupy. Obchodník pokračuje presne tam, kde zákazník skončil.",
+    items: [
+      "Odpoveď a odhad ceny ihneď",
+      "Kontakt aj kontext na jednom mieste",
+      "Priorita dopytu pripravená pre obchod",
+    ],
+  },
+};
+
+function ImpactSwitch() {
+  const [mode, setMode] = useState<"without" | "with">("with");
+  const active = comparison[mode];
+
+  return (
+    <section className="sales-impact" id="porovnanie">
+      <div className="container-page">
+        <SectionHeading
+          eyebrow="Rozdiel, ktorý cíti zákazník aj firma"
+          title={
+            <>
+              Menej zisťovania. <em>Viac pripravených dopytov.</em>
+            </>
+          }
+          copy="Prepnite si, ako vyzerá rovnaká návšteva webu bez automatizácie a s nástrojom na mieru."
+        />
+
+        <div className="sales-impact-shell">
+          <div
+            className="sales-impact-switch"
+            role="group"
+            aria-label="Porovnanie webu bez nástroja a s nástrojom"
+          >
+            <button
+              type="button"
+              data-active={mode === "without"}
+              onClick={() => setMode("without")}
+            >
+              Bez nástroja
+            </button>
+            <button type="button" data-active={mode === "with"} onClick={() => setMode("with")}>
+              S chatbotom + kalkulačkou
+            </button>
+          </div>
+
+          <div className="sales-impact-grid">
+            <AnimatePresence mode="wait">
+              <motion.div
+                className="sales-impact-copy"
+                key={`copy-${mode}`}
+                initial={{ opacity: 0, x: mode === "with" ? 26 : -26 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: mode === "with" ? -18 : 18 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <p className="sales-impact-eyebrow" data-mode={mode}>
+                  {active.eyebrow}
+                </p>
+                <h3>{active.title}</h3>
+                <p>{active.copy}</p>
+                <ul>
+                  {active.items.map((item) => (
+                    <li key={item}>
+                      {mode === "with" ? <Check size={16} /> : <X size={16} />}
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </AnimatePresence>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                className="sales-impact-visual"
+                data-mode={mode}
+                key={`visual-${mode}`}
+                initial={{ opacity: 0, x: mode === "with" ? 34 : -34 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: mode === "with" ? -24 : 24 }}
+                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="sales-impact-windowbar">
+                  <span />
+                  <span />
+                  <span />
+                  <b>{mode === "with" ? "Nový dopyt" : "Kontaktný formulár"}</b>
+                </div>
+                {mode === "without" ? (
+                  <div className="sales-impact-empty">
+                    <div className="sales-empty-field">
+                      <small>Meno</small>
+                      <span />
+                    </div>
+                    <div className="sales-empty-field">
+                      <small>Telefón</small>
+                      <span />
+                    </div>
+                    <div className="sales-empty-field sales-empty-message">
+                      <small>Správa</small>
+                      <span />
+                    </div>
+                    <div className="sales-empty-button">Odoslať</div>
+                    <p>
+                      <Clock3 size={15} /> Podrobnosti zistíte až telefonicky
+                    </p>
+                  </div>
+                ) : (
+                  <div className="sales-impact-ready">
+                    <div className="sales-ready-head">
+                      <span>
+                        <CircleCheck /> Dopyt pripravený
+                      </span>
+                      <b>92 bodov</b>
+                    </div>
+                    <strong>Deratizácia · byt 70 m²</strong>
+                    <div className="sales-ready-price">
+                      <small>Orientačná cena</small>
+                      <b>99 € bez DPH</b>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>Škodca</dt>
+                        <dd>Potkany</dd>
+                      </div>
+                      <div>
+                        <dt>Termín</dt>
+                        <dd>Pracovný deň</dd>
+                      </div>
+                      <div>
+                        <dt>Lokalita</dt>
+                        <dd>Bratislava</dd>
+                      </div>
+                      <div>
+                        <dt>Kontakt</dt>
+                        <dd>Zachytený</dd>
+                      </div>
+                    </dl>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <div className="sales-impact-cta">
+            <span>Čo by vedel automatizovať váš web?</span>
+            <PrimaryButton source="comparison-interest">Mám záujem</PrimaryButton>
+          </div>
         </div>
       </div>
     </section>
@@ -271,10 +447,10 @@ function ToolPreview({ active }: { active: ToolKey }) {
       <motion.div
         key={active}
         className={`sales-tool-preview sales-tool-preview-${active}`}
-        initial={{ opacity: 0, y: 16, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -12, scale: 0.985 }}
-        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, x: 26 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -18 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
       >
         {active === "chatbot" ? (
           <>
@@ -329,9 +505,9 @@ function ToolPreview({ active }: { active: ToolKey }) {
             </div>
             <p className="sales-preview-question">Vyberte finálnu povrchovú úpravu</p>
             <div className="sales-swatch-row">
-              <button />
-              <button className="active" />
-              <button />
+              <button aria-label="Svetlý variant" />
+              <button className="active" aria-label="Antracitový variant" />
+              <button aria-label="Béžový variant" />
             </div>
             <div className="sales-config-product">
               <span />
@@ -365,23 +541,22 @@ function ToolShowcase() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible) setActive((visible.target as HTMLElement).dataset.tool as ToolKey);
       },
-      { threshold: [0.35, 0.55, 0.75], rootMargin: "-18% 0px -28% 0px" },
+      { threshold: [0.35, 0.6], rootMargin: "-20% 0px -30% 0px" },
     );
     rows.forEach((row) => observer.observe(row));
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section className="sales-tools" id="nastroje" ref={rootRef}>
+    <section className="sales-tools sales-tools-compact" id="nastroje" ref={rootRef}>
       <div className="container-page">
         <SectionHeading
-          eyebrow="Tri nástroje. Jeden obchodný cieľ."
+          eyebrow="Tri nástroje. Jeden cieľ."
           title={
             <>
               Zákazník sa rozhodne ľahšie. <em>Vy získate viac kontextu.</em>
             </>
           }
-          copy="Nie hotová šablóna s vaším logom. Každý tok navrhnem podľa toho, ako naozaj nacenjujete, odporúčate a predávate."
         />
         <div className="sales-tools-layout">
           <div className="sales-tool-list">
@@ -423,98 +598,6 @@ function ToolShowcase() {
   );
 }
 
-function LiveDemos() {
-  return (
-    <section className="sales-live" id="realne-ukazky">
-      <div className="container-page">
-        <SectionHeading
-          inverse
-          eyebrow="Živé ukážky"
-          title={
-            <>
-              Nie slideshow. <em>Fungujúce nástroje online.</em>
-            </>
-          }
-          copy="Otvorte si ich, preklikajte tok a pozrite si, ako sa samostatný widget správa mimo prezentačnej makety."
-        />
-        <div className="sales-live-grid">
-          <a
-            href={DERAT_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="sales-live-card sales-live-derat"
-          >
-            <div className="sales-live-card-top">
-              <span>01 / cenová kalkulačka + AI</span>
-              <ArrowRight />
-            </div>
-            <div className="sales-live-phone">
-              <div className="sales-live-phone-head">
-                <i>DERAT</i>
-                <span>
-                  AI asistent <b />
-                </span>
-              </div>
-              <div className="sales-live-phone-tabs">
-                <strong>Kalkulačka</strong>
-                <span>AI asistent</span>
-              </div>
-              <p>Čo riešite?</p>
-              <div className="sales-live-phone-option">
-                <span>🐀</span>
-                <div>
-                  <b>Deratizácia</b>
-                  <small>Hlodavce, kuna a lasica</small>
-                </div>
-                <strong>od 60 €</strong>
-              </div>
-              <button>Pokračovať</button>
-            </div>
-            <div className="sales-live-card-copy">
-              <p>DERAT</p>
-              <h3>Osem krokov, okamžitá cena a hotový dopyt.</h3>
-              <span>
-                Otvoriť živý widget <ArrowRight size={16} />
-              </span>
-            </div>
-          </a>
-
-          <a
-            href={APLAN_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="sales-live-card sales-live-aplan"
-          >
-            <div className="sales-live-card-top">
-              <span>02 / samostatný embed</span>
-              <ArrowRight />
-            </div>
-            <div className="sales-live-code">
-              <div className="sales-aplan-mark">A</div>
-              <pre>
-                <code>{`<script\n  src="https://aplan-kappa.vercel.app/embed.js"\n  defer\n></script>`}</code>
-              </pre>
-              <div className="sales-code-pulse">
-                <span /> pripravené na vloženie
-              </div>
-            </div>
-            <div className="sales-live-card-copy">
-              <p>APLAN AI</p>
-              <h3>Asistent vložený na ľubovoľnú stránku jedným skriptom.</h3>
-              <span>
-                Otvoriť embed demo <ArrowRight size={16} />
-              </span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-type ServiceKey = "derat" | "dezinsekcia" | "dezinfekcia";
-type UrgencyKey = "standard" | "weekend" | "urgent";
-
 function CalculatorSandbox() {
   const [service, setService] = useState<ServiceKey>("derat");
   const [area, setArea] = useState(70);
@@ -535,7 +618,7 @@ function CalculatorSandbox() {
       if (parsed.urgency) setUrgency(parsed.urgency);
       setRestored(true);
     } catch {
-      // A demo must remain usable even when storage is blocked.
+      // The preview remains usable when storage is unavailable.
     }
   }, []);
 
@@ -546,7 +629,7 @@ function CalculatorSandbox() {
         JSON.stringify({ service, area, urgency }),
       );
     } catch {
-      // Storage is an enhancement, not a requirement.
+      // Persistence is an enhancement, not a requirement.
     }
   }, [service, area, urgency]);
 
@@ -571,28 +654,34 @@ function CalculatorSandbox() {
                 Dopyt, ktorý netreba <em>znova zisťovať.</em>
               </>
             }
-            copy="Kliknite na vstupy. Cena sa prepočíta okamžite a zvolené údaje zostanú uložené aj po obnovení stránky — presne tak, ako môže fungovať váš zákaznícky tok."
+            copy="Zmeňte vstupy. Cena sa prepočíta okamžite a údaje zostanú uložené aj po obnovení stránky."
           />
           <div className="sales-benefit-grid">
             <div>
               <Gauge />
               <strong>Lead scoring</strong>
-              <span>Priorita podľa hodnoty a naliehavosti.</span>
+              <span>Priorita podľa hodnoty.</span>
             </div>
             <div>
               <FileText />
               <strong>PDF ponuka</strong>
-              <span>Voliteľné automatické vygenerovanie.</span>
+              <span>Voliteľné generovanie.</span>
             </div>
             <div>
               <Plug />
               <strong>CRM / e-mail</strong>
-              <span>Dáta pripravené pre vaše systémy.</span>
+              <span>Dáta pre vaše systémy.</span>
             </div>
           </div>
         </div>
 
-        <div className="sales-sandbox">
+        <motion.div
+          className="sales-sandbox"
+          initial={{ opacity: 0, x: 36 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="sales-sandbox-top">
             <span>
               <Sparkles size={15} /> Interaktívna kalkulačka
@@ -679,9 +768,9 @@ function CalculatorSandbox() {
             className="sales-sandbox-cta"
             onClick={() => openSiteAssistant({ source: "calculator-sandbox" })}
           >
-            Chcem takúto kalkulačku <ArrowRight size={17} />
+            Mám záujem o kalkulačku <ArrowRight size={17} />
           </button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -689,18 +778,17 @@ function CalculatorSandbox() {
 
 function WebsiteTypes() {
   return (
-    <section className="sales-websites" id="typy-webov">
+    <section className="sales-websites sales-websites-compact" id="typy-webov">
       <div className="container-page">
         <SectionHeading
           eyebrow="Kde to funguje"
           title={
             <>
-              Jeden princíp. <em>Desiatky obchodných scenárov.</em>
+              Tri časté scenáre. <em>Jasný ďalší krok.</em>
             </>
           }
-          copy="Ukážka môže začať na novom webe alebo ako samostatný nástroj na stránke, ktorú už máte."
         />
-        <div className="sales-website-grid">
+        <div className="sales-website-grid sales-website-grid-three">
           {websiteTypes.map((item, index) => (
             <motion.article
               className="sales-website-card"
@@ -711,7 +799,7 @@ function WebsiteTypes() {
               transition={{ duration: 0.45, delay: index * 0.06 }}
             >
               <div className="sales-website-image">
-                {/* Replace this image source with a final project screenshot when available. */}
+                {/* Replace this source with a final homepage screenshot. */}
                 <img
                   src={`${import.meta.env.BASE_URL}${item.image}`}
                   alt={`Ukážkový web pre segment ${item.tag}`}
@@ -723,7 +811,7 @@ function WebsiteTypes() {
               <div className="sales-website-copy">
                 <p>{item.tag}</p>
                 <h3>{item.title}</h3>
-                <button onClick={() => openSiteAssistant({ source: `website-type-${item.tag}` })}>
+                <button onClick={() => openSiteAssistant({ source: `website-${item.tag}` })}>
                   {item.cta}
                   <ArrowRight size={16} />
                 </button>
@@ -732,12 +820,13 @@ function WebsiteTypes() {
           ))}
         </div>
         <div className="sales-project-strip">
-          <span>Ďalšie verejné projekty</span>
+          <span>Živé ukážky</span>
           {[
+            ["DERAT", "https://derat-chatbot-backend.vercel.app/"],
+            ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],
             ["koverta.sk", "https://koverta.sk/"],
             ["webko.sk", "https://webko.sk/"],
             ["mojplot.sk", "https://mojplot.sk/"],
-            ["moj.chatbot.backend", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
           ].map(([label, href]) => (
             <a key={label} href={href} target="_blank" rel="noreferrer">
               {label}
@@ -750,119 +839,70 @@ function WebsiteTypes() {
   );
 }
 
-const processSteps = [
-  {
-    number: "01",
-    icon: MessageCircle,
-    title: "Krátka analýza",
-    copy: "Prejdeme vaše služby, cenník a otázky, ktoré zákazníkom opakujete najčastejšie.",
-    meta: "30–45 min. rozhovor",
-  },
-  {
-    number: "02",
-    icon: Workflow,
-    title: "Návrh logiky a dizajnu",
-    copy: "Pripravím tok otázok, pravidlá výpočtu a rozhranie, ktoré prirodzene zapadne do vašej značky.",
-    meta: "Klikateľný návrh",
-  },
-  {
-    number: "03",
-    icon: CalendarCheck,
-    title: "Implementácia na web",
-    copy: "Nástroj prepojím, otestujem na mobile aj desktope a nasadím bez zbytočnej odstávky.",
-    meta: "Ostré nasadenie",
-  },
-];
-
-function Process() {
+function ProcessPricing() {
   return (
-    <section className="sales-process" id="spolupraca">
+    <section className="sales-close" id="spolupraca">
       <div className="container-page">
         <SectionHeading
+          inverse
           eyebrow="Od prvých otázok po nasadenie"
           title={
             <>
-              Jasný proces. <em>Žiadne technické bludisko.</em>
+              Jasný proces. <em>Cena podľa rozsahu.</em>
             </>
           }
+          copy="Bez fixných balíkov a bez technického bludiska. Najprv určím, čo má nástroj vyriešiť, potom dostanete jasný rozsah aj cenu."
         />
-        <ol className="sales-process-list">
-          {processSteps.map(({ number, icon: Icon, title, copy, meta }, index) => (
-            <motion.li
-              key={number}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.42, delay: index * 0.08 }}
-            >
-              <div className="sales-process-number">{number}</div>
-              <div className="sales-process-icon">
-                <Icon />
-              </div>
-              <div>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </div>
-              <span>
-                {meta}
-                <ChevronRight size={17} />
-              </span>
-            </motion.li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
-}
+        <div className="sales-close-grid">
+          <ol className="sales-close-steps">
+            {processSteps.map(({ number, icon: Icon, title, copy }, index) => (
+              <motion.li
+                key={number}
+                initial={{ opacity: 0, x: -26 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-70px" }}
+                transition={{ duration: 0.42, delay: index * 0.08 }}
+              >
+                <span>{number}</span>
+                <div>
+                  <Icon />
+                </div>
+                <section>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </section>
+              </motion.li>
+            ))}
+          </ol>
 
-function Pricing() {
-  return (
-    <section className="sales-pricing" id="cena">
-      <div className="container-page sales-pricing-grid">
-        <div>
-          <SectionHeading
-            inverse
-            eyebrow="Férový rozsah namiesto balíkov"
-            title={
-              <>
-                Platíte za riešenie, ktoré <em>vašej firme dáva zmysel.</em>
-              </>
-            }
-            copy="Cena sa odvíja od počtu krokov, zložitosti výpočtov, dizajnu a napojení. Po úvodnom rozhovore dostanete jasný rozsah aj cenu — bez prekvapení."
-          />
-          <div className="sales-pricing-points">
-            <span>
-              <Check /> Konkrétny rozsah pred začiatkom
-            </span>
-            <span>
-              <Check /> Možnosť spustiť menšiu prvú verziu
-            </span>
-            <span>
-              <Check /> Hosting a ďalšie úpravy podľa dohody
-            </span>
-          </div>
-        </div>
-        <div className="sales-pricing-card">
-          <div className="sales-pricing-card-label">
-            <Sparkles size={16} /> Návrh projektu
-          </div>
-          <h3>Najprv pochopíme problém. Potom naceníme riešenie.</h3>
-          <div className="sales-scope-lines">
-            <span>
-              <i style={{ width: "78%" }} />
-            </span>
-            <span>
-              <i style={{ width: "56%" }} />
-            </span>
-            <span>
-              <i style={{ width: "88%" }} />
-            </span>
-          </div>
-          <div className="sales-pricing-card-footer">
-            <span>Prvá konzultácia</span>
-            <strong>nezáväzne</strong>
-          </div>
-          <PrimaryButton source="pricing-consultation">Zistiť rozsah môjho projektu</PrimaryButton>
+          <motion.div
+            className="sales-pricing-card"
+            initial={{ opacity: 0, x: 34 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-70px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="sales-pricing-card-label">
+              <Sparkles size={16} /> Férové nacenenie
+            </div>
+            <h3>Cena sa odvíja od rozsahu projektu, nie od balíka.</h3>
+            <div className="sales-pricing-points">
+              <span>
+                <Check /> Konkrétny rozsah pred začiatkom
+              </span>
+              <span>
+                <Check /> Možnosť spustiť menšiu prvú verziu
+              </span>
+              <span>
+                <Check /> Napojenia podľa reálnej potreby
+              </span>
+            </div>
+            <div className="sales-pricing-card-footer">
+              <span>Prvá konzultácia</span>
+              <strong>nezáväzne</strong>
+            </div>
+            <PrimaryButton source="scope-pricing">Zistiť rozsah projektu</PrimaryButton>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -874,12 +914,12 @@ function FinalContact() {
     <section className="sales-final">
       <div className="container-page sales-final-inner">
         <p className="sales-kicker">
-          <span /> Stačí jedna konkrétna služba
+          <span /> Môžeme začať jednou službou
         </p>
         <h2>Ukážte mi, čo dnes zákazníkom vysvetľujete ručne.</h2>
-        <p>Navrhnem, ako z toho spraviť jednoduchý chatbot, kalkulačku alebo konfigurátor.</p>
+        <p>Navrhnem jednoduchší spôsob, ako z návštevníka spraviť pripravený dopyt.</p>
         <div className="sales-final-actions">
-          <PrimaryButton source="final-consultation">Nezáväzná konzultácia</PrimaryButton>
+          <PrimaryButton source="final-interest">Mám záujem</PrimaryButton>
           <a href="mailto:info@webko.sk">
             <Mail size={17} /> info@webko.sk
           </a>
@@ -896,13 +936,12 @@ export function PremiumLanding() {
   return (
     <>
       <Hero />
+      <ImpactSwitch />
       <ToolShowcase />
-      <LiveDemos />
       <DeratScrollStory />
       <CalculatorSandbox />
       <WebsiteTypes />
-      <Process />
-      <Pricing />
+      <ProcessPricing />
       <FinalContact />
     </>
   );

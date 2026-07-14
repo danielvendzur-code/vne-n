@@ -47,24 +47,19 @@ const frames = [
 
 const chapters = [
   {
-    eyebrow: "Začína sa to jednoducho",
-    title: "Návštevník nemusí poznať správny odborný výraz.",
-    copy: "Vyberie službu a označí problém tak, ako ho vidí. Rozhranie ukazuje iba možnosti, ktoré sú v danom kroku užitočné.",
+    eyebrow: "01 · Problém zachytený",
+    title: "Návštevník označí škodcu tak, ako ho pozná.",
+    copy: "Z domovskej stránky prejde priamo do výberu služby a problému. Nemusí hľadať správny odborný výraz ani cenník v PDF.",
   },
   {
-    eyebrow: "Otázky majú poradie",
-    title: "Každá odpoveď spresní ďalšiu otázku.",
-    copy: "Typ priestoru, rozloha a miera výskytu sa nepýtajú naraz. Krátky tok znižuje neistotu a zároveň skladá podklady pre výpočet.",
+    eyebrow: "02 · Cielené otázky",
+    title: "Každá odpoveď pripraví iba relevantný ďalší krok.",
+    copy: "Priestor, rozloha, intenzita a termín sa pýtajú postupne. Krátky tok skladá všetky podklady bez dlhého formulára.",
   },
   {
-    eyebrow: "Pravidlá firmy v rozhraní",
-    title: "Cena vzniká z reálnych vstupov, nie z odhadu vo formulári.",
-    copy: "Lokalita, deň zásahu a rozsah sa premietnu do orientačnej ceny. Zákazník vidí, čo výsledok ovplyvnilo.",
-  },
-  {
-    eyebrow: "Výsledok pre obe strany",
-    title: "Zákazník dostane ďalší krok. Firma dostane použiteľný dopyt.",
-    copy: "Na konci je cena, zhrnutie služby, priestoru, lokality a vlastné číslo dopytu — bez opätovného zisťovania základných údajov.",
+    eyebrow: "03 · Cena a kontakt",
+    title: "Zákazník dostane odhad. Firma dostane hotový dopyt.",
+    copy: "Výsledok obsahuje cenu, službu, priestor, lokalitu aj číslo dopytu. Obchodník môže pokračovať bez opakovania základných otázok.",
   },
 ];
 
@@ -81,49 +76,64 @@ export function DeratScrollStory() {
     media.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
       const images = gsap.utils.toArray<HTMLElement>("[data-case-frame]", root);
       const captions = gsap.utils.toArray<HTMLElement>("[data-case-caption]", root);
+      const dots = gsap.utils.toArray<HTMLElement>("[data-case-dot]", root);
       const progress = root.querySelector<HTMLElement>("[data-case-progress]");
+      const story = root.querySelector<HTMLElement>(".case-story-desktop");
+      if (!story || !images.length) return;
 
-      gsap.set(images, { autoAlpha: 0, scale: 1.035, yPercent: 3 });
-      gsap.set(captions, { autoAlpha: 0, y: 8 });
-      gsap.set(images[0], { autoAlpha: 1, scale: 1, yPercent: 0 });
-      gsap.set(captions[0], { autoAlpha: 1, y: 0 });
+      gsap.set(images, { autoAlpha: 0, zIndex: 1, clipPath: "inset(0 0 0 0)" });
+      gsap.set(captions, { autoAlpha: 0, x: 0 });
+      gsap.set(dots, { opacity: 0.32, scale: 1 });
+      gsap.set(images[0], { autoAlpha: 1, zIndex: 2 });
+      gsap.set(captions[0], { autoAlpha: 1 });
+      gsap.set(dots[0], { opacity: 1, scale: 1.35 });
       if (progress) gsap.set(progress, { scaleX: 0.125, transformOrigin: "left center" });
 
-      const timeline = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: root,
-          start: "top top+=72",
-          end: "bottom bottom-=72",
-          scrub: 0.45,
-          invalidateOnRefresh: true,
+      let activeIndex = 0;
+      const showFrame = (nextIndex: number, direction: number) => {
+        if (nextIndex === activeIndex) return;
+
+        gsap.killTweensOf([
+          images[activeIndex],
+          images[nextIndex],
+          captions[activeIndex],
+          captions[nextIndex],
+        ]);
+        gsap.set(images[activeIndex], { autoAlpha: 0, zIndex: 1, clipPath: "inset(0 0 0 0)" });
+        gsap.set(captions[activeIndex], { autoAlpha: 0, x: 0 });
+        gsap.set(dots, { opacity: 0.32, scale: 1 });
+
+        gsap.fromTo(
+          images[nextIndex],
+          {
+            autoAlpha: 1,
+            zIndex: 2,
+            clipPath: direction >= 0 ? "inset(0 0 0 9%)" : "inset(0 9% 0 0)",
+          },
+          { clipPath: "inset(0 0 0 0)", duration: 0.2, ease: "power2.out" },
+        );
+        gsap.fromTo(
+          captions[nextIndex],
+          { autoAlpha: 0, x: direction >= 0 ? 12 : -12 },
+          { autoAlpha: 1, x: 0, duration: 0.24, ease: "power2.out" },
+        );
+        gsap.set(dots[nextIndex], { opacity: 1, scale: 1.35 });
+        activeIndex = nextIndex;
+      };
+
+      const trigger = ScrollTrigger.create({
+        trigger: story,
+        start: "top top+=96",
+        end: "bottom bottom-=96",
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const nextIndex = Math.min(images.length - 1, Math.floor(self.progress * images.length));
+          showFrame(nextIndex, self.direction);
+          if (progress) gsap.set(progress, { scaleX: (nextIndex + 1) / images.length });
         },
       });
 
-      for (let i = 1; i < images.length; i += 1) {
-        const at = i - 1;
-        timeline
-          .to(images[i - 1], { autoAlpha: 0, scale: 0.955, yPercent: -2, duration: 0.62 }, at)
-          .to(captions[i - 1], { autoAlpha: 0, y: -8, duration: 0.3 }, at)
-          .fromTo(
-            images[i],
-            { autoAlpha: 0, scale: 1.035, yPercent: 3 },
-            { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.62 },
-            at,
-          )
-          .fromTo(
-            captions[i],
-            { autoAlpha: 0, y: 8 },
-            { autoAlpha: 1, y: 0, duration: 0.3 },
-            at + 0.15,
-          );
-      }
-
-      if (progress) {
-        timeline.to(progress, { scaleX: 1, duration: frames.length - 1 }, 0);
-      }
-
-      return () => timeline.scrollTrigger?.kill();
+      return () => trigger.kill();
     });
 
     return () => media.revert();
@@ -175,6 +185,11 @@ export function DeratScrollStory() {
             <div className="case-progress-track" aria-hidden="true">
               <span data-case-progress />
             </div>
+            <div className="case-frame-dots" aria-hidden="true">
+              {frames.map((frame) => (
+                <i data-case-dot key={frame.label} />
+              ))}
+            </div>
             <div className="case-media-stack">
               {frames.map((frame, index) => (
                 <figure data-case-frame className="case-frame" key={frame.src}>
@@ -183,7 +198,8 @@ export function DeratScrollStory() {
                     alt={frame.alt}
                     width="900"
                     height="1200"
-                    loading={index === 0 ? "eager" : "lazy"}
+                    loading="eager"
+                    fetchPriority={index < 2 ? "high" : "auto"}
                     decoding="async"
                   />
                 </figure>
