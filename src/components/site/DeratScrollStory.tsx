@@ -55,42 +55,46 @@ export function DeratScrollStory() {
 
     media.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
       const images = gsap.utils.toArray<HTMLElement>("[data-case-frame]", root);
-      const photos = gsap.utils.toArray<HTMLElement>("[data-case-photo]", root);
-      const captions = gsap.utils.toArray<HTMLElement>("[data-case-caption]", root);
-      const dots = gsap.utils.toArray<HTMLElement>("[data-case-dot]", root);
       const copySteps = gsap.utils.toArray<HTMLElement>(".case-copy-step", root);
       const progress = root.querySelector<HTMLElement>("[data-case-progress]");
+      const counter = root.querySelector<HTMLElement>("[data-case-current]");
       const story = root.querySelector<HTMLElement>(".case-story-desktop");
       if (!story || !images.length) return;
 
-      gsap.set(images, { autoAlpha: 0, zIndex: 1, scale: 0.992 });
-      gsap.set(photos, { yPercent: 0, scale: 1 });
-      gsap.set(captions, { autoAlpha: 0, y: 8 });
-      gsap.set(dots, { opacity: 0.26, scaleX: 1, transformOrigin: "center" });
+      gsap.set(images, {
+        autoAlpha: 1,
+        yPercent: 112,
+        scale: 0.955,
+        rotateZ: 2.4,
+        zIndex: (index) => images.length + index,
+      });
       gsap.set(copySteps, { opacity: 0.32, y: 12 });
-      gsap.set(images[0], { autoAlpha: 1, zIndex: 2, scale: 1 });
-      gsap.set(captions[0], { autoAlpha: 1, y: 0 });
-      gsap.set(dots[0], { opacity: 1, scaleX: 2.8 });
+      gsap.set(images[0], { yPercent: 0, scale: 1, rotateZ: 0, zIndex: images.length + 2 });
       gsap.set(copySteps[0], { opacity: 1, y: 0 });
       if (progress) gsap.set(progress, { scaleX: 0.04, transformOrigin: "left center" });
 
       const timeline = gsap.timeline({
-        defaults: { ease: "power3.inOut" },
+        defaults: { ease: "power3.inOut", force3D: true },
         scrollTrigger: {
           trigger: story,
           start: "top top+=96",
           end: "bottom bottom-=96",
-          scrub: 0.62,
+          scrub: 0.75,
           invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (!counter) return;
+            const current = Math.min(images.length, Math.floor(self.progress * images.length) + 1);
+            counter.textContent = String(current).padStart(2, "0");
+          },
         },
       });
 
-      timeline.to({}, { duration: 0.55 });
+      timeline.to({}, { duration: 0.7 });
 
       images.slice(1).forEach((image, index) => {
         const previousIndex = index;
         const nextIndex = index + 1;
-        const at = 0.55 + index * 1.15;
+        const at = 0.7 + index * 1.35;
         const nextChapter = Math.min(
           copySteps.length - 1,
           Math.round((nextIndex / (images.length - 1)) * (copySteps.length - 1)),
@@ -101,18 +105,23 @@ export function DeratScrollStory() {
         );
 
         timeline
-          .to(images[previousIndex], { autoAlpha: 0, scale: 0.992, duration: 0.48, zIndex: 1 }, at)
-          .fromTo(
-            image,
-            { autoAlpha: 0, scale: 1.014, zIndex: 3 },
-            { autoAlpha: 1, scale: 1, duration: 0.56, zIndex: 2 },
+          .to(
+            images[previousIndex],
+            {
+              autoAlpha: 0.18,
+              yPercent: -10,
+              scale: 0.91,
+              rotateZ: -1.8,
+              duration: 0.9,
+            },
             at,
           )
-          .fromTo(photos[nextIndex], { yPercent: 1.4 }, { yPercent: 0, duration: 0.58 }, at)
-          .to(captions[previousIndex], { autoAlpha: 0, y: -6, duration: 0.28 }, at)
-          .to(captions[nextIndex], { autoAlpha: 1, y: 0, duration: 0.42 }, at + 0.08)
-          .to(dots[previousIndex], { opacity: 0.26, scaleX: 1, duration: 0.28 }, at)
-          .to(dots[nextIndex], { opacity: 1, scaleX: 2.8, duration: 0.36 }, at + 0.05);
+          .fromTo(
+            image,
+            { autoAlpha: 1, yPercent: 112, scale: 0.955, rotateZ: 2.4 },
+            { autoAlpha: 1, yPercent: 0, scale: 1, rotateZ: 0, duration: 0.96 },
+            at,
+          );
 
         if (nextChapter !== previousChapter) {
           timeline
@@ -121,7 +130,7 @@ export function DeratScrollStory() {
         }
       });
 
-      timeline.to({}, { duration: 0.65 });
+      timeline.to({}, { duration: 0.85 });
       if (progress) {
         timeline.fromTo(
           progress,
@@ -176,45 +185,36 @@ export function DeratScrollStory() {
 
         <div className="case-visual-column">
           <div className="case-stage">
-            <div className="case-stage-topline">
-              <span>DERAT</span>
-              <span>Kalkulačka + AI asistent</span>
+            <div className="case-stage-meta">
+              <span>DERAT · kalkulačka</span>
+              <b>
+                <em data-case-current>01</em> / {String(frames.length).padStart(2, "0")}
+              </b>
             </div>
             <div className="case-progress-track" aria-hidden="true">
               <span data-case-progress />
             </div>
-            <div className="case-frame-dots" aria-hidden="true">
-              {frames.map((frame) => (
-                <i data-case-dot key={frame.label} />
-              ))}
-            </div>
-            <div className="case-media-stack">
+            <div className="case-deck">
               {frames.map((frame, index) => (
                 <figure data-case-frame className="case-frame" key={frame.src}>
-                  <div className="case-frame-photo" data-case-photo>
+                  <div className="case-frame-photo">
                     <img
                       src={frame.src}
                       alt={frame.alt}
                       width="1086"
                       height="1448"
-                      loading="eager"
-                      fetchPriority={index < 2 ? "high" : "auto"}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      fetchPriority={index === 0 ? "high" : "auto"}
                       decoding="async"
+                      sizes="(min-width: 900px) 36vw, 86vw"
                     />
                   </div>
-                </figure>
-              ))}
-            </div>
-            <div className="case-stage-footer" aria-live="off">
-              <div className="case-caption-stack">
-                {frames.map((frame, index) => (
-                  <p data-case-caption key={frame.label}>
+                  <figcaption>
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     {frame.label}
-                  </p>
-                ))}
-              </div>
-              <span>{String(frames.length).padStart(2, "0")}</span>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </div>
         </div>

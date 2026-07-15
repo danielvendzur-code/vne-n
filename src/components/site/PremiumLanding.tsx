@@ -110,110 +110,6 @@ function ScrollProgress() {
   return <motion.div className="sales-scroll-progress" style={{ scaleX }} aria-hidden="true" />;
 }
 
-const chimeChains = [
-  { factor: 0.72, length: "7.2rem", tone: "blue" },
-  { factor: 1.08, length: "10.4rem", tone: "green" },
-  { factor: 0.88, length: "8.5rem", tone: "lime" },
-  { factor: 1.26, length: "11.7rem", tone: "green" },
-  { factor: 0.64, length: "6.7rem", tone: "blue" },
-] as const;
-
-function WindChime() {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const chains = Array.from(root.querySelectorAll<HTMLElement>(".sales-chime-chain"));
-
-    let frame: number | null = null;
-    let target = 0;
-    let current = 0;
-    let force = 0;
-    let lastMove = 0;
-    let lastX: number | null = null;
-    let lastTime = 0;
-
-    const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
-
-    const onPointerMove = (event: PointerEvent) => {
-      const now = performance.now();
-      const elapsed = Math.max(8, now - lastTime);
-      const deltaX = lastX === null ? event.movementX : event.clientX - lastX;
-      const velocity = deltaX / elapsed;
-      const positionBias = (event.clientX / window.innerWidth - 0.5) * 0.24;
-
-      target = clamp(velocity * 0.82 + positionBias, -1, 1);
-      force = clamp(Math.abs(velocity) * 0.72 + Math.abs(event.movementY) / 48, 0.08, 1);
-      lastMove = now;
-      lastX = event.clientX;
-      lastTime = now;
-
-      if (frame === null) frame = window.requestAnimationFrame(tick);
-    };
-
-    const tick = (time: number) => {
-      if (time - lastMove > 260) {
-        target *= 0.91;
-        force *= 0.9;
-      }
-      current += (target - current) * 0.13;
-      root.style.setProperty("--wind-energy", force.toFixed(3));
-      chains.forEach((chain) => {
-        const factor = Number(chain.dataset.factor ?? 1);
-        chain.style.transform = `translate3d(${(current * 28 * factor).toFixed(3)}px, ${(-force * 6 * factor).toFixed(3)}px, 0) rotate(${(current * 15 * factor).toFixed(3)}deg)`;
-      });
-
-      if (Math.abs(target) > 0.002 || Math.abs(current) > 0.003 || force > 0.01) {
-        frame = window.requestAnimationFrame(tick);
-      } else {
-        frame = null;
-        root.style.setProperty("--wind-energy", "0");
-        chains.forEach((chain) => {
-          chain.style.transform = "";
-        });
-      }
-    };
-
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onPointerMove);
-      if (frame !== null) window.cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  return (
-    <div ref={rootRef} className="sales-wind-chime" aria-hidden="true" data-wind-chime>
-      <div className="sales-chime-rail">
-        <span />
-      </div>
-      <div className="sales-chime-chains">
-        {chimeChains.map(({ factor, length, tone }, index) => (
-          <div
-            className={`sales-chime-chain sales-chime-chain-${tone}`}
-            data-factor={factor}
-            key={`${tone}-${length}`}
-            style={
-              {
-                "--factor": factor,
-                "--chain-length": length,
-                "--chain-delay": `${index * -0.37}s`,
-              } as React.CSSProperties
-            }
-          >
-            <div className="sales-chime-string">
-              <span className="sales-chime-line" />
-              <i className="sales-chime-bead" />
-              <b className="sales-chime-tube" />
-              <em className="sales-chime-drop" />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function PrimaryButton({ source, children }: { source: string; children: React.ReactNode }) {
   return (
     <button
@@ -300,7 +196,6 @@ function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
-          <WindChime />
           <div className="sales-cubes-stage">
             <Cubes
               gridSize={7}
@@ -312,27 +207,6 @@ function Hero() {
               rippleColor="#c96c4c"
               rippleSpeed={1.9}
             />
-          </div>
-          <div className="sales-cubes-hint" aria-hidden="true">
-            <span /> Pohnite kurzorom
-          </div>
-          <div className="sales-hero-console">
-            <div className="sales-hero-console-head">
-              <span>
-                <i /> Automatizovaný dopyt
-              </span>
-              <b>24/7</b>
-            </div>
-            <strong>Odhad ceny za 60 sekúnd.</strong>
-            <p>Tri odpovede → hotový kontakt pre obchod.</p>
-            <div className="sales-hero-console-chips" aria-label="Výstupy nástroja">
-              <span>
-                <Calculator size={14} /> Cena vypočítaná
-              </span>
-              <span>
-                <CircleCheck size={14} /> Kontakt zachytený
-              </span>
-            </div>
           </div>
         </motion.div>
       </div>

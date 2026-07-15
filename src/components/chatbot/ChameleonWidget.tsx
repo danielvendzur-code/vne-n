@@ -16,6 +16,8 @@ const isGoalPreset = (value: string | undefined): value is Exclude<GoalId, "comb
 export function ChameleonWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<WidgetMode>("assistant");
+  const [teaserVisible, setTeaserVisible] = useState(false);
+  const [teaserDismissed, setTeaserDismissed] = useState(false);
   const [resetToken, setResetToken] = useState(0);
   const [preset, setPreset] = useState<GoalId | null>(null);
   const panelRef = useRef<HTMLElement>(null);
@@ -31,6 +33,7 @@ export function ChameleonWidget() {
     setMode(nextMode);
     setPreset(nextPreset);
     setResetToken((value) => value + 1);
+    setTeaserVisible(false);
     setIsOpen(true);
   }, []);
 
@@ -51,7 +54,13 @@ export function ChameleonWidget() {
   }, [open]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (teaserDismissed || isOpen) return;
+    const timer = window.setTimeout(() => setTeaserVisible(true), 1_100);
+    return () => window.clearTimeout(timer);
+  }, [isOpen, teaserDismissed]);
+
+  useEffect(() => {
+    if (!isOpen || !window.matchMedia("(max-width: 520px)").matches) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
@@ -61,6 +70,32 @@ export function ChameleonWidget() {
 
   return (
     <div className="cw-widget" data-phase={phase}>
+      {teaserVisible && !isOpen ? (
+        <aside className="cw-teaser" data-testid="widget-teaser">
+          <button
+            type="button"
+            className="cw-teaser__close"
+            aria-label="Zavrieť tip"
+            onClick={() => {
+              setTeaserVisible(false);
+              setTeaserDismissed(true);
+            }}
+          >
+            ×
+          </button>
+          <button type="button" className="cw-teaser__content" onClick={() => open("calculator")}>
+            <small className="cw-teaser__eyebrow">
+              <i /> Webový asistent
+            </small>
+            <strong>Zistite, čo môže váš web zjednodušiť</strong>
+            <span className="cw-teaser__copy">
+              Otvorte <b>krátky konfigurátor</b> — základ návrhu máte do minúty. <b>Asistent</b>
+              poradí ďalší krok.
+            </span>
+          </button>
+        </aside>
+      ) : null}
+
       <button
         id="chameleon-widget-launcher"
         data-testid="widget-launcher"

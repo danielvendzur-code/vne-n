@@ -10,7 +10,7 @@
 }
 
 .rb-cubes__scene {
-  width: min(100%, 50rem);
+  width: min(100%, 66rem);
   aspect-ratio: 1;
   display: grid;
   perspective: 900px;
