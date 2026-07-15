@@ -1,0 +1,98 @@
+.rb-line-sidebar {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rb-line-sidebar--markers {
+  padding-left: calc(var(--line-marker-length) + var(--line-marker-gap));
+}
+
+.rb-line-sidebar__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--line-item-gap);
+  margin: 0;
+  padding: 0.75rem 0;
+  list-style: none;
+}
+
+.rb-line-sidebar__item {
+  --line-effect: 0;
+  position: relative;
+}
+
+.rb-line-sidebar__item::before {
+  content: "";
+  position: absolute;
+  inset: -8px -42px;
+  pointer-events: none;
+}
+
+.rb-line-sidebar__label {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  color: color-mix(in srgb, var(--line-accent) calc(var(--line-effect) * 100%), var(--line-text));
+  font-size: var(--line-font-size);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-decoration: none;
+  transform: translate3d(calc(var(--line-effect) * var(--line-max-shift)), 0, 0);
+  will-change: transform;
+}
+
+.rb-line-sidebar__index {
+  min-width: 2.25rem;
+  margin-right: 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.64em;
+  font-weight: 500;
+  letter-spacing: 0;
+  opacity: calc(0.5 + var(--line-effect) * 0.5);
+}
+
+.rb-line-sidebar__marker {
+  position: absolute;
+  top: 50%;
+  left: calc(-1 * var(--line-marker-length) - var(--line-marker-gap));
+  width: var(--line-marker-length);
+  height: 1px;
+  background-color: color-mix(
+    in srgb,
+    var(--line-accent) calc(var(--line-effect) * 100%),
+    var(--line-marker)
+  );
+  transform: translateY(-50%) scaleX(calc(0.66 + var(--line-effect) * 0.42));
+  transform-origin: left center;
+}
+
+.rb-line-sidebar--markers .rb-line-sidebar__item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + var(--line-item-gap) / 2);
+  left: calc(-1 * var(--line-marker-length) - var(--line-marker-gap));
+  width: calc(var(--line-marker-length) * var(--line-tick-scale));
+  height: 1px;
+  background: var(--line-marker);
+  opacity: 0.55;
+  transform: translateY(-50%);
+}
+
+.rb-line-sidebar--scale-tick .rb-line-sidebar__item:not(:last-child)::after {
+  transform: translateY(-50%) scaleX(calc(0.72 + var(--line-effect) * 0.55));
+  transform-origin: left center;
+}
+
+.rb-line-sidebar__label:focus-visible {
+  border-radius: 0.25rem;
+  outline: 2px solid var(--line-accent);
+  outline-offset: 7px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-line-sidebar__label {
+    will-change: auto;
+  }
+}

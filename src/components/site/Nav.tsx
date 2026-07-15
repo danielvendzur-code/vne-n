@@ -1,12 +1,30 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Mail } from "lucide-react";
+import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
 import { Symbol } from "@/components/Symbol";
 import { siteConfig } from "@/config/site";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import "./Nav.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+const drawerItems: LineSidebarItem[] = [
+  { label: "Úvod", href: `${baseUrl}#uvod` },
+  { label: "Prečo automatizovať", href: `${baseUrl}#porovnanie` },
+  { label: "Riešenia na mieru", href: `${baseUrl}#nastroje` },
+  { label: "DERAT v praxi", href: `${baseUrl}#realizacie` },
+  { label: "Vyskúšať kalkulačku", href: `${baseUrl}#vyskusat` },
+  { label: "Ako spolupracujeme", href: `${baseUrl}#spolupraca` },
+];
 
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const drawerRef = useRef<HTMLElement>(null);
+  const closeMenu = useCallback(() => setOpen(false), []);
+
+  useFocusTrap(drawerRef, open, closeMenu);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -17,24 +35,23 @@ export function Nav() {
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
+    const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    document.addEventListener("keydown", onKey);
+    document.body.dataset.siteMenuOpen = "true";
     return () => {
-      document.body.style.overflow = prev;
-      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previous;
+      delete document.body.dataset.siteMenuOpen;
     };
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 py-3 md:py-4 pointer-events-none">
-      <div
-        className="container-page flex items-center justify-between h-13 md:h-15"
-        style={{ height: undefined }}
-      >
+    <header
+      className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
+      style={{ zIndex: open ? 90 : 40 }}
+    >
+      <div className="container-page flex items-center justify-between h-13 md:h-15">
         <div
-          className="flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"
+          className="site-header-bar flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"
           style={{
             minHeight: 56,
             backgroundColor: scrolled
@@ -50,7 +67,7 @@ export function Nav() {
             <Symbol size={34} />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8" aria-label="Rýchla navigácia">
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.to}
@@ -73,58 +90,81 @@ export function Nav() {
               Nezáväzná konzultácia
             </button>
             <button
-              onClick={() => setOpen((v) => !v)}
+              onClick={() => setOpen((value) => !value)}
               aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
               aria-expanded={open}
-              className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-              style={{
-                border: "1px solid var(--border-strong)",
-                backgroundColor: "var(--surface)",
-                // @ts-expect-error CSS var
-                "--tw-ring-color": "var(--primary)",
-                "--tw-ring-offset-color": "var(--background)",
-              }}
+              aria-controls="site-navigation-drawer"
+              className="site-menu-toggle"
             >
+              <span>Menu</span>
               <MenuIcon open={open} />
             </button>
           </div>
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden pointer-events-auto">
-          <div
-            className="container-page mt-2 py-4 flex flex-col gap-1 rounded-[18px]"
-            style={{
-              backgroundColor: "var(--surface)",
-              border: "1px solid var(--border)",
-              boxShadow: "0 18px 48px rgba(16, 38, 31, 0.12)",
-            }}
-          >
-            {siteConfig.nav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={() => setOpen(false)}
-                className="py-2.5 text-base"
-                style={{ color: "var(--text-primary)" }}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <button
-              onClick={() => {
-                setOpen(false);
-                openSiteAssistant({ source: "nav-mobile" });
-              }}
-              className="mt-3 rounded-[10px] px-4 py-3 text-sm font-medium text-left"
-              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
-            >
-              Nezáväzná konzultácia
+      <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
+        <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
+        <aside
+          id="site-navigation-drawer"
+          ref={drawerRef}
+          className="site-menu-drawer"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigácia"
+          tabIndex={-1}
+        >
+          <div className="site-menu-glow" aria-hidden="true" />
+          <div className="site-menu-head">
+            <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
+              <Symbol size={38} />
+              <span>
+                Digitálne nástroje
+                <small>na mieru</small>
+              </span>
+            </Link>
+            <button className="site-menu-close" type="button" onClick={closeMenu}>
+              Zavrieť <MenuIcon open />
             </button>
           </div>
-        </div>
-      )}
+
+          <div className="site-menu-content">
+            <p className="site-menu-eyebrow">Prejdite priamo k tomu podstatnému</p>
+            <LineSidebar items={drawerItems} onItemClick={closeMenu} />
+          </div>
+
+          <div className="site-menu-footer">
+            <div className="site-menu-routes" aria-label="Ďalšie stránky">
+              <Link to="/sluzby" onClick={closeMenu}>
+                Služby <ArrowUpRight size={14} />
+              </Link>
+              <Link to="/projekty" onClick={closeMenu}>
+                Projekty <ArrowUpRight size={14} />
+              </Link>
+              <Link to="/postup" onClick={closeMenu}>
+                Postup <ArrowUpRight size={14} />
+              </Link>
+            </div>
+            <button
+              className="site-menu-cta"
+              type="button"
+              onClick={() => {
+                closeMenu();
+                window.setTimeout(() => openSiteAssistant({ source: "sidebar" }), 120);
+              }}
+            >
+              <span>
+                <small>Máte nápad?</small>
+                Prejdime si ho spolu
+              </span>
+              <ArrowUpRight size={20} />
+            </button>
+            <a className="site-menu-email" href="mailto:info@webko.sk">
+              <Mail size={14} /> info@webko.sk
+            </a>
+          </div>
+        </aside>
+      </div>
     </header>
   );
 }
@@ -137,7 +177,7 @@ function MenuIcon({ open }: { open: boolean }) {
         y1="7"
         x2="15"
         y2="7"
-        stroke="var(--text-primary)"
+        stroke="currentColor"
         strokeWidth="1.4"
         strokeLinecap="round"
         style={{
@@ -151,7 +191,7 @@ function MenuIcon({ open }: { open: boolean }) {
         y1="11"
         x2="15"
         y2="11"
-        stroke="var(--text-primary)"
+        stroke="currentColor"
         strokeWidth="1.4"
         strokeLinecap="round"
         style={{

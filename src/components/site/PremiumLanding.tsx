@@ -21,6 +21,7 @@ import {
   X,
   Zap,
 } from "lucide-react";
+import { Cubes } from "@/components/effects/Cubes";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
@@ -248,7 +249,7 @@ function Hero() {
   const [focus, setFocus] = useState<"chat" | "price">("price");
 
   return (
-    <section className="sales-hero">
+    <section className="sales-hero" id="uvod">
       <div className="sales-hero-orb sales-hero-orb-one" aria-hidden="true" />
       <div className="sales-hero-orb sales-hero-orb-two" aria-hidden="true" />
       <WindChime />
@@ -311,6 +312,21 @@ function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
+          <div className="sales-cubes-stage">
+            <Cubes
+              gridSize={8}
+              maxAngle={48}
+              radius={3.4}
+              cellGap={{ row: 7, col: 7 }}
+              faceColor="#173f3b"
+              borderStyle="1px solid rgba(216, 244, 234, 0.26)"
+              rippleColor="#c96c4c"
+              rippleSpeed={1.9}
+            />
+          </div>
+          <div className="sales-cubes-hint" aria-hidden="true">
+            <span /> Reaguje na pohyb
+          </div>
           <div className="sales-hero-browser">
             <div className="sales-browser-bar">
               <div>
