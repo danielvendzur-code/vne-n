@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import {
   ArrowRight,
   Bot,
@@ -100,6 +100,109 @@ const processSteps = [
   },
 ];
 
+const heroProofs = [
+  "Na mieru vašej logike",
+  "Odpoveď zákazníkovi 24/7",
+  "Mobil aj desktop",
+] as const;
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 150,
+    damping: 28,
+    mass: 0.24,
+  });
+
+  return <motion.div className="sales-scroll-progress" style={{ scaleX }} aria-hidden="true" />;
+}
+
+const chimeChains = [
+  { factor: 0.72, length: "7.2rem", tone: "blue" },
+  { factor: 1.08, length: "10.4rem", tone: "green" },
+  { factor: 0.88, length: "8.5rem", tone: "lime" },
+  { factor: 1.26, length: "11.7rem", tone: "green" },
+  { factor: 0.64, length: "6.7rem", tone: "blue" },
+] as const;
+
+function WindChime() {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const chains = Array.from(root.querySelectorAll<HTMLElement>(".sales-chime-chain"));
+
+    let frame = 0;
+    let target = 0;
+    let current = 0;
+    let force = 0;
+    let lastMove = 0;
+
+    const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+    const onPointerMove = (event: PointerEvent) => {
+      const directional = event.movementX / 34;
+      const positionBias = (event.clientX / window.innerWidth - 0.5) * 0.18;
+      target = clamp(directional + positionBias, -1, 1);
+      force = clamp(Math.hypot(event.movementX, event.movementY) / 36, 0, 1);
+      lastMove = performance.now();
+    };
+
+    const tick = (time: number) => {
+      if (time - lastMove > 110) {
+        target *= 0.94;
+        force *= 0.93;
+      }
+      current += (target - current) * 0.095;
+      root.style.setProperty("--wind-energy", force.toFixed(3));
+      chains.forEach((chain) => {
+        const factor = Number(chain.dataset.factor ?? 1);
+        chain.style.transform = `translate3d(${(current * 18 * factor).toFixed(3)}px, ${(-force * 4 * factor).toFixed(3)}px, 0) rotate(${(current * 10 * factor).toFixed(3)}deg)`;
+      });
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    frame = window.requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return (
+    <div ref={rootRef} className="sales-wind-chime" aria-hidden="true" data-wind-chime>
+      <div className="sales-chime-rail">
+        <span />
+      </div>
+      <div className="sales-chime-chains">
+        {chimeChains.map(({ factor, length, tone }, index) => (
+          <div
+            className={`sales-chime-chain sales-chime-chain-${tone}`}
+            data-factor={factor}
+            key={`${tone}-${length}`}
+            style={
+              {
+                "--factor": factor,
+                "--chain-length": length,
+                "--chain-delay": `${index * -0.37}s`,
+              } as React.CSSProperties
+            }
+          >
+            <div className="sales-chime-string">
+              <span className="sales-chime-line" />
+              <i className="sales-chime-bead" />
+              <b className="sales-chime-tube" />
+              <em className="sales-chime-drop" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function PrimaryButton({ source, children }: { source: string; children: React.ReactNode }) {
   return (
     <button
@@ -148,6 +251,7 @@ function Hero() {
     <section className="sales-hero">
       <div className="sales-hero-orb sales-hero-orb-one" aria-hidden="true" />
       <div className="sales-hero-orb sales-hero-orb-two" aria-hidden="true" />
+      <WindChime />
       <div className="container-page sales-hero-grid">
         <motion.div
           className="sales-hero-copy"
@@ -171,17 +275,33 @@ function Hero() {
               Ukážte mi rozdiel <ChevronRight size={17} aria-hidden="true" />
             </a>
           </div>
-          <div className="sales-hero-proof" aria-label="Hlavné výhody">
-            <span>
-              <CircleCheck size={16} /> Na mieru vašej logike
-            </span>
-            <span>
-              <CircleCheck size={16} /> Funguje 24/7
-            </span>
-            <span>
-              <CircleCheck size={16} /> Mobil aj desktop
-            </span>
-          </div>
+          <motion.div
+            className="sales-hero-proof"
+            aria-label="Hlavné výhody"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { delayChildren: 0.45, staggerChildren: 0.09 } },
+            }}
+          >
+            {heroProofs.map((proof) => (
+              <motion.span
+                key={proof}
+                variants={{
+                  hidden: { opacity: 0, y: 14, scale: 0.96 },
+                  visible: { opacity: 1, y: 0, scale: 1 },
+                }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -3 }}
+              >
+                <i aria-hidden="true">
+                  <CircleCheck size={15} />
+                </i>
+                {proof}
+              </motion.span>
+            ))}
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -208,12 +328,36 @@ function Hero() {
                 <p>Stačia 3 krátke odpovede.</p>
               </div>
               <div className="sales-browser-chips">
-                <button onClick={() => setFocus("price")} data-active={focus === "price"}>
-                  Vypočítať cenu
-                </button>
-                <button onClick={() => setFocus("chat")} data-active={focus === "chat"}>
-                  Poradiť s výberom
-                </button>
+                <motion.button
+                  onClick={() => setFocus("price")}
+                  data-active={focus === "price"}
+                  aria-pressed={focus === "price"}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  {focus === "price" ? (
+                    <motion.i
+                      className="sales-browser-chip-active"
+                      layoutId="hero-chip-focus"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    />
+                  ) : null}
+                  <span>Vypočítať cenu</span>
+                </motion.button>
+                <motion.button
+                  onClick={() => setFocus("chat")}
+                  data-active={focus === "chat"}
+                  aria-pressed={focus === "chat"}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  {focus === "chat" ? (
+                    <motion.i
+                      className="sales-browser-chip-active"
+                      layoutId="hero-chip-focus"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    />
+                  ) : null}
+                  <span>Poradiť s výberom</span>
+                </motion.button>
               </div>
             </div>
           </div>
@@ -322,16 +466,38 @@ function ImpactSwitch() {
             role="group"
             aria-label="Porovnanie webu bez nástroja a s nástrojom"
           >
-            <button
+            <motion.button
               type="button"
               data-active={mode === "without"}
+              aria-pressed={mode === "without"}
               onClick={() => setMode("without")}
+              whileTap={{ scale: 0.98 }}
             >
-              Bez nástroja
-            </button>
-            <button type="button" data-active={mode === "with"} onClick={() => setMode("with")}>
-              S chatbotom + kalkulačkou
-            </button>
+              {mode === "without" ? (
+                <motion.span
+                  className="sales-impact-switch-highlight"
+                  layoutId="impact-switch-highlight"
+                  transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                />
+              ) : null}
+              <b>Bez nástroja</b>
+            </motion.button>
+            <motion.button
+              type="button"
+              data-active={mode === "with"}
+              aria-pressed={mode === "with"}
+              onClick={() => setMode("with")}
+              whileTap={{ scale: 0.98 }}
+            >
+              {mode === "with" ? (
+                <motion.span
+                  className="sales-impact-switch-highlight"
+                  layoutId="impact-switch-highlight"
+                  transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                />
+              ) : null}
+              <b>S chatbotom + kalkulačkou</b>
+            </motion.button>
           </div>
 
           <div className="sales-impact-grid">
@@ -560,13 +726,17 @@ function ToolShowcase() {
         />
         <div className="sales-tools-layout">
           <div className="sales-tool-list">
-            {tools.map(({ key, number, eyebrow, title, copy, value, Icon }) => (
-              <article
+            {tools.map(({ key, number, eyebrow, title, copy, value, Icon }, index) => (
+              <motion.article
                 key={key}
                 className="sales-tool-row"
                 data-tool={key}
                 data-active={active === key}
                 onMouseEnter={() => setActive(key)}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -28 : 28 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-90px" }}
+                transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
               >
                 <div className="sales-tool-index">{number}</div>
                 <div className="sales-tool-content">
@@ -586,7 +756,7 @@ function ToolShowcase() {
                     </ul>
                   </div>
                 </div>
-              </article>
+              </motion.article>
             ))}
           </div>
           <div className="sales-tool-sticky">
@@ -935,6 +1105,7 @@ function FinalContact() {
 export function PremiumLanding() {
   return (
     <>
+      <ScrollProgress />
       <Hero />
       <ImpactSwitch />
       <ToolShowcase />

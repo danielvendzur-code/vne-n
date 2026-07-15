@@ -416,12 +416,59 @@
   visibility: hidden;
 }
 
-.case-frame img {
+.case-frame-ambient {
+  position: absolute;
+  inset: -2rem;
+  overflow: hidden;
+  background: #d6d3ce;
+}
+
+.case-frame-ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(6, 30, 24, 0.16),
+      transparent 28%,
+      transparent 72%,
+      rgba(6, 30, 24, 0.16)
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(6, 30, 24, 0.18),
+      transparent 25%,
+      transparent 70%,
+      rgba(6, 30, 24, 0.22)
+    );
+}
+
+.case-frame-ambient img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: blur(26px) saturate(0.82);
+  opacity: 0.52;
+  transform: scale(1.12);
+}
+
+.case-frame-photo {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  will-change: transform;
+}
+
+.case-frame-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   object-position: center;
   image-rendering: auto;
+  filter: drop-shadow(0 28px 34px rgba(6, 30, 24, 0.22));
   backface-visibility: hidden;
 }
 
@@ -3226,5 +3273,483 @@
 
   .case-frame-dots {
     display: none;
+  }
+}
+
+/* ---- Motion polish inspired by scroll-synchronised animation systems ---- */
+
+.sales-scroll-progress {
+  position: fixed;
+  z-index: 70;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--primary), var(--highlight), var(--accent));
+  box-shadow: 0 2px 14px rgba(0, 166, 122, 0.26);
+  transform-origin: left center;
+}
+
+.sales-availability span {
+  animation: sales-availability-pulse 2.4s ease-in-out infinite;
+}
+
+.sales-hero-orb-one {
+  animation: sales-orb-drift 10s ease-in-out infinite alternate;
+}
+
+.sales-hero-proof {
+  gap: 0.55rem;
+}
+
+.sales-hero-proof > span {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 2.35rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 18%, var(--border));
+  border-radius: 999px;
+  padding: 0.38rem 0.72rem 0.38rem 0.42rem;
+  background: color-mix(in oklab, var(--surface) 82%, transparent);
+  box-shadow: 0 9px 24px rgba(6, 30, 24, 0.06);
+  backdrop-filter: blur(12px);
+  transition:
+    border-color 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out);
+}
+
+.sales-hero-proof > span::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(184, 255, 102, 0.23), transparent 68%);
+  transform: translateX(-115%);
+  transition: transform 520ms var(--ease-out);
+}
+
+.sales-hero-proof > span:hover {
+  border-color: color-mix(in oklab, var(--primary) 42%, var(--border));
+  box-shadow: 0 14px 30px rgba(6, 30, 24, 0.1);
+}
+
+.sales-hero-proof > span:hover::after {
+  transform: translateX(115%);
+}
+
+.sales-hero-proof > span i {
+  display: grid;
+  width: 1.55rem;
+  height: 1.55rem;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--primary) 10%, var(--surface));
+  color: var(--primary);
+}
+
+.sales-button-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.sales-button-primary::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -40% auto -40% -45%;
+  width: 34%;
+  background: rgba(255, 255, 255, 0.24);
+  filter: blur(10px);
+  transform: skewX(-18deg);
+  transition: left 520ms var(--ease-out);
+}
+
+.sales-button-primary:hover::before {
+  left: 118%;
+}
+
+.sales-browser-chips button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.sales-browser-chips button > span {
+  position: relative;
+  z-index: 2;
+}
+
+.sales-browser-chip-active {
+  position: absolute;
+  z-index: 1;
+  inset: 3px;
+  border-radius: inherit;
+  background: var(--highlight);
+  box-shadow:
+    0 8px 20px rgba(184, 255, 102, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.sales-browser-chips button[data-active="true"] {
+  border-color: transparent;
+  background: transparent;
+  color: var(--primary-dark);
+}
+
+.sales-impact-switch button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: transparent;
+}
+
+.sales-impact-switch button b {
+  position: relative;
+  z-index: 2;
+  font-weight: 750;
+}
+
+.sales-impact-switch button[data-active="true"] {
+  background: transparent;
+  box-shadow: none;
+}
+
+.sales-impact-switch-highlight {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--primary-dark);
+  box-shadow:
+    0 9px 24px rgba(6, 30, 24, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.case-stage {
+  background: #c9d0cc;
+  box-shadow:
+    0 48px 100px rgba(4, 21, 16, 0.36),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.case-stage::after {
+  content: "";
+  position: absolute;
+  z-index: 11;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.13);
+}
+
+.case-frame-dots {
+  gap: 0.48rem;
+}
+
+.case-frame-dots i {
+  width: 0.5rem;
+  height: 0.22rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.case-progress-track {
+  overflow: hidden;
+  height: 3px;
+  border-radius: 999px;
+}
+
+.case-progress-track span {
+  background: linear-gradient(90deg, var(--accent), var(--highlight));
+  box-shadow: 0 0 16px rgba(184, 255, 102, 0.36);
+}
+
+.case-copy-step {
+  will-change: transform, opacity;
+}
+
+@media (min-width: 1051px) and (max-height: 820px) {
+  .sales-hero {
+    padding-top: 1.7rem;
+  }
+
+  .sales-hero-grid {
+    gap: clamp(2.2rem, 5vw, 5rem);
+  }
+
+  .sales-hero-copy h1 {
+    max-width: 12.4ch;
+    font-size: clamp(3.8rem, 5.6vw, 4.75rem);
+  }
+
+  .sales-availability {
+    margin-bottom: 1rem;
+  }
+
+  .sales-hero-copy > p {
+    margin-top: 1.2rem;
+    font-size: 1.04rem;
+  }
+
+  .sales-hero-actions {
+    margin-top: 1.35rem;
+  }
+
+  .sales-hero-proof {
+    margin-top: 1rem;
+  }
+
+  .sales-hero-visual {
+    min-height: 29.5rem;
+  }
+
+  .sales-hero-browser {
+    inset: 1rem 1rem 3.4rem 0;
+  }
+
+  .sales-browser-body {
+    min-height: 19rem;
+    padding-block: 2.1rem 1.8rem;
+  }
+
+  .sales-floating-card {
+    top: 7.8rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .sales-scroll-progress {
+    height: 2px;
+  }
+
+  .sales-hero-proof {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sales-hero-proof > span {
+    min-width: 0;
+    padding-right: 0.55rem;
+  }
+
+  .sales-hero-proof > span:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sales-availability span,
+  .sales-hero-orb-one {
+    animation: none;
+  }
+}
+
+@keyframes sales-availability-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 5px color-mix(in oklab, var(--highlight) 18%, transparent);
+  }
+  50% {
+    transform: scale(1.14);
+    box-shadow: 0 0 0 9px color-mix(in oklab, var(--highlight) 5%, transparent);
+  }
+}
+
+@keyframes sales-orb-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-2rem, 1.2rem, 0) scale(1.06);
+  }
+}
+
+/* Interactive wind chime: pointer-driven transforms are applied inline. */
+
+.sales-wind-chime {
+  --wind-energy: 0;
+  position: absolute;
+  z-index: 0;
+  top: -0.6rem;
+  right: clamp(1rem, 4vw, 4rem);
+  width: clamp(15rem, 25vw, 22rem);
+  height: 14rem;
+  pointer-events: none;
+  opacity: 0.7;
+  filter: drop-shadow(0 18px 26px rgba(6, 30, 24, 0.08));
+  mask-image: linear-gradient(to bottom, black 76%, transparent);
+}
+
+.sales-chime-rail {
+  position: absolute;
+  top: 0;
+  left: 4%;
+  right: 4%;
+  height: 1.55rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 22%, transparent);
+  border-radius: 0 0 999px 999px;
+  background: color-mix(in oklab, var(--surface) 68%, transparent);
+  box-shadow:
+    inset 0 -6px 14px rgba(6, 30, 24, 0.05),
+    0 8px 22px rgba(6, 30, 24, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.sales-chime-rail::before,
+.sales-chime-rail::after,
+.sales-chime-rail span {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--primary) 8%, transparent);
+  transform: translateY(-50%);
+}
+
+.sales-chime-rail::before {
+  left: 13%;
+}
+
+.sales-chime-rail span {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.sales-chime-rail::after {
+  right: 13%;
+}
+
+.sales-chime-chains {
+  position: absolute;
+  top: 1rem;
+  left: 7%;
+  right: 7%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+}
+
+.sales-chime-chain {
+  width: 2.4rem;
+  height: var(--chain-length);
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+
+.sales-chime-string {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 0;
+  animation: sales-chime-idle 4.8s ease-in-out var(--chain-delay) infinite alternate;
+}
+
+.sales-chime-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: calc(100% - 1.25rem);
+  background: linear-gradient(to bottom, rgba(6, 30, 24, 0.04), rgba(0, 166, 122, 0.36));
+  transform: translateX(-50%);
+}
+
+.sales-chime-bead {
+  position: absolute;
+  top: 37%;
+  left: 50%;
+  width: 0.56rem;
+  height: 0.56rem;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--primary) 62%, white);
+  box-shadow: 0 4px 12px rgba(0, 166, 122, 0.22);
+  transform: translate(-50%, -50%);
+}
+
+.sales-chime-tube {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  width: 0.72rem;
+  height: 2.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.28),
+    currentColor,
+    rgba(255, 255, 255, 0.44)
+  );
+  box-shadow:
+    inset 0 0 8px rgba(255, 255, 255, 0.55),
+    0 8px 20px color-mix(in oklab, currentColor 24%, transparent);
+  color: var(--primary);
+  transform: translateX(-50%);
+}
+
+.sales-chime-chain-blue .sales-chime-tube,
+.sales-chime-chain-blue .sales-chime-bead {
+  color: var(--accent);
+  background-color: color-mix(in oklab, var(--accent) 58%, white);
+}
+
+.sales-chime-chain-lime .sales-chime-tube,
+.sales-chime-chain-lime .sales-chime-bead {
+  color: var(--highlight);
+  background-color: color-mix(in oklab, var(--highlight) 68%, white);
+}
+
+.sales-chime-drop {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0.82rem;
+  height: 1.05rem;
+  border: 1px solid color-mix(in oklab, currentColor 40%, white);
+  border-radius: 70% 30% 65% 35% / 68% 34% 66% 32%;
+  background: rgba(255, 255, 255, 0.34);
+  color: var(--primary);
+  box-shadow: inset 0 0 9px rgba(255, 255, 255, 0.75);
+  transform: translateX(-50%) rotate(45deg);
+  backdrop-filter: blur(5px);
+}
+
+@media (max-width: 1050px) {
+  .sales-wind-chime {
+    right: -2rem;
+    width: 17rem;
+    opacity: 0.42;
+  }
+}
+
+@media (max-width: 760px) {
+  .sales-wind-chime {
+    top: 0;
+    right: -5.5rem;
+    width: 14rem;
+    height: 10rem;
+    opacity: 0.28;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sales-chime-string {
+    animation: none;
+  }
+}
+
+@keyframes sales-chime-idle {
+  from {
+    transform: rotate(-1.3deg) translateY(0);
+  }
+  to {
+    transform: rotate(1.3deg) translateY(-1px);
   }
 }

@@ -75,21 +75,27 @@ export function DeratScrollStory() {
 
     media.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
       const images = gsap.utils.toArray<HTMLElement>("[data-case-frame]", root);
+      const photos = gsap.utils.toArray<HTMLElement>("[data-case-photo]", root);
       const captions = gsap.utils.toArray<HTMLElement>("[data-case-caption]", root);
       const dots = gsap.utils.toArray<HTMLElement>("[data-case-dot]", root);
+      const copySteps = gsap.utils.toArray<HTMLElement>(".case-copy-step", root);
       const progress = root.querySelector<HTMLElement>("[data-case-progress]");
       const story = root.querySelector<HTMLElement>(".case-story-desktop");
       if (!story || !images.length) return;
 
       gsap.set(images, { autoAlpha: 0, zIndex: 1, clipPath: "inset(0 0 0 0)" });
+      gsap.set(photos, { yPercent: 0 });
       gsap.set(captions, { autoAlpha: 0, x: 0 });
-      gsap.set(dots, { opacity: 0.32, scale: 1 });
+      gsap.set(dots, { opacity: 0.26, scaleX: 1, transformOrigin: "center" });
+      gsap.set(copySteps, { opacity: 0.32, y: 12 });
       gsap.set(images[0], { autoAlpha: 1, zIndex: 2 });
       gsap.set(captions[0], { autoAlpha: 1 });
-      gsap.set(dots[0], { opacity: 1, scale: 1.35 });
-      if (progress) gsap.set(progress, { scaleX: 0.125, transformOrigin: "left center" });
+      gsap.set(dots[0], { opacity: 1, scaleX: 2.8 });
+      gsap.set(copySteps[0], { opacity: 1, y: 0 });
+      if (progress) gsap.set(progress, { scaleX: 0.04, transformOrigin: "left center" });
 
       let activeIndex = 0;
+      let activeChapter = 0;
       const showFrame = (nextIndex: number, direction: number) => {
         if (nextIndex === activeIndex) return;
 
@@ -98,10 +104,11 @@ export function DeratScrollStory() {
           images[nextIndex],
           captions[activeIndex],
           captions[nextIndex],
+          photos[nextIndex],
         ]);
         gsap.set(images[activeIndex], { autoAlpha: 0, zIndex: 1, clipPath: "inset(0 0 0 0)" });
         gsap.set(captions[activeIndex], { autoAlpha: 0, x: 0 });
-        gsap.set(dots, { opacity: 0.32, scale: 1 });
+        gsap.set(dots, { opacity: 0.26, scaleX: 1 });
 
         gsap.fromTo(
           images[nextIndex],
@@ -117,8 +124,25 @@ export function DeratScrollStory() {
           { autoAlpha: 0, x: direction >= 0 ? 12 : -12 },
           { autoAlpha: 1, x: 0, duration: 0.24, ease: "power2.out" },
         );
-        gsap.set(dots[nextIndex], { opacity: 1, scale: 1.35 });
+        gsap.fromTo(
+          photos[nextIndex],
+          { yPercent: direction >= 0 ? 2.2 : -2.2 },
+          { yPercent: 0, duration: 0.34, ease: "power3.out" },
+        );
+        gsap.to(dots[nextIndex], { opacity: 1, scaleX: 2.8, duration: 0.24 });
         activeIndex = nextIndex;
+      };
+
+      const showChapter = (nextChapter: number) => {
+        if (nextChapter === activeChapter) return;
+        gsap.to(copySteps[activeChapter], { opacity: 0.32, y: -10, duration: 0.22 });
+        gsap.to(copySteps[nextChapter], {
+          opacity: 1,
+          y: 0,
+          duration: 0.36,
+          ease: "power3.out",
+        });
+        activeChapter = nextChapter;
       };
 
       const trigger = ScrollTrigger.create({
@@ -127,9 +151,17 @@ export function DeratScrollStory() {
         end: "bottom bottom-=96",
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          const nextIndex = Math.min(images.length - 1, Math.floor(self.progress * images.length));
+          const nextIndex = Math.min(
+            images.length - 1,
+            Math.round(self.progress * (images.length - 1)),
+          );
+          const nextChapter = Math.min(
+            copySteps.length - 1,
+            Math.floor(self.progress * copySteps.length),
+          );
           showFrame(nextIndex, self.direction);
-          if (progress) gsap.set(progress, { scaleX: (nextIndex + 1) / images.length });
+          showChapter(nextChapter);
+          if (progress) gsap.set(progress, { scaleX: Math.max(0.04, self.progress) });
         },
       });
 
@@ -193,15 +225,20 @@ export function DeratScrollStory() {
             <div className="case-media-stack">
               {frames.map((frame, index) => (
                 <figure data-case-frame className="case-frame" key={frame.src}>
-                  <img
-                    src={frame.src}
-                    alt={frame.alt}
-                    width="900"
-                    height="1200"
-                    loading="eager"
-                    fetchPriority={index < 2 ? "high" : "auto"}
-                    decoding="async"
-                  />
+                  <div className="case-frame-ambient" aria-hidden="true">
+                    <img src={frame.src} alt="" width="900" height="1200" decoding="async" />
+                  </div>
+                  <div className="case-frame-photo" data-case-photo>
+                    <img
+                      src={frame.src}
+                      alt={frame.alt}
+                      width="900"
+                      height="1200"
+                      loading="eager"
+                      fetchPriority={index < 2 ? "high" : "auto"}
+                      decoding="async"
+                    />
+                  </div>
                 </figure>
               ))}
             </div>
