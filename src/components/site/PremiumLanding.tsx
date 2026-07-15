@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
+import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "motion/react";
 import {
   ArrowRight,
   Bot,
   Calculator,
   CalendarCheck,
   Check,
-  ChevronRight,
   CircleCheck,
   Clock3,
   FileText,
@@ -19,7 +18,6 @@ import {
   Target,
   Workflow,
   X,
-  Zap,
 } from "lucide-react";
 import { Cubes } from "@/components/effects/Cubes";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
@@ -101,12 +99,6 @@ const processSteps = [
   },
 ];
 
-const heroProofs = [
-  "Na mieru vašej logike",
-  "Odpoveď zákazníkovi 24/7",
-  "Mobil aj desktop",
-] as const;
-
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -134,41 +126,59 @@ function WindChime() {
     if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const chains = Array.from(root.querySelectorAll<HTMLElement>(".sales-chime-chain"));
 
-    let frame = 0;
+    let frame: number | null = null;
     let target = 0;
     let current = 0;
     let force = 0;
     let lastMove = 0;
+    let lastX: number | null = null;
+    let lastTime = 0;
 
     const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
     const onPointerMove = (event: PointerEvent) => {
-      const directional = event.movementX / 34;
-      const positionBias = (event.clientX / window.innerWidth - 0.5) * 0.18;
-      target = clamp(directional + positionBias, -1, 1);
-      force = clamp(Math.hypot(event.movementX, event.movementY) / 36, 0, 1);
-      lastMove = performance.now();
+      const now = performance.now();
+      const elapsed = Math.max(8, now - lastTime);
+      const deltaX = lastX === null ? event.movementX : event.clientX - lastX;
+      const velocity = deltaX / elapsed;
+      const positionBias = (event.clientX / window.innerWidth - 0.5) * 0.24;
+
+      target = clamp(velocity * 0.82 + positionBias, -1, 1);
+      force = clamp(Math.abs(velocity) * 0.72 + Math.abs(event.movementY) / 48, 0.08, 1);
+      lastMove = now;
+      lastX = event.clientX;
+      lastTime = now;
+
+      if (frame === null) frame = window.requestAnimationFrame(tick);
     };
 
     const tick = (time: number) => {
-      if (time - lastMove > 110) {
-        target *= 0.94;
-        force *= 0.93;
+      if (time - lastMove > 260) {
+        target *= 0.91;
+        force *= 0.9;
       }
-      current += (target - current) * 0.095;
+      current += (target - current) * 0.13;
       root.style.setProperty("--wind-energy", force.toFixed(3));
       chains.forEach((chain) => {
         const factor = Number(chain.dataset.factor ?? 1);
-        chain.style.transform = `translate3d(${(current * 18 * factor).toFixed(3)}px, ${(-force * 4 * factor).toFixed(3)}px, 0) rotate(${(current * 10 * factor).toFixed(3)}deg)`;
+        chain.style.transform = `translate3d(${(current * 28 * factor).toFixed(3)}px, ${(-force * 6 * factor).toFixed(3)}px, 0) rotate(${(current * 15 * factor).toFixed(3)}deg)`;
       });
-      frame = window.requestAnimationFrame(tick);
+
+      if (Math.abs(target) > 0.002 || Math.abs(current) > 0.003 || force > 0.01) {
+        frame = window.requestAnimationFrame(tick);
+      } else {
+        frame = null;
+        root.style.setProperty("--wind-energy", "0");
+        chains.forEach((chain) => {
+          chain.style.transform = "";
+        });
+      }
     };
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    frame = window.requestAnimationFrame(tick);
     return () => {
       window.removeEventListener("pointermove", onPointerMove);
-      window.cancelAnimationFrame(frame);
+      if (frame !== null) window.cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -230,8 +240,8 @@ function SectionHeading({
   return (
     <motion.div
       className={`sales-heading ${inverse ? "sales-heading-inverse" : ""}`}
-      initial={{ opacity: 0, x: -30 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-90px" }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
@@ -246,189 +256,83 @@ function SectionHeading({
 }
 
 function Hero() {
-  const [focus, setFocus] = useState<"chat" | "price">("price");
+  const rootRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: rootRef,
+    offset: ["start start", "end start"],
+  });
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, -24]);
+  const visualY = useTransform(scrollYProgress, [0, 1], [0, 42]);
+  const visualScale = useTransform(scrollYProgress, [0, 1], [1, 0.985]);
 
   return (
-    <section className="sales-hero" id="uvod">
+    <section ref={rootRef} className="sales-hero" id="uvod">
       <div className="sales-hero-orb sales-hero-orb-one" aria-hidden="true" />
       <div className="sales-hero-orb sales-hero-orb-two" aria-hidden="true" />
-      <WindChime />
       <div className="container-page sales-hero-grid">
         <motion.div
           className="sales-hero-copy"
-          initial={{ opacity: 0, x: -34 }}
+          style={{ y: copyY }}
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="sales-availability">
-            <span /> Prijímam nové projekty
+            <span /> Chatboty a kalkulačky na mieru
           </div>
           <h1>
-            Webové nástroje, ktoré z návštevníkov robia <em>zákazníkov.</em>
+            Viac dopytov. <em>Menej ručnej práce.</em>
           </h1>
-          <p>
-            Chatbot, cenová kalkulačka alebo konfigurátor na mieru — zákazník dostane odpoveď hneď a
-            vy hotový dopyt namiesto ďalšieho zisťovania.
-          </p>
+          <p>Odpovedia, nacenia a odovzdajú vám hotový kontakt — automaticky, 24/7.</p>
           <div className="sales-hero-actions">
-            <PrimaryButton source="hero-interest">Mám záujem o riešenie</PrimaryButton>
-            <a className="sales-button sales-button-ghost" href="#porovnanie">
-              Ukážte mi rozdiel <ChevronRight size={17} aria-hidden="true" />
+            <PrimaryButton source="hero-interest">Chcem viac dopytov</PrimaryButton>
+            <a className="sales-hero-link" href="#realizacie">
+              Pozrieť reálnu ukážku <ArrowRight size={15} aria-hidden="true" />
             </a>
           </div>
-          <motion.div
-            className="sales-hero-proof"
-            aria-label="Hlavné výhody"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { delayChildren: 0.45, staggerChildren: 0.09 } },
-            }}
-          >
-            {heroProofs.map((proof) => (
-              <motion.span
-                key={proof}
-                variants={{
-                  hidden: { opacity: 0, y: 14, scale: 0.96 },
-                  visible: { opacity: 1, y: 0, scale: 1 },
-                }}
-                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -3 }}
-              >
-                <i aria-hidden="true">
-                  <CircleCheck size={15} />
-                </i>
-                {proof}
-              </motion.span>
-            ))}
-          </motion.div>
         </motion.div>
 
         <motion.div
           className="sales-hero-visual"
           aria-label="Ukážka automatizovaného dopytu"
-          initial={{ opacity: 0, x: 42 }}
+          style={{ y: visualY, scale: visualScale }}
+          initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
+          <WindChime />
           <div className="sales-cubes-stage">
             <Cubes
-              gridSize={8}
-              maxAngle={48}
-              radius={3.4}
-              cellGap={{ row: 7, col: 7 }}
-              faceColor="#173f3b"
-              borderStyle="1px solid rgba(216, 244, 234, 0.26)"
+              gridSize={7}
+              maxAngle={50}
+              radius={3.1}
+              cellGap={{ row: 8, col: 8 }}
+              faceColor="#245d53"
+              borderStyle="1px solid rgba(225, 255, 244, 0.42)"
               rippleColor="#c96c4c"
               rippleSpeed={1.9}
             />
           </div>
           <div className="sales-cubes-hint" aria-hidden="true">
-            <span /> Reaguje na pohyb
+            <span /> Pohnite kurzorom
           </div>
-          <div className="sales-hero-browser">
-            <div className="sales-browser-bar">
-              <div>
-                <i />
-                <i />
-                <i />
-              </div>
-              <span>vášweb.sk / dopyt</span>
-              <Zap size={15} />
+          <div className="sales-hero-console">
+            <div className="sales-hero-console-head">
+              <span>
+                <i /> Automatizovaný dopyt
+              </span>
+              <b>24/7</b>
             </div>
-            <div className="sales-browser-body">
-              <div className="sales-browser-copy">
-                <span>Odpoveď do jednej minúty</span>
-                <strong>Koľko bude stáť váš projekt?</strong>
-                <p>Stačia 3 krátke odpovede.</p>
-              </div>
-              <div className="sales-browser-chips">
-                <motion.button
-                  onClick={() => setFocus("price")}
-                  data-active={focus === "price"}
-                  aria-pressed={focus === "price"}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  {focus === "price" ? (
-                    <motion.i
-                      className="sales-browser-chip-active"
-                      layoutId="hero-chip-focus"
-                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                    />
-                  ) : null}
-                  <span>Vypočítať cenu</span>
-                </motion.button>
-                <motion.button
-                  onClick={() => setFocus("chat")}
-                  data-active={focus === "chat"}
-                  aria-pressed={focus === "chat"}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  {focus === "chat" ? (
-                    <motion.i
-                      className="sales-browser-chip-active"
-                      layoutId="hero-chip-focus"
-                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                    />
-                  ) : null}
-                  <span>Poradiť s výberom</span>
-                </motion.button>
-              </div>
+            <strong>Odhad ceny za 60 sekúnd.</strong>
+            <p>Tri odpovede → hotový kontakt pre obchod.</p>
+            <div className="sales-hero-console-chips" aria-label="Výstupy nástroja">
+              <span>
+                <Calculator size={14} /> Cena vypočítaná
+              </span>
+              <span>
+                <CircleCheck size={14} /> Kontakt zachytený
+              </span>
             </div>
-          </div>
-
-          <AnimatePresence mode="wait">
-            {focus === "price" ? (
-              <motion.div
-                className="sales-floating-card sales-price-card"
-                key="price"
-                initial={{ opacity: 0, x: 18 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -12 }}
-                transition={{ duration: 0.22 }}
-              >
-                <div className="sales-card-label">
-                  <Calculator size={15} /> Orientačný rozpočet
-                </div>
-                <strong>1 240 – 1 480 €</strong>
-                <div className="sales-mini-progress">
-                  <span />
-                </div>
-                <p>
-                  <Check size={14} /> Montáž a doprava započítaná
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                className="sales-floating-card sales-chat-card"
-                key="chat"
-                initial={{ opacity: 0, x: 18 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -12 }}
-                transition={{ duration: 0.22 }}
-              >
-                <div className="sales-card-label">
-                  <MessageCircle size={15} /> Asistent je online
-                </div>
-                <p>Čo potrebujete vyriešiť?</p>
-                <div className="sales-chat-options">
-                  <span>Cenu</span>
-                  <span>Výber riešenia</span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <div className="sales-lead-card">
-            <div className="sales-lead-avatar">
-              <Target size={18} />
-            </div>
-            <div>
-              <span>Nový kvalifikovaný dopyt</span>
-              <strong>Pripravený pre obchod</strong>
-            </div>
-            <CircleCheck size={21} />
           </div>
         </motion.div>
       </div>
@@ -742,15 +646,15 @@ function ToolShowcase() {
         />
         <div className="sales-tools-layout">
           <div className="sales-tool-list">
-            {tools.map(({ key, number, eyebrow, title, copy, value, Icon }, index) => (
+            {tools.map(({ key, number, eyebrow, title, copy, value, Icon }) => (
               <motion.article
                 key={key}
                 className="sales-tool-row"
                 data-tool={key}
                 data-active={active === key}
                 onMouseEnter={() => setActive(key)}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -28 : 28 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-90px" }}
                 transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
               >
@@ -863,8 +767,8 @@ function CalculatorSandbox() {
 
         <motion.div
           className="sales-sandbox"
-          initial={{ opacity: 0, x: 36 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
@@ -1044,8 +948,8 @@ function ProcessPricing() {
             {processSteps.map(({ number, icon: Icon, title, copy }, index) => (
               <motion.li
                 key={number}
-                initial={{ opacity: 0, x: -26 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-70px" }}
                 transition={{ duration: 0.42, delay: index * 0.08 }}
               >
@@ -1063,8 +967,8 @@ function ProcessPricing() {
 
           <motion.div
             className="sales-pricing-card"
-            initial={{ opacity: 0, x: 34 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-70px" }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >

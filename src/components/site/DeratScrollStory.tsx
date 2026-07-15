@@ -4,44 +4,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const frames = [
   {
-    src: `${import.meta.env.BASE_URL}work/derat/01-home.webp`,
+    src: `${import.meta.env.BASE_URL}work/derat-v2/01-entry.webp`,
     label: "Jasný vstup do služby",
-    alt: "Mobilná domovská stránka DERAT s úvodom Bez škodcov",
+    alt: "Prémiový mobilný mockup domovskej stránky DERAT s úvodom Bez škodcov",
   },
   {
-    src: `${import.meta.env.BASE_URL}work/derat/02-service.webp`,
-    label: "Výber typu zásahu",
-    alt: "Prvý krok kalkulačky DERAT s výberom služby",
-  },
-  {
-    src: `${import.meta.env.BASE_URL}work/derat/03-pest.webp`,
+    src: `${import.meta.env.BASE_URL}work/derat-v2/02-problem.webp`,
     label: "Konkrétny problém",
-    alt: "Druhý krok kalkulačky DERAT s výberom škodcu",
+    alt: "Prémiový mobilný mockup kalkulačky DERAT s výberom škodcu",
   },
   {
-    src: `${import.meta.env.BASE_URL}work/derat/04-space.webp`,
-    label: "Typ priestoru",
-    alt: "Tretí krok kalkulačky DERAT s výberom priestoru",
-  },
-  {
-    src: `${import.meta.env.BASE_URL}work/derat/05-area.webp`,
+    src: `${import.meta.env.BASE_URL}work/derat-v2/03-scope.webp`,
     label: "Rozsah zásahu",
-    alt: "Štvrtý krok kalkulačky DERAT s nastavením rozlohy",
+    alt: "Prémiový mobilný mockup kalkulačky DERAT s nastavením rozlohy 70 metrov štvorcových",
   },
   {
-    src: `${import.meta.env.BASE_URL}work/derat/06-intensity.webp`,
-    label: "Miera výskytu",
-    alt: "Piaty krok kalkulačky DERAT s výberom intenzity výskytu",
-  },
-  {
-    src: `${import.meta.env.BASE_URL}work/derat/07-location.webp`,
-    label: "Lokalita a termín",
-    alt: "Šiesty krok kalkulačky DERAT s lokalitou a termínom",
-  },
-  {
-    src: `${import.meta.env.BASE_URL}work/derat/08-result.webp`,
+    src: `${import.meta.env.BASE_URL}work/derat-v2/04-result.webp`,
     label: "Cena a hotový dopyt",
-    alt: "Výsledok kalkulačky DERAT s cenou a číslom dopytu",
+    alt: "Prémiový mobilný mockup výsledku kalkulačky DERAT s cenou 99 eur bez DPH",
   },
 ];
 
@@ -83,89 +63,75 @@ export function DeratScrollStory() {
       const story = root.querySelector<HTMLElement>(".case-story-desktop");
       if (!story || !images.length) return;
 
-      gsap.set(images, { autoAlpha: 0, zIndex: 1, clipPath: "inset(0 0 0 0)" });
-      gsap.set(photos, { yPercent: 0 });
-      gsap.set(captions, { autoAlpha: 0, x: 0 });
+      gsap.set(images, { autoAlpha: 0, zIndex: 1, scale: 0.992 });
+      gsap.set(photos, { yPercent: 0, scale: 1 });
+      gsap.set(captions, { autoAlpha: 0, y: 8 });
       gsap.set(dots, { opacity: 0.26, scaleX: 1, transformOrigin: "center" });
       gsap.set(copySteps, { opacity: 0.32, y: 12 });
-      gsap.set(images[0], { autoAlpha: 1, zIndex: 2 });
-      gsap.set(captions[0], { autoAlpha: 1 });
+      gsap.set(images[0], { autoAlpha: 1, zIndex: 2, scale: 1 });
+      gsap.set(captions[0], { autoAlpha: 1, y: 0 });
       gsap.set(dots[0], { opacity: 1, scaleX: 2.8 });
       gsap.set(copySteps[0], { opacity: 1, y: 0 });
       if (progress) gsap.set(progress, { scaleX: 0.04, transformOrigin: "left center" });
 
-      let activeIndex = 0;
-      let activeChapter = 0;
-      const showFrame = (nextIndex: number, direction: number) => {
-        if (nextIndex === activeIndex) return;
-
-        gsap.killTweensOf([
-          images[activeIndex],
-          images[nextIndex],
-          captions[activeIndex],
-          captions[nextIndex],
-          photos[nextIndex],
-        ]);
-        gsap.set(images[activeIndex], { autoAlpha: 0, zIndex: 1, clipPath: "inset(0 0 0 0)" });
-        gsap.set(captions[activeIndex], { autoAlpha: 0, x: 0 });
-        gsap.set(dots, { opacity: 0.26, scaleX: 1 });
-
-        gsap.fromTo(
-          images[nextIndex],
-          {
-            autoAlpha: 1,
-            zIndex: 2,
-            clipPath: direction >= 0 ? "inset(0 0 0 9%)" : "inset(0 9% 0 0)",
-          },
-          { clipPath: "inset(0 0 0 0)", duration: 0.2, ease: "power2.out" },
-        );
-        gsap.fromTo(
-          captions[nextIndex],
-          { autoAlpha: 0, x: direction >= 0 ? 12 : -12 },
-          { autoAlpha: 1, x: 0, duration: 0.24, ease: "power2.out" },
-        );
-        gsap.fromTo(
-          photos[nextIndex],
-          { yPercent: direction >= 0 ? 2.2 : -2.2 },
-          { yPercent: 0, duration: 0.34, ease: "power3.out" },
-        );
-        gsap.to(dots[nextIndex], { opacity: 1, scaleX: 2.8, duration: 0.24 });
-        activeIndex = nextIndex;
-      };
-
-      const showChapter = (nextChapter: number) => {
-        if (nextChapter === activeChapter) return;
-        gsap.to(copySteps[activeChapter], { opacity: 0.32, y: -10, duration: 0.22 });
-        gsap.to(copySteps[nextChapter], {
-          opacity: 1,
-          y: 0,
-          duration: 0.36,
-          ease: "power3.out",
-        });
-        activeChapter = nextChapter;
-      };
-
-      const trigger = ScrollTrigger.create({
-        trigger: story,
-        start: "top top+=96",
-        end: "bottom bottom-=96",
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const nextIndex = Math.min(
-            images.length - 1,
-            Math.round(self.progress * (images.length - 1)),
-          );
-          const nextChapter = Math.min(
-            copySteps.length - 1,
-            Math.floor(self.progress * copySteps.length),
-          );
-          showFrame(nextIndex, self.direction);
-          showChapter(nextChapter);
-          if (progress) gsap.set(progress, { scaleX: Math.max(0.04, self.progress) });
+      const timeline = gsap.timeline({
+        defaults: { ease: "power3.inOut" },
+        scrollTrigger: {
+          trigger: story,
+          start: "top top+=96",
+          end: "bottom bottom-=96",
+          scrub: 0.62,
+          invalidateOnRefresh: true,
         },
       });
 
-      return () => trigger.kill();
+      timeline.to({}, { duration: 0.55 });
+
+      images.slice(1).forEach((image, index) => {
+        const previousIndex = index;
+        const nextIndex = index + 1;
+        const at = 0.55 + index * 1.15;
+        const nextChapter = Math.min(
+          copySteps.length - 1,
+          Math.round((nextIndex / (images.length - 1)) * (copySteps.length - 1)),
+        );
+        const previousChapter = Math.min(
+          copySteps.length - 1,
+          Math.round((previousIndex / (images.length - 1)) * (copySteps.length - 1)),
+        );
+
+        timeline
+          .to(images[previousIndex], { autoAlpha: 0, scale: 0.992, duration: 0.48, zIndex: 1 }, at)
+          .fromTo(
+            image,
+            { autoAlpha: 0, scale: 1.014, zIndex: 3 },
+            { autoAlpha: 1, scale: 1, duration: 0.56, zIndex: 2 },
+            at,
+          )
+          .fromTo(photos[nextIndex], { yPercent: 1.4 }, { yPercent: 0, duration: 0.58 }, at)
+          .to(captions[previousIndex], { autoAlpha: 0, y: -6, duration: 0.28 }, at)
+          .to(captions[nextIndex], { autoAlpha: 1, y: 0, duration: 0.42 }, at + 0.08)
+          .to(dots[previousIndex], { opacity: 0.26, scaleX: 1, duration: 0.28 }, at)
+          .to(dots[nextIndex], { opacity: 1, scaleX: 2.8, duration: 0.36 }, at + 0.05);
+
+        if (nextChapter !== previousChapter) {
+          timeline
+            .to(copySteps[previousChapter], { opacity: 0.32, y: -10, duration: 0.34 }, at)
+            .to(copySteps[nextChapter], { opacity: 1, y: 0, duration: 0.48 }, at + 0.05);
+        }
+      });
+
+      timeline.to({}, { duration: 0.65 });
+      if (progress) {
+        timeline.fromTo(
+          progress,
+          { scaleX: 0.04 },
+          { scaleX: 1, duration: timeline.duration(), ease: "none" },
+          0,
+        );
+      }
+
+      return () => timeline.kill();
     });
 
     return () => media.revert();
@@ -225,15 +191,12 @@ export function DeratScrollStory() {
             <div className="case-media-stack">
               {frames.map((frame, index) => (
                 <figure data-case-frame className="case-frame" key={frame.src}>
-                  <div className="case-frame-ambient" aria-hidden="true">
-                    <img src={frame.src} alt="" width="900" height="1200" decoding="async" />
-                  </div>
                   <div className="case-frame-photo" data-case-photo>
                     <img
                       src={frame.src}
                       alt={frame.alt}
-                      width="900"
-                      height="1200"
+                      width="1086"
+                      height="1448"
                       loading="eager"
                       fetchPriority={index < 2 ? "high" : "auto"}
                       decoding="async"
@@ -251,7 +214,7 @@ export function DeratScrollStory() {
                   </p>
                 ))}
               </div>
-              <span>08</span>
+              <span>{String(frames.length).padStart(2, "0")}</span>
             </div>
           </div>
         </div>
@@ -263,8 +226,8 @@ export function DeratScrollStory() {
             <img
               src={frame.src}
               alt={frame.alt}
-              width="900"
-              height="1200"
+              width="1086"
+              height="1448"
               loading="lazy"
               decoding="async"
             />

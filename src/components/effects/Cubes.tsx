@@ -55,8 +55,8 @@ export function Cubes({
   easing = "power3.out",
   duration = { enter: 0.28, leave: 0.62 },
   cellGap,
-  borderStyle = "1px solid rgba(214, 255, 235, 0.24)",
-  faceColor = "#173f3b",
+  borderStyle = "1px solid rgba(225, 255, 244, 0.42)",
+  faceColor = "#245d53",
   shadow = false,
   autoAnimate = true,
   rippleOnClick = true,
@@ -262,19 +262,14 @@ export function Cubes({
   }, [resetAll]);
 
   useEffect(() => {
-    if (
-      !autoAnimate ||
-      reducedMotion ||
-      window.matchMedia("(pointer: coarse), (hover: none)").matches
-    )
-      return;
+    if (!autoAnimate || reducedMotion) return;
 
     const timer = window.setInterval(() => {
       if (document.hidden || !visibleRef.current || userActiveRef.current) return;
       const position = simPosRef.current;
       const target = simTargetRef.current;
-      position.x += (target.x - position.x) * 0.08;
-      position.y += (target.y - position.y) * 0.08;
+      position.x += (target.x - position.x) * 0.105;
+      position.y += (target.y - position.y) * 0.105;
       tiltAt(position.y, position.x);
 
       if (Math.hypot(position.x - target.x, position.y - target.y) < 0.2) {
@@ -283,7 +278,7 @@ export function Cubes({
           y: 0.5 + Math.random() * (gridSize - 1),
         };
       }
-    }, 72);
+    }, 40);
 
     return () => window.clearInterval(timer);
   }, [autoAnimate, gridSize, reducedMotion, tiltAt]);
