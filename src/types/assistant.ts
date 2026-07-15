@@ -3,6 +3,8 @@ export type AssistantEntry =
 
 export type AssistantPreset = "calculator" | "inquiry" | "advisor" | "booking";
 
+export type InterestId = "chatbot" | "calcbot" | "product" | "booking" | "custom";
+
 export type OpenSiteAssistantOptions = {
   entry: AssistantEntry;
   preset?: AssistantPreset;
