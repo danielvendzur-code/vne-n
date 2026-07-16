@@ -10,6 +10,7 @@ const routes = [
   "/sluzby",
   "/projekty",
   "/postup",
+  "/kontakt",
   "/projekty/ukazka-01",
   "/projekty/ukazka-02",
   "/projekty/ukazka-03",
