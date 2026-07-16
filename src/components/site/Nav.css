@@ -7,7 +7,7 @@
   z-index: 2;
 }
 
-/* The mark stays still by default; only navigation interactions wake it up. */
+/* The bot stays still by default; navigation interactions wake it up. */
 .brand-symbol {
   display: block;
   overflow: visible;
@@ -15,24 +15,20 @@
 }
 
 .brand-symbol__shell,
-.brand-symbol__flow,
+.brand-symbol__face,
+.brand-symbol__antenna,
 .brand-symbol__spark,
-.brand-symbol__orbit {
+.brand-symbol__eyes {
   transform-box: fill-box;
   transform-origin: center;
 }
 
 .brand-symbol__shell,
-.brand-symbol__flow,
+.brand-symbol__face,
+.brand-symbol__antenna,
+.brand-symbol__eyes,
 .brand-symbol__spark {
   transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.brand-symbol__orbit {
-  opacity: 0.68;
-  transition:
-    opacity 240ms ease,
-    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .site-header-bar > a:focus-visible .brand-symbol__shell,
@@ -40,20 +36,19 @@
   transform: rotate(-2deg) scale(1.025);
 }
 
-.site-header-bar > a:focus-visible .brand-symbol__flow,
-.site-menu-brand:focus-visible .brand-symbol__flow {
-  transform: translate3d(0.65px, -0.65px, 0);
+.site-header-bar > a:focus-visible .brand-symbol__face,
+.site-menu-brand:focus-visible .brand-symbol__face {
+  transform: scale(1.035);
+}
+
+.site-header-bar > a:focus-visible .brand-symbol__antenna,
+.site-menu-brand:focus-visible .brand-symbol__antenna {
+  transform: rotate(7deg);
 }
 
 .site-header-bar > a:focus-visible .brand-symbol__spark,
 .site-menu-brand:focus-visible .brand-symbol__spark {
-  transform: scale(1.18);
-}
-
-.site-header-bar > a:focus-visible .brand-symbol__orbit,
-.site-menu-brand:focus-visible .brand-symbol__orbit {
-  opacity: 1;
-  transform: rotate(55deg) scale(1.08);
+  transform: translateY(-0.5px) scale(1.18);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -62,20 +57,19 @@
     transform: rotate(-2deg) scale(1.025);
   }
 
-  .site-header-bar > a:hover .brand-symbol__flow,
-  .site-menu-brand:hover .brand-symbol__flow {
-    transform: translate3d(0.65px, -0.65px, 0);
+  .site-header-bar > a:hover .brand-symbol__face,
+  .site-menu-brand:hover .brand-symbol__face {
+    transform: scale(1.035);
+  }
+
+  .site-header-bar > a:hover .brand-symbol__antenna,
+  .site-menu-brand:hover .brand-symbol__antenna {
+    transform: rotate(7deg);
   }
 
   .site-header-bar > a:hover .brand-symbol__spark,
   .site-menu-brand:hover .brand-symbol__spark {
-    transform: scale(1.18);
-  }
-
-  .site-header-bar > a:hover .brand-symbol__orbit,
-  .site-menu-brand:hover .brand-symbol__orbit {
-    opacity: 1;
-    transform: rotate(55deg) scale(1.08);
+    transform: translateY(-0.5px) scale(1.18);
   }
 }
 
@@ -334,28 +328,30 @@ body[data-site-menu-open="true"] .cw-widget {
   .site-menu-drawer,
   .site-menu-backdrop,
   .brand-symbol__shell,
-  .brand-symbol__flow,
+  .brand-symbol__face,
+  .brand-symbol__antenna,
+  .brand-symbol__eyes,
   .brand-symbol__spark,
-  .brand-symbol__orbit {
+  .brand-symbol__smile {
     transition-duration: 0.01ms;
   }
 
   .site-header-bar > a:focus-visible .brand-symbol__shell,
   .site-menu-brand:focus-visible .brand-symbol__shell,
-  .site-header-bar > a:focus-visible .brand-symbol__flow,
-  .site-menu-brand:focus-visible .brand-symbol__flow,
+  .site-header-bar > a:focus-visible .brand-symbol__face,
+  .site-menu-brand:focus-visible .brand-symbol__face,
+  .site-header-bar > a:focus-visible .brand-symbol__antenna,
+  .site-menu-brand:focus-visible .brand-symbol__antenna,
   .site-header-bar > a:focus-visible .brand-symbol__spark,
   .site-menu-brand:focus-visible .brand-symbol__spark,
-  .site-header-bar > a:focus-visible .brand-symbol__orbit,
-  .site-menu-brand:focus-visible .brand-symbol__orbit,
   .site-header-bar > a:hover .brand-symbol__shell,
   .site-menu-brand:hover .brand-symbol__shell,
-  .site-header-bar > a:hover .brand-symbol__flow,
-  .site-menu-brand:hover .brand-symbol__flow,
+  .site-header-bar > a:hover .brand-symbol__face,
+  .site-menu-brand:hover .brand-symbol__face,
+  .site-header-bar > a:hover .brand-symbol__antenna,
+  .site-menu-brand:hover .brand-symbol__antenna,
   .site-header-bar > a:hover .brand-symbol__spark,
-  .site-menu-brand:hover .brand-symbol__spark,
-  .site-header-bar > a:hover .brand-symbol__orbit,
-  .site-menu-brand:hover .brand-symbol__orbit {
+  .site-menu-brand:hover .brand-symbol__spark {
     transform: none;
   }
 }

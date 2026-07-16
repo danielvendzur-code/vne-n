@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SluzbyRouteImport } from './routes/sluzby'
 import { Route as ProjektyRouteImport } from './routes/projekty'
 import { Route as PostupRouteImport } from './routes/postup'
+import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjektySlugRouteImport } from './routes/projekty.$slug'
 
@@ -30,6 +31,11 @@ const PostupRoute = PostupRouteImport.update({
   path: '/postup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +49,7 @@ const ProjektySlugRoute = ProjektySlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kontakt': typeof KontaktRoute
   '/postup': typeof PostupRoute
   '/projekty': typeof ProjektyRouteWithChildren
   '/sluzby': typeof SluzbyRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kontakt': typeof KontaktRoute
   '/postup': typeof PostupRoute
   '/projekty': typeof ProjektyRouteWithChildren
   '/sluzby': typeof SluzbyRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kontakt': typeof KontaktRoute
   '/postup': typeof PostupRoute
   '/projekty': typeof ProjektyRouteWithChildren
   '/sluzby': typeof SluzbyRoute
@@ -65,14 +74,23 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/postup' | '/projekty' | '/sluzby' | '/projekty/$slug'
+  fullPaths:
+    '/' | '/kontakt' | '/postup' | '/projekty' | '/sluzby' | '/projekty/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/postup' | '/projekty' | '/sluzby' | '/projekty/$slug'
-  id: '__root__' | '/' | '/postup' | '/projekty' | '/sluzby' | '/projekty/$slug'
+  to: '/' | '/kontakt' | '/postup' | '/projekty' | '/sluzby' | '/projekty/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/kontakt'
+    | '/postup'
+    | '/projekty'
+    | '/sluzby'
+    | '/projekty/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KontaktRoute: typeof KontaktRoute
   PostupRoute: typeof PostupRoute
   ProjektyRoute: typeof ProjektyRouteWithChildren
   SluzbyRoute: typeof SluzbyRoute
@@ -99,6 +117,13 @@ declare module '@tanstack/react-router' {
       path: '/postup'
       fullPath: '/postup'
       preLoaderRoute: typeof PostupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -132,6 +157,7 @@ const ProjektyRouteWithChildren = ProjektyRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KontaktRoute: KontaktRoute,
   PostupRoute: PostupRoute,
   ProjektyRoute: ProjektyRouteWithChildren,
   SluzbyRoute: SluzbyRoute,

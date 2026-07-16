@@ -85,14 +85,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Chatboty, kalkulačky a interaktívne nástroje na mieru" },
+      { title: "Daniel Vendzúr — chatboty a webové nástroje na mieru" },
       {
         name: "description",
         content:
-          "Tvorím chatboty, kalkulačky a krokové konfigurátory, ktoré zákazníka prevedú výberom a firme odošlú presný dopyt.",
+          "Navrhujem chatboty, kalkulačky, konfigurátory a weby, ktoré návštevníka prevedú rozhodnutím a firme odovzdajú pripravený dopyt.",
       },
-      { property: "og:title", content: "Chatboty, kalkulačky a interaktívne nástroje na mieru" },
-      { property: "og:description", content: "Návštevník si vyberie. Vy dostanete presný dopyt." },
+      { property: "og:title", content: "Daniel Vendzúr — weby, ktoré pracujú" },
+      {
+        property: "og:description",
+        content: "Chatboty, kalkulačky, konfigurátory a webové realizácie na mieru.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -118,6 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="sk">
       <head>
         <HeadContent />
+        <script src="https://derat-chatbot-backend.vercel.app/embed.js?v=20260712-1" defer />
       </head>
       <body>
         {children}

@@ -6,16 +6,16 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "Chatboty a kalkulačky, ktoré menia návštevy na dopyty",
+        title: "Daniel Vendzúr — weby, chatboty a kalkulačky na mieru",
       },
       {
         name: "description",
         content:
-          "Navrhujem chatboty, inteligentné cenové kalkulačky a konfigurátory, ktoré zákazníka prevedú výberom a firme odovzdajú hotový dopyt.",
+          "Osobné portfólio webov, chatbotov, kalkulačiek a konfigurátorov, ktoré zákazníka prevedú výberom a firme odovzdajú pripravený dopyt.",
       },
       {
         property: "og:title",
-        content: "Webové nástroje, ktoré z návštevnosti robia konkrétne dopyty",
+        content: "Daniel Vendzúr — weby a digitálne nástroje, ktoré pracujú",
       },
       {
         property: "og:description",

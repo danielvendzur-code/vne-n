@@ -3,10 +3,7 @@ interface SymbolProps {
   className?: string;
 }
 
-/**
- * A conversation becoming an upward path: the compact mark connects the
- * product (a guided conversation) with its outcome (a qualified lead).
- */
+/** A friendly, original bot inside a conversation bubble. */
 export function Symbol({ size = 36, className }: SymbolProps) {
   return (
     <svg
@@ -19,50 +16,49 @@ export function Symbol({ size = 36, className }: SymbolProps) {
       focusable="false"
     >
       <path
-        className="brand-symbol__shell"
-        d="M10.4 3.25h15.2c4.7 0 7.15 2.8 7.15 7.15v12.35c0 4.65-2.8 7.45-7.45 7.45h-8.1L10.05 35v-4.9c-4.45-.4-6.8-3.15-6.8-7.35V10.4c0-4.45 2.7-7.15 7.15-7.15Z"
-        fill="var(--primary-dark)"
-      />
-      <path
-        className="brand-symbol__edge"
-        d="M10.4 3.9h15.2c4.25 0 6.5 2.5 6.5 6.5v12.35c0 4.25-2.55 6.8-6.8 6.8h-8.32l-6.28 4.18v-4.25c-4.42-.17-6.8-2.58-6.8-6.73V10.4c0-4.05 2.45-6.5 6.5-6.5Z"
-        stroke="rgba(255, 255, 255, 0.16)"
-        strokeWidth="1"
-      />
-      <path
-        className="brand-symbol__glint"
-        d="M8.15 10.4c1.25-2.15 3.15-3.25 5.7-3.25h10.7"
-        stroke="rgba(255, 255, 255, 0.15)"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-      />
-      <path
-        className="brand-symbol__flow"
-        d="m8.9 23.15 5.45-5.35 4.15 3.55 8.35-8.75"
-        stroke="#f4fff9"
-        strokeWidth="2.25"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle className="brand-symbol__origin" cx="8.9" cy="23.15" r="1.85" fill="var(--primary)" />
-      <circle
-        className="brand-symbol__orbit"
-        cx="26.85"
-        cy="12.6"
-        r="4.1"
+        className="brand-symbol__antenna"
+        d="M18 7V4.4"
         stroke="var(--highlight)"
-        strokeOpacity="0.4"
-        strokeWidth="1"
-        strokeDasharray="2.3 2.3"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
-      <circle
-        className="brand-symbol__spark"
-        cx="26.85"
-        cy="12.6"
-        r="2.35"
-        fill="var(--highlight)"
+      <circle className="brand-symbol__spark" cx="18" cy="3.3" r="2.05" fill="var(--highlight)" />
+      <path
+        className="brand-symbol__shell"
+        d="M9.2 6.4h17.6c4.25 0 6.8 2.55 6.8 6.8v10.4c0 4.25-2.55 6.8-6.8 6.8h-8.25L11.4 35v-4.72c-3.73-.58-5.98-2.98-5.98-6.68V13.2c0-4.25 2.55-6.8 6.8-6.8Z"
+        fill="#061e18"
       />
-      <circle cx="27.5" cy="11.9" r="0.65" fill="white" fillOpacity="0.72" />
+      <rect
+        className="brand-symbol__face"
+        x="8.4"
+        y="10"
+        width="19.2"
+        height="15.4"
+        rx="7.7"
+        fill="var(--primary)"
+      />
+      <path
+        className="brand-symbol__highlight"
+        d="M11.4 13.2c1.35-1.2 3.15-1.8 5.4-1.8h5.15"
+        stroke="rgba(255,255,255,.34)"
+        strokeWidth="1.1"
+        strokeLinecap="round"
+      />
+      <g className="brand-symbol__eyes" fill="#061e18">
+        <ellipse cx="14.2" cy="17.35" rx="1.65" ry="1.85" />
+        <ellipse cx="21.8" cy="17.35" rx="1.65" ry="1.85" />
+      </g>
+      <circle cx="14.75" cy="16.75" r="0.45" fill="white" fillOpacity="0.86" />
+      <circle cx="22.35" cy="16.75" r="0.45" fill="white" fillOpacity="0.86" />
+      <path
+        className="brand-symbol__smile"
+        d="M14.1 21.05c1.05.82 2.35 1.22 3.9 1.22s2.85-.4 3.9-1.22"
+        stroke="#061e18"
+        strokeWidth="1.35"
+        strokeLinecap="round"
+      />
+      <circle cx="8.15" cy="17.55" r="1.18" fill="var(--highlight)" />
+      <circle cx="27.85" cy="17.55" r="1.18" fill="var(--highlight)" />
     </svg>
   );
 }

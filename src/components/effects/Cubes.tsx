@@ -1,12 +1,4 @@
-import {
-  type CSSProperties,
-  type MouseEvent as ReactMouseEvent,
-  type PointerEvent as ReactPointerEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { type CSSProperties, useCallback, useEffect, useMemo, useRef } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import "./Cubes.css";
@@ -43,9 +35,28 @@ type CubeMotion = {
   z: (value: number) => void;
 };
 
+type ScenePoint = {
+  col: number;
+  row: number;
+  inside: boolean;
+};
+
+type PointerSample = {
+  clientX: number;
+  clientY: number;
+  col: number;
+  row: number;
+  inside: boolean;
+  hasPosition: boolean;
+  pointerType: string;
+  pressed: boolean;
+};
+
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
 /**
- * React Bits Cubes, adapted for this site: scoped styles, reduced-motion,
- * viewport pausing and touch-safe interaction.
+ * A pointer-independent adaptation of React Bits Cubes. Interaction is read
+ * from the window, so foreground mock-ups cannot block the visual underneath.
  */
 export function Cubes({
   gridSize = 8,
@@ -65,15 +76,23 @@ export function Cubes({
   className = "",
 }: CubesProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
-  const pointerFrameRef = useRef<number | null>(null);
-  const idleTimerRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
   const cubesRef = useRef<HTMLElement[]>([]);
   const cubeMotionRef = useRef<Map<HTMLElement, CubeMotion>>(new Map());
   const activeCubesRef = useRef<Set<HTMLElement>>(new Set());
-  const userActiveRef = useRef(false);
   const visibleRef = useRef(true);
-  const simPosRef = useRef({ x: gridSize * 0.7, y: gridSize * 0.35 });
-  const simTargetRef = useRef({ x: gridSize * 0.25, y: gridSize * 0.72 });
+  const idleEpochRef = useRef(0);
+  const interactionUntilRef = useRef(0);
+  const pointerRef = useRef<PointerSample>({
+    clientX: 0,
+    clientY: 0,
+    col: 0,
+    row: 0,
+    inside: false,
+    hasPosition: false,
+    pointerType: "mouse",
+    pressed: false,
+  });
   const reducedMotion = useReducedMotion();
 
   const cells = useMemo(() => Array.from({ length: gridSize }), [gridSize]);
@@ -90,120 +109,132 @@ export function Cubes({
         ? `${cellGap.row}px`
         : "clamp(3px, 0.7vw, 8px)";
 
-  const getCubes = useCallback(() => cubesRef.current, []);
+  const getScenePoint = useCallback(
+    (clientX: number, clientY: number): ScenePoint => {
+      const scene = sceneRef.current;
+      if (!scene) return { col: 0, row: 0, inside: false };
+
+      const rect = scene.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return { col: 0, row: 0, inside: false };
+
+      const edgeTolerance = Math.min(rect.width, rect.height) * 0.018;
+      const inside =
+        clientX >= rect.left - edgeTolerance &&
+        clientX <= rect.right + edgeTolerance &&
+        clientY >= rect.top - edgeTolerance &&
+        clientY <= rect.bottom + edgeTolerance;
+
+      return {
+        col: clamp(((clientX - rect.left) / rect.width) * gridSize, 0.15, gridSize - 0.15),
+        row: clamp(((clientY - rect.top) / rect.height) * gridSize, 0.15, gridSize - 0.15),
+        inside,
+      };
+    },
+    [gridSize],
+  );
 
   const tiltAt = useCallback(
-    (rowCenter: number, colCenter: number) => {
+    (rowCenter: number, colCenter: number, intensity = 1) => {
       if (!sceneRef.current || !visibleRef.current || reducedMotion) return;
 
       const nextActive = new Set<HTMLElement>();
 
-      getCubes().forEach((cube) => {
+      cubesRef.current.forEach((cube) => {
         const row = Number(cube.dataset.row);
         const col = Number(cube.dataset.col);
         const distance = Math.hypot(row + 0.5 - rowCenter, col + 0.5 - colCenter);
 
-        if (distance <= radius) {
-          nextActive.add(cube);
-          const influence = 1 - distance / radius;
-          const xDirection = (row + 0.5 - rowCenter) / radius;
-          const yDirection = (col + 0.5 - colCenter) / radius;
-          const motion = cubeMotionRef.current.get(cube);
-          motion?.rotateX(-maxAngle * influence * xDirection);
-          motion?.rotateY(maxAngle * influence * yDirection);
-          motion?.z(18 * influence);
-        }
+        if (distance > radius) return;
+
+        nextActive.add(cube);
+        const influence = Math.pow(1 - distance / radius, 1.18) * intensity;
+        const xDirection = (row + 0.5 - rowCenter) / radius;
+        const yDirection = (col + 0.5 - colCenter) / radius;
+        const motion = cubeMotionRef.current.get(cube);
+        motion?.rotateX(-maxAngle * influence * xDirection);
+        motion?.rotateY(maxAngle * influence * yDirection);
+        motion?.z(28 * influence);
       });
 
       activeCubesRef.current.forEach((cube) => {
-        if (!nextActive.has(cube)) {
-          gsap.to(cube, {
-            duration: duration.leave,
-            ease: "power3.out",
-            overwrite: "auto",
-            rotateX: 0,
-            rotateY: 0,
-            z: 0,
-          });
-        }
+        if (nextActive.has(cube)) return;
+        gsap.to(cube, {
+          duration: duration.leave,
+          ease: "power3.out",
+          overwrite: "auto",
+          rotationX: 0,
+          rotationY: 0,
+          z: 0,
+        });
       });
 
       activeCubesRef.current = nextActive;
     },
-    [duration.leave, getCubes, maxAngle, radius, reducedMotion],
+    [duration.leave, maxAngle, radius, reducedMotion],
   );
 
-  const resetAll = useCallback(() => {
-    if (!sceneRef.current || activeCubesRef.current.size === 0) return;
-    gsap.to([...activeCubesRef.current], {
-      duration: reducedMotion ? 0 : duration.leave,
-      ease: "power3.out",
-      overwrite: "auto",
-      rotateX: 0,
-      rotateY: 0,
-      z: 0,
-    });
-    activeCubesRef.current.clear();
-  }, [duration.leave, reducedMotion]);
-
-  const handlePointerMove = useCallback(
-    (event: ReactPointerEvent<HTMLDivElement>) => {
-      if (event.pointerType === "touch" || reducedMotion) return;
-      userActiveRef.current = true;
-      if (idleTimerRef.current !== null) window.clearTimeout(idleTimerRef.current);
-
-      const scene = sceneRef.current;
-      if (!scene) return;
-      const rect = scene.getBoundingClientRect();
-      const colCenter = ((event.clientX - rect.left) / rect.width) * gridSize;
-      const rowCenter = ((event.clientY - rect.top) / rect.height) * gridSize;
-
-      if (pointerFrameRef.current !== null) window.cancelAnimationFrame(pointerFrameRef.current);
-      pointerFrameRef.current = window.requestAnimationFrame(() => tiltAt(rowCenter, colCenter));
-      idleTimerRef.current = window.setTimeout(() => {
-        userActiveRef.current = false;
-      }, 1800);
+  const resetAll = useCallback(
+    (immediate = false) => {
+      if (activeCubesRef.current.size === 0) return;
+      gsap.to([...activeCubesRef.current], {
+        duration: immediate || reducedMotion ? 0 : duration.leave,
+        ease: "power3.out",
+        overwrite: "auto",
+        rotationX: 0,
+        rotationY: 0,
+        z: 0,
+      });
+      activeCubesRef.current.clear();
     },
-    [gridSize, reducedMotion, tiltAt],
+    [duration.leave, reducedMotion],
   );
 
-  const handleRipple = useCallback(
-    (event: ReactMouseEvent<HTMLDivElement>) => {
-      const scene = sceneRef.current;
-      if (!scene || !rippleOnClick || reducedMotion) return;
+  const rippleAt = useCallback(
+    (clientX: number, clientY: number) => {
+      if (!rippleOnClick || reducedMotion) return;
+      const point = getScenePoint(clientX, clientY);
+      if (!point.inside) return;
 
-      const rect = scene.getBoundingClientRect();
-      const colHit = Math.floor(((event.clientX - rect.left) / rect.width) * gridSize);
-      const rowHit = Math.floor(((event.clientY - rect.top) / rect.height) * gridSize);
-      const rings = new Map<number, HTMLElement[]>();
+      const colHit = Math.floor(point.col);
+      const rowHit = Math.floor(point.row);
 
-      getCubes().forEach((cube) => {
+      cubesRef.current.forEach((cube) => {
         const distance = Math.hypot(
           Number(cube.dataset.row) - rowHit,
           Number(cube.dataset.col) - colHit,
         );
-        const ring = Math.round(distance);
-        const faces = Array.from(cube.querySelectorAll<HTMLElement>(".rb-cubes__face"));
-        rings.set(ring, [...(rings.get(ring) ?? []), ...faces]);
-      });
+        const delay = (distance * 0.075) / rippleSpeed;
+        const faces = cube.querySelectorAll<HTMLElement>(
+          ".rb-cubes__face--front, .rb-cubes__face--top, .rb-cubes__face--right",
+        );
 
-      [...rings.entries()].forEach(([ring, faces]) => {
-        const delay = (ring * 0.1) / rippleSpeed;
         gsap.to(faces, {
           backgroundColor: rippleColor,
-          duration: 0.22 / rippleSpeed,
+          duration: 0.18 / rippleSpeed,
           delay,
           ease: "power2.out",
         });
         gsap.to(faces, {
           backgroundColor: faceColor,
-          duration: 0.5 / rippleSpeed,
-          delay: delay + 0.34 / rippleSpeed,
+          duration: 0.48 / rippleSpeed,
+          delay: delay + 0.24 / rippleSpeed,
           ease: "power3.out",
         });
+        gsap.fromTo(
+          cube,
+          { scale: 1 },
+          {
+            scale: 1.035,
+            duration: 0.18 / rippleSpeed,
+            delay,
+            repeat: 1,
+            yoyo: true,
+            ease: "power2.inOut",
+          },
+        );
       });
     },
-    [faceColor, getCubes, gridSize, reducedMotion, rippleColor, rippleOnClick, rippleSpeed],
+    [faceColor, getScenePoint, reducedMotion, rippleColor, rippleOnClick, rippleSpeed],
   );
 
   useEffect(() => {
@@ -239,7 +270,7 @@ export function Cubes({
     const updateDepth = () => {
       const firstCube = cubesRef.current[0];
       if (!firstCube) return;
-      const depth = Math.max(2, firstCube.getBoundingClientRect().width / 2);
+      const depth = Math.max(4, firstCube.offsetWidth / 2);
       scene.style.setProperty("--rb-cube-depth", `${depth.toFixed(2)}px`);
     };
 
@@ -249,9 +280,9 @@ export function Cubes({
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         visibleRef.current = entry.isIntersecting;
-        if (!entry.isIntersecting) resetAll();
+        if (!entry.isIntersecting) resetAll(true);
       },
-      { rootMargin: "100px" },
+      { rootMargin: "120px" },
     );
     visibilityObserver.observe(scene);
 
@@ -262,31 +293,119 @@ export function Cubes({
   }, [resetAll]);
 
   useEffect(() => {
-    if (!autoAnimate || reducedMotion) return;
+    if (reducedMotion) {
+      resetAll(true);
+      gsap.killTweensOf(cubesRef.current);
+      gsap.set(cubesRef.current, { clearProps: "transform" });
+      return;
+    }
 
-    const timer = window.setInterval(() => {
-      if (document.hidden || !visibleRef.current || userActiveRef.current) return;
-      const position = simPosRef.current;
-      const target = simTargetRef.current;
-      position.x += (target.x - position.x) * 0.105;
-      position.y += (target.y - position.y) * 0.105;
-      tiltAt(position.y, position.x);
+    const samplePointer = (event: PointerEvent, pressed?: boolean) => {
+      const point = getScenePoint(event.clientX, event.clientY);
+      pointerRef.current = {
+        clientX: event.clientX,
+        clientY: event.clientY,
+        col: point.col,
+        row: point.row,
+        inside: point.inside,
+        hasPosition: true,
+        pointerType: event.pointerType || "mouse",
+        pressed: pressed ?? pointerRef.current.pressed,
+      };
+      interactionUntilRef.current = performance.now() + (event.pointerType === "touch" ? 650 : 320);
+    };
+    const onPointerMove = (event: PointerEvent) => samplePointer(event);
+    const onPointerDown = (event: PointerEvent) => {
+      samplePointer(event, true);
+      rippleAt(event.clientX, event.clientY);
+    };
+    const onPointerUp = (event: PointerEvent) => {
+      samplePointer(event, false);
+      interactionUntilRef.current = performance.now() + (event.pointerType === "touch" ? 720 : 320);
+    };
+    const onPointerExit = (event: PointerEvent) => {
+      if (event.relatedTarget !== null) return;
+      pointerRef.current.hasPosition = false;
+      pointerRef.current.inside = false;
+      pointerRef.current.pressed = false;
+      interactionUntilRef.current = performance.now() + 220;
+    };
+    const onBlur = () => {
+      pointerRef.current.hasPosition = false;
+      pointerRef.current.inside = false;
+      pointerRef.current.pressed = false;
+    };
+    const refreshPointerPosition = () => {
+      const pointer = pointerRef.current;
+      if (!pointer.hasPosition) return;
+      const point = getScenePoint(pointer.clientX, pointer.clientY);
+      pointer.col = point.col;
+      pointer.row = point.row;
+      pointer.inside = point.inside;
+    };
 
-      if (Math.hypot(position.x - target.x, position.y - target.y) < 0.2) {
-        simTargetRef.current = {
-          x: 0.5 + Math.random() * (gridSize - 1),
-          y: 0.5 + Math.random() * (gridSize - 1),
-        };
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
+    window.addEventListener("pointerup", onPointerUp, { passive: true });
+    window.addEventListener("pointercancel", onPointerUp, { passive: true });
+    window.addEventListener("pointerout", onPointerExit, { passive: true });
+    window.addEventListener("blur", onBlur);
+    window.addEventListener("resize", refreshPointerPosition, { passive: true });
+    window.addEventListener("scroll", refreshPointerPosition, { passive: true });
+
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
+      window.removeEventListener("pointerout", onPointerExit);
+      window.removeEventListener("blur", onBlur);
+      window.removeEventListener("resize", refreshPointerPosition);
+      window.removeEventListener("scroll", refreshPointerPosition);
+    };
+  }, [getScenePoint, reducedMotion, resetAll, rippleAt]);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    idleEpochRef.current = performance.now();
+
+    const tick = (time: number) => {
+      animationFrameRef.current = window.requestAnimationFrame(tick);
+      if (document.hidden || !visibleRef.current) return;
+
+      const pointer = pointerRef.current;
+      const touchIsActive =
+        pointer.pointerType === "touch" && (pointer.pressed || time < interactionUntilRef.current);
+      const directInteraction =
+        pointer.hasPosition && pointer.inside && (pointer.pointerType !== "touch" || touchIsActive);
+
+      if (directInteraction) {
+        tiltAt(pointer.row, pointer.col, pointer.pointerType === "touch" ? 0.92 : 1);
+        return;
       }
-    }, 40);
 
-    return () => window.clearInterval(timer);
+      if (!autoAnimate || time < interactionUntilRef.current) return;
+
+      const elapsed = (time - idleEpochRef.current) / 1000;
+      const col = gridSize * (0.5 + Math.sin(elapsed * 0.52) * 0.28);
+      const row = gridSize * (0.5 + Math.cos(elapsed * 0.39) * 0.22);
+      const intensity = 0.56 + Math.sin(elapsed * 0.74) * 0.08;
+      tiltAt(row, col, intensity);
+    };
+
+    animationFrameRef.current = window.requestAnimationFrame(tick);
+    return () => {
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
   }, [autoAnimate, gridSize, reducedMotion, tiltAt]);
 
   useEffect(
     () => () => {
-      if (pointerFrameRef.current !== null) window.cancelAnimationFrame(pointerFrameRef.current);
-      if (idleTimerRef.current !== null) window.clearTimeout(idleTimerRef.current);
+      if (animationFrameRef.current !== null)
+        window.cancelAnimationFrame(animationFrameRef.current);
     },
     [],
   );
@@ -309,16 +428,10 @@ export function Cubes({
     <div
       className={`rb-cubes${className ? ` ${className}` : ""}`}
       style={wrapperStyle}
+      data-reduced-motion={reducedMotion ? "true" : undefined}
       aria-hidden="true"
     >
-      <div
-        ref={sceneRef}
-        className="rb-cubes__scene"
-        style={sceneStyle}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={resetAll}
-        onClick={handleRipple}
-      >
+      <div ref={sceneRef} className="rb-cubes__scene" style={sceneStyle}>
         {cells.map((_, row) =>
           cells.map((__, col) => (
             <div className="rb-cubes__cube" data-row={row} data-col={col} key={`${row}-${col}`}>

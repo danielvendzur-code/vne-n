@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { MotionConfig } from "motion/react";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
-import { SiteAssistantMount } from "@/components/SiteAssistantMount";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
@@ -16,7 +15,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
         <Footer />
-        <SiteAssistantMount />
       </div>
     </MotionConfig>
   );

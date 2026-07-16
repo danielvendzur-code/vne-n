@@ -1,45 +1,51 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./DeratScrollStory.css";
 
 const frames = [
   {
     src: `${import.meta.env.BASE_URL}work/derat-v2/01-entry.webp`,
     label: "Jasný vstup do služby",
-    alt: "Prémiový mobilný mockup domovskej stránky DERAT s úvodom Bez škodcov",
+    alt: "Mobilná ukážka domovskej stránky DERAT s úvodom Bez škodcov",
   },
   {
     src: `${import.meta.env.BASE_URL}work/derat-v2/02-problem.webp`,
     label: "Konkrétny problém",
-    alt: "Prémiový mobilný mockup kalkulačky DERAT s výberom škodcu",
+    alt: "Mobilná ukážka kalkulačky DERAT s výberom druhu škodcu",
   },
   {
     src: `${import.meta.env.BASE_URL}work/derat-v2/03-scope.webp`,
     label: "Rozsah zásahu",
-    alt: "Prémiový mobilný mockup kalkulačky DERAT s nastavením rozlohy 70 metrov štvorcových",
+    alt: "Mobilná ukážka kalkulačky DERAT s nastavením rozlohy 70 metrov štvorcových",
   },
   {
     src: `${import.meta.env.BASE_URL}work/derat-v2/04-result.webp`,
     label: "Cena a hotový dopyt",
-    alt: "Prémiový mobilný mockup výsledku kalkulačky DERAT s cenou 99 eur bez DPH",
+    alt: "Mobilná ukážka výsledku kalkulačky DERAT s odhadovanou cenou",
   },
 ];
 
 const chapters = [
   {
-    eyebrow: "01 · Problém zachytený",
-    title: "Návštevník označí škodcu tak, ako ho pozná.",
-    copy: "Z domovskej stránky prejde priamo do výberu služby a problému. Nemusí hľadať správny odborný výraz ani cenník v PDF.",
+    eyebrow: "01 / Prvý kontakt",
+    title: "Návštevník okamžite vie, čo má urobiť.",
+    copy: "Z problému prejde priamo do krátkeho výpočtu. Bez hľadania cenníka a bez telefonátu naslepo.",
   },
   {
-    eyebrow: "02 · Cielené otázky",
-    title: "Každá odpoveď pripraví iba relevantný ďalší krok.",
-    copy: "Priestor, rozloha, intenzita a termín sa pýtajú postupne. Krátky tok skladá všetky podklady bez dlhého formulára.",
+    eyebrow: "02 / Presná otázka",
+    title: "Vyberie škodcu tak, ako ho pozná.",
+    copy: "Jednoduché možnosti odstránia neistotu. Systém zobrazí iba ďalšiu otázku, ktorá je pre daný zásah dôležitá.",
   },
   {
-    eyebrow: "03 · Cena a kontakt",
-    title: "Zákazník dostane odhad. Firma dostane hotový dopyt.",
-    copy: "Výsledok obsahuje cenu, službu, priestor, lokalitu aj číslo dopytu. Obchodník môže pokračovať bez opakovania základných otázok.",
+    eyebrow: "03 / Rozsah zásahu",
+    title: "Odhad vzniká z konkrétnych odpovedí.",
+    copy: "Rozloha, priestor aj intenzita sa ukladajú priebežne. Zákazník nič nevypĺňa dvakrát.",
+  },
+  {
+    eyebrow: "04 / Pripravený dopyt",
+    title: "Zákazník dostane odhad. Firma celý kontext.",
+    copy: "Služba, lokalita aj kontakt prídu spolu. Tím môže rovno potvrdiť termín namiesto opakovaného zisťovania údajov.",
   },
 ];
 
@@ -54,93 +60,80 @@ export function DeratScrollStory() {
     const media = gsap.matchMedia();
 
     media.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
-      const images = gsap.utils.toArray<HTMLElement>("[data-case-frame]", root);
-      const copySteps = gsap.utils.toArray<HTMLElement>(".case-copy-step", root);
-      const progress = root.querySelector<HTMLElement>("[data-case-progress]");
-      const counter = root.querySelector<HTMLElement>("[data-case-current]");
-      const story = root.querySelector<HTMLElement>(".case-story-desktop");
-      if (!story || !images.length) return;
-
-      gsap.set(images, {
-        autoAlpha: 1,
-        yPercent: 112,
-        scale: 0.955,
-        rotateZ: 2.4,
-        zIndex: (index) => images.length + index,
-      });
-      gsap.set(copySteps, { opacity: 0.32, y: 12 });
-      gsap.set(images[0], { yPercent: 0, scale: 1, rotateZ: 0, zIndex: images.length + 2 });
-      gsap.set(copySteps[0], { opacity: 1, y: 0 });
-      if (progress) gsap.set(progress, { scaleX: 0.04, transformOrigin: "left center" });
-
-      const timeline = gsap.timeline({
-        defaults: { ease: "power3.inOut", force3D: true },
-        scrollTrigger: {
-          trigger: story,
-          start: "top top+=96",
-          end: "bottom bottom-=96",
-          scrub: 0.75,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            if (!counter) return;
-            const current = Math.min(images.length, Math.floor(self.progress * images.length) + 1);
-            counter.textContent = String(current).padStart(2, "0");
-          },
-        },
-      });
-
-      timeline.to({}, { duration: 0.7 });
-
-      images.slice(1).forEach((image, index) => {
-        const previousIndex = index;
-        const nextIndex = index + 1;
-        const at = 0.7 + index * 1.35;
-        const nextChapter = Math.min(
-          copySteps.length - 1,
-          Math.round((nextIndex / (images.length - 1)) * (copySteps.length - 1)),
-        );
-        const previousChapter = Math.min(
-          copySteps.length - 1,
-          Math.round((previousIndex / (images.length - 1)) * (copySteps.length - 1)),
-        );
-
-        timeline
-          .to(
-            images[previousIndex],
-            {
-              autoAlpha: 0.18,
-              yPercent: -10,
-              scale: 0.91,
-              rotateZ: -1.8,
-              duration: 0.9,
-            },
-            at,
-          )
-          .fromTo(
-            image,
-            { autoAlpha: 1, yPercent: 112, scale: 0.955, rotateZ: 2.4 },
-            { autoAlpha: 1, yPercent: 0, scale: 1, rotateZ: 0, duration: 0.96 },
-            at,
-          );
-
-        if (nextChapter !== previousChapter) {
-          timeline
-            .to(copySteps[previousChapter], { opacity: 0.32, y: -10, duration: 0.34 }, at)
-            .to(copySteps[nextChapter], { opacity: 1, y: 0, duration: 0.48 }, at + 0.05);
-        }
-      });
-
-      timeline.to({}, { duration: 0.85 });
-      if (progress) {
-        timeline.fromTo(
-          progress,
-          { scaleX: 0.04 },
-          { scaleX: 1, duration: timeline.duration(), ease: "none" },
-          0,
-        );
+      const story = root.querySelector<HTMLElement>("[data-derat-story]");
+      const frameElements = gsap.utils.toArray<HTMLElement>("[data-derat-frame]", root);
+      const copySteps = gsap.utils.toArray<HTMLElement>("[data-derat-copy]", root);
+      const progress = root.querySelector<HTMLElement>("[data-derat-progress]");
+      if (
+        !story ||
+        frameElements.length !== chapters.length ||
+        copySteps.length !== chapters.length
+      ) {
+        return;
       }
 
-      return () => timeline.kill();
+      const context = gsap.context(() => {
+        gsap.set(frameElements, { autoAlpha: 0, scale: 1.018 });
+        gsap.set(frameElements[0], { autoAlpha: 1, scale: 1 });
+        gsap.set(copySteps, { opacity: 0.28, y: 12 });
+        gsap.set(copySteps[0], { opacity: 1, y: 0 });
+        if (progress) gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
+
+        const timeline = gsap.timeline({
+          defaults: { overwrite: "auto" },
+          scrollTrigger: {
+            trigger: story,
+            start: "top top+=104",
+            end: "bottom bottom-=64",
+            scrub: 0.55,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        timeline.to({}, { duration: frameElements.length }, 0);
+
+        frameElements.slice(1).forEach((frame, index) => {
+          const nextIndex = index + 1;
+          const transitionAt = nextIndex - 0.2;
+
+          timeline
+            .to(
+              frameElements[index],
+              { autoAlpha: 0, scale: 0.986, duration: 0.42, ease: "power2.inOut" },
+              transitionAt,
+            )
+            .fromTo(
+              frame,
+              { autoAlpha: 0, scale: 1.018 },
+              { autoAlpha: 1, scale: 1, duration: 0.42, ease: "power2.inOut" },
+              transitionAt,
+            )
+            .to(
+              copySteps[index],
+              { opacity: 0.28, y: -10, duration: 0.34, ease: "power2.inOut" },
+              transitionAt,
+            )
+            .fromTo(
+              copySteps[nextIndex],
+              { opacity: 0.28, y: 12 },
+              { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" },
+              transitionAt + 0.04,
+            );
+        });
+
+        if (progress) {
+          timeline.fromTo(
+            progress,
+            { scaleX: 0 },
+            { scaleX: 1, duration: frameElements.length, ease: "none" },
+            0,
+          );
+        }
+      }, root);
+
+      return () => {
+        context.revert();
+      };
     });
 
     return () => media.revert();
@@ -150,185 +143,79 @@ export function DeratScrollStory() {
     <section
       ref={rootRef}
       id="realizacie"
-      className="case-study"
+      className="derat-story"
       aria-labelledby="derat-story-title"
     >
-      <div className="container-page case-study-heading">
+      <header className="container-page derat-story__heading">
         <div>
-          <p className="case-kicker">DERAT · reálny tok zákazníka</p>
-          <h2 id="derat-story-title">Od problému so škodcom po cenu a kontakt.</h2>
+          <p className="derat-story__kicker">DERAT / reálna realizácia</p>
+          <h2 id="derat-story-title">Štyri odpovede. Jeden pripravený dopyt.</h2>
         </div>
-        <div className="case-heading-aside">
-          <p>
-            Kalkulačka a asistent v jednom rozhraní. Cielené otázky určia škodcu, priestor, termín
-            aj orientačnú cenu — bez opakovaného zisťovania pri telefonáte.
-          </p>
+        <div className="derat-story__intro">
+          <p>Ukážka cesty, ktorá premení neistotu návštevníka na použiteľné zadanie pre firmu.</p>
           <a href="https://derat-chatbot-backend.vercel.app/" target="_blank" rel="noreferrer">
-            Vyskúšať živý DERAT widget <span aria-hidden="true">↗</span>
+            Otvoriť živý DERAT <span aria-hidden="true">↗</span>
           </a>
         </div>
-      </div>
+      </header>
 
-      <div className="container-page case-story-desktop">
-        <ol className="case-copy-list">
-          {chapters.map((chapter, index) => (
-            <li className="case-copy-step" key={chapter.title}>
-              <div className="case-step-number" aria-hidden="true">
-                0{index + 1}
-              </div>
-              <p className="case-kicker">{chapter.eyebrow}</p>
+      <div className="container-page derat-story__desktop" data-derat-story>
+        <div className="derat-story__visual">
+          <div className="derat-story__visual-stick">
+            <div className="derat-story__stage">
+              {frames.map((frame) => (
+                <figure data-derat-frame className="derat-story__frame" key={frame.src}>
+                  <img
+                    src={frame.src}
+                    alt={frame.alt}
+                    width="1086"
+                    height="1448"
+                    loading="lazy"
+                    fetchPriority="low"
+                    decoding="async"
+                  />
+                  <figcaption className="sr-only">{frame.label}</figcaption>
+                </figure>
+              ))}
+            </div>
+            <div className="derat-story__progress" aria-hidden="true">
+              <span data-derat-progress />
+            </div>
+          </div>
+        </div>
+
+        <ol className="derat-story__copy-list">
+          {chapters.map((chapter) => (
+            <li data-derat-copy className="derat-story__copy-step" key={chapter.title}>
+              <p className="derat-story__kicker">{chapter.eyebrow}</p>
               <h3>{chapter.title}</h3>
               <p>{chapter.copy}</p>
             </li>
           ))}
         </ol>
-
-        <div className="case-visual-column">
-          <div className="case-stage">
-            <div className="case-stage-meta">
-              <span>DERAT · kalkulačka</span>
-              <b>
-                <em data-case-current>01</em> / {String(frames.length).padStart(2, "0")}
-              </b>
-            </div>
-            <div className="case-progress-track" aria-hidden="true">
-              <span data-case-progress />
-            </div>
-            <div className="case-deck">
-              {frames.map((frame, index) => (
-                <figure data-case-frame className="case-frame" key={frame.src}>
-                  <div className="case-frame-photo">
-                    <img
-                      src={frame.src}
-                      alt={frame.alt}
-                      width="1086"
-                      height="1448"
-                      loading={index === 0 ? "eager" : "lazy"}
-                      fetchPriority={index === 0 ? "high" : "auto"}
-                      decoding="async"
-                      sizes="(min-width: 900px) 36vw, 86vw"
-                    />
-                  </div>
-                  <figcaption>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    {frame.label}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div className="case-mobile-gallery" aria-label="Obrazovky kalkulačky DERAT">
+      <div className="derat-story__mobile" aria-label="Obrazovky kalkulačky DERAT">
         {frames.map((frame, index) => (
-          <figure key={frame.src}>
-            <img
-              src={frame.src}
-              alt={frame.alt}
-              width="1086"
-              height="1448"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              {frame.label}
-            </figcaption>
-          </figure>
+          <article className="derat-story__mobile-slide" key={frame.src}>
+            <figure>
+              <img
+                src={frame.src}
+                alt={frame.alt}
+                width="1086"
+                height="1448"
+                loading="lazy"
+                fetchPriority="low"
+                decoding="async"
+              />
+            </figure>
+            <div className="derat-story__mobile-copy">
+              <p className="derat-story__kicker">{chapters[index].eyebrow}</p>
+              <h3>{chapters[index].title}</h3>
+              <p>{chapters[index].copy}</p>
+            </div>
+          </article>
         ))}
-      </div>
-    </section>
-  );
-}
-
-const selectedWork = [
-  {
-    name: "moj.chatbot.backend",
-    type: "Interaktívny prototyp",
-    description:
-      "Samostatný webový asistent s chameleónom, lokálnou konverzáciou, kalkulačkou a pripraveným integračným API.",
-    href: "https://danielvendzur-code.github.io/moj.chatbot.backend/",
-    github: "https://github.com/danielvendzur-code/moj.chatbot.backend",
-    tone: "green",
-  },
-  {
-    name: "koverta.sk",
-    type: "Produktový web",
-    description:
-      "Ponuka prístreškov, pergol a riešení pre dom a záhradu s jasnou cestou od kategórie k dopytu.",
-    href: "https://koverta.sk/",
-    tone: "clay",
-  },
-  {
-    name: "webko.sk",
-    type: "Predajná prezentácia",
-    description:
-      "Web pre tvorbu stránok na mieru, ktorý vysvetľuje rozsah služby a vedie návštevníka ku konkrétnemu zadaniu.",
-    href: "https://webko.sk/",
-    tone: "gold",
-  },
-  {
-    name: "mojplot.sk",
-    type: "E-shop a katalóg",
-    description:
-      "Rozsiahly sortiment plotov, brán a príslušenstva s produktovými variantmi, montážou a praktickým výberom.",
-    href: "https://mojplot.sk/",
-    tone: "ink",
-  },
-] as const;
-
-export function SelectedWork() {
-  return (
-    <section className="selected-work" aria-labelledby="selected-work-title">
-      <div className="container-page">
-        <div className="selected-work-heading">
-          <div>
-            <p className="case-kicker">Ďalšie realizácie a prototypy</p>
-            <h2 id="selected-work-title">Rôzne typy webov. Rovnaký dôraz na jasný ďalší krok.</h2>
-          </div>
-          <p>
-            Krátky výber verejných projektov — od produktového webu cez e-shop až po samostatný
-            asistenčný widget.
-          </p>
-        </div>
-
-        <div className="work-accordion">
-          {selectedWork.map((item, index) => (
-            <article className={`work-panel work-panel-${item.tone}`} key={item.name}>
-              <div className="work-panel-index" aria-hidden="true">
-                0{index + 1}
-              </div>
-              <div className="work-panel-graphic" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="work-panel-content">
-                <p>{item.type}</p>
-                <h3>{item.name}</h3>
-                <div className="work-panel-detail">
-                  <p>{item.description}</p>
-                  <div className="work-panel-links">
-                    <a href={item.href} target="_blank" rel="noreferrer">
-                      Otvoriť projekt <span aria-hidden="true">↗</span>
-                    </a>
-                    {"github" in item && item.github ? (
-                      <a
-                        href={item.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="work-source-link"
-                      >
-                        GitHub <span aria-hidden="true">↗</span>
-                      </a>
-                    ) : null}
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
       </div>
     </section>
   );

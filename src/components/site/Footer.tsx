@@ -9,7 +9,7 @@ export function Footer() {
       <div className="container-page premium-footer-main">
         <div className="premium-footer-brand">
           <Symbol size={36} />
-          <p>Chatboty, kalkulačky a konfigurátory, ktoré menia návštevy na konkrétne dopyty.</p>
+          <p>Daniel Vendzúr · weby, chatboty a digitálne nástroje navrhnuté na mieru.</p>
         </div>
 
         <div>
@@ -18,9 +18,7 @@ export function Footer() {
             <Link to="/sluzby">Čo tvorím</Link>
             <Link to="/projekty">Ukážky</Link>
             <Link to="/postup">Spolupráca</Link>
-            <Link to="/" hash="cena">
-              Cena
-            </Link>
+            <Link to="/kontakt">Kontakt</Link>
           </nav>
         </div>
 
@@ -40,7 +38,7 @@ export function Footer() {
         </div>
       </div>
       <div className="container-page premium-footer-bottom">
-        <span>© {new Date().getFullYear()} · Webové nástroje na mieru</span>
+        <span>© {new Date().getFullYear()} · Daniel Vendzúr</span>
         <span>Navrhnuté pre jasný ďalší krok.</span>
       </div>
     </footer>

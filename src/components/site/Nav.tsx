@@ -10,12 +10,11 @@ import "./Nav.css";
 
 const baseUrl = import.meta.env.BASE_URL;
 const drawerItems: LineSidebarItem[] = [
-  { label: "Úvod", href: `${baseUrl}#uvod` },
-  { label: "Prečo automatizovať", href: `${baseUrl}#porovnanie` },
-  { label: "Riešenia na mieru", href: `${baseUrl}#nastroje` },
-  { label: "DERAT v praxi", href: `${baseUrl}#realizacie` },
-  { label: "Vyskúšať kalkulačku", href: `${baseUrl}#vyskusat` },
-  { label: "Ako spolupracujeme", href: `${baseUrl}#spolupraca` },
+  { label: "Domov", href: baseUrl },
+  { label: "Služby", href: `${baseUrl}sluzby` },
+  { label: "Projekty", href: `${baseUrl}projekty` },
+  { label: "Postup", href: `${baseUrl}postup` },
+  { label: "Kontakt", href: `${baseUrl}kontakt` },
 ];
 
 export function Nav() {
@@ -82,13 +81,13 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => openSiteAssistant({ source: "nav" })}
+            <Link
+              to="/kontakt"
               className="hidden sm:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
               style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
             >
               Nezáväzná konzultácia
-            </button>
+            </Link>
             <button
               onClick={() => setOpen((value) => !value)}
               aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
@@ -119,8 +118,8 @@ export function Nav() {
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
               <Symbol size={38} />
               <span>
-                Digitálne nástroje
-                <small>na mieru</small>
+                Daniel Vendzúr
+                <small>weby a nástroje na mieru</small>
               </span>
             </Link>
             <button className="site-menu-close" type="button" onClick={closeMenu}>
@@ -129,22 +128,11 @@ export function Nav() {
           </div>
 
           <div className="site-menu-content">
-            <p className="site-menu-eyebrow">Prejdite priamo k tomu podstatnému</p>
+            <p className="site-menu-eyebrow">Navigácia</p>
             <LineSidebar items={drawerItems} onItemClick={closeMenu} />
           </div>
 
           <div className="site-menu-footer">
-            <div className="site-menu-routes" aria-label="Ďalšie stránky">
-              <Link to="/sluzby" onClick={closeMenu}>
-                Služby <ArrowUpRight size={14} />
-              </Link>
-              <Link to="/projekty" onClick={closeMenu}>
-                Projekty <ArrowUpRight size={14} />
-              </Link>
-              <Link to="/postup" onClick={closeMenu}>
-                Postup <ArrowUpRight size={14} />
-              </Link>
-            </div>
             <button
               className="site-menu-cta"
               type="button"
