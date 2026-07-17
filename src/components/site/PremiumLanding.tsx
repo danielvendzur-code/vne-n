@@ -12,7 +12,6 @@ import {
   Mail,
   MessageCircle,
   Rocket,
-  Settings2,
   Sparkles,
   Workflow,
   X,
@@ -20,6 +19,7 @@ import {
 import { Cubes } from "@/components/effects/Cubes";
 import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
+import { siteConfig } from "@/config/site";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./PremiumLanding.css";
 
@@ -29,15 +29,15 @@ type HeroToolKey = "chatbot" | "calculator" | "configurator";
 const heroTools = {
   chatbot: {
     label: "Chatbot",
-    text: "Odpovie, zistí potrebu a zachytí kontakt aj mimo pracovnej doby.",
+    text: "Odpovie, kvalifikuje dopyt a odovzdá vám kontakt aj s celým kontextom.",
   },
   calculator: {
     label: "Kalkulačka",
-    text: "Vypočíta orientačný výsledok presne podľa pravidiel vašej služby.",
+    text: "Vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
   },
   configurator: {
     label: "Konfigurátor",
-    text: "Prevedie zákazníka výberom a odošle vám hotovú špecifikáciu.",
+    text: "Prevedie zákazníka ľubovoľným výberom a odošle hotovú špecifikáciu.",
   },
 } satisfies Record<HeroToolKey, { label: string; text: string }>;
 
@@ -52,7 +52,7 @@ const comparisons = {
     label: "S vlastným nástrojom",
     title: "Dopyt pripravený na ďalší krok.",
     copy: "Návštevník dostane odpoveď hneď a vy kontakt spolu s relevantnými vstupmi.",
-    items: ["Odpoveď 24/7", "Kompletný kontext", "Menej ručného zisťovania"],
+    items: ["Odpoveď ihneď", "Kompletný kontext", "Menej ručného zisťovania"],
   },
 };
 
@@ -64,13 +64,13 @@ const solutions = [
   },
   {
     icon: Calculator,
-    title: "Cenová kalkulačka",
-    copy: "Vaše pravidlá a cenník premenené na jednoduchý, zrozumiteľný postup.",
+    title: "Kalkulačky a konfigurátory",
+    copy: "Od ceny po zložitý produktový výber — logika sa prispôsobí vášmu procesu.",
   },
   {
-    icon: Settings2,
-    title: "Konfigurátor",
-    copy: "Komplexný výber rozdelený na pár rozhodnutí, ktoré zákazník zvládne sám.",
+    icon: Workflow,
+    title: "Všetko v jednom chatbote",
+    copy: "Kalkulačku aj konfigurátor viem prepojiť s rozhovorom do jedného plynulého zážitku.",
   },
 ];
 
@@ -190,16 +190,16 @@ function Hero() {
             Web, ktorý nielen vyzerá dobre. <em>Aj pracuje.</em>
           </h1>
           <p className="lp-hero-lead">
-            Navrhujem chatboty, kalkulačky a konfigurátory, ktoré návštevníka prevedú rozhodnutím a
-            vám odovzdajú pripravený kontakt.
+            Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené v
+            jednom riešení. Návštevník dostane odpoveď, vy pripravený dopyt.
           </p>
           <div className="lp-actions">
-            <a href="#projekty" className="lp-button lp-button-primary">
-              Pozrieť realizácie <ArrowRight size={17} />
-            </a>
-            <Link to="/kontakt" className="lp-button lp-button-quiet">
-              Napísať mi
+            <Link to="/kontakt" className="lp-button lp-button-primary">
+              Chcem riešenie na mieru <ArrowRight size={17} />
             </Link>
+            <a href="#projekty" className="lp-button lp-button-quiet">
+              Pozrieť realizácie
+            </a>
           </div>
           <p className="lp-hero-note">
             <CircleCheck size={15} /> Od návrhu logiky po nasadenie na váš web.
@@ -226,19 +226,10 @@ function Hero() {
           </div>
 
           <div className="lp-assistant-card">
-            <div className="lp-assistant-head">
-              <span className="lp-assistant-bot">
-                <Symbol size={42} />
-              </span>
-              <span>
-                <strong>Digitálny asistent</strong>
-                <small>
-                  <i /> online · pripravený odpovedať
-                </small>
-              </span>
-              <b>24/7</b>
-            </div>
-            <p>Čo chcete na svojom webe zjednodušiť?</p>
+            <span className="lp-assistant-bot" aria-hidden="true">
+              <Symbol size={48} />
+            </span>
+            <p>Čo má váš web urobiť za zákazníka?</p>
             <div className="lp-assistant-chips" role="group" aria-label="Typ webového nástroja">
               {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
                 ([key, tool]) => (
@@ -269,7 +260,7 @@ function Hero() {
               className="lp-assistant-cta"
               onClick={() => openSiteAssistant({ source: "hero-card" })}
             >
-              Vyskúšať živého asistenta <ArrowUpRight />
+              Otvoriť môjho chatbota <ArrowUpRight />
             </button>
           </div>
         </motion.div>
@@ -439,8 +430,8 @@ function ProcessAndCta() {
           <Link to="/kontakt" className="lp-button lp-button-light">
             Nezáväzná konzultácia <ArrowRight />
           </Link>
-          <a href="mailto:info@webko.sk" className="lp-final-email">
-            <Mail /> info@webko.sk
+          <a href={`mailto:${siteConfig.contact.email}`} className="lp-final-email">
+            <Mail /> {siteConfig.contact.email}
           </a>
         </Reveal>
       </div>

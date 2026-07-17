@@ -89,19 +89,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Navrhujem chatboty, kalkulačky, konfigurátory a weby, ktoré návštevníka prevedú rozhodnutím a firme odovzdajú pripravený dopyt.",
+          "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
       },
       { property: "og:title", content: "Daniel Vendzúr — weby, ktoré pracujú" },
       {
         property: "og:description",
-        content: "Chatboty, kalkulačky, konfigurátory a webové realizácie na mieru.",
+        content: "Chatboty, ľubovoľné kalkulačky, konfigurátory a webové realizácie na mieru.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, type: "image/x-icon" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.svg`, type: "image/svg+xml" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -121,7 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="sk">
       <head>
         <HeadContent />
-        <script src="https://derat-chatbot-backend.vercel.app/embed.js?v=20260712-1" defer />
+        <script src="https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js" defer />
       </head>
       <body>
         {children}

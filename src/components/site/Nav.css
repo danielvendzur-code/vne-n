@@ -18,7 +18,8 @@
 .brand-symbol__face,
 .brand-symbol__antenna,
 .brand-symbol__spark,
-.brand-symbol__eyes {
+.brand-symbol__eyes,
+.brand-symbol__accent {
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -27,8 +28,28 @@
 .brand-symbol__face,
 .brand-symbol__antenna,
 .brand-symbol__eyes,
-.brand-symbol__spark {
+.brand-symbol__spark,
+.brand-symbol__accent {
   transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-brand-lockup {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.site-brand-name {
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 760;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.site-menu-brand .brand-symbol {
+  --brand-symbol-shell: #effff8;
+  --brand-symbol-face: #00a879;
+  --brand-symbol-signal: #b8ff66;
 }
 
 .site-header-bar > a:focus-visible .brand-symbol__shell,
@@ -194,7 +215,7 @@
 }
 
 .site-menu-brand small {
-  color: rgba(233, 243, 241, 0.58);
+  color: rgba(233, 243, 241, 0.74);
   font-size: 0.68rem;
   font-weight: 500;
 }
@@ -224,7 +245,7 @@
 
 .site-menu-eyebrow {
   margin: 0 0 1.35rem;
-  color: rgba(233, 243, 241, 0.5);
+  color: rgba(233, 243, 241, 0.74);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -248,7 +269,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  color: rgba(233, 243, 241, 0.62);
+  color: rgba(233, 243, 241, 0.78);
   font-size: 0.72rem;
   transition: color 160ms ease;
 }
@@ -301,6 +322,12 @@ body[data-site-menu-open="true"] .cw-widget {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+
+body[data-site-menu-open="true"] #site-assistant-widget-host {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 @media (max-width: 760px) {

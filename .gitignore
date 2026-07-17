@@ -17,6 +17,7 @@ pages-dist
 .nitro
 *.local
 .edge-cdp-test/
+.chrome-*/
 
 # Wrangler / Cloudflare
 .wrangler/

@@ -3,13 +3,13 @@ interface SymbolProps {
   className?: string;
 }
 
-/** A friendly, original bot inside a conversation bubble. */
+/** Original bot mark: a conversation bubble, a warm face and a small signal spark. */
 export function Symbol({ size = 36, className }: SymbolProps) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 36 36"
+      viewBox="0 0 40 40"
       fill="none"
       className={`brand-symbol${className ? ` ${className}` : ""}`}
       aria-hidden="true"
@@ -17,48 +17,59 @@ export function Symbol({ size = 36, className }: SymbolProps) {
     >
       <path
         className="brand-symbol__antenna"
-        d="M18 7V4.4"
-        stroke="var(--highlight)"
-        strokeWidth="2"
+        d="M20 8V5.7"
+        stroke="var(--brand-symbol-signal, #ff785c)"
+        strokeWidth="2.2"
         strokeLinecap="round"
       />
-      <circle className="brand-symbol__spark" cx="18" cy="3.3" r="2.05" fill="var(--highlight)" />
+      <circle
+        className="brand-symbol__spark"
+        cx="20"
+        cy="4"
+        r="2.25"
+        fill="var(--brand-symbol-signal, #ff785c)"
+      />
       <path
         className="brand-symbol__shell"
-        d="M9.2 6.4h17.6c4.25 0 6.8 2.55 6.8 6.8v10.4c0 4.25-2.55 6.8-6.8 6.8h-8.25L11.4 35v-4.72c-3.73-.58-5.98-2.98-5.98-6.68V13.2c0-4.25 2.55-6.8 6.8-6.8Z"
-        fill="#061e18"
+        d="M10.8 7.25h18.4c4.7 0 7.55 2.8 7.55 7.5v10.1c0 4.7-2.85 7.5-7.55 7.5h-8.55l-7.8 5.15v-5.34c-3.75-.75-5.6-3.3-5.6-7.31v-10.1c0-4.7 2.85-7.5 7.55-7.5Z"
+        fill="var(--brand-symbol-shell, #061e18)"
       />
       <rect
         className="brand-symbol__face"
-        x="8.4"
-        y="10"
-        width="19.2"
-        height="15.4"
-        rx="7.7"
-        fill="var(--primary)"
+        x="9.8"
+        y="11"
+        width="20.4"
+        height="16.5"
+        rx="8.25"
+        fill="var(--brand-symbol-face, var(--primary))"
       />
       <path
         className="brand-symbol__highlight"
-        d="M11.4 13.2c1.35-1.2 3.15-1.8 5.4-1.8h5.15"
-        stroke="rgba(255,255,255,.34)"
-        strokeWidth="1.1"
+        d="M13 14.15c1.55-1.15 3.4-1.7 5.65-1.7h4.6"
+        stroke="rgba(255,255,255,.42)"
+        strokeWidth="1.15"
         strokeLinecap="round"
       />
       <g className="brand-symbol__eyes" fill="#061e18">
-        <ellipse cx="14.2" cy="17.35" rx="1.65" ry="1.85" />
-        <ellipse cx="21.8" cy="17.35" rx="1.65" ry="1.85" />
+        <ellipse cx="15.7" cy="18.7" rx="1.7" ry="1.95" />
+        <ellipse cx="24.3" cy="18.7" rx="1.7" ry="1.95" />
       </g>
-      <circle cx="14.75" cy="16.75" r="0.45" fill="white" fillOpacity="0.86" />
-      <circle cx="22.35" cy="16.75" r="0.45" fill="white" fillOpacity="0.86" />
+      <circle cx="16.3" cy="18" r="0.48" fill="white" fillOpacity="0.92" />
+      <circle cx="24.9" cy="18" r="0.48" fill="white" fillOpacity="0.92" />
       <path
         className="brand-symbol__smile"
-        d="M14.1 21.05c1.05.82 2.35 1.22 3.9 1.22s2.85-.4 3.9-1.22"
+        d="M15.55 22.45c1.18.88 2.66 1.32 4.45 1.32s3.27-.44 4.45-1.32"
         stroke="#061e18"
-        strokeWidth="1.35"
+        strokeWidth="1.45"
         strokeLinecap="round"
       />
-      <circle cx="8.15" cy="17.55" r="1.18" fill="var(--highlight)" />
-      <circle cx="27.85" cy="17.55" r="1.18" fill="var(--highlight)" />
+      <circle cx="9.45" cy="19.1" r="1.22" fill="var(--brand-symbol-signal, #ff785c)" />
+      <circle cx="30.55" cy="19.1" r="1.22" fill="var(--brand-symbol-signal, #ff785c)" />
+      <path
+        className="brand-symbol__accent"
+        d="m32.55 8.25.55 1.35 1.35.55-1.35.55-.55 1.35L32 10.7l-1.35-.55L32 9.6l.55-1.35Z"
+        fill="var(--brand-symbol-accent, #ff785c)"
+      />
     </svg>
   );
 }

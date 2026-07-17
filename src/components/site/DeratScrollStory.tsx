@@ -56,6 +56,38 @@ export function DeratScrollStory() {
     const root = rootRef.current;
     if (!root) return;
 
+    const pendingImages: HTMLImageElement[] = [];
+    const preloadRemainingFrames = () => {
+      frames.slice(1).forEach((frame) => {
+        const image = new Image();
+        image.decoding = "async";
+        image.src = frame.src;
+        pendingImages.push(image);
+      });
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      preloadRemainingFrames();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        preloadRemainingFrames();
+        observer.disconnect();
+      },
+      { rootMargin: "900px 0px" },
+    );
+    observer.observe(root);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
 
@@ -75,7 +107,7 @@ export function DeratScrollStory() {
       const context = gsap.context(() => {
         gsap.set(frameElements, { autoAlpha: 0, scale: 1.018 });
         gsap.set(frameElements[0], { autoAlpha: 1, scale: 1 });
-        gsap.set(copySteps, { opacity: 0.28, y: 12 });
+        gsap.set(copySteps, { opacity: 0.76, y: 12 });
         gsap.set(copySteps[0], { opacity: 1, y: 0 });
         if (progress) gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
 
@@ -110,12 +142,12 @@ export function DeratScrollStory() {
             )
             .to(
               copySteps[index],
-              { opacity: 0.28, y: -10, duration: 0.34, ease: "power2.inOut" },
+              { opacity: 0.76, y: -10, duration: 0.34, ease: "power2.inOut" },
               transitionAt,
             )
             .fromTo(
               copySteps[nextIndex],
-              { opacity: 0.28, y: 12 },
+              { opacity: 0.76, y: 12 },
               { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" },
               transitionAt + 0.04,
             );
@@ -163,15 +195,15 @@ export function DeratScrollStory() {
         <div className="derat-story__visual">
           <div className="derat-story__visual-stick">
             <div className="derat-story__stage">
-              {frames.map((frame) => (
+              {frames.map((frame, index) => (
                 <figure data-derat-frame className="derat-story__frame" key={frame.src}>
                   <img
                     src={frame.src}
                     alt={frame.alt}
                     width="1086"
                     height="1448"
-                    loading="lazy"
-                    fetchPriority="low"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchPriority={index === 0 ? "high" : "low"}
                     decoding="async"
                   />
                   <figcaption className="sr-only">{frame.label}</figcaption>

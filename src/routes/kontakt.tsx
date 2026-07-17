@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Check, Clock3, Mail, MessageCircle, Phone } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
+import { siteConfig } from "@/config/site";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./kontakt.css";
 
@@ -41,7 +42,7 @@ function ContactPage() {
         project,
       ].join("\n"),
     );
-    window.location.href = `mailto:info@webko.sk?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${siteConfig.contact.email}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -63,13 +64,13 @@ function ContactPage() {
             </p>
 
             <div className="contact-details">
-              <a href="mailto:info@webko.sk">
+              <a href={`mailto:${siteConfig.contact.email}`}>
                 <Mail />
-                info@webko.sk
+                {siteConfig.contact.email}
               </a>
-              <a href="tel:+421910893949">
+              <a href={`tel:${siteConfig.contact.phoneHref}`}>
                 <Phone />
-                +421 910 893 949
+                {siteConfig.contact.phoneLabel}
               </a>
               <span>
                 <Clock3 />

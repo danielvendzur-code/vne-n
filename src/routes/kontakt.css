@@ -52,7 +52,7 @@
   width: 0.48rem;
   height: 0.48rem;
   border-radius: 50%;
-  background: #00a879;
+  background: #007d5f;
   box-shadow: 0 0 0 0.38rem rgba(0, 168, 121, 0.08);
 }
 
@@ -67,7 +67,7 @@
 }
 
 .contact-intro h1 em {
-  color: #00a879;
+  color: #007d5f;
   font-style: normal;
 }
 
@@ -97,7 +97,7 @@
 
 .contact-details svg {
   width: 1rem;
-  color: #00a879;
+  color: #007d5f;
 }
 
 .contact-expect {
@@ -109,7 +109,7 @@
 
 .contact-expect > p {
   margin: 0;
-  color: #72867d;
+  color: #52685e;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -132,7 +132,7 @@
 
 .contact-expect li svg {
   width: 1rem;
-  color: #00a879;
+  color: #007d5f;
 }
 
 .contact-card {
@@ -145,7 +145,7 @@
 }
 
 .contact-card-head > span {
-  color: #00a879;
+  color: #007d5f;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -216,7 +216,7 @@
 .contact-card input:focus,
 .contact-card textarea:focus,
 .contact-card select:focus {
-  border-color: #00a879;
+  border-color: #007d5f;
   background: white;
   box-shadow: 0 0 0 3px rgba(0, 168, 121, 0.1);
 }
@@ -241,7 +241,7 @@
 .contact-submit {
   border: 0;
   color: white;
-  background: #00a879;
+  background: #007d5f;
 }
 
 .contact-submit:hover,
@@ -250,7 +250,7 @@
 }
 
 .contact-submit:hover {
-  background: #00966c;
+  background: #075a48;
 }
 
 .contact-submit svg,
@@ -269,7 +269,7 @@
   position: relative;
   top: -0.65rem;
   padding: 0 0.7rem;
-  color: #81928a;
+  color: #586d63;
   background: white;
   font-size: 0.68rem;
 }

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import { Symbol } from "@/components/Symbol";
+import { siteConfig } from "@/config/site";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
 export function Footer() {
@@ -9,7 +10,7 @@ export function Footer() {
       <div className="container-page premium-footer-main">
         <div className="premium-footer-brand">
           <Symbol size={36} />
-          <p>Daniel Vendzúr · weby, chatboty a digitálne nástroje navrhnuté na mieru.</p>
+          <p>Daniel Vendzúr · chatboty, kalkulačky a konfigurátory navrhnuté na mieru.</p>
         </div>
 
         <div>
@@ -25,11 +26,11 @@ export function Footer() {
         <div>
           <p className="premium-footer-label">Priamy kontakt</p>
           <div className="premium-footer-links">
-            <a href="mailto:info@webko.sk">
-              <Mail size={15} /> info@webko.sk
+            <a href={`mailto:${siteConfig.contact.email}`}>
+              <Mail size={15} /> {siteConfig.contact.email}
             </a>
-            <a href="tel:+421910893949">
-              <Phone size={15} /> +421 910 893 949
+            <a href={`tel:${siteConfig.contact.phoneHref}`}>
+              <Phone size={15} /> {siteConfig.contact.phoneLabel}
             </a>
             <button onClick={() => openSiteAssistant({ source: "footer" })}>
               Otvoriť krátky dopyt <ArrowUpRight size={15} />

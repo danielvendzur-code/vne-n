@@ -76,7 +76,9 @@ export function Cubes({
   className = "",
 }: CubesProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
+  const sceneRectRef = useRef<DOMRectReadOnly | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const geometryFrameRef = useRef<number | null>(null);
   const cubesRef = useRef<HTMLElement[]>([]);
   const cubeMotionRef = useRef<Map<HTMLElement, CubeMotion>>(new Map());
   const activeCubesRef = useRef<Set<HTMLElement>>(new Set());
@@ -109,12 +111,20 @@ export function Cubes({
         ? `${cellGap.row}px`
         : "clamp(3px, 0.7vw, 8px)";
 
+  const updateSceneRect = useCallback(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+    sceneRectRef.current = scene.getBoundingClientRect();
+  }, []);
+
   const getScenePoint = useCallback(
     (clientX: number, clientY: number): ScenePoint => {
       const scene = sceneRef.current;
       if (!scene) return { col: 0, row: 0, inside: false };
 
-      const rect = scene.getBoundingClientRect();
+      // Pointer events can fire substantially faster than animation frames.
+      // Reading layout here used to make the field stutter on high-Hz mice.
+      const rect = sceneRectRef.current ?? scene.getBoundingClientRect();
       if (rect.width <= 0 || rect.height <= 0) return { col: 0, row: 0, inside: false };
 
       const edgeTolerance = Math.min(rect.width, rect.height) * 0.018;
@@ -158,35 +168,36 @@ export function Cubes({
 
       activeCubesRef.current.forEach((cube) => {
         if (nextActive.has(cube)) return;
-        gsap.to(cube, {
-          duration: duration.leave,
-          ease: "power3.out",
-          overwrite: "auto",
-          rotationX: 0,
-          rotationY: 0,
-          z: 0,
-        });
+        const motion = cubeMotionRef.current.get(cube);
+        motion?.rotateX(0);
+        motion?.rotateY(0);
+        motion?.z(0);
       });
 
       activeCubesRef.current = nextActive;
     },
-    [duration.leave, maxAngle, radius, reducedMotion],
+    [maxAngle, radius, reducedMotion],
   );
 
   const resetAll = useCallback(
     (immediate = false) => {
       if (activeCubesRef.current.size === 0) return;
-      gsap.to([...activeCubesRef.current], {
-        duration: immediate || reducedMotion ? 0 : duration.leave,
-        ease: "power3.out",
-        overwrite: "auto",
-        rotationX: 0,
-        rotationY: 0,
-        z: 0,
+      activeCubesRef.current.forEach((cube) => {
+        const motion = cubeMotionRef.current.get(cube);
+        if (immediate || reducedMotion) {
+          motion?.rotateX(0);
+          motion?.rotateY(0);
+          motion?.z(0);
+          gsap.set(cube, { rotationX: 0, rotationY: 0, z: 0 });
+          return;
+        }
+        motion?.rotateX(0);
+        motion?.rotateY(0);
+        motion?.z(0);
       });
       activeCubesRef.current.clear();
     },
-    [duration.leave, reducedMotion],
+    [reducedMotion],
   );
 
   const rippleAt = useCallback(
@@ -220,18 +231,6 @@ export function Cubes({
           delay: delay + 0.24 / rippleSpeed,
           ease: "power3.out",
         });
-        gsap.fromTo(
-          cube,
-          { scale: 1 },
-          {
-            scale: 1.035,
-            duration: 0.18 / rippleSpeed,
-            delay,
-            repeat: 1,
-            yoyo: true,
-            ease: "power2.inOut",
-          },
-        );
       });
     },
     [faceColor, getScenePoint, reducedMotion, rippleColor, rippleOnClick, rippleSpeed],
@@ -274,12 +273,18 @@ export function Cubes({
       scene.style.setProperty("--rb-cube-depth", `${depth.toFixed(2)}px`);
     };
 
-    updateDepth();
-    const resizeObserver = new ResizeObserver(updateDepth);
+    const updateGeometry = () => {
+      updateDepth();
+      updateSceneRect();
+    };
+
+    updateGeometry();
+    const resizeObserver = new ResizeObserver(updateGeometry);
     resizeObserver.observe(scene);
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         visibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) updateSceneRect();
         if (!entry.isIntersecting) resetAll(true);
       },
       { rootMargin: "120px" },
@@ -290,7 +295,7 @@ export function Cubes({
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
     };
-  }, [resetAll]);
+  }, [resetAll, updateSceneRect]);
 
   useEffect(() => {
     if (reducedMotion) {
@@ -315,6 +320,7 @@ export function Cubes({
       interactionUntilRef.current = performance.now() + (event.pointerType === "touch" ? 650 : 320);
     };
     const onPointerMove = (event: PointerEvent) => samplePointer(event);
+    const onPointerOver = (event: PointerEvent) => samplePointer(event);
     const onPointerDown = (event: PointerEvent) => {
       samplePointer(event, true);
       rippleAt(event.clientX, event.clientY);
@@ -336,6 +342,7 @@ export function Cubes({
       pointerRef.current.pressed = false;
     };
     const refreshPointerPosition = () => {
+      updateSceneRect();
       const pointer = pointerRef.current;
       if (!pointer.hasPosition) return;
       const point = getScenePoint(pointer.clientX, pointer.clientY);
@@ -343,27 +350,42 @@ export function Cubes({
       pointer.row = point.row;
       pointer.inside = point.inside;
     };
+    const scheduleGeometryRefresh = () => {
+      if (geometryFrameRef.current !== null) return;
+      geometryFrameRef.current = window.requestAnimationFrame(() => {
+        geometryFrameRef.current = null;
+        refreshPointerPosition();
+      });
+    };
 
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("pointerdown", onPointerDown, { passive: true });
-    window.addEventListener("pointerup", onPointerUp, { passive: true });
-    window.addEventListener("pointercancel", onPointerUp, { passive: true });
-    window.addEventListener("pointerout", onPointerExit, { passive: true });
+    // Capture-phase listeners keep the background responsive even when a
+    // foreground button/widget captures or stops bubbling pointer events.
+    window.addEventListener("pointermove", onPointerMove, { passive: true, capture: true });
+    window.addEventListener("pointerover", onPointerOver, { passive: true, capture: true });
+    window.addEventListener("pointerdown", onPointerDown, { passive: true, capture: true });
+    window.addEventListener("pointerup", onPointerUp, { passive: true, capture: true });
+    window.addEventListener("pointercancel", onPointerUp, { passive: true, capture: true });
+    window.addEventListener("pointerout", onPointerExit, { passive: true, capture: true });
     window.addEventListener("blur", onBlur);
-    window.addEventListener("resize", refreshPointerPosition, { passive: true });
-    window.addEventListener("scroll", refreshPointerPosition, { passive: true });
+    window.addEventListener("resize", scheduleGeometryRefresh, { passive: true });
+    window.addEventListener("scroll", scheduleGeometryRefresh, { passive: true });
 
     return () => {
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointerup", onPointerUp);
-      window.removeEventListener("pointercancel", onPointerUp);
-      window.removeEventListener("pointerout", onPointerExit);
+      window.removeEventListener("pointermove", onPointerMove, true);
+      window.removeEventListener("pointerover", onPointerOver, true);
+      window.removeEventListener("pointerdown", onPointerDown, true);
+      window.removeEventListener("pointerup", onPointerUp, true);
+      window.removeEventListener("pointercancel", onPointerUp, true);
+      window.removeEventListener("pointerout", onPointerExit, true);
       window.removeEventListener("blur", onBlur);
-      window.removeEventListener("resize", refreshPointerPosition);
-      window.removeEventListener("scroll", refreshPointerPosition);
+      window.removeEventListener("resize", scheduleGeometryRefresh);
+      window.removeEventListener("scroll", scheduleGeometryRefresh);
+      if (geometryFrameRef.current !== null) {
+        window.cancelAnimationFrame(geometryFrameRef.current);
+        geometryFrameRef.current = null;
+      }
     };
-  }, [getScenePoint, reducedMotion, resetAll, rippleAt]);
+  }, [getScenePoint, reducedMotion, resetAll, rippleAt, updateSceneRect]);
 
   useEffect(() => {
     if (reducedMotion) return;

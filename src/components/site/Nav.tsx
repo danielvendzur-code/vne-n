@@ -62,8 +62,13 @@ export function Nav() {
               : "0 4px 20px rgba(16, 38, 31, 0.035)",
           }}
         >
-          <Link to="/" className="flex items-center gap-2" aria-label="Domov">
+          <Link
+            to="/"
+            className="site-brand-lockup flex items-center gap-2"
+            aria-label="Daniel Vendzúr — domov"
+          >
             <Symbol size={34} />
+            <span className="site-brand-name">Daniel Vendzúr</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8" aria-label="Rýchla navigácia">
@@ -147,8 +152,8 @@ export function Nav() {
               </span>
               <ArrowUpRight size={20} />
             </button>
-            <a className="site-menu-email" href="mailto:info@webko.sk">
-              <Mail size={14} /> info@webko.sk
+            <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>
+              <Mail size={14} /> {siteConfig.contact.email}
             </a>
           </div>
         </aside>

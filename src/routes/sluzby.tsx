@@ -9,7 +9,7 @@ export const Route = createFileRoute("/sluzby")({
       {
         name: "description",
         content:
-          "Tri nástroje: chatbot a dopytový asistent, pokročilá cenová kalkulačka, krokový produktový a službový konfigurátor.",
+          "Chatboty, ľubovoľné kalkulačky a krokové konfigurátory. Každý nástroj môže fungovať samostatne alebo priamo v chatbote.",
       },
       { property: "og:title", content: "Čo tvorím" },
       {
@@ -32,16 +32,16 @@ const services = [
   },
   {
     id: "kalkulacka",
-    name: "Pokročilá cenová kalkulačka",
-    intro: "Cena podľa reálnych pravidiel firmy.",
-    when: "Cena sa dá odvodiť z merateľných vstupov — rozmerov, materiálu, dopravy, montáže.",
-    input: "Rozmery, typ, materiál, doprava, montáž, doplnky.",
-    output: "Presná cena podľa cenníka alebo orientačný rozsah.",
+    name: "Kalkulačka na mieru",
+    intro: "Cena, spotreba, návratnosť alebo iný výsledok podľa vašej logiky.",
+    when: "Výsledok sa dá odvodiť z reálnych vstupov a pravidiel vášho podnikania.",
+    input: "Ľubovoľné údaje — rozmery, množstvo, typ, doprava, montáž či vlastné premenné.",
+    output: "Presný výsledok, orientačný rozsah alebo ponuka pripravená na odoslanie.",
   },
   {
     id: "konfigurator",
-    name: "Krokový konfigurátor",
-    intro: "Poskladanie produktu alebo služby z dostupných možností.",
+    name: "Konfigurátor na mieru",
+    intro: "Ľubovoľný produkt alebo služba poskladané z dostupných možností.",
     when: "Ponuka má viac variantov a klient sa v nej sám nezorientuje.",
     input: "Typ, materiál, rozmer, farba, doplnky, montáž, doprava.",
     output: "Konkrétna konfigurácia pripravená na výrobu alebo cenovú ponuku.",
@@ -55,10 +55,14 @@ function ServicesPage() {
         <div className="container-page pt-12 pb-8 md:pt-20 md:pb-12">
           <div className="eyebrow mb-3">Čo tvorím</div>
           <h1 className="font-semibold max-w-3xl" style={{ fontSize: "clamp(2rem, 6vw, 3.2rem)" }}>
-            Tri nástroje. Vyberáme podľa toho, čo klient potrebuje spraviť.
+            Chatbot, kalkulačka, konfigurátor. Samostatne aj spolu.
           </h1>
-          <p className="mt-5 max-w-2xl text-base md:text-lg" style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}>
-            Každý nástroj sa skladá podľa služieb, cien a procesu konkrétnej firmy.
+          <p
+            className="mt-5 max-w-2xl text-base md:text-lg"
+            style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
+          >
+            Každý nástroj skladám podľa služieb, cien a procesu firmy. Kalkulačku či konfigurátor
+            môžem nasadiť samostatne alebo ich vložiť priamo do plynulého rozhovoru s chatbotom.
           </p>
         </div>
       </section>
@@ -72,9 +76,13 @@ function ServicesPage() {
               style={{ borderTop: "1px solid var(--border)", paddingTop: "2rem" }}
             >
               <div className="md:col-span-4">
-                <div className="text-xs tabular-nums mb-2" style={{ color: "var(--text-light)" }}>0{i + 1}</div>
+                <div className="text-xs tabular-nums mb-2" style={{ color: "var(--text-light)" }}>
+                  0{i + 1}
+                </div>
                 <h2 className="text-2xl md:text-3xl font-semibold">{s.name}</h2>
-                <p className="mt-3 text-base" style={{ color: "var(--text-secondary)" }}>{s.intro}</p>
+                <p className="mt-3 text-base" style={{ color: "var(--text-secondary)" }}>
+                  {s.intro}
+                </p>
               </div>
               <div className="md:col-span-8 grid gap-5 sm:grid-cols-2">
                 <Row label="Kedy dáva zmysel" body={s.when} />
@@ -115,7 +123,9 @@ function Row({ label, body }: { label: string; body: string }) {
   return (
     <div>
       <div className="eyebrow mb-2">{label}</div>
-      <p className="text-sm" style={{ color: "var(--text-primary)", lineHeight: 1.6 }}>{body}</p>
+      <p className="text-sm" style={{ color: "var(--text-primary)", lineHeight: 1.6 }}>
+        {body}
+      </p>
     </div>
   );
 }
