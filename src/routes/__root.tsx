@@ -121,7 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="sk">
       <head>
         <HeadContent />
-        <script src="https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js" defer />
+        <script src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js" defer />
       </head>
       <body>
         {children}
