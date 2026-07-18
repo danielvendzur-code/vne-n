@@ -58,7 +58,7 @@ export function Nav() {
               : "color-mix(in oklab, var(--surface) 74%, transparent)",
             border: "1px solid var(--border)",
             boxShadow: scrolled
-              ? "0 18px 52px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(244, 251, 248, 0.035) inset"
+              ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(242, 239, 230, 0.04) inset"
               : "0 10px 30px rgba(0, 0, 0, 0.16)",
           }}
         >

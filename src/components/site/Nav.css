@@ -47,9 +47,10 @@
 }
 
 .site-menu-brand .brand-symbol {
-  --brand-symbol-shell: #f4fbf8;
-  --brand-symbol-face: #32d3a2;
-  --brand-symbol-signal: #ff9276;
+  --brand-symbol-shell: #f2efe6;
+  --brand-symbol-face: #bc7352;
+  --brand-symbol-signal: #c9aa70;
+  --brand-symbol-accent: #7fa58f;
 }
 
 .site-header-bar > a:focus-visible .brand-symbol__shell,
@@ -138,7 +139,7 @@
 .site-menu-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(1, 9, 10, 0.76);
+  background: rgba(3, 12, 8, 0.82);
   opacity: 0;
   backdrop-filter: blur(8px);
   transition: opacity 360ms ease;
@@ -160,10 +161,11 @@
   outline: none;
   color: var(--text-primary);
   background:
-    radial-gradient(circle at 96% 2%, rgba(255, 146, 118, 0.13), transparent 27rem),
-    radial-gradient(circle at 4% 96%, rgba(112, 168, 255, 0.1), transparent 30rem),
-    linear-gradient(145deg, #102d2f 0%, #091f20 48%, #061718 100%);
-  box-shadow: -32px 0 100px rgba(0, 6, 7, 0.56);
+    url("../../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 96% 2%, rgba(188, 115, 82, 0.08), transparent 27rem),
+    radial-gradient(circle at 4% 96%, rgba(127, 165, 143, 0.08), transparent 30rem),
+    linear-gradient(145deg, #17352a 0%, #0c1f18 48%, #06120e 100%);
+  box-shadow: -32px 0 100px rgba(0, 0, 0, 0.6);
   transform: translate3d(102%, 0, 0);
   transition: transform 520ms cubic-bezier(0.32, 0.72, 0, 1);
 }
@@ -180,7 +182,7 @@
   height: 29rem;
   border-radius: 50%;
   pointer-events: none;
-  background: rgba(255, 146, 118, 0.12);
+  background: rgba(201, 170, 112, 0.09);
   filter: blur(28px);
 }
 
@@ -310,7 +312,8 @@
 }
 
 .site-menu-cta small {
-  color: rgba(7, 27, 28, 0.72);
+  color: var(--primary-foreground);
+  opacity: 0.9;
   font-size: 0.65rem;
   font-weight: 600;
 }

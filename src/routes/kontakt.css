@@ -3,9 +3,10 @@
   overflow: hidden;
   color: var(--text-primary);
   background:
-    radial-gradient(circle at 96% 8%, rgba(50, 211, 162, 0.1), transparent 34rem),
-    radial-gradient(circle at 4% 82%, rgba(112, 168, 255, 0.075), transparent 30rem),
-    linear-gradient(150deg, #071b1c 0%, #0a2122 48%, #061718 100%);
+    url("../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 96% 8%, rgba(201, 170, 112, 0.08), transparent 34rem),
+    radial-gradient(circle at 4% 82%, rgba(127, 165, 143, 0.065), transparent 30rem),
+    linear-gradient(150deg, #06120e 0%, #0c1f18 48%, #050f0b 100%);
 }
 
 .contact-page *,
@@ -21,7 +22,7 @@
   width: 52rem;
   height: 52rem;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(50, 211, 162, 0.12), transparent 68%);
+  background: radial-gradient(circle, rgba(201, 170, 112, 0.09), transparent 68%);
   filter: blur(10px);
   pointer-events: none;
 }
@@ -55,8 +56,8 @@
   border-radius: 50%;
   background: var(--primary);
   box-shadow:
-    0 0 0 0.38rem rgba(50, 211, 162, 0.1),
-    0 0 22px rgba(50, 211, 162, 0.42);
+    0 0 0 0.38rem rgba(188, 115, 82, 0.1),
+    0 0 22px rgba(188, 115, 82, 0.3);
 }
 
 .contact-intro h1 {
@@ -148,11 +149,11 @@
 
 .contact-card {
   border: 1px solid var(--border);
-  border-radius: 2rem;
+  border-radius: 1.25rem;
   padding: clamp(1.4rem, 3vw, 2.4rem);
-  background: rgba(16, 40, 42, 0.88);
+  background: rgba(16, 38, 29, 0.9);
   box-shadow:
-    0 40px 100px -46px rgba(0, 6, 7, 0.82),
+    0 40px 100px -46px rgba(0, 0, 0, 0.84),
     inset 0 1px 0 rgba(255, 255, 255, 0.045);
   backdrop-filter: blur(22px) saturate(120%);
 }
@@ -212,7 +213,7 @@
   padding: 0.85rem 0.95rem;
   color: var(--text-primary);
   outline: none;
-  background: rgba(4, 19, 20, 0.72);
+  background: rgba(5, 15, 11, 0.8);
   font: inherit;
   font-size: 0.84rem;
   transition:
@@ -224,7 +225,7 @@
 .contact-card input::placeholder,
 .contact-card textarea::placeholder {
   color: var(--text-light);
-  opacity: 0.72;
+  opacity: 1;
 }
 
 .contact-card select {
@@ -241,7 +242,7 @@
 .contact-card select:focus {
   border-color: var(--primary);
   background: var(--primary-dark);
-  box-shadow: 0 0 0 3px rgba(50, 211, 162, 0.13);
+  box-shadow: 0 0 0 3px rgba(188, 115, 82, 0.15);
 }
 
 .contact-submit,
@@ -251,7 +252,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
-  border-radius: 999px;
+  border-radius: 0.75rem;
   padding: 0.8rem 1.2rem;
   font-size: 0.82rem;
   font-weight: 700;
@@ -293,7 +294,7 @@
   top: -0.65rem;
   padding: 0 0.7rem;
   color: var(--text-light);
-  background: #10282a;
+  background: var(--surface);
   font-size: 0.68rem;
 }
 
@@ -301,12 +302,12 @@
   width: 100%;
   border: 1px solid var(--border-strong);
   color: var(--primary-hover);
-  background: rgba(50, 211, 162, 0.07);
+  background: rgba(127, 165, 143, 0.08);
 }
 
 .contact-assistant:hover {
   border-color: var(--primary);
-  background: rgba(50, 211, 162, 0.12);
+  background: rgba(127, 165, 143, 0.14);
 }
 
 @media (max-width: 1000px) {
@@ -338,6 +339,6 @@
   }
 
   .contact-card {
-    border-radius: 1.4rem;
+    border-radius: 1rem;
   }
 }

@@ -18,7 +18,6 @@ import {
   Mail,
   MessageCircle,
   Rocket,
-  Sparkles,
   Workflow,
   X,
 } from "lucide-react";
@@ -330,20 +329,20 @@ function Hero() {
           initial={reducedMotion ? false : "hidden"}
           animate="visible"
         >
-          <h1 aria-label="Web, ktorý nielen vyzerá dobre. Aj pracuje.">
+          <h1 aria-label="Webové nástroje, ktoré odovzdajú hotový dopyt.">
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>Web, ktorý</motion.span>
+              <motion.span variants={heroLine}>Webové nástroje,</motion.span>
             </span>
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>nielen vyzerá dobre.</motion.span>
+              <motion.span variants={heroLine}>ktoré odovzdajú</motion.span>
             </span>
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.em variants={heroLine}>Aj pracuje.</motion.em>
+              <motion.em variants={heroLine}>hotový dopyt.</motion.em>
             </span>
           </h1>
           <motion.p className="lp-hero-lead" variants={sequenceItem}>
-            Tvorím ľubovoľné kalkulačky, konfigurátory aj chatboty — samostatne alebo prepojené.
-            Zákazník dostane odpoveď, vy pripravený dopyt.
+            Kalkulačky, konfigurátory a chatboty na mieru. Zákazník dostane odpoveď alebo cenu; vy
+            kontakt aj celý kontext.
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
             <Link to="/kontakt" className="lp-button lp-button-primary">
@@ -366,10 +365,7 @@ function Hero() {
           }
         >
           <div className="lp-assistant-card">
-            <span className="lp-assistant-bot" aria-hidden="true">
-              <Symbol size={48} />
-            </span>
-            <p>Čo má váš web urobiť za zákazníka?</p>
+            <p>Čo má zákazník dostať hneď?</p>
             <div className="lp-assistant-chips" role="group" aria-label="Typ webového nástroja">
               {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
                 ([key, tool]) => (
@@ -405,7 +401,7 @@ function Hero() {
                 exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
                 transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
               >
-                <Sparkles />
+                <Check />
                 <span>{heroTools[activeTool].text}</span>
               </motion.div>
             </AnimatePresence>
@@ -415,7 +411,7 @@ function Hero() {
               onClick={() => openSiteAssistant({ source: "hero-card" })}
             >
               <span className="lp-button-content">
-                Otvoriť môjho chatbota <ArrowUpRight />
+                Vyskúšať môjho chatbota <ArrowUpRight />
               </span>
             </button>
           </div>

@@ -7,35 +7,35 @@
 :root {
   color-scheme: dark;
 
-  --background: #071b1c;
-  --background-soft: #0b2425;
-  --surface: #10282a;
-  --surface-raised: #153134;
-  --surface-muted: #0d2526;
+  --background: #06120d;
+  --background-soft: #091a14;
+  --surface: #10261d;
+  --surface-raised: #17352a;
+  --surface-muted: #0c1f18;
 
-  --text-primary: #f4fbf8;
-  --text-secondary: #a9c1bc;
-  --text-light: #91aaa4;
+  --text-primary: #f2efe6;
+  --text-secondary: #b7beb4;
+  --text-light: #88968d;
 
-  --primary: #32d3a2;
-  --primary-hover: #64e7bf;
-  --primary-soft: rgba(50, 211, 162, 0.14);
-  --primary-foreground: #071b1c;
-  --primary-dark: #041314;
+  --primary: #bc7352;
+  --primary-hover: #cd8665;
+  --primary-soft: rgba(188, 115, 82, 0.14);
+  --primary-foreground: #07140e;
+  --primary-dark: #06120d;
 
-  --accent: #ff9276;
-  --accent-hover: #ffad98;
-  --accent-soft: rgba(255, 146, 118, 0.14);
-  --accent-foreground: #071b1c;
+  --accent: #7fa58f;
+  --accent-hover: #98baa8;
+  --accent-soft: rgba(127, 165, 143, 0.14);
+  --accent-foreground: #07140e;
 
-  --highlight: #70a8ff;
-  --highlight-soft: rgba(112, 168, 255, 0.14);
+  --highlight: #c9aa70;
+  --highlight-soft: rgba(201, 170, 112, 0.13);
 
-  --border: rgba(244, 251, 248, 0.12);
-  --border-strong: rgba(244, 251, 248, 0.22);
+  --border: rgba(242, 239, 230, 0.12);
+  --border-strong: rgba(242, 239, 230, 0.22);
 
   --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.035);
-  --shadow-dialog: 0 30px 90px rgba(0, 7, 8, 0.48);
+  --shadow-dialog: 0 30px 90px rgba(0, 0, 0, 0.48);
 
   --radius: 0.625rem;
   --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
@@ -50,7 +50,7 @@
   --muted: var(--background-soft);
   --muted-foreground: var(--text-secondary);
   --destructive: #ff7f72;
-  --destructive-foreground: #071b1c;
+  --destructive-foreground: #07140e;
   --input: var(--border);
   --ring: var(--primary);
 }
@@ -399,8 +399,9 @@
   margin-top: 0;
   border-top: 1px solid var(--border);
   background:
-    radial-gradient(circle at 8% 0%, rgba(50, 211, 162, 0.08), transparent 30rem),
-    radial-gradient(circle at 92% 100%, rgba(112, 168, 255, 0.065), transparent 28rem),
+    url("./assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 8% 0%, rgba(201, 170, 112, 0.06), transparent 30rem),
+    radial-gradient(circle at 92% 100%, rgba(127, 165, 143, 0.055), transparent 28rem),
     var(--background-soft);
 }
 

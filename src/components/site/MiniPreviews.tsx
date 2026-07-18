@@ -121,7 +121,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
         Farba
       </div>
       <div className="flex gap-1.5 mb-3">
-        {["#32d3a2", "#70a8ff", "#ff9276", "#a9c1bc"].map((c, i) => (
+        {["#c9aa70", "#7fa58f", "#bc7352", "#b7beb4"].map((c, i) => (
           <span
             key={c}
             className="h-6 w-6 rounded-full"
