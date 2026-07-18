@@ -38,6 +38,13 @@ type PointerState = {
   lastInputAt: number;
 };
 
+type BurstState = {
+  x: number;
+  y: number;
+  startedAt: number;
+  tone: number;
+};
+
 const EMPTY_FIELD: Omit<FieldState, "baseLayer"> = {
   width: 0,
   height: 0,
@@ -71,7 +78,10 @@ function createField(
     window.matchMedia("(pointer: coarse)").matches &&
     !window.matchMedia("(any-pointer: fine)").matches;
   const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.25 : 1.5);
-  const gap = coarse ? Math.max(14, spacing + 3) : spacing;
+  const requestedGap = coarse ? Math.max(14, spacing + 3) : spacing;
+  const maxDots = coarse ? 7000 : 18000;
+  const adaptiveGap = Math.sqrt((width * height) / maxDots);
+  const gap = Math.max(requestedGap, adaptiveGap);
   const columns = Math.max(1, Math.ceil(width / gap));
   const rows = Math.max(1, Math.ceil(height / gap));
   const count = columns * rows;
@@ -166,7 +176,9 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
       .connection;
     const hasFinePointer = window.matchMedia("(any-pointer: fine)").matches;
-    const staticMode = reducedMotion || !hasFinePointer || Boolean(connection?.saveData);
+    const motionDisabled = reducedMotion || Boolean(connection?.saveData);
+    const pointerMotionEnabled = !motionDisabled && hasFinePointer;
+    const burstEnabled = !motionDisabled;
     const baseLayer = document.createElement("canvas");
     let field: FieldState = { ...EMPTY_FIELD, baseLayer };
     let bounds = root.getBoundingClientRect();
@@ -176,6 +188,7 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
     let lastFrameAt = 0;
     let lastPointerX = 0;
     let lastPointerY = 0;
+    const bursts: BurstState[] = [];
     const pointer: PointerState = {
       clientX: bounds.left + bounds.width * 0.36,
       clientY: bounds.top + bounds.height * 0.42,
@@ -233,7 +246,8 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
       animationFrame = 0;
       if (!visible || document.hidden || field.width <= 1 || field.height <= 1) return;
 
-      const recentlyActive = pointer.active || now - pointer.lastInputAt < 1250;
+      const recentlyActive =
+        pointer.active || bursts.length > 0 || now - pointer.lastInputAt < 1250;
       if (!recentlyActive && now - lastFrameAt < 32) {
         animationFrame = window.requestAnimationFrame(render);
         return;
@@ -367,7 +381,45 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
       context.shadowBlur = 0;
       context.globalCompositeOperation = "source-over";
 
-      animationFrame = window.requestAnimationFrame(render);
+      for (let index = bursts.length - 1; index >= 0; index -= 1) {
+        const burst = bursts[index];
+        const age = clamp((now - burst.startedAt) / 760, 0, 1);
+        if (age >= 1) {
+          bursts.splice(index, 1);
+          continue;
+        }
+
+        const eased = 1 - (1 - age) ** 3;
+        const ringRadius = 12 + eased * Math.min(230, radius * 1.72);
+        const alpha = (1 - age) ** 1.7;
+        const isCoral = burst.tone > 0.46;
+        context.save();
+        context.globalCompositeOperation = "lighter";
+        context.beginPath();
+        context.arc(burst.x, burst.y, ringRadius, 0, Math.PI * 2);
+        context.lineWidth = 1.8 - age * 0.75;
+        context.strokeStyle = isCoral
+          ? `rgba(255, 146, 118, ${alpha * 0.74})`
+          : `rgba(50, 211, 162, ${alpha * 0.7})`;
+        context.shadowColor = isCoral ? "rgba(255, 146, 118, 0.42)" : "rgba(50, 211, 162, 0.38)";
+        context.shadowBlur = 13 * alpha;
+        context.stroke();
+
+        if (age > 0.08) {
+          context.beginPath();
+          context.arc(burst.x, burst.y, ringRadius * 0.68, 0, Math.PI * 2);
+          context.lineWidth = 0.8;
+          context.strokeStyle = `rgba(112, 168, 255, ${alpha * 0.28})`;
+          context.stroke();
+        }
+        context.restore();
+      }
+
+      if (pointerMotionEnabled || bursts.length > 0 || now - pointer.lastInputAt < 1250) {
+        animationFrame = window.requestAnimationFrame(render);
+      } else {
+        drawStatic();
+      }
     };
 
     const scheduleGeometry = () => {
@@ -389,7 +441,7 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      if (staticMode || event.pointerType === "touch") return;
+      if (!pointerMotionEnabled || event.pointerType === "touch") return;
       const localX = event.clientX - bounds.left;
       const localY = event.clientY - bounds.top;
       const inside =
@@ -406,8 +458,48 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
       }
     };
 
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!burstEnabled || !event.isPrimary || event.button !== 0) return;
+      const localX = event.clientX - bounds.left;
+      const localY = event.clientY - bounds.top;
+      const inside =
+        localX >= 0 && localX <= bounds.width && localY >= 0 && localY <= bounds.height;
+      if (!inside) return;
+
+      const now = performance.now();
+      pointer.clientX = event.clientX;
+      pointer.clientY = event.clientY;
+      pointer.targetX = localX;
+      pointer.targetY = localY;
+      pointer.lastInputAt = now;
+      bursts.push({ x: localX, y: localY, startedAt: now, tone: hash(localX, localY) });
+      if (bursts.length > 4) bursts.shift();
+
+      const impulseRadius = radius * 1.22;
+      const impulseRadiusSquared = impulseRadius * impulseRadius;
+      for (let dot = 0; dot < field.count; dot += 1) {
+        const dx = field.x[dot] - localX;
+        const dy = field.y[dot] - localY;
+        const distanceSquared = dx * dx + dy * dy;
+        if (distanceSquared >= impulseRadiusSquared) continue;
+        const distance = Math.sqrt(distanceSquared);
+        const fallbackAngle = field.seed[dot] * Math.PI * 2;
+        const normalX = distance > 0.5 ? dx / distance : Math.cos(fallbackAngle);
+        const normalY = distance > 0.5 ? dy / distance : Math.sin(fallbackAngle);
+        const force = (1 - distance / impulseRadius) ** 2;
+        const impulse = (2.2 + field.seed[dot] * 1.4) * force;
+        field.vx[dot] += normalX * impulse;
+        field.vy[dot] += normalY * impulse;
+        field.energy[dot] = Math.max(field.energy[dot], force * 0.82);
+      }
+
+      if (!animationFrame && visible && !document.hidden) {
+        animationFrame = window.requestAnimationFrame(render);
+      }
+    };
+
     const handleVisibility = () => {
-      if (!document.hidden && visible && !staticMode && !animationFrame) {
+      if (!document.hidden && visible && pointerMotionEnabled && !animationFrame) {
         animationFrame = window.requestAnimationFrame(render);
       }
     };
@@ -418,7 +510,7 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
     const intersectionObserver = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
-        if (visible && !staticMode && !document.hidden && !animationFrame) {
+        if (visible && pointerMotionEnabled && !document.hidden && !animationFrame) {
           animationFrame = window.requestAnimationFrame(render);
         }
       },
@@ -427,17 +519,23 @@ export function GlideField({ className = "", spacing = 11, radius = 132 }: Glide
     intersectionObserver.observe(root);
 
     rebuild();
-    if (!staticMode) {
+    if (pointerMotionEnabled) {
       window.addEventListener("pointermove", handlePointerMove, { passive: true, capture: true });
-      window.addEventListener("scroll", scheduleGeometry, { passive: true });
       document.addEventListener("visibilitychange", handleVisibility);
       animationFrame = window.requestAnimationFrame(render);
+    }
+    if (burstEnabled) {
+      window.addEventListener("pointerdown", handlePointerDown, { passive: true, capture: true });
+    }
+    if (pointerMotionEnabled || burstEnabled) {
+      window.addEventListener("scroll", scheduleGeometry, { passive: true });
     }
 
     return () => {
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       window.removeEventListener("pointermove", handlePointerMove, true);
+      window.removeEventListener("pointerdown", handlePointerDown, true);
       window.removeEventListener("scroll", scheduleGeometry);
       document.removeEventListener("visibilitychange", handleVisibility);
       if (animationFrame) window.cancelAnimationFrame(animationFrame);

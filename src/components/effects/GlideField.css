@@ -40,12 +40,70 @@
     );
 }
 
+.glide-field--hero {
+  background:
+    radial-gradient(circle at 26% 35%, rgba(50, 211, 162, 0.075), transparent 34%),
+    radial-gradient(circle at 82% 68%, rgba(255, 146, 118, 0.05), transparent 30%),
+    linear-gradient(145deg, #050f10, #071b1c 54%, #0b2425);
+}
+
+.glide-field--hero .glide-field__canvas {
+  opacity: 0.94;
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.58), #000 46%, #000);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.58), #000 46%, #000);
+}
+
+.glide-field--hero .glide-field__vignette {
+  background:
+    linear-gradient(90deg, rgba(3, 13, 14, 0.18), transparent 38%, transparent 76%),
+    linear-gradient(
+      180deg,
+      rgba(3, 13, 14, 0.18),
+      transparent 20%,
+      transparent 76%,
+      rgba(3, 13, 14, 0.46)
+    );
+}
+
+.glide-field--ambient {
+  z-index: 0;
+  left: 48%;
+  background: transparent;
+}
+
+.glide-field--ambient .glide-field__canvas {
+  opacity: 0.42;
+  -webkit-mask-image: radial-gradient(ellipse at 68% 54%, #000 0%, transparent 76%);
+  mask-image: radial-gradient(ellipse at 68% 54%, #000 0%, transparent 76%);
+}
+
+.glide-field--ambient .glide-field__vignette {
+  background: radial-gradient(circle at 72% 58%, rgba(50, 211, 162, 0.04), transparent 30rem);
+}
+
+@media (max-width: 1050px) {
+  .glide-field--ambient {
+    top: 46%;
+    left: 0;
+  }
+}
+
 @media (max-width: 760px) {
   .glide-field {
     background:
       radial-gradient(circle at 28% 24%, rgba(50, 211, 162, 0.085), transparent 35%),
       radial-gradient(circle at 80% 76%, rgba(255, 146, 118, 0.05), transparent 32%),
       linear-gradient(150deg, #050f10, #071b1c 54%, #0b2425);
+  }
+
+  .glide-field--hero .glide-field__canvas {
+    opacity: 0.58;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.38), #000 52%, #000);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.38), #000 52%, #000);
+  }
+
+  .glide-field--ambient .glide-field__canvas {
+    opacity: 0.28;
   }
 }
 

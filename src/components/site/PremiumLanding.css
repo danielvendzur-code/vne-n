@@ -102,6 +102,7 @@
 
 .lp-hero-glow {
   position: absolute;
+  z-index: 1;
   top: 2%;
   right: -11%;
   width: 52rem;
@@ -114,7 +115,7 @@
 
 .lp-hero-grid {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(31rem, 1.1fr);
   align-items: center;
@@ -126,7 +127,24 @@
 .lp-hero-copy {
   position: relative;
   z-index: 2;
+  isolation: isolate;
   max-width: 45rem;
+}
+
+.lp-hero-copy::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -4.5rem -5.5rem;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 38% 48%,
+    rgba(7, 27, 28, 0.94) 0%,
+    rgba(7, 27, 28, 0.78) 44%,
+    rgba(7, 27, 28, 0.32) 67%,
+    transparent 82%
+  );
+  filter: blur(8px);
 }
 
 .lp-hero h1 {
@@ -174,6 +192,41 @@
     box-shadow 220ms ease,
     background-color 220ms ease,
     border-color 220ms ease;
+}
+
+.lp-button::after,
+.lp-assistant-cta::after,
+.lp-assistant-chips button::after,
+.lp-switch button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(244, 251, 248, 0.42);
+  transform: translate(-50%, -50%) scale(0);
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    opacity 220ms ease;
+}
+
+.lp-button:active::after,
+.lp-assistant-cta:active::after,
+.lp-assistant-chips button:active::after,
+.lp-switch button:active::after {
+  opacity: 0.42;
+  transform: translate(-50%, -50%) scale(24);
+}
+
+.lp-button:active,
+.lp-assistant-cta:active,
+.lp-assistant-chips button:active,
+.lp-switch button:active {
+  transform: translateY(0) scale(0.975);
 }
 
 .lp-button svg {
@@ -232,7 +285,9 @@
   isolation: isolate;
   border: 1px solid rgba(244, 251, 248, 0.14);
   border-radius: clamp(1.8rem, 3vw, 3rem);
-  background: #061617;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(50, 211, 162, 0.06), transparent 46%),
+    rgba(4, 20, 21, 0.28);
   box-shadow:
     0 42px 100px -48px rgba(0, 0, 0, 0.86),
     0 0 0 1px rgba(50, 211, 162, 0.025) inset;
@@ -251,8 +306,9 @@
 
 .lp-hero-glide {
   position: absolute;
-  z-index: 1;
+  z-index: 0;
   inset: 0;
+  pointer-events: none;
 }
 
 .lp-assistant-card {
@@ -301,6 +357,8 @@
 }
 
 .lp-assistant-chips button {
+  position: relative;
+  overflow: hidden;
   min-height: 2.5rem;
   border: 1px solid var(--lp-line);
   border-radius: 999px;
@@ -352,6 +410,8 @@
 }
 
 .lp-assistant-cta {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   min-height: 3.35rem;
   display: flex;
@@ -415,6 +475,8 @@
 }
 
 .lp-switch button {
+  position: relative;
+  overflow: hidden;
   min-height: 2.75rem;
   border: 0;
   border-radius: 999px;
@@ -746,6 +808,9 @@
 }
 
 .lp-process {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   color: var(--lp-ink);
   background:
     radial-gradient(circle at 82% 16%, rgba(255, 146, 118, 0.08), transparent 25rem), #041415;
@@ -766,6 +831,8 @@
 }
 
 .lp-process-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(24rem, 0.78fr);
   align-items: end;
@@ -868,6 +935,11 @@
 .lp-page a:focus-visible {
   outline: 3px solid var(--lp-blue);
   outline-offset: 4px;
+}
+
+.lp-final-card button:focus-visible,
+.lp-final-card a:focus-visible {
+  outline-color: var(--lp-primary-ink);
 }
 
 @keyframes lp-skeleton {

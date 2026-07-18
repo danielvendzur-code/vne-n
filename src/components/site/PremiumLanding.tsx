@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { motion, useScroll, useSpring } from "motion/react";
+import { motion, MotionConfig, useScroll, useSpring } from "motion/react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -174,6 +174,9 @@ function Hero() {
 
   return (
     <section className="lp-hero" id="uvod">
+      <div className="lp-hero-glide" aria-hidden="true">
+        <GlideField className="glide-field--hero" spacing={12} radius={150} />
+      </div>
       <div className="lp-hero-glow" aria-hidden="true" />
       <div className="container-page lp-hero-grid">
         <motion.div
@@ -212,10 +215,6 @@ function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="lp-hero-glide" aria-hidden="true">
-            <GlideField />
-          </div>
-
           <div className="lp-assistant-card">
             <span className="lp-assistant-bot" aria-hidden="true">
               <Symbol size={48} />
@@ -399,6 +398,7 @@ function Portfolio() {
 function ProcessAndCta() {
   return (
     <section className="lp-process" id="spolupraca">
+      <GlideField className="glide-field--ambient" spacing={16} radius={112} />
       <div className="container-page lp-process-grid">
         <div>
           <Heading
@@ -439,13 +439,15 @@ function ProcessAndCta() {
 
 export function PremiumLanding() {
   return (
-    <div className="lp-page">
-      <PageProgress />
-      <Hero />
-      <ValueSection />
-      <DeratScrollStory />
-      <Portfolio />
-      <ProcessAndCta />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="lp-page">
+        <PageProgress />
+        <Hero />
+        <ValueSection />
+        <DeratScrollStory />
+        <Portfolio />
+        <ProcessAndCta />
+      </div>
+    </MotionConfig>
   );
 }
