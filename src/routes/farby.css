@@ -97,7 +97,8 @@
   transition: color 480ms ease, background-color 480ms ease, border-color 480ms ease;
 }
 
-html[data-color-lab="true"] #site-assistant-widget-host {
+html[data-color-lab="true"] #site-assistant-widget-host,
+html[data-color-lab="true"] #dv-assistant-root {
   display: none !important;
 }
 
