@@ -56,14 +56,19 @@ export function DemoViewer({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.18 }}
           style={{
-            backgroundColor: "rgba(16,35,29,0.55)",
+            backgroundColor: "rgba(2, 13, 14, 0.86)",
+            backdropFilter: "blur(18px) saturate(115%)",
+            WebkitBackdropFilter: "blur(18px) saturate(115%)",
             paddingTop: "env(safe-area-inset-top)",
             paddingBottom: "env(safe-area-inset-bottom)",
           }}
         >
           <div
             className="flex items-center justify-between gap-3 px-4 py-3 md:px-6"
-            style={{ backgroundColor: "var(--surface-raised)", borderBottom: "1px solid var(--border)" }}
+            style={{
+              backgroundColor: "var(--surface-raised)",
+              borderBottom: "1px solid var(--border)",
+            }}
           >
             <div className="flex items-center gap-3 min-w-0">
               <span
@@ -71,7 +76,10 @@ export function DemoViewer({
                 style={{ backgroundColor: accent }}
               />
               <div className="min-w-0">
-                <div className="text-sm font-medium truncate" style={{ color: "var(--text-primary)" }}>
+                <div
+                  className="text-sm font-medium truncate"
+                  style={{ color: "var(--text-primary)" }}
+                >
                   {title}
                 </div>
                 <div className="text-xs" style={{ color: "var(--text-secondary)" }}>
@@ -86,8 +94,12 @@ export function DemoViewer({
               <button
                 ref={closeBtnRef}
                 onClick={onClose}
-                className="rounded-md px-3 py-1.5 text-sm"
-                style={{ backgroundColor: "var(--background-soft)", color: "var(--text-primary)" }}
+                className="rounded-md px-3 py-1.5 text-sm transition-colors"
+                style={{
+                  backgroundColor: "var(--background-soft)",
+                  border: "1px solid var(--border)",
+                  color: "var(--text-primary)",
+                }}
               >
                 Zavrieť
               </button>
@@ -118,7 +130,7 @@ export function DemoViewer({
             </div>
             <p
               className="sm:hidden mt-3 text-center text-xs"
-              style={{ color: "color-mix(in oklab, var(--surface) 90%, transparent)" }}
+              style={{ color: "var(--text-secondary)" }}
             >
               Interaktívna ukážka — údaje sa neodosielajú.
             </p>

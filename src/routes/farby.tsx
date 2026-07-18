@@ -144,7 +144,7 @@ export const Route = createFileRoute("/farby")({
 });
 
 function ColorLabPage() {
-  const [activeId, setActiveId] = useState<PaletteId>("indigo");
+  const [activeId, setActiveId] = useState<PaletteId>("teal");
   const active = palettes.find((palette) => palette.id === activeId) ?? palettes[0];
   const homeHref = import.meta.env.BASE_URL;
   const contactHref = `${homeHref}kontakt/`;
@@ -164,7 +164,7 @@ function ColorLabPage() {
           <Symbol size={34} />
           <span>
             <strong>Farebný výber</strong>
-            <small>hlavný web zatiaľ bez zmeny</small>
+            <small>Deep Teal · schválený smer</small>
           </span>
         </a>
         <p>

@@ -12,7 +12,9 @@ interface MiniProps {
 function usePalette(accent?: string) {
   return {
     accent: accent ?? "var(--primary)",
-    accentSoft: accent ? `${accent}22` : "var(--primary-soft)",
+    accentSoft: accent
+      ? `color-mix(in oklab, ${accent} 16%, var(--surface))`
+      : "var(--primary-soft)",
   };
 }
 
@@ -48,7 +50,9 @@ export function AssistantMini({ compact, accent }: MiniProps) {
         className="rounded-lg px-3 py-2 text-xs"
         style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
       >
-        <div style={{ color: "var(--text-secondary)" }} className="mb-1">Zhrnutie</div>
+        <div style={{ color: "var(--text-secondary)" }} className="mb-1">
+          Zhrnutie
+        </div>
         <div className="flex justify-between">
           <span style={{ color: "var(--text-primary)" }}>Typ</span>
           <span className="font-medium">Obhliadka</span>
@@ -73,8 +77,12 @@ export function CalculatorMini({ compact, accent }: MiniProps) {
         style={{ backgroundColor: "var(--background-soft)", border: "1px solid var(--border)" }}
       >
         <div>
-          <div className="text-[11px]" style={{ color: "var(--text-secondary)" }}>Orientačný rozsah</div>
-          <div className="text-lg font-semibold tabular-nums" style={{ color: a }}>1 240 – 1 480 €</div>
+          <div className="text-[11px]" style={{ color: "var(--text-secondary)" }}>
+            Orientačný rozsah
+          </div>
+          <div className="text-lg font-semibold tabular-nums" style={{ color: a }}>
+            1 240 – 1 480 €
+          </div>
         </div>
         <span
           className="rounded-full px-2.5 py-1 text-[11px]"
@@ -92,7 +100,9 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
   return (
     <div className={compact ? "p-3" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
       <StepBar step={2} total={3} accent={a} />
-      <div className="mt-3 mb-2 text-[11px]" style={{ color: "var(--text-secondary)" }}>Variant</div>
+      <div className="mt-3 mb-2 text-[11px]" style={{ color: "var(--text-secondary)" }}>
+        Variant
+      </div>
       <div className="flex gap-1.5 mb-3">
         {["A", "B", "C", "D"].map((v, i) => (
           <span
@@ -107,9 +117,11 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
           </span>
         ))}
       </div>
-      <div className="mb-2 text-[11px]" style={{ color: "var(--text-secondary)" }}>Farba</div>
+      <div className="mb-2 text-[11px]" style={{ color: "var(--text-secondary)" }}>
+        Farba
+      </div>
       <div className="flex gap-1.5 mb-3">
-        {["#175e50", "#c9a85f", "#e58a5b", "#5e6964"].map((c, i) => (
+        {["#32d3a2", "#70a8ff", "#ff9276", "#a9c1bc"].map((c, i) => (
           <span
             key={c}
             className="h-6 w-6 rounded-full"
@@ -138,8 +150,12 @@ function Field({ label, value }: { label: string; value: string }) {
       className="rounded-md px-2.5 py-2"
       style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
     >
-      <div className="text-[10px]" style={{ color: "var(--text-secondary)" }}>{label}</div>
-      <div className="text-sm font-medium tabular-nums" style={{ color: "var(--text-primary)" }}>{value}</div>
+      <div className="text-[10px]" style={{ color: "var(--text-secondary)" }}>
+        {label}
+      </div>
+      <div className="text-sm font-medium tabular-nums" style={{ color: "var(--text-primary)" }}>
+        {value}
+      </div>
     </div>
   );
 }

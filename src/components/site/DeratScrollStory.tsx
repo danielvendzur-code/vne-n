@@ -57,8 +57,8 @@ export function DeratScrollStory() {
     if (!root) return;
 
     const pendingImages: HTMLImageElement[] = [];
-    const preloadRemainingFrames = () => {
-      frames.slice(1).forEach((frame) => {
+    const preloadStoryFrames = () => {
+      frames.forEach((frame) => {
         const image = new Image();
         image.decoding = "async";
         image.src = frame.src;
@@ -67,14 +67,14 @@ export function DeratScrollStory() {
     };
 
     if (!("IntersectionObserver" in window)) {
-      preloadRemainingFrames();
+      preloadStoryFrames();
       return;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        preloadRemainingFrames();
+        preloadStoryFrames();
         observer.disconnect();
       },
       { rootMargin: "900px 0px" },
@@ -202,8 +202,8 @@ export function DeratScrollStory() {
                     alt={frame.alt}
                     width="1086"
                     height="1448"
-                    loading={index === 0 ? "eager" : "lazy"}
-                    fetchPriority={index === 0 ? "high" : "low"}
+                    loading="lazy"
+                    fetchPriority="low"
                     decoding="async"
                   />
                   <figcaption className="sr-only">{frame.label}</figcaption>

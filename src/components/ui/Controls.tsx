@@ -17,11 +17,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "primary", arrow, full, className = "", children, ...rest }, ref) => {
     const base = variant === "text" ? "btn-text" : `btn btn-${variant}`;
     return (
-      <button
-        ref={ref}
-        className={`${base} ${full ? "w-full" : ""} ${className}`}
-        {...rest}
-      >
+      <button ref={ref} className={`${base} ${full ? "w-full" : ""} ${className}`} {...rest}>
         {children}
         {arrow && (
           <span aria-hidden className="arrow inline-block">
@@ -30,7 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 
@@ -65,7 +61,14 @@ export function Chip({
     >
       {active && (
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden>
-          <path d="M2.5 6.5l2.5 2.5L9.5 3.5" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M2.5 6.5l2.5 2.5L9.5 3.5"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       )}
       {children}
@@ -116,7 +119,8 @@ export function Segmented<T extends string>({
                   style={{
                     backgroundColor: "var(--surface)",
                     border: "1px solid var(--border-strong)",
-                    boxShadow: "0 1px 2px rgba(16,38,31,0.06)",
+                    boxShadow:
+                      "0 8px 24px rgba(0, 0, 0, 0.22), 0 1px 0 rgba(244, 251, 248, 0.04) inset",
                   }}
                   transition={{ type: "spring", stiffness: 350, damping: 30 }}
                 />
@@ -129,7 +133,6 @@ export function Segmented<T extends string>({
     </div>
   );
 }
-
 
 /* ============================================================
    Toggle switch
@@ -159,11 +162,16 @@ export function Toggle({
         <motion.span
           layout
           transition={{ type: "spring", stiffness: 500, damping: 32 }}
-          className="absolute top-0.5 h-5 w-5 rounded-full bg-white shadow"
-          style={{ left: checked ? "calc(100% - 22px)" : "2px" }}
+          className="absolute top-0.5 h-5 w-5 rounded-full shadow"
+          style={{
+            left: checked ? "calc(100% - 22px)" : "2px",
+            backgroundColor: "#f4fbf8",
+          }}
         />
       </button>
-      <span className="text-sm" style={{ color: "var(--text-primary)" }}>{label}</span>
+      <span className="text-sm" style={{ color: "var(--text-primary)" }}>
+        {label}
+      </span>
     </label>
   );
 }
@@ -199,15 +207,18 @@ export function Slider({
         <label
           htmlFor={id}
           className="text-xs uppercase tracking-wider font-medium"
-          style={{ color: dark ? "color-mix(in oklab, #fffdf8 65%, transparent)" : "var(--text-secondary)" }}
+          style={{
+            color: dark ? "color-mix(in oklab, #f4fbf8 65%, transparent)" : "var(--text-secondary)",
+          }}
         >
           {label}
         </label>
         <span
           className="text-sm font-semibold tabular-nums"
-          style={{ color: dark ? "#fffdf8" : "var(--text-primary)" }}
+          style={{ color: dark ? "#f4fbf8" : "var(--text-primary)" }}
         >
-          {value}{unit ? ` ${unit}` : ""}
+          {value}
+          {unit ? ` ${unit}` : ""}
         </span>
       </div>
       <input
@@ -245,7 +256,9 @@ export function Stepper({
 }) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <span className="text-sm" style={{ color: "var(--text-primary)" }}>{label}</span>
+      <span className="text-sm" style={{ color: "var(--text-primary)" }}>
+        {label}
+      </span>
       <div
         className="inline-flex items-center rounded-[10px]"
         style={{ border: "1px solid var(--border-strong)", backgroundColor: "var(--surface)" }}
@@ -325,7 +338,7 @@ export function Swatches({
                 >
                   <path
                     d="M3 7.5l2.5 2.5L11 4"
-                    stroke="#fffdf8"
+                    stroke="#f4fbf8"
                     strokeWidth="2"
                     fill="none"
                     strokeLinecap="round"
@@ -360,7 +373,9 @@ export function SummaryRow({
     <div className="flex items-center justify-between gap-3 py-2">
       <span
         className="text-xs uppercase tracking-wider"
-        style={{ color: dark ? "color-mix(in oklab, #fffdf8 55%, transparent)" : "var(--text-secondary)" }}
+        style={{
+          color: dark ? "color-mix(in oklab, #f4fbf8 55%, transparent)" : "var(--text-secondary)",
+        }}
       >
         {label}
       </span>
@@ -368,8 +383,12 @@ export function SummaryRow({
         className="text-sm font-semibold tabular-nums text-right"
         style={{
           color: accent
-            ? dark ? "var(--highlight)" : "var(--primary)"
-            : dark ? "#fffdf8" : "var(--text-primary)",
+            ? dark
+              ? "var(--highlight)"
+              : "var(--primary)"
+            : dark
+              ? "#f4fbf8"
+              : "var(--text-primary)",
         }}
       >
         {value}

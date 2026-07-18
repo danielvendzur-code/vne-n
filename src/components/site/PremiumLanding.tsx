@@ -16,7 +16,7 @@ import {
   Workflow,
   X,
 } from "lucide-react";
-import { Cubes } from "@/components/effects/Cubes";
+import { GlideField } from "@/components/effects/GlideField";
 import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
@@ -212,17 +212,8 @@ function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="lp-hero-cubes" aria-hidden="true">
-            <Cubes
-              gridSize={6}
-              maxAngle={30}
-              radius={2.8}
-              cellGap={{ row: 8, col: 8 }}
-              faceColor="#174f43"
-              borderStyle="1px solid rgba(223, 255, 242, 0.34)"
-              rippleColor="#ff785c"
-              rippleSpeed={1.9}
-            />
+          <div className="lp-hero-glide" aria-hidden="true">
+            <GlideField />
           </div>
 
           <div className="lp-assistant-card">
@@ -237,6 +228,7 @@ function Hero() {
                     type="button"
                     key={key}
                     data-active={activeTool === key}
+                    aria-pressed={activeTool === key}
                     onClick={() => setActiveTool(key)}
                     whileTap={{ scale: 0.97 }}
                   >
@@ -288,11 +280,17 @@ function ValueSection() {
             <button
               type="button"
               data-active={mode === "without"}
+              aria-pressed={mode === "without"}
               onClick={() => setMode("without")}
             >
               Bez nástroja
             </button>
-            <button type="button" data-active={mode === "with"} onClick={() => setMode("with")}>
+            <button
+              type="button"
+              data-active={mode === "with"}
+              aria-pressed={mode === "with"}
+              onClick={() => setMode("with")}
+            >
               S nástrojom
             </button>
           </div>

@@ -16,7 +16,7 @@ pages-dist
 .tanstack/**
 .nitro
 *.local
-.edge-cdp-test/
+.edge-*/
 .chrome-*/
 
 # Wrangler / Cloudflare
