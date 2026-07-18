@@ -1,13 +1,19 @@
 import { Link } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
-import { motion, MotionConfig, useScroll, useSpring } from "motion/react";
+import { useEffect, useState, type ReactNode } from "react";
+import {
+  AnimatePresence,
+  motion,
+  MotionConfig,
+  useScroll,
+  useSpring,
+  type Variants,
+} from "motion/react";
 import {
   ArrowRight,
   ArrowUpRight,
   Bot,
   Calculator,
   Check,
-  CircleCheck,
   ExternalLink,
   Mail,
   MessageCircle,
@@ -20,11 +26,41 @@ import { GlideField } from "@/components/effects/GlideField";
 import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./PremiumLanding.css";
 
 type ComparisonMode = "without" | "with";
 type HeroToolKey = "chatbot" | "calculator" | "configurator";
+type RevealDirection = "up" | "left" | "right";
+
+const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
+const liquidControlSelector =
+  ".lp-button, .lp-assistant-cta, .lp-assistant-chips button, .lp-switch button";
+
+const heroSequence: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.085, delayChildren: 0.08 } },
+};
+
+const heroLine: Variants = {
+  hidden: { y: "112%", opacity: 0 },
+  visible: {
+    y: "0%",
+    opacity: 1,
+    transition: { duration: 0.82, ease: premiumEase },
+  },
+};
+
+const sequenceItem: Variants = {
+  hidden: { y: 24, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.72, ease: premiumEase },
+  },
+};
 
 const heroTools = {
   chatbot: {
@@ -43,13 +79,11 @@ const heroTools = {
 
 const comparisons = {
   without: {
-    label: "Bez automatizácie",
     title: "Kontakt bez kontextu.",
     copy: "Po formulári ešte zisťujete rozsah, lokalitu, termín aj očakávanie zákazníka.",
     items: ["Odpoveď až neskôr", "Rovnaké otázky dookola", "Nejasná priorita dopytu"],
   },
   with: {
-    label: "S vlastným nástrojom",
     title: "Dopyt pripravený na ďalší krok.",
     copy: "Návštevník dostane odpoveď hneď a vy kontakt spolu s relevantnými vstupmi.",
     items: ["Odpoveď ihneď", "Kompletný kontext", "Menej ručného zisťovania"],
@@ -128,20 +162,111 @@ const process = [
   },
 ];
 
-function PageProgress() {
+function AnimatedPageProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 150, damping: 28, mass: 0.22 });
   return <motion.div className="lp-progress" style={{ scaleX }} aria-hidden="true" />;
 }
 
-function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+function PageProgress() {
+  const reducedMotion = useReducedMotion();
+  return reducedMotion ? null : <AnimatedPageProgress />;
+}
+
+function LiquidControlGlow() {
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection;
+    if (
+      reducedMotion ||
+      connection?.saveData ||
+      !window.matchMedia("(any-pointer: fine)").matches
+    ) {
+      return;
+    }
+
+    let frame = 0;
+    let activeControl: HTMLElement | null = null;
+    let clientX = 0;
+    let clientY = 0;
+
+    const clearActiveControl = () => {
+      if (!activeControl) return;
+      activeControl.style.removeProperty("--liquid-x");
+      activeControl.style.removeProperty("--liquid-y");
+      activeControl = null;
+    };
+
+    const paint = () => {
+      frame = 0;
+      if (!activeControl) return;
+      const bounds = activeControl.getBoundingClientRect();
+      const x = Math.min(100, Math.max(0, ((clientX - bounds.left) / bounds.width) * 100));
+      const y = Math.min(100, Math.max(0, ((clientY - bounds.top) / bounds.height) * 100));
+      activeControl.style.setProperty("--liquid-x", `${x}%`);
+      activeControl.style.setProperty("--liquid-y", `${y}%`);
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      const match =
+        event.target instanceof Element ? event.target.closest(liquidControlSelector) : null;
+      const nextControl = match instanceof HTMLElement ? match : null;
+      if (nextControl !== activeControl) {
+        clearActiveControl();
+        activeControl = nextControl;
+      }
+      if (!activeControl) return;
+      clientX = event.clientX;
+      clientY = event.clientY;
+      if (!frame) frame = window.requestAnimationFrame(paint);
+    };
+
+    const handleWindowLeave = (event: MouseEvent) => {
+      if (!event.relatedTarget) clearActiveControl();
+    };
+
+    window.addEventListener("pointermove", handlePointerMove, { passive: true, capture: true });
+    window.addEventListener("mouseout", handleWindowLeave, { passive: true });
+    window.addEventListener("blur", clearActiveControl);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove, true);
+      window.removeEventListener("mouseout", handleWindowLeave);
+      window.removeEventListener("blur", clearActiveControl);
+      if (frame) window.cancelAnimationFrame(frame);
+      clearActiveControl();
+    };
+  }, [reducedMotion]);
+
+  return null;
+}
+
+function Reveal({
+  children,
+  className = "",
+  direction = "up",
+  delay = 0,
+  distance = 38,
+}: {
+  children: ReactNode;
+  className?: string;
+  direction?: RevealDirection;
+  delay?: number;
+  distance?: number;
+}) {
+  const reducedMotion = useReducedMotion();
+  const x = direction === "left" ? -distance : direction === "right" ? distance : 0;
+  const y = direction === "up" ? Math.min(distance, 28) : 0;
+
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-70px" }}
-      transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+      initial={reducedMotion ? false : { opacity: 0, x, y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
+      transition={{ duration: 0.72, delay, ease: premiumEase }}
     >
       {children}
     </motion.div>
@@ -157,63 +282,88 @@ function Heading({
   children: ReactNode;
   copy?: string;
 }) {
+  const reducedMotion = useReducedMotion();
+
   return (
-    <Reveal className="lp-heading">
-      <p className="lp-eyebrow">
+    <motion.div
+      className="lp-heading"
+      initial={reducedMotion ? false : "hidden"}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.34 }}
+      variants={{
+        hidden: { opacity: 0, x: -34 },
+        visible: {
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.7, ease: premiumEase, staggerChildren: 0.09 },
+        },
+      }}
+    >
+      <motion.p className="lp-eyebrow" variants={sequenceItem}>
         <i />
         {eyebrow}
-      </p>
-      <h2>{children}</h2>
-      {copy ? <p className="lp-heading-copy">{copy}</p> : null}
-    </Reveal>
+      </motion.p>
+      <motion.h2 variants={sequenceItem}>{children}</motion.h2>
+      {copy ? (
+        <motion.p className="lp-heading-copy" variants={sequenceItem}>
+          {copy}
+        </motion.p>
+      ) : null}
+    </motion.div>
   );
 }
 
 function Hero() {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
+  const reducedMotion = useReducedMotion();
 
   return (
     <section className="lp-hero" id="uvod">
       <div className="lp-hero-glide" aria-hidden="true">
-        <GlideField className="glide-field--hero" spacing={12} radius={150} />
+        <GlideField className="glide-field--hero" radius={142} />
       </div>
       <div className="lp-hero-glow" aria-hidden="true" />
       <div className="container-page lp-hero-grid">
         <motion.div
           className="lp-hero-copy"
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
+          variants={heroSequence}
+          initial={reducedMotion ? false : "hidden"}
+          animate="visible"
         >
-          <p className="lp-eyebrow">
-            <i />
-            Daniel Vendzúr · webové nástroje na mieru
-          </p>
-          <h1>
-            Web, ktorý nielen vyzerá dobre. <em>Aj pracuje.</em>
+          <h1 aria-label="Web, ktorý nielen vyzerá dobre. Aj pracuje.">
+            <span className="lp-hero-line" aria-hidden="true">
+              <motion.span variants={heroLine}>Web, ktorý</motion.span>
+            </span>
+            <span className="lp-hero-line" aria-hidden="true">
+              <motion.span variants={heroLine}>nielen vyzerá dobre.</motion.span>
+            </span>
+            <span className="lp-hero-line" aria-hidden="true">
+              <motion.em variants={heroLine}>Aj pracuje.</motion.em>
+            </span>
           </h1>
-          <p className="lp-hero-lead">
-            Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené v
-            jednom riešení. Návštevník dostane odpoveď, vy pripravený dopyt.
-          </p>
-          <div className="lp-actions">
+          <motion.p className="lp-hero-lead" variants={sequenceItem}>
+            Tvorím ľubovoľné kalkulačky, konfigurátory aj chatboty — samostatne alebo prepojené.
+            Zákazník dostane odpoveď, vy pripravený dopyt.
+          </motion.p>
+          <motion.div className="lp-actions" variants={sequenceItem}>
             <Link to="/kontakt" className="lp-button lp-button-primary">
-              Chcem riešenie na mieru <ArrowRight size={17} />
+              <span className="lp-button-content">
+                Chcem riešenie na mieru <ArrowRight size={17} />
+              </span>
             </Link>
             <a href="#projekty" className="lp-button lp-button-quiet">
-              Pozrieť realizácie
+              <span className="lp-button-content">Pozrieť realizácie</span>
             </a>
-          </div>
-          <p className="lp-hero-note">
-            <CircleCheck size={15} /> Od návrhu logiky po nasadenie na váš web.
-          </p>
+          </motion.div>
         </motion.div>
 
         <motion.div
           className="lp-hero-stage"
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          initial={reducedMotion ? false : { opacity: 0, x: 54, scale: 0.975 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={
+            reducedMotion ? { duration: 0 } : { duration: 0.94, delay: 0.16, ease: premiumEase }
+          }
         >
           <div className="lp-assistant-card">
             <span className="lp-assistant-bot" aria-hidden="true">
@@ -229,29 +379,44 @@ function Hero() {
                     data-active={activeTool === key}
                     aria-pressed={activeTool === key}
                     onClick={() => setActiveTool(key)}
-                    whileTap={{ scale: 0.97 }}
                   >
-                    {tool.label}
+                    {activeTool === key ? (
+                      <motion.span
+                        className="lp-chip-liquid"
+                        layoutId="hero-tool-liquid"
+                        transition={liquidSpring}
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                    <span className="lp-control-label">{tool.label}</span>
                   </motion.button>
                 ),
               )}
             </div>
-            <motion.div
-              className="lp-assistant-answer"
-              key={activeTool}
-              initial={{ opacity: 0, y: 7 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.24 }}
-            >
-              <Sparkles />
-              <span>{heroTools[activeTool].text}</span>
-            </motion.div>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                className="lp-assistant-answer"
+                key={activeTool}
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
+                transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
+              >
+                <Sparkles />
+                <span>{heroTools[activeTool].text}</span>
+              </motion.div>
+            </AnimatePresence>
             <button
               type="button"
               className="lp-assistant-cta"
               onClick={() => openSiteAssistant({ source: "hero-card" })}
             >
-              Otvoriť môjho chatbota <ArrowUpRight />
+              <span className="lp-button-content">
+                Otvoriť môjho chatbota <ArrowUpRight />
+              </span>
             </button>
           </div>
         </motion.div>
@@ -263,6 +428,7 @@ function Hero() {
 function ValueSection() {
   const [mode, setMode] = useState<ComparisonMode>("with");
   const active = comparisons[mode];
+  const reducedMotion = useReducedMotion();
 
   return (
     <section className="lp-value" id="nastroje">
@@ -274,51 +440,72 @@ function ValueSection() {
           Menej zisťovania. <em>Viac pripravených dopytov.</em>
         </Heading>
 
-        <Reveal className="lp-comparison">
+        <Reveal className="lp-comparison" direction="right" distance={46}>
           <div className="lp-switch" role="group" aria-label="Porovnanie webu bez a s nástrojom">
-            <button
+            <motion.button
               type="button"
               data-active={mode === "without"}
               aria-pressed={mode === "without"}
               onClick={() => setMode("without")}
             >
-              Bez nástroja
-            </button>
-            <button
+              {mode === "without" ? (
+                <motion.span
+                  className="lp-switch-liquid"
+                  layoutId="comparison-liquid"
+                  transition={liquidSpring}
+                  aria-hidden="true"
+                />
+              ) : null}
+              <span className="lp-control-label">Bez nástroja</span>
+            </motion.button>
+            <motion.button
               type="button"
               data-active={mode === "with"}
               aria-pressed={mode === "with"}
               onClick={() => setMode("with")}
             >
-              S nástrojom
-            </button>
+              {mode === "with" ? (
+                <motion.span
+                  className="lp-switch-liquid"
+                  layoutId="comparison-liquid"
+                  transition={liquidSpring}
+                  aria-hidden="true"
+                />
+              ) : null}
+              <span className="lp-control-label">S nástrojom</span>
+            </motion.button>
           </div>
-          <motion.div
-            className="lp-comparison-body"
-            key={mode}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.28 }}
-          >
-            <div className="lp-comparison-copy">
-              <p>{active.label}</p>
-              <h3>{active.title}</h3>
-              <span>{active.copy}</span>
-            </div>
-            <ul>
-              {active.items.map((item) => (
-                <li key={item}>
-                  {mode === "with" ? <Check /> : <X />}
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.div
+              className="lp-comparison-body"
+              key={mode}
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              initial={reducedMotion ? false : { opacity: 0, x: mode === "with" ? 18 : -18 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: mode === "with" ? 12 : -12 }}
+              transition={reducedMotion ? { duration: 0 } : { duration: 0.38, ease: premiumEase }}
+            >
+              <div className="lp-comparison-copy">
+                <h3>{active.title}</h3>
+                <span>{active.copy}</span>
+              </div>
+              <ul>
+                {active.items.map((item) => (
+                  <li key={item}>
+                    {mode === "with" ? <Check /> : <X />}
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </AnimatePresence>
         </Reveal>
 
         <div className="lp-solution-strip">
-          {solutions.map(({ icon: Icon, title, copy }) => (
-            <Reveal className="lp-solution-pill" key={title}>
+          {solutions.map(({ icon: Icon, title, copy }, index) => (
+            <Reveal className="lp-solution-pill" key={title} delay={index * 0.08}>
               <Icon />
               <div>
                 <h3>{title}</h3>
@@ -364,7 +551,13 @@ function Portfolio() {
 
         <div className="lp-project-grid">
           {projects.map((project, index) => (
-            <Reveal className="lp-project" key={project.name}>
+            <Reveal
+              className="lp-project"
+              key={project.name}
+              direction={index % 2 === 0 ? "left" : "right"}
+              distance={34}
+              delay={index * 0.06}
+            >
               <a href={project.href} target="_blank" rel="noreferrer" data-tone={project.tone}>
                 <ProjectImage src={project.image} alt={project.alt} />
                 <div className="lp-project-copy">
@@ -396,9 +589,11 @@ function Portfolio() {
 }
 
 function ProcessAndCta() {
+  const reducedMotion = useReducedMotion();
+
   return (
     <section className="lp-process" id="spolupraca">
-      <GlideField className="glide-field--ambient" spacing={16} radius={112} />
+      <GlideField className="glide-field--ambient" radius={110} intensity={0.5} />
       <div className="container-page lp-process-grid">
         <div>
           <Heading
@@ -409,24 +604,36 @@ function ProcessAndCta() {
           </Heading>
           <ol className="lp-process-list">
             {process.map(({ icon: Icon, title, copy }, index) => (
-              <li key={title}>
+              <motion.li
+                key={title}
+                initial={reducedMotion ? false : { opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={
+                  reducedMotion
+                    ? { duration: 0 }
+                    : { duration: 0.64, delay: index * 0.09, ease: premiumEase }
+                }
+              >
                 <span>0{index + 1}</span>
                 <Icon />
                 <div>
                   <h3>{title}</h3>
                   <p>{copy}</p>
                 </div>
-              </li>
+              </motion.li>
             ))}
           </ol>
         </div>
 
-        <Reveal className="lp-final-card">
+        <Reveal className="lp-final-card" direction="right" distance={44}>
           <Symbol size={52} />
           <p>Máte nápad alebo opakujúci sa proces?</p>
           <h2>Pozrime sa, čo môže váš web robiť automaticky.</h2>
           <Link to="/kontakt" className="lp-button lp-button-light">
-            Nezáväzná konzultácia <ArrowRight />
+            <span className="lp-button-content">
+              Nezáväzná konzultácia <ArrowRight />
+            </span>
           </Link>
           <a href={`mailto:${siteConfig.contact.email}`} className="lp-final-email">
             <Mail /> {siteConfig.contact.email}
@@ -441,6 +648,7 @@ export function PremiumLanding() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="lp-page">
+        <LiquidControlGlow />
         <PageProgress />
         <Hero />
         <ValueSection />

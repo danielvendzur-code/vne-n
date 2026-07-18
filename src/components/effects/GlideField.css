@@ -5,8 +5,8 @@
   contain: layout paint style;
   pointer-events: none;
   background:
-    radial-gradient(circle at 24% 32%, rgba(50, 211, 162, 0.09), transparent 32%),
-    radial-gradient(circle at 84% 76%, rgba(255, 146, 118, 0.055), transparent 30%),
+    radial-gradient(circle at 24% 32%, rgba(50, 211, 162, 0.085), transparent 34%),
+    radial-gradient(circle at 84% 76%, rgba(112, 168, 255, 0.045), transparent 32%),
     linear-gradient(145deg, #050f10, #071b1c 52%, #0b2425);
 }
 
@@ -42,15 +42,15 @@
 
 .glide-field--hero {
   background:
-    radial-gradient(circle at 26% 35%, rgba(50, 211, 162, 0.075), transparent 34%),
-    radial-gradient(circle at 82% 68%, rgba(255, 146, 118, 0.05), transparent 30%),
+    radial-gradient(circle at 26% 35%, rgba(50, 211, 162, 0.082), transparent 36%),
+    radial-gradient(circle at 82% 68%, rgba(112, 168, 255, 0.044), transparent 34%),
     linear-gradient(145deg, #050f10, #071b1c 54%, #0b2425);
 }
 
 .glide-field--hero .glide-field__canvas {
-  opacity: 0.94;
-  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.58), #000 46%, #000);
-  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.58), #000 46%, #000);
+  opacity: 1;
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.8), #000 45%, #000);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.8), #000 45%, #000);
 }
 
 .glide-field--hero .glide-field__vignette {
@@ -72,7 +72,7 @@
 }
 
 .glide-field--ambient .glide-field__canvas {
-  opacity: 0.42;
+  opacity: 0.72;
   -webkit-mask-image: radial-gradient(ellipse at 68% 54%, #000 0%, transparent 76%);
   mask-image: radial-gradient(ellipse at 68% 54%, #000 0%, transparent 76%);
 }
@@ -92,14 +92,14 @@
   .glide-field {
     background:
       radial-gradient(circle at 28% 24%, rgba(50, 211, 162, 0.085), transparent 35%),
-      radial-gradient(circle at 80% 76%, rgba(255, 146, 118, 0.05), transparent 32%),
+      radial-gradient(circle at 80% 76%, rgba(112, 168, 255, 0.04), transparent 32%),
       linear-gradient(150deg, #050f10, #071b1c 54%, #0b2425);
   }
 
   .glide-field--hero .glide-field__canvas {
-    opacity: 0.58;
-    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.38), #000 52%, #000);
-    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.38), #000 52%, #000);
+    opacity: 0.76;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.58), #000 52%, #000);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.58), #000 52%, #000);
   }
 
   .glide-field--ambient .glide-field__canvas {
@@ -109,6 +109,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .glide-field__canvas {
-    opacity: 0.88;
+    opacity: 0.76;
   }
 }
