@@ -2,11 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { PointerEvent } from "react";
 import { ArrowRight, ArrowUpRight, MessageCircle } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
-import {
-  AssistantMini,
-  CalculatorMini,
-  ConfiguratorMini,
-} from "@/components/site/MiniPreviews";
+import { AssistantMini, CalculatorMini, ConfiguratorMini } from "@/components/site/MiniPreviews";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { projects, type PreviewType } from "@/data/projects";
 import { openSiteAssistant } from "@/lib/site-assistant";
