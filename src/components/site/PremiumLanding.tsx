@@ -11,13 +11,19 @@ import {
 import {
   ArrowRight,
   ArrowUpRight,
+  BadgeCheck,
   Bot,
   Calculator,
+  CalendarClock,
   Check,
+  Clock3,
   ExternalLink,
   Mail,
   MessageCircle,
+  PenLine,
+  PlugZap,
   Rocket,
+  SlidersHorizontal,
   Workflow,
   X,
 } from "lucide-react";
@@ -25,6 +31,9 @@ import { GlideField } from "@/components/effects/GlideField";
 import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
+import { faqs } from "@/data/faq";
+import { useCountUp } from "@/hooks/useCountUp";
+import { useMagnetic } from "@/hooks/useMagnetic";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./PremiumLanding.css";
@@ -36,7 +45,7 @@ type RevealDirection = "up" | "left" | "right";
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
 const liquidControlSelector =
-  ".lp-button, .lp-assistant-cta, .lp-assistant-chips button, .lp-switch button";
+  ".lp-button, .lp-assistant-cta, .lp-assistant-chips button, .lp-switch button, .lp-caps-chips .chip, .lp-faq-ask";
 
 const heroSequence: Variants = {
   hidden: {},
@@ -142,6 +151,74 @@ const liveTools = [
   ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],
   ["Webový asistent", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
 ] as const;
+
+const heroProof = [
+  { icon: BadgeCheck, text: "Reálne nasadené weby a živé nástroje" },
+  { icon: PenLine, text: "Logiku navrhujem ešte pred vývojom" },
+  { icon: Clock3, text: "Odpoveď zvyčajne do 1 pracovného dňa" },
+];
+
+const capabilityGroups = [
+  {
+    icon: Calculator,
+    title: "Kalkulačky",
+    tone: "gold",
+    copy: "Výsledok z reálnych vstupov a pravidiel vašej služby.",
+    items: [
+      "Cenová ponuka",
+      "Spotreba materiálu",
+      "Návratnosť investície",
+      "Rozmery a výmera",
+      "Doprava a montáž",
+      "Splátky a financovanie",
+    ],
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Konfigurátory",
+    tone: "mint",
+    copy: "Zákazník si poskladá produkt alebo službu krok za krokom.",
+    items: [
+      "Produkt na mieru",
+      "Výber variantu",
+      "Balíky služieb",
+      "Krokový sprievodca",
+      "Rezervácia termínu",
+    ],
+  },
+  {
+    icon: Bot,
+    title: "Chatboty",
+    tone: "coral",
+    copy: "Rozhovor, ktorý odpovie a pripraví použiteľný dopyt.",
+    items: [
+      "Dopytový asistent",
+      "Produktový poradca",
+      "Časté otázky",
+      "Kvalifikácia dopytu",
+      "Objednávkový asistent",
+    ],
+  },
+  {
+    icon: PlugZap,
+    title: "Prepojenia",
+    tone: "ink",
+    copy: "Dopyt skončí presne tam, kde s ním ďalej pracujete.",
+    items: [
+      "E-mail s celým kontextom",
+      "Kalendár a termíny",
+      "Google tabuľka",
+      "CRM či interný systém",
+      "Vlastné API",
+    ],
+  },
+] as const;
+
+const portfolioCounters = [
+  { value: 3, label: "nasadené weby pre reálne firmy" },
+  { value: 3, label: "živé nástroje dostupné online" },
+  { value: 6, label: "interaktívnych ukážok na vyskúšanie" },
+];
 
 const process = [
   {
@@ -315,6 +392,7 @@ function Heading({
 function Hero() {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
   const reducedMotion = useReducedMotion();
+  const magneticCta = useMagnetic<HTMLAnchorElement>(0.14);
 
   return (
     <section className="lp-hero" id="uvod">
@@ -341,11 +419,11 @@ function Hero() {
             </span>
           </h1>
           <motion.p className="lp-hero-lead" variants={sequenceItem}>
-            Kalkulačky, konfigurátory a chatboty na mieru. Zákazník dostane odpoveď alebo cenu; vy
-            kontakt aj celý kontext.
+            Kalkulačky, konfigurátory a chatboty na mieru. Zákazník dostane odpoveď alebo cenu hneď
+            — vy kontakt aj celý kontext, pripravený na ponuku.
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
-            <Link to="/kontakt" className="lp-button lp-button-primary">
+            <Link to="/kontakt" className="lp-button lp-button-primary" ref={magneticCta}>
               <span className="lp-button-content">
                 Chcem riešenie na mieru <ArrowRight size={17} />
               </span>
@@ -354,6 +432,14 @@ function Hero() {
               <span className="lp-button-content">Pozrieť realizácie</span>
             </a>
           </motion.div>
+          <motion.ul className="lp-hero-proof" variants={sequenceItem}>
+            {heroProof.map(({ icon: Icon, text }) => (
+              <li key={text}>
+                <Icon aria-hidden="true" />
+                {text}
+              </li>
+            ))}
+          </motion.ul>
         </motion.div>
 
         <motion.div
@@ -515,6 +601,133 @@ function ValueSection() {
   );
 }
 
+function Capabilities() {
+  return (
+    <section className="lp-caps" id="moznosti">
+      <div className="container-page">
+        <Heading
+          eyebrow="Čo všetko viem postaviť"
+          copy="Vyberte, čo je najbližšie k vašej situácii. Každá položka je typ nástroja, ktorý viem navrhnúť presne podľa vašej služby — kliknutím rovno otvoríte krátke zadanie."
+        >
+          Ak sa to dá opísať pravidlami, <em>dá sa to postaviť.</em>
+        </Heading>
+
+        <div className="lp-caps-grid">
+          {capabilityGroups.map(({ icon: Icon, title, tone, copy, items }, groupIndex) => (
+            <Reveal className="lp-caps-group" key={title} delay={groupIndex * 0.07} distance={30}>
+              <div className="lp-caps-head" data-tone={tone}>
+                <Icon aria-hidden="true" />
+                <div>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </div>
+              </div>
+              <div className="lp-caps-chips">
+                {items.map((item) => (
+                  <button
+                    type="button"
+                    key={item}
+                    className="chip"
+                    data-tone={tone}
+                    onClick={() => openSiteAssistant({ source: "capability-chip", category: item })}
+                  >
+                    {item}
+                    <ArrowUpRight aria-hidden="true" />
+                  </button>
+                ))}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="lp-caps-note" delay={0.1}>
+          <CalendarClock aria-hidden="true" />
+          <p>
+            Nenašli ste svoju situáciu? Opíšte ju vlastnými slovami —{" "}
+            <button type="button" onClick={() => openSiteAssistant({ source: "capability-note" })}>
+              chatbot z nej pripraví zadanie
+            </button>{" "}
+            a ja sa ozvem s konkrétnym návrhom.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function CounterItem({ value, label }: { value: number; label: string }) {
+  const { ref, value: displayed } = useCountUp(value);
+  return (
+    <li>
+      <span className="lp-counter-value" ref={ref}>
+        {displayed}
+      </span>
+      <span className="lp-counter-label">{label}</span>
+    </li>
+  );
+}
+
+function FaqItem({ question, answer }: { question: string; answer: string }) {
+  const [open, setOpen] = useState(false);
+  const reducedMotion = useReducedMotion();
+
+  return (
+    <div className="lp-faq-item" data-open={open}>
+      <h3>
+        <button type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+          <span>{question}</span>
+          <i aria-hidden="true" />
+        </button>
+      </h3>
+      <AnimatePresence initial={false}>
+        {open ? (
+          <motion.div
+            className="lp-faq-body"
+            initial={reducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+            transition={reducedMotion ? { duration: 0 } : { duration: 0.4, ease: premiumEase }}
+          >
+            <p>{answer}</p>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function FaqSection() {
+  return (
+    <section className="lp-faq" id="otazky">
+      <div className="container-page lp-faq-grid">
+        <div className="lp-faq-side">
+          <Heading
+            eyebrow="Časté otázky"
+            copy="Ak tu odpoveď nie je, napíšte mi — alebo sa spýtajte priamo chatbota v rohu obrazovky."
+          >
+            Všetko, čo firmy <em>zaujíma najskôr.</em>
+          </Heading>
+          <Reveal delay={0.12}>
+            <button
+              type="button"
+              className="lp-faq-ask"
+              onClick={() => openSiteAssistant({ source: "faq" })}
+            >
+              <MessageCircle aria-hidden="true" />
+              Spýtať sa na čokoľvek
+            </button>
+          </Reveal>
+        </div>
+        <Reveal className="lp-faq-list" direction="right" distance={40}>
+          {faqs.map((faq) => (
+            <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
+          ))}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function ProjectImage({ src, alt }: { src: string; alt: string }) {
   const [loaded, setLoaded] = useState(false);
 
@@ -544,6 +757,14 @@ function Portfolio() {
         >
           Reálne weby. <em>Žiadne generické makety.</em>
         </Heading>
+
+        <Reveal delay={0.05}>
+          <ul className="lp-counters" aria-label="Čísla, ktoré si viete overiť priamo na webe">
+            {portfolioCounters.map((counter) => (
+              <CounterItem key={counter.label} value={counter.value} label={counter.label} />
+            ))}
+          </ul>
+        </Reveal>
 
         <div className="lp-project-grid">
           {projects.map((project, index) => (
@@ -586,6 +807,7 @@ function Portfolio() {
 
 function ProcessAndCta() {
   const reducedMotion = useReducedMotion();
+  const magneticFinal = useMagnetic<HTMLAnchorElement>(0.12);
 
   return (
     <section className="lp-process" id="spolupraca">
@@ -626,7 +848,7 @@ function ProcessAndCta() {
           <Symbol size={52} />
           <p>Máte nápad alebo opakujúci sa proces?</p>
           <h2>Pozrime sa, čo môže váš web robiť automaticky.</h2>
-          <Link to="/kontakt" className="lp-button lp-button-light">
+          <Link to="/kontakt" className="lp-button lp-button-light" ref={magneticFinal}>
             <span className="lp-button-content">
               Nezáväzná konzultácia <ArrowRight />
             </span>
@@ -648,8 +870,10 @@ export function PremiumLanding() {
         <PageProgress />
         <Hero />
         <ValueSection />
+        <Capabilities />
         <DeratScrollStory />
         <Portfolio />
+        <FaqSection />
         <ProcessAndCta />
       </div>
     </MotionConfig>

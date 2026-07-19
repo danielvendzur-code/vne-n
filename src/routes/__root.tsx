@@ -15,20 +15,53 @@ function NotFoundComponent() {
   return (
     <div
       className="flex min-h-screen items-center justify-center px-4"
-      style={{ backgroundColor: "var(--background)" }}
+      style={{
+        backgroundColor: "var(--background)",
+        backgroundImage:
+          "radial-gradient(circle at 85% 12%, rgba(201, 170, 112, 0.07), transparent 30rem), radial-gradient(circle at 8% 90%, rgba(127, 165, 143, 0.06), transparent 26rem)",
+      }}
     >
       <div className="max-w-md text-center">
-        <div className="eyebrow mb-3">404</div>
-        <h1 className="text-3xl font-semibold" style={{ color: "var(--text-primary)" }}>
-          Stránka neexistuje
+        <p
+          style={{
+            color: "var(--highlight)",
+            fontSize: "0.73rem",
+            fontWeight: 760,
+            letterSpacing: "0.125em",
+            textTransform: "uppercase",
+          }}
+        >
+          404 · Stránka neexistuje
+        </p>
+        <h1
+          className="mt-4"
+          style={{
+            color: "var(--text-primary)",
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2.2rem, 7vw, 3.4rem)",
+            fontWeight: 500,
+            letterSpacing: "-0.05em",
+            lineHeight: 1,
+          }}
+        >
+          Táto adresa nič nezobrazuje.
         </h1>
-        <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-          Adresa, ktorú ste zadali, nič nezobrazuje. Skúste hlavnú stránku.
+        <p className="mt-4 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
+          Odkaz je možno starý alebo v ňom chýba časť adresy. Všetko podstatné nájdete na hlavnej
+          stránke.
         </p>
         <a
           href={import.meta.env.BASE_URL}
-          className="mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium"
-          style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+          className="mt-8 inline-flex items-center justify-center"
+          style={{
+            backgroundColor: "var(--primary)",
+            color: "var(--primary-foreground)",
+            borderRadius: "0.78rem",
+            padding: "0.9rem 1.4rem",
+            fontSize: "0.9rem",
+            fontWeight: 700,
+            minHeight: "3.3rem",
+          }}
         >
           Späť na úvod
         </a>
@@ -80,6 +113,15 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+const personJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Daniel Vendzúr",
+  email: "mailto:daniel.vendzur@gmail.com",
+  url: "https://danielvendzur-code.github.io/vne-n/",
+  jobTitle: "Tvorca webových nástrojov — chatboty, kalkulačky, konfigurátory",
+});
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -91,24 +133,46 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
       },
+      { name: "author", content: "Daniel Vendzúr" },
+      { name: "theme-color", content: "#06120d" },
+      { property: "og:site_name", content: "Daniel Vendzúr" },
+      { property: "og:locale", content: "sk_SK" },
       { property: "og:title", content: "Daniel Vendzúr — weby, ktoré pracujú" },
       {
         property: "og:description",
         content: "Chatboty, ľubovoľné kalkulačky, konfigurátory a webové realizácie na mieru.",
       },
       { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content: "https://danielvendzur-code.github.io/vne-n/og/og-home.jpg",
+      },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:image",
+        content: "https://danielvendzur-code.github.io/vne-n/og/og-home.jpg",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.svg`, type: "image/svg+xml" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, sizes: "32x32" },
+      {
+        rel: "apple-touch-icon",
+        href: `${import.meta.env.BASE_URL}icons/apple-touch-icon.png`,
+        sizes: "180x180",
+      },
+      { rel: "manifest", href: `${import.meta.env.BASE_URL}manifest.webmanifest` },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&family=Inter:wght@400..600&display=swap",
       },
     ],
+    scripts: [{ type: "application/ld+json", children: personJsonLd }],
   }),
   shellComponent: RootShell,
   component: RootComponent,

@@ -1,22 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Bot, Calculator, MessageCircle, SlidersHorizontal } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
+import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
-    meta: [
-      { title: "Čo tvorím — chatboty, kalkulačky, konfigurátory" },
-      {
-        name: "description",
-        content:
-          "Chatboty, ľubovoľné kalkulačky a krokové konfigurátory. Každý nástroj môže fungovať samostatne alebo priamo v chatbote.",
-      },
-      { property: "og:title", content: "Čo tvorím" },
-      {
-        property: "og:description",
-        content: "Chatbot sa pýta. Kalkulačka počíta. Konfigurátor skladá.",
-      },
-    ],
+    ...seo({
+      title: "Čo tvorím — chatboty, kalkulačky a konfigurátory na mieru",
+      description:
+        "Chatboty, ľubovoľné kalkulačky a krokové konfigurátory. Každý nástroj môže fungovať samostatne alebo priamo v chatbote — vždy podľa logiky vašej služby.",
+      path: "/sluzby",
+    }),
   }),
   component: ServicesPage,
 });
@@ -24,26 +20,29 @@ export const Route = createFileRoute("/sluzby")({
 const services = [
   {
     id: "chatbot",
+    icon: Bot,
     name: "Chatbot a dopytový asistent",
-    intro: "Zákazníka prevedie otázkami a pripraví údaje pre firmu.",
+    intro: "Zákazníka prevedie otázkami a pripraví použiteľné zadanie pre firmu.",
     when: "Zadanie je zakaždým iné a potrebujete pochopiť situáciu skôr, než pripravíte ponuku.",
-    input: "Otázky prispôsobené odpovediam. Bez zbytočností.",
-    output: "Prehľadný dopyt s odpoveďami a kontaktom.",
+    inputChips: ["Vlastné otázky", "Reakcie na odpovede", "Fotky a prílohy", "Kontakt"],
+    output: "Prehľadný dopyt s odpoveďami a kontaktom — pripravený na prvú konkrétnu odpoveď.",
   },
   {
     id: "kalkulacka",
+    icon: Calculator,
     name: "Kalkulačka na mieru",
-    intro: "Cena, spotreba, návratnosť alebo iný výsledok podľa vašej logiky.",
-    when: "Výsledok sa dá odvodiť z reálnych vstupov a pravidiel vášho podnikania.",
-    input: "Ľubovoľné údaje — rozmery, množstvo, typ, doprava, montáž či vlastné premenné.",
+    intro: "Cena, spotreba, návratnosť alebo iný výsledok podľa vašich pravidiel.",
+    when: "Výsledok sa dá odvodiť z reálnych vstupov a cenníka či pravidiel vášho podnikania.",
+    inputChips: ["Rozmery a výmera", "Množstvo a typ", "Doprava a montáž", "Vlastné premenné"],
     output: "Presný výsledok, orientačný rozsah alebo ponuka pripravená na odoslanie.",
   },
   {
     id: "konfigurator",
+    icon: SlidersHorizontal,
     name: "Konfigurátor na mieru",
-    intro: "Ľubovoľný produkt alebo služba poskladané z dostupných možností.",
+    intro: "Produkt alebo služba poskladané krok za krokom z dostupných možností.",
     when: "Ponuka má viac variantov a klient sa v nej sám nezorientuje.",
-    input: "Typ, materiál, rozmer, farba, doplnky, montáž, doprava.",
+    inputChips: ["Typ a materiál", "Rozmer a farba", "Doplnky", "Montáž a doprava"],
     output: "Konkrétna konfigurácia pripravená na výrobu alebo cenovú ponuku.",
   },
 ];
@@ -51,81 +50,103 @@ const services = [
 function ServicesPage() {
   return (
     <SiteLayout>
-      <section>
-        <div className="container-page pt-12 pb-8 md:pt-20 md:pb-12">
-          <div className="eyebrow mb-3">Čo tvorím</div>
-          <h1 className="font-semibold max-w-3xl" style={{ fontSize: "clamp(2rem, 6vw, 3.2rem)" }}>
-            Chatbot, kalkulačka, konfigurátor. Samostatne aj spolu.
-          </h1>
-          <p
-            className="mt-5 max-w-2xl text-base md:text-lg"
-            style={{ color: "var(--text-secondary)", lineHeight: 1.55 }}
-          >
-            Každý nástroj skladám podľa služieb, cien a procesu firmy. Kalkulačku či konfigurátor
-            môžem nasadiť samostatne alebo ich vložiť priamo do plynulého rozhovoru s chatbotom.
-          </p>
-        </div>
-      </section>
-
-      <section>
-        <div className="container-page pb-20 md:pb-28 grid gap-12 md:gap-16">
-          {services.map((s, i) => (
-            <article
-              key={s.id}
-              className="grid gap-6 md:gap-8 md:grid-cols-12 items-start"
-              style={{ borderTop: "1px solid var(--border)", paddingTop: "2rem" }}
-            >
-              <div className="md:col-span-4">
-                <div className="text-xs tabular-nums mb-2" style={{ color: "var(--text-light)" }}>
-                  0{i + 1}
-                </div>
-                <h2 className="text-2xl md:text-3xl font-semibold">{s.name}</h2>
-                <p className="mt-3 text-base" style={{ color: "var(--text-secondary)" }}>
-                  {s.intro}
-                </p>
-              </div>
-              <div className="md:col-span-8 grid gap-5 sm:grid-cols-2">
-                <Row label="Kedy dáva zmysel" body={s.when} />
-                <Row label="Vstup od klienta" body={s.input} />
-                <Row label="Výstup pre firmu" body={s.output} />
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <div className="container-page pb-20 md:pb-24">
-          <div
-            className="rounded-2xl p-8 md:p-12"
-            style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
-          >
-            <h2 className="text-2xl md:text-3xl font-semibold max-w-2xl">
-              Neviete, čo je pre vás vhodné? Napíšte situáciu, poradím konkrétny typ.
-            </h2>
-            <div className="mt-6">
-              <button
-                onClick={() => openSiteAssistant({ source: "services-cta" })}
-                className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
-                style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
-              >
-                Nájsť riešenie
-              </button>
-            </div>
+      <div className="sp-page">
+        <PageIntro
+          eyebrow="Čo tvorím"
+          title={
+            <>
+              Chatbot, kalkulačka, konfigurátor. <em>Samostatne aj spolu.</em>
+            </>
+          }
+          lead="Každý nástroj skladám podľa služieb, cien a procesu konkrétnej firmy. Kalkulačku či konfigurátor viem nasadiť samostatne — alebo ich vložiť priamo do plynulého rozhovoru s chatbotom."
+        >
+          <div className="sp-hero-chips">
+            <span className="chip" data-tone="coral">
+              <Bot /> Chatboty
+            </span>
+            <span className="chip" data-tone="gold">
+              <Calculator /> Kalkulačky
+            </span>
+            <span className="chip">
+              <SlidersHorizontal /> Konfigurátory
+            </span>
           </div>
-        </div>
-      </section>
-    </SiteLayout>
-  );
-}
+        </PageIntro>
 
-function Row({ label, body }: { label: string; body: string }) {
-  return (
-    <div>
-      <div className="eyebrow mb-2">{label}</div>
-      <p className="text-sm" style={{ color: "var(--text-primary)", lineHeight: 1.6 }}>
-        {body}
-      </p>
-    </div>
+        <section className="sp-section">
+          <div className="container-page">
+            <div className="sp-service-list">
+              {services.map((service, index) => (
+                <Reveal key={service.id} delay={index * 0.05} amount={0.22}>
+                  <article className="sp-service" id={service.id}>
+                    <span className="sp-service-index">0{index + 1}</span>
+                    <div className="sp-service-head">
+                      <service.icon aria-hidden="true" />
+                      <h2>{service.name}</h2>
+                      <p>{service.intro}</p>
+                    </div>
+                    <div className="sp-service-rows">
+                      <div className="sp-service-row">
+                        <span>Kedy dáva zmysel</span>
+                        <p>{service.when}</p>
+                      </div>
+                      <div className="sp-service-row">
+                        <span>Vstup od zákazníka</span>
+                        <div className="sp-chip-row">
+                          {service.inputChips.map((chip) => (
+                            <span className="chip" key={chip}>
+                              {chip}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="sp-service-row">
+                        <span>Výstup pre firmu</span>
+                        <p>{service.output}</p>
+                      </div>
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+
+            <Reveal delay={0.08} amount={0.3}>
+              <div className="sp-combine">
+                <div>
+                  <h3>Najsilnejšie je to dokopy.</h3>
+                  <p>
+                    Kalkulačku aj konfigurátor viem vložiť priamo do rozhovoru s chatbotom. Zákazník
+                    prejde od otázky k výpočtu bez toho, aby opustil jedno okno — a vám príde jeden
+                    kompletný dopyt.
+                  </p>
+                </div>
+                <Link to="/projekty" className="sp-button sp-button--ghost">
+                  Pozrieť ukážky <ArrowRight aria-hidden="true" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        <section className="sp-section">
+          <CtaBand
+            kicker="Neviete, čo je pre vás vhodné?"
+            title="Opíšte situáciu. Poradím konkrétny typ nástroja."
+            lead="Stačí pár viet o tom, čo dnes vysvetľujete alebo počítate ručne. Odpoviem s konkrétnym odporúčaním a rozsahom prvej verzie."
+          >
+            <button
+              type="button"
+              className="sp-button sp-button--primary"
+              onClick={() => openSiteAssistant({ source: "services-cta" })}
+            >
+              <MessageCircle aria-hidden="true" /> Nájsť riešenie
+            </button>
+            <Link to="/kontakt" className="sp-button sp-button--ghost">
+              Radšej napíšem e-mail <ArrowRight aria-hidden="true" />
+            </Link>
+          </CtaBand>
+        </section>
+      </div>
+    </SiteLayout>
   );
 }

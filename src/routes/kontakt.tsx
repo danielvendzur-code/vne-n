@@ -1,22 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
+import { motion } from "motion/react";
 import { ArrowRight, Check, Clock3, Mail, MessageCircle, Phone } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
+import { premiumEase } from "@/components/site/motion-primitives";
 import { siteConfig } from "@/config/site";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import { seo } from "@/lib/seo";
 import "./kontakt.css";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
-    meta: [
-      { title: "Kontakt — chatboty a kalkulačky na mieru" },
-      {
-        name: "description",
-        content:
-          "Napíšte mi, čo dnes na webe vysvetľujete alebo počítate ručne. Navrhnem vhodný chatbot, kalkulačku alebo konfigurátor.",
-      },
-      { property: "og:title", content: "Poďme navrhnúť váš webový nástroj" },
-    ],
+    ...seo({
+      title: "Kontakt — nezáväzná konzultácia k chatbotom a kalkulačkám",
+      description:
+        "Napíšte mi, čo dnes na webe vysvetľujete alebo počítate ručne. Navrhnem vhodný chatbot, kalkulačku alebo konfigurátor a pošlem konkrétny ďalší krok.",
+      path: "/kontakt",
+    }),
   }),
   component: ContactPage,
 });
@@ -45,12 +46,19 @@ function ContactPage() {
     window.location.href = `mailto:${siteConfig.contact.email}?subject=${subject}&body=${body}`;
   };
 
+  const reducedMotion = useReducedMotion();
+
   return (
     <SiteLayout>
       <div className="contact-page">
         <div className="contact-glow" aria-hidden="true" />
         <div className="container-page contact-grid">
-          <section className="contact-intro">
+          <motion.section
+            className="contact-intro"
+            initial={reducedMotion ? false : { opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: premiumEase }}
+          >
             <p className="contact-kicker">
               <i />
               Nezáväzná konzultácia
@@ -95,9 +103,15 @@ function ContactPage() {
                 </li>
               </ul>
             </div>
-          </section>
+          </motion.section>
 
-          <section className="contact-card" aria-labelledby="contact-form-title">
+          <motion.section
+            className="contact-card"
+            aria-labelledby="contact-form-title"
+            initial={reducedMotion ? false : { opacity: 0, y: 34, scale: 0.985 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.12, ease: premiumEase }}
+          >
             <div className="contact-card-head">
               <span>01 / krátke zadanie</span>
               <h2 id="contact-form-title">Povedzte mi základ.</h2>
@@ -173,7 +187,7 @@ function ContactPage() {
               <MessageCircle />
               Prejsť krátkym konfigurátorom
             </button>
-          </section>
+          </motion.section>
         </div>
       </div>
     </SiteLayout>

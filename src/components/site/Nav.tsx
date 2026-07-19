@@ -76,7 +76,7 @@ export function Nav() {
               <Link
                 key={item.to}
                 to={item.to}
-                className="text-[13.5px] tracking-tight transition-colors"
+                className="site-nav-link text-[13.5px] tracking-tight transition-colors"
                 activeProps={{ style: { color: "var(--primary)" } }}
                 inactiveProps={{ style: { color: "var(--text-secondary)" } }}
               >
