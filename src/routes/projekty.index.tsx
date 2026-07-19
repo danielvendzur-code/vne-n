@@ -2,10 +2,21 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { PointerEvent } from "react";
 import { ArrowRight, ArrowUpRight, MessageCircle } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
+import {
+  AssistantMini,
+  CalculatorMini,
+  ConfiguratorMini,
+} from "@/components/site/MiniPreviews";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
-import { projects } from "@/data/projects";
+import { projects, type PreviewType } from "@/data/projects";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { seo } from "@/lib/seo";
+
+const previewByType = {
+  assistant: AssistantMini,
+  calculator: CalculatorMini,
+  configurator: ConfiguratorMini,
+} satisfies Record<PreviewType, typeof AssistantMini>;
 
 export const Route = createFileRoute("/projekty/")({
   head: () => ({
@@ -55,35 +66,41 @@ function ProjectsPage() {
         <section className="sp-section">
           <div className="container-page">
             <div className="sp-project-grid">
-              {projects.map((project, index) => (
-                <Reveal
-                  className="sp-project-card"
-                  key={project.slug}
-                  delay={(index % 3) * 0.06}
-                  amount={0.2}
-                >
-                  <Link
-                    to="/projekty/$slug"
-                    params={{ slug: project.slug }}
-                    style={{ "--card-accent": project.accent } as React.CSSProperties}
-                    onPointerMove={trackSpotlight}
+              {projects.map((project, index) => {
+                const Preview = previewByType[project.previewType];
+                return (
+                  <Reveal
+                    className="sp-project-card"
+                    key={project.slug}
+                    delay={(index % 3) * 0.06}
+                    amount={0.2}
                   >
-                    <div className="sp-project-top">
-                      <span>
-                        <i aria-hidden="true" />
-                        {project.label}
+                    <Link
+                      to="/projekty/$slug"
+                      params={{ slug: project.slug }}
+                      style={{ "--card-accent": project.accent } as React.CSSProperties}
+                      onPointerMove={trackSpotlight}
+                    >
+                      <div className="sp-project-visual" aria-hidden="true">
+                        <Preview compact accent={project.accent} />
+                      </div>
+                      <div className="sp-project-top">
+                        <span>
+                          <i aria-hidden="true" />
+                          {project.label}
+                        </span>
+                        <ArrowUpRight aria-hidden="true" />
+                      </div>
+                      <h2>{project.title}</h2>
+                      <p className="sp-project-cat">{project.category}</p>
+                      <p>{project.shortDescription}</p>
+                      <span className="sp-project-foot">
+                        Otvoriť ukážku <ArrowRight aria-hidden="true" size={14} />
                       </span>
-                      <ArrowUpRight aria-hidden="true" />
-                    </div>
-                    <h2>{project.title}</h2>
-                    <p className="sp-project-cat">{project.category}</p>
-                    <p>{project.shortDescription}</p>
-                    <span className="sp-project-foot">
-                      Otvoriť ukážku <ArrowRight aria-hidden="true" size={14} />
-                    </span>
-                  </Link>
-                </Reveal>
-              ))}
+                    </Link>
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         </section>

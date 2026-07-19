@@ -22,6 +22,7 @@ import {
   MessageCircle,
   PenLine,
   PlugZap,
+  Plus,
   Rocket,
   SlidersHorizontal,
   Workflow,
@@ -32,7 +33,6 @@ import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
-import { useCountUp } from "@/hooks/useCountUp";
 import { useMagnetic } from "@/hooks/useMagnetic";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
@@ -45,7 +45,7 @@ type RevealDirection = "up" | "left" | "right";
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
 const liquidControlSelector =
-  ".lp-button, .lp-assistant-cta, .lp-assistant-chips button, .lp-switch button, .lp-caps-chips .chip, .lp-faq-ask";
+  ".lp-button, .lp-assistant-cta, .lp-assistant-chips button, .lp-switch button, .lp-faq-ask";
 
 const heroSequence: Variants = {
   hidden: {},
@@ -165,12 +165,30 @@ const capabilityGroups = [
     tone: "gold",
     copy: "Výsledok z reálnych vstupov a pravidiel vašej služby.",
     items: [
-      "Cenová ponuka",
-      "Spotreba materiálu",
-      "Návratnosť investície",
-      "Rozmery a výmera",
-      "Doprava a montáž",
-      "Splátky a financovanie",
+      {
+        label: "Cenová ponuka",
+        desc: "Z rozmerov, množstva a doplnkov vypočíta orientačnú cenu a odošle vám ju spolu s kontaktom ako hotový dopyt.",
+      },
+      {
+        label: "Spotreba materiálu",
+        desc: "Podľa plochy alebo rozmerov vyráta, koľko materiálu bude treba — a koľko bude stáť.",
+      },
+      {
+        label: "Návratnosť investície",
+        desc: "Porovná náklady a úspory a ukáže zákazníkovi, kedy sa mu investícia vráti.",
+      },
+      {
+        label: "Rozmery a výmera",
+        desc: "Prepočíta plochy, objemy či bežné metre tak, ako to dnes robíte na papieri alebo v tabuľke.",
+      },
+      {
+        label: "Doprava a montáž",
+        desc: "Pripočíta dopravu podľa vzdialenosti a montáž podľa rozsahu — bez ručného dopočítavania.",
+      },
+      {
+        label: "Splátky a financovanie",
+        desc: "Rozloží cenu na mesačné splátky podľa vašich podmienok financovania.",
+      },
     ],
   },
   {
@@ -179,11 +197,26 @@ const capabilityGroups = [
     tone: "mint",
     copy: "Zákazník si poskladá produkt alebo službu krok za krokom.",
     items: [
-      "Produkt na mieru",
-      "Výber variantu",
-      "Balíky služieb",
-      "Krokový sprievodca",
-      "Rezervácia termínu",
+      {
+        label: "Produkt na mieru",
+        desc: "Prevedie zákazníka od typu cez materiál až po doplnky a odošle hotovú špecifikáciu.",
+      },
+      {
+        label: "Výber variantu",
+        desc: "Pomôže vybrať správny variant podľa použitia a preferencií — bez váhania a bez telefonátu.",
+      },
+      {
+        label: "Balíky služieb",
+        desc: "Poskladá balík presne podľa potreby zákazníka a rovno spočíta jeho cenu.",
+      },
+      {
+        label: "Krokový sprievodca",
+        desc: "Rozdelí zložité rozhodnutie na jednoduché kroky, ktoré zvládne každý návštevník.",
+      },
+      {
+        label: "Rezervácia termínu",
+        desc: "Po výbere služby ponúkne voľné termíny a rovno potvrdí rezerváciu.",
+      },
     ],
   },
   {
@@ -192,11 +225,26 @@ const capabilityGroups = [
     tone: "coral",
     copy: "Rozhovor, ktorý odpovie a pripraví použiteľný dopyt.",
     items: [
-      "Dopytový asistent",
-      "Produktový poradca",
-      "Časté otázky",
-      "Kvalifikácia dopytu",
-      "Objednávkový asistent",
+      {
+        label: "Dopytový asistent",
+        desc: "Položí správne otázky, pochopí situáciu a odovzdá vám dopyt s celým kontextom.",
+      },
+      {
+        label: "Produktový poradca",
+        desc: "Odporučí produkt podľa odpovedí zákazníka — ako váš najlepší predajca, nonstop.",
+      },
+      {
+        label: "Časté otázky",
+        desc: "Odpovie na opakujúce sa otázky okamžite, aj o polnoci — a vždy rovnako presne.",
+      },
+      {
+        label: "Kvalifikácia dopytu",
+        desc: "Rozlíši vážny dopyt od zvedavosti, aby ste čas venovali tým správnym zákazníkom.",
+      },
+      {
+        label: "Objednávkový asistent",
+        desc: "Prevedie objednávkou krok za krokom a zozbiera všetky údaje, ktoré potrebujete.",
+      },
     ],
   },
   {
@@ -205,20 +253,29 @@ const capabilityGroups = [
     tone: "ink",
     copy: "Dopyt skončí presne tam, kde s ním ďalej pracujete.",
     items: [
-      "E-mail s celým kontextom",
-      "Kalendár a termíny",
-      "Google tabuľka",
-      "CRM či interný systém",
-      "Vlastné API",
+      {
+        label: "E-mail s celým kontextom",
+        desc: "Každý dopyt príde s odpoveďami, výpočtom aj kontaktom v jednom prehľadnom e-maile.",
+      },
+      {
+        label: "Kalendár a termíny",
+        desc: "Dopyt sa premení na udalosť v kalendári aj s údajmi od zákazníka.",
+      },
+      {
+        label: "Google tabuľka",
+        desc: "Všetky dopyty sa automaticky ukladajú do tabuľky, ktorú máte stále po ruke.",
+      },
+      {
+        label: "CRM či interný systém",
+        desc: "Dopyty tečú priamo do systému, s ktorým už dnes pracujete.",
+      },
+      {
+        label: "Vlastné API",
+        desc: "Nástroj sa napojí na čokoľvek, čo má rozhranie — od skladu po fakturáciu.",
+      },
     ],
   },
 ] as const;
-
-const portfolioCounters = [
-  { value: 3, label: "nasadené weby pre reálne firmy" },
-  { value: 3, label: "živé nástroje dostupné online" },
-  { value: 6, label: "interaktívnych ukážok na vyskúšanie" },
-];
 
 const process = [
   {
@@ -601,42 +658,101 @@ function ValueSection() {
   );
 }
 
+function CapabilityGroup({
+  group,
+  index,
+}: {
+  group: (typeof capabilityGroups)[number];
+  index: number;
+}) {
+  const [active, setActive] = useState<string | null>(null);
+  const reducedMotion = useReducedMotion();
+  const { icon: Icon, title, tone, copy, items } = group;
+  const activeItem = items.find((item) => item.label === active) ?? null;
+
+  return (
+    <Reveal className="lp-caps-group" delay={index * 0.07} distance={30}>
+      <div className="lp-caps-head" data-tone={tone}>
+        <Icon aria-hidden="true" />
+        <div>
+          <h3>{title}</h3>
+          <p>{copy}</p>
+        </div>
+      </div>
+      <div className="lp-caps-chips" role="group" aria-label={title}>
+        {items.map((item) => {
+          const isActive = active === item.label;
+          return (
+            <motion.button
+              type="button"
+              key={item.label}
+              className="lp-chip"
+              data-tone={tone}
+              data-active={isActive}
+              aria-expanded={isActive}
+              onClick={() => setActive(isActive ? null : item.label)}
+              whileTap={reducedMotion ? undefined : { scale: 0.955 }}
+            >
+              {isActive ? (
+                <motion.span
+                  className="lp-chip-fill"
+                  layoutId={`caps-fill-${title}`}
+                  transition={liquidSpring}
+                  aria-hidden="true"
+                />
+              ) : null}
+              <span className="lp-chip-label">{item.label}</span>
+              <span className="lp-chip-icon" aria-hidden="true">
+                <Plus />
+              </span>
+            </motion.button>
+          );
+        })}
+      </div>
+      <AnimatePresence initial={false} mode="wait">
+        {activeItem ? (
+          <motion.div
+            className="lp-caps-detail"
+            key={activeItem.label}
+            role="status"
+            aria-live="polite"
+            initial={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+            transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: premiumEase }}
+          >
+            <div className="lp-caps-detail-inner" data-tone={tone}>
+              <p>{activeItem.desc}</p>
+              <button
+                type="button"
+                onClick={() =>
+                  openSiteAssistant({ source: "capability-chip", category: activeItem.label })
+                }
+              >
+                Otvoriť krátke zadanie <ArrowUpRight aria-hidden="true" />
+              </button>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </Reveal>
+  );
+}
+
 function Capabilities() {
   return (
     <section className="lp-caps" id="moznosti">
       <div className="container-page">
         <Heading
           eyebrow="Čo všetko viem postaviť"
-          copy="Vyberte, čo je najbližšie k vašej situácii. Každá položka je typ nástroja, ktorý viem navrhnúť presne podľa vašej služby — kliknutím rovno otvoríte krátke zadanie."
+          copy="Vyberte, čo je najbližšie k vašej situácii — po rozkliknutí uvidíte, čo daný nástroj dokáže, a viete rovno otvoriť krátke zadanie."
         >
           Ak sa to dá opísať pravidlami, <em>dá sa to postaviť.</em>
         </Heading>
 
         <div className="lp-caps-grid">
-          {capabilityGroups.map(({ icon: Icon, title, tone, copy, items }, groupIndex) => (
-            <Reveal className="lp-caps-group" key={title} delay={groupIndex * 0.07} distance={30}>
-              <div className="lp-caps-head" data-tone={tone}>
-                <Icon aria-hidden="true" />
-                <div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                </div>
-              </div>
-              <div className="lp-caps-chips">
-                {items.map((item) => (
-                  <button
-                    type="button"
-                    key={item}
-                    className="chip"
-                    data-tone={tone}
-                    onClick={() => openSiteAssistant({ source: "capability-chip", category: item })}
-                  >
-                    {item}
-                    <ArrowUpRight aria-hidden="true" />
-                  </button>
-                ))}
-              </div>
-            </Reveal>
+          {capabilityGroups.map((group, groupIndex) => (
+            <CapabilityGroup key={group.title} group={group} index={groupIndex} />
           ))}
         </div>
 
@@ -652,18 +768,6 @@ function Capabilities() {
         </Reveal>
       </div>
     </section>
-  );
-}
-
-function CounterItem({ value, label }: { value: number; label: string }) {
-  const { ref, value: displayed } = useCountUp(value);
-  return (
-    <li>
-      <span className="lp-counter-value" ref={ref}>
-        {displayed}
-      </span>
-      <span className="lp-counter-label">{label}</span>
-    </li>
   );
 }
 
@@ -757,14 +861,6 @@ function Portfolio() {
         >
           Reálne weby. <em>Žiadne generické makety.</em>
         </Heading>
-
-        <Reveal delay={0.05}>
-          <ul className="lp-counters" aria-label="Čísla, ktoré si viete overiť priamo na webe">
-            {portfolioCounters.map((counter) => (
-              <CounterItem key={counter.label} value={counter.value} label={counter.label} />
-            ))}
-          </ul>
-        </Reveal>
 
         <div className="lp-project-grid">
           {projects.map((project, index) => (

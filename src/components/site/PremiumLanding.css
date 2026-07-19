@@ -5,8 +5,8 @@
   --lp-primary-ink: #07140e;
   --lp-muted: #b7beb4;
   --lp-muted-soft: #88968d;
-  --lp-green: #c9aa70;
-  --lp-green-dark: #d9bc84;
+  --lp-green: #d9bd83;
+  --lp-green-dark: #e8d5a6;
   --lp-mint: #7fa58f;
   --lp-coral: #bc7352;
   --lp-blue: #7fa58f;
@@ -574,7 +574,7 @@
 
 .lp-caps-head[data-tone="gold"] > svg {
   color: var(--lp-green);
-  background: rgba(201, 170, 112, 0.12);
+  background: rgba(217, 189, 131, 0.13);
 }
 
 .lp-caps-head[data-tone="coral"] > svg {
@@ -608,23 +608,193 @@
   gap: 0.5rem;
 }
 
-.lp-caps-chips .chip {
-  --liquid-x: 50%;
-  --liquid-y: 50%;
+/* Interactive capability chips: pill with liquid fill that travels between
+   active items inside a group, plus icon flips to a close mark. */
+.lp-chip {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  min-height: 2.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.7rem;
+  border: 1px solid rgba(244, 241, 232, 0.16);
   border-radius: 999px;
+  padding: 0.6rem 0.72rem 0.6rem 1.05rem;
+  color: #d3dacf;
+  background: linear-gradient(165deg, rgba(244, 241, 232, 0.085), rgba(244, 241, 232, 0.022));
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.09),
+    0 10px 24px -20px rgba(0, 0, 0, 0.85);
+  font-size: 0.8rem;
+  font-weight: 640;
+  letter-spacing: 0.012em;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 260ms ease,
+    border-color 300ms ease,
+    background-color 300ms ease,
+    transform 380ms var(--lp-liquid-ease),
+    box-shadow 380ms var(--lp-liquid-ease);
 }
 
-.lp-caps-chips .chip svg {
-  width: 0.78rem;
-  height: 0.78rem;
-  opacity: 0.55;
+.lp-chip-label {
+  position: relative;
+  z-index: 2;
+}
+
+.lp-chip-icon {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(244, 241, 232, 0.1);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.1);
   transition:
-    transform 260ms var(--lp-liquid-ease),
-    opacity 260ms ease;
+    rotate 360ms var(--lp-liquid-ease),
+    background-color 280ms ease;
+}
+
+.lp-chip-icon svg {
+  width: 0.72rem;
+  height: 0.72rem;
+}
+
+.lp-chip[data-active="true"] {
+  color: #0d2018;
+  border-color: transparent;
+}
+
+.lp-chip[data-active="true"] .lp-chip-icon {
+  rotate: 45deg;
+  background: rgba(10, 27, 19, 0.16);
+  box-shadow: none;
+}
+
+.lp-chip-fill {
+  position: absolute;
+  z-index: 1;
+  inset: -1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 22% -20%, rgba(255, 255, 255, 0.34), transparent 46%),
+    linear-gradient(135deg, var(--lp-green), color-mix(in oklab, var(--lp-green) 74%, #8a6f3c));
+  box-shadow: 0 14px 34px -18px color-mix(in oklab, var(--lp-green) 80%, transparent);
+}
+
+.lp-chip[data-tone="mint"] .lp-chip-fill {
+  background:
+    radial-gradient(circle at 22% -20%, rgba(255, 255, 255, 0.3), transparent 46%),
+    linear-gradient(135deg, #9dbfab, #6d9480);
+  box-shadow: 0 14px 34px -18px rgba(127, 165, 143, 0.8);
+}
+
+.lp-chip[data-tone="coral"] .lp-chip-fill {
+  background:
+    radial-gradient(circle at 22% -20%, rgba(255, 255, 255, 0.3), transparent 46%),
+    linear-gradient(135deg, #d99b76, #b56f4e);
+  box-shadow: 0 14px 34px -18px rgba(188, 115, 82, 0.8);
+}
+
+.lp-chip[data-tone="ink"] .lp-chip-fill {
+  background:
+    radial-gradient(circle at 22% -20%, rgba(255, 255, 255, 0.45), transparent 46%),
+    linear-gradient(135deg, #f4f1e8, #cfd4c8);
+  box-shadow: 0 14px 34px -18px rgba(244, 241, 232, 0.55);
+}
+
+/* Expanded capability detail */
+.lp-caps-detail {
+  overflow: hidden;
+}
+
+.lp-caps-detail-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.1rem;
+  margin-top: 0.95rem;
+  border: 1px solid color-mix(in oklab, var(--lp-green) 34%, transparent);
+  border-radius: 0.9rem;
+  padding: 1.05rem 1.2rem;
+  background:
+    radial-gradient(circle at 4% 0%, color-mix(in oklab, var(--lp-green) 14%, transparent), transparent 55%),
+    rgba(244, 241, 232, 0.035);
+}
+
+.lp-caps-detail-inner[data-tone="mint"] {
+  border-color: rgba(127, 165, 143, 0.42);
+  background:
+    radial-gradient(circle at 4% 0%, rgba(127, 165, 143, 0.14), transparent 55%),
+    rgba(244, 241, 232, 0.035);
+}
+
+.lp-caps-detail-inner[data-tone="coral"] {
+  border-color: rgba(217, 155, 118, 0.42);
+  background:
+    radial-gradient(circle at 4% 0%, rgba(188, 115, 82, 0.15), transparent 55%),
+    rgba(244, 241, 232, 0.035);
+}
+
+.lp-caps-detail-inner[data-tone="ink"] {
+  border-color: rgba(244, 241, 232, 0.28);
+  background:
+    radial-gradient(circle at 4% 0%, rgba(244, 241, 232, 0.1), transparent 55%),
+    rgba(244, 241, 232, 0.035);
+}
+
+.lp-caps-detail-inner > p {
+  margin: 0;
+  color: var(--lp-ink);
+  font-size: 0.89rem;
+  line-height: 1.6;
+}
+
+.lp-caps-detail-inner > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  min-height: 2.6rem;
+  border: 0;
+  border-radius: 0.65rem;
+  padding: 0.6rem 0.95rem;
+  color: #0d2018;
+  background: var(--lp-green);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.3),
+    0 14px 30px -20px color-mix(in oklab, var(--lp-green) 85%, transparent);
+  font-size: 0.76rem;
+  font-weight: 740;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 340ms var(--lp-liquid-ease),
+    box-shadow 340ms var(--lp-liquid-ease),
+    background-color 260ms ease;
+}
+
+.lp-caps-detail-inner > button svg {
+  width: 0.85rem;
+  transition: transform 260ms var(--lp-liquid-ease);
+}
+
+.lp-caps-detail-inner[data-tone="mint"] > button {
+  background: #8fb49e;
+}
+
+.lp-caps-detail-inner[data-tone="coral"] > button {
+  background: #d0916c;
+}
+
+.lp-caps-detail-inner[data-tone="ink"] > button {
+  background: #e9e6da;
 }
 
 .lp-caps-note {
@@ -668,43 +838,6 @@
 
 .lp-caps-note button:hover {
   color: var(--lp-green-dark);
-}
-
-/* ---- Portfolio counters ---- */
-.lp-counters {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  overflow: hidden;
-  margin: clamp(2.2rem, 4vw, 3.4rem) 0 0;
-  padding: 0;
-  border: 1px solid rgba(10, 27, 19, 0.15);
-  border-radius: 0.8rem;
-  background: rgba(10, 27, 19, 0.15);
-  list-style: none;
-}
-
-.lp-counters li {
-  display: grid;
-  gap: 0.35rem;
-  padding: 1.35rem 1.5rem;
-  background: rgba(242, 239, 230, 0.66);
-}
-
-.lp-counter-value {
-  font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(2.2rem, 3.6vw, 3.2rem);
-  font-weight: 560;
-  letter-spacing: -0.05em;
-  line-height: 1;
-  color: #0a1b13;
-  font-variant-numeric: tabular-nums;
-}
-
-.lp-counter-label {
-  color: #5d665f;
-  font-size: 0.8rem;
-  line-height: 1.4;
 }
 
 /* ---- FAQ ---- */
@@ -791,7 +924,7 @@
 }
 
 .lp-faq-item[data-open="true"] {
-  border-color: rgba(201, 170, 112, 0.4);
+  border-color: rgba(217, 189, 131, 0.45);
 }
 
 .lp-faq-item h3 {
@@ -1461,6 +1594,31 @@
     opacity: 0.88;
   }
 
+  .lp-chip:not([data-active="true"]):hover {
+    color: var(--lp-ink);
+    border-color: rgba(217, 189, 131, 0.5);
+    background: linear-gradient(165deg, rgba(244, 241, 232, 0.12), rgba(244, 241, 232, 0.04));
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.12),
+      0 14px 30px -20px rgba(217, 189, 131, 0.55);
+  }
+
+  .lp-chip:not([data-active="true"]):hover .lp-chip-icon {
+    background: rgba(217, 189, 131, 0.22);
+  }
+
+  .lp-caps-detail-inner > button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.35),
+      0 20px 40px -22px color-mix(in oklab, var(--lp-green) 90%, transparent);
+  }
+
+  .lp-caps-detail-inner > button:hover svg {
+    transform: translate(2px, -2px);
+  }
+
   .lp-button:active,
   .lp-assistant-cta:active,
   .lp-assistant-chips button:active,
@@ -1590,8 +1748,13 @@
     grid-template-columns: 1fr;
   }
 
-  .lp-counters {
-    grid-template-columns: 1fr;
+  .lp-caps-detail-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lp-caps-detail-inner > button {
+    justify-content: center;
   }
 
   .lp-faq-body p {
