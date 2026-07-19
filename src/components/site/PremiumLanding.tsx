@@ -21,10 +21,8 @@ import {
   Mail,
   MessageCircle,
   PenLine,
-  PlugZap,
   Plus,
   Rocket,
-  SlidersHorizontal,
   Workflow,
   X,
 } from "lucide-react";
@@ -160,118 +158,156 @@ const heroProof = [
 
 const capabilityGroups = [
   {
-    icon: Calculator,
     title: "Kalkulačky",
     tone: "gold",
     copy: "Výsledok z reálnych vstupov a pravidiel vašej služby.",
     items: [
       {
         label: "Cenová ponuka",
-        desc: "Z rozmerov, množstva a doplnkov vypočíta orientačnú cenu a odošle vám ju spolu s kontaktom ako hotový dopyt.",
+        desc: "Zákazník zadá, čo potrebuje, a hneď vidí orientačnú cenu. Vy dostanete rovnaké čísla aj s kontaktom — pripravené na ponuku.",
+        inputs: ["Rozmery", "Množstvo", "Doplnky", "Lokalita"],
+        output: "Orientačná cena či rozsah a kompletné zadanie na e-mail.",
       },
       {
         label: "Spotreba materiálu",
-        desc: "Podľa plochy alebo rozmerov vyráta, koľko materiálu bude treba — a koľko bude stáť.",
+        desc: "Z plochy alebo rozmerov vypočíta potrebné množstvo materiálu vrátane rezervy a prepočtu na balenia.",
+        inputs: ["Plocha či rozmery", "Typ materiálu", "Rezerva"],
+        output: "Množstvo, počet balení a orientačná cena materiálu.",
       },
       {
         label: "Návratnosť investície",
-        desc: "Porovná náklady a úspory a ukáže zákazníkovi, kedy sa mu investícia vráti.",
+        desc: "Porovná dnešné náklady s úsporou po investícii a ukáže zákazníkovi, kedy sa mu zaplatí sama.",
+        inputs: ["Aktuálne náklady", "Cena riešenia", "Očakávaná úspora"],
+        output: "Doba návratnosti a prehľad úspor v čase.",
       },
       {
         label: "Rozmery a výmera",
-        desc: "Prepočíta plochy, objemy či bežné metre tak, ako to dnes robíte na papieri alebo v tabuľke.",
+        desc: "Prepočty plôch, objemov a bežných metrov presne podľa vašich vzorcov — bez papiera a počítania v ruke.",
+        inputs: ["Tvar a rozmery", "Počet kusov"],
+        output: "Presná výmera pripravená pre cenovú ponuku.",
       },
       {
         label: "Doprava a montáž",
-        desc: "Pripočíta dopravu podľa vzdialenosti a montáž podľa rozsahu — bez ručného dopočítavania.",
+        desc: "K cene automaticky pripočíta dopravu podľa vzdialenosti a montáž podľa rozsahu prác.",
+        inputs: ["Adresa či vzdialenosť", "Rozsah montáže"],
+        output: "Finálna cena vrátane dopravy a montáže.",
       },
       {
         label: "Splátky a financovanie",
-        desc: "Rozloží cenu na mesačné splátky podľa vašich podmienok financovania.",
+        desc: "Rozloží cenu na mesačné splátky podľa vašich podmienok, aby zákazník videl dostupnosť okamžite.",
+        inputs: ["Cena", "Akontácia", "Počet mesiacov"],
+        output: "Mesačná splátka a prehľad celého financovania.",
       },
     ],
   },
   {
-    icon: SlidersHorizontal,
     title: "Konfigurátory",
     tone: "mint",
     copy: "Zákazník si poskladá produkt alebo službu krok za krokom.",
     items: [
       {
         label: "Produkt na mieru",
-        desc: "Prevedie zákazníka od typu cez materiál až po doplnky a odošle hotovú špecifikáciu.",
+        desc: "Zákazník si poskladá produkt krok za krokom — od typu cez materiál až po doplnky. Nemusí nič vedieť vopred.",
+        inputs: ["Typ", "Materiál", "Rozmer", "Doplnky"],
+        output: "Hotová špecifikácia pripravená na výrobu či ponuku.",
       },
       {
         label: "Výber variantu",
-        desc: "Pomôže vybrať správny variant podľa použitia a preferencií — bez váhania a bez telefonátu.",
+        desc: "Pár otázok o použití a preferenciách zúži širokú ponuku na variant, ktorý naozaj sadne.",
+        inputs: ["Spôsob použitia", "Preferencie", "Rozpočet"],
+        output: "Odporúčaný variant aj so zdôvodnením.",
       },
       {
         label: "Balíky služieb",
-        desc: "Poskladá balík presne podľa potreby zákazníka a rovno spočíta jeho cenu.",
+        desc: "Poskladá balík služieb presne podľa potreby zákazníka a rovno ukáže, koľko bude stáť.",
+        inputs: ["Výber služieb", "Rozsah", "Frekvencia"],
+        output: "Zložený balík s cenou a zhrnutím.",
       },
       {
         label: "Krokový sprievodca",
-        desc: "Rozdelí zložité rozhodnutie na jednoduché kroky, ktoré zvládne každý návštevník.",
+        desc: "Zložité rozhodnutie rozdelí na jednoduché kroky s jasným postupom — nikto sa po ceste nestratí.",
+        inputs: ["Odpovede krok za krokom"],
+        output: "Zhrnutie výberu a jasný ďalší krok.",
       },
       {
         label: "Rezervácia termínu",
-        desc: "Po výbere služby ponúkne voľné termíny a rovno potvrdí rezerváciu.",
+        desc: "Po výbere služby ponúkne voľné termíny a rezerváciu rovno potvrdí.",
+        inputs: ["Služba", "Preferovaný čas", "Kontakt"],
+        output: "Potvrdený termín aj s údajmi zákazníka.",
       },
     ],
   },
   {
-    icon: Bot,
     title: "Chatboty",
     tone: "coral",
     copy: "Rozhovor, ktorý odpovie a pripraví použiteľný dopyt.",
     items: [
       {
         label: "Dopytový asistent",
-        desc: "Položí správne otázky, pochopí situáciu a odovzdá vám dopyt s celým kontextom.",
+        desc: "Pýta sa presne na to, čo pri každej zákazke potrebujete vedieť — a na nič nezabudne.",
+        inputs: ["Odpovede zákazníka", "Fotky a prílohy"],
+        output: "Kompletný dopyt s celým kontextom na e-mail.",
       },
       {
         label: "Produktový poradca",
-        desc: "Odporučí produkt podľa odpovedí zákazníka — ako váš najlepší predajca, nonstop.",
+        desc: "Odporúča z vašej ponuky podľa toho, čo zákazník naozaj rieši — ako skúsený predajca, nonstop.",
+        inputs: ["Potreba zákazníka", "Preferencie"],
+        output: "Odporúčanie produktu aj s dôvodom.",
       },
       {
         label: "Časté otázky",
-        desc: "Odpovie na opakujúce sa otázky okamžite, aj o polnoci — a vždy rovnako presne.",
+        desc: "Odpovede na opakujúce sa otázky o cene, termínoch či službách — okamžite a vždy rovnako presne.",
+        inputs: ["Otázka zákazníka"],
+        output: "Odpoveď z vašich podkladov, nie vymyslená.",
       },
       {
         label: "Kvalifikácia dopytu",
-        desc: "Rozlíši vážny dopyt od zvedavosti, aby ste čas venovali tým správnym zákazníkom.",
+        desc: "Zistí rozsah, termín aj vážnosť záujmu skôr, než dopyt pristane u vás na stole.",
+        inputs: ["Rozsah", "Termín", "Rozpočet"],
+        output: "Ohodnotený dopyt — viete, komu sa venovať skôr.",
       },
       {
         label: "Objednávkový asistent",
-        desc: "Prevedie objednávkou krok za krokom a zozbiera všetky údaje, ktoré potrebujete.",
+        desc: "Prevedie objednávkou krok za krokom a zozbiera všetky údaje bez jediného formulára.",
+        inputs: ["Výber", "Doprava", "Kontakt"],
+        output: "Kompletná objednávka pripravená na spracovanie.",
       },
     ],
   },
   {
-    icon: PlugZap,
     title: "Prepojenia",
     tone: "ink",
     copy: "Dopyt skončí presne tam, kde s ním ďalej pracujete.",
     items: [
       {
         label: "E-mail s celým kontextom",
-        desc: "Každý dopyt príde s odpoveďami, výpočtom aj kontaktom v jednom prehľadnom e-maile.",
+        desc: "Každý dopyt príde ako prehľadný e-mail so všetkými odpoveďami, výpočtom aj kontaktom.",
+        inputs: ["Ľubovoľný nástroj vyššie"],
+        output: "E-mail, na ktorý sa dá rovno odpovedať ponukou.",
       },
       {
         label: "Kalendár a termíny",
-        desc: "Dopyt sa premení na udalosť v kalendári aj s údajmi od zákazníka.",
+        desc: "Rezervácie a dohodnuté termíny sa zapisujú priamo do vášho kalendára.",
+        inputs: ["Voľné termíny", "Údaje zákazníka"],
+        output: "Udalosť v kalendári bez prepisovania.",
       },
       {
         label: "Google tabuľka",
-        desc: "Všetky dopyty sa automaticky ukladajú do tabuľky, ktorú máte stále po ruke.",
+        desc: "Každý dopyt pribudne ako nový riadok v tabuľke — prehľad bez systému navyše.",
+        inputs: ["Dáta z nástroja"],
+        output: "Živý prehľad dopytov na jednom mieste.",
       },
       {
         label: "CRM či interný systém",
-        desc: "Dopyty tečú priamo do systému, s ktorým už dnes pracujete.",
+        desc: "Dopyty tečú priamo do systému, s ktorým už dnes pracujete — bez kopírovania.",
+        inputs: ["Dáta z nástroja"],
+        output: "Nový záznam v CRM aj s celým kontextom.",
       },
       {
         label: "Vlastné API",
-        desc: "Nástroj sa napojí na čokoľvek, čo má rozhranie — od skladu po fakturáciu.",
+        desc: "Napojenie na čokoľvek, čo má rozhranie — sklad, fakturáciu či výrobu.",
+        inputs: ["Dáta z nástroja"],
+        output: "Automatický zápis tam, kam potrebujete.",
       },
     ],
   },
@@ -667,74 +703,98 @@ function CapabilityGroup({
 }) {
   const [active, setActive] = useState<string | null>(null);
   const reducedMotion = useReducedMotion();
-  const { icon: Icon, title, tone, copy, items } = group;
+  const { title, tone, copy, items } = group;
   const activeItem = items.find((item) => item.label === active) ?? null;
 
   return (
-    <Reveal className="lp-caps-group" delay={index * 0.07} distance={30}>
-      <div className="lp-caps-head" data-tone={tone}>
-        <Icon aria-hidden="true" />
+    <Reveal className="lp-caps-row" amount={0.2}>
+      <div className="lp-caps-row-head" data-tone={tone}>
+        <span className="lp-caps-num">0{index + 1}</span>
         <div>
           <h3>{title}</h3>
           <p>{copy}</p>
         </div>
       </div>
-      <div className="lp-caps-chips" role="group" aria-label={title}>
-        {items.map((item) => {
-          const isActive = active === item.label;
-          return (
-            <motion.button
-              type="button"
-              key={item.label}
-              className="lp-chip"
-              data-tone={tone}
-              data-active={isActive}
-              aria-expanded={isActive}
-              onClick={() => setActive(isActive ? null : item.label)}
-              whileTap={reducedMotion ? undefined : { scale: 0.955 }}
-            >
-              {isActive ? (
-                <motion.span
-                  className="lp-chip-fill"
-                  layoutId={`caps-fill-${title}`}
-                  transition={liquidSpring}
-                  aria-hidden="true"
-                />
-              ) : null}
-              <span className="lp-chip-label">{item.label}</span>
-              <span className="lp-chip-icon" aria-hidden="true">
-                <Plus />
-              </span>
-            </motion.button>
-          );
-        })}
-      </div>
-      <AnimatePresence initial={false} mode="wait">
-        {activeItem ? (
-          <motion.div
-            className="lp-caps-detail"
-            key={activeItem.label}
-            role="status"
-            aria-live="polite"
-            initial={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
-            transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: premiumEase }}
-          >
-            <div className="lp-caps-detail-inner" data-tone={tone}>
-              <p>{activeItem.desc}</p>
-              <button
+      <div className="lp-caps-row-body">
+        <div className="lp-caps-chips" role="group" aria-label={title}>
+          {items.map((item) => {
+            const isActive = active === item.label;
+            return (
+              <motion.button
                 type="button"
-                onClick={() =>
-                  openSiteAssistant({ source: "capability-chip", category: activeItem.label })
-                }
+                key={item.label}
+                className="lp-chip"
+                data-tone={tone}
+                data-active={isActive}
+                aria-expanded={isActive}
+                onClick={() => setActive(isActive ? null : item.label)}
+                whileTap={reducedMotion ? undefined : { scale: 0.965 }}
               >
-                Otvoriť krátke zadanie <ArrowUpRight aria-hidden="true" />
-              </button>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+                {isActive ? (
+                  <motion.span
+                    className="lp-chip-fill"
+                    layoutId={`caps-fill-${title}`}
+                    transition={liquidSpring}
+                    aria-hidden="true"
+                  />
+                ) : null}
+                <span className="lp-chip-label">{item.label}</span>
+                <span className="lp-chip-icon" aria-hidden="true">
+                  <Plus />
+                </span>
+              </motion.button>
+            );
+          })}
+        </div>
+        <AnimatePresence initial={false} mode="wait">
+          {activeItem ? (
+            <motion.div
+              className="lp-caps-detail"
+              key={activeItem.label}
+              role="status"
+              aria-live="polite"
+              initial={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+              transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: premiumEase }}
+            >
+              <div className="lp-caps-detail-inner" data-tone={tone}>
+                <div className="lp-caps-detail-copy">
+                  <h4>{activeItem.label}</h4>
+                  <p>{activeItem.desc}</p>
+                  <button
+                    type="button"
+                    className="lp-caps-detail-cta"
+                    onClick={() =>
+                      openSiteAssistant({ source: "capability-chip", category: activeItem.label })
+                    }
+                  >
+                    Otvoriť krátke zadanie <ArrowUpRight aria-hidden="true" />
+                  </button>
+                </div>
+                <dl className="lp-caps-detail-spec">
+                  <div>
+                    <dt>Vstupy od zákazníka</dt>
+                    <dd>
+                      <span className="lp-caps-inputs">
+                        {activeItem.inputs.map((input) => (
+                          <span className="lp-caps-input" key={input}>
+                            {input}
+                          </span>
+                        ))}
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Výstup pre vás</dt>
+                    <dd>{activeItem.output}</dd>
+                  </div>
+                </dl>
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
     </Reveal>
   );
 }
@@ -745,18 +805,18 @@ function Capabilities() {
       <div className="container-page">
         <Heading
           eyebrow="Čo všetko viem postaviť"
-          copy="Vyberte, čo je najbližšie k vašej situácii — po rozkliknutí uvidíte, čo daný nástroj dokáže, a viete rovno otvoriť krátke zadanie."
+          copy="Vyberte, čo je najbližšie k vašej situácii — po rozkliknutí uvidíte, čo nástroj robí, aké vstupy zbiera a čo z neho dostanete."
         >
           Ak sa to dá opísať pravidlami, <em>dá sa to postaviť.</em>
         </Heading>
 
-        <div className="lp-caps-grid">
+        <div className="lp-caps-rows">
           {capabilityGroups.map((group, groupIndex) => (
             <CapabilityGroup key={group.title} group={group} index={groupIndex} />
           ))}
         </div>
 
-        <Reveal className="lp-caps-note" delay={0.1}>
+        <Reveal className="lp-caps-note" delay={0.08}>
           <CalendarClock aria-hidden="true" />
           <p>
             Nenašli ste svoju situáciu? Opíšte ju vlastnými slovami —{" "}
