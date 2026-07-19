@@ -1,9 +1,19 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
+import { motion } from "motion/react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, MessageCircle, Play } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
+import {
+  premiumEase,
+  Reveal,
+  staggerChild,
+  staggerParent,
+} from "@/components/site/motion-primitives";
 import { getProject, projects } from "@/data/projects";
 import { DemoViewer } from "@/components/DemoViewer";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/projekty/$slug")({
   loader: ({ params }) => {
@@ -17,27 +27,36 @@ export const Route = createFileRoute("/projekty/$slug")({
     }
     const { project } = loaderData;
     return {
-      meta: [
-        { title: `${project.label} — ${project.title}` },
-        { name: "description", content: project.shortDescription },
-        { property: "og:title", content: `${project.label} — ${project.title}` },
-        { property: "og:description", content: project.shortDescription },
-      ],
+      ...seo({
+        title: `${project.label} — ${project.title}`,
+        description: project.shortDescription,
+        path: `/projekty/${project.slug}`,
+      }),
     };
   },
   component: ProjectDetail,
   notFoundComponent: () => (
     <SiteLayout>
-      <div className="container-page py-20">
-        <div className="eyebrow mb-4">Ukážka</div>
-        <h1 className="text-3xl font-semibold">Ukážka neexistuje</h1>
-        <Link
-          to="/projekty"
-          className="mt-6 inline-flex text-sm font-medium"
-          style={{ color: "var(--primary)" }}
-        >
-          ← Späť na ukážky
-        </Link>
+      <div className="sp-page">
+        <div className="container-page py-24">
+          <div className="sp-eyebrow">
+            <i />
+            Ukážka
+          </div>
+          <h1
+            className="mt-4 font-medium"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2rem, 5vw, 3.4rem)",
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Ukážka neexistuje
+          </h1>
+          <Link to="/projekty" className="sp-back mt-8">
+            <ArrowLeft aria-hidden="true" /> Späť na ukážky
+          </Link>
+        </div>
       </div>
     </SiteLayout>
   ),
@@ -46,121 +65,141 @@ export const Route = createFileRoute("/projekty/$slug")({
 function ProjectDetail() {
   const { project } = Route.useLoaderData();
   const [demoOpen, setDemoOpen] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   const others = projects.filter((p) => p.slug !== project.slug).slice(0, 3);
+  const accentVars = { "--card-accent": project.accent } as React.CSSProperties;
 
   return (
     <SiteLayout>
-      <section>
-        <div className="container-page pt-8 pb-4 md:pt-12">
-          <Link to="/projekty" className="text-sm" style={{ color: "var(--text-secondary)" }}>
-            ← Ukážky
-          </Link>
-        </div>
-      </section>
-
-      <section>
-        <div className="container-page pb-10 md:pb-16">
-          <div className="flex items-center gap-2 mb-5">
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: project.accent }} />
-            <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              {project.label} · {project.category}
-            </span>
-          </div>
-          <h1 className="font-semibold" style={{ fontSize: "clamp(2rem, 7vw, 3.6rem)", lineHeight: 1.05 }}>
-            {project.title}
-          </h1>
-          <p className="mt-5 max-w-2xl" style={{ color: "var(--text-secondary)", fontSize: "clamp(1rem, 2.4vw, 1.15rem)", lineHeight: 1.55 }}>
-            {project.shortDescription}
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              onClick={() => setDemoOpen(true)}
-              className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
-              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
-            >
-              Vyskúšať ukážku
-            </button>
-            <button
-              onClick={() =>
-                openSiteAssistant({
-                  source: "project-detail",
-                  projectSlug: project.slug,
-                  category: project.category,
-                })
-              }
-              className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium"
-              style={{ border: "1px solid var(--border-strong)", color: "var(--text-primary)" }}
-            >
-              Chcem podobný nástroj
-            </button>
-          </div>
-          <p className="mt-5 text-xs" style={{ color: "var(--text-light)" }}>
-            Vzorové rozhranie. Neide o reálny nasadený projekt.
-          </p>
-        </div>
-      </section>
-
-      <section style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="container-page py-12 md:py-20 grid gap-10 md:grid-cols-3 md:gap-12">
-          <StoryBlock label="Kedy dáva zmysel" body={project.problem} />
-          <StoryBlock label="Ako to funguje" body={project.solution} accent={project.accent} />
-          <StoryBlock label="Výsledok pre firmu" body={project.result} />
-        </div>
-      </section>
-
-      <section style={{ backgroundColor: "var(--background-soft)" }}>
-        <div className="container-page py-12 md:py-20">
-          <div className="eyebrow mb-5">Ďalšie ukážky</div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {others.map((p) => (
-              <Link
-                key={p.slug}
-                to="/projekty/$slug"
-                params={{ slug: p.slug }}
-                className="block rounded-xl p-5"
-                style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: p.accent }} />
-                  <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                    {p.label}
-                  </span>
-                </div>
-                <div className="text-base font-semibold">{p.title}</div>
-                <p className="mt-1.5 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                  {p.shortDescription}
-                </p>
+      <div className="sp-page" style={accentVars}>
+        <section className="sp-hero">
+          <motion.div
+            className="container-page sp-hero-inner"
+            initial={reducedMotion ? false : "hidden"}
+            animate="visible"
+            variants={staggerParent}
+          >
+            <motion.div variants={staggerChild}>
+              <Link to="/projekty" className="sp-back">
+                <ArrowLeft aria-hidden="true" /> Všetky ukážky
               </Link>
-            ))}
+            </motion.div>
+            <motion.p
+              className="sp-eyebrow"
+              style={{ marginTop: "1.6rem" }}
+              variants={staggerChild}
+            >
+              <i style={{ background: project.accent }} />
+              {project.label} · {project.category}
+            </motion.p>
+            <motion.h1 variants={staggerChild}>{project.title}</motion.h1>
+            <motion.p className="sp-hero-lead" variants={staggerChild}>
+              {project.shortDescription}
+            </motion.p>
+            <motion.div
+              className="sp-cta-actions"
+              style={{ justifyContent: "flex-start", marginTop: "1.9rem" }}
+              variants={staggerChild}
+            >
+              <button
+                type="button"
+                className="sp-button sp-button--primary"
+                onClick={() => setDemoOpen(true)}
+              >
+                <Play aria-hidden="true" /> Vyskúšať ukážku
+              </button>
+              <button
+                type="button"
+                className="sp-button sp-button--ghost"
+                onClick={() =>
+                  openSiteAssistant({
+                    source: "project-detail",
+                    projectSlug: project.slug,
+                    category: project.category,
+                  })
+                }
+              >
+                Chcem podobný nástroj <ArrowUpRight aria-hidden="true" />
+              </button>
+            </motion.div>
+            <motion.p
+              variants={staggerChild}
+              style={{ marginTop: "1.2rem", color: "var(--text-light)", fontSize: "0.75rem" }}
+            >
+              Vzorové rozhranie — nejde o reálny nasadený projekt.
+            </motion.p>
+          </motion.div>
+        </section>
+
+        <section className="sp-section">
+          <div className="container-page">
+            <div className="sp-detail-blocks">
+              {[
+                { label: "Kedy dáva zmysel", body: project.problem },
+                { label: "Ako to funguje", body: project.solution },
+                { label: "Výsledok pre firmu", body: project.result },
+              ].map((block, index) => (
+                <Reveal key={block.label} delay={index * 0.07} amount={0.3}>
+                  <div className="sp-detail-block">
+                    <span>
+                      <i aria-hidden="true" />
+                      {block.label}
+                    </span>
+                    <p>{block.body}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <DemoViewer
-        open={demoOpen}
-        onClose={() => setDemoOpen(false)}
-        title={project.title}
-        category={project.category}
-        accent={project.accent}
-        presentation={project.demoPresentation}
-        demoUrl={project.demoUrl}
-      />
-    </SiteLayout>
-  );
-}
+        <section className="sp-section sp-section--soft">
+          <div className="container-page">
+            <Reveal amount={0.3}>
+              <p className="sp-eyebrow">
+                <i />
+                Ďalšie ukážky
+              </p>
+            </Reveal>
+            <div className="sp-project-grid" style={{ marginTop: "1.6rem" }}>
+              {others.map((other, index) => (
+                <Reveal className="sp-project-card" key={other.slug} delay={index * 0.06}>
+                  <Link
+                    to="/projekty/$slug"
+                    params={{ slug: other.slug }}
+                    style={{ "--card-accent": other.accent } as React.CSSProperties}
+                  >
+                    <div className="sp-project-top">
+                      <span>
+                        <i aria-hidden="true" />
+                        {other.label}
+                      </span>
+                      <ArrowUpRight aria-hidden="true" />
+                    </div>
+                    <h2>{other.title}</h2>
+                    <p className="sp-project-cat">{other.category}</p>
+                    <p>{other.shortDescription}</p>
+                    <span className="sp-project-foot">
+                      Otvoriť ukážku <ArrowRight aria-hidden="true" size={14} />
+                    </span>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
 
-function StoryBlock({ label, body, accent }: { label: string; body: string; accent?: string }) {
-  return (
-    <div>
-      <div className="flex items-center gap-2 mb-3">
-        {accent && <span className="h-1.5 w-6" style={{ backgroundColor: accent }} />}
-        <span className="eyebrow">{label}</span>
+        <DemoViewer
+          open={demoOpen}
+          onClose={() => setDemoOpen(false)}
+          title={project.title}
+          category={project.category}
+          accent={project.accent}
+          presentation={project.demoPresentation}
+          demoUrl={project.demoUrl}
+        />
       </div>
-      <p className="text-base" style={{ color: "var(--text-primary)", lineHeight: 1.6 }}>
-        {body}
-      </p>
-    </div>
+    </SiteLayout>
   );
 }

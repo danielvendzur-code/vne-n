@@ -4,6 +4,12 @@ import { Symbol } from "@/components/Symbol";
 import { siteConfig } from "@/config/site";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
+const liveTools = [
+  ["DERAT kalkulačka", "https://derat-chatbot-backend.vercel.app/"],
+  ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],
+  ["Webový asistent", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
+] as const;
+
 export function Footer() {
   return (
     <footer className="premium-footer">
@@ -21,6 +27,17 @@ export function Footer() {
             <Link to="/postup">Spolupráca</Link>
             <Link to="/kontakt">Kontakt</Link>
           </nav>
+        </div>
+
+        <div>
+          <p className="premium-footer-label">Živé nástroje</p>
+          <div className="premium-footer-links">
+            {liveTools.map(([name, href]) => (
+              <a key={name} href={href} target="_blank" rel="noreferrer">
+                {name} <ArrowUpRight size={13} />
+              </a>
+            ))}
+          </div>
         </div>
 
         <div>

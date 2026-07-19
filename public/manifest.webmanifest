@@ -1,0 +1,29 @@
+{
+  "name": "Daniel Vendzúr — chatboty a webové nástroje na mieru",
+  "short_name": "Vendzúr",
+  "description": "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odovzdajú hotový dopyt.",
+  "start_url": "/vne-n/",
+  "scope": "/vne-n/",
+  "display": "standalone",
+  "background_color": "#06120d",
+  "theme_color": "#06120d",
+  "lang": "sk",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

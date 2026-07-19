@@ -1,0 +1,741 @@
+/* Shared visual system for subpages — same forest-atelier language as the landing. */
+
+.sp-page {
+  overflow: clip;
+  color: var(--text-primary);
+  background: var(--background);
+}
+
+.sp-page section[id] {
+  scroll-margin-top: 6.5rem;
+}
+
+/* ---- Heading (mirrors the landing rhythm) ---- */
+.sp-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.62rem;
+  margin: 0;
+  color: var(--highlight);
+  font-size: 0.73rem;
+  font-weight: 760;
+  letter-spacing: 0.125em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.sp-eyebrow i {
+  width: 1.7rem;
+  height: 1px;
+  flex: 0 0 auto;
+  background: var(--highlight);
+}
+
+.sp-heading {
+  width: min(100%, 56rem);
+}
+
+.sp-heading[data-align="center"] {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.sp-heading[data-align="center"] .sp-eyebrow {
+  justify-content: center;
+}
+
+.sp-heading h2 {
+  margin: 1rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(2.2rem, 4.6vw, 4.1rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.99;
+  text-wrap: balance;
+}
+
+.sp-heading h2 em {
+  color: var(--highlight);
+  font-style: normal;
+}
+
+.sp-heading-copy {
+  max-width: 43rem;
+  margin: 1.25rem 0 0;
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.sp-heading[data-align="center"] .sp-heading-copy {
+  margin-inline: auto;
+}
+
+/* ---- Page hero ---- */
+.sp-hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background:
+    url("../../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 88% 10%, rgba(201, 170, 112, 0.07), transparent 30rem),
+    radial-gradient(circle at 4% 90%, rgba(127, 165, 143, 0.06), transparent 26rem),
+    var(--background);
+}
+
+.sp-hero-inner {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(3.6rem, 8vh, 6rem);
+  padding-bottom: clamp(3rem, 7vh, 5.2rem);
+}
+
+.sp-hero h1 {
+  max-width: 50rem;
+  margin: 1.1rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(2.9rem, 6.4vw, 5.6rem);
+  font-weight: 500;
+  letter-spacing: -0.068em;
+  line-height: 0.93;
+  text-wrap: balance;
+}
+
+.sp-hero h1 em {
+  color: var(--highlight);
+  font-style: normal;
+}
+
+.sp-hero-lead {
+  max-width: 41rem;
+  margin: 1.5rem 0 0;
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 1.5vw, 1.14rem);
+  line-height: 1.62;
+}
+
+.sp-hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.8rem;
+}
+
+/* ---- Generic section spacing ---- */
+.sp-section {
+  padding: clamp(4.5rem, 8vw, 7.5rem) 0;
+}
+
+.sp-section + .sp-section {
+  border-top: 1px solid var(--border);
+}
+
+.sp-section--soft {
+  background:
+    url("../../assets/forest-grain.svg") repeat,
+    var(--background-soft);
+}
+
+/* ---- Service cards (sluzby) ---- */
+.sp-service-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(2.4rem, 5vw, 3.8rem);
+}
+
+.sp-service {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1.6rem, 4vw, 3.4rem);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: clamp(1.5rem, 3.4vw, 2.6rem);
+  background: linear-gradient(160deg, rgba(18, 44, 33, 0.6), rgba(9, 26, 19, 0.92));
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.04),
+    0 30px 70px -52px rgba(0, 0, 0, 0.85);
+  transition: border-color 320ms ease;
+}
+
+.sp-service:hover {
+  border-color: rgba(127, 165, 143, 0.35);
+}
+
+.sp-service-index {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.6rem;
+  color: var(--text-light);
+  font-size: 0.72rem;
+  font-weight: 720;
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-service-head > svg {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0.8rem;
+  padding: 0.65rem;
+  color: var(--highlight);
+  background: var(--highlight-soft);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.sp-service-head h2 {
+  margin: 1.1rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.sp-service-head > p {
+  max-width: 26rem;
+  margin: 0.9rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.sp-service-rows {
+  display: grid;
+  gap: 1.15rem;
+  align-content: center;
+}
+
+.sp-service-row {
+  border-top: 1px solid var(--border);
+  padding-top: 1.05rem;
+}
+
+.sp-service-row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.sp-service-row > span {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--text-light);
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sp-service-row > p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  line-height: 1.58;
+}
+
+.sp-service-row .sp-chip-row {
+  margin-top: 0.15rem;
+}
+
+.sp-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+/* ---- Combine band (sluzby) ---- */
+.sp-combine {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  overflow: hidden;
+  border: 1px solid rgba(201, 170, 112, 0.3);
+  border-radius: 1rem;
+  margin-top: 1rem;
+  padding: clamp(1.5rem, 3vw, 2.3rem);
+  background:
+    radial-gradient(circle at 92% 8%, rgba(201, 170, 112, 0.09), transparent 40%),
+    linear-gradient(150deg, rgba(23, 53, 42, 0.92), rgba(9, 26, 19, 0.96));
+}
+
+.sp-combine h3 {
+  margin: 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.sp-combine p {
+  max-width: 36rem;
+  margin: 0.8rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* ---- Timeline (postup) ---- */
+.sp-timeline-wrap {
+  position: relative;
+  margin-top: clamp(2.6rem, 5vw, 4rem);
+  max-width: 46rem;
+}
+
+.sp-timeline {
+  position: relative;
+  margin: 0;
+  padding-left: clamp(1.9rem, 4vw, 2.6rem);
+  list-style: none;
+}
+
+.sp-timeline::before {
+  content: "";
+  position: absolute;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  left: 0.5rem;
+  width: 1px;
+  background: var(--border);
+}
+
+.sp-timeline-progress {
+  position: absolute;
+  z-index: 1;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  left: 0.5rem;
+  width: 1px;
+  transform-origin: top center;
+  background: linear-gradient(to bottom, var(--highlight), var(--accent));
+  box-shadow: 0 0 14px rgba(201, 170, 112, 0.35);
+}
+
+.sp-step {
+  position: relative;
+  padding: 0 0 clamp(2rem, 4vw, 2.9rem);
+}
+
+.sp-step:last-child {
+  padding-bottom: 0.4rem;
+}
+
+.sp-step::before {
+  content: "";
+  position: absolute;
+  top: 0.42rem;
+  left: calc(0.5rem + 0.5px - clamp(1.9rem, 4vw, 2.6rem));
+  translate: -50% 0;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--highlight);
+  background: var(--background);
+  box-shadow: 0 0 0 0.32rem rgba(201, 170, 112, 0.08);
+}
+
+.sp-step-label {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--text-light);
+  font-size: 0.7rem;
+  font-weight: 740;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.sp-step-label svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--accent);
+}
+
+.sp-step h2 {
+  margin: 0.65rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+}
+
+.sp-step > p {
+  max-width: 38rem;
+  margin: 0.7rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.sp-step .sp-chip-row {
+  margin-top: 0.95rem;
+}
+
+/* ---- Project cards (projekty) ---- */
+.sp-project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(2.4rem, 5vw, 3.8rem);
+}
+
+.sp-project-card {
+  height: 100%;
+}
+
+.sp-project-card > a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--border);
+  border-radius: 0.95rem;
+  padding: 1.5rem;
+  color: var(--text-primary);
+  background: linear-gradient(160deg, rgba(18, 44, 33, 0.55), rgba(9, 26, 19, 0.9));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
+  text-decoration: none;
+  transition:
+    transform 340ms var(--ease-out),
+    border-color 300ms ease,
+    box-shadow 340ms var(--ease-out);
+}
+
+.sp-project-card > a::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    34rem circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    rgba(244, 241, 232, 0.05),
+    transparent 42%
+  );
+  transition: opacity 320ms ease;
+}
+
+.sp-project-card > a:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in oklab, var(--card-accent, var(--accent)) 55%, transparent);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.06),
+    0 30px 60px -42px rgba(0, 0, 0, 0.9);
+}
+
+.sp-project-card > a:hover::before {
+  opacity: 1;
+}
+
+.sp-project-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.sp-project-top > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.7rem;
+  font-weight: 740;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sp-project-top i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--card-accent, var(--accent));
+  box-shadow: 0 0 14px color-mix(in oklab, var(--card-accent, var(--accent)) 70%, transparent);
+}
+
+.sp-project-top svg {
+  width: 1rem;
+  color: var(--text-light);
+  transition:
+    transform 260ms var(--ease-out),
+    color 260ms ease;
+}
+
+.sp-project-card > a:hover .sp-project-top svg {
+  color: var(--text-primary);
+  transform: translate(2px, -2px);
+}
+
+.sp-project-card h2 {
+  position: relative;
+  z-index: 1;
+  margin: 1.1rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: -0.038em;
+  line-height: 1.05;
+}
+
+.sp-project-card .sp-project-cat {
+  position: relative;
+  z-index: 1;
+  margin: 0.65rem 0 0;
+  color: var(--highlight);
+  font-size: 0.7rem;
+  font-weight: 740;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.sp-project-card > a > p {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  margin: 0.8rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.58;
+}
+
+.sp-project-foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 640;
+}
+
+.sp-project-card > a:hover .sp-project-foot {
+  color: var(--text-primary);
+}
+
+/* ---- Detail page blocks ---- */
+.sp-detail-blocks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.sp-detail-block {
+  border: 1px solid var(--border);
+  border-radius: 0.95rem;
+  padding: 1.5rem;
+  background: linear-gradient(160deg, rgba(18, 44, 33, 0.5), rgba(9, 26, 19, 0.85));
+}
+
+.sp-detail-block > span {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+  color: var(--text-light);
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sp-detail-block > span i {
+  width: 1.4rem;
+  height: 1.5px;
+  background: var(--card-accent, var(--highlight));
+}
+
+.sp-detail-block p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.94rem;
+  line-height: 1.62;
+}
+
+/* ---- CTA band ---- */
+.sp-cta {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 1.1rem;
+  padding: clamp(2rem, 4.5vw, 3.4rem);
+  text-align: center;
+  background:
+    url("../../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 50% -30%, rgba(201, 170, 112, 0.12), transparent 60%),
+    linear-gradient(160deg, rgba(23, 53, 42, 0.94), rgba(8, 22, 16, 0.98));
+  box-shadow: 0 36px 90px -50px rgba(0, 0, 0, 0.8);
+}
+
+.sp-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--highlight), transparent);
+}
+
+.sp-cta > p:first-of-type {
+  margin: 0;
+  color: var(--highlight);
+  font-size: 0.72rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sp-cta h2 {
+  max-width: 34ch;
+  margin: 0.9rem auto 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.sp-cta-lead {
+  max-width: 44rem;
+  margin: 1.1rem auto 0;
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.sp-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1.8rem;
+}
+
+/* ---- Buttons reused on subpages ---- */
+.sp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 3.3rem;
+  border: 0;
+  border-radius: 0.78rem;
+  padding: 0.85rem 1.35rem;
+  font-size: 0.9rem;
+  font-weight: 720;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 380ms var(--ease-out),
+    background-color 300ms ease,
+    box-shadow 380ms var(--ease-out),
+    color 300ms ease;
+}
+
+.sp-button svg {
+  width: 1rem;
+  transition: transform 240ms var(--ease-out);
+}
+
+.sp-button--primary {
+  color: var(--primary-foreground);
+  background: var(--primary);
+  border: 1px solid rgba(221, 150, 117, 0.44);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.25),
+    0 22px 42px -25px rgba(188, 115, 82, 0.58);
+}
+
+.sp-button--ghost {
+  color: var(--text-primary);
+  background: rgba(244, 241, 232, 0.045);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sp-button:hover {
+    transform: translateY(-3px);
+  }
+
+  .sp-button:hover svg {
+    transform: translateX(3px);
+  }
+
+  .sp-button--primary:hover {
+    background: var(--primary-hover);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.3),
+      0 28px 55px -25px rgba(188, 115, 82, 0.68);
+  }
+
+  .sp-button--ghost:hover {
+    background: rgba(244, 241, 232, 0.08);
+    box-shadow: inset 0 0 0 1px var(--border-strong);
+  }
+}
+
+/* ---- Back link ---- */
+.sp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.sp-back svg {
+  width: 0.9rem;
+  transition: transform 240ms var(--ease-out);
+}
+
+.sp-back:hover {
+  color: var(--text-primary);
+}
+
+.sp-back:hover svg {
+  transform: translateX(-3px);
+}
+
+@media (max-width: 960px) {
+  .sp-service {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-project-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sp-detail-blocks {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-combine {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .sp-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sp-cta-actions .sp-button {
+    width: 100%;
+  }
+}
