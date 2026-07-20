@@ -25,7 +25,7 @@ jobs:
       - run: |
           npm install --no-save --ignore-scripts @playwright/test@1.55.0
           npx playwright install --with-deps chromium
-      - name: Inspect launcher DOM
+      - name: Inspect open widget DOM
         shell: bash
         run: |
           cat > widget-debug.mjs <<'JS'
@@ -35,8 +35,9 @@ jobs:
           const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
           await page.goto('http://127.0.0.1:3000/', { waitUntil: 'domcontentloaded' });
           await page.waitForTimeout(2200);
+          await page.locator('#chameleon-widget-launcher').evaluate((button) => button.click());
+          await page.waitForTimeout(1200);
           const data = await page.evaluate(() => {
-            const host = document.querySelector('.cw-widget');
             const all = [...document.querySelectorAll('*')].filter((element) => {
               const name = `${element.id} ${element.className}`.toLowerCase();
               return name.includes('cw-') || name.includes('chat') || name.includes('widget');
@@ -53,16 +54,16 @@ jobs:
                 color: style.color,
                 border: style.border,
                 boxShadow: style.boxShadow,
-                outerHTML: element.outerHTML.slice(0, 3000),
-                shadowHTML: element.shadowRoot?.innerHTML.slice(0, 5000) ?? null,
+                outerHTML: element.outerHTML.slice(0, 5000),
+                shadowHTML: element.shadowRoot?.innerHTML.slice(0, 8000) ?? null,
               };
             };
             return {
-              host: host ? describe(host) : null,
-              candidates: all.slice(0, 30).map(describe),
-              bodyEnd: document.body.innerHTML.slice(-10000),
+              candidates: all.slice(0, 80).map(describe),
+              bodyEnd: document.body.innerHTML.slice(-24000),
             };
           });
+          await page.screenshot({ path: 'widget-open.png', fullPage: true });
           await browser.close();
           fs.writeFileSync('WIDGET_DOM.json', JSON.stringify(data, null, 2));
           JS
@@ -77,6 +78,6 @@ jobs:
           rm widget-debug.mjs
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add WIDGET_DOM.json
-          git commit -m "chore: ulož DOM launcheru [skip mineral] [skip widget]"
+          git add WIDGET_DOM.json widget-open.png
+          git commit -m "chore: ulož DOM otvoreného asistenta [skip mineral] [skip widget]"
           git push origin HEAD:claude/web-portfolio-publish-ynh7sk
