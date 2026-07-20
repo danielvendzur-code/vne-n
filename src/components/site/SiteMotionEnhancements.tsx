@@ -6,6 +6,8 @@ const clamp = (value: number, min: number, max: number) => Math.min(max, Math.ma
 export function SiteMotionEnhancements() {
   const reducedMotion = useReducedMotion();
 
+  // Portfolio images are promoted to eager loading because there are only three
+  // local WebP files and their visual presence is part of the primary proof section.
   useEffect(() => {
     const images = Array.from(
       document.querySelectorAll<HTMLImageElement>(".lp-project-media img"),
