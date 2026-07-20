@@ -11,6 +11,7 @@ import "./MineralThemePolish.css";
 import "./WidgetMineral.css";
 import "./LiquidChipPolish.css";
 import "./ChatbotChipRestore.css";
+import "./UnifiedExperience.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
