@@ -1,0 +1,826 @@
+name: Animation and interaction quality audit
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+
+permissions:
+  contents: write
+
+concurrency:
+  group: animation-interaction-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: ${{ github.actor != 'github-actions[bot]' && !contains(github.event.head_commit.message, '[skip interaction-audit]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Wait for current widget deployment
+        id: widget
+        continue-on-error: true
+        shell: bash
+        run: |
+          ready=false
+          for attempt in {1..90}; do
+            SOURCE=$(curl -fsS "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js?interaction-audit=${GITHUB_RUN_ID}-${attempt}" || true)
+            if echo "$SOURCE" | grep -q "Čo by pomohlo vášmu webu" && echo "$SOURCE" | grep -q "setPointerCapture"; then
+              ready=true
+              break
+            fi
+            sleep 2
+          done
+          echo "ready=$ready" >> "$GITHUB_OUTPUT"
+          test "$ready" = true
+
+      - name: Install and lint
+        id: quality
+        continue-on-error: true
+        run: |
+          bun install > /tmp/install.log 2>&1
+          bun run lint > /tmp/lint.log 2>&1
+
+      - name: Build
+        id: build
+        continue-on-error: true
+        env:
+          NITRO_PRESET: node-server
+        run: bun run build > /tmp/build.log 2>&1
+
+      - name: Install Playwright
+        id: playwright
+        continue-on-error: true
+        run: |
+          npm install --no-save --ignore-scripts @playwright/test@1.55.0 > /tmp/playwright.log 2>&1
+          npx playwright install --with-deps chromium >> /tmp/playwright.log 2>&1
+
+      - name: Run visual interaction audit
+        id: browser
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p qa-interactions/screenshots
+          cat > qa-interactions/interactions.spec.ts <<'TEST'
+          import { test, expect, type Browser, type Locator, type Page } from "@playwright/test";
+          import fs from "node:fs";
+
+          const BASE = "http://127.0.0.1:3000";
+          const results: Record<string, unknown>[] = [];
+          const screenshots = "qa-interactions/screenshots";
+
+          test.setTimeout(90_000);
+
+          const wait = (page: Page, ms: number) => page.waitForTimeout(ms);
+
+          async function snap(page: Page, name: string, fullPage = false) {
+            await page.screenshot({ path: `${screenshots}/${name}.png`, fullPage, animations: "allow" });
+          }
+
+          async function openHome(page: Page, settle = 1300) {
+            const errors: string[] = [];
+            page.on("pageerror", (error) => errors.push(error.message));
+            await page.goto(BASE, { waitUntil: "domcontentloaded" });
+            await wait(page, settle);
+            expect(errors).toEqual([]);
+            const overflow = await page.evaluate(() => ({
+              width: document.documentElement.clientWidth,
+              scrollWidth: document.documentElement.scrollWidth,
+            }));
+            expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.width + 1);
+          }
+
+          async function drag(locator: Locator, fromRatio: number, toRatio: number) {
+            const box = await locator.boundingBox();
+            if (!box) throw new Error(`Missing drag box for ${await locator.evaluate((node) => node.className)}`);
+            const y = box.y + box.height / 2;
+            await locator.page().mouse.move(box.x + box.width * fromRatio, y);
+            await locator.page().mouse.down();
+            await locator.page().mouse.move(box.x + box.width * toRatio, y, { steps: 14 });
+            await locator.page().mouse.up();
+          }
+
+          async function visibleInteractionTiming(page: Page) {
+            return page.evaluate(() => {
+              const parse = (value: string) =>
+                value.split(",").map((part) => {
+                  const item = part.trim();
+                  return item.endsWith("ms") ? Number.parseFloat(item) : Number.parseFloat(item) * 1000;
+                });
+              return Array.from(
+                document.querySelectorAll<HTMLElement>(
+                  "button, a, input, textarea, select, [role='button'], [tabindex='0']",
+                ),
+              )
+                .filter((element) => {
+                  const rect = element.getBoundingClientRect();
+                  const style = getComputedStyle(element);
+                  return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden";
+                })
+                .map((element) => {
+                  const style = getComputedStyle(element);
+                  const durations = parse(style.transitionDuration);
+                  const delays = parse(style.transitionDelay);
+                  const animationDurations = parse(style.animationDuration);
+                  const maximum = Math.max(0, ...durations, ...animationDurations);
+                  return {
+                    tag: element.tagName.toLowerCase(),
+                    className: String(element.className).slice(0, 120),
+                    text: (element.textContent ?? "").trim().replace(/\s+/g, " ").slice(0, 70),
+                    maximum,
+                    delays: Math.max(0, ...delays),
+                    infinite: style.animationIterationCount.split(",").some((value) => value.trim() === "infinite"),
+                  };
+                });
+            });
+          }
+
+          async function openWidget(page: Page) {
+            const launcher = page.locator("#chameleon-widget-launcher");
+            await expect(launcher).toBeVisible({ timeout: 7000 });
+            await launcher.evaluate((button: HTMLButtonElement) => button.click());
+            const panel = page.locator("#chameleon-widget-panel");
+            await expect(panel).toBeVisible();
+            return panel;
+          }
+
+          test("desktop hero motion, magnetic controls, liquid light and progress", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+            const page = await context.newPage();
+            await page.goto(BASE, { waitUntil: "domcontentloaded" });
+            await wait(page, 120);
+            await snap(page, "01-hero-120ms");
+            await wait(page, 430);
+            await snap(page, "02-hero-550ms");
+            await wait(page, 850);
+            await snap(page, "03-hero-final");
+
+            const heroMetrics = await page.evaluate(() => ({
+              lines: Array.from(document.querySelectorAll<HTMLElement>(".lp-hero-line > *")).map((item) => ({
+                opacity: Number.parseFloat(getComputedStyle(item).opacity),
+                top: item.getBoundingClientRect().top,
+                bottom: item.getBoundingClientRect().bottom,
+              })),
+              stageOpacity: Number.parseFloat(
+                getComputedStyle(document.querySelector<HTMLElement>(".lp-hero-stage")!).opacity,
+              ),
+              overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+            }));
+            expect(heroMetrics.lines.every((line) => line.opacity > 0.98)).toBe(true);
+            expect(heroMetrics.stageOpacity).toBeGreaterThan(0.98);
+            expect(heroMetrics.overflow).toBeLessThanOrEqual(1);
+
+            const card = page.locator(".lp-assistant-card");
+            const cardBox = await card.boundingBox();
+            if (!cardBox) throw new Error("Hero card missing");
+            const beforeTilt = await card.evaluate((element) => getComputedStyle(element).transform);
+            await page.mouse.move(cardBox.x + cardBox.width * 0.84, cardBox.y + cardBox.height * 0.2);
+            await wait(page, 180);
+            const duringTilt = await card.evaluate((element) => getComputedStyle(element).transform);
+            expect(duringTilt).not.toBe(beforeTilt);
+            await snap(page, "04-hero-card-tilt");
+            await page.mouse.move(30, 780);
+            await wait(page, 520);
+            const afterTilt = await card.evaluate((element) => getComputedStyle(element).transform);
+            expect(afterTilt).not.toContain("NaN");
+
+            const primary = page.locator(".lp-button-primary");
+            const primaryBox = await primary.boundingBox();
+            if (!primaryBox) throw new Error("Primary CTA missing");
+            await page.mouse.move(primaryBox.x + primaryBox.width * 0.88, primaryBox.y + primaryBox.height * 0.22);
+            await wait(page, 180);
+            const magnetic = await primary.evaluate((element) => element.style.translate);
+            const magneticNumbers = magnetic.match(/-?\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+            expect(magneticNumbers.some((value) => Math.abs(value) > 0.4)).toBe(true);
+            expect(magneticNumbers.every((value) => Math.abs(value) < 24)).toBe(true);
+
+            const tabs = page.locator(".lp-assistant-chips");
+            const middle = tabs.locator("button").nth(1);
+            const middleBox = await middle.boundingBox();
+            if (!middleBox) throw new Error("Hero tab missing");
+            await page.mouse.move(middleBox.x + middleBox.width * 0.82, middleBox.y + middleBox.height * 0.25);
+            await wait(page, 80);
+            const liquidVars = await middle.evaluate((element) => ({
+              x: element.style.getPropertyValue("--liquid-x"),
+              y: element.style.getPropertyValue("--liquid-y"),
+            }));
+            expect(liquidVars.x).not.toBe("");
+            expect(liquidVars.y).not.toBe("");
+            await middle.click();
+            await wait(page, 440);
+            await drag(tabs, 0.5, 0.84);
+            await wait(page, 440);
+            expect(await tabs.locator("button").nth(2).getAttribute("data-active")).toBe("true");
+            const fillMetrics = await tabs
+              .locator("button")
+              .nth(2)
+              .locator(".lp-chip-liquid")
+              .evaluate((element) => {
+                const rect = element.getBoundingClientRect();
+                const style = getComputedStyle(element);
+                const origin = style.transformOrigin.split(" ").map(Number.parseFloat);
+                const matrix = new DOMMatrixReadOnly(style.transform);
+                return {
+                  translateX: matrix.e,
+                  scaleX: matrix.a,
+                  originX: origin[0],
+                  width: rect.width,
+                };
+              });
+            expect(Math.abs(fillMetrics.translateX)).toBeLessThan(0.5);
+            expect(fillMetrics.scaleX).toBeGreaterThan(0.95);
+            expect(Math.abs(fillMetrics.originX - fillMetrics.width / 2)).toBeLessThan(1.5);
+            await snap(page, "05-hero-selector-final");
+
+            const canvas = page.locator(".glide-field--hero canvas");
+            const signature = async () =>
+              canvas.evaluate((element: HTMLCanvasElement) => {
+                const context = element.getContext("2d");
+                if (!context) return 0;
+                const data = context.getImageData(0, 0, element.width, element.height).data;
+                let total = 0;
+                const step = Math.max(4, Math.floor(data.length / 5000 / 4) * 4);
+                for (let index = 3; index < data.length; index += step) total += data[index];
+                return total;
+              });
+            const canvasBefore = await signature();
+            const canvasBox = await canvas.boundingBox();
+            if (canvasBox) {
+              await page.mouse.move(canvasBox.x + canvasBox.width * 0.65, canvasBox.y + canvasBox.height * 0.4);
+              await page.mouse.down();
+              await page.mouse.up();
+              await wait(page, 160);
+            }
+            const canvasAfter = await signature();
+            expect(canvasAfter).not.toBe(canvasBefore);
+            await snap(page, "06-glide-field-impact");
+
+            await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight * 0.46 }));
+            await wait(page, 450);
+            const progressScale = await page.locator(".lp-progress").evaluate((element) => {
+              const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
+              return matrix.a;
+            });
+            expect(progressScale).toBeGreaterThan(0.25);
+            expect(progressScale).toBeLessThan(0.8);
+
+            const timings = await visibleInteractionTiming(page);
+            const slow = timings.filter((item) => item.maximum > 1250 || item.delays > 900 || item.infinite);
+            expect(slow).toEqual([]);
+            results.push({ test: "desktop-hero", heroMetrics, magnetic, fillMetrics, progressScale, timings });
+            await context.close();
+          });
+
+          test("desktop menu choreography, hover logic, focus trap and CTA", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+            const page = await context.newPage();
+            await openHome(page);
+            await page.getByRole("button", { name: "Otvoriť menu" }).click();
+            const drawer = page.locator("#site-navigation-drawer");
+            await wait(page, 120);
+            await snap(page, "07-menu-opening-120ms");
+            await wait(page, 650);
+            await snap(page, "08-menu-desktop-final");
+
+            const geometry = await drawer.evaluate((element) => {
+              const items = Array.from(element.querySelectorAll<HTMLElement>(".rb-line-sidebar__item")).map(
+                (item) => {
+                  const rect = item.getBoundingClientRect();
+                  return { top: rect.top, bottom: rect.bottom, opacity: Number(getComputedStyle(item).opacity) };
+                },
+              );
+              const services = Array.from(element.querySelectorAll<HTMLElement>(".site-menu-solution")).map(
+                (item) => {
+                  const rect = item.getBoundingClientRect();
+                  return { top: rect.top, bottom: rect.bottom };
+                },
+              );
+              return {
+                width: element.getBoundingClientRect().width,
+                scrollWidth: element.scrollWidth,
+                clientWidth: element.clientWidth,
+                items,
+                services,
+              };
+            });
+            expect(geometry.width).toBeGreaterThan(650);
+            expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
+            expect(geometry.items.every((item) => item.opacity > 0.98)).toBe(true);
+            expect(
+              geometry.items.slice(1).every((item, index) => item.top >= geometry.items[index].bottom - 1),
+            ).toBe(true);
+
+            const navItem = drawer.locator(".rb-line-sidebar__label").nth(1);
+            await navItem.hover();
+            await wait(page, 220);
+            const lineEffect = await navItem.locator("..").evaluate((element) =>
+              Number.parseFloat(getComputedStyle(element).getPropertyValue("--line-effect") || "0"),
+            );
+            expect(lineEffect).toBeGreaterThan(0.25);
+            await snap(page, "09-menu-navigation-hover");
+
+            const solution = drawer.locator(".site-menu-solution").first();
+            await solution.hover();
+            await wait(page, 220);
+            await snap(page, "10-menu-solution-hover");
+
+            await page.keyboard.press("Tab");
+            for (let index = 0; index < 12; index += 1) {
+              const inside = await page.evaluate(() => {
+                const drawerNode = document.querySelector("#site-navigation-drawer");
+                return Boolean(drawerNode?.contains(document.activeElement));
+              });
+              expect(inside).toBe(true);
+              await page.keyboard.press("Tab");
+            }
+
+            await page.keyboard.press("Escape");
+            await wait(page, 520);
+            await expect(drawer).not.toBeVisible();
+            expect(await page.evaluate(() => document.body.style.overflow)).not.toBe("hidden");
+
+            await page.getByRole("button", { name: "Otvoriť menu" }).click();
+            await wait(page, 650);
+            await drawer.locator(".site-menu-solution").first().click();
+            await wait(page, 520);
+            await expect(drawer).not.toBeVisible();
+            await expect(page.locator("#chameleon-widget-panel")).toBeVisible();
+            await page.getByTestId("widget-close").click();
+            results.push({ test: "desktop-menu", geometry, lineEffect });
+            await context.close();
+          });
+
+          test("home sections: comparison, capability details, scroll story, projects and FAQ", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+            const page = await context.newPage();
+            await openHome(page);
+
+            const comparison = page.locator(".lp-comparison");
+            await comparison.scrollIntoViewIfNeeded();
+            await wait(page, 650);
+            const comparisonHeight = await comparison.evaluate((element) => element.getBoundingClientRect().height);
+            await comparison.getByRole("button", { name: "Bez nástroja" }).click();
+            await wait(page, 450);
+            await snap(page, "11-comparison-without");
+            await drag(comparison.locator(".lp-switch"), 0.2, 0.8);
+            await wait(page, 450);
+            expect(await comparison.getByRole("button", { name: "S nástrojom" }).getAttribute("data-active")).toBe(
+              "true",
+            );
+            const comparisonHeightAfter = await comparison.evaluate((element) => element.getBoundingClientRect().height);
+            expect(Math.abs(comparisonHeightAfter - comparisonHeight)).toBeLessThan(80);
+            await snap(page, "12-comparison-with");
+
+            const capabilities = page.locator(".lp-caps");
+            await capabilities.scrollIntoViewIfNeeded();
+            await wait(page, 700);
+            const firstChip = capabilities.locator(".lp-chip").first();
+            await firstChip.click();
+            await wait(page, 500);
+            await expect(capabilities.locator(".lp-caps-detail").first()).toBeVisible();
+            await snap(page, "13-capability-detail-open");
+            const secondChip = capabilities.locator(".lp-chip").nth(1);
+            await secondChip.click();
+            await wait(page, 500);
+            expect(await secondChip.getAttribute("data-active")).toBe("true");
+            await snap(page, "14-capability-detail-switch");
+
+            const story = page.locator(".derat-story");
+            const storyBox = await story.boundingBox();
+            if (!storyBox) throw new Error("DERAT story missing");
+            const storyStates: Array<{ progress: number; opacities: number[] }> = [];
+            for (const [index, ratio] of [0.08, 0.34, 0.62, 0.9].entries()) {
+              await page.evaluate(
+                ({ top, height, ratio }) => window.scrollTo({ top: top + height * ratio - 180, behavior: "auto" }),
+                { top: storyBox.y, height: storyBox.height, ratio },
+              );
+              await wait(page, 720);
+              const opacities = await story.locator("[data-derat-frame]").evaluateAll((elements) =>
+                elements.map((element) => Number.parseFloat(getComputedStyle(element).opacity)),
+              );
+              expect(Math.max(...opacities)).toBeGreaterThan(0.78);
+              expect(opacities.filter((opacity) => opacity > 0.45).length).toBeLessThanOrEqual(2);
+              storyStates.push({ progress: ratio, opacities });
+              await snap(page, `15-derat-step-${index + 1}`);
+            }
+
+            const portfolio = page.locator(".lp-portfolio");
+            await portfolio.scrollIntoViewIfNeeded();
+            await wait(page, 700);
+            const project = portfolio.locator(".lp-project a").first();
+            await project.hover();
+            await wait(page, 280);
+            const projectTransform = await project.evaluate((element) => getComputedStyle(element).transform);
+            expect(projectTransform).not.toContain("NaN");
+            await snap(page, "19-project-hover");
+
+            const faq = page.locator(".lp-faq");
+            await faq.scrollIntoViewIfNeeded();
+            await wait(page, 620);
+            const firstFaq = faq.locator(".lp-faq-item").first();
+            await firstFaq.getByRole("button").click();
+            await wait(page, 480);
+            await expect(firstFaq.locator(".lp-faq-body")).toBeVisible();
+            await snap(page, "20-faq-open");
+            await firstFaq.getByRole("button").press("Enter");
+            await wait(page, 450);
+            await expect(firstFaq.locator(".lp-faq-body")).toHaveCount(0);
+
+            results.push({
+              test: "home-sections",
+              comparisonHeight,
+              comparisonHeightAfter,
+              storyStates,
+              projectTransform,
+            });
+            await context.close();
+          });
+
+          test("widget preview, chat, every calculator step, validation and completion", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 430, height: 860 } });
+            const page = await context.newPage();
+            const started = Date.now();
+            await page.goto(BASE, { waitUntil: "domcontentloaded" });
+            await expect(page.locator("#chameleon-widget-launcher")).toBeVisible({ timeout: 7000 });
+            expect(await page.locator(".cw-teaser").count()).toBe(0);
+            const teaser = page.locator(".cw-teaser");
+            await expect(teaser).toBeVisible({ timeout: 6000 });
+            const appearedAfter = Date.now() - started;
+            expect(appearedAfter).toBeGreaterThanOrEqual(2700);
+            expect(appearedAfter).toBeLessThan(6500);
+            await snap(page, "21-widget-preview");
+            await teaser.getByRole("button", { name: "Zavrieť tip" }).click();
+            await wait(page, 700);
+            expect(await teaser.count()).toBe(0);
+
+            const panel = await openWidget(page);
+            await snap(page, "22-widget-chat-initial");
+            const replies = panel.locator(".cw-quick-replies");
+            const quickChip = replies.locator(".cw-chip").first();
+            await quickChip.click();
+            await wait(page, 120);
+            await expect(panel.locator(".cw-message-row--me")).toHaveCount(1);
+            await expect(panel.locator(".cw-typing")).toBeVisible();
+            await snap(page, "23-widget-chat-typing");
+            await expect(panel.locator(".cw-typing")).toHaveCount(0, { timeout: 20_000 });
+            await snap(page, "24-widget-chat-response");
+
+            const input = panel.getByRole("textbox", { name: "Správa pre asistenta" });
+            await input.fill("Potrebujem jednoduchú cenovú kalkulačku.");
+            await input.press("Enter");
+            await wait(page, 180);
+            await expect(panel.locator(".cw-message-row--me")).toHaveCount(2);
+
+            const tabs = panel.locator(".cw-tabs");
+            await drag(tabs, 0.78, 0.22);
+            await wait(page, 600);
+            await expect(panel.locator(".cw-calculator")).toBeVisible();
+            await snap(page, "25-calculator-interest");
+
+            const rows = panel.locator(".cw-rows");
+            const beforeScroll = await rows.evaluate((element) => element.scrollLeft);
+            await drag(rows, 0.84, 0.2);
+            await wait(page, 170);
+            expect(await rows.evaluate((element) => element.scrollLeft)).toBeGreaterThan(beforeScroll + 20);
+            const interestCard = rows.locator(".cw-rowcard").nth(1);
+            await interestCard.click();
+            await wait(page, 360);
+            expect(await interestCard.getAttribute("data-selected")).toBe("true");
+            await snap(page, "26-calculator-interest-selected");
+            await panel.getByTestId("flow-next").click();
+            await wait(page, 720);
+            await snap(page, "27-calculator-industry");
+
+            await panel.locator(".cw-scard").first().click();
+            await wait(page, 300);
+            await panel.getByTestId("flow-next").click();
+            await wait(page, 700);
+            await snap(page, "28-calculator-priority");
+
+            await panel.locator(".cw-opt").first().click();
+            await wait(page, 250);
+            await panel.getByTestId("flow-next").click();
+            await wait(page, 700);
+            await snap(page, "29-calculator-features");
+
+            await expect(panel.getByTestId("flow-next")).toBeEnabled();
+            await panel.getByTestId("flow-next").click();
+            await wait(page, 700);
+            await panel.locator(".cw-vcard").first().click();
+            await wait(page, 260);
+            await snap(page, "30-calculator-volume");
+            await panel.getByTestId("flow-next").click();
+            await wait(page, 700);
+
+            await panel.locator(".cw-vcard").first().click();
+            await wait(page, 260);
+            await snap(page, "31-calculator-timeline");
+            await panel.getByTestId("flow-next").click();
+            await wait(page, 760);
+            await snap(page, "32-calculator-contact");
+
+            await panel.getByTestId("lead-submit").click();
+            await expect(panel.getByRole("alert")).toContainText("meno a e-mail");
+            await snap(page, "33-calculator-validation");
+            await panel.getByRole("textbox", { name: "Meno a priezvisko" }).fill("Test Používateľ");
+            await panel.getByRole("textbox", { name: "E-mail" }).fill("test@example.com");
+            await panel.locator(".cw-consent input").check();
+            await panel.getByTestId("lead-submit").click();
+            await wait(page, 140);
+            await expect(panel.getByTestId("lead-submit")).toContainText("Pripravujem");
+            await snap(page, "34-calculator-sending");
+            await expect(panel.locator(".cw-thanks")).toBeVisible({ timeout: 3000 });
+            await snap(page, "35-calculator-complete");
+
+            await panel.getByRole("button", { name: /Nový návrh/ }).click();
+            await wait(page, 650);
+            await expect(panel.locator(".cw-rows")).toBeVisible();
+            await page.getByTestId("widget-close").click();
+            await expect(panel).toHaveCount(0);
+            expect(await page.evaluate(() => document.body.style.overflow)).not.toBe("hidden");
+
+            results.push({ test: "widget-complete-flow", appearedAfter });
+            await context.close();
+          });
+
+          test("mobile gestures, menu, DERAT carousel and widget viewport", async ({ browser }) => {
+            const context = await browser.newContext({
+              viewport: { width: 390, height: 844 },
+              hasTouch: true,
+              isMobile: true,
+            });
+            const page = await context.newPage();
+            await openHome(page);
+            await snap(page, "36-mobile-hero");
+
+            const heroTabs = page.locator(".lp-assistant-chips");
+            const heroBox = await heroTabs.boundingBox();
+            if (!heroBox) throw new Error("Mobile hero tabs missing");
+            const y = heroBox.y + heroBox.height / 2;
+            await heroTabs.dispatchEvent("pointerdown", {
+              pointerId: 17,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: heroBox.x + heroBox.width * 0.18,
+              clientY: y,
+              bubbles: true,
+            });
+            await heroTabs.dispatchEvent("pointermove", {
+              pointerId: 17,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: heroBox.x + heroBox.width * 0.82,
+              clientY: y,
+              bubbles: true,
+            });
+            await heroTabs.dispatchEvent("pointerup", {
+              pointerId: 17,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: heroBox.x + heroBox.width * 0.82,
+              clientY: y,
+              bubbles: true,
+            });
+            await wait(page, 450);
+            expect(await heroTabs.locator("button").nth(2).getAttribute("data-active")).toBe("true");
+
+            await page.getByRole("button", { name: "Otvoriť menu" }).click();
+            await wait(page, 720);
+            const drawer = page.locator("#site-navigation-drawer");
+            const menuOverflow = await drawer.evaluate((element) => ({
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+              scrollHeight: element.scrollHeight,
+              clientHeight: element.clientHeight,
+            }));
+            expect(menuOverflow.scrollWidth).toBeLessThanOrEqual(menuOverflow.clientWidth + 1);
+            await snap(page, "37-mobile-menu");
+            await page.getByRole("button", { name: "Zavrieť menu" }).click();
+            await wait(page, 500);
+
+            const capabilities = page.locator(".lp-caps");
+            await capabilities.scrollIntoViewIfNeeded();
+            await wait(page, 650);
+            const chips = capabilities.locator(".lp-caps-chips").first();
+            const chipBefore = await chips.evaluate((element) => element.scrollLeft);
+            const chipBox = await chips.boundingBox();
+            if (!chipBox) throw new Error("Capability chip rail missing");
+            const chipY = chipBox.y + chipBox.height / 2;
+            await chips.dispatchEvent("pointerdown", {
+              pointerId: 21,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: chipBox.x + chipBox.width * 0.84,
+              clientY: chipY,
+              bubbles: true,
+            });
+            await chips.dispatchEvent("pointermove", {
+              pointerId: 21,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: chipBox.x + chipBox.width * 0.2,
+              clientY: chipY,
+              bubbles: true,
+            });
+            await chips.dispatchEvent("pointerup", {
+              pointerId: 21,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: chipBox.x + chipBox.width * 0.2,
+              clientY: chipY,
+              bubbles: true,
+            });
+            await wait(page, 250);
+            expect(await chips.evaluate((element) => element.scrollLeft)).toBeGreaterThan(chipBefore + 20);
+            await snap(page, "38-mobile-capability-drag");
+
+            const story = page.locator(".derat-story");
+            await story.scrollIntoViewIfNeeded();
+            await wait(page, 700);
+            await story.locator(".derat-story__dots button").nth(2).click();
+            await wait(page, 800);
+            expect(await story.locator(".derat-story__dots button").nth(2).getAttribute("data-active")).toBe(
+              "true",
+            );
+            await snap(page, "39-mobile-derat-step-3");
+
+            const panel = await openWidget(page);
+            const panelMetrics = await panel.evaluate((element) => {
+              const rect = element.getBoundingClientRect();
+              return {
+                width: rect.width,
+                height: rect.height,
+                left: rect.left,
+                top: rect.top,
+                viewportWidth: window.innerWidth,
+                viewportHeight: window.innerHeight,
+              };
+            });
+            expect(panelMetrics.width).toBeLessThanOrEqual(panelMetrics.viewportWidth + 1);
+            expect(panelMetrics.height).toBeLessThanOrEqual(panelMetrics.viewportHeight + 1);
+            const input = panel.getByRole("textbox", { name: "Správa pre asistenta" });
+            const inputFont = await input.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+            expect(inputFont).toBeGreaterThanOrEqual(16);
+            await input.focus();
+            await wait(page, 250);
+            await expect(panel.locator(".cw-panel-head")).toBeVisible();
+            await snap(page, "40-mobile-widget");
+            await page.getByTestId("widget-close").click();
+            await wait(page, 350);
+            expect(await page.evaluate(() => document.body.style.overflow)).not.toBe("hidden");
+
+            results.push({ test: "mobile", menuOverflow, panelMetrics, inputFont });
+            await context.close();
+          });
+
+          test("subpages, route transition and form focus states", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1365, height: 900 } });
+            const page = await context.newPage();
+            await openHome(page);
+            const routeStart = Date.now();
+            await page.getByRole("link", { name: "Čo tvorím" }).click();
+            await expect(page.locator(".sp-hero h1")).toBeVisible({ timeout: 1200 });
+            const routeVisibleAfter = Date.now() - routeStart;
+            expect(routeVisibleAfter).toBeLessThan(800);
+            await wait(page, 850);
+            await snap(page, "41-services-page", true);
+
+            const service = page.locator(".sp-service").first();
+            await service.hover();
+            await wait(page, 220);
+            const spotlight = await service.evaluate((element) => ({
+              x: element.style.getPropertyValue("--spot-x"),
+              y: element.style.getPropertyValue("--spot-y"),
+            }));
+            expect(spotlight.x).not.toBe("");
+            expect(spotlight.y).not.toBe("");
+
+            for (const [route, name] of [
+              ["/projekty", "42-projects-page"],
+              ["/postup", "43-process-page"],
+              ["/kontakt", "44-contact-page"],
+            ] as const) {
+              await page.goto(`${BASE}${route}`, { waitUntil: "domcontentloaded" });
+              await wait(page, 950);
+              await snap(page, name, true);
+              const horizontalOverflow = await page.evaluate(
+                () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+              );
+              expect(horizontalOverflow).toBeLessThanOrEqual(1);
+            }
+
+            const contact = page.locator(".contact-card");
+            const nameInput = contact.getByPlaceholder("Vaše meno");
+            await nameInput.focus();
+            await wait(page, 150);
+            const focusStyle = await nameInput.evaluate((element) => ({
+              outline: getComputedStyle(element).outlineStyle,
+              border: getComputedStyle(element).borderColor,
+              shadow: getComputedStyle(element).boxShadow,
+            }));
+            expect(
+              focusStyle.outline !== "none" || focusStyle.shadow !== "none" || focusStyle.border !== "rgba(0, 0, 0, 0)",
+            ).toBe(true);
+            await snap(page, "45-contact-focus");
+
+            results.push({ test: "subpages", routeVisibleAfter, spotlight, focusStyle });
+            await context.close();
+          });
+
+          test("reduced motion removes nonessential movement without hiding content", async ({ browser }) => {
+            const context = await browser.newContext({
+              viewport: { width: 1440, height: 900 },
+              reducedMotion: "reduce",
+            });
+            const page = await context.newPage();
+            await page.goto(BASE, { waitUntil: "domcontentloaded" });
+            await wait(page, 220);
+            await snap(page, "46-reduced-motion");
+            expect(await page.locator(".lp-progress").count()).toBe(0);
+            const visibility = await page.evaluate(() => ({
+              heroLines: Array.from(document.querySelectorAll<HTMLElement>(".lp-hero-line > *")).map((element) =>
+                Number.parseFloat(getComputedStyle(element).opacity),
+              ),
+              stage: Number.parseFloat(
+                getComputedStyle(document.querySelector<HTMLElement>(".lp-hero-stage")!).opacity,
+              ),
+              canvasTransform: getComputedStyle(
+                document.querySelector<HTMLElement>(".lp-hero-glide")!,
+              ).transform,
+            }));
+            expect(visibility.heroLines.every((opacity) => opacity > 0.98)).toBe(true);
+            expect(visibility.stage).toBeGreaterThan(0.98);
+
+            await page.getByRole("button", { name: "Otvoriť menu" }).click();
+            await wait(page, 80);
+            const menuItems = await page.locator(".rb-line-sidebar__item").evaluateAll((elements) =>
+              elements.map((element) => ({
+                opacity: Number.parseFloat(getComputedStyle(element).opacity),
+                filter: getComputedStyle(element).filter,
+                transform: getComputedStyle(element).transform,
+              })),
+            );
+            expect(menuItems.every((item) => item.opacity > 0.98 && item.filter === "none")).toBe(true);
+            await snap(page, "47-reduced-motion-menu");
+            results.push({ test: "reduced-motion", visibility, menuItems });
+            await context.close();
+          });
+
+          test.afterAll(() => {
+            fs.writeFileSync("qa-interactions/report.json", JSON.stringify(results, null, 2));
+          });
+          TEST
+
+          PORT=3000 NITRO_PORT=3000 node .output/server/index.mjs > /tmp/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for attempt in {1..45}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then break; fi
+            if [ "$attempt" -eq 45 ]; then cat /tmp/server.log; exit 1; fi
+            sleep 1
+          done
+          npx playwright test qa-interactions/interactions.spec.ts --workers=1 --reporter=line > /tmp/browser.log 2>&1
+
+      - name: Upload interaction evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: animation-interaction-audit-${{ github.run_id }}
+          path: qa-interactions
+          retention-days: 4
+
+      - name: Save audit report
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "run_id=${{ github.run_id }}"
+            echo "widget=${{ steps.widget.outcome }}"
+            echo "widget_ready=${{ steps.widget.outputs.ready }}"
+            echo "quality=${{ steps.quality.outcome }}"
+            echo "build=${{ steps.build.outcome }}"
+            echo "playwright=${{ steps.playwright.outcome }}"
+            echo "browser=${{ steps.browser.outcome }}"
+            echo
+            echo "===== lint ====="
+            cat /tmp/lint.log 2>/dev/null || true
+            echo
+            echo "===== browser ====="
+            cat /tmp/browser.log 2>/dev/null || true
+            echo
+            echo "===== build ====="
+            cat /tmp/build.log 2>/dev/null || true
+          } > ANIMATION_INTERACTION_AUDIT.txt
+          echo "${{ github.run_id }}" > ANIMATION_INTERACTION_RUN_ID.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ANIMATION_INTERACTION_AUDIT.txt ANIMATION_INTERACTION_RUN_ID.txt
+          git commit -m "chore: ulož audit animácií [skip interaction-audit] [skip final-audit]" || exit 0
+          git push origin HEAD:claude/web-portfolio-publish-ynh7sk
