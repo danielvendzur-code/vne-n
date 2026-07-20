@@ -147,7 +147,9 @@ export function SiteMotionEnhancements() {
 
         clearDragTarget();
         element.dataset.dragging = "false";
-        if (element.hasPointerCapture?.(event.pointerId)) element.releasePointerCapture(event.pointerId);
+        if (element.hasPointerCapture?.(event.pointerId)) {
+          element.releasePointerCapture(event.pointerId);
+        }
         pointerId = null;
         horizontalDrag = false;
       };
@@ -206,6 +208,8 @@ export function SiteMotionEnhancements() {
   useEffect(() => {
     const storageKey = "vendzur-widget-preview-seen";
     const body = document.body;
+    const teaserTitle = "Čo by pomohlo vášmu webu?";
+    const teaserCopy = "Za minútu zistíte, aké riešenie dáva pre váš web zmysel.";
     let showTimer = 0;
     let hideTimer = 0;
 
@@ -214,8 +218,8 @@ export function SiteMotionEnhancements() {
       if (!teaser) return;
       const title = teaser.querySelector<HTMLElement>(".cw-teaser__content strong");
       const copy = teaser.querySelector<HTMLElement>(".cw-teaser__copy");
-      if (title) title.textContent = "Čo by pomohlo vášmu webu?";
-      if (copy) copy.textContent = "Za minútu zistíte, aké riešenie dáva pre váš web zmysel.";
+      if (title && title.textContent !== teaserTitle) title.textContent = teaserTitle;
+      if (copy && copy.textContent !== teaserCopy) copy.textContent = teaserCopy;
     };
 
     let alreadySeen = false;
