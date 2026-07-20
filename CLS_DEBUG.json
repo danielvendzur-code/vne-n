@@ -1,10 +1,10 @@
 {
   "768": {
-    "cls": 0.32283117685828194,
+    "cls": 0.003038157773115998,
     "shifts": [
       {
-        "value": 0.32283117685828194,
-        "time": 298.5,
+        "value": 0.003038157773115998,
+        "time": 279.6000000000058,
         "sources": [
           {
             "node": "#text",
@@ -31,99 +31,99 @@
             }
           },
           {
-            "node": "span.chip",
-            "text": "Testovací odkaz pred nasadením",
+            "node": "::before",
+            "text": "",
             "previousRect": {
-              "x": 312,
-              "y": 392,
-              "width": 280,
-              "height": 36,
-              "top": 392,
-              "right": 592,
-              "bottom": 428,
-              "left": 312
+              "x": 71,
+              "y": 395,
+              "width": 37,
+              "height": 37,
+              "top": 395,
+              "right": 108,
+              "bottom": 432,
+              "left": 71
             },
             "currentRect": {
-              "x": 271,
-              "y": 392,
-              "width": 238,
-              "height": 36,
-              "top": 392,
-              "right": 509,
-              "bottom": 428,
-              "left": 271
+              "x": 92,
+              "y": 395,
+              "width": 36,
+              "height": 37,
+              "top": 395,
+              "right": 128,
+              "bottom": 432,
+              "left": 92
+            }
+          },
+          {
+            "node": "::before",
+            "text": "",
+            "previousRect": {
+              "x": 423,
+              "y": 395,
+              "width": 36,
+              "height": 37,
+              "top": 395,
+              "right": 459,
+              "bottom": 432,
+              "left": 423
+            },
+            "currentRect": {
+              "x": 444,
+              "y": 395,
+              "width": 36,
+              "height": 37,
+              "top": 395,
+              "right": 480,
+              "bottom": 432,
+              "left": 444
+            }
+          },
+          {
+            "node": "::before",
+            "text": "",
+            "previousRect": {
+              "x": 108,
+              "y": 443,
+              "width": 36,
+              "height": 37,
+              "top": 443,
+              "right": 144,
+              "bottom": 480,
+              "left": 108
+            },
+            "currentRect": {
+              "x": 122,
+              "y": 443,
+              "width": 36,
+              "height": 37,
+              "top": 443,
+              "right": 158,
+              "bottom": 480,
+              "left": 122
             }
           },
           {
             "node": "span.chip",
-            "text": "Bez prerábania webu",
+            "text": "Stačí odkaz na web",
             "previousRect": {
-              "x": 32,
-              "y": 433,
-              "width": 198,
+              "x": 205,
+              "y": 791,
+              "width": 185,
               "height": 36,
-              "top": 433,
-              "right": 230,
-              "bottom": 469,
-              "left": 32
+              "top": 791,
+              "right": 390,
+              "bottom": 827,
+              "left": 205
             },
             "currentRect": {
-              "x": 517,
-              "y": 392,
-              "width": 171,
+              "x": 192,
+              "y": 791,
+              "width": 161,
               "height": 36,
-              "top": 392,
-              "right": 688,
-              "bottom": 428,
-              "left": 517
-            }
-          },
-          {
-            "node": "section.sp-section",
-            "text": "Krok 01 · ZorientovaniePozriem si web a služby.Zistím, čo zákazníci potrebujú vedieť a ktoré údaje d",
-            "previousRect": {
-              "x": 0,
-              "y": 531,
-              "width": 768,
-              "height": 369,
-              "top": 531,
-              "right": 768,
-              "bottom": 900,
-              "left": 0
-            },
-            "currentRect": {
-              "x": 0,
-              "y": 490,
-              "width": 768,
-              "height": 410,
-              "top": 490,
-              "right": 768,
-              "bottom": 900,
-              "left": 0
-            }
-          },
-          {
-            "node": "#text",
-            "text": "Spolu určíme kroky, možnosti, cenové pravidlá a výsledok pre zákazníka. Logika je odsúhlasená ešte p",
-            "previousRect": {
-              "x": 0,
-              "y": 0,
-              "width": 0,
-              "height": 0,
-              "top": 0,
-              "right": 0,
-              "bottom": 0,
-              "left": 0
-            },
-            "currentRect": {
-              "x": 63,
-              "y": 860,
-              "width": 608,
-              "height": 40,
-              "top": 860,
-              "right": 671,
-              "bottom": 900,
-              "left": 63
+              "top": 791,
+              "right": 353,
+              "bottom": 827,
+              "left": 192
             }
           }
         ]
@@ -131,85 +131,61 @@
     ],
     "fonts": "loaded",
     "interTight": true,
-    "scrollHeight": 2523
+    "scrollHeight": 2578
   },
   "1440": {
-    "cls": 0.25954493748124574,
+    "cls": 0.0028996439364711935,
     "shifts": [
       {
-        "value": 0.25954493748124574,
-        "time": 271.8999999999942,
+        "value": 0.0028996439364711935,
+        "time": 264.1000000000058,
         "sources": [
           {
-            "node": "div",
-            "text": "Logika schválená pred vývojomTestovací odkaz pred nasadenímBez prerábania webu",
+            "node": "nav.hidden.lg:flex.items-center.gap-8",
+            "text": "Čo tvorímUkážkySpoluprácaKontakt",
             "previousRect": {
-              "x": 120,
-              "y": 559,
-              "width": 1200,
-              "height": 13,
-              "top": 559,
-              "right": 1320,
-              "bottom": 572,
-              "left": 120
+              "x": 488,
+              "y": 30,
+              "width": 327,
+              "height": 32,
+              "top": 30,
+              "right": 815,
+              "bottom": 62,
+              "left": 488
             },
             "currentRect": {
-              "x": 120,
-              "y": 476,
-              "width": 1200,
-              "height": 33,
-              "top": 476,
-              "right": 1320,
-              "bottom": 509,
-              "left": 120
+              "x": 512,
+              "y": 30,
+              "width": 294,
+              "height": 32,
+              "top": 30,
+              "right": 806,
+              "bottom": 62,
+              "left": 512
             }
           },
           {
-            "node": "section.sp-section",
-            "text": "Krok 01 · ZorientovaniePozriem si web a služby.Zistím, čo zákazníci potrebujú vedieť a ktoré údaje d",
+            "node": "div.flex.items-center.gap-2",
+            "text": "Nezáväzná konzultáciaMenu",
             "previousRect": {
-              "x": 0,
-              "y": 656,
-              "width": 1440,
-              "height": 244,
-              "top": 656,
-              "right": 1440,
-              "bottom": 900,
-              "left": 0
+              "x": 1035,
+              "y": 24,
+              "width": 268,
+              "height": 44,
+              "top": 24,
+              "right": 1303,
+              "bottom": 68,
+              "left": 1035
             },
             "currentRect": {
-              "x": 0,
-              "y": 573,
-              "width": 1440,
-              "height": 327,
-              "top": 573,
-              "right": 1440,
-              "bottom": 900,
-              "left": 0
-            }
-          },
-          {
-            "node": "#text",
-            "text": "Od prvých otázok",
-            "previousRect": {
-              "x": 120,
-              "y": 188,
-              "width": 800,
-              "height": 109,
-              "top": 188,
-              "right": 920,
-              "bottom": 297,
-              "left": 120
-            },
-            "currentRect": {
-              "x": 120,
-              "y": 184,
-              "width": 800,
-              "height": 109,
-              "top": 184,
-              "right": 920,
-              "bottom": 293,
-              "left": 120
+              "x": 1051,
+              "y": 24,
+              "width": 252,
+              "height": 44,
+              "top": 24,
+              "right": 1303,
+              "bottom": 68,
+              "left": 1051
             }
           },
           {
@@ -217,47 +193,71 @@
             "text": "po nástroj na vašom webe.",
             "previousRect": {
               "x": 120,
-              "y": 272,
-              "width": 800,
-              "height": 192,
-              "top": 272,
-              "right": 920,
-              "bottom": 464,
+              "y": 188,
+              "width": 992,
+              "height": 193,
+              "top": 188,
+              "right": 1112,
+              "bottom": 381,
               "left": 120
             },
             "currentRect": {
               "x": 120,
               "y": 184,
-              "width": 800,
+              "width": 992,
               "height": 193,
               "top": 184,
-              "right": 920,
+              "right": 1112,
               "bottom": 377,
               "left": 120
             }
           },
           {
-            "node": "p.sp-hero-lead",
-            "text": "Šesť krokov s jasným výstupom v každom z nich. Vždy viete, čo sa práve deje, čo schvaľujete a čo bud",
+            "node": "::before",
+            "text": "",
             "previousRect": {
-              "x": 120,
-              "y": 471,
-              "width": 656,
-              "height": 59,
-              "top": 471,
-              "right": 776,
-              "bottom": 530,
-              "left": 120
+              "x": 137,
+              "y": 478,
+              "width": 37,
+              "height": 36,
+              "top": 478,
+              "right": 174,
+              "bottom": 514,
+              "left": 137
             },
             "currentRect": {
-              "x": 120,
-              "y": 388,
-              "width": 656,
-              "height": 59,
-              "top": 388,
-              "right": 776,
-              "bottom": 447,
-              "left": 120
+              "x": 158,
+              "y": 478,
+              "width": 36,
+              "height": 36,
+              "top": 478,
+              "right": 194,
+              "bottom": 514,
+              "left": 158
+            }
+          },
+          {
+            "node": "::before",
+            "text": "",
+            "previousRect": {
+              "x": 445,
+              "y": 478,
+              "width": 36,
+              "height": 36,
+              "top": 478,
+              "right": 481,
+              "bottom": 514,
+              "left": 445
+            },
+            "currentRect": {
+              "x": 466,
+              "y": 478,
+              "width": 36,
+              "height": 36,
+              "top": 478,
+              "right": 502,
+              "bottom": 514,
+              "left": 466
             }
           }
         ]
@@ -265,6 +265,6 @@
     ],
     "fonts": "loaded",
     "interTight": true,
-    "scrollHeight": 2910
+    "scrollHeight": 2917
   }
 }
