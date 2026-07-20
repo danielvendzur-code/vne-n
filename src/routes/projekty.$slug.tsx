@@ -81,11 +81,7 @@ function ProjectDetail() {
               <ArrowLeft aria-hidden="true" /> Všetky ukážky
             </Link>
           </motion.div>
-          <motion.p
-            className="sp-eyebrow"
-            style={{ marginTop: "1.6rem" }}
-            variants={staggerChild}
-          >
+          <motion.p className="sp-eyebrow" style={{ marginTop: "1.6rem" }} variants={staggerChild}>
             <i style={{ background: project.accent }} />
             {project.label} · {project.category}
           </motion.p>
