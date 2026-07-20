@@ -80,6 +80,18 @@ export function SiteMotionEnhancements() {
       };
 
       const buttonAt = (clientX: number, clientY: number) => {
+        const buttons = Array.from(element.querySelectorAll<HTMLElement>("button"));
+        const geometricMatch = buttons.find((button) => {
+          const rect = button.getBoundingClientRect();
+          return (
+            clientX >= rect.left &&
+            clientX <= rect.right &&
+            clientY >= rect.top &&
+            clientY <= rect.bottom
+          );
+        });
+        if (geometricMatch) return geometricMatch;
+
         const hit = document.elementFromPoint(clientX, clientY);
         const button = hit instanceof Element ? hit.closest<HTMLElement>("button") : null;
         return button && element.contains(button) ? button : null;
@@ -206,10 +218,12 @@ export function SiteMotionEnhancements() {
   // The external widget creates its teaser earlier; the host site reveals it only
   // after three seconds, once per tab session, and hides it again automatically.
   useEffect(() => {
-    const storageKey = "vendzur-widget-preview-seen";
+    const storageKey = "vendzur-widget-preview-started-at";
     const body = document.body;
     const teaserTitle = "Čo by pomohlo vášmu webu?";
     const teaserCopy = "Za minútu zistíte, aké riešenie dáva pre váš web zmysel.";
+    const revealAfter = 3_000;
+    const hideAfter = 11_500;
     let showTimer = 0;
     let hideTimer = 0;
 
@@ -222,39 +236,46 @@ export function SiteMotionEnhancements() {
       if (copy && copy.textContent !== teaserCopy) copy.textContent = teaserCopy;
     };
 
-    let alreadySeen = false;
+    let startedAt = Date.now();
     try {
-      alreadySeen = window.sessionStorage.getItem(storageKey) === "true";
+      const stored = Number(window.sessionStorage.getItem(storageKey));
+      if (Number.isFinite(stored) && stored > 0) {
+        startedAt = stored;
+      } else {
+        window.sessionStorage.setItem(storageKey, String(startedAt));
+      }
     } catch {
-      alreadySeen = false;
+      startedAt = Date.now();
     }
 
-    body.dataset.widgetPreview = alreadySeen ? "hidden" : "waiting";
+    const elapsed = Math.max(0, Date.now() - startedAt);
     updateTeaserCopy();
 
     const observer = new MutationObserver(updateTeaserCopy);
     observer.observe(document.body, { childList: true, subtree: true });
 
-    if (!alreadySeen) {
+    if (elapsed >= hideAfter) {
+      body.dataset.widgetPreview = "hidden";
+    } else if (elapsed >= revealAfter) {
+      body.dataset.widgetPreview = "visible";
+      hideTimer = window.setTimeout(() => {
+        body.dataset.widgetPreview = "hidden";
+      }, hideAfter - elapsed);
+    } else {
+      body.dataset.widgetPreview = "waiting";
       showTimer = window.setTimeout(() => {
         updateTeaserCopy();
         body.dataset.widgetPreview = "visible";
-        try {
-          window.sessionStorage.setItem(storageKey, "true");
-        } catch {
-          // Storage can be unavailable in strict privacy modes; visual behaviour stays intact.
-        }
         hideTimer = window.setTimeout(() => {
           body.dataset.widgetPreview = "hidden";
-        }, 8_500);
-      }, 3_000);
+        }, hideAfter - revealAfter);
+      }, revealAfter - elapsed);
     }
 
     return () => {
       observer.disconnect();
       window.clearTimeout(showTimer);
       window.clearTimeout(hideTimer);
-      body.dataset.widgetPreview = "hidden";
     };
   }, []);
 
@@ -282,7 +303,7 @@ export function SiteMotionEnhancements() {
     };
 
     const handleScroll = () => {
-      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(paintScroll);
+      if (!scrollFrame) window.requestAnimationFrame(paintScroll);
     };
 
     const paintPointer = () => {
