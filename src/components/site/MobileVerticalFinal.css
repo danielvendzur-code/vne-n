@@ -1,0 +1,66 @@
+/* Final corrections discovered by the real-device audit. */
+
+.cookie-modal-backdrop {
+  background: rgba(1, 9, 13, 0.86) !important;
+}
+
+.cookie-modal {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.075), transparent 36%),
+    radial-gradient(circle at 92% 8%, rgba(114, 211, 234, 0.07), transparent 38%),
+    linear-gradient(145deg, #12323e 0%, #091f29 48%, #06131a 100%) !important;
+}
+
+@media (max-width: 700px) {
+  :root .lp-page .lp-hero-grid {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  :root .lp-page .lp-hero-stage {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  :root .lp-page .lp-assistant-card {
+    right: auto !important;
+    left: 50% !important;
+    width: min(calc(100vw - 2rem), 26rem) !important;
+    max-width: none !important;
+    transform: translate(-50%, -50%) !important;
+    border-radius: 1.35rem !important;
+    padding: 1rem !important;
+  }
+
+  :root .lp-page .lp-assistant-card > p {
+    max-width: 22ch;
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+  }
+
+  /* The shared fill lives inside the active button, so it must cover that button. */
+  :root .lp-page .lp-assistant-chips .lp-chip-liquid,
+  :root .lp-page .lp-switch .lp-switch-liquid {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: inherit !important;
+  }
+
+  :root .lp-page .lp-assistant-chips button,
+  :root .lp-page .lp-switch button {
+    min-height: 3.05rem;
+    padding: 0.72rem 0.9rem;
+  }
+
+  :root .lp-page .lp-control-label {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cookie-modal {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.075), transparent 34%),
+      linear-gradient(155deg, #12323e 0%, #081c25 52%, #06131a 100%) !important;
+  }
+}
