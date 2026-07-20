@@ -1,6 +1,6 @@
-run_id=29757468745
+run_id=29757755325
 install=success
-lint=failure
+lint=success
 node_build=success
 playwright=success
 browser=success
@@ -12,10 +12,6 @@ $ eslint .
 
 /home/runner/work/vne-n/vne-n/src/components/DemoViewer.tsx
   233:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
-
-/home/runner/work/vne-n/vne-n/src/components/site/SiteMotionEnhancements.tsx
-  10:31  error  Replace `⏎······document.querySelectorAll<HTMLImageElement>(".lp-project-media·img"),⏎····` with `document.querySelectorAll<HTMLImageElement>(".lp-project-media·img")`  prettier/prettier
-  30:19  error  Replace `.decode().then(markLoaded)` with `⏎··········.decode()⏎··········.then(markLoaded)⏎··········`                                                                  prettier/prettier
 
 /home/runner/work/vne-n/vne-n/src/components/site/motion-primitives.tsx
    6:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
@@ -40,10 +36,8 @@ $ eslint .
 /home/runner/work/vne-n/vne-n/src/components/ui/toggle.tsx
   42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
 
-✖ 12 problems (2 errors, 10 warnings)
-  2 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 10 problems (0 errors, 10 warnings)
 
-error: script "lint" exited with code 1
 
 ===== browser =====
 
@@ -65,7 +59,7 @@ Running 16 tests using 1 worker
 [1A[2K[14/16] qa-mineral/mineral.spec.ts:140:1 › capability chips expanded
 [1A[2K[15/16] qa-mineral/mineral.spec.ts:156:1 › mobile hero controls and menu palette
 [1A[2K[16/16] qa-mineral/mineral.spec.ts:181:1 › external assistant chat and calculator palette
-[1A[2K  16 passed (59.7s)
+[1A[2K  16 passed (58.9s)
 
 ===== node-build =====
 $ vite build
@@ -98,7 +92,7 @@ computing gzip size...
 .output/public/assets/routes-DfFH64yh.js              156.00 kB │ gzip:  59.25 kB
 .output/public/assets/index-CfpyRXAZ.js               491.57 kB │ gzip: 156.54 kB
 
-[32m✓ built in 1.34s[39m
+[32m✓ built in 1.43s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 104 modules transformed.
 rendering chunks...
@@ -130,7 +124,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-DJZmsOjb.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-D4F7kcYS.js                      58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-h7ZPUQtq.js                      71.06 kB │ gzip: 18.26 kB
 
-[32m✓ built in 485ms[39m
+[32m✓ built in 478ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -173,7 +167,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 491ms[39m
+[32m✓ built in 544ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
@@ -208,7 +202,7 @@ computing gzip size...
 .output/public/assets/routes-IOr_LzIE.js              156.05 kB │ gzip:  59.25 kB
 .output/public/assets/index-DDXltJ_Y.js               491.68 kB │ gzip: 156.58 kB
 
-[32m✓ built in 1.37s[39m
+[32m✓ built in 1.32s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 104 modules transformed.
 rendering chunks...
@@ -240,7 +234,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-6QvbSOnv.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-DvjT_TAR.js                      58.70 kB │ gzip: 15.12 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Ds39ucQh.js                      71.11 kB │ gzip: 18.26 kB
 
-[32m✓ built in 501ms[39m
+[32m✓ built in 503ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -272,7 +266,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs                    16.47 kB │ gzip:   3.60 kB
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.61 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
-.output/server/index.mjs                                 21.84 kB │ gzip:   6.36 kB
+.output/server/index.mjs                                 21.84 kB │ gzip:   6.35 kB
 .output/server/_ssr/router-6QvbSOnv.mjs                  38.77 kB │ gzip:  10.02 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
@@ -283,7 +277,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 580ms[39m
+[32m✓ built in 561ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
