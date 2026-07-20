@@ -1,6 +1,6 @@
-run_id=29753543037
+run_id=29753831528
 install=success
-lint=failure
+lint=success
 node_build=success
 playwright=success
 browser=success
@@ -12,9 +12,6 @@ $ eslint .
 
 /home/runner/work/vne-n/vne-n/src/components/DemoViewer.tsx
   233:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
-
-/home/runner/work/vne-n/vne-n/src/components/site/MiniPreviews.tsx
-  172:34  error  Replace `·?·accentSoft` with `⏎··········?·accentSoft⏎·········`  prettier/prettier
 
 /home/runner/work/vne-n/vne-n/src/components/site/motion-primitives.tsx
    6:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
@@ -39,10 +36,8 @@ $ eslint .
 /home/runner/work/vne-n/vne-n/src/components/ui/toggle.tsx
   42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
 
-✖ 11 problems (1 error, 10 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
+✖ 10 problems (0 errors, 10 warnings)
 
-error: script "lint" exited with code 1
 
 ===== browser =====
 
@@ -63,7 +58,7 @@ Running 15 tests using 1 worker
 [1A[2K[13/15] qa-mineral/mineral.spec.ts:58:1 › hero selectors and comparison states
 [1A[2K[14/15] qa-mineral/mineral.spec.ts:85:1 › capability chips expanded
 [1A[2K[15/15] qa-mineral/mineral.spec.ts:101:1 › mobile menu palette
-[1A[2K  15 passed (34.6s)
+[1A[2K  15 passed (34.8s)
 
 ===== node-build =====
 $ vite build
@@ -96,7 +91,7 @@ computing gzip size...
 .output/public/assets/routes-CxIXN07X.js              156.00 kB │ gzip:  59.25 kB
 .output/public/assets/index-CA1AkDVc.js               490.99 kB │ gzip: 156.35 kB
 
-[32m✓ built in 1.30s[39m
+[32m✓ built in 1.47s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 102 modules transformed.
 rendering chunks...
@@ -128,7 +123,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-GIDPoRpR.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-C1dbmbsU.js                      58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CzCPdKx3.js                      71.06 kB │ gzip: 18.26 kB
 
-[32m✓ built in 472ms[39m
+[32m✓ built in 516ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -160,7 +155,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs                    16.47 kB │ gzip:   3.60 kB
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.61 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
-.output/server/index.mjs                                 21.84 kB │ gzip:   6.35 kB
+.output/server/index.mjs                                 21.84 kB │ gzip:   6.36 kB
 .output/server/_ssr/router-GIDPoRpR.mjs                  37.72 kB │ gzip:   9.71 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
@@ -171,7 +166,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 507ms[39m
+[32m✓ built in 567ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
@@ -206,7 +201,7 @@ computing gzip size...
 .output/public/assets/routes-CHOKbpcb.js              156.05 kB │ gzip:  59.25 kB
 .output/public/assets/index-BHYGtAOv.js               491.10 kB │ gzip: 156.40 kB
 
-[32m✓ built in 1.29s[39m
+[32m✓ built in 1.44s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 102 modules transformed.
 rendering chunks...
@@ -238,7 +233,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-DBEIqWiM.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-DgD8VYe0.js                      58.70 kB │ gzip: 15.12 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bp02wrxw.js                      71.11 kB │ gzip: 18.26 kB
 
-[32m✓ built in 481ms[39m
+[32m✓ built in 534ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -270,7 +265,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs                    16.47 kB │ gzip:   3.60 kB
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.61 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
-.output/server/index.mjs                                 21.84 kB │ gzip:   6.35 kB
+.output/server/index.mjs                                 21.84 kB │ gzip:   6.36 kB
 .output/server/_ssr/router-DBEIqWiM.mjs                  37.83 kB │ gzip:   9.74 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
@@ -281,7 +276,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 531ms[39m
+[32m✓ built in 621ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
