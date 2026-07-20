@@ -1,4 +1,4 @@
-run_id=29776122882
+run_id=29776448957
 widget=success
 widget_ready=true
 install=success
@@ -89,7 +89,7 @@ Running 4 tests using 1 worker
 [1A[2K  2 failed
     qa-final/final.spec.ts:30:1 › desktop brand, menu and centre-origin selector ───────────────────
     qa-final/final.spec.ts:196:1 › chatbot drag controls and redesigned calculator step one ────────
-  2 passed (17.2s)
+  2 passed (15.9s)
 
 ===== build =====
 $ vite build
@@ -120,7 +120,7 @@ computing gzip size...
 .output/public/assets/routes--UF1--46.js              155.93 kB │ gzip:  59.21 kB
 .output/public/assets/index-CoCH61R1.js               496.66 kB │ gzip: 158.12 kB
 
-[32m✓ built in 1.37s[39m
+[32m✓ built in 1.36s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 109 modules transformed.
 rendering chunks...
@@ -152,7 +152,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-DgC4RFNq.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-B6Cesmo3.js                       58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-DRSCodCX.js                       71.06 kB │ gzip: 18.26 kB
 
-[32m✓ built in 503ms[39m
+[32m✓ built in 556ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -184,7 +184,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs                    16.47 kB │ gzip:   3.60 kB
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.61 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
-.output/server/index.mjs                                 21.36 kB │ gzip:   6.26 kB
+.output/server/index.mjs                                 21.36 kB │ gzip:   6.27 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
 .output/server/_ssr/router-DgC4RFNq.mjs                  47.97 kB │ gzip:  12.27 kB
@@ -195,7 +195,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 553ms[39m
+[32m✓ built in 584ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
@@ -228,7 +228,7 @@ computing gzip size...
 .output/public/assets/routes--cyRi-w-.js              155.97 kB │ gzip:  59.22 kB
 .output/public/assets/index-VrLNE1ZL.js               496.76 kB │ gzip: 158.15 kB
 
-[32m✓ built in 1.41s[39m
+[32m✓ built in 1.44s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 109 modules transformed.
 rendering chunks...
@@ -260,7 +260,7 @@ node_modules/.nitro/vite/services/ssr/assets/router--wD-Lovy.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-C9LqadDz.js                       58.70 kB │ gzip: 15.12 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BROpk2vz.js                       71.11 kB │ gzip: 18.26 kB
 
-[32m✓ built in 509ms[39m
+[32m✓ built in 524ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -292,7 +292,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs                    16.47 kB │ gzip:   3.60 kB
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.61 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
-.output/server/index.mjs                                 21.36 kB │ gzip:   6.25 kB
+.output/server/index.mjs                                 21.36 kB │ gzip:   6.26 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
 .output/server/_ssr/router--wD-Lovy.mjs                  48.08 kB │ gzip:  12.30 kB
@@ -303,7 +303,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 578ms[39m
+[32m✓ built in 570ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 exported /
