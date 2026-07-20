@@ -7,13 +7,12 @@ const dragGroupSelector = [
   ".lp-assistant-chips",
   ".lp-switch",
   ".lp-caps-chips",
-  ".cw-tabs",
   ".cw-quick-replies",
   ".cw-rows",
   ".cw-grid",
 ].join(", ");
 
-const dragSelectSelector = ".lp-assistant-chips, .lp-switch, .cw-tabs";
+const dragSelectSelector = ".lp-assistant-chips, .lp-switch";
 
 export function SiteMotionEnhancements() {
   const reducedMotion = useReducedMotion();
@@ -93,8 +92,7 @@ export function SiteMotionEnhancements() {
         return button && element.contains(button) ? button : null;
       };
 
-      const isScrollable = () =>
-        !isSelectGroup && element.scrollWidth > element.clientWidth + 2;
+      const isScrollable = () => !isSelectGroup && element.scrollWidth > element.clientWidth + 2;
 
       const onPointerDown = (event: PointerEvent) => {
         if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
