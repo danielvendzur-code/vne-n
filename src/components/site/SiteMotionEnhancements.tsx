@@ -210,6 +210,48 @@ export function SiteMotionEnhancements() {
   }, []);
 
   useEffect(() => {
+    const body = document.body;
+    let activeTeaser: HTMLElement | null = null;
+
+    const syncTeaser = () => {
+      const teaser = document.querySelector<HTMLElement>(".cw-teaser");
+      if (!teaser) {
+        activeTeaser = null;
+        return;
+      }
+
+      activeTeaser = teaser;
+      const menuOpen = body.dataset.siteMenuOpen === "true";
+      teaser.style.setProperty("display", "block", "important");
+      teaser.style.setProperty("opacity", menuOpen ? "0" : "1", "important");
+      teaser.style.setProperty("visibility", menuOpen ? "hidden" : "visible", "important");
+      teaser.style.setProperty("pointer-events", menuOpen ? "none" : "auto", "important");
+      teaser.style.setProperty(
+        "transform",
+        menuOpen ? "translateY(7px) scale(0.985)" : "translateY(0) scale(1)",
+        "important",
+      );
+    };
+
+    syncTeaser();
+    const observer = new MutationObserver(syncTeaser);
+    observer.observe(body, {
+      attributes: true,
+      attributeFilter: ["data-site-menu-open"],
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      observer.disconnect();
+      if (!activeTeaser) return;
+      ["display", "opacity", "visibility", "pointer-events", "transform"].forEach((property) =>
+        activeTeaser?.style.removeProperty(property),
+      );
+    };
+  }, []);
+
+  useEffect(() => {
     if (reducedMotion) return;
 
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
