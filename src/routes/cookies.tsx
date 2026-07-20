@@ -94,9 +94,9 @@ function CookiesPage() {
             <p className="cookies-card__kicker">03 / Zmena rozhodnutia</p>
             <h2>Súhlas môžete kedykoľvek upraviť.</h2>
             <p>
-              Odkaz „Nastavenia cookies“ je trvalo v pätičke. Po vypnutí analytiky web odstráni známe
-              analytické cookies, ak by boli v budúcnosti nasadené. Základný obsah zostáva dostupný
-              bez ohľadu na voľbu.
+              Odkaz „Nastavenia cookies“ je trvalo v pätičke. Po vypnutí analytiky web odstráni
+              známe analytické cookies, ak by boli v budúcnosti nasadené. Základný obsah zostáva
+              dostupný bez ohľadu na voľbu.
             </p>
             <button type="button" className="cookies-settings-button" onClick={openCookieSettings}>
               Zmeniť nastavenie
@@ -108,7 +108,8 @@ function CookiesPage() {
       <section className="cookies-contact">
         <div className="container-page">
           <p>
-            Otázky k súkromiu: <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+            Otázky k súkromiu:{" "}
+            <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
           </p>
           <small>Posledná aktualizácia: 20. júla 2026</small>
         </div>
