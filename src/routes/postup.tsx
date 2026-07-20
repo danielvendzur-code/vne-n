@@ -11,7 +11,6 @@ import {
   Search,
   Workflow,
 } from "lucide-react";
-import { SiteLayout } from "@/components/site/Layout";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
@@ -115,49 +114,47 @@ function Timeline() {
 
 function ProcessPage() {
   return (
-    <SiteLayout>
-      <div className="sp-page">
-        <PageIntro
-          eyebrow="Spolupráca"
-          title={
-            <>
-              Od prvých otázok <em>po nástroj na vašom webe.</em>
-            </>
-          }
-          lead="Šesť krokov s jasným výstupom v každom z nich. Vždy viete, čo sa práve deje, čo schvaľujete a čo bude nasledovať."
+    <div className="sp-page">
+      <PageIntro
+        eyebrow="Spolupráca"
+        title={
+          <>
+            Od prvých otázok <em>po nástroj na vašom webe.</em>
+          </>
+        }
+        lead="Šesť krokov s jasným výstupom v každom z nich. Vždy viete, čo sa práve deje, čo schvaľujete a čo bude nasledovať."
+      >
+        <div className="sp-hero-chips">
+          <span className="chip">Logika schválená pred vývojom</span>
+          <span className="chip">Testovací odkaz pred nasadením</span>
+          <span className="chip">Bez prerábania webu</span>
+        </div>
+      </PageIntro>
+
+      <section className="sp-section">
+        <div className="container-page">
+          <Timeline />
+        </div>
+      </section>
+
+      <section className="sp-section">
+        <CtaBand
+          kicker="Zaujíma vás niektorý krok?"
+          title="Napíšte konkrétnu otázku. Odpoviem konkrétne."
+          lead="Ak chcete vedieť, ako by vyzeral prvý krok pre vašu službu, stačí krátke zadanie — pripravím návrh otázok a logiky."
         >
-          <div className="sp-hero-chips">
-            <span className="chip">Logika schválená pred vývojom</span>
-            <span className="chip">Testovací odkaz pred nasadením</span>
-            <span className="chip">Bez prerábania webu</span>
-          </div>
-        </PageIntro>
-
-        <section className="sp-section">
-          <div className="container-page">
-            <Timeline />
-          </div>
-        </section>
-
-        <section className="sp-section">
-          <CtaBand
-            kicker="Zaujíma vás niektorý krok?"
-            title="Napíšte konkrétnu otázku. Odpoviem konkrétne."
-            lead="Ak chcete vedieť, ako by vyzeral prvý krok pre vašu službu, stačí krátke zadanie — pripravím návrh otázok a logiky."
+          <button
+            type="button"
+            className="sp-button sp-button--primary"
+            onClick={() => openSiteAssistant({ source: "process-cta" })}
           >
-            <button
-              type="button"
-              className="sp-button sp-button--primary"
-              onClick={() => openSiteAssistant({ source: "process-cta" })}
-            >
-              <MessageCircle aria-hidden="true" /> Nájsť riešenie
-            </button>
-            <Link to="/kontakt" className="sp-button sp-button--ghost">
-              Prejsť na kontakt <ArrowRight aria-hidden="true" />
-            </Link>
-          </CtaBand>
-        </section>
-      </div>
-    </SiteLayout>
+            <MessageCircle aria-hidden="true" /> Nájsť riešenie
+          </button>
+          <Link to="/kontakt" className="sp-button sp-button--ghost">
+            Prejsť na kontakt <ArrowRight aria-hidden="true" />
+          </Link>
+        </CtaBand>
+      </section>
+    </div>
   );
 }
