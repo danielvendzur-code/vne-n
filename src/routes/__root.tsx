@@ -124,6 +124,11 @@ const personJsonLd = JSON.stringify({
   jobTitle: "Tvorca webových nástrojov — chatboty, kalkulačky, konfigurátory",
 });
 
+const interTightLatinExt =
+  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsJ8ah8QA.woff2";
+const interTightLatin =
+  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsH8ag.woff2";
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -170,8 +175,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
+        rel: "preload",
+        href: interTightLatinExt,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        href: interTightLatin,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&family=Inter:wght@400..600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&display=swap",
       },
     ],
     scripts: [{ type: "application/ld+json", children: personJsonLd }],
@@ -204,7 +223,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {pathname === "/farby" ? outlet : <SiteLayout>{outlet}</SiteLayout>}
+      {pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>}
     </QueryClientProvider>
   );
 }
