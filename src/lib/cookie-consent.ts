@@ -71,7 +71,8 @@ const expireCookie = (name: string, domain?: string) => {
 const clearKnownAnalyticsCookies = () => {
   if (!isBrowser()) return;
   const hostname = window.location.hostname;
-  const parentDomain = hostname.split(".").length > 2 ? `.${hostname.split(".").slice(-2).join(".")}` : undefined;
+  const parentDomain =
+    hostname.split(".").length > 2 ? `.${hostname.split(".").slice(-2).join(".")}` : undefined;
   const analyticsNames = cookieParts()
     .map((part) => part.trim().split("=")[0])
     .filter((name) => /^(?:_ga(?:_.+)?|_gid|_gat(?:_.+)?|_pk_id\..+|_pk_ses\..+)$/i.test(name));
@@ -88,14 +89,24 @@ export function applyCookieConsent(consent = readCookieConsent()): void {
   const analyticsAllowed = consent?.analytics === true;
 
   document.documentElement.dataset.analyticsConsent = analyticsAllowed ? "granted" : "denied";
-  window.dataLayer ??= [];
-  window.dataLayer.push({
-    event: "vendzur_consent_update",
-    analytics_storage: analyticsAllowed ? "granted" : "denied",
-    consent_version: COOKIE_CONSENT_VERSION,
-  });
 
-  if (!analyticsAllowed) clearKnownAnalyticsCookies();
+  if (analyticsAllowed) {
+    window.dataLayer ??= [];
+    window.dataLayer.push({
+      event: "vendzur_consent_update",
+      analytics_storage: "granted",
+      consent_version: COOKIE_CONSENT_VERSION,
+    });
+  } else {
+    if (Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: "vendzur_consent_update",
+        analytics_storage: "denied",
+        consent_version: COOKIE_CONSENT_VERSION,
+      });
+    }
+    clearKnownAnalyticsCookies();
+  }
 
   window.dispatchEvent(
     new CustomEvent<CookieConsentState | null>(COOKIE_CONSENT_EVENT, { detail: consent }),
