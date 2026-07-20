@@ -3,14 +3,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
-const dragGroupSelector = [
-  ".lp-assistant-chips",
-  ".lp-switch",
-  ".lp-caps-chips",
-  ".cw-quick-replies",
-  ".cw-rows",
-  ".cw-grid",
-].join(", ");
+const dragGroupSelector = [".lp-assistant-chips", ".lp-switch", ".lp-caps-chips"].join(", ");
 
 const dragSelectSelector = ".lp-assistant-chips, .lp-switch";
 
