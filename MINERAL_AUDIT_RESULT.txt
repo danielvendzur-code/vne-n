@@ -1,9 +1,9 @@
-run_id=29754338525
+run_id=29754522948
 install=success
 lint=success
 node_build=success
 playwright=success
-browser=success
+browser=failure
 pages_build=success
 pages_export=success
 
@@ -43,22 +43,128 @@ $ eslint .
 
 Running 15 tests using 1 worker
 
-[1A[2K[1/15] qa-mineral/mineral.spec.ts:41:5 › home desktop
-[1A[2K[2/15] qa-mineral/mineral.spec.ts:41:5 › home mobile
-[1A[2K[3/15] qa-mineral/mineral.spec.ts:41:5 › sluzby desktop
-[1A[2K[4/15] qa-mineral/mineral.spec.ts:41:5 › sluzby mobile
-[1A[2K[5/15] qa-mineral/mineral.spec.ts:41:5 › projekty desktop
-[1A[2K[6/15] qa-mineral/mineral.spec.ts:41:5 › projekty mobile
-[1A[2K[7/15] qa-mineral/mineral.spec.ts:41:5 › projekt-detail desktop
-[1A[2K[8/15] qa-mineral/mineral.spec.ts:41:5 › projekt-detail mobile
-[1A[2K[9/15] qa-mineral/mineral.spec.ts:41:5 › postup desktop
-[1A[2K[10/15] qa-mineral/mineral.spec.ts:41:5 › postup mobile
-[1A[2K[11/15] qa-mineral/mineral.spec.ts:41:5 › kontakt desktop
-[1A[2K[12/15] qa-mineral/mineral.spec.ts:41:5 › kontakt mobile
-[1A[2K[13/15] qa-mineral/mineral.spec.ts:58:1 › hero selectors and comparison states
-[1A[2K[14/15] qa-mineral/mineral.spec.ts:85:1 › capability chips expanded
-[1A[2K[15/15] qa-mineral/mineral.spec.ts:101:1 › mobile menu palette
-[1A[2K  15 passed (34.6s)
+[1A[2K[1/15] qa-mineral/mineral.spec.ts:90:5 › home desktop
+[1A[2K  1) qa-mineral/mineral.spec.ts:90:5 › home desktop ────────────────────────────────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"95 145 181"[39m
+    Received: [31m"201 170 112"[39m
+
+      68 |   expect(metrics.primary.toLowerCase()).toBe("#7bcbe3");
+      69 |   expect(metrics.background.toLowerCase()).toBe("#071116");
+    > 70 |   if (metrics.glideSecondary) expect(metrics.glideSecondary).toBe("95 145 181");
+         |                                                              ^
+      71 |   if (metrics.deratAccent) expect(metrics.deratAccent.toLowerCase()).toBe("#7bcbe3");
+      72 |   for (const oldColor of [
+      73 |     "201, 170, 112",
+        at auditPage (/home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:70:62)
+        at /home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:96:22
+
+    Error Context: test-results/qa-mineral-mineral-home-desktop/error-context.md
+
+
+[1A[2K[2/15] qa-mineral/mineral.spec.ts:90:5 › home mobile
+[1A[2K  2) qa-mineral/mineral.spec.ts:90:5 › home mobile ─────────────────────────────────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"95 145 181"[39m
+    Received: [31m"201 170 112"[39m
+
+      68 |   expect(metrics.primary.toLowerCase()).toBe("#7bcbe3");
+      69 |   expect(metrics.background.toLowerCase()).toBe("#071116");
+    > 70 |   if (metrics.glideSecondary) expect(metrics.glideSecondary).toBe("95 145 181");
+         |                                                              ^
+      71 |   if (metrics.deratAccent) expect(metrics.deratAccent.toLowerCase()).toBe("#7bcbe3");
+      72 |   for (const oldColor of [
+      73 |     "201, 170, 112",
+        at auditPage (/home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:70:62)
+        at /home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:96:22
+
+    Error Context: test-results/qa-mineral-mineral-home-mobile/error-context.md
+
+
+[1A[2K[3/15] qa-mineral/mineral.spec.ts:90:5 › sluzby desktop
+[1A[2K[4/15] qa-mineral/mineral.spec.ts:90:5 › sluzby mobile
+[1A[2K[5/15] qa-mineral/mineral.spec.ts:90:5 › projekty desktop
+[1A[2K[6/15] qa-mineral/mineral.spec.ts:90:5 › projekty mobile
+[1A[2K[7/15] qa-mineral/mineral.spec.ts:90:5 › projekt-detail desktop
+[1A[2K[8/15] qa-mineral/mineral.spec.ts:90:5 › projekt-detail mobile
+[1A[2K[9/15] qa-mineral/mineral.spec.ts:90:5 › postup desktop
+[1A[2K[10/15] qa-mineral/mineral.spec.ts:90:5 › postup mobile
+[1A[2K[11/15] qa-mineral/mineral.spec.ts:90:5 › kontakt desktop
+[1A[2K[12/15] qa-mineral/mineral.spec.ts:90:5 › kontakt mobile
+[1A[2K[13/15] qa-mineral/mineral.spec.ts:107:1 › hero selectors and comparison states
+[1A[2K  3) qa-mineral/mineral.spec.ts:107:1 › hero selectors and comparison states ───────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"95 145 181"[39m
+    Received: [31m"201 170 112"[39m
+
+      68 |   expect(metrics.primary.toLowerCase()).toBe("#7bcbe3");
+      69 |   expect(metrics.background.toLowerCase()).toBe("#071116");
+    > 70 |   if (metrics.glideSecondary) expect(metrics.glideSecondary).toBe("95 145 181");
+         |                                                              ^
+      71 |   if (metrics.deratAccent) expect(metrics.deratAccent.toLowerCase()).toBe("#7bcbe3");
+      72 |   for (const oldColor of [
+      73 |     "201, 170, 112",
+        at auditPage (/home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:70:62)
+        at /home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:110:3
+
+    Error Context: test-results/qa-mineral-mineral-hero-selectors-and-comparison-states/error-context.md
+
+
+[1A[2K[14/15] qa-mineral/mineral.spec.ts:134:1 › capability chips expanded
+[1A[2K  4) qa-mineral/mineral.spec.ts:134:1 › capability chips expanded ──────────────────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"95 145 181"[39m
+    Received: [31m"201 170 112"[39m
+
+      68 |   expect(metrics.primary.toLowerCase()).toBe("#7bcbe3");
+      69 |   expect(metrics.background.toLowerCase()).toBe("#071116");
+    > 70 |   if (metrics.glideSecondary) expect(metrics.glideSecondary).toBe("95 145 181");
+         |                                                              ^
+      71 |   if (metrics.deratAccent) expect(metrics.deratAccent.toLowerCase()).toBe("#7bcbe3");
+      72 |   for (const oldColor of [
+      73 |     "201, 170, 112",
+        at auditPage (/home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:70:62)
+        at /home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:137:3
+
+    Error Context: test-results/qa-mineral-mineral-capability-chips-expanded/error-context.md
+
+
+[1A[2K[15/15] qa-mineral/mineral.spec.ts:150:1 › mobile hero controls and menu palette
+[1A[2K  5) qa-mineral/mineral.spec.ts:150:1 › mobile hero controls and menu palette ──────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"95 145 181"[39m
+    Received: [31m"201 170 112"[39m
+
+      68 |   expect(metrics.primary.toLowerCase()).toBe("#7bcbe3");
+      69 |   expect(metrics.background.toLowerCase()).toBe("#071116");
+    > 70 |   if (metrics.glideSecondary) expect(metrics.glideSecondary).toBe("95 145 181");
+         |                                                              ^
+      71 |   if (metrics.deratAccent) expect(metrics.deratAccent.toLowerCase()).toBe("#7bcbe3");
+      72 |   for (const oldColor of [
+      73 |     "201, 170, 112",
+        at auditPage (/home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:70:62)
+        at /home/runner/work/vne-n/vne-n/qa-mineral/mineral.spec.ts:153:3
+
+    Error Context: test-results/qa-mineral-mineral-mobile-hero-controls-and-menu-palette/error-context.md
+
+
+[1A[2K  5 failed
+    qa-mineral/mineral.spec.ts:90:5 › home desktop ─────────────────────────────────────────────────
+    qa-mineral/mineral.spec.ts:90:5 › home mobile ──────────────────────────────────────────────────
+    qa-mineral/mineral.spec.ts:107:1 › hero selectors and comparison states ────────────────────────
+    qa-mineral/mineral.spec.ts:134:1 › capability chips expanded ───────────────────────────────────
+    qa-mineral/mineral.spec.ts:150:1 › mobile hero controls and menu palette ───────────────────────
+  10 passed (46.9s)
 
 ===== node-build =====
 $ vite build
@@ -91,7 +197,7 @@ computing gzip size...
 .output/public/assets/routes-Ckv_YeH3.js              156.00 kB │ gzip:  59.25 kB
 .output/public/assets/index-XUhPQCQ2.js               490.99 kB │ gzip: 156.35 kB
 
-[32m✓ built in 1.35s[39m
+[32m✓ built in 1.41s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 103 modules transformed.
 rendering chunks...
@@ -123,7 +229,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-DxsKETze.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-DLaViCu4.js                      58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CzCPdKx3.js                      71.06 kB │ gzip: 18.26 kB
 
-[32m✓ built in 470ms[39m
+[32m✓ built in 483ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -155,7 +261,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs                    16.47 kB │ gzip:   3.60 kB
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.61 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
-.output/server/index.mjs                                 21.84 kB │ gzip:   6.34 kB
+.output/server/index.mjs                                 21.84 kB │ gzip:   6.36 kB
 .output/server/_ssr/router-DxsKETze.mjs                  37.72 kB │ gzip:   9.71 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
@@ -166,7 +272,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 484ms[39m
+[32m✓ built in 537ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
@@ -201,7 +307,7 @@ computing gzip size...
 .output/public/assets/routes-CZUVoVix.js              156.05 kB │ gzip:  59.25 kB
 .output/public/assets/index-C3epv5Yr.js               491.10 kB │ gzip: 156.39 kB
 
-[32m✓ built in 1.50s[39m
+[32m✓ built in 1.37s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 103 modules transformed.
 rendering chunks...
@@ -233,7 +339,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-CJCMsn_r.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-BbvPqfGw.js                      58.70 kB │ gzip: 15.12 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bp02wrxw.js                      71.11 kB │ gzip: 18.26 kB
 
-[32m✓ built in 560ms[39m
+[32m✓ built in 488ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-20`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -276,7 +382,7 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 658ms[39m
+[32m✓ built in 575ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
