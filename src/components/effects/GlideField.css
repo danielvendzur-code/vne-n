@@ -1,8 +1,8 @@
 .glide-field {
-  --glide-base: 242 239 230;
-  --glide-active: 111 151 132;
-  --glide-secondary: 201 170 112;
-  --glide-impact: 188 115 82;
+  --glide-base: 242 247 248;
+  --glide-active: 123 203 227;
+  --glide-secondary: 95 145 181;
+  --glide-impact: 196 227 236;
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -10,9 +10,9 @@
   pointer-events: none;
   background:
     url("../../assets/forest-grain.svg") repeat,
-    radial-gradient(circle at 76% 28%, rgb(var(--glide-active) / 0.065), transparent 34%),
-    radial-gradient(circle at 36% 76%, rgb(var(--glide-secondary) / 0.045), transparent 31%),
-    linear-gradient(145deg, #050f0b, #0a1b14 54%, #10261d);
+    radial-gradient(circle at 76% 28%, rgb(var(--glide-active) / 0.055), transparent 34%),
+    radial-gradient(circle at 36% 76%, rgb(var(--glide-secondary) / 0.04), transparent 31%),
+    linear-gradient(145deg, #061017, #0a1b23 54%, #102b36);
 }
 
 .glide-field__canvas {
@@ -29,16 +29,16 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgb(3 13 9 / 0.2), transparent 29%, transparent 74%, rgb(3 13 9 / 0.18)),
-    linear-gradient(180deg, rgb(3 13 9 / 0.2), transparent 22%, transparent 72%, rgb(3 13 9 / 0.46));
+    linear-gradient(90deg, rgb(3 10 15 / 0.22), transparent 29%, transparent 74%, rgb(3 10 15 / 0.2)),
+    linear-gradient(180deg, rgb(3 10 15 / 0.2), transparent 22%, transparent 72%, rgb(3 10 15 / 0.48));
 }
 
 .glide-field--hero {
   background:
     url("../../assets/forest-grain.svg") repeat,
-    radial-gradient(circle at 77% 31%, rgb(var(--glide-active) / 0.075), transparent 35%),
-    radial-gradient(circle at 38% 79%, rgb(var(--glide-secondary) / 0.05), transparent 30%),
-    linear-gradient(145deg, #050f0b, #0a1b14 54%, #10261d);
+    radial-gradient(circle at 77% 31%, rgb(var(--glide-active) / 0.065), transparent 35%),
+    radial-gradient(circle at 38% 79%, rgb(var(--glide-secondary) / 0.045), transparent 30%),
+    linear-gradient(145deg, #061017, #0a1b23 54%, #102b36);
 }
 
 .glide-field--hero .glide-field__canvas {
@@ -61,8 +61,8 @@
 
 .glide-field--hero .glide-field__vignette {
   background:
-    linear-gradient(90deg, rgb(3 13 9 / 0.34), transparent 40%, transparent 78%),
-    linear-gradient(180deg, rgb(3 13 9 / 0.18), transparent 20%, transparent 76%, rgb(3 13 9 / 0.5));
+    linear-gradient(90deg, rgb(3 10 15 / 0.36), transparent 40%, transparent 78%),
+    linear-gradient(180deg, rgb(3 10 15 / 0.18), transparent 20%, transparent 76%, rgb(3 10 15 / 0.52));
 }
 
 .glide-field--ambient {
@@ -96,9 +96,9 @@
   .glide-field {
     background:
       url("../../assets/forest-grain.svg") repeat,
-      radial-gradient(circle at 76% 24%, rgb(var(--glide-active) / 0.065), transparent 35%),
-      radial-gradient(circle at 30% 78%, rgb(var(--glide-secondary) / 0.04), transparent 32%),
-      linear-gradient(150deg, #050f0b, #0a1b14 54%, #10261d);
+      radial-gradient(circle at 76% 24%, rgb(var(--glide-active) / 0.055), transparent 35%),
+      radial-gradient(circle at 30% 78%, rgb(var(--glide-secondary) / 0.035), transparent 32%),
+      linear-gradient(150deg, #061017, #0a1b23 54%, #102b36);
   }
 
   .glide-field--hero .glide-field__canvas {
