@@ -82,7 +82,7 @@ jobs:
             expect(chips.length).toBeGreaterThan(3);
             expect(chips.every((item) => item.width > 320)).toBe(true);
             for (let index = 1; index < chips.length; index += 1) expect(chips[index].y).toBeGreaterThan(chips[index - 1].y + chips[index - 1].height - 1);
-            expect(await page.locator(".lp-caps-chips").getAttribute("data-drag-ready")).toBeNull();
+            expect(await page.locator(".lp-caps-chips").first().getAttribute("data-drag-ready")).toBeNull();
             await page.screenshot({ path: "qa-mobile-green/mobile.png", fullPage: true });
             fs.writeFileSync("qa-mobile-green/result.json", JSON.stringify({ card, buttons, glide, chips, passed: true }, null, 2));
             await context.close();
