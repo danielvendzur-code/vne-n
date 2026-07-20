@@ -4,6 +4,7 @@ import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -14,6 +15,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
+        <SiteMotionEnhancements />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>
