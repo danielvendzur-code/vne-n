@@ -1,0 +1,27 @@
+run_id=29780704843
+browser=failure
+
+Running 1 test using 1 worker
+
+[1A[2K[1/1] qa-mobile-proof/proof.spec.ts:4:1 › mobile hero and capability chips are vertical
+[1A[2K  1) qa-mobile-proof/proof.spec.ts:4:1 › mobile hero and capability chips are vertical ─────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      27 |   }));
+      28 |   expect(buttons).toHaveLength(3);
+    > 29 |   expect(buttons.every((item) => item.width > 320)).toBe(true);
+         |                                                     ^
+      30 |   expect(buttons[1].y).toBeGreaterThan(buttons[0].y + buttons[0].height - 1);
+      31 |   expect(buttons[2].y).toBeGreaterThan(buttons[1].y + buttons[1].height - 1);
+      32 |   const active = buttons.find((item) => item.fillWidth > 0)!;
+        at /home/runner/work/vne-n/vne-n/qa-mobile-proof/proof.spec.ts:29:53
+
+    Error Context: test-results/qa-mobile-proof-proof-mobi-a56f8-pability-chips-are-vertical/error-context.md
+
+
+[1A[2K  1 failed
+    qa-mobile-proof/proof.spec.ts:4:1 › mobile hero and capability chips are vertical ──────────────
