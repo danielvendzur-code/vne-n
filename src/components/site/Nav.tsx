@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
 import { Symbol } from "@/components/Symbol";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./Nav.css";
 
@@ -21,6 +23,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const drawerRef = useRef<HTMLElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
+  const reducedMotion = useReducedMotion();
 
   useFocusTrap(drawerRef, open, closeMenu);
 
@@ -108,7 +111,7 @@ export function Nav() {
 
       <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
         <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
-        <aside
+        <motion.aside
           id="site-navigation-drawer"
           ref={drawerRef}
           className="site-menu-drawer"
@@ -116,6 +119,16 @@ export function Nav() {
           aria-modal="true"
           aria-label="Navigácia"
           tabIndex={-1}
+          initial={false}
+          animate={{ x: open ? "0%" : "102%" }}
+          transition={
+            reducedMotion
+              ? { duration: 0 }
+              : open
+                ? { type: "spring", stiffness: 300, damping: 31, mass: 0.82 }
+                : { type: "spring", stiffness: 360, damping: 38, mass: 0.78 }
+          }
+          style={{ willChange: reducedMotion ? undefined : "transform" }}
         >
           <div className="site-menu-head">
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
@@ -154,7 +167,7 @@ export function Nav() {
               <Mail size={14} /> {siteConfig.contact.email}
             </a>
           </div>
-        </aside>
+        </motion.aside>
       </div>
     </header>
   );
