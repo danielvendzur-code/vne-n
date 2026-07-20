@@ -81,11 +81,7 @@ export function DemoViewer({
             initial={reducedMotion ? false : { opacity: 0, scale: 0.975, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={reducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.985, y: 10 }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : { duration: 0.28, ease: premiumEase }
-            }
+            transition={reducedMotion ? { duration: 0 } : { duration: 0.28, ease: premiumEase }}
           >
             <div
               className="flex items-center justify-between gap-3 px-4 py-3 md:px-6"
@@ -112,7 +108,10 @@ export function DemoViewer({
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className="hidden text-xs sm:inline" style={{ color: "var(--text-secondary)" }}>
+                <span
+                  className="hidden text-xs sm:inline"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   Interaktívna ukážka — údaje sa neodosielajú.
                 </span>
                 <button
@@ -205,18 +204,12 @@ function DemoSkeleton({ reducedMotion }: { reducedMotion: boolean }) {
           className="h-3 w-24 rounded-full"
           style={{ backgroundColor: "var(--border-strong)" }}
         />
-        <div
-          className="mt-5 h-8 w-4/5 rounded-md"
-          style={{ backgroundColor: "var(--border)" }}
-        />
+        <div className="mt-5 h-8 w-4/5 rounded-md" style={{ backgroundColor: "var(--border)" }} />
         <div
           className="mt-3 h-3 w-full rounded-full"
           style={{ backgroundColor: "var(--border)" }}
         />
-        <div
-          className="mt-2 h-3 w-3/4 rounded-full"
-          style={{ backgroundColor: "var(--border)" }}
-        />
+        <div className="mt-2 h-3 w-3/4 rounded-full" style={{ backgroundColor: "var(--border)" }} />
         <div
           className="mt-8 h-40 w-full rounded-lg"
           style={{ border: "1px solid var(--border)", backgroundColor: "var(--background-soft)" }}
