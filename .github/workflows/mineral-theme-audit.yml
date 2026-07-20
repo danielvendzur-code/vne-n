@@ -1,0 +1,249 @@
+name: Mineral theme audit
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    if: ${{ !contains(github.event.head_commit.message, '[skip mineral]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        id: install
+        continue-on-error: true
+        run: bun install > /tmp/install.log 2>&1
+
+      - name: Lint
+        id: lint
+        continue-on-error: true
+        run: bun run lint > /tmp/lint.log 2>&1
+
+      - name: Node server build
+        id: node_build
+        continue-on-error: true
+        env:
+          NITRO_PRESET: node-server
+        run: bun run build > /tmp/node-build.log 2>&1
+
+      - name: Install Playwright
+        id: playwright
+        continue-on-error: true
+        run: |
+          npm install --no-save --ignore-scripts @playwright/test@1.55.0 > /tmp/playwright.log 2>&1
+          npx playwright install --with-deps chromium >> /tmp/playwright.log 2>&1
+
+      - name: Browser screenshots and interaction audit
+        id: browser
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p qa-mineral/screenshots
+          cat > qa-mineral/mineral.spec.ts <<'TEST'
+          import { test, expect, type Page } from "@playwright/test";
+          import fs from "node:fs";
+
+          const BASE = "http://127.0.0.1:3000";
+          const report: Record<string, unknown>[] = [];
+          const routes = [
+            { path: "/", name: "home" },
+            { path: "/sluzby", name: "sluzby" },
+            { path: "/projekty/", name: "projekty" },
+            { path: "/projekty/ukazka-01", name: "projekt-detail" },
+            { path: "/postup", name: "postup" },
+            { path: "/kontakt", name: "kontakt" },
+          ];
+
+          async function auditPage(page: Page, path: string) {
+            const errors: string[] = [];
+            page.on("pageerror", (error) => errors.push(error.message));
+            await page.goto(`${BASE}${path}`, { waitUntil: "domcontentloaded" });
+            await page.waitForTimeout(900);
+            const metrics = await page.evaluate(() => {
+              const style = getComputedStyle(document.documentElement);
+              return {
+                scrollWidth: document.documentElement.scrollWidth,
+                clientWidth: document.documentElement.clientWidth,
+                primary: style.getPropertyValue("--primary").trim(),
+                background: style.getPropertyValue("--background").trim(),
+              };
+            });
+            expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.clientWidth + 1);
+            expect(metrics.primary.toLowerCase()).toBe("#7bcbe3");
+            expect(metrics.background.toLowerCase()).toBe("#071116");
+            expect(errors).toEqual([]);
+            return { metrics, errors };
+          }
+
+          for (const route of routes) {
+            for (const viewport of [
+              { label: "desktop", width: 1440, height: 900 },
+              { label: "mobile", width: 390, height: 844 },
+            ]) {
+              test(`${route.name} ${viewport.label}`, async ({ browser }) => {
+                const context = await browser.newContext({
+                  viewport: { width: viewport.width, height: viewport.height },
+                  reducedMotion: "no-preference",
+                });
+                const page = await context.newPage();
+                const result = await auditPage(page, route.path);
+                await page.screenshot({
+                  path: `qa-mineral/screenshots/${route.name}-${viewport.label}.png`,
+                  fullPage: true,
+                });
+                report.push({ route: route.path, viewport, ...result });
+                await context.close();
+              });
+            }
+          }
+
+          test("hero selectors and comparison states", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+            const page = await context.newPage();
+            await auditPage(page, "/");
+
+            const heroButtons = page.locator(".lp-assistant-chips button");
+            expect(await heroButtons.count()).toBe(3);
+            await heroButtons.nth(1).click();
+            await page.waitForTimeout(420);
+            expect(await heroButtons.nth(1).getAttribute("data-active")).toBe("true");
+            await page.screenshot({ path: "qa-mineral/screenshots/hero-calculator-active.png" });
+
+            await page.locator(".lp-comparison").scrollIntoViewIfNeeded();
+            await page.waitForTimeout(300);
+            const switchButtons = page.locator(".lp-switch button");
+            expect(await switchButtons.count()).toBe(2);
+            await switchButtons.nth(0).click();
+            await page.waitForTimeout(420);
+            await page.screenshot({ path: "qa-mineral/screenshots/comparison-without.png" });
+            await switchButtons.nth(1).click();
+            await page.waitForTimeout(420);
+            await page.screenshot({ path: "qa-mineral/screenshots/comparison-with.png" });
+
+            report.push({ interaction: "hero-and-comparison", passed: true });
+            await context.close();
+          });
+
+          test("capability chips expanded", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+            const page = await context.newPage();
+            await auditPage(page, "/");
+            const caps = page.locator(".lp-caps");
+            await caps.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(420);
+            const firstChip = page.locator(".lp-caps-row").first().locator(".lp-chip").first();
+            await firstChip.click();
+            await page.waitForTimeout(520);
+            expect(await firstChip.getAttribute("data-active")).toBe("true");
+            await page.screenshot({ path: "qa-mineral/screenshots/capability-expanded.png" });
+            report.push({ interaction: "capability-chip", passed: true });
+            await context.close();
+          });
+
+          test("mobile menu palette", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+            const page = await context.newPage();
+            await auditPage(page, "/");
+            await page.getByRole("button", { name: "Otvoriť menu" }).click();
+            await page.waitForTimeout(700);
+            await expect(page.locator(".site-menu-drawer")).toBeVisible();
+            await page.screenshot({ path: "qa-mineral/screenshots/mobile-menu-open.png" });
+            report.push({ interaction: "mobile-menu", passed: true });
+            await context.close();
+          });
+
+          test.afterAll(() => {
+            fs.writeFileSync("qa-mineral/browser-report.json", JSON.stringify(report, null, 2));
+          });
+          TEST
+
+          PORT=3000 NITRO_PORT=3000 node .output/server/index.mjs > /tmp/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then break; fi
+            if [ "$attempt" -eq 40 ]; then cat /tmp/server.log; exit 1; fi
+            sleep 1
+          done
+          npx playwright test qa-mineral/mineral.spec.ts --workers=1 --reporter=line > /tmp/browser.log 2>&1
+
+      - name: GitHub Pages build
+        id: pages_build
+        continue-on-error: true
+        env:
+          VITE_BASE_PATH: /vne-n/
+          NITRO_PRESET: node-server
+        run: bun run build > /tmp/pages-build.log 2>&1
+
+      - name: GitHub Pages export
+        id: pages_export
+        continue-on-error: true
+        shell: bash
+        run: |
+          PORT=4173 NITRO_PORT=4173 node .output/server/index.mjs > /tmp/pages-server.log 2>&1 &
+          PAGES_PID=$!
+          trap 'kill $PAGES_PID 2>/dev/null || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://127.0.0.1:4173/vne-n/ > /dev/null; then break; fi
+            if [ "$attempt" -eq 40 ]; then cat /tmp/pages-server.log; exit 1; fi
+            sleep 1
+          done
+          PAGES_BASE=vne-n node scripts/export-github-pages.mjs > /tmp/pages-export.log 2>&1
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mineral-theme-${{ github.run_id }}
+          path: qa-mineral
+          retention-days: 3
+
+      - name: Write result to branch
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "run_id=${{ github.run_id }}"
+            echo "install=${{ steps.install.outcome }}"
+            echo "lint=${{ steps.lint.outcome }}"
+            echo "node_build=${{ steps.node_build.outcome }}"
+            echo "playwright=${{ steps.playwright.outcome }}"
+            echo "browser=${{ steps.browser.outcome }}"
+            echo "pages_build=${{ steps.pages_build.outcome }}"
+            echo "pages_export=${{ steps.pages_export.outcome }}"
+            echo
+            echo "===== lint ====="
+            cat /tmp/lint.log 2>/dev/null || true
+            echo
+            echo "===== browser ====="
+            cat /tmp/browser.log 2>/dev/null || true
+            echo
+            echo "===== node-build ====="
+            cat /tmp/node-build.log 2>/dev/null || true
+            echo
+            echo "===== pages-build ====="
+            cat /tmp/pages-build.log 2>/dev/null || true
+            echo
+            echo "===== pages-export ====="
+            cat /tmp/pages-export.log 2>/dev/null || true
+          } > MINERAL_AUDIT_RESULT.txt
+          echo "${{ github.run_id }}" > MINERAL_AUDIT_RUN_ID.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add MINERAL_AUDIT_RESULT.txt MINERAL_AUDIT_RUN_ID.txt
+          git commit -m "chore: ulož výsledok mineral auditu [skip mineral]" || exit 0
+          git push origin HEAD:claude/web-portfolio-publish-ynh7sk
