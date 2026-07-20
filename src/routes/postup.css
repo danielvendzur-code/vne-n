@@ -1,0 +1,28 @@
+.sp-page--process .sp-hero-chips {
+  align-items: stretch;
+}
+
+@media (min-width: 700px) {
+  .sp-page--process .sp-hero-chips {
+    width: min(100%, 58rem);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sp-page--process .sp-hero-chips .chip {
+    width: 100%;
+    min-height: 2.5rem;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (min-width: 900px) {
+  .sp-page--process .sp-hero h1 {
+    max-width: 62rem;
+  }
+
+  .sp-page--process .sp-hero-chips {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
