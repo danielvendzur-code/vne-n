@@ -1,0 +1,60 @@
+name: Branch check
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Node server build
+        env:
+          NITRO_PRESET: node-server
+        run: bun run build
+
+      - name: GitHub Pages build
+        env:
+          VITE_BASE_PATH: /vne-n/
+          NITRO_PRESET: node-server
+        run: bun run build
+
+      - name: Export GitHub Pages
+        shell: bash
+        run: |
+          PORT=4173 NITRO_PORT=4173 node .output/server/index.mjs > /tmp/vne-n-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/vne-n/ > /dev/null; then
+              break
+            fi
+            if [ "$attempt" -eq 30 ]; then
+              cat /tmp/vne-n-server.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+          PAGES_BASE=vne-n node scripts/export-github-pages.mjs
