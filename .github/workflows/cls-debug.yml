@@ -27,7 +27,7 @@ jobs:
       - name: Trace layout shifts
         shell: bash
         run: |
-          cat > /tmp/cls.mjs <<'JS'
+          cat > cls-debug.mjs <<'JS'
           import { chromium } from '@playwright/test';
           import fs from 'node:fs';
           const browser = await chromium.launch();
@@ -69,7 +69,6 @@ jobs:
               interTight: document.fonts.check('16px "Inter Tight"'),
               scrollHeight: document.documentElement.scrollHeight,
             }));
-            await page.screenshot({ path: `/tmp/postup-${width}.png`, fullPage: true });
             await page.close();
           }
           await browser.close();
@@ -82,7 +81,8 @@ jobs:
             curl -fsS http://127.0.0.1:3000/postup >/dev/null && break
             sleep 1
           done
-          node /tmp/cls.mjs
+          node cls-debug.mjs
+          rm cls-debug.mjs
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add CLS_DEBUG.json
