@@ -1,0 +1,320 @@
+name: Unified experience audit
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unified-experience-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: ${{ !contains(github.event.head_commit.message, '[skip unified-audit]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install
+        id: install
+        continue-on-error: true
+        run: bun install > /tmp/install.log 2>&1
+
+      - name: Lint
+        id: lint
+        continue-on-error: true
+        run: bun run lint > /tmp/lint.log 2>&1
+
+      - name: Build
+        id: build
+        continue-on-error: true
+        env:
+          NITRO_PRESET: node-server
+        run: bun run build > /tmp/build.log 2>&1
+
+      - name: Install Playwright
+        id: playwright
+        continue-on-error: true
+        run: |
+          npm install --no-save --ignore-scripts @playwright/test@1.55.0 > /tmp/playwright.log 2>&1
+          npx playwright install --with-deps chromium >> /tmp/playwright.log 2>&1
+
+      - name: Browser audit
+        id: browser
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p qa-unified/screenshots
+          cat > qa-unified/unified.spec.ts <<'TEST'
+          import { test, expect, type Page, type Locator } from "@playwright/test";
+          import fs from "node:fs";
+
+          const BASE = "http://127.0.0.1:3000";
+          const report: Record<string, unknown>[] = [];
+
+          async function openHome(page: Page) {
+            const errors: string[] = [];
+            page.on("pageerror", (error) => errors.push(error.message));
+            await page.goto(BASE, { waitUntil: "domcontentloaded" });
+            await page.waitForTimeout(1400);
+            expect(errors).toEqual([]);
+            const overflow = await page.evaluate(() => ({
+              scrollWidth: document.documentElement.scrollWidth,
+              clientWidth: document.documentElement.clientWidth,
+            }));
+            expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
+          }
+
+          async function drag(locator: Locator, fromRatio: number, toRatio: number) {
+            const box = await locator.boundingBox();
+            if (!box) throw new Error("Missing drag target box");
+            const y = box.y + box.height / 2;
+            await locator.page().mouse.move(box.x + box.width * fromRatio, y);
+            await locator.page().mouse.down();
+            await locator.page().mouse.move(box.x + box.width * toRatio, y, { steps: 10 });
+            await locator.page().mouse.up();
+          }
+
+          test("desktop menu, logo and centre fill", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+            const page = await context.newPage();
+            await openHome(page);
+
+            await expect(page.getByText("Daniel Vendžúr", { exact: true }).first()).toBeVisible();
+            const logo = page.locator(".site-brand-lockup .brand-symbol");
+            await expect(logo).toBeVisible();
+            expect(await logo.locator(".brand-symbol__face").count()).toBe(1);
+            expect(await logo.locator(".brand-symbol__eyes").count()).toBe(0);
+
+            const hero = page.locator(".lp-assistant-chips");
+            await drag(hero, 0.17, 0.83);
+            await page.waitForTimeout(520);
+            const heroButtons = hero.locator("button");
+            expect(await heroButtons.nth(2).getAttribute("data-active")).toBe("true");
+            const fillTransform = await heroButtons.nth(2).locator(".lp-chip-liquid").evaluate((element) => {
+              const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
+              return { translateX: matrix.e, scaleX: matrix.a };
+            });
+            expect(Math.abs(fillTransform.translateX)).toBeLessThan(0.5);
+            expect(fillTransform.scaleX).toBeGreaterThan(0.95);
+
+            await page.getByRole("button", { name: "Otvoriť menu" }).click();
+            const drawer = page.locator("#site-navigation-drawer");
+            await expect(drawer).toBeVisible();
+            await expect(drawer.getByText("Daniel Vendžúr", { exact: true })).toBeVisible();
+            const menuMetrics = await drawer.evaluate((element) => {
+              const grid = element.querySelector<HTMLElement>(".site-menu-grid")!;
+              const services = element.querySelector<HTMLElement>(".site-menu-services")!;
+              const style = getComputedStyle(grid);
+              return {
+                width: element.getBoundingClientRect().width,
+                columns: style.gridTemplateColumns,
+                serviceHeight: services.getBoundingClientRect().height,
+              };
+            });
+            expect(menuMetrics.width).toBeGreaterThan(600);
+            expect(menuMetrics.columns.split(" ").length).toBeGreaterThanOrEqual(2);
+            expect(menuMetrics.serviceHeight).toBeGreaterThan(180);
+            await page.screenshot({ path: "qa-unified/screenshots/menu-desktop.png" });
+            report.push({ test: "desktop-menu-fill", fillTransform, menuMetrics, passed: true });
+            await context.close();
+          });
+
+          test("mobile drag chips and menu layout", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+            const page = await context.newPage();
+            await openHome(page);
+
+            const caps = page.locator(".lp-caps");
+            await caps.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(500);
+            const row = page.locator(".lp-caps-chips").first();
+            const before = await row.evaluate((element) => ({
+              left: element.scrollLeft,
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+            }));
+            expect(before.scrollWidth).toBeGreaterThan(before.clientWidth);
+            const box = await row.boundingBox();
+            if (!box) throw new Error("Missing mobile chip row");
+            await page.touchscreen.tap(box.x + box.width * 0.8, box.y + box.height / 2);
+            await row.dispatchEvent("pointerdown", {
+              pointerId: 31,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: box.x + box.width * 0.82,
+              clientY: box.y + box.height / 2,
+              bubbles: true,
+            });
+            await row.dispatchEvent("pointermove", {
+              pointerId: 31,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: box.x + box.width * 0.25,
+              clientY: box.y + box.height / 2,
+              bubbles: true,
+            });
+            await row.dispatchEvent("pointerup", {
+              pointerId: 31,
+              pointerType: "touch",
+              isPrimary: true,
+              clientX: box.x + box.width * 0.25,
+              clientY: box.y + box.height / 2,
+              bubbles: true,
+            });
+            await page.waitForTimeout(280);
+            expect(await row.evaluate((element) => element.scrollLeft)).toBeGreaterThan(20);
+
+            await page.getByRole("button", { name: "Otvoriť menu" }).click();
+            const drawer = page.locator("#site-navigation-drawer");
+            await expect(drawer).toBeVisible();
+            await expect(drawer.locator(".site-menu-solution")).toHaveCount(3);
+            const mobileOverflow = await drawer.evaluate((element) => ({
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+            }));
+            expect(mobileOverflow.scrollWidth).toBeLessThanOrEqual(mobileOverflow.clientWidth + 1);
+            await page.screenshot({ path: "qa-unified/screenshots/menu-mobile.png" });
+            report.push({ test: "mobile-drag-menu", before, mobileOverflow, passed: true });
+            await context.close();
+          });
+
+          test("delayed preview, larger launcher and calculator step one", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 430, height: 860 } });
+            const page = await context.newPage();
+            await page.addInitScript(() => sessionStorage.clear());
+            await openHome(page);
+
+            const launcher = page.locator("#chameleon-widget-launcher");
+            await expect(launcher).toBeVisible();
+            const launcherSize = await launcher.evaluate((element) => {
+              const box = element.getBoundingClientRect();
+              return { width: box.width, height: box.height };
+            });
+            expect(launcherSize.width).toBeGreaterThanOrEqual(66);
+            expect(launcherSize.height).toBeGreaterThanOrEqual(66);
+
+            const teaser = page.locator(".cw-teaser");
+            await expect(teaser).toBeAttached();
+            await page.waitForTimeout(900);
+            expect(await teaser.evaluate((element) => getComputedStyle(element).visibility)).toBe("hidden");
+            await page.waitForTimeout(1800);
+            await expect(teaser).toBeVisible();
+            await expect(teaser.getByText("Čo by pomohlo vášmu webu?", { exact: true })).toBeVisible();
+            await page.screenshot({ path: "qa-unified/screenshots/widget-preview.png" });
+
+            await launcher.evaluate((button: HTMLButtonElement) => button.click());
+            const panel = page.locator("#chameleon-widget-panel");
+            await expect(panel).toBeVisible();
+            const tabs = panel.locator(".cw-tabs");
+            await drag(tabs, 0.77, 0.23);
+            await page.waitForTimeout(650);
+            await expect(panel.locator(".cw-calculator")).toBeVisible();
+
+            const rows = panel.locator(".cw-rows");
+            await expect(rows).toBeVisible();
+            const stepMetrics = await rows.evaluate((element) => {
+              const card = element.querySelector<HTMLElement>(".cw-rowcard")!;
+              const cardStyle = getComputedStyle(card);
+              const afterStyle = getComputedStyle(card, "::after");
+              return {
+                scrollWidth: element.scrollWidth,
+                clientWidth: element.clientWidth,
+                radius: parseFloat(cardStyle.borderRadius),
+                minHeight: parseFloat(cardStyle.minHeight),
+                afterDisplay: afterStyle.display,
+              };
+            });
+            expect(stepMetrics.scrollWidth).toBeGreaterThan(stepMetrics.clientWidth);
+            expect(stepMetrics.radius).toBeGreaterThanOrEqual(24);
+            expect(stepMetrics.minHeight).toBeGreaterThanOrEqual(86);
+            expect(stepMetrics.afterDisplay).toBe("none");
+
+            const beforeScroll = await rows.evaluate((element) => element.scrollLeft);
+            await drag(rows, 0.82, 0.2);
+            await page.waitForTimeout(300);
+            expect(await rows.evaluate((element) => element.scrollLeft)).toBeGreaterThan(beforeScroll + 20);
+            await page.screenshot({ path: "qa-unified/screenshots/calculator-step-one.png" });
+            report.push({ test: "widget-preview-calculator", launcherSize, stepMetrics, passed: true });
+            await context.close();
+          });
+
+          test.afterAll(() => {
+            fs.writeFileSync("qa-unified/report.json", JSON.stringify(report, null, 2));
+          });
+          TEST
+
+          PORT=3000 NITRO_PORT=3000 node .output/server/index.mjs > /tmp/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then break; fi
+            if [ "$attempt" -eq 40 ]; then cat /tmp/server.log; exit 1; fi
+            sleep 1
+          done
+          npx playwright test qa-unified/unified.spec.ts --workers=1 --reporter=line > /tmp/browser.log 2>&1
+
+      - name: Pages build and export
+        id: pages
+        continue-on-error: true
+        shell: bash
+        run: |
+          VITE_BASE_PATH=/vne-n/ NITRO_PRESET=node-server bun run build > /tmp/pages-build.log 2>&1
+          PORT=4173 NITRO_PORT=4173 node .output/server/index.mjs > /tmp/pages-server.log 2>&1 &
+          PID=$!
+          trap 'kill $PID 2>/dev/null || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://127.0.0.1:4173/vne-n/ > /dev/null; then break; fi
+            sleep 1
+          done
+          PAGES_BASE=vne-n node scripts/export-github-pages.mjs > /tmp/pages-export.log 2>&1
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unified-experience-${{ github.run_id }}
+          path: qa-unified
+          retention-days: 3
+
+      - name: Write result
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "run_id=${{ github.run_id }}"
+            echo "install=${{ steps.install.outcome }}"
+            echo "lint=${{ steps.lint.outcome }}"
+            echo "build=${{ steps.build.outcome }}"
+            echo "playwright=${{ steps.playwright.outcome }}"
+            echo "browser=${{ steps.browser.outcome }}"
+            echo "pages=${{ steps.pages.outcome }}"
+            echo
+            echo "===== lint ====="
+            cat /tmp/lint.log 2>/dev/null || true
+            echo
+            echo "===== browser ====="
+            cat /tmp/browser.log 2>/dev/null || true
+            echo
+            echo "===== build ====="
+            cat /tmp/build.log 2>/dev/null || true
+            echo
+            echo "===== pages ====="
+            cat /tmp/pages-build.log 2>/dev/null || true
+            cat /tmp/pages-export.log 2>/dev/null || true
+          } > UNIFIED_EXPERIENCE_AUDIT.txt
+          echo "${{ github.run_id }}" > UNIFIED_EXPERIENCE_RUN_ID.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add UNIFIED_EXPERIENCE_AUDIT.txt UNIFIED_EXPERIENCE_RUN_ID.txt
+          git commit -m "chore: ulož unified audit [skip unified-audit]" || exit 0
+          git push origin HEAD:claude/web-portfolio-publish-ynh7sk
