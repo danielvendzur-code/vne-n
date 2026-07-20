@@ -78,6 +78,7 @@ export function Nav() {
               <Link
                 key={item.to}
                 to={item.to}
+                aria-label={item.to === "/sluzby" ? "Služby" : undefined}
                 className="site-nav-link text-[13.5px] tracking-tight transition-colors"
                 activeProps={{ style: { color: "var(--primary)" } }}
                 inactiveProps={{ style: { color: "var(--text-secondary)" } }}
@@ -97,7 +98,7 @@ export function Nav() {
             </Link>
             <button
               onClick={() => setOpen((value) => !value)}
-              aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
+              aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}
               aria-expanded={open}
               aria-controls="site-navigation-drawer"
               className="site-menu-toggle"
@@ -128,7 +129,10 @@ export function Nav() {
                 ? { type: "spring", stiffness: 300, damping: 31, mass: 0.82 }
                 : { type: "spring", stiffness: 360, damping: 38, mass: 0.78 }
           }
-          style={{ willChange: reducedMotion ? undefined : "transform" }}
+          style={{
+            transition: "none",
+            willChange: reducedMotion ? undefined : "transform",
+          }}
         >
           <div className="site-menu-head">
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
@@ -138,7 +142,12 @@ export function Nav() {
                 <small>weby a nástroje na mieru</small>
               </span>
             </Link>
-            <button className="site-menu-close" type="button" onClick={closeMenu}>
+            <button
+              className="site-menu-close"
+              type="button"
+              aria-label="Zavrieť menu"
+              onClick={closeMenu}
+            >
               Zavrieť <MenuIcon open />
             </button>
           </div>
