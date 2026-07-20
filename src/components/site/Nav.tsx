@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bot, Calculator, Mail, SlidersHorizontal } from "lucide-react";
 import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
 import { Symbol } from "@/components/Symbol";
 import { siteConfig } from "@/config/site";
@@ -9,6 +9,7 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./Nav.css";
+import "./BrandMenuV2.css";
 
 const drawerItems: LineSidebarItem[] = [
   { label: "Domov", href: "/" },
@@ -16,6 +17,27 @@ const drawerItems: LineSidebarItem[] = [
   { label: "Projekty", href: "/projekty" },
   { label: "Postup", href: "/postup" },
   { label: "Kontakt", href: "/kontakt" },
+];
+
+const menuSolutions = [
+  {
+    icon: Bot,
+    title: "Chatbot na mieru",
+    copy: "Odpovede, kvalifikácia a hotový dopyt.",
+    mode: "assistant" as const,
+  },
+  {
+    icon: Calculator,
+    title: "Kalkulačka",
+    copy: "Cena, spotreba alebo návratnosť podľa vašich pravidiel.",
+    mode: "calculator" as const,
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Konfigurátor",
+    copy: "Prehľadný výber produktu bez zbytočného vysvetľovania.",
+    mode: "calculator" as const,
+  },
 ];
 
 export function Nav() {
@@ -45,6 +67,19 @@ export function Nav() {
     };
   }, [open]);
 
+  const openMenuAssistant = (mode: "assistant" | "calculator", category?: string) => {
+    closeMenu();
+    window.setTimeout(
+      () =>
+        openSiteAssistant({
+          source: "sidebar-solution",
+          entry: mode === "calculator" ? "builder" : undefined,
+          category,
+        }),
+      360,
+    );
+  };
+
   return (
     <header
       className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
@@ -67,10 +102,10 @@ export function Nav() {
           <Link
             to="/"
             className="site-brand-lockup flex items-center gap-2"
-            aria-label="Daniel Vendzúr — domov"
+            aria-label="Daniel Vendžúr — domov"
           >
             <Symbol size={34} />
-            <span className="site-brand-name">Daniel Vendzúr</span>
+            <span className="site-brand-name">Daniel Vendžúr</span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
@@ -136,9 +171,9 @@ export function Nav() {
         >
           <div className="site-menu-head">
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
-              <Symbol size={38} />
+              <Symbol size={40} />
               <span>
-                Daniel Vendzúr
+                Daniel Vendžúr
                 <small>weby a nástroje na mieru</small>
               </span>
             </Link>
@@ -153,21 +188,61 @@ export function Nav() {
           </div>
 
           <div className="site-menu-content">
-            <p className="site-menu-eyebrow">Navigácia</p>
-            <LineSidebar items={drawerItems} onItemClick={closeMenu} />
+            <div className="site-menu-grid">
+              <div className="site-menu-nav-column">
+                <p className="site-menu-eyebrow">Navigácia</p>
+                <LineSidebar
+                  items={drawerItems}
+                  onItemClick={closeMenu}
+                  accentColor="#72d3ea"
+                  textColor="#f3f8fa"
+                  markerColor="rgba(210, 237, 243, 0.2)"
+                  markerLength={48}
+                  maxShift={20}
+                  itemGap={18}
+                  fontSize={1.24}
+                />
+              </div>
+
+              <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
+                <p className="site-menu-eyebrow">Riešenia</p>
+                <p className="site-menu-services-intro">
+                  Vyberte najbližší typ. Asistent pripraví krátke zadanie bez zbytočného formulára.
+                </p>
+                <div className="site-menu-solution-list">
+                  {menuSolutions.map(({ icon: Icon, title, copy, mode }) => (
+                    <button
+                      type="button"
+                      className="site-menu-solution"
+                      key={title}
+                      onClick={() => openMenuAssistant(mode, title)}
+                    >
+                      <span className="site-menu-solution-icon">
+                        <Icon size={17} aria-hidden="true" />
+                      </span>
+                      <span>
+                        <b>{title}</b>
+                        <small>{copy}</small>
+                      </span>
+                      <ArrowUpRight size={16} aria-hidden="true" />
+                    </button>
+                  ))}
+                </div>
+                <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
+                  Pozrieť hotové realizácie <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              </aside>
+            </div>
           </div>
 
           <div className="site-menu-footer">
             <button
               className="site-menu-cta"
               type="button"
-              onClick={() => {
-                closeMenu();
-                window.setTimeout(() => openSiteAssistant({ source: "sidebar" }), 420);
-              }}
+              onClick={() => openMenuAssistant("assistant")}
             >
               <span>
-                <small>Máte nápad?</small>
+                <small>Máte konkrétny nápad?</small>
                 Prejdime si ho spolu
               </span>
               <ArrowUpRight size={20} />
