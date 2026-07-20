@@ -3,6 +3,18 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
+const dragGroupSelector = [
+  ".lp-assistant-chips",
+  ".lp-switch",
+  ".lp-caps-chips",
+  ".cw-tabs",
+  ".cw-quick-replies",
+  ".cw-rows",
+  ".cw-grid",
+].join(", ");
+
+const dragSelectSelector = ".lp-assistant-chips, .lp-switch, .cw-tabs";
+
 export function SiteMotionEnhancements() {
   const reducedMotion = useReducedMotion();
 
@@ -40,6 +52,206 @@ export function SiteMotionEnhancements() {
     });
 
     return () => cleanup.forEach((remove) => remove());
+  }, []);
+
+  // Chip groups support mouse and touch dragging. Overflowing groups scroll;
+  // compact segmented controls switch to the option under the released pointer.
+  useEffect(() => {
+    const cleanups = new Map<HTMLElement, () => void>();
+
+    const install = (element: HTMLElement) => {
+      if (cleanups.has(element)) return;
+
+      const isSelectGroup = element.matches(dragSelectSelector);
+      let pointerId: number | null = null;
+      let startX = 0;
+      let startY = 0;
+      let startScrollLeft = 0;
+      let horizontalDrag = false;
+      let suppressClickUntil = 0;
+      let syntheticClick = false;
+      let dragTarget: HTMLElement | null = null;
+
+      element.dataset.dragReady = "true";
+
+      const clearDragTarget = () => {
+        dragTarget?.removeAttribute("data-drag-target");
+        dragTarget = null;
+      };
+
+      const buttonAt = (clientX: number, clientY: number) => {
+        const hit = document.elementFromPoint(clientX, clientY);
+        const button = hit instanceof Element ? hit.closest<HTMLElement>("button") : null;
+        return button && element.contains(button) ? button : null;
+      };
+
+      const onPointerDown = (event: PointerEvent) => {
+        if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
+        const target = event.target instanceof Element ? event.target : null;
+        if (target?.closest("input, textarea, select, a")) return;
+
+        pointerId = event.pointerId;
+        startX = event.clientX;
+        startY = event.clientY;
+        startScrollLeft = element.scrollLeft;
+        horizontalDrag = false;
+        element.dataset.dragging = "false";
+        element.setPointerCapture?.(event.pointerId);
+      };
+
+      const onPointerMove = (event: PointerEvent) => {
+        if (pointerId !== event.pointerId) return;
+        const deltaX = event.clientX - startX;
+        const deltaY = event.clientY - startY;
+
+        if (!horizontalDrag) {
+          const crossedThreshold = Math.abs(deltaX) > 6 && Math.abs(deltaX) > Math.abs(deltaY) + 2;
+          if (!crossedThreshold) return;
+          horizontalDrag = true;
+          element.dataset.dragging = "true";
+        }
+
+        event.preventDefault();
+        const canScroll = element.scrollWidth > element.clientWidth + 2;
+        if (canScroll) {
+          element.scrollLeft = startScrollLeft - deltaX;
+          return;
+        }
+
+        if (isSelectGroup) {
+          const nextTarget = buttonAt(event.clientX, event.clientY);
+          if (nextTarget !== dragTarget) {
+            clearDragTarget();
+            dragTarget = nextTarget;
+            dragTarget?.setAttribute("data-drag-target", "true");
+          }
+        }
+      };
+
+      const finishPointer = (event: PointerEvent) => {
+        if (pointerId !== event.pointerId) return;
+        const wasDragging = horizontalDrag;
+        const canScroll = element.scrollWidth > element.clientWidth + 2;
+
+        if (wasDragging) {
+          suppressClickUntil = performance.now() + 360;
+          if (isSelectGroup && !canScroll) {
+            const targetButton = buttonAt(event.clientX, event.clientY) ?? dragTarget;
+            if (targetButton && targetButton.getAttribute("aria-disabled") !== "true") {
+              syntheticClick = true;
+              targetButton.click();
+              syntheticClick = false;
+            }
+          }
+        }
+
+        clearDragTarget();
+        element.dataset.dragging = "false";
+        if (element.hasPointerCapture?.(event.pointerId)) element.releasePointerCapture(event.pointerId);
+        pointerId = null;
+        horizontalDrag = false;
+      };
+
+      const onClickCapture = (event: MouseEvent) => {
+        if (syntheticClick) return;
+        if (performance.now() < suppressClickUntil) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      };
+
+      element.addEventListener("pointerdown", onPointerDown);
+      element.addEventListener("pointermove", onPointerMove, { passive: false });
+      element.addEventListener("pointerup", finishPointer);
+      element.addEventListener("pointercancel", finishPointer);
+      element.addEventListener("click", onClickCapture, true);
+
+      cleanups.set(element, () => {
+        clearDragTarget();
+        element.removeEventListener("pointerdown", onPointerDown);
+        element.removeEventListener("pointermove", onPointerMove);
+        element.removeEventListener("pointerup", finishPointer);
+        element.removeEventListener("pointercancel", finishPointer);
+        element.removeEventListener("click", onClickCapture, true);
+        delete element.dataset.dragReady;
+        delete element.dataset.dragging;
+      });
+    };
+
+    const scan = (root: ParentNode = document) => {
+      root.querySelectorAll<HTMLElement>(dragGroupSelector).forEach(install);
+    };
+
+    scan();
+    const observer = new MutationObserver((records) => {
+      records.forEach((record) => {
+        record.addedNodes.forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          if (node.matches(dragGroupSelector)) install(node);
+          scan(node);
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      cleanups.forEach((remove) => remove());
+      cleanups.clear();
+    };
+  }, []);
+
+  // The external widget creates its teaser earlier; the host site reveals it only
+  // after three seconds, once per tab session, and hides it again automatically.
+  useEffect(() => {
+    const storageKey = "vendzur-widget-preview-seen";
+    const body = document.body;
+    let showTimer = 0;
+    let hideTimer = 0;
+
+    const updateTeaserCopy = () => {
+      const teaser = document.querySelector<HTMLElement>(".cw-teaser");
+      if (!teaser) return;
+      const title = teaser.querySelector<HTMLElement>(".cw-teaser__content strong");
+      const copy = teaser.querySelector<HTMLElement>(".cw-teaser__copy");
+      if (title) title.textContent = "Čo by pomohlo vášmu webu?";
+      if (copy) copy.textContent = "Za minútu zistíte, aké riešenie dáva pre váš web zmysel.";
+    };
+
+    let alreadySeen = false;
+    try {
+      alreadySeen = window.sessionStorage.getItem(storageKey) === "true";
+    } catch {
+      alreadySeen = false;
+    }
+
+    body.dataset.widgetPreview = alreadySeen ? "hidden" : "waiting";
+    updateTeaserCopy();
+
+    const observer = new MutationObserver(updateTeaserCopy);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    if (!alreadySeen) {
+      showTimer = window.setTimeout(() => {
+        updateTeaserCopy();
+        body.dataset.widgetPreview = "visible";
+        try {
+          window.sessionStorage.setItem(storageKey, "true");
+        } catch {
+          // Storage can be unavailable in strict privacy modes; visual behaviour stays intact.
+        }
+        hideTimer = window.setTimeout(() => {
+          body.dataset.widgetPreview = "hidden";
+        }, 8_500);
+      }, 3_000);
+    }
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(showTimer);
+      window.clearTimeout(hideTimer);
+      body.dataset.widgetPreview = "hidden";
+    };
   }, []);
 
   useEffect(() => {
