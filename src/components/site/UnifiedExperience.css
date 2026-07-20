@@ -1,0 +1,588 @@
+/* Final interaction layer: one chip shape, centre-origin fill, drag support,
+   restrained flashlight response and a cleaner calculator step one. */
+
+@keyframes vendzur-center-fill {
+  0% {
+    opacity: 0.35;
+    transform: scaleX(0.12);
+  }
+  62% {
+    opacity: 1;
+    transform: scaleX(1.035);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes vendzur-tab-fill-left {
+  0% {
+    opacity: 0.35;
+    transform: translateX(0) scaleX(0.12);
+  }
+  65% {
+    opacity: 1;
+    transform: translateX(0) scaleX(1.035);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+@keyframes vendzur-tab-fill-right {
+  0% {
+    opacity: 0.35;
+    transform: translateX(100%) scaleX(0.12);
+  }
+  65% {
+    opacity: 1;
+    transform: translateX(100%) scaleX(1.035);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(100%) scaleX(1);
+  }
+}
+
+/* No side-to-side liquid slab. Every active fill grows from its own centre. */
+:root .lp-page .lp-chip-liquid,
+:root .lp-page .lp-switch-liquid,
+:root .lp-page .lp-chip-fill {
+  transform: scaleX(1) !important;
+  transform-origin: 50% 50% !important;
+  animation: vendzur-center-fill 440ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+.cw-widget .cw-tabs[data-mode="calculator"] .cw-tabs__glass {
+  transform: translateX(0) scaleX(1) !important;
+  transform-origin: 50% 50% !important;
+  animation: vendzur-tab-fill-left 430ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+.cw-widget .cw-tabs[data-mode="assistant"] .cw-tabs__glass {
+  transform: translateX(100%) scaleX(1) !important;
+  transform-origin: 50% 50% !important;
+  animation: vendzur-tab-fill-right 430ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+/* Drag affordance. Touch keeps vertical page scrolling while horizontal motion
+   is captured only after the user clearly drags sideways. */
+[data-drag-ready="true"] {
+  cursor: grab;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior-x: contain;
+}
+
+[data-drag-ready="true"][data-dragging="true"] {
+  cursor: grabbing;
+  scroll-behavior: auto !important;
+}
+
+[data-drag-ready="true"][data-dragging="true"] button {
+  pointer-events: none;
+}
+
+[data-drag-target="true"] {
+  border-color: rgba(114, 211, 234, 0.52) !important;
+  color: var(--text-primary) !important;
+  background: rgba(114, 211, 234, 0.1) !important;
+  transform: translateY(-2px) scale(1.015) !important;
+}
+
+:root .lp-page .lp-caps-chips,
+.cw-widget .cw-quick-replies,
+.cw-widget .cw-rows,
+.cw-widget .cw-grid {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+:root .lp-page .lp-caps-chips::-webkit-scrollbar,
+.cw-widget .cw-quick-replies::-webkit-scrollbar,
+.cw-widget .cw-rows::-webkit-scrollbar,
+.cw-widget .cw-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* One recognisable chip silhouette: dark capsule, status dot, circular action. */
+:root .lp-page .lp-chip {
+  min-height: 3.05rem;
+  border-radius: 999px;
+  padding: 0.55rem 0.56rem 0.55rem 0.78rem;
+  gap: 0.66rem;
+  background:
+    radial-gradient(
+      circle at var(--liquid-x, 30%) var(--liquid-y, 22%),
+      rgba(255, 255, 255, 0.11),
+      transparent 42%
+    ),
+    linear-gradient(135deg, rgba(243, 248, 250, 0.075), rgba(114, 211, 234, 0.022) 48%, rgba(91, 159, 189, 0.07)),
+    rgba(7, 26, 35, 0.82);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px rgba(114, 211, 234, 0.025),
+    0 16px 30px -28px rgba(0, 4, 8, 0.9);
+}
+
+:root .lp-page .lp-chip::before {
+  width: 0.48rem;
+  min-width: 0.48rem;
+  height: 0.48rem;
+  background: #72d3ea;
+  box-shadow:
+    0 0 0 0.28rem rgba(114, 211, 234, 0.09),
+    0 0 18px rgba(114, 211, 234, 0.18);
+}
+
+:root .lp-page .lp-chip-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.12rem;
+  border: 1px solid rgba(210, 237, 243, 0.2);
+  border-radius: 50%;
+  background: rgba(243, 248, 250, 0.035);
+}
+
+:root .lp-page .lp-chip-icon svg {
+  width: 0.92rem;
+  height: 0.92rem;
+  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root .lp-page .lp-chip[data-active="true"] .lp-chip-icon svg {
+  transform: rotate(45deg);
+}
+
+:root .lp-page .lp-chip[data-active="true"]::before {
+  background: #075e78;
+  box-shadow: 0 0 0 0.28rem rgba(5, 21, 28, 0.09);
+}
+
+/* Segmented selectors keep the same rounded language without becoming bulky. */
+:root .lp-page .lp-assistant-chips,
+:root .lp-page .lp-switch,
+.cw-widget .cw-tabs {
+  border-radius: 999px !important;
+  padding: 5px !important;
+}
+
+:root .lp-page .lp-assistant-chips button,
+:root .lp-page .lp-switch button,
+.cw-widget .cw-tabs button,
+.cw-widget .cw-tabs__glass {
+  border-radius: 999px !important;
+}
+
+:root .lp-page .lp-assistant-chips button,
+:root .lp-page .lp-switch button {
+  min-height: 3.2rem;
+}
+
+/* Chat quick replies now share the same pill + dot + round action geometry. */
+.cw-widget .cw-quick-replies {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 8px !important;
+  padding: 7px 13px 11px !important;
+  scroll-snap-type: x proximity;
+}
+
+.cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary) {
+  flex: 0 0 auto !important;
+  min-width: max-content !important;
+  min-height: 42px !important;
+  justify-content: flex-start !important;
+  gap: 9px !important;
+  padding: 7px 7px 7px 12px !important;
+  border-radius: 999px !important;
+  scroll-snap-align: start;
+}
+
+.cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary)::before {
+  content: "" !important;
+  display: block !important;
+  width: 7px !important;
+  height: 7px !important;
+  flex: 0 0 7px !important;
+  border-radius: 50% !important;
+  background: #72d3ea !important;
+  box-shadow: 0 0 0 4px rgba(114, 211, 234, 0.09) !important;
+}
+
+.cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary)::after {
+  content: "+" !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  margin-left: 2px !important;
+  border: 1px solid rgba(210, 237, 243, 0.19) !important;
+  border-radius: 50% !important;
+  color: #b9dce5 !important;
+  background: rgba(243, 248, 250, 0.035) !important;
+  font: 400 18px/1 var(--cw-font) !important;
+  transition:
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 240ms ease,
+    background-color 240ms ease !important;
+}
+
+.cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary):hover::after,
+.cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary):focus-visible::after {
+  border-color: rgba(114, 211, 234, 0.42) !important;
+  background: rgba(114, 211, 234, 0.1) !important;
+  transform: rotate(90deg) !important;
+}
+
+.cw-widget .cw-quick-replies .cw-chip--primary {
+  flex: 0 0 auto !important;
+  min-height: 42px !important;
+  border-radius: 999px !important;
+  padding-inline: 16px !important;
+  scroll-snap-align: start;
+}
+
+/* Calculator: cleaner framing and a deliberately strong first step. */
+.cw-widget .cw-calc-body {
+  padding-inline: 14px !important;
+}
+
+.cw-widget .cw-q {
+  margin-top: 2px !important;
+  color: #f3f8fa !important;
+  font-size: 18px !important;
+  letter-spacing: -0.025em !important;
+}
+
+.cw-widget .cw-q-sub {
+  max-width: 35ch !important;
+  margin-bottom: 12px !important;
+  color: #9db1b8 !important;
+  font-size: 11.5px !important;
+  line-height: 1.5 !important;
+}
+
+.cw-widget .cw-rows {
+  display: grid !important;
+  grid-auto-flow: column !important;
+  grid-auto-columns: minmax(258px, 86%) !important;
+  gap: 10px !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  margin-inline: -14px !important;
+  padding: 5px 22px 12px 14px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 14px;
+}
+
+.cw-widget .cw-rowcard {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  min-height: 92px !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 13px 14px !important;
+  border: 1px solid rgba(222, 241, 246, 0.16) !important;
+  border-radius: 28px !important;
+  color: #f3f8fa !important;
+  background:
+    radial-gradient(
+      circle at var(--liquid-x, 28%) var(--liquid-y, 20%),
+      rgba(255, 255, 255, 0.1),
+      transparent 42%
+    ),
+    linear-gradient(135deg, rgba(243, 248, 250, 0.075), rgba(114, 211, 234, 0.025) 50%, rgba(91, 159, 189, 0.075)),
+    rgba(8, 28, 37, 0.84) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.1),
+    0 18px 34px -31px rgba(0, 4, 8, 0.94) !important;
+  scroll-snap-align: center;
+  transition:
+    transform 460ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 300ms ease,
+    background 380ms ease,
+    box-shadow 460ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.cw-widget .cw-rowcard::after {
+  display: none !important;
+  content: none !important;
+}
+
+.cw-widget .cw-rowcard::before {
+  content: "+" !important;
+  position: relative !important;
+  inset: auto !important;
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid rgba(210, 237, 243, 0.18) !important;
+  border-radius: 50% !important;
+  color: #b9dce5 !important;
+  background: rgba(243, 248, 250, 0.035) !important;
+  font: 400 20px/1 var(--cw-font) !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.cw-widget .cw-rowcard[data-selected="true"] {
+  border-color: rgba(114, 211, 234, 0.64) !important;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.23), transparent 54%),
+    linear-gradient(135deg, rgba(114, 211, 234, 0.2), rgba(91, 159, 189, 0.11)),
+    rgba(10, 38, 49, 0.94) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.14),
+    0 20px 38px -27px rgba(56, 133, 160, 0.78) !important;
+  animation: vendzur-center-fill 390ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.cw-widget .cw-rowcard[data-selected="true"]::before {
+  content: "✓" !important;
+  border-color: rgba(210, 237, 243, 0.54) !important;
+  color: #05151c !important;
+  background: #72d3ea !important;
+  font: 850 13px/1 var(--cw-font) !important;
+}
+
+.cw-widget .cw-rowcard__icon {
+  width: 48px !important;
+  height: 48px !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  border: 1px solid rgba(114, 211, 234, 0.22) !important;
+  border-radius: 18px !important;
+  color: #9ee4f0 !important;
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.14), transparent 48%),
+    rgba(114, 211, 234, 0.08) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.09) !important;
+}
+
+.cw-widget .cw-rowcard:hover .cw-rowcard__icon,
+.cw-widget .cw-rowcard[data-selected="true"] .cw-rowcard__icon {
+  border-color: rgba(114, 211, 234, 0.42) !important;
+  color: #05151c !important;
+  background: linear-gradient(135deg, #a9e5f0, #72d3ea) !important;
+  transform: scale(1.045) rotate(-2deg) !important;
+}
+
+.cw-widget .cw-rowcard__body {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  padding-right: 0 !important;
+}
+
+.cw-widget .cw-rowcard__body b {
+  color: #f3f8fa !important;
+  font-size: 14px !important;
+  letter-spacing: -0.012em !important;
+}
+
+.cw-widget .cw-rowcard__body span {
+  max-width: 24ch !important;
+  margin-top: 4px !important;
+  color: #9db1b8 !important;
+  font-size: 10.8px !important;
+  line-height: 1.38 !important;
+}
+
+.cw-widget .cw-rowcard__badge {
+  top: 8px !important;
+  right: 46px !important;
+  border: 1px solid rgba(114, 211, 234, 0.24) !important;
+  color: #d9f2f6 !important;
+  background: rgba(15, 69, 85, 0.92) !important;
+  box-shadow: none !important;
+}
+
+/* The remaining calculator cards use the same centre-light selection language. */
+.cw-widget .cw-list,
+.cw-widget .cw-grid,
+.cw-widget .cw-lead {
+  border-color: rgba(222, 241, 246, 0.14) !important;
+  border-radius: 22px !important;
+  background:
+    linear-gradient(145deg, rgba(243, 248, 250, 0.035), rgba(114, 211, 234, 0.015)),
+    rgba(7, 24, 32, 0.75) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.055) !important;
+}
+
+.cw-widget .cw-opt,
+.cw-widget .cw-scard,
+.cw-widget .cw-vcard {
+  border-radius: 18px !important;
+  transition:
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 280ms ease,
+    background 340ms ease,
+    box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.cw-widget .cw-opt[data-selected="true"],
+.cw-widget .cw-scard[data-selected="true"],
+.cw-widget .cw-vcard[data-selected="true"] {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15), transparent 58%),
+    linear-gradient(135deg, rgba(114, 211, 234, 0.14), rgba(91, 159, 189, 0.075)) !important;
+  animation: vendzur-center-fill 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Larger launcher and a delayed, unobtrusive preview. */
+.cw-widget .cw-launcher {
+  right: 22px !important;
+  bottom: 20px !important;
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 24px !important;
+}
+
+.cw-widget .cw-launcher .bl--launcher {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.cw-widget .cw-teaser {
+  right: 22px !important;
+  bottom: 104px !important;
+  width: min(292px, calc(100vw - 44px)) !important;
+  max-width: 292px !important;
+  border-radius: 20px !important;
+  border-bottom-right-radius: 8px !important;
+  padding: 14px 16px 15px !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(8px) scale(0.985) !important;
+  animation: none !important;
+  transition:
+    opacity 320ms ease,
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear 420ms !important;
+}
+
+body[data-widget-preview="visible"] .cw-widget .cw-teaser {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) scale(1) !important;
+  transition-delay: 0s !important;
+}
+
+body[data-site-menu-open="true"] .cw-widget .cw-teaser,
+body[data-widget-preview="hidden"] .cw-widget .cw-teaser,
+body[data-widget-preview="waiting"] .cw-widget .cw-teaser {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.cw-widget .cw-teaser__content strong {
+  padding-right: 20px !important;
+  font-size: 14px !important;
+  letter-spacing: -0.015em !important;
+}
+
+.cw-widget .cw-teaser__copy {
+  max-width: 31ch !important;
+  font-size: 12px !important;
+  line-height: 1.48 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :root .lp-page .lp-chip:hover:not([data-active="true"]),
+  .cw-widget .cw-quick-replies .cw-chip:hover,
+  .cw-widget .cw-rowcard:hover:not([data-selected="true"]),
+  .cw-widget .cw-opt:hover:not([data-selected="true"]),
+  .cw-widget .cw-scard:hover:not([data-selected="true"]),
+  .cw-widget .cw-vcard:hover:not([data-selected="true"]) {
+    background:
+      radial-gradient(
+        circle at var(--liquid-x, 50%) var(--liquid-y, 50%),
+        rgba(255, 255, 255, 0.17),
+        transparent 44%
+      ),
+      linear-gradient(135deg, rgba(114, 211, 234, 0.12), rgba(91, 159, 189, 0.08)),
+      rgba(9, 34, 44, 0.92) !important;
+  }
+
+  .cw-widget .cw-rowcard:hover:not([data-selected="true"]) {
+    border-color: rgba(114, 211, 234, 0.42) !important;
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.12),
+      0 20px 36px -26px rgba(56, 133, 160, 0.7) !important;
+    transform: translateY(-3px) scale(1.01) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  :root .lp-page .lp-caps-chips {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -1rem;
+    padding: 0.2rem 1rem 0.6rem;
+    scroll-snap-type: x proximity;
+  }
+
+  :root .lp-page .lp-chip {
+    flex: 0 0 auto;
+    max-width: min(86vw, 21rem);
+    scroll-snap-align: start;
+  }
+
+  .cw-widget .cw-launcher {
+    right: 16px !important;
+    bottom: 16px !important;
+    width: 66px !important;
+    height: 66px !important;
+    border-radius: 22px !important;
+  }
+
+  .cw-widget .cw-launcher .bl--launcher {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .cw-widget .cw-teaser {
+    right: 16px !important;
+    bottom: 96px !important;
+    width: min(278px, calc(100vw - 32px)) !important;
+  }
+
+  .cw-widget .cw-rows {
+    grid-auto-columns: minmax(248px, 88%) !important;
+  }
+
+  .cw-widget .cw-rowcard {
+    min-height: 88px !important;
+    border-radius: 26px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root .lp-page .lp-chip-liquid,
+  :root .lp-page .lp-switch-liquid,
+  :root .lp-page .lp-chip-fill,
+  .cw-widget .cw-tabs__glass,
+  .cw-widget .cw-rowcard[data-selected="true"],
+  .cw-widget .cw-opt[data-selected="true"],
+  .cw-widget .cw-scard[data-selected="true"],
+  .cw-widget .cw-vcard[data-selected="true"] {
+    animation: none !important;
+  }
+}
