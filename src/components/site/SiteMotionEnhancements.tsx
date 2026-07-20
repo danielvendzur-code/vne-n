@@ -140,7 +140,7 @@ export function SiteMotionEnhancements() {
         if (pointerId !== event.pointerId) return;
 
         if (horizontalDrag) {
-          suppressClickUntil = performance.now() + 360;
+          suppressClickUntil = performance.now() + 120;
           if (isSelectGroup) {
             const targetButton = buttonAt(event.clientX, event.clientY) ?? dragTarget;
             if (targetButton && targetButton.getAttribute("aria-disabled") !== "true") {
