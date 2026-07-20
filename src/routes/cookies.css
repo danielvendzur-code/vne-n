@@ -1,0 +1,297 @@
+.cookies-page {
+  position: relative;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 86% 8%, rgba(114, 211, 234, 0.055), transparent 30rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.008), transparent 24rem);
+}
+
+.cookies-settings-button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(114, 211, 234, 0.23);
+  border-radius: 999px;
+  padding: 11px 17px;
+  color: #e9f6f8;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.1), transparent 52%),
+    rgba(114, 211, 234, 0.075);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.075);
+  font-size: 0.78rem;
+  font-weight: 750;
+  transition:
+    transform 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 240ms ease,
+    background-color 240ms ease,
+    box-shadow 340ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cookies-settings-button svg {
+  width: 16px;
+  height: 16px;
+  color: #72d3ea;
+}
+
+.cookies-section {
+  padding: clamp(2rem, 6vw, 5.5rem) 0 clamp(4rem, 9vw, 7.5rem);
+}
+
+.cookies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.cookies-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(210, 237, 243, 0.13);
+  border-radius: 28px;
+  padding: clamp(20px, 4vw, 30px);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.07), transparent 36%),
+    linear-gradient(145deg, rgba(15, 43, 54, 0.8), rgba(5, 18, 25, 0.9));
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.055),
+    0 24px 58px -42px rgba(0, 4, 8, 0.86);
+}
+
+.cookies-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--spot-x, 25%) var(--spot-y, 12%), rgba(114, 211, 234, 0.06), transparent 42%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
+
+.cookies-card--wide {
+  grid-column: 1 / -1;
+}
+
+.cookies-card__icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(114, 211, 234, 0.22);
+  border-radius: 17px;
+  color: #9ee4f0;
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.13), transparent 48%),
+    rgba(114, 211, 234, 0.075);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
+}
+
+.cookies-card__icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.cookies-card__kicker {
+  margin: 20px 0 8px;
+  color: #72d3ea;
+  font-size: 0.65rem;
+  font-weight: 780;
+  letter-spacing: 0.105em;
+  text-transform: uppercase;
+}
+
+.cookies-card h2 {
+  margin: 0;
+  color: #f3f8fa;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 520;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.cookies-card > p:not(.cookies-card__kicker) {
+  max-width: 62ch;
+  margin: 13px 0 0;
+  color: #a8bbc2;
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.cookies-list {
+  display: grid;
+  gap: 0;
+  margin: 24px 0 0;
+  border-top: 1px solid rgba(210, 237, 243, 0.1);
+}
+
+.cookies-list > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.34fr) minmax(0, 1fr);
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(210, 237, 243, 0.08);
+}
+
+.cookies-list dt,
+.cookies-status > span {
+  color: #708a93;
+  font-size: 0.66rem;
+  font-weight: 730;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cookies-list dd {
+  margin: 0;
+  color: #dcecef;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.cookies-status {
+  margin-top: 24px;
+  border: 1px solid rgba(114, 211, 234, 0.15);
+  border-radius: 19px;
+  padding: 16px;
+  background: rgba(114, 211, 234, 0.045);
+}
+
+.cookies-status b {
+  display: block;
+  margin-top: 5px;
+  color: #eaf5f7;
+  font-size: 0.82rem;
+  font-weight: 760;
+}
+
+.cookies-status p {
+  margin: 7px 0 0;
+  color: #9eb2b9;
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+.cookies-card--wide .cookies-settings-button {
+  margin-top: 22px;
+}
+
+.cookies-contact {
+  border-top: 1px solid rgba(210, 237, 243, 0.09);
+  padding: 20px 0 28px;
+}
+
+.cookies-contact .container-page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.cookies-contact p,
+.cookies-contact small {
+  margin: 0;
+  color: #7f979f;
+  font-size: 0.68rem;
+}
+
+.cookies-contact a {
+  color: #b9dce5;
+  transition: color 200ms ease;
+}
+
+.premium-footer-privacy {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.premium-footer-privacy a,
+.premium-footer-privacy button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: inherit;
+  font: inherit;
+  transition: color 220ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cookies-settings-button:hover {
+    border-color: rgba(114, 211, 234, 0.42);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.15), transparent 52%),
+      rgba(114, 211, 234, 0.11);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.1),
+      0 18px 34px -26px rgba(56, 133, 160, 0.72);
+    transform: translateY(-2px);
+  }
+
+  .cookies-card:hover::after {
+    opacity: 1;
+  }
+
+  .cookies-contact a:hover,
+  .premium-footer-privacy a:hover,
+  .premium-footer-privacy button:hover {
+    color: #cceaf0;
+  }
+}
+
+.cookies-settings-button:focus-visible,
+.premium-footer-privacy a:focus-visible,
+.premium-footer-privacy button:focus-visible {
+  outline: 2px solid rgba(114, 211, 234, 0.85);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .cookies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cookies-card--wide {
+    grid-column: auto;
+  }
+
+  .cookies-contact .container-page {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .cookies-section {
+    padding-top: 1.5rem;
+  }
+
+  .cookies-card {
+    border-radius: 23px;
+    padding: 19px;
+  }
+
+  .cookies-list > div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .premium-footer-privacy {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookies-settings-button,
+  .cookies-card::after,
+  .cookies-contact a,
+  .premium-footer-privacy a,
+  .premium-footer-privacy button {
+    transition: none;
+  }
+}

@@ -1,5 +1,5 @@
 export const siteConfig = {
-  title: "Daniel Vendzúr — weby a digitálne nástroje na mieru",
+  title: "Daniel Vendžúr — weby a digitálne nástroje na mieru",
   description:
     "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
   contact: {

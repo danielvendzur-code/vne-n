@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
@@ -11,6 +12,8 @@ import "./MineralThemePolish.css";
 import "./WidgetMineral.css";
 import "./LiquidChipPolish.css";
 import "./ChatbotChipRestore.css";
+import "./UnifiedExperience.css";
+import "./NativeWidgetPreview.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -22,6 +25,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
         <SiteMotionEnhancements key={pathname} />
+        <CookieConsent />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>

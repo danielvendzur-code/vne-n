@@ -118,7 +118,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 const personJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Daniel Vendzúr",
+  name: "Daniel Vendžúr",
   email: "mailto:daniel.vendzur@gmail.com",
   url: "https://danielvendzur-code.github.io/vne-n/",
   jobTitle: "Tvorca webových nástrojov — chatboty, kalkulačky, konfigurátory",
@@ -134,17 +134,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Daniel Vendzúr — chatboty a webové nástroje na mieru" },
+      { title: "Daniel Vendžúr — chatboty a webové nástroje na mieru" },
       {
         name: "description",
         content:
           "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
       },
-      { name: "author", content: "Daniel Vendzúr" },
-      { name: "theme-color", content: "#071116" },
-      { property: "og:site_name", content: "Daniel Vendzúr" },
+      { name: "author", content: "Daniel Vendžúr" },
+      { name: "theme-color", content: "#06131a" },
+      { property: "og:site_name", content: "Daniel Vendžúr" },
       { property: "og:locale", content: "sk_SK" },
-      { property: "og:title", content: "Daniel Vendzúr — weby, ktoré pracujú" },
+      { property: "og:title", content: "Daniel Vendžúr — weby, ktoré pracujú" },
       {
         property: "og:description",
         content: "Chatboty, ľubovoľné kalkulačky, konfigurátory a webové realizácie na mieru.",
