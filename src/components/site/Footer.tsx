@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ArrowUpRight, Cookie, Mail, Phone } from "lucide-react";
 import { Symbol } from "@/components/Symbol";
 import { siteConfig } from "@/config/site";
+import { openCookieSettings } from "@/lib/cookie-consent";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
 const liveTools = [
@@ -57,7 +58,12 @@ export function Footer() {
       </div>
       <div className="container-page premium-footer-bottom">
         <span>© {new Date().getFullYear()} · Daniel Vendžúr</span>
-        <span>Navrhnuté pre jasný ďalší krok.</span>
+        <span className="premium-footer-privacy">
+          <Link to="/cookies">Používanie cookies</Link>
+          <button type="button" onClick={openCookieSettings}>
+            <Cookie size={13} /> Nastavenia cookies
+          </button>
+        </span>
       </div>
     </footer>
   );
