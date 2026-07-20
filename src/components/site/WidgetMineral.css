@@ -1,0 +1,74 @@
+/* The assistant widget is injected into the document by an external script,
+   but it remains part of the portfolio's visual system. */
+
+.cw-widget .cw-launcher {
+  border: 1px solid rgba(196, 227, 236, 0.3) !important;
+  background:
+    radial-gradient(40px 30px at 30% 20%, rgba(123, 203, 227, 0.16), transparent 62%),
+    linear-gradient(180deg, #15303b, #0f222c) !important;
+  box-shadow:
+    0 14px 32px -16px rgba(0, 5, 9, 0.82),
+    inset 0 1px rgba(242, 247, 248, 0.09) !important;
+}
+
+.cw-widget .cw-launcher:hover {
+  border-color: rgba(123, 203, 227, 0.58) !important;
+  background:
+    radial-gradient(40px 30px at 30% 20%, rgba(163, 221, 236, 0.2), transparent 62%),
+    linear-gradient(180deg, #193947, #112832) !important;
+}
+
+.cw-widget .cw-launcher #bl2-body stop:first-child {
+  stop-color: #a3ddec !important;
+}
+
+.cw-widget .cw-launcher #bl2-body stop:last-child {
+  stop-color: #7bcbe3 !important;
+}
+
+.cw-widget .cw-launcher #bl2-glint stop {
+  stop-color: #f2f7f8 !important;
+}
+
+.cw-widget .cw-launcher .bl__dot {
+  fill: #061319 !important;
+}
+
+.cw-widget .cw-teaser {
+  border: 1px solid rgba(222, 239, 244, 0.16) !important;
+  color: #f2f7f8 !important;
+  background: linear-gradient(155deg, #15303b, #0c1b23) !important;
+  box-shadow:
+    0 30px 70px -28px rgba(0, 5, 9, 0.82),
+    0 12px 30px -18px rgba(0, 5, 9, 0.7),
+    inset 0 1px rgba(242, 247, 248, 0.06) !important;
+}
+
+.cw-widget .cw-teaser__copy {
+  color: #b6c5cb !important;
+}
+
+.cw-widget .cw-teaser__copy b,
+.cw-widget .cw-teaser strong {
+  color: #f2f7f8 !important;
+}
+
+.cw-widget .cw-teaser__copy b {
+  text-decoration-color: #7bcbe3 !important;
+}
+
+.cw-widget .cw-teaser__close {
+  color: #c4e3ec !important;
+  background: #15303b !important;
+}
+
+.cw-widget .cw-teaser__close:hover {
+  color: #061319 !important;
+  background: #7bcbe3 !important;
+}
+
+.cw-widget .cw-launcher:focus-visible,
+.cw-widget .cw-teaser button:focus-visible {
+  outline: 2px solid #7bcbe3 !important;
+  outline-offset: 3px !important;
+}
