@@ -71,6 +71,20 @@ jobs:
             { path: "/postup", name: "postup" },
             { path: "/kontakt", name: "kontakt" },
           ];
+          const forbiddenColors = [
+            "201, 170, 112",
+            "188, 115, 82",
+            "196, 124, 94",
+            "127, 165, 143",
+            "50, 211, 162",
+            "18, 44, 33",
+            "23, 53, 42",
+            "9, 26, 20",
+          ];
+
+          function expectNoOldColors(value: string) {
+            for (const oldColor of forbiddenColors) expect(value).not.toContain(oldColor);
+          }
 
           async function revealPage(page: Page) {
             const height = await page.evaluate(() => document.documentElement.scrollHeight);
@@ -129,15 +143,7 @@ jobs:
             expect(metrics.background.toLowerCase()).toBe("#071116");
             if (metrics.glideSecondary) expect(metrics.glideSecondary).toBe("95 145 181");
             if (metrics.deratAccent) expect(metrics.deratAccent.toLowerCase()).toBe("#7bcbe3");
-            for (const oldColor of [
-              "201, 170, 112",
-              "188, 115, 82",
-              "50, 211, 162",
-              "18, 44, 33",
-              "23, 53, 42",
-            ]) {
-              expect(metrics.residueStyles).not.toContain(oldColor);
-            }
+            expectNoOldColors(metrics.residueStyles);
             expect(errors).toEqual([]);
             return { metrics, errors };
           }
@@ -232,6 +238,119 @@ jobs:
             await context.close();
           });
 
+          test("external assistant chat and calculator palette", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+            const page = await context.newPage();
+            const errors: string[] = [];
+            page.on("pageerror", (error) => errors.push(error.message));
+            await page.goto(BASE, { waitUntil: "domcontentloaded" });
+            await page.waitForTimeout(2300);
+
+            const launcher = page.locator("#chameleon-widget-launcher");
+            await expect(launcher).toBeVisible();
+            const launcherMetrics = await launcher.evaluate((element) => {
+              const style = getComputedStyle(element);
+              const stops = [...element.querySelectorAll('linearGradient[id$="-body"] stop')].map(
+                (stop) => getComputedStyle(stop).stopColor,
+              );
+              return {
+                background: `${style.backgroundColor} ${style.backgroundImage}`,
+                border: style.borderColor,
+                stops,
+              };
+            });
+            expectNoOldColors(`${launcherMetrics.background} ${launcherMetrics.border} ${launcherMetrics.stops.join(" ")}`);
+            expect(launcherMetrics.stops).toContain("rgb(163, 221, 236)");
+            expect(launcherMetrics.stops).toContain("rgb(123, 203, 227)");
+
+            await launcher.evaluate((button: HTMLButtonElement) => button.click());
+            const panel = page.locator("#chameleon-widget-panel");
+            await expect(panel).toBeVisible();
+            await page.waitForTimeout(650);
+
+            const chatMetrics = await panel.evaluate((element) => {
+              const selectors = [
+                ".cw-panel-head",
+                ".cw-panel-head__mascot",
+                ".cw-panel-head__context",
+                ".cw-panel-head__beam",
+                ".cw-tabs",
+                ".cw-tabs__glass",
+                ".cw-message-wrap p",
+                ".cw-chip",
+                ".cw-chip--primary",
+                ".cw-inputbar input",
+                ".cw-inputbar > button",
+              ];
+              const styles = selectors
+                .map((selector) => element.querySelector(selector))
+                .filter((item): item is Element => Boolean(item))
+                .map((item) => {
+                  const style = getComputedStyle(item);
+                  return `${style.color} ${style.backgroundColor} ${style.backgroundImage} ${style.borderColor} ${style.boxShadow}`;
+                })
+                .join(" ");
+              const panelStyle = getComputedStyle(element);
+              const bodyStops = [...element.querySelectorAll('linearGradient[id$="-body"] stop')].map(
+                (stop) => getComputedStyle(stop).stopColor,
+              );
+              return {
+                panel: `${panelStyle.color} ${panelStyle.backgroundColor} ${panelStyle.backgroundImage} ${panelStyle.borderColor}`,
+                styles,
+                bodyStops,
+              };
+            });
+            expectNoOldColors(`${chatMetrics.panel} ${chatMetrics.styles} ${chatMetrics.bodyStops.join(" ")}`);
+            await page.screenshot({ path: "qa-mineral/screenshots/widget-chat-mineral.png" });
+
+            const tabs = page.locator(".cw-tabs button");
+            expect(await tabs.count()).toBe(2);
+            await page.getByTestId("tab-calculator").click();
+            await page.waitForTimeout(650);
+            expect(await page.locator(".cw-tabs").getAttribute("data-mode")).toBe("calculator");
+            await expect(page.locator(".cw-calculator")).toBeVisible();
+
+            const calculatorMetrics = await panel.evaluate((element) => {
+              const selectors = [
+                ".cw-tabs",
+                ".cw-tabs__glass",
+                ".cw-progress__back",
+                ".cw-progress__track",
+                ".cw-progress__fill",
+                ".cw-progress__count",
+                ".cw-rows",
+                ".cw-list",
+                ".cw-grid",
+                ".cw-rowcard",
+                ".cw-scard",
+                ".cw-opt",
+                ".cw-vcard",
+                ".cw-summary",
+                ".cw-submit",
+                ".cw-next",
+              ];
+              return selectors
+                .map((selector) => element.querySelector(selector))
+                .filter((item): item is Element => Boolean(item))
+                .map((item) => {
+                  const style = getComputedStyle(item);
+                  return `${style.color} ${style.backgroundColor} ${style.backgroundImage} ${style.borderColor} ${style.boxShadow}`;
+                })
+                .join(" ");
+            });
+            expectNoOldColors(calculatorMetrics);
+            await page.screenshot({ path: "qa-mineral/screenshots/widget-calculator-mineral.png" });
+            expect(errors).toEqual([]);
+            report.push({
+              interaction: "external-widget",
+              launcherMetrics,
+              chatMetrics,
+              calculatorMetrics,
+              passed: true,
+            });
+            await context.close();
+          });
+
           test.afterAll(() => {
             fs.writeFileSync("qa-mineral/browser-report.json", JSON.stringify(report, null, 2));
           });
@@ -311,5 +430,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add MINERAL_AUDIT_RESULT.txt MINERAL_AUDIT_RUN_ID.txt
-          git commit -m "chore: ulož výsledok mineral auditu [skip mineral]" || exit 0
+          git commit -m "chore: ulož výsledok mineral auditu [skip mineral] [skip widget]" || exit 0
           git push origin HEAD:claude/web-portfolio-publish-ynh7sk
