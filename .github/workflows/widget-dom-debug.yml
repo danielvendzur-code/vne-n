@@ -1,0 +1,82 @@
+name: Widget DOM debug
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    if: ${{ !contains(github.event.head_commit.message, '[skip widget]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - env:
+          NITRO_PRESET: node-server
+        run: bun run build
+      - run: |
+          npm install --no-save --ignore-scripts @playwright/test@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Inspect launcher DOM
+        shell: bash
+        run: |
+          cat > widget-debug.mjs <<'JS'
+          import { chromium } from '@playwright/test';
+          import fs from 'node:fs';
+          const browser = await chromium.launch();
+          const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+          await page.goto('http://127.0.0.1:3000/', { waitUntil: 'domcontentloaded' });
+          await page.waitForTimeout(2200);
+          const data = await page.evaluate(() => {
+            const host = document.querySelector('.cw-widget');
+            const all = [...document.querySelectorAll('*')].filter((element) => {
+              const name = `${element.id} ${element.className}`.toLowerCase();
+              return name.includes('cw-') || name.includes('chat') || name.includes('widget');
+            });
+            const describe = (element) => {
+              const style = getComputedStyle(element);
+              return {
+                tag: element.tagName,
+                id: element.id,
+                className: typeof element.className === 'string' ? element.className : '',
+                ariaLabel: element.getAttribute('aria-label'),
+                role: element.getAttribute('role'),
+                background: style.background,
+                color: style.color,
+                border: style.border,
+                boxShadow: style.boxShadow,
+                outerHTML: element.outerHTML.slice(0, 3000),
+                shadowHTML: element.shadowRoot?.innerHTML.slice(0, 5000) ?? null,
+              };
+            };
+            return {
+              host: host ? describe(host) : null,
+              candidates: all.slice(0, 30).map(describe),
+              bodyEnd: document.body.innerHTML.slice(-10000),
+            };
+          });
+          await browser.close();
+          fs.writeFileSync('WIDGET_DOM.json', JSON.stringify(data, null, 2));
+          JS
+          PORT=3000 NITRO_PORT=3000 node .output/server/index.mjs >/tmp/widget-server.log 2>&1 &
+          PID=$!
+          trap 'kill $PID 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            curl -fsS http://127.0.0.1:3000/ >/dev/null && break
+            sleep 1
+          done
+          node widget-debug.mjs
+          rm widget-debug.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add WIDGET_DOM.json
+          git commit -m "chore: ulož DOM launcheru [skip mineral] [skip widget]"
+          git push origin HEAD:claude/web-portfolio-publish-ynh7sk
