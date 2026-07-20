@@ -64,6 +64,18 @@
   contain-intrinsic-size: none !important;
 }
 
+/* The image can be cached before React's onLoad handler hydrates. Keep the
+   skeleton beneath the image so a completed image is never left transparent. */
+.lp-page .lp-project-media::before {
+  z-index: 0 !important;
+}
+
+.lp-page .lp-project-media img {
+  position: relative;
+  z-index: 1;
+  opacity: 1 !important;
+}
+
 /* Subpages */
 .sp-hero {
   background:
