@@ -1,0 +1,56 @@
+name: Portfolio image loading fix
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: ${{ !contains(github.event.head_commit.message, '[skip image-fix]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make portfolio images deterministic
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/components/site/PremiumLanding.tsx')
+          source = path.read_text()
+          old = '''      <img
+        src={src}
+        alt={alt}
+        width="1440"
+        height="1000"
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
+        onLoad={() => setLoaded(true)}
+      />'''
+          new = '''      <img
+        ref={(image) => {
+          if (image?.complete && image.naturalWidth > 0) setLoaded(true);
+        }}
+        src={src}
+        alt={alt}
+        width="1440"
+        height="1000"
+        loading="eager"
+        decoding="async"
+        fetchPriority="auto"
+        onLoad={() => setLoaded(true)}
+      />'''
+          if old not in source:
+              raise SystemExit('Expected ProjectImage block was not found')
+          path.write_text(source.replace(old, new, 1))
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/site/PremiumLanding.tsx
+          git commit -m "fix: načítaj náhľady realizácií bez oneskorenia [skip image-fix] [skip widget]"
+          git push origin HEAD:claude/web-portfolio-publish-ynh7sk
