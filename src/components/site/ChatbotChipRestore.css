@@ -1,0 +1,12 @@
+/* The external widget injects its own stylesheet after the portfolio styles.
+   This selector intentionally has higher specificity so the restored pill
+   alignment remains stable without modifying the widget repository. */
+
+.cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary) {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary) > span {
+  text-align: center !important;
+}
