@@ -18,8 +18,6 @@ const dragSelectSelector = ".lp-assistant-chips, .lp-switch, .cw-tabs";
 export function SiteMotionEnhancements() {
   const reducedMotion = useReducedMotion();
 
-  // Portfolio images are promoted to eager loading because there are only three
-  // local WebP files and their visual presence is part of the primary proof section.
   useEffect(() => {
     const images = Array.from(document.querySelectorAll<HTMLImageElement>(".lp-project-media img"));
     if (!images.length) return;
@@ -54,8 +52,6 @@ export function SiteMotionEnhancements() {
     return () => cleanup.forEach((remove) => remove());
   }, []);
 
-  // Chip groups support mouse and touch dragging. Overflowing groups scroll;
-  // compact segmented controls switch to the option under the released pointer.
   useEffect(() => {
     const cleanups = new Map<HTMLElement, () => void>();
 
@@ -97,6 +93,9 @@ export function SiteMotionEnhancements() {
         return button && element.contains(button) ? button : null;
       };
 
+      const isScrollable = () =>
+        !isSelectGroup && element.scrollWidth > element.clientWidth + 2;
+
       const onPointerDown = (event: PointerEvent) => {
         if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
         const target = event.target instanceof Element ? event.target : null;
@@ -124,8 +123,7 @@ export function SiteMotionEnhancements() {
         }
 
         event.preventDefault();
-        const canScroll = element.scrollWidth > element.clientWidth + 2;
-        if (canScroll) {
+        if (isScrollable()) {
           element.scrollLeft = startScrollLeft - deltaX;
           return;
         }
@@ -142,12 +140,10 @@ export function SiteMotionEnhancements() {
 
       const finishPointer = (event: PointerEvent) => {
         if (pointerId !== event.pointerId) return;
-        const wasDragging = horizontalDrag;
-        const canScroll = element.scrollWidth > element.clientWidth + 2;
 
-        if (wasDragging) {
+        if (horizontalDrag) {
           suppressClickUntil = performance.now() + 360;
-          if (isSelectGroup && !canScroll) {
+          if (isSelectGroup) {
             const targetButton = buttonAt(event.clientX, event.clientY) ?? dragTarget;
             if (targetButton && targetButton.getAttribute("aria-disabled") !== "true") {
               syntheticClick = true;
@@ -215,70 +211,6 @@ export function SiteMotionEnhancements() {
     };
   }, []);
 
-  // The external widget creates its teaser earlier; the host site reveals it only
-  // after three seconds, once per tab session, and hides it again automatically.
-  useEffect(() => {
-    const storageKey = "vendzur-widget-preview-started-at";
-    const body = document.body;
-    const teaserTitle = "Čo by pomohlo vášmu webu?";
-    const teaserCopy = "Za minútu zistíte, aké riešenie dáva pre váš web zmysel.";
-    const revealAfter = 3_000;
-    const hideAfter = 11_500;
-    let showTimer = 0;
-    let hideTimer = 0;
-
-    const updateTeaserCopy = () => {
-      const teaser = document.querySelector<HTMLElement>(".cw-teaser");
-      if (!teaser) return;
-      const title = teaser.querySelector<HTMLElement>(".cw-teaser__content strong");
-      const copy = teaser.querySelector<HTMLElement>(".cw-teaser__copy");
-      if (title && title.textContent !== teaserTitle) title.textContent = teaserTitle;
-      if (copy && copy.textContent !== teaserCopy) copy.textContent = teaserCopy;
-    };
-
-    let startedAt = Date.now();
-    try {
-      const stored = Number(window.sessionStorage.getItem(storageKey));
-      if (Number.isFinite(stored) && stored > 0) {
-        startedAt = stored;
-      } else {
-        window.sessionStorage.setItem(storageKey, String(startedAt));
-      }
-    } catch {
-      startedAt = Date.now();
-    }
-
-    const elapsed = Math.max(0, Date.now() - startedAt);
-    updateTeaserCopy();
-
-    const observer = new MutationObserver(updateTeaserCopy);
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    if (elapsed >= hideAfter) {
-      body.dataset.widgetPreview = "hidden";
-    } else if (elapsed >= revealAfter) {
-      body.dataset.widgetPreview = "visible";
-      hideTimer = window.setTimeout(() => {
-        body.dataset.widgetPreview = "hidden";
-      }, hideAfter - elapsed);
-    } else {
-      body.dataset.widgetPreview = "waiting";
-      showTimer = window.setTimeout(() => {
-        updateTeaserCopy();
-        body.dataset.widgetPreview = "visible";
-        hideTimer = window.setTimeout(() => {
-          body.dataset.widgetPreview = "hidden";
-        }, hideAfter - revealAfter);
-      }, revealAfter - elapsed);
-    }
-
-    return () => {
-      observer.disconnect();
-      window.clearTimeout(showTimer);
-      window.clearTimeout(hideTimer);
-    };
-  }, []);
-
   useEffect(() => {
     if (reducedMotion) return;
 
@@ -303,7 +235,7 @@ export function SiteMotionEnhancements() {
     };
 
     const handleScroll = () => {
-      if (!scrollFrame) window.requestAnimationFrame(paintScroll);
+      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(paintScroll);
     };
 
     const paintPointer = () => {
