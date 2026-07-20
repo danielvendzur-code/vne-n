@@ -221,14 +221,17 @@ export function SiteMotionEnhancements() {
       }
 
       activeTeaser = teaser;
-      const menuOpen = body.dataset.siteMenuOpen === "true";
+      const obstructed =
+        body.dataset.siteMenuOpen === "true" ||
+        body.dataset.cookieBanner === "visible" ||
+        body.dataset.cookieSettings === "open";
       teaser.style.setProperty("display", "block", "important");
-      teaser.style.setProperty("opacity", menuOpen ? "0" : "1", "important");
-      teaser.style.setProperty("visibility", menuOpen ? "hidden" : "visible", "important");
-      teaser.style.setProperty("pointer-events", menuOpen ? "none" : "auto", "important");
+      teaser.style.setProperty("opacity", obstructed ? "0" : "1", "important");
+      teaser.style.setProperty("visibility", obstructed ? "hidden" : "visible", "important");
+      teaser.style.setProperty("pointer-events", obstructed ? "none" : "auto", "important");
       teaser.style.setProperty(
         "transform",
-        menuOpen ? "translateY(7px) scale(0.985)" : "translateY(0) scale(1)",
+        obstructed ? "translateY(7px) scale(0.985)" : "translateY(0) scale(1)",
         "important",
       );
     };
@@ -237,7 +240,7 @@ export function SiteMotionEnhancements() {
     const observer = new MutationObserver(syncTeaser);
     observer.observe(body, {
       attributes: true,
-      attributeFilter: ["data-site-menu-open"],
+      attributeFilter: ["data-site-menu-open", "data-cookie-banner", "data-cookie-settings"],
       childList: true,
       subtree: true,
     });
