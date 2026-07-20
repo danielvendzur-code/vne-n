@@ -8,13 +8,12 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./Nav.css";
 
-const baseUrl = import.meta.env.BASE_URL;
 const drawerItems: LineSidebarItem[] = [
-  { label: "Domov", href: baseUrl },
-  { label: "Služby", href: `${baseUrl}sluzby` },
-  { label: "Projekty", href: `${baseUrl}projekty` },
-  { label: "Postup", href: `${baseUrl}postup` },
-  { label: "Kontakt", href: `${baseUrl}kontakt` },
+  { label: "Domov", href: "/" },
+  { label: "Služby", href: "/sluzby" },
+  { label: "Projekty", href: "/projekty" },
+  { label: "Postup", href: "/postup" },
+  { label: "Kontakt", href: "/kontakt" },
 ];
 
 export function Nav() {
@@ -71,7 +70,7 @@ export function Nav() {
             <span className="site-brand-name">Daniel Vendzúr</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8" aria-label="Rýchla navigácia">
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.to}
@@ -88,7 +87,7 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <Link
               to="/kontakt"
-              className="hidden sm:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
+              className="hidden lg:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
               style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
             >
               Nezáväzná konzultácia
@@ -118,7 +117,6 @@ export function Nav() {
           aria-label="Navigácia"
           tabIndex={-1}
         >
-          <div className="site-menu-glow" aria-hidden="true" />
           <div className="site-menu-head">
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
               <Symbol size={38} />
@@ -143,7 +141,7 @@ export function Nav() {
               type="button"
               onClick={() => {
                 closeMenu();
-                window.setTimeout(() => openSiteAssistant({ source: "sidebar" }), 120);
+                window.setTimeout(() => openSiteAssistant({ source: "sidebar" }), 420);
               }}
             >
               <span>
