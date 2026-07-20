@@ -15,6 +15,7 @@ import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives"
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { seo } from "@/lib/seo";
+import "./postup.css";
 
 export const Route = createFileRoute("/postup")({
   head: () => ({
@@ -114,7 +115,7 @@ function Timeline() {
 
 function ProcessPage() {
   return (
-    <div className="sp-page">
+    <div className="sp-page sp-page--process">
       <PageIntro
         eyebrow="Spolupráca"
         title={
