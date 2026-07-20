@@ -43,7 +43,9 @@ const cookieParts = () => (isBrowser() ? document.cookie.split(";") : []);
 export function readCookieConsent(): CookieConsentState | null {
   if (!isBrowser()) return null;
   const prefix = `${COOKIE_CONSENT_NAME}=`;
-  const match = cookieParts().map((part) => part.trim()).find((part) => part.startsWith(prefix));
+  const match = cookieParts()
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(prefix));
   return match ? decodeConsent(match.slice(prefix.length)) : null;
 }
 
