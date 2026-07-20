@@ -1,0 +1,134 @@
+{
+  "cls": 0.07908880188239455,
+  "shifts": [
+    {
+      "value": 0.07908880188239455,
+      "time": 538.1000000000058,
+      "sources": [
+        {
+          "node": "nav.hidden.lg:flex.items-center.gap-8",
+          "text": "Čo tvorímUkážkySpoluprácaKontakt",
+          "previousRect": {
+            "x": 488,
+            "y": 30,
+            "width": 327,
+            "height": 32,
+            "top": 30,
+            "right": 815,
+            "bottom": 62,
+            "left": 488
+          },
+          "currentRect": {
+            "x": 512,
+            "y": 30,
+            "width": 294,
+            "height": 32,
+            "top": 30,
+            "right": 806,
+            "bottom": 62,
+            "left": 512
+          }
+        },
+        {
+          "node": "div.flex.items-center.gap-2",
+          "text": "Nezáväzná konzultáciaMenu",
+          "previousRect": {
+            "x": 1035,
+            "y": 24,
+            "width": 268,
+            "height": 44,
+            "top": 24,
+            "right": 1303,
+            "bottom": 68,
+            "left": 1035
+          },
+          "currentRect": {
+            "x": 1051,
+            "y": 24,
+            "width": 252,
+            "height": 44,
+            "top": 24,
+            "right": 1303,
+            "bottom": 68,
+            "left": 1051
+          }
+        },
+        {
+          "node": "::before",
+          "text": "",
+          "previousRect": {
+            "x": 32,
+            "y": 161,
+            "width": 763,
+            "height": 672,
+            "top": 161,
+            "right": 795,
+            "bottom": 833,
+            "left": 32
+          },
+          "currentRect": {
+            "x": 32,
+            "y": 175,
+            "width": 763,
+            "height": 644,
+            "top": 175,
+            "right": 795,
+            "bottom": 819,
+            "left": 32
+          }
+        },
+        {
+          "node": "span.lp-button-content",
+          "text": "Vyskúšať môjho chatbota",
+          "previousRect": {
+            "x": 979,
+            "y": 601,
+            "width": 216,
+            "height": 24,
+            "top": 601,
+            "right": 1195,
+            "bottom": 625,
+            "left": 979
+          },
+          "currentRect": {
+            "x": 994,
+            "y": 601,
+            "width": 186,
+            "height": 24,
+            "top": 601,
+            "right": 1180,
+            "bottom": 625,
+            "left": 994
+          }
+        },
+        {
+          "node": "button",
+          "text": "Konfigurátor",
+          "previousRect": {
+            "x": 1077,
+            "y": 445,
+            "width": 111,
+            "height": 44,
+            "top": 445,
+            "right": 1188,
+            "bottom": 489,
+            "left": 1077
+          },
+          "currentRect": {
+            "x": 1055,
+            "y": 445,
+            "width": 97,
+            "height": 44,
+            "top": 445,
+            "right": 1152,
+            "bottom": 489,
+            "left": 1055
+          }
+        }
+      ]
+    }
+  ],
+  "fonts": "loaded",
+  "inter": false,
+  "interTight": true
+}
