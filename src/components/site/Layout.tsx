@@ -28,11 +28,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               initial={reducedMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -8 }}
-              transition={
-                reducedMotion
-                  ? { duration: 0 }
-                  : { duration: 0.25, ease: pageEase }
-              }
+              transition={reducedMotion ? { duration: 0 } : { duration: 0.25, ease: pageEase }}
             >
               {children}
             </motion.div>
