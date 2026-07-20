@@ -6,6 +6,9 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
 import "./SitePolish.css";
+import "./MineralTheme.css";
+import "./MineralThemePolish.css";
+import "./WidgetMineral.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
