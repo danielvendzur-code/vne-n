@@ -169,7 +169,9 @@ function ChoiceChip({
         compact ? "px-2" : "px-2.5"
       }`}
       style={{
-        backgroundColor: selected ? accentSoft : "color-mix(in oklab, var(--surface-raised) 52%, transparent)",
+        backgroundColor: selected
+          ? accentSoft
+          : "color-mix(in oklab, var(--surface-raised) 52%, transparent)",
         border: `1px solid ${selected ? accent : "var(--border-strong)"}`,
         color: selected ? "var(--text-primary)" : "var(--text-secondary)",
       }}
