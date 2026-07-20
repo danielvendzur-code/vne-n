@@ -9,9 +9,7 @@ export function SiteMotionEnhancements() {
   // Portfolio images are promoted to eager loading because there are only three
   // local WebP files and their visual presence is part of the primary proof section.
   useEffect(() => {
-    const images = Array.from(
-      document.querySelectorAll<HTMLImageElement>(".lp-project-media img"),
-    );
+    const images = Array.from(document.querySelectorAll<HTMLImageElement>(".lp-project-media img"));
     if (!images.length) return;
 
     const cleanup = images.map((image, index) => {
@@ -29,7 +27,10 @@ export function SiteMotionEnhancements() {
       if (image.complete) {
         markLoaded();
       } else {
-        void image.decode().then(markLoaded).catch(() => undefined);
+        void image
+          .decode()
+          .then(markLoaded)
+          .catch(() => undefined);
       }
 
       return () => {
