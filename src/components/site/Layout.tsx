@@ -14,6 +14,7 @@ import "./LiquidChipPolish.css";
 import "./ChatbotChipRestore.css";
 import "./UnifiedExperience.css";
 import "./NativeWidgetPreview.css";
+import "./MobileVerticalPolish.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
