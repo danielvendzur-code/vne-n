@@ -101,14 +101,26 @@ export function CookieConsent() {
               môžu použiť iba po vašom súhlase.
             </p>
             <div className="cookie-banner__actions">
-              <button type="button" className="cookie-button cookie-button--primary" onClick={() => save(true)}>
+              <button
+                type="button"
+                className="cookie-button cookie-button--primary"
+                onClick={() => save(true)}
+              >
                 Prijať všetko
               </button>
-              <button type="button" className="cookie-button cookie-button--quiet" onClick={() => save(false)}>
+              <button
+                type="button"
+                className="cookie-button cookie-button--quiet"
+                onClick={() => save(false)}
+              >
                 Iba nevyhnutné
               </button>
             </div>
-            <button type="button" className="cookie-banner__settings" onClick={() => setView("settings")}>
+            <button
+              type="button"
+              className="cookie-banner__settings"
+              onClick={() => setView("settings")}
+            >
               Nastaviť podrobne <ChevronRight aria-hidden="true" />
             </button>
           </motion.aside>
@@ -151,7 +163,12 @@ export function CookieConsent() {
                   <p>Nastavenia súkromia</p>
                   <h2 id="cookie-settings-title">Vyberte, čo môžeme používať.</h2>
                 </div>
-                <button type="button" className="cookie-modal__close" aria-label="Zavrieť" onClick={closeSettings}>
+                <button
+                  type="button"
+                  className="cookie-modal__close"
+                  aria-label="Zavrieť"
+                  onClick={closeSettings}
+                >
                   <X />
                 </button>
               </header>
@@ -188,8 +205,8 @@ export function CookieConsent() {
                       <span>Voliteľné</span>
                     </div>
                     <p>
-                      Pomáhajú vyhodnotiť používanie webu a zlepšovať jeho obsah. Bez súhlasu zostanú
-                      vypnuté.
+                      Pomáhajú vyhodnotiť používanie webu a zlepšovať jeho obsah. Bez súhlasu
+                      zostanú vypnuté.
                     </p>
                   </div>
                   <label className="cookie-switch">
@@ -211,10 +228,18 @@ export function CookieConsent() {
               </div>
 
               <footer className="cookie-modal__actions">
-                <button type="button" className="cookie-button cookie-button--quiet" onClick={() => save(false)}>
+                <button
+                  type="button"
+                  className="cookie-button cookie-button--quiet"
+                  onClick={() => save(false)}
+                >
                   Iba nevyhnutné
                 </button>
-                <button type="button" className="cookie-button cookie-button--primary" onClick={() => save(analytics)}>
+                <button
+                  type="button"
+                  className="cookie-button cookie-button--primary"
+                  onClick={() => save(analytics)}
+                >
                   Uložiť nastavenie
                 </button>
               </footer>
