@@ -16,7 +16,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
-        <SiteMotionEnhancements />
+        <SiteMotionEnhancements key={pathname} />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>
