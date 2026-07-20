@@ -283,17 +283,9 @@ export function DeratScrollStory() {
         </ol>
       </div>
 
-      <div
-        ref={mobileRef}
-        className="derat-story__mobile"
-        aria-label="Obrazovky kalkulačky DERAT"
-      >
+      <div ref={mobileRef} className="derat-story__mobile" aria-label="Obrazovky kalkulačky DERAT">
         {frames.map((frame, index) => (
-          <article
-            data-derat-mobile-slide
-            className="derat-story__mobile-slide"
-            key={frame.src}
-          >
+          <article data-derat-mobile-slide className="derat-story__mobile-slide" key={frame.src}>
             <figure>
               <img
                 src={frame.src}
