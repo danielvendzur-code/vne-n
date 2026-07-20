@@ -1,20 +1,21 @@
 import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
 import { Symbol } from "@/components/Symbol";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./Nav.css";
 
-const baseUrl = import.meta.env.BASE_URL;
 const drawerItems: LineSidebarItem[] = [
-  { label: "Domov", href: baseUrl },
-  { label: "Služby", href: `${baseUrl}sluzby` },
-  { label: "Projekty", href: `${baseUrl}projekty` },
-  { label: "Postup", href: `${baseUrl}postup` },
-  { label: "Kontakt", href: `${baseUrl}kontakt` },
+  { label: "Domov", href: "/" },
+  { label: "Služby", href: "/sluzby" },
+  { label: "Projekty", href: "/projekty" },
+  { label: "Postup", href: "/postup" },
+  { label: "Kontakt", href: "/kontakt" },
 ];
 
 export function Nav() {
@@ -22,6 +23,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const drawerRef = useRef<HTMLElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
+  const reducedMotion = useReducedMotion();
 
   useFocusTrap(drawerRef, open, closeMenu);
 
@@ -71,11 +73,12 @@ export function Nav() {
             <span className="site-brand-name">Daniel Vendzúr</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8" aria-label="Rýchla navigácia">
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
+                aria-label={item.to === "/sluzby" ? "Služby" : undefined}
                 className="site-nav-link text-[13.5px] tracking-tight transition-colors"
                 activeProps={{ style: { color: "var(--primary)" } }}
                 inactiveProps={{ style: { color: "var(--text-secondary)" } }}
@@ -88,14 +91,14 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <Link
               to="/kontakt"
-              className="hidden sm:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
+              className="hidden lg:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
               style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
             >
               Nezáväzná konzultácia
             </Link>
             <button
               onClick={() => setOpen((value) => !value)}
-              aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
+              aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}
               aria-expanded={open}
               aria-controls="site-navigation-drawer"
               className="site-menu-toggle"
@@ -109,7 +112,7 @@ export function Nav() {
 
       <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
         <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
-        <aside
+        <motion.aside
           id="site-navigation-drawer"
           ref={drawerRef}
           className="site-menu-drawer"
@@ -117,8 +120,20 @@ export function Nav() {
           aria-modal="true"
           aria-label="Navigácia"
           tabIndex={-1}
+          initial={false}
+          animate={{ x: open ? "0%" : "102%" }}
+          transition={
+            reducedMotion
+              ? { duration: 0 }
+              : open
+                ? { type: "spring", stiffness: 300, damping: 31, mass: 0.82 }
+                : { type: "spring", stiffness: 360, damping: 38, mass: 0.78 }
+          }
+          style={{
+            transition: "none",
+            willChange: reducedMotion ? undefined : "transform",
+          }}
         >
-          <div className="site-menu-glow" aria-hidden="true" />
           <div className="site-menu-head">
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
               <Symbol size={38} />
@@ -127,7 +142,12 @@ export function Nav() {
                 <small>weby a nástroje na mieru</small>
               </span>
             </Link>
-            <button className="site-menu-close" type="button" onClick={closeMenu}>
+            <button
+              className="site-menu-close"
+              type="button"
+              aria-label="Zavrieť menu"
+              onClick={closeMenu}
+            >
               Zavrieť <MenuIcon open />
             </button>
           </div>
@@ -143,7 +163,7 @@ export function Nav() {
               type="button"
               onClick={() => {
                 closeMenu();
-                window.setTimeout(() => openSiteAssistant({ source: "sidebar" }), 120);
+                window.setTimeout(() => openSiteAssistant({ source: "sidebar" }), 420);
               }}
             >
               <span>
@@ -156,7 +176,7 @@ export function Nav() {
               <Mail size={14} /> {siteConfig.contact.email}
             </a>
           </div>
-        </aside>
+        </motion.aside>
       </div>
     </header>
   );

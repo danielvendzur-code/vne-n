@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteLayout } from "@/components/site/Layout";
 import { PremiumLanding } from "@/components/site/PremiumLanding";
 import { faqs } from "@/data/faq";
 import { seo, SITE_URL } from "@/lib/seo";
@@ -45,9 +44,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return (
-    <SiteLayout>
-      <PremiumLanding />
-    </SiteLayout>
-  );
+  return <PremiumLanding />;
 }

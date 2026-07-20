@@ -1,13 +1,15 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
+  HeadContent,
   Outlet,
+  Scripts,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { SiteLayout } from "../components/site/Layout";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -122,6 +124,11 @@ const personJsonLd = JSON.stringify({
   jobTitle: "Tvorca webových nástrojov — chatboty, kalkulačky, konfigurátory",
 });
 
+const interTightLatinExt =
+  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsJ8ah8QA.woff2";
+const interTightLatin =
+  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsH8ag.woff2";
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -168,8 +175,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
+        rel: "preload",
+        href: interTightLatinExt,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        href: interTightLatin,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&family=Inter:wght@400..600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&display=swap",
       },
     ],
     scripts: [{ type: "application/ld+json", children: personJsonLd }],
@@ -197,9 +218,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const outlet = <Outlet />;
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      {pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>}
     </QueryClientProvider>
   );
 }

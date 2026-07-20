@@ -1,11 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { PointerEvent } from "react";
 import { ArrowRight, ArrowUpRight, MessageCircle } from "lucide-react";
-import { SiteLayout } from "@/components/site/Layout";
+import { AssistantMini, CalculatorMini, ConfiguratorMini } from "@/components/site/MiniPreviews";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
-import { projects } from "@/data/projects";
+import { projects, type PreviewType } from "@/data/projects";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { seo } from "@/lib/seo";
+
+const previewByType = {
+  assistant: AssistantMini,
+  calculator: CalculatorMini,
+  configurator: ConfiguratorMini,
+} satisfies Record<PreviewType, typeof AssistantMini>;
 
 export const Route = createFileRoute("/projekty/")({
   head: () => ({
@@ -34,28 +40,29 @@ function trackSpotlight(event: PointerEvent<HTMLAnchorElement>) {
 
 function ProjectsPage() {
   return (
-    <SiteLayout>
-      <div className="sp-page">
-        <PageIntro
-          eyebrow="Ukážky"
-          title={
-            <>
-              Vyskúšajte si, <em>ako nástroje fungujú.</em>
-            </>
-          }
-          lead="Šesť vzorových rozhraní — od cenovej kalkulačky po rezervačného asistenta. Nie sú to nasadené firemné projekty; slúžia na to, aby ste si vedeli predstaviť nástroj vo vlastnej službe."
-        >
-          <div className="sp-hero-chips">
-            <span className="chip">Interaktívne demá</span>
-            <span className="chip">Bez registrácie</span>
-            <span className="chip">Priamo v prehliadači</span>
-          </div>
-        </PageIntro>
+    <div className="sp-page">
+      <PageIntro
+        eyebrow="Ukážky"
+        title={
+          <>
+            Vyskúšajte si, <em>ako nástroje fungujú.</em>
+          </>
+        }
+        lead="Šesť vzorových rozhraní — od cenovej kalkulačky po rezervačného asistenta. Nie sú to nasadené firemné projekty; slúžia na to, aby ste si vedeli predstaviť nástroj vo vlastnej službe."
+      >
+        <div className="sp-hero-chips">
+          <span className="chip">Interaktívne demá</span>
+          <span className="chip">Bez registrácie</span>
+          <span className="chip">Priamo v prehliadači</span>
+        </div>
+      </PageIntro>
 
-        <section className="sp-section">
-          <div className="container-page">
-            <div className="sp-project-grid">
-              {projects.map((project, index) => (
+      <section className="sp-section">
+        <div className="container-page">
+          <div className="sp-project-grid">
+            {projects.map((project, index) => {
+              const Preview = previewByType[project.previewType];
+              return (
                 <Reveal
                   className="sp-project-card"
                   key={project.slug}
@@ -68,6 +75,9 @@ function ProjectsPage() {
                     style={{ "--card-accent": project.accent } as React.CSSProperties}
                     onPointerMove={trackSpotlight}
                   >
+                    <div className="sp-project-visual" aria-hidden="true">
+                      <Preview compact accent={project.accent} />
+                    </div>
                     <div className="sp-project-top">
                       <span>
                         <i aria-hidden="true" />
@@ -83,30 +93,30 @@ function ProjectsPage() {
                     </span>
                   </Link>
                 </Reveal>
-              ))}
-            </div>
+              );
+            })}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="sp-section">
-          <CtaBand
-            kicker="Predstavujete si niečo podobné?"
-            title="Poviem vám, ako by to vyzeralo pre vašu službu."
-            lead="Opíšte, čo dnes počítate alebo vysvetľujete ručne — navrhnem konkrétny nástroj, jeho otázky aj výstup."
+      <section className="sp-section">
+        <CtaBand
+          kicker="Predstavujete si niečo podobné?"
+          title="Poviem vám, ako by to vyzeralo pre vašu službu."
+          lead="Opíšte, čo dnes počítate alebo vysvetľujete ručne — navrhnem konkrétny nástroj, jeho otázky aj výstup."
+        >
+          <button
+            type="button"
+            className="sp-button sp-button--primary"
+            onClick={() => openSiteAssistant({ source: "projects-cta" })}
           >
-            <button
-              type="button"
-              className="sp-button sp-button--primary"
-              onClick={() => openSiteAssistant({ source: "projects-cta" })}
-            >
-              <MessageCircle aria-hidden="true" /> Opísať moju situáciu
-            </button>
-            <Link to="/kontakt" className="sp-button sp-button--ghost">
-              Kontakt <ArrowRight aria-hidden="true" />
-            </Link>
-          </CtaBand>
-        </section>
-      </div>
-    </SiteLayout>
+            <MessageCircle aria-hidden="true" /> Opísať moju situáciu
+          </button>
+          <Link to="/kontakt" className="sp-button sp-button--ghost">
+            Kontakt <ArrowRight aria-hidden="true" />
+          </Link>
+        </CtaBand>
+      </section>
+    </div>
   );
 }
