@@ -1,13 +1,15 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
+  HeadContent,
   Outlet,
+  Scripts,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { SiteLayout } from "../components/site/Layout";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -197,9 +199,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const outlet = <Outlet />;
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      {pathname === "/farby" ? outlet : <SiteLayout>{outlet}</SiteLayout>}
     </QueryClientProvider>
   );
 }
