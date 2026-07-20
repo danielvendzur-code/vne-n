@@ -1,0 +1,291 @@
+name: Liquid chip audit
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+
+permissions:
+  contents: write
+
+concurrency:
+  group: liquid-chip-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: ${{ !contains(github.event.head_commit.message, '[skip liquid-audit]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install
+        id: install
+        continue-on-error: true
+        run: bun install > /tmp/install.log 2>&1
+
+      - name: Lint
+        id: lint
+        continue-on-error: true
+        run: bun run lint > /tmp/lint.log 2>&1
+
+      - name: Build
+        id: build
+        continue-on-error: true
+        env:
+          NITRO_PRESET: node-server
+        run: bun run build > /tmp/build.log 2>&1
+
+      - name: Install Playwright
+        id: playwright
+        continue-on-error: true
+        run: |
+          npm install --no-save --ignore-scripts @playwright/test@1.55.0 > /tmp/playwright.log 2>&1
+          npx playwright install --with-deps chromium >> /tmp/playwright.log 2>&1
+
+      - name: Browser audit
+        id: browser
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p qa-liquid/screenshots
+          cat > qa-liquid/liquid.spec.ts <<'TEST'
+          import { test, expect, type Page } from "@playwright/test";
+          import fs from "node:fs";
+
+          const BASE = "http://127.0.0.1:3000";
+          const report: Record<string, unknown>[] = [];
+
+          async function openHome(page: Page) {
+            const errors: string[] = [];
+            page.on("pageerror", (error) => errors.push(error.message));
+            await page.goto(BASE, { waitUntil: "domcontentloaded" });
+            await page.waitForTimeout(1200);
+            expect(errors).toEqual([]);
+            const overflow = await page.evaluate(() => ({
+              scrollWidth: document.documentElement.scrollWidth,
+              clientWidth: document.documentElement.clientWidth,
+            }));
+            expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
+            return errors;
+          }
+
+          test("desktop web chips", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+            const page = await context.newPage();
+            await openHome(page);
+
+            const hero = page.locator(".lp-assistant-chips");
+            const heroButtons = hero.locator("button");
+            expect(await heroButtons.count()).toBe(3);
+            const heroMetrics = await hero.evaluate((element) => {
+              const style = getComputedStyle(element);
+              const button = element.querySelector("button")!;
+              const buttonStyle = getComputedStyle(button);
+              return {
+                radius: parseFloat(style.borderRadius),
+                buttonRadius: parseFloat(buttonStyle.borderRadius),
+                backdrop: style.backdropFilter,
+                background: style.backgroundImage,
+              };
+            });
+            expect(heroMetrics.radius).toBeGreaterThan(18);
+            expect(heroMetrics.buttonRadius).toBeGreaterThan(14);
+            expect(heroMetrics.backdrop).toContain("blur");
+            expect(heroMetrics.background).toContain("linear-gradient");
+
+            await heroButtons.nth(1).hover();
+            await page.waitForTimeout(420);
+            const hoverTransform = await heroButtons.nth(1).evaluate((element) => getComputedStyle(element).transform);
+            expect(hoverTransform).not.toBe("none");
+            await heroButtons.nth(1).click();
+            await page.waitForTimeout(520);
+            expect(await heroButtons.nth(1).getAttribute("data-active")).toBe("true");
+            await page.screenshot({ path: "qa-liquid/screenshots/hero-liquid-desktop.png" });
+
+            const comparison = page.locator(".lp-comparison");
+            await comparison.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(450);
+            const switchMetrics = await page.locator(".lp-switch").evaluate((element) => {
+              const style = getComputedStyle(element);
+              const buttonStyle = getComputedStyle(element.querySelector("button")!);
+              return {
+                radius: parseFloat(style.borderRadius),
+                buttonRadius: parseFloat(buttonStyle.borderRadius),
+              };
+            });
+            expect(switchMetrics.radius).toBeGreaterThan(18);
+            expect(switchMetrics.buttonRadius).toBeGreaterThan(14);
+            await page.screenshot({ path: "qa-liquid/screenshots/comparison-liquid.png" });
+
+            const caps = page.locator(".lp-caps");
+            await caps.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(500);
+            const firstChip = page.locator(".lp-chip").first();
+            const chipMetrics = await firstChip.evaluate((element) => {
+              const style = getComputedStyle(element);
+              const before = getComputedStyle(element, "::before");
+              return {
+                radius: parseFloat(style.borderRadius),
+                backdrop: style.backdropFilter,
+                beforeContent: before.content,
+                beforeWidth: before.width,
+              };
+            });
+            expect(chipMetrics.radius).toBeGreaterThan(20);
+            expect(chipMetrics.backdrop).toContain("blur");
+            expect(chipMetrics.beforeContent).not.toContain("01");
+            await firstChip.hover();
+            await page.waitForTimeout(420);
+            const chipHoverTransform = await firstChip.evaluate((element) => getComputedStyle(element).transform);
+            expect(chipHoverTransform).not.toBe("none");
+            await firstChip.click();
+            await page.waitForTimeout(520);
+            expect(await firstChip.getAttribute("data-active")).toBe("true");
+            await page.screenshot({ path: "qa-liquid/screenshots/capability-liquid.png" });
+
+            await page.screenshot({ path: "qa-liquid/screenshots/home-liquid-full.png", fullPage: true });
+            report.push({ test: "desktop-web-chips", heroMetrics, switchMetrics, chipMetrics, passed: true });
+            await context.close();
+          });
+
+          test("mobile web chips", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+            const page = await context.newPage();
+            await openHome(page);
+            const buttons = page.locator(".lp-assistant-chips button");
+            const boxes = await buttons.evaluateAll((items) => items.map((item) => {
+              const box = item.getBoundingClientRect();
+              const style = getComputedStyle(item);
+              return { width: box.width, top: box.top, radius: parseFloat(style.borderRadius) };
+            }));
+            expect(boxes).toHaveLength(3);
+            expect(boxes[0].width).toBeGreaterThan(250);
+            expect(boxes[1].top).toBeGreaterThan(boxes[0].top);
+            expect(boxes[2].top).toBeGreaterThan(boxes[1].top);
+            expect(boxes[0].radius).toBeGreaterThan(12);
+            await page.screenshot({ path: "qa-liquid/screenshots/hero-liquid-mobile.png" });
+            report.push({ test: "mobile-web-chips", boxes, passed: true });
+            await context.close();
+          });
+
+          test("chatbot pills restored", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+            const page = await context.newPage();
+            await openHome(page);
+            await page.waitForTimeout(1800);
+            const launcher = page.locator("#chameleon-widget-launcher");
+            await expect(launcher).toBeVisible();
+            await launcher.evaluate((button: HTMLButtonElement) => button.click());
+            const panel = page.locator("#chameleon-widget-panel");
+            await expect(panel).toBeVisible();
+            await page.waitForTimeout(750);
+
+            const firstChip = panel.locator(".cw-chip:not(.cw-chip--primary)").first();
+            await expect(firstChip).toBeVisible();
+            const chatMetrics = await firstChip.evaluate((element) => {
+              const style = getComputedStyle(element);
+              const before = getComputedStyle(element, "::before");
+              return {
+                radius: parseFloat(style.borderRadius),
+                justify: style.justifyContent,
+                backdrop: style.backdropFilter,
+                beforeContent: before.content,
+                background: style.backgroundImage,
+              };
+            });
+            expect(chatMetrics.radius).toBeGreaterThan(18);
+            expect(chatMetrics.justify).toBe("center");
+            expect(chatMetrics.backdrop).toContain("blur");
+            expect(["none", "normal", "\"\""]).toContain(chatMetrics.beforeContent);
+            await firstChip.hover();
+            await page.waitForTimeout(420);
+            const hoverTransform = await firstChip.evaluate((element) => getComputedStyle(element).transform);
+            expect(hoverTransform).not.toBe("none");
+            await page.screenshot({ path: "qa-liquid/screenshots/widget-chat-pills.png" });
+
+            await page.getByTestId("tab-calculator").click();
+            await page.waitForTimeout(700);
+            await expect(page.locator(".cw-calculator")).toBeVisible();
+            const tabRadius = await page.locator(".cw-tabs").evaluate((element) => parseFloat(getComputedStyle(element).borderRadius));
+            expect(tabRadius).toBeGreaterThan(20);
+            await page.screenshot({ path: "qa-liquid/screenshots/widget-calculator-rounded.png" });
+            report.push({ test: "chatbot-pills", chatMetrics, tabRadius, passed: true });
+            await context.close();
+          });
+
+          test.afterAll(() => {
+            fs.writeFileSync("qa-liquid/report.json", JSON.stringify(report, null, 2));
+          });
+          TEST
+
+          PORT=3000 NITRO_PORT=3000 node .output/server/index.mjs > /tmp/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then break; fi
+            if [ "$attempt" -eq 40 ]; then cat /tmp/server.log; exit 1; fi
+            sleep 1
+          done
+          npx playwright test qa-liquid/liquid.spec.ts --workers=1 --reporter=line > /tmp/browser.log 2>&1
+
+      - name: Pages build and export
+        id: pages
+        continue-on-error: true
+        shell: bash
+        run: |
+          VITE_BASE_PATH=/vne-n/ NITRO_PRESET=node-server bun run build > /tmp/pages-build.log 2>&1
+          PORT=4173 NITRO_PORT=4173 node .output/server/index.mjs > /tmp/pages-server.log 2>&1 &
+          PID=$!
+          trap 'kill $PID 2>/dev/null || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://127.0.0.1:4173/vne-n/ > /dev/null; then break; fi
+            sleep 1
+          done
+          PAGES_BASE=vne-n node scripts/export-github-pages.mjs > /tmp/pages-export.log 2>&1
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: liquid-chip-${{ github.run_id }}
+          path: qa-liquid
+          retention-days: 3
+
+      - name: Write result
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "run_id=${{ github.run_id }}"
+            echo "install=${{ steps.install.outcome }}"
+            echo "lint=${{ steps.lint.outcome }}"
+            echo "build=${{ steps.build.outcome }}"
+            echo "playwright=${{ steps.playwright.outcome }}"
+            echo "browser=${{ steps.browser.outcome }}"
+            echo "pages=${{ steps.pages.outcome }}"
+            echo
+            echo "===== lint ====="
+            cat /tmp/lint.log 2>/dev/null || true
+            echo
+            echo "===== browser ====="
+            cat /tmp/browser.log 2>/dev/null || true
+            echo
+            echo "===== build ====="
+            cat /tmp/build.log 2>/dev/null || true
+            echo
+            echo "===== pages ====="
+            cat /tmp/pages-build.log 2>/dev/null || true
+            cat /tmp/pages-export.log 2>/dev/null || true
+          } > LIQUID_CHIP_AUDIT.txt
+          echo "${{ github.run_id }}" > LIQUID_CHIP_RUN_ID.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add LIQUID_CHIP_AUDIT.txt LIQUID_CHIP_RUN_ID.txt
+          git commit -m "chore: ulož liquid chip audit [skip liquid-audit]" || exit 0
+          git push origin HEAD:claude/web-portfolio-publish-ynh7sk
