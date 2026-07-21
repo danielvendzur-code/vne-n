@@ -50,3 +50,10 @@ test("navigation has visible logo copy, chatbot labels and no side-slide animati
   assert.doesNotMatch(nav, /animate=\{\{ x:/);
   assert.match(finalCss, /--line-font-size:\s*1\.66rem/);
 });
+
+test("site metadata presents Daniel Vendžúr as a chatbot specialist", async () => {
+  const config = await read("src/config/site.ts");
+  assert.match(config, /Daniel Vendžúr — chatboty na mieru/);
+  assert.match(config, /chatboty s kalkulačkou, konfigurátorom a rezerváciami/);
+  assert.doesNotMatch(config, /weby a digitálne nástroje na mieru/);
+});
