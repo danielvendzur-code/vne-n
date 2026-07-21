@@ -1,11 +1,27 @@
 import { access, readFile, readdir } from "node:fs/promises";
-import { extname, join, relative } from "node:path";
+import { extname, join } from "node:path";
 
 const root = new URL("../", import.meta.url);
 const failures = [];
 const checkedFiles = [];
-const sourceExtensions = new Set([".js", ".mjs", ".cjs", ".ts", ".tsx", ".json", ".yml", ".yaml"]);
-const excludedDirectories = new Set(["node_modules", ".git", ".output", "dist", "pages-dist", "coverage"]);
+const sourceExtensions = new Set([
+  ".js",
+  ".mjs",
+  ".cjs",
+  ".ts",
+  ".tsx",
+  ".json",
+  ".yml",
+  ".yaml",
+]);
+const excludedDirectories = new Set([
+  "node_modules",
+  ".git",
+  ".output",
+  "dist",
+  "pages-dist",
+  "coverage",
+]);
 
 function fail(message) {
   failures.push(message);
@@ -60,23 +76,35 @@ for (const path of checkedFiles) {
 
 const rootRoute = await read("src/routes/__root.tsx");
 if (!rootRoute.includes("Content-Security-Policy")) fail("Content Security Policy is missing");
-if (!rootRoute.includes("strict-origin-when-cross-origin")) fail("Strict referrer policy is missing");
+if (!rootRoute.includes("strict-origin-when-cross-origin")) {
+  fail("Strict referrer policy is missing");
+}
 if (!rootRoute.includes("widget-loader.js")) fail("Local resilient widget loader is not used");
-if (rootRoute.includes("<script src=\"https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js\"")) {
+if (
+  rootRoute.includes(
+    '<script src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js"',
+  )
+) {
   fail("Brittle direct external widget script is still present");
 }
 
 const loader = await read("public/widget-loader.js");
-if (!loader.includes("__DV_ASSISTANT_LOADER_ACTIVE__")) fail("Widget loader duplicate guard is missing");
+if (!loader.includes("__DV_ASSISTANT_LOADER_ACTIVE__")) {
+  fail("Widget loader duplicate guard is missing");
+}
 if (!loader.includes("MOUNT_TIMEOUT")) fail("Widget loader mount timeout is missing");
 if (!loader.includes("showFallback")) fail("Widget loader fallback is missing");
-if (!loader.includes("https://danielvendzur-code.github.io")) fail("Primary HTTPS widget source is missing");
+if (!loader.includes("https://danielvendzur-code.github.io")) {
+  fail("Primary HTTPS widget source is missing");
+}
 
 const layout = await read("src/components/site/Layout.tsx");
 const competitionIndex = layout.indexOf('import "./CompetitionSystem.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (competitionIndex === -1) fail("CompetitionSystem.css is not imported");
-if (competitionIndex !== lastStyleImport) fail("CompetitionSystem.css must be the final component style import");
+if (competitionIndex !== lastStyleImport) {
+  fail("CompetitionSystem.css must be the final component style import");
+}
 
 const competitionCss = await read("src/components/site/CompetitionSystem.css");
 for (const token of ["#65e6c1", "#72c7ff", "prefers-reduced-motion", "focus-visible"]) {
@@ -94,12 +122,20 @@ for (const token of ["/cookies", "404.html", "build-meta.json", "Chatboty, ktorÃ
 }
 
 const pagesWorkflow = await read(".github/workflows/pages.yml");
-for (const token of ["Validate exported artifact", "Verify live deployment", "/cookies/", "/build-meta.json", "live_smoke=success"]) {
+for (const token of [
+  "Validate exported artifact",
+  "Verify live deployment",
+  "/cookies/",
+  "/build-meta.json",
+  "live_smoke=success",
+]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
 }
 
 const packageJson = JSON.parse(await read("package.json"));
-if (packageJson.private !== true) fail("package.json must remain private to prevent accidental publishing");
+if (packageJson.private !== true) {
+  fail("package.json must remain private to prevent accidental publishing");
+}
 
 try {
   await access(new URL("bun.lock", root));
@@ -114,4 +150,6 @@ if (failures.length) {
 }
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
-console.log("Verified: secrets, unsafe runtime primitives, CSP, referrer policy, widget fallback, final design layer, route export and live smoke contracts.");
+console.log(
+  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, widget fallback, final design layer, route export and live smoke contracts.",
+);
