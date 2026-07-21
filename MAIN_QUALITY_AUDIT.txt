@@ -1,7 +1,7 @@
-run_id=29827161643
+run_id=29827209471
 install=success
 lint=failure
-test=failure
+test=success
 build=success
 
 ===== lint =====
@@ -47,83 +47,72 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.501585
+  duration_ms: 9.435207
   type: 'test'
   ...
-# Subtest: final design system is imported last and removes bronze from the authoritative layer
-not ok 2 - final design system is imported last and removes bronze from the authoritative layer
+# Subtest: final design layers load in the authoritative order and contain no bronze palette
+ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 3.669927
+  duration_ms: 3.350514
   type: 'test'
-  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:24:1'
-  failureType: 'testCodeFailure'
-  error: |-
-    Expected values to be strictly equal:
-    
-    879 !== 845
-    
-  code: 'ERR_ASSERTION'
-  name: 'AssertionError'
-  expected: 845
-  actual: 879
-  operator: 'strictEqual'
-  stack: |-
-    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:28:10)
-    async Test.run (node:internal/test_runner/test:1054:7)
-    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
-# Subtest: all major homepage surfaces are covered by the final design layer
-ok 3 - all major homepage surfaces are covered by the final design layer
+# Subtest: all homepage surfaces are covered by the final design system
+ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 2.103033
+  duration_ms: 1.27619
+  type: 'test'
+  ...
+# Subtest: services, projects, process, contact and cookies have final route styling
+ok 4 - services, projects, process, contact and cookies have final route styling
+  ---
+  duration_ms: 1.16416
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
-ok 4 - three solution cards are complete and use bounded pointer interaction
+ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.918689
+  duration_ms: 1.885671
   type: 'test'
   ...
 # Subtest: navigation has visible brand copy and no side-slide drawer animation
-ok 5 - navigation has visible brand copy and no side-slide drawer animation
+ok 6 - navigation has visible brand copy and no side-slide drawer animation
   ---
-  duration_ms: 2.280077
+  duration_ms: 2.685027
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
-ok 6 - metadata, CSP and resilient local widget loading are present
+ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 3.065487
+  duration_ms: 1.817754
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
-ok 7 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
+ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 1.086088
+  duration_ms: 0.878495
   type: 'test'
   ...
-# Subtest: Pages workflow validates artifacts and the real live deployment
-ok 8 - Pages workflow validates artifacts and the real live deployment
+# Subtest: Pages workflow validates security, artifacts and the real live deployment
+ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 1.02715
+  duration_ms: 1.263736
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
-ok 9 - site metadata presents Daniel Vendžúr as a chatbot specialist
+ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 1.201369
+  duration_ms: 1.29759
   type: 'test'
   ...
-1..9
-# tests 9
+1..10
+# tests 10
 # suites 0
-# pass 8
-# fail 1
+# pass 10
+# fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 83.166642
-error: script "test" exited with code 1
+# duration_ms 85.405511
 
 ===== build =====
 $ vite build
@@ -195,7 +184,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-fGOzqmx2.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-CLw55QK7.js                       58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BDk4m8ou.js                       70.82 kB │ gzip: 18.13 kB
 
-[32m✓ built in 616ms[39m
+[32m✓ built in 557ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -231,7 +220,7 @@ computing gzip size...
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.63 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
 .output/server/_libs/lucide-react.mjs                    19.14 kB │ gzip:   4.08 kB
-.output/server/index.mjs                                 21.79 kB │ gzip:   6.35 kB
+.output/server/index.mjs                                 21.79 kB │ gzip:   6.37 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
 .output/server/_ssr/router-fGOzqmx2.mjs                  56.13 kB │ gzip:  13.68 kB
@@ -242,6 +231,6 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 566ms[39m
+[32m✓ built in 603ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
