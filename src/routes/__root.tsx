@@ -20,49 +20,59 @@ function NotFoundComponent() {
       style={{
         backgroundColor: "var(--background)",
         backgroundImage:
-          "radial-gradient(circle at 85% 12%, rgba(123, 203, 227, 0.06), transparent 30rem), radial-gradient(circle at 8% 90%, rgba(95, 145, 181, 0.05), transparent 26rem)",
+          "radial-gradient(circle at 82% 12%, rgba(114, 199, 255, 0.1), transparent 30rem), radial-gradient(circle at 8% 90%, rgba(101, 230, 193, 0.07), transparent 26rem)",
       }}
     >
-      <div className="max-w-md text-center">
+      <div
+        className="max-w-lg text-center"
+        style={{
+          border: "1px solid var(--border)",
+          borderRadius: "1.35rem",
+          padding: "clamp(1.7rem, 5vw, 3rem)",
+          background: "rgba(13, 34, 41, 0.86)",
+          boxShadow: "0 30px 90px rgba(0,0,0,.42)",
+          backdropFilter: "blur(22px)",
+        }}
+      >
         <p
           style={{
-            color: "var(--highlight)",
+            color: "var(--accent)",
             fontSize: "0.73rem",
-            fontWeight: 760,
-            letterSpacing: "0.125em",
+            fontWeight: 800,
+            letterSpacing: "0.14em",
             textTransform: "uppercase",
           }}
         >
-          404 · Stránka neexistuje
+          404 · Adresa neexistuje
         </p>
         <h1
           className="mt-4"
           style={{
             color: "var(--text-primary)",
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(2.2rem, 7vw, 3.4rem)",
-            fontWeight: 500,
-            letterSpacing: "-0.05em",
-            lineHeight: 1,
+            fontSize: "clamp(2.35rem, 7vw, 4rem)",
+            fontWeight: 520,
+            letterSpacing: "-0.06em",
+            lineHeight: 0.98,
           }}
         >
-          Táto adresa nič nezobrazuje.
+          Odkaz sa nenašiel.
         </h1>
-        <p className="mt-4 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
-          Odkaz je možno starý alebo v ňom chýba časť adresy. Všetko podstatné nájdete na hlavnej
-          stránke.
+        <p className="mt-5 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.65 }}>
+          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez overenú navigáciu.
         </p>
         <a
           href={import.meta.env.BASE_URL}
-          className="mt-8 inline-flex items-center justify-center"
+          className="mt-8 inline-flex min-h-13 items-center justify-center"
           style={{
             backgroundColor: "var(--primary)",
             color: "var(--primary-foreground)",
-            borderRadius: "0.78rem",
-            padding: "0.9rem 1.4rem",
+            border: "1px solid rgba(255,255,255,.24)",
+            borderRadius: "0.9rem",
+            padding: "0.9rem 1.45rem",
             fontSize: "0.9rem",
-            fontWeight: 700,
-            minHeight: "3.3rem",
+            fontWeight: 800,
+            boxShadow: "0 18px 42px rgba(101,230,193,.22)",
           }}
         >
           Späť na úvod
@@ -89,22 +99,23 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           Stránka sa nenačítala
         </h1>
         <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-          Niečo sa pokazilo. Skúste to prosím znova.
+          Niečo sa pokazilo. Skúste obnoviť obsah alebo sa vráťte na úvod.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
+            type="button"
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
             style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
           >
             Skúsiť znova
           </button>
           <a
             href={import.meta.env.BASE_URL}
-            className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
             style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}
           >
             Späť na úvod
@@ -121,7 +132,7 @@ const personJsonLd = JSON.stringify({
   name: "Daniel Vendžúr",
   email: "mailto:daniel.vendzur@gmail.com",
   url: "https://danielvendzur-code.github.io/vne-n/",
-  jobTitle: "Tvorca webových nástrojov — chatboty, kalkulačky, konfigurátory",
+  jobTitle: "Tvorca chatbotov, kalkulačiek a produktových konfigurátorov na mieru",
 });
 
 const interTightLatinExt =
@@ -129,25 +140,48 @@ const interTightLatinExt =
 const interTightLatin =
   "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsH8ag.woff2";
 
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self' mailto:",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "script-src 'self' 'unsafe-inline' https://danielvendzur-code.github.io https://*.vercel.app",
+  "connect-src 'self' https://*.vercel.app",
+  "manifest-src 'self'",
+  "worker-src 'self' blob:",
+  "upgrade-insecure-requests",
+].join("; ");
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Daniel Vendžúr — chatboty a webové nástroje na mieru" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { httpEquiv: "Content-Security-Policy", content: contentSecurityPolicy },
+      { name: "referrer", content: "strict-origin-when-cross-origin" },
+      { name: "robots", content: "index,follow,max-image-preview:large" },
+      { title: "Daniel Vendžúr — chatboty na mieru, ktoré pripravujú dopyty" },
       {
         name: "description",
         content:
-          "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
+          "Navrhujem chatboty na mieru — od jednoduchého asistenta po chatbot s kalkulačkou, konfigurátorom alebo rezerváciami.",
       },
       { name: "author", content: "Daniel Vendžúr" },
-      { name: "theme-color", content: "#06131a" },
+      { name: "theme-color", content: "#061216" },
       { property: "og:site_name", content: "Daniel Vendžúr" },
       { property: "og:locale", content: "sk_SK" },
-      { property: "og:title", content: "Daniel Vendžúr — weby, ktoré pracujú" },
+      {
+        property: "og:title",
+        content: "Chatboty na mieru, ktoré odpovedajú a pripravujú použiteľné dopyty",
+      },
       {
         property: "og:description",
-        content: "Chatboty, ľubovoľné kalkulačky, konfigurátory a webové realizácie na mieru.",
+        content: "Chatboty, kalkulačky, konfigurátory a rezervácie prepojené do jedného plynulého riešenia.",
       },
       { property: "og:type", content: "website" },
       {
@@ -174,6 +208,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "manifest", href: `${import.meta.env.BASE_URL}manifest.webmanifest` },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://danielvendzur-code.github.io" },
       {
         rel: "preload",
         href: interTightLatinExt,
@@ -202,11 +237,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const basePath = import.meta.env.BASE_URL === "/" ? "/" : import.meta.env.BASE_URL.replace(/\/$/, "");
+
   return (
-    <html lang="sk">
+    <html lang="sk" data-base-path={basePath} suppressHydrationWarning>
       <head>
         <HeadContent />
-        <script src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js" defer />
+        <script src={`${import.meta.env.BASE_URL}widget-loader.js`} defer />
       </head>
       <body>
         {children}
