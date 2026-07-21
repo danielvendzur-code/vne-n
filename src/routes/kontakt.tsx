@@ -21,6 +21,21 @@ export const Route = createFileRoute("/kontakt")({
   component: ContactPage,
 });
 
+const FIELD_LIMITS = {
+  name: 80,
+  email: 160,
+  company: 160,
+  project: 1_500,
+} as const;
+
+function cleanField(value: string, limit: number): string {
+  return value
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, " ")
+    .replace(/\s{4,}/g, "   ")
+    .trim()
+    .slice(0, limit);
+}
+
 function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,19 +45,25 @@ function ContactPage() {
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const subject = encodeURIComponent(`Nový projekt${company ? ` — ${company}` : ""}`);
+
+    const safeName = cleanField(name, FIELD_LIMITS.name);
+    const safeEmail = cleanField(email, FIELD_LIMITS.email);
+    const safeCompany = cleanField(company, FIELD_LIMITS.company);
+    const safeProject = cleanField(project, FIELD_LIMITS.project);
+    const subject = encodeURIComponent(`Nový projekt${safeCompany ? ` — ${safeCompany}` : ""}`);
     const body = encodeURIComponent(
       [
-        `Meno: ${name}`,
-        `E-mail: ${email}`,
-        `Firma: ${company || "neuvedené"}`,
+        `Meno: ${safeName}`,
+        `E-mail: ${safeEmail}`,
+        `Firma: ${safeCompany || "neuvedené"}`,
         `Termín: ${timing}`,
         "",
         "Čo potrebujem vyriešiť:",
-        project,
+        safeProject,
       ].join("\n"),
     );
-    window.location.href = `mailto:${siteConfig.contact.email}?subject=${subject}&body=${body}`;
+
+    window.location.assign(`mailto:${siteConfig.contact.email}?subject=${subject}&body=${body}`);
   };
 
   const reducedMotion = useReducedMotion();
@@ -126,6 +147,7 @@ function ContactPage() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   required
+                  maxLength={FIELD_LIMITS.name}
                   autoComplete="name"
                   placeholder="Vaše meno"
                 />
@@ -136,7 +158,9 @@ function ContactPage() {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   required
+                  maxLength={FIELD_LIMITS.email}
                   type="email"
+                  inputMode="email"
                   autoComplete="email"
                   placeholder="vas@email.sk"
                 />
@@ -147,6 +171,7 @@ function ContactPage() {
               <input
                 value={company}
                 onChange={(event) => setCompany(event.target.value)}
+                maxLength={FIELD_LIMITS.company}
                 autoComplete="organization"
                 placeholder="firma.sk"
               />
@@ -157,6 +182,7 @@ function ContactPage() {
                 value={project}
                 onChange={(event) => setProject(event.target.value)}
                 required
+                maxLength={FIELD_LIMITS.project}
                 rows={5}
                 placeholder="Napríklad: zákazníkom ručne počítame cenu podľa rozmerov, dopravy a montáže…"
               />
