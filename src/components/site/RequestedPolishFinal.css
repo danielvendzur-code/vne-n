@@ -22,6 +22,10 @@
   min-height: 5rem;
 }
 
+.lp-solution-pill {
+  position: relative;
+}
+
 .lp-solution-pill > div {
   display: flex;
   min-width: 0;
