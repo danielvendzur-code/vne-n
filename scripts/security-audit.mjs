@@ -13,6 +13,7 @@ const excludedDirectories = new Set([
   "pages-dist",
   "coverage",
 ]);
+const scannerPath = "scripts/security-audit.mjs";
 
 function fail(message) {
   failures.push(message);
@@ -60,9 +61,14 @@ for (const path of checkedFiles) {
   for (const [pattern, label] of secretPatterns) {
     if (pattern.test(content)) fail(`${label} pattern detected in ${path}`);
   }
-  if (/\beval\s*\(/.test(content)) fail(`eval() detected in ${path}`);
-  if (/\bnew\s+Function\s*\(/.test(content)) fail(`new Function() detected in ${path}`);
-  if (/document\.write\s*\(/.test(content)) fail(`document.write() detected in ${path}`);
+
+  // The scanner necessarily contains the signatures below as detection rules.
+  // All other source and configuration files remain subject to these checks.
+  if (path !== scannerPath) {
+    if (/\beval\s*\(/.test(content)) fail(`eval() detected in ${path}`);
+    if (/\bnew\s+Function\s*\(/.test(content)) fail(`new Function() detected in ${path}`);
+    if (/document\.write\s*\(/.test(content)) fail(`document.write() detected in ${path}`);
+  }
 }
 
 const rootRoute = await read("src/routes/__root.tsx");
