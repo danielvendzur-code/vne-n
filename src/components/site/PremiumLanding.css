@@ -356,55 +356,28 @@
 }
 
 .lp-assistant-chips button {
-  --liquid-x: 50%;
-  --liquid-y: 50%;
   position: relative;
   overflow: hidden;
   isolation: isolate;
   min-height: 44px;
-  border: 1px solid rgba(242, 239, 230, 0.13);
-  border-radius: 0.62rem;
-  padding: 0.6rem 0.85rem;
+  border: 1px solid rgba(242, 239, 230, 0.16);
+  border-radius: 0.68rem;
+  padding: 0.6rem 0.95rem;
   color: var(--lp-muted);
-  background: linear-gradient(145deg, rgba(242, 239, 230, 0.07), rgba(242, 239, 230, 0.02));
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.055);
-  font-size: 0.72rem;
-  font-weight: 720;
+  background: transparent;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.005em;
   cursor: pointer;
   transition:
-    color 420ms ease,
-    border-color 420ms ease,
-    background-color 420ms ease,
-    transform 460ms var(--lp-liquid-ease),
-    box-shadow 460ms var(--lp-liquid-ease);
-}
-
-.lp-assistant-chips button::before,
-.lp-switch button::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  background: radial-gradient(
-    circle at var(--liquid-x) var(--liquid-y),
-    rgba(var(--lp-liquid-white) / 0.25),
-    rgba(var(--lp-liquid-blue) / 0.09) 34%,
-    transparent 68%
-  );
-  transition: opacity 460ms ease;
+    color 300ms ease,
+    border-color 300ms ease,
+    transform 420ms var(--lp-liquid-ease);
 }
 
 .lp-assistant-chips button[data-active="true"] {
-  border-color: rgba(127, 165, 143, 0.58);
-  color: var(--lp-ink);
-  background: transparent;
-}
-
-.lp-assistant-chips button[data-active="true"]::before,
-.lp-switch button[data-active="true"]::before {
-  opacity: 0.18;
+  color: var(--lp-primary-ink);
+  border-color: transparent;
 }
 
 .lp-chip-liquid,
@@ -412,14 +385,13 @@
   position: absolute;
   z-index: 0;
   inset: -1px;
-  border: 1px solid rgba(127, 165, 143, 0.58);
   border-radius: inherit;
   background:
-    radial-gradient(circle at 24% -10%, rgba(255, 255, 255, 0.18), transparent 42%),
-    linear-gradient(135deg, rgba(127, 165, 143, 0.36), rgba(127, 165, 143, 0.13));
+    radial-gradient(circle at 26% -18%, rgba(255, 255, 255, 0.42), transparent 52%),
+    linear-gradient(150deg, #a6c6b3 0%, var(--lp-mint) 58%, #6c9581 100%);
   box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.14),
-    0 14px 30px -22px rgba(127, 165, 143, 0.56);
+    inset 0 1px rgba(255, 255, 255, 0.32),
+    0 16px 30px -20px rgba(127, 165, 143, 0.7);
 }
 
 .lp-control-label {
@@ -1059,7 +1031,7 @@
 }
 
 .lp-switch button[data-active="true"] {
-  color: var(--lp-ink);
+  color: var(--lp-primary-ink);
   background: transparent;
 }
 
@@ -1583,17 +1555,8 @@
 
   .lp-assistant-chips button:not([data-active="true"]):hover,
   .lp-switch button:not([data-active="true"]):hover {
-    border-color: rgba(127, 165, 143, 0.46);
+    border-color: rgba(166, 198, 179, 0.6);
     color: var(--lp-ink);
-    transform: translateY(-2px) scale(1.014);
-    box-shadow:
-      inset 0 1px rgba(255, 255, 255, 0.1),
-      0 12px 26px -22px rgba(127, 165, 143, 0.72);
-  }
-
-  .lp-assistant-chips button:hover::before,
-  .lp-switch button:hover::before {
-    opacity: 0.88;
   }
 
   .lp-chip:not([data-active="true"]):hover {
