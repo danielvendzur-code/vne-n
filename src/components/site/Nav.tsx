@@ -13,29 +13,29 @@ import "./BrandMenuV2.css";
 
 const drawerItems: LineSidebarItem[] = [
   { label: "Domov", href: "/" },
-  { label: "Služby", href: "/sluzby" },
-  { label: "Projekty", href: "/projekty" },
-  { label: "Postup", href: "/postup" },
+  { label: "Chatboty a riešenia", href: "/sluzby" },
+  { label: "Ukážky", href: "/projekty" },
+  { label: "Spolupráca", href: "/postup" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 
 const menuSolutions = [
   {
     icon: Bot,
-    title: "Chatbot na mieru",
-    copy: "Odpovede, kvalifikácia a hotový dopyt.",
+    title: "AI chatbot na mieru",
+    copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",
     mode: "assistant" as const,
   },
   {
     icon: Calculator,
-    title: "Kalkulačka",
-    copy: "Cena, spotreba alebo návratnosť podľa vašich pravidiel.",
+    title: "Chatbot s kalkulačkou",
+    copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",
     mode: "calculator" as const,
   },
   {
     icon: SlidersHorizontal,
-    title: "Konfigurátor",
-    copy: "Prehľadný výber produktu bez zbytočného vysvetľovania.",
+    title: "Chatbot s konfigurátorom",
+    copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",
     mode: "calculator" as const,
   },
 ];
@@ -102,10 +102,13 @@ export function Nav() {
           <Link
             to="/"
             className="site-brand-lockup flex items-center gap-2"
-            aria-label="Daniel Vendžúr — domov"
+            aria-label="Daniel Vendžúr — chatboty na mieru"
           >
             <Symbol size={34} />
-            <span className="site-brand-name">Daniel Vendžúr</span>
+            <span className="site-brand-copy">
+              <span className="site-brand-name">Daniel Vendžúr</span>
+              <span className="site-brand-specialty">chatboty na mieru</span>
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
@@ -113,7 +116,7 @@ export function Nav() {
               <Link
                 key={item.to}
                 to={item.to}
-                aria-label={item.to === "/sluzby" ? "Služby" : undefined}
+                aria-label={item.to === "/sluzby" ? "Chatboty a riešenia" : undefined}
                 className="site-nav-link text-[13.5px] tracking-tight transition-colors"
                 activeProps={{ style: { color: "var(--primary)" } }}
                 inactiveProps={{ style: { color: "var(--text-secondary)" } }}
@@ -126,8 +129,7 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <Link
               to="/kontakt"
-              className="hidden lg:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
-              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+              className="site-consultation-cta hidden lg:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium"
             >
               Nezáväzná konzultácia
             </Link>
@@ -174,7 +176,7 @@ export function Nav() {
               <Symbol size={40} />
               <span>
                 Daniel Vendžúr
-                <small>weby a nástroje na mieru</small>
+                <small>chatboty a konverzné nástroje na mieru</small>
               </span>
             </Link>
             <button
@@ -197,15 +199,15 @@ export function Nav() {
                   accentColor="#72d3ea"
                   textColor="#f3f8fa"
                   markerColor="rgba(210, 237, 243, 0.2)"
-                  markerLength={48}
-                  maxShift={20}
-                  itemGap={18}
-                  fontSize={1.24}
+                  markerLength={58}
+                  maxShift={24}
+                  itemGap={22}
+                  fontSize={1.48}
                 />
               </div>
 
               <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
-                <p className="site-menu-eyebrow">Riešenia</p>
+                <p className="site-menu-eyebrow">Chatboty</p>
                 <p className="site-menu-services-intro">
                   Vyberte najbližší typ. Asistent pripraví krátke zadanie bez zbytočného formulára.
                 </p>
