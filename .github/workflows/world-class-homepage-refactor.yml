@@ -1,0 +1,804 @@
+name: World-class homepage refactor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/world-class-homepage-refactor.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - name: Refactor homepage into direct React source
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace(path: str, old: str, new: str, count: int = 1):
+              p = Path(path)
+              text = p.read_text()
+              actual = text.count(old)
+              if actual < count:
+                  raise SystemExit(f"Expected {count} occurrence(s) in {path}, found {actual}: {old[:80]!r}")
+              p.write_text(text.replace(old, new, count))
+
+          landing = "src/components/site/PremiumLanding.tsx"
+          replace(landing,
+              'import { useEffect, useState, type ReactNode } from "react";',
+              'import { useEffect, useRef, useState, type ReactNode } from "react";')
+
+          replace(landing, '''const heroTools = {
+            chatbot: {
+              label: "Chatbot",
+              text: "Odpovie, kvalifikuje dopyt a odovzdá vám kontakt aj s celým kontextom.",
+            },
+            calculator: {
+              label: "Kalkulačka",
+              text: "Vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
+            },
+            configurator: {
+              label: "Konfigurátor",
+              text: "Prevedie zákazníka ľubovoľným výberom a odošle hotovú špecifikáciu.",
+            },
+          } satisfies Record<HeroToolKey, { label: string; text: string }>;''', '''const heroTools = {
+            chatbot: {
+              label: "Chatbot",
+              text: "Odpovie 24/7, zistí potrebu zákazníka a pripraví dopyt, na ktorý môžete rovno reagovať.",
+            },
+            calculator: {
+              label: "S kalkulačkou",
+              text: "Vedie prirodzený rozhovor a počas neho vypočíta cenu alebo rozsah zákazky podľa vašich pravidiel.",
+            },
+            configurator: {
+              label: "S konfigurátorom",
+              text: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
+            },
+          } satisfies Record<HeroToolKey, { label: string; text: string }>;''')
+
+          replace(landing, '''const solutions = [
+            {
+              icon: Bot,
+              title: "Chatbot na mieru",
+              copy: "Konverzácia navrhnutá podľa vašich služieb a reálnych otázok zákazníkov.",
+            },
+            {
+              icon: Calculator,
+              title: "Kalkulačky a konfigurátory",
+              copy: "Od ceny po zložitý produktový výber — logika sa prispôsobí vášmu procesu.",
+            },
+            {
+              icon: Workflow,
+              title: "Všetko v jednom chatbote",
+              copy: "Kalkulačku aj konfigurátor viem prepojiť s rozhovorom do jedného plynulého zážitku.",
+            },
+          ];''', '''const solutions = [
+            {
+              icon: Bot,
+              title: "Chatbot na mieru",
+              copy: "Odpovedá na otázky, poradí návštevníkovi a odovzdá vám kontakt spolu s celým kontextom.",
+            },
+            {
+              icon: Calculator,
+              title: "Chatbot s kalkulačkou",
+              copy: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
+            },
+            {
+              icon: Workflow,
+              title: "Chatbot s konfigurátorom",
+              copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle hotovú špecifikáciu.",
+            },
+          ];''')
+
+          replace(landing, 'const magneticCta = useMagnetic<HTMLAnchorElement>(0.14);',
+                           'const magneticCta = useMagnetic<HTMLAnchorElement>(0.055);')
+
+          replace(landing, '''          <h1 aria-label="Webové nástroje, ktoré odovzdajú hotový dopyt.">
+                        <span className="lp-hero-line" aria-hidden="true">
+                          <motion.span variants={heroLine}>Webové nástroje,</motion.span>
+                        </span>
+                        <span className="lp-hero-line" aria-hidden="true">
+                          <motion.span variants={heroLine}>ktoré odovzdajú</motion.span>
+                        </span>
+                        <span className="lp-hero-line" aria-hidden="true">
+                          <motion.em variants={heroLine}>hotový dopyt.</motion.em>
+                        </span>
+                      </h1>''', '''          <h1 aria-label="Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.">
+                        <span className="lp-hero-line" aria-hidden="true">
+                          <motion.span variants={heroLine}>Chatboty, ktoré</motion.span>
+                        </span>
+                        <span className="lp-hero-line" aria-hidden="true">
+                          <motion.span variants={heroLine}>zvyšujú konverzie</motion.span>
+                        </span>
+                        <span className="lp-hero-line" aria-hidden="true">
+                          <motion.em variants={heroLine}>a pripravujú dopyty.</motion.em>
+                        </span>
+                      </h1>''')
+
+          replace(landing, '''          <motion.p className="lp-hero-lead" variants={sequenceItem}>
+                        Kalkulačky, konfigurátory a chatboty na mieru. Zákazník dostane odpoveď alebo cenu hneď
+                        — vy kontakt aj celý kontext, pripravený na ponuku.
+                      </motion.p>''', '''          <motion.p className="lp-hero-lead" variants={sequenceItem}>
+                        Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou,
+                        konfigurátorom alebo rezerváciami. Zákazník dostane odpoveď hneď a vy pripravený dopyt.
+                      </motion.p>''')
+
+          replace(landing, 'Chcem riešenie na mieru <ArrowRight size={17} />',
+                           'Chcem chatbot na mieru <ArrowRight size={17} />')
+          replace(landing, '<p>Čo má zákazník dostať hneď?</p>', '<p>Čo má váš chatbot zvládnuť?</p>')
+          replace(landing, 'aria-label="Typ webového nástroja"', 'aria-label="Typ chatbota"')
+
+          replace(landing, '''        <Heading
+                      eyebrow="Čo sa zmení"
+                      copy="Nástroj má zákazníkovi zjednodušiť rozhodnutie a vám ušetriť opakované otázky."
+                    >''', '''        <Heading
+                      eyebrow="Rozdiel v praxi"
+                      copy="Chatbot odpovie okamžite, zozbiera správne vstupy a odovzdá vám dopyt pripravený na ďalší krok."
+                    >''')
+          replace(landing, 'aria-label="Porovnanie webu bez a s nástrojom"',
+                           'aria-label="Porovnanie webu bez a s chatbotom"')
+          replace(landing, '<span className="lp-control-label">Bez nástroja</span>',
+                           '<span className="lp-control-label">Bez chatbota</span>')
+          replace(landing, '<span className="lp-control-label">S nástrojom</span>',
+                           '<span className="lp-control-label">S chatbotom</span>')
+
+          solution_component = r'''
+          function SolutionCard({
+            solution,
+            index,
+          }: {
+            solution: (typeof solutions)[number];
+            index: number;
+          }) {
+            const reducedMotion = useReducedMotion();
+            const cardRef = useRef<HTMLElement>(null);
+            const Icon = solution.icon;
+
+            return (
+              <motion.article
+                ref={cardRef}
+                className="lp-solution-pill"
+                initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.28 }}
+                transition={
+                  reducedMotion
+                    ? { duration: 0 }
+                    : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
+                }
+                onPointerMove={(event) => {
+                  if (reducedMotion || event.pointerType === "touch") return;
+                  const card = event.currentTarget;
+                  const bounds = card.getBoundingClientRect();
+                  const x = (event.clientX - bounds.left) / Math.max(bounds.width, 1) - 0.5;
+                  const y = (event.clientY - bounds.top) / Math.max(bounds.height, 1) - 0.5;
+                  card.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
+                  card.style.setProperty("--tilt-y", `${(x * 6).toFixed(2)}deg`);
+                }}
+                onPointerLeave={(event) => {
+                  event.currentTarget.style.setProperty("--tilt-x", "0deg");
+                  event.currentTarget.style.setProperty("--tilt-y", "0deg");
+                }}
+              >
+                <Icon aria-hidden="true" />
+                <div>
+                  <h3>{solution.title}</h3>
+                  <p>{solution.copy}</p>
+                  <button
+                    type="button"
+                    className="lp-solution-cta"
+                    onClick={() =>
+                      openSiteAssistant({
+                        source: "solution-card",
+                        entry: "builder",
+                        category: solution.title,
+                      })
+                    }
+                  >
+                    Navrhnúť tento chatbot <ArrowUpRight aria-hidden="true" />
+                  </button>
+                </div>
+              </motion.article>
+            );
+          }
+
+          '''
+          replace(landing, 'function ValueSection() {', solution_component + 'function ValueSection() {')
+
+          replace(landing, '''        <div className="lp-solution-strip">
+                      {solutions.map(({ icon: Icon, title, copy }, index) => (
+                        <Reveal className="lp-solution-pill" key={title} delay={index * 0.08}>
+                          <Icon />
+                          <div>
+                            <h3>{title}</h3>
+                            <p>{copy}</p>
+                          </div>
+                        </Reveal>
+                      ))}
+                    </div>''', '''        <div className="lp-solution-strip">
+                      {solutions.map((solution, index) => (
+                        <SolutionCard key={solution.title} solution={solution} index={index} />
+                      ))}
+                    </div>''')
+
+          nav = "src/components/site/Nav.tsx"
+          replace(nav, '''const drawerItems: LineSidebarItem[] = [
+            { label: "Domov", href: "/" },
+            { label: "Služby", href: "/sluzby" },
+            { label: "Projekty", href: "/projekty" },
+            { label: "Postup", href: "/postup" },
+            { label: "Kontakt", href: "/kontakt" },
+          ];''', '''const drawerItems: LineSidebarItem[] = [
+            { label: "Domov", href: "/" },
+            { label: "Chatboty a riešenia", href: "/sluzby" },
+            { label: "Ukážky", href: "/projekty" },
+            { label: "Spolupráca", href: "/postup" },
+            { label: "Kontakt", href: "/kontakt" },
+          ];''')
+          replace(nav, '''const menuSolutions = [
+            {
+              icon: Bot,
+              title: "Chatbot na mieru",
+              copy: "Odpovede, kvalifikácia a hotový dopyt.",
+              mode: "assistant" as const,
+            },
+            {
+              icon: Calculator,
+              title: "Kalkulačka",
+              copy: "Cena, spotreba alebo návratnosť podľa vašich pravidiel.",
+              mode: "calculator" as const,
+            },
+            {
+              icon: SlidersHorizontal,
+              title: "Konfigurátor",
+              copy: "Prehľadný výber produktu bez zbytočného vysvetľovania.",
+              mode: "calculator" as const,
+            },
+          ];''', '''const menuSolutions = [
+            {
+              icon: Bot,
+              title: "AI chatbot na mieru",
+              copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",
+              mode: "assistant" as const,
+            },
+            {
+              icon: Calculator,
+              title: "Chatbot s kalkulačkou",
+              copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",
+              mode: "calculator" as const,
+            },
+            {
+              icon: SlidersHorizontal,
+              title: "Chatbot s konfigurátorom",
+              copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",
+              mode: "calculator" as const,
+            },
+          ];''')
+
+          replace(nav, '''            <Symbol size={34} />
+                        <span className="site-brand-name">Daniel Vendžúr</span>''', '''            <Symbol size={38} />
+                        <span className="site-brand-copy">
+                          <span className="site-brand-name">Daniel Vendžúr</span>
+                          <small>chatboty na mieru</small>
+                        </span>''')
+          replace(nav, '''              className="hidden lg:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
+                          style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+                        >
+                          Nezáväzná konzultácia
+                        </Link>''', '''              className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
+                        >
+                          Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
+                        </Link>''')
+
+          old_motion = '''          initial={false}
+                      animate={{ x: open ? "0%" : "102%" }}
+                      transition={
+                        reducedMotion
+                          ? { duration: 0 }
+                          : open
+                            ? { type: "spring", stiffness: 300, damping: 31, mass: 0.82 }
+                            : { type: "spring", stiffness: 360, damping: 38, mass: 0.78 }
+                      }
+                      style={{
+                        transition: "none",
+                        willChange: reducedMotion ? undefined : "transform",
+                      }}'''
+          new_motion = '''          initial={false}
+                      animate={{
+                        opacity: open ? 1 : 0,
+                        y: open ? 0 : 14,
+                        scale: open ? 1 : 0.985,
+                      }}
+                      transition={
+                        reducedMotion
+                          ? { duration: 0 }
+                          : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
+                      }
+                      style={{
+                        transition: "none",
+                        willChange: reducedMotion ? undefined : "transform, opacity",
+                      }}'''
+          replace(nav, old_motion, new_motion)
+          replace(nav, '<Symbol size={40} />', '<Symbol size={44} />')
+          replace(nav, '<small>weby a nástroje na mieru</small>',
+                       '<small>chatboty a konverzné nástroje na mieru</small>')
+          replace(nav, '<p className="site-menu-eyebrow">Riešenia</p>',
+                       '<p className="site-menu-eyebrow">Chatboty</p>')
+
+          config = "src/config/site.ts"
+          replace(config, 'title: "Daniel Vendžúr — weby a digitálne nástroje na mieru",',
+                          'title: "Daniel Vendžúr — chatboty na mieru",')
+          replace(config, '"Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",',
+                          '"Navrhujem chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom a rezerváciami.",')
+
+          layout = Path("src/components/site/Layout.tsx")
+          text = layout.read_text()
+          text = text.replace('import { RequestedRuntimePolish } from "./RequestedRuntimePolish";\n', '')
+          text = text.replace('import "./RequestedPolish.css";\nimport "./RequestedPolishFinal.css";\n', 'import "./WorldClassPolish.css";\n')
+          text = text.replace('        <RequestedRuntimePolish key={`requested-${pathname}`} />\n', '')
+          layout.write_text(text)
+
+          motion_file = Path("src/components/site/SiteMotionEnhancements.tsx")
+          text = motion_file.read_text()
+          text = re.sub(
+              r'\nconst replaceText = .*?\n\};\n\nexport function SiteMotionEnhancements\(\) \{\n  const reducedMotion = useReducedMotion\(\);\n\n  useEffect\(\(\) => \{.*?\n  \}, \[\]\);\n',
+              '\nexport function SiteMotionEnhancements() {\n  const reducedMotion = useReducedMotion();\n',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          if 'refineHomepageCopy' in text or 'const replaceText' in text:
+              raise SystemExit('Runtime copy mutation was not fully removed')
+          motion_file.write_text(text)
+
+          Path("src/components/site/WorldClassPolish.css").write_text(r'''/* Direct, final homepage system. No runtime copy or DOM patching. */
+          :root {
+            --action: #64e3b3;
+            --action-hover: #7af0c5;
+            --action-ink: #052018;
+            --action-soft: rgba(100, 227, 179, 0.13);
+            --action-line: rgba(100, 227, 179, 0.42);
+            --interactive: #72d3ea;
+            --interactive-soft: rgba(114, 211, 234, 0.12);
+            --interactive-line: rgba(114, 211, 234, 0.32);
+          }
+
+          .site-header .container-page { max-width: min(1720px, calc(100vw - 22px)); }
+          .site-header-bar {
+            min-height: 68px !important;
+            padding-inline: clamp(14px, 2.2vw, 30px) !important;
+          }
+          .site-brand-lockup { min-width: max-content; gap: .7rem !important; }
+          .site-brand-copy { display: grid; gap: .05rem; line-height: 1.05; }
+          .site-brand-name {
+            font-size: 1rem !important;
+            font-weight: 760 !important;
+            letter-spacing: -.028em;
+          }
+          .site-brand-copy small {
+            color: var(--interactive);
+            font-size: .61rem;
+            font-weight: 760;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+          }
+          .site-brand-lockup .brand-symbol {
+            filter: drop-shadow(0 8px 22px rgba(114, 211, 234, .2));
+          }
+
+          .site-header nav[aria-label="Rýchla navigácia"] {
+            flex: 1;
+            justify-content: space-evenly;
+            gap: clamp(28px, 3.5vw, 62px) !important;
+            max-width: 720px;
+            margin-inline: auto;
+            padding-inline: clamp(20px, 3vw, 56px);
+          }
+          .site-nav-link {
+            position: relative;
+            isolation: isolate;
+            padding: 14px 5px;
+            font-size: .96rem !important;
+            font-weight: 690;
+            letter-spacing: -.018em !important;
+            transition: color 180ms ease, transform 240ms cubic-bezier(.16,1,.3,1) !important;
+          }
+          .site-nav-link::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            left: 50%;
+            bottom: 5px;
+            width: 26px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--interactive);
+            filter: blur(11px);
+            opacity: 0;
+            transform: translate(-50%,5px) scale(.55);
+            transition: opacity 180ms ease, transform 280ms cubic-bezier(.16,1,.3,1);
+          }
+          .site-nav-link::after {
+            left: 50% !important;
+            right: auto !important;
+            bottom: 4px !important;
+            width: 0 !important;
+            height: 2px !important;
+            background: var(--interactive) !important;
+            transform: translateX(-50%) !important;
+            transition: width 280ms cubic-bezier(.16,1,.3,1) !important;
+          }
+          .site-nav-link:hover,
+          .site-nav-link:focus-visible { color: var(--text-primary) !important; transform: translateY(-2px); }
+          .site-nav-link:hover::before,
+          .site-nav-link:focus-visible::before { opacity: .62; transform: translate(-50%,0) scale(1); }
+          .site-nav-link:hover::after,
+          .site-nav-link:focus-visible::after,
+          .site-nav-link[data-status="active"]::after { width: 100% !important; }
+
+          .site-consultation-cta,
+          .site-menu-cta,
+          .lp-button-primary,
+          .lp-assistant-cta,
+          .lp-caps-detail-cta,
+          .lp-faq-ask,
+          .lp-final-card .lp-button,
+          .lp-final-card .lp-button-light,
+          .lp-solution-cta {
+            background: var(--action) !important;
+            border-color: color-mix(in oklab, var(--action) 72%, white 11%) !important;
+            color: var(--action-ink) !important;
+            box-shadow: 0 14px 34px rgba(100,227,179,.2), inset 0 1px 0 rgba(255,255,255,.32) !important;
+          }
+          .site-consultation-cta {
+            position: relative;
+            overflow: hidden;
+            min-height: 44px;
+            transition: transform 260ms cubic-bezier(.16,1,.3,1), box-shadow 240ms ease, background-color 180ms ease !important;
+          }
+          .site-consultation-cta::after {
+            content: "";
+            position: absolute;
+            inset: -45% auto -45% -38%;
+            width: 23%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.54), transparent);
+            transform: skewX(-18deg);
+            animation: premium-cta-sheen 7.2s ease-in-out infinite;
+            pointer-events: none;
+          }
+          @keyframes premium-cta-sheen {
+            0%, 76% { left: -38%; opacity: 0; }
+            81% { opacity: 1; }
+            93%,100% { left: 124%; opacity: 0; }
+          }
+          .site-consultation-cta:hover,
+          .site-consultation-cta:focus-visible,
+          .site-menu-cta:hover,
+          .site-menu-cta:focus-visible,
+          .lp-button-primary:hover,
+          .lp-button-primary:focus-visible,
+          .lp-assistant-cta:hover,
+          .lp-assistant-cta:focus-visible,
+          .lp-caps-detail-cta:hover,
+          .lp-caps-detail-cta:focus-visible,
+          .lp-faq-ask:hover,
+          .lp-faq-ask:focus-visible,
+          .lp-final-card .lp-button:hover,
+          .lp-final-card .lp-button:focus-visible,
+          .lp-solution-cta:hover,
+          .lp-solution-cta:focus-visible {
+            background: var(--action-hover) !important;
+            transform: translateY(-3px) scale(1.01) !important;
+            box-shadow: 0 20px 42px rgba(100,227,179,.28), inset 0 1px 0 rgba(255,255,255,.4) !important;
+          }
+
+          .site-menu-drawer {
+            top: 12px !important;
+            right: 12px !important;
+            bottom: 12px !important;
+            width: min(1080px, calc(100vw - 24px)) !important;
+            height: auto !important;
+            border: 1px solid rgba(114,211,234,.16);
+            border-radius: 28px;
+            transform-origin: 85% 4%;
+            box-shadow: -26px 28px 90px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+          }
+          .site-menu-content { padding-inline: clamp(26px,5vw,72px) !important; }
+          .site-menu-grid {
+            display: grid;
+            grid-template-columns: minmax(310px,.9fr) minmax(430px,1.1fr) !important;
+            gap: clamp(42px,7vw,104px) !important;
+            width: 100%;
+            align-items: stretch;
+          }
+          .site-menu-nav-column .rb-line-sidebar {
+            --line-marker-length: 68px !important;
+            --line-marker-gap: 14px !important;
+            --line-max-shift: 30px !important;
+            --line-item-gap: 25px !important;
+            --line-font-size: 1.66rem !important;
+            width: 100%;
+          }
+          .site-menu-nav-column .rb-line-sidebar__item,
+          .site-menu-nav-column .rb-line-sidebar__link { width: 100%; }
+          .site-menu-brand small { color: var(--interactive) !important; }
+          .site-menu-solution-list { gap: .82rem !important; }
+          .site-menu-solution { min-height: 5rem; }
+          .site-menu-solution,
+          .site-menu-project-link,
+          .site-menu-cta {
+            transition: transform 250ms cubic-bezier(.16,1,.3,1), border-color 180ms ease, background-color 180ms ease, box-shadow 230ms ease !important;
+          }
+          .site-menu-solution:hover,
+          .site-menu-solution:focus-visible,
+          .site-menu-project-link:hover,
+          .site-menu-project-link:focus-visible {
+            transform: translateX(7px);
+            border-color: var(--interactive-line) !important;
+            box-shadow: -12px 0 34px rgba(114,211,234,.09);
+          }
+
+          .lp-assistant-card > p {
+            color: var(--text-primary) !important;
+            font-size: .86rem !important;
+            font-weight: 740 !important;
+            letter-spacing: -.012em;
+          }
+          .lp-assistant-chips,
+          .lp-switch {
+            padding: 5px !important;
+            border: 1px solid rgba(114,211,234,.2) !important;
+            border-radius: 17px !important;
+            background: color-mix(in oklab,var(--surface) 84%,transparent) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 14px 38px rgba(0,0,0,.14);
+            backdrop-filter: blur(18px) saturate(118%);
+          }
+          .lp-assistant-chips button,
+          .lp-switch button {
+            min-height: 43px;
+            border-radius: 12px !important;
+            color: var(--text-secondary) !important;
+            font-weight: 690 !important;
+            transition: color 180ms ease, transform 220ms cubic-bezier(.16,1,.3,1) !important;
+          }
+          .lp-assistant-chips button:hover,
+          .lp-switch button:hover { color: var(--text-primary) !important; transform: translateY(-1px); }
+          .lp-assistant-chips button[data-active="true"],
+          .lp-switch button[data-active="true"] { color: #06171c !important; }
+          .lp-chip-liquid,
+          .lp-switch-liquid {
+            background: var(--interactive) !important;
+            border: 1px solid rgba(255,255,255,.3) !important;
+            box-shadow: 0 9px 24px rgba(114,211,234,.22), inset 0 1px 0 rgba(255,255,255,.4) !important;
+          }
+          .lp-assistant-answer {
+            border-color: rgba(114,211,234,.2) !important;
+            background: rgba(114,211,234,.07) !important;
+          }
+          .lp-assistant-answer svg { color: var(--interactive) !important; }
+
+          .lp-solution-strip { align-items: stretch; }
+          .lp-solution-pill {
+            --tilt-x: 0deg;
+            --tilt-y: 0deg;
+            --card-lift: 0px;
+            position: relative;
+            min-height: 164px;
+            transform-origin: 50% 88%;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--card-lift));
+            transition: transform 130ms linear, border-color 220ms ease, box-shadow 280ms ease !important;
+            will-change: transform;
+          }
+          .lp-solution-pill::after {
+            content: "";
+            position: absolute;
+            inset: auto 18% -12px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(0,0,0,.28);
+            filter: blur(14px);
+            opacity: 0;
+            transform: scale(.8);
+            transition: opacity 260ms ease, transform 340ms cubic-bezier(.16,1,.3,1);
+            pointer-events: none;
+          }
+          .lp-solution-pill:hover {
+            --card-lift: -8px;
+            border-color: var(--interactive-line) !important;
+            box-shadow: 0 26px 56px rgba(0,0,0,.21), 0 0 0 1px rgba(114,211,234,.09) inset !important;
+          }
+          .lp-solution-pill:hover::after { opacity: .45; transform: scale(1); }
+          .lp-solution-pill > div {
+            display: flex;
+            min-width: 0;
+            flex: 1;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .lp-solution-pill p {
+            display: block !important;
+            max-width: 38ch;
+            color: var(--text-secondary) !important;
+            line-height: 1.5 !important;
+          }
+          .lp-solution-pill > svg { color: var(--interactive) !important; }
+          .lp-solution-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            min-height: 2.65rem;
+            margin-top: auto;
+            border: 1px solid;
+            border-radius: .78rem;
+            padding: .66rem .9rem;
+            font-family: inherit;
+            font-size: .74rem;
+            font-weight: 820;
+            line-height: 1.1;
+            cursor: pointer;
+            transition: transform 270ms cubic-bezier(.16,1,.3,1), background-color 180ms ease, box-shadow 240ms ease;
+          }
+          .lp-solution-cta svg { width: 15px; height: 15px; transition: transform 270ms cubic-bezier(.16,1,.3,1); }
+          .lp-solution-cta:hover svg,
+          .lp-solution-cta:focus-visible svg { transform: translate(3px,-2px); }
+
+          .lp-button-quiet,
+          .lp-live-tools a,
+          .lp-caps-note button,
+          .lp-final-email { color: var(--interactive) !important; }
+          .lp-chip,
+          .lp-caps-chips button {
+            transform: none !important;
+            transform-style: flat !important;
+            transition: transform 220ms cubic-bezier(.16,1,.3,1), border-color 180ms ease, background-color 180ms ease !important;
+          }
+          .lp-chip:hover,
+          .lp-caps-chips button:hover { transform: translateY(-2px) !important; }
+
+          @media (max-width: 1120px) {
+            .site-header nav[aria-label="Rýchla navigácia"] { gap: 24px !important; padding-inline: 18px; }
+            .site-nav-link { font-size: .89rem !important; }
+          }
+          @media (max-width: 1023px) {
+            .site-header-bar { min-height: 60px !important; }
+            .site-menu-drawer {
+              top: 8px !important;
+              right: 8px !important;
+              bottom: 8px !important;
+              width: calc(100vw - 16px) !important;
+              border-radius: 24px;
+            }
+            .site-menu-grid { grid-template-columns: 1fr !important; gap: 34px !important; }
+            .site-menu-content { padding-block: 1.8rem !important; }
+          }
+          @media (max-width: 640px) {
+            .site-header .container-page { max-width: calc(100vw - 12px); }
+            .site-header-bar { padding-inline: 10px !important; }
+            .site-brand-lockup .brand-symbol { width: 34px; height: 34px; }
+            .site-brand-name { font-size: .88rem !important; }
+            .site-brand-copy small { font-size: .52rem; }
+            .site-menu-toggle { min-width: 4.3rem; }
+            .site-menu-head { padding: 1rem; }
+            .site-menu-content { padding: 1.2rem 1rem 1.4rem !important; }
+            .site-menu-footer { padding: 1rem; }
+            .site-menu-nav-column .rb-line-sidebar {
+              --line-marker-length: 48px !important;
+              --line-max-shift: 16px !important;
+              --line-item-gap: 16px !important;
+              --line-font-size: 1.22rem !important;
+            }
+            .site-menu-solution { min-height: 4.45rem; }
+            .lp-assistant-chips button,
+            .lp-switch button { min-height: 40px; font-size: .78rem !important; }
+            .lp-solution-strip { display: grid !important; grid-template-columns: 1fr !important; }
+            .lp-solution-pill { min-height: 0; transform: none !important; transition-duration: 300ms !important; }
+            .lp-solution-cta { width: 100%; }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .site-consultation-cta::after { animation: none; }
+            .lp-solution-pill { transform: none !important; transition-duration: .01ms !important; }
+            .lp-solution-cta,
+            .lp-solution-cta svg { transition-duration: .01ms !important; }
+          }
+          ''')
+
+          for obsolete in [
+              "src/components/site/RequestedRuntimePolish.tsx",
+              "src/components/site/RequestedPolish.css",
+              "src/components/site/RequestedPolishFinal.css",
+          ]:
+              Path(obsolete).unlink(missing_ok=True)
+
+          Path("tests/home-contract.test.mjs").write_text(r'''import test from "node:test";
+          import assert from "node:assert/strict";
+          import { access, readFile } from "node:fs/promises";
+
+          const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
+
+          test("homepage content is direct React source, not runtime DOM mutation", async () => {
+            const landing = await read("src/components/site/PremiumLanding.tsx");
+            const layout = await read("src/components/site/Layout.tsx");
+            const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
+            assert.match(landing, /Chatboty, ktoré/);
+            assert.match(landing, /zvyšujú konverzie/);
+            assert.match(landing, /Čo má váš chatbot zvládnuť\?/);
+            assert.match(landing, /Bez chatbota/);
+            assert.match(landing, /S chatbotom/);
+            assert.doesNotMatch(motion, /refineHomepageCopy|replaceText/);
+            assert.doesNotMatch(layout, /RequestedRuntimePolish/);
+            await assert.rejects(access(new URL("../src/components/site/RequestedRuntimePolish.tsx", import.meta.url)));
+          });
+
+          test("primary CTAs use mint, secondary interactions use cyan and no red CTA remains", async () => {
+            const css = await read("src/components/site/WorldClassPolish.css");
+            assert.match(css, /--action:\s*#64e3b3/i);
+            assert.match(css, /--action-hover:\s*#7af0c5/i);
+            assert.match(css, /--interactive:\s*#72d3ea/i);
+            assert.doesNotMatch(css, /#f26f4f|#ff8060/i);
+          });
+
+          test("all three chatbot solution cards have copy, CTA and pointer tilt", async () => {
+            const landing = await read("src/components/site/PremiumLanding.tsx");
+            const css = await read("src/components/site/WorldClassPolish.css");
+            assert.match(landing, /Chatbot na mieru/);
+            assert.match(landing, /Chatbot s kalkulačkou/);
+            assert.match(landing, /Chatbot s konfigurátorom/);
+            assert.match(landing, /Navrhnúť tento chatbot/);
+            assert.match(landing, /onPointerMove/);
+            assert.match(landing, /--tilt-x/);
+            assert.match(css, /rotateX\(var\(--tilt-x\)\)/);
+            assert.match(css, /rotateY\(var\(--tilt-y\)\)/);
+          });
+
+          test("navigation, visible logo lockup and non-sliding menu are implemented directly", async () => {
+            const nav = await read("src/components/site/Nav.tsx");
+            const css = await read("src/components/site/WorldClassPolish.css");
+            assert.match(nav, /site-brand-copy/);
+            assert.match(nav, /chatboty na mieru/);
+            assert.match(nav, /Chatboty a riešenia/);
+            assert.match(nav, /opacity: open \? 1 : 0/);
+            assert.doesNotMatch(nav, /animate=\{\{ x:/);
+            assert.match(css, /width:\s*min\(1080px/);
+            assert.match(css, /--line-font-size:\s*1\.66rem/);
+          });
+          ''')
+
+          package = Path("package.json")
+          text = package.read_text()
+          if '"test":' not in text:
+              text = text.replace('"lint": "eslint .",', '"lint": "eslint .",\n    "test": "node --test tests/*.test.mjs",')
+          else:
+              text = re.sub(r'"test":\s*"[^"]+"', '"test": "node --test tests/*.test.mjs"', text, count=1)
+          package.write_text(text)
+          PY
+      - name: Format
+        run: bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/Nav.tsx src/components/site/Layout.tsx src/components/site/SiteMotionEnhancements.tsx src/components/site/WorldClassPolish.css src/config/site.ts tests/home-contract.test.mjs package.json
+      - name: Lint
+        run: bun run lint
+      - name: Contract tests
+        run: bun run test
+      - name: Production build
+        env:
+          NITRO_PRESET: node-server
+        run: bun run build
+      - name: Commit refactor
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "refactor: make chatbot-first homepage direct and production-grade [skip main-quality]"
+          git push origin HEAD:main
