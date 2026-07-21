@@ -1,4 +1,4 @@
-run_id=29831073223
+run_id=29831214977
 install=success
 lint=success
 test=failure
@@ -13,60 +13,60 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 7.447927
+  duration_ms: 8.941754
   type: 'test'
   ...
 # Subtest: final design layers load in the authoritative order and contain no bronze palette
 ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 2.642776
+  duration_ms: 3.42673
   type: 'test'
   ...
 # Subtest: all homepage surfaces are covered by the final design system
 ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 0.841454
+  duration_ms: 1.52136
   type: 'test'
   ...
 # Subtest: services, projects, process, contact and cookies have final route styling
 ok 4 - services, projects, process, contact and cookies have final route styling
   ---
-  duration_ms: 0.671312
+  duration_ms: 0.881842
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.322004
+  duration_ms: 2.033961
   type: 'test'
   ...
 # Subtest: navigation has visible brand copy and no side-slide drawer animation
 ok 6 - navigation has visible brand copy and no side-slide drawer animation
   ---
-  duration_ms: 0.84607
+  duration_ms: 1.937276
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 1.695877
+  duration_ms: 1.676932
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 0.652565
+  duration_ms: 0.743724
   type: 'test'
   ...
 # Subtest: Pages workflow validates security, artifacts and the real live deployment
 not ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 2.175395
+  duration_ms: 109.353756
   type: 'test'
   location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:140:1'
   failureType: 'testCodeFailure'
   error: |-
-    The input did not match the regular expression /Validate exported artifact/. Input:
+    The input did not match the regular expression /live_smoke=success/. Input:
     
     'name: Deploy and verify GitHub Pages\n' +
       '\n' +
@@ -146,18 +146,27 @@ not ok 9 - Pages workflow validates security, artifacts and the real live deploy
       '\n' +
       '          PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs\n' +
       '\n' +
-      '      - name: Validate current artifact\n' +
+      '      - name: Validate exported artifact\n' +
       '        shell: bash\n' +
       '        run: |\n' +
       '          set -euo pipefail\n' +
       '          test -f pages-dist/index.html\n' +
       '          test -f pages-dist/404.html\n' +
+      '          test -f pages-dist/widget-loader.js\n' +
       '          test -f pages-dist/build-meta.json\n' +
       '          grep -Fq "Chatboty, ktoré" pages-dist/index.html\n' +
+      '          grep -Fq "Content-Security-Policy" pages-dist/index.html\n' +
+      '          grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js\n' +
       '          ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html\n' +
+      '\n' +
+      '          for route in sluzby projekty postup kontakt cookies farby; do\n' +
+      '            test -f "pages-dist/${route}/index.html"\n' +
+      '            test -f "pages-dist/${route}.html"\n' +
+      '          done\n' +
+      '\n' +
       '          grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json\n' +
       '\n' +
-      '      - name: Upload current Pages artifact\n' +
+      '      - name: Upload Pages artifact\n' +
       '        uses: actions/upload-pages-artifact@v3\n' +
       '        with:\n' +
       '          path: pages-dist\n' +
@@ -169,11 +178,11 @@ not ok 9 - Pages workflow validates security, artifacts and the real live deploy
       '    runs-on: ubuntu-latest\n' +
       '    needs: build\n' +
       '    steps:\n' +
-      '      - name: Deploy current main\n' +
+      '      - name: Deploy\n' +
       '        id: deployment\n' +
       '        uses: actions/deploy-pages@v5\n' +
       '\n' +
-      '      - name: Verify current live build\n' +
+      '      - name: Verify live deployment and all public routes\n' +
       '        shell: bash\n' +
       '        env:\n' +
       '          PAGE_URL: ${{ steps.deployment.outputs.page_url }}\n' +
@@ -182,22 +191,37 @@ not ok 9 - Pages workflow validates security, artifacts and the real live deploy
       '          set -euo pipefail\n' +
       '          BASE="${PAGE_URL%/}"\n' +
       '\n' +
-      '          for attempt in {1..30}; do\n' +
-      '            HOME_BODY="$(curl --location --fail --silent --show-error --header \'Cache-Control: no-cache\' "${BASE}/?sha=${SOURCE_SHA}-${attempt}" || true)"\n' +
-      '            META_BODY="$(curl --location --fail --silent --show-error --header \'Cache-Control: no-cache\' "${BASE}/build-meta.json?sha=${SOURCE_SHA}-${attempt}" || true)"\n' +
+      '          fetch_with_retry() {\n' +
+      '            local path="$1"\n' +
+      '            local expected="$2"\n' +
+      `            local body="/tmp/live-$(echo "$path" | tr '/.' '__').txt"\n` +
       '\n' +
-      `            if printf '%s' "$HOME_BODY" | grep -Fq "Chatboty, ktoré" && \\\n` +
-      `               ! printf '%s' "$HOME_BODY" | grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" && \\\n` +
-      `               printf '%s' "$META_BODY" | grep -Fq "$SOURCE_SHA"; then\n` +
-      '              echo "verified current live build"\n' +
-      '              exit 0\n' +
-      '            fi\n' +
+      '            for attempt in {1..30}; do\n' +
+      '              if curl --location --fail --silent --show-error \\\n' +
+      '                --header "Cache-Control: no-cache" \\\n' +
+      '                "${BASE}${path}?verify=${SOURCE_SHA}-${attempt}" > "$body"; then\n' +
+      '                if [ -z "$expected" ] || grep -Fq "$expected" "$body"; then\n' +
+      '                  echo "verified ${path}"\n' +
+      '                  return 0\n' +
+      '                fi\n' +
+      '              fi\n' +
+      '              sleep 5\n' +
+      '            done\n' +
       '\n' +
-      '            sleep 5\n' +
-      '          done\n' +
+      '            echo "Live verification failed for ${path}"\n' +
+      '            cat "$body" 2>/dev/null || true\n' +
+      '            return 1\n' +
+      '          }\n' +
       '\n' +
-      '          echo "Live GitHub Pages is not serving the current main build"\n' +
-      '          exit 1\n'
+      '          fetch_with_retry "/" "Chatboty, ktoré"\n' +
+      '          fetch_with_retry "/sluzby" ""\n' +
+      '          fetch_with_retry "/sluzby/" ""\n' +
+      '          fetch_with_retry "/projekty/" ""\n' +
+      '          fetch_with_retry "/postup/" ""\n' +
+      '          fetch_with_retry "/kontakt/" ""\n' +
+      '          fetch_with_retry "/cookies/" ""\n' +
+      '          fetch_with_retry "/widget-loader.js" "DV_ASSISTANT_LOADER_ACTIVE"\n' +
+      '          fetch_with_retry "/build-meta.json" "$SOURCE_SHA"\n'
     
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
@@ -281,18 +305,27 @@ not ok 9 - Pages workflow validates security, artifacts and the real live deploy
     
               PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs
     
-          - name: Validate current artifact
+          - name: Validate exported artifact
             shell: bash
             run: |
               set -euo pipefail
               test -f pages-dist/index.html
               test -f pages-dist/404.html
+              test -f pages-dist/widget-loader.js
               test -f pages-dist/build-meta.json
               grep -Fq "Chatboty, ktoré" pages-dist/index.html
+              grep -Fq "Content-Security-Policy" pages-dist/index.html
+              grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
               ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
+    
+              for route in sluzby projekty postup kontakt cookies farby; do
+                test -f "pages-dist/${route}/index.html"
+                test -f "pages-dist/${route}.html"
+              done
+    
               grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json
     
-          - name: Upload current Pages artifact
+          - name: Upload Pages artifact
             uses: actions/upload-pages-artifact@v3
             with:
               path: pages-dist
@@ -304,11 +337,11 @@ not ok 9 - Pages workflow validates security, artifacts and the real live deploy
         runs-on: ubuntu-latest
         needs: build
         steps:
-          - name: Deploy current main
+          - name: Deploy
             id: deployment
             uses: actions/deploy-pages@v5
     
-          - name: Verify current live build
+          - name: Verify live deployment and all public routes
             shell: bash
             env:
               PAGE_URL: ${{ steps.deployment.outputs.page_url }}
@@ -317,33 +350,48 @@ not ok 9 - Pages workflow validates security, artifacts and the real live deploy
               set -euo pipefail
               BASE="${PAGE_URL%/}"
     
-              for attempt in {1..30}; do
-                HOME_BODY="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' "${BASE}/?sha=${SOURCE_SHA}-${attempt}" || true)"
-                META_BODY="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' "${BASE}/build-meta.json?sha=${SOURCE_SHA}-${attempt}" || true)"
+              fetch_with_retry() {
+                local path="$1"
+                local expected="$2"
+                local body="/tmp/live-$(echo "$path" | tr '/.' '__').txt"
     
-                if printf '%s' "$HOME_BODY" | grep -Fq "Chatboty, ktoré" && \
-                   ! printf '%s' "$HOME_BODY" | grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" && \
-                   printf '%s' "$META_BODY" | grep -Fq "$SOURCE_SHA"; then
-                  echo "verified current live build"
-                  exit 0
-                fi
+                for attempt in {1..30}; do
+                  if curl --location --fail --silent --show-error \
+                    --header "Cache-Control: no-cache" \
+                    "${BASE}${path}?verify=${SOURCE_SHA}-${attempt}" > "$body"; then
+                    if [ -z "$expected" ] || grep -Fq "$expected" "$body"; then
+                      echo "verified ${path}"
+                      return 0
+                    fi
+                  fi
+                  sleep 5
+                done
     
-                sleep 5
-              done
+                echo "Live verification failed for ${path}"
+                cat "$body" 2>/dev/null || true
+                return 1
+              }
     
-              echo "Live GitHub Pages is not serving the current main build"
-              exit 1
+              fetch_with_retry "/" "Chatboty, ktoré"
+              fetch_with_retry "/sluzby" ""
+              fetch_with_retry "/sluzby/" ""
+              fetch_with_retry "/projekty/" ""
+              fetch_with_retry "/postup/" ""
+              fetch_with_retry "/kontakt/" ""
+              fetch_with_retry "/cookies/" ""
+              fetch_with_retry "/widget-loader.js" "DV_ASSISTANT_LOADER_ACTIVE"
+              fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
     
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:146:10)
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:151:10)
     async Test.run (node:internal/test_runner/test:1054:7)
     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 1.681355
+  duration_ms: 2.09172
   type: 'test'
   ...
 1..10
@@ -354,7 +402,7 @@ ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 73.802983
+# duration_ms 189.890764
 error: script "test" exited with code 1
 
 ===== build =====
@@ -385,7 +433,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-CV-He948.js               209.48 kB │ gzip: 68.49 kB
 
-[32m✓ built in 1.39s[39m
+[32m✓ built in 1.51s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 123 modules transformed.
 rendering chunks...
@@ -420,7 +468,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-hJZiaCqt.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-B27YhZm5.js                     64.34 kB │ gzip: 15.92 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-l6oqELmX.js                       72.61 kB │ gzip: 18.38 kB
 
-[32m✓ built in 527ms[39m
+[32m✓ built in 598ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -439,6 +487,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 594ms[39m
+[32m✓ built in 616ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
