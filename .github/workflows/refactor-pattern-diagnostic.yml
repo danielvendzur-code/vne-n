@@ -1,0 +1,58 @@
+name: Homepage refactor pattern diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/refactor-pattern-diagnostic.yml
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source patterns
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          checks = []
+          def check(path, name, pattern, flags=0):
+              text = Path(path).read_text()
+              count = len(re.findall(pattern, text, flags))
+              checks.append((path, name, count))
+
+          landing = "src/components/site/PremiumLanding.tsx"
+          check(landing, "react import", r'import \{ useEffect, useState, type ReactNode \} from "react";')
+          check(landing, "hero tools", r'const heroTools = \{.*?\} satisfies Record<HeroToolKey, \{ label: string; text: string \}>;', re.S)
+          check(landing, "solutions data", r'const solutions = \[.*?\];\n\nconst projects', re.S)
+          check(landing, "hero heading", r'<h1 aria-label="Webové nástroje, ktoré odovzdajú hotový dopyt\.">.*?</h1>', re.S)
+          check(landing, "hero lead", r'<motion\.p className="lp-hero-lead" variants=\{sequenceItem\}>.*?</motion\.p>', re.S)
+          check(landing, "solution render", r'\{solutions\.map\(\(\{ icon: Icon, title, copy \}, index\) => \(.*?\)\)\}', re.S)
+          check(landing, "value marker", r'function ValueSection\(\) \{')
+
+          nav = "src/components/site/Nav.tsx"
+          check(nav, "drawer items", r'const drawerItems: LineSidebarItem\[\] = \[.*?\];', re.S)
+          check(nav, "menu solutions", r'const menuSolutions = \[.*?\];', re.S)
+          check(nav, "brand lockup", r'<Symbol size=\{34\} />\s*<span className="site-brand-name">Daniel Vendžúr</span>', re.S)
+          check(nav, "consultation CTA", r'<Link\s+to="/kontakt"\s+className="hidden lg:inline-flex.*?</Link>', re.S)
+          check(nav, "menu motion", r'initial=\{false\}\s*animate=\{\{ x: open \? "0%" : "102%" \}\}\s*transition=\{.*?\}\s*style=\{\{\s*transition: "none",\s*willChange: reducedMotion \? undefined : "transform",\s*\}\}', re.S)
+
+          motion = "src/components/site/SiteMotionEnhancements.tsx"
+          check(motion, "runtime copy block", r'\nconst replaceText = .*?\n  \}, \[\]\);\n\n  useEffect\(\(\) => \{\n    const images', re.S)
+
+          lines = [f"{path}\t{name}\t{count}" for path, name, count in checks]
+          Path("REFACTOR_PATTERN_DIAGNOSTIC.txt").write_text("\n".join(lines) + "\n")
+          PY
+      - name: Commit diagnostic
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add REFACTOR_PATTERN_DIAGNOSTIC.txt
+          git commit -m "chore: record homepage refactor diagnostic [skip main-quality]"
+          git push origin HEAD:main
