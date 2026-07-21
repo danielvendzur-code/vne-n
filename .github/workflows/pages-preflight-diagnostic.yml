@@ -1,0 +1,119 @@
+name: Pages preflight diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/pages-preflight-diagnostic.yml
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+      - name: Run complete preflight and record every stage
+        shell: bash
+        run: |
+          set +e
+
+          bun install --frozen-lockfile > /tmp/install.log 2>&1
+          INSTALL=$?
+
+          bun audit --prod --audit-level=high > /tmp/dependency-audit.log 2>&1
+          DEPENDENCY_AUDIT=$?
+
+          node scripts/security-audit.mjs > /tmp/security-audit.log 2>&1
+          SECURITY_AUDIT=$?
+
+          bun run lint > /tmp/lint.log 2>&1
+          LINT=$?
+
+          bun run test > /tmp/test.log 2>&1
+          TEST=$?
+
+          NITRO_PRESET=node-server VITE_BASE_PATH=/vne-n/ bun run build > /tmp/build.log 2>&1
+          BUILD=$?
+
+          EXPORT=99
+          VALIDATE=99
+          if [ "$BUILD" -eq 0 ]; then
+            PORT=4173 node .output/server/index.mjs > /tmp/server.log 2>&1 &
+            SERVER_PID=$!
+            READY=1
+            for attempt in {1..40}; do
+              if curl --fail --silent http://127.0.0.1:4173/vne-n/ > /dev/null; then
+                READY=0
+                break
+              fi
+              sleep 1
+            done
+
+            if [ "$READY" -eq 0 ]; then
+              PAGES_BASE=vne-n GITHUB_SHA="$GITHUB_SHA" node scripts/export-github-pages.mjs > /tmp/export.log 2>&1
+              EXPORT=$?
+            else
+              echo "Preview server did not become ready" > /tmp/export.log
+              cat /tmp/server.log >> /tmp/export.log
+              EXPORT=98
+            fi
+            kill "$SERVER_PID" 2>/dev/null || true
+          else
+            echo "Build failed, export not attempted" > /tmp/export.log
+          fi
+
+          if [ "$EXPORT" -eq 0 ]; then
+            {
+              test -f pages-dist/index.html &&
+              test -f pages-dist/404.html &&
+              test -f pages-dist/widget-loader.js &&
+              test -f pages-dist/build-meta.json &&
+              grep -Fq "Chatboty, ktoré" pages-dist/index.html &&
+              grep -Fq "Content-Security-Policy" pages-dist/index.html &&
+              grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js &&
+              ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html &&
+              test -f pages-dist/sluzby/index.html &&
+              test -f pages-dist/sluzby.html &&
+              test -f pages-dist/projekty/index.html &&
+              test -f pages-dist/postup/index.html &&
+              test -f pages-dist/kontakt/index.html &&
+              test -f pages-dist/cookies/index.html &&
+              test -f pages-dist/cookies.html &&
+              test -f pages-dist/farby/index.html &&
+              grep -Fq "$GITHUB_SHA" pages-dist/build-meta.json
+            } > /tmp/validate.log 2>&1
+            VALIDATE=$?
+          else
+            echo "Export failed, validation not attempted" > /tmp/validate.log
+          fi
+
+          {
+            echo "source_sha=$GITHUB_SHA"
+            echo "install=$INSTALL"
+            echo "dependency_audit=$DEPENDENCY_AUDIT"
+            echo "security_audit=$SECURITY_AUDIT"
+            echo "lint=$LINT"
+            echo "test=$TEST"
+            echo "build=$BUILD"
+            echo "export=$EXPORT"
+            echo "validate=$VALIDATE"
+            for name in install dependency-audit security-audit lint test build server export validate; do
+              echo
+              echo "===== $name ====="
+              cat "/tmp/$name.log" 2>/dev/null || true
+            done
+          } > PAGES_PREFLIGHT_AUDIT.txt
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PAGES_PREFLIGHT_AUDIT.txt
+          git commit -m "chore: record exact Pages preflight [skip main-quality]" || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
