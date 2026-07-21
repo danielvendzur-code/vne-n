@@ -95,8 +95,12 @@ const routesIndex = layout.indexOf('import "./CompetitionRoutes.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (systemIndex === -1) fail("CompetitionSystem.css is not imported");
 if (routesIndex === -1) fail("CompetitionRoutes.css is not imported");
-if (systemIndex >= routesIndex) fail("CompetitionRoutes.css must load after CompetitionSystem.css");
-if (routesIndex !== lastStyleImport) fail("CompetitionRoutes.css must be the final component style import");
+if (systemIndex >= routesIndex) {
+  fail("CompetitionRoutes.css must load after CompetitionSystem.css");
+}
+if (routesIndex !== lastStyleImport) {
+  fail("CompetitionRoutes.css must be the final component style import");
+}
 
 const competitionCss = await read("src/components/site/CompetitionSystem.css");
 for (const token of ["#65e6c1", "#72c7ff", "prefers-reduced-motion", "focus-visible"]) {
