@@ -1,4 +1,4 @@
-run_id=29826814483
+run_id=29827080443
 install=success
 lint=success
 test=success
@@ -42,55 +42,55 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.490424
+  duration_ms: 8.094274
   type: 'test'
   ...
 # Subtest: final design system is imported last and removes bronze from the authoritative layer
 ok 2 - final design system is imported last and removes bronze from the authoritative layer
   ---
-  duration_ms: 3.148186
+  duration_ms: 2.797413
   type: 'test'
   ...
 # Subtest: all major homepage surfaces are covered by the final design layer
 ok 3 - all major homepage surfaces are covered by the final design layer
   ---
-  duration_ms: 1.316885
+  duration_ms: 1.357966
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 4 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.68306
+  duration_ms: 1.54849
   type: 'test'
   ...
 # Subtest: navigation has visible brand copy and no side-slide drawer animation
 ok 5 - navigation has visible brand copy and no side-slide drawer animation
   ---
-  duration_ms: 1.317015
+  duration_ms: 1.213149
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 6 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 2.773216
+  duration_ms: 2.417867
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 7 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 1.405617
+  duration_ms: 1.745914
   type: 'test'
   ...
 # Subtest: Pages workflow validates artifacts and the real live deployment
 ok 8 - Pages workflow validates artifacts and the real live deployment
   ---
-  duration_ms: 0.671051
+  duration_ms: 0.868155
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 9 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 1.046792
+  duration_ms: 1.153781
   type: 'test'
   ...
 1..9
@@ -101,7 +101,7 @@ ok 9 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 80.403745
+# duration_ms 87.769893
 
 ===== build =====
 $ vite build
@@ -132,7 +132,7 @@ computing gzip size...
 .output/public/assets/routes-Cmcstgpc.js              155.89 kB │ gzip:  59.10 kB
 .output/public/assets/index-tkg5jOlp.js               504.35 kB │ gzip: 160.36 kB
 
-[32m✓ built in 1.63s[39m
+[32m✓ built in 1.68s[39m
 [33m[plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
@@ -173,7 +173,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-BVqRHAXl.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-DMQ0d2cU.js                       58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BDk4m8ou.js                       70.82 kB │ gzip: 18.13 kB
 
-[32m✓ built in 611ms[39m
+[32m✓ built in 579ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -220,6 +220,6 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 630ms[39m
+[32m✓ built in 559ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
