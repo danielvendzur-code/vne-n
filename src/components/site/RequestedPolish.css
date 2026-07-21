@@ -1,0 +1,321 @@
+/* Final requested refinement layer. Imported last on purpose. */
+:root {
+  --action: #f26f4f;
+  --action-hover: #ff8060;
+  --action-ink: #16100d;
+  --interactive: #71d2e6;
+  --interactive-soft: rgba(113, 210, 230, 0.12);
+  --interactive-line: rgba(113, 210, 230, 0.32);
+}
+
+/* Header: larger, clearer and more alive without becoming noisy. */
+.site-header .container-page {
+  max-width: min(1540px, calc(100vw - 24px));
+}
+
+.site-header-bar {
+  min-height: 64px !important;
+  padding-inline: clamp(14px, 2vw, 26px) !important;
+}
+
+.site-brand-lockup {
+  min-width: max-content;
+}
+
+.site-brand-name {
+  font-size: 0.98rem !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.025em;
+}
+
+.site-brand-lockup::after {
+  content: "chatboty na mieru";
+  display: none;
+  color: var(--interactive);
+  font-size: 0.67rem;
+  font-weight: 720;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+@media (min-width: 1180px) {
+  .site-brand-lockup::after { display: inline-block; }
+}
+
+.site-header nav[aria-label="Rýchla navigácia"] {
+  flex: 1;
+  justify-content: center;
+  gap: clamp(26px, 3.1vw, 54px) !important;
+  padding-inline: clamp(18px, 3vw, 56px);
+}
+
+.site-nav-link {
+  position: relative;
+  isolation: isolate;
+  padding: 12px 3px;
+  font-size: 0.91rem !important;
+  font-weight: 650;
+  letter-spacing: -0.015em !important;
+  transition: color 180ms ease, transform 220ms cubic-bezier(.16,1,.3,1) !important;
+}
+
+.site-nav-link::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  bottom: 4px;
+  width: 22px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--interactive);
+  filter: blur(10px);
+  opacity: 0;
+  transform: translate(-50%, 4px) scale(.6);
+  transition: opacity 180ms ease, transform 260ms cubic-bezier(.16,1,.3,1);
+}
+
+.site-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 0;
+  height: 1.5px;
+  border-radius: 999px;
+  background: var(--interactive);
+  transform: translateX(-50%);
+  transition: width 260ms cubic-bezier(.16,1,.3,1);
+}
+
+.site-nav-link:hover {
+  color: var(--text-primary) !important;
+  transform: translateY(-1px);
+}
+
+.site-nav-link:hover::before { opacity: .62; transform: translate(-50%, 0) scale(1); }
+.site-nav-link:hover::after { width: 100%; }
+
+.site-header a[href$="/kontakt"]:not(.site-brand-lockup) {
+  position: relative;
+  overflow: hidden;
+  min-height: 42px;
+  border: 1px solid color-mix(in oklab, var(--action) 68%, white 12%);
+  background: var(--action) !important;
+  color: var(--action-ink) !important;
+  box-shadow: 0 10px 28px rgba(242,111,79,.22), inset 0 1px 0 rgba(255,255,255,.28);
+  transition: transform 240ms cubic-bezier(.16,1,.3,1), box-shadow 240ms ease, background-color 180ms ease !important;
+}
+
+.site-header a[href$="/kontakt"]:not(.site-brand-lockup)::after {
+  content: "";
+  position: absolute;
+  inset: -40% auto -40% -45%;
+  width: 28%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+  transform: skewX(-18deg);
+  animation: requested-cta-glint 5.8s ease-in-out infinite;
+}
+
+.site-header a[href$="/kontakt"]:not(.site-brand-lockup):hover {
+  transform: translateY(-2px) scale(1.015);
+  background: var(--action-hover) !important;
+  box-shadow: 0 15px 34px rgba(242,111,79,.3), inset 0 1px 0 rgba(255,255,255,.34);
+}
+
+@keyframes requested-cta-glint {
+  0%, 70% { left: -45%; opacity: 0; }
+  76% { opacity: 1; }
+  92%, 100% { left: 125%; opacity: 0; }
+}
+
+/* The drawer should use the available space, not float inside an empty column. */
+.site-menu-drawer {
+  width: min(920px, 96vw) !important;
+}
+
+.site-menu-content {
+  padding-inline: clamp(22px, 5vw, 64px) !important;
+}
+
+.site-menu-grid {
+  grid-template-columns: minmax(260px, .86fr) minmax(360px, 1.14fr) !important;
+  gap: clamp(34px, 7vw, 92px) !important;
+  width: 100%;
+}
+
+.site-menu-nav-column nav,
+.site-menu-nav-column ul {
+  width: 100%;
+}
+
+.site-menu-brand small {
+  color: var(--interactive) !important;
+}
+
+.site-menu-solution,
+.site-menu-project-link,
+.site-menu-cta {
+  transition: transform 240ms cubic-bezier(.16,1,.3,1), border-color 180ms ease, background-color 180ms ease, box-shadow 220ms ease !important;
+}
+
+.site-menu-solution:hover,
+.site-menu-project-link:hover {
+  transform: translateX(5px);
+  border-color: var(--interactive-line) !important;
+  box-shadow: -10px 0 30px rgba(113,210,230,.08);
+}
+
+.site-menu-cta {
+  background: var(--action) !important;
+  color: var(--action-ink) !important;
+  border-color: color-mix(in oklab, var(--action) 68%, white 10%) !important;
+}
+
+.site-menu-cta:hover { transform: translateY(-3px); background: var(--action-hover) !important; }
+
+/* Unified action language across the page. */
+.lp-button-primary,
+.lp-assistant-cta,
+.lp-caps-detail-cta,
+.lp-faq-ask,
+.lp-final-card .lp-button,
+.lp-final-card .lp-button-light {
+  --button-bg: var(--action);
+  background: var(--action) !important;
+  border-color: color-mix(in oklab, var(--action) 72%, white 10%) !important;
+  color: var(--action-ink) !important;
+  box-shadow: 0 12px 32px rgba(242,111,79,.2), inset 0 1px 0 rgba(255,255,255,.24) !important;
+}
+
+.lp-button-primary:hover,
+.lp-assistant-cta:hover,
+.lp-caps-detail-cta:hover,
+.lp-faq-ask:hover,
+.lp-final-card .lp-button:hover {
+  background: var(--action-hover) !important;
+  transform: translateY(-3px) scale(1.012) !important;
+  box-shadow: 0 18px 38px rgba(242,111,79,.29), inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
+
+.lp-button-primary .lp-button-content {
+  transition: transform 260ms cubic-bezier(.16,1,.3,1);
+}
+
+.lp-button-primary:hover .lp-button-content { transform: translateX(3px); }
+.lp-button-primary svg { transition: transform 260ms cubic-bezier(.16,1,.3,1); }
+.lp-button-primary:hover svg { transform: translateX(5px); }
+
+/* Hero card: segmented controls now match the assistant widget. */
+.lp-assistant-card > p {
+  color: var(--text-primary) !important;
+  font-size: .84rem !important;
+  font-weight: 720 !important;
+  letter-spacing: -.01em;
+}
+
+.lp-assistant-chips,
+.lp-switch {
+  padding: 5px !important;
+  border: 1px solid rgba(113,210,230,.18) !important;
+  border-radius: 16px !important;
+  background: color-mix(in oklab, var(--surface) 82%, transparent) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 14px 38px rgba(0,0,0,.14);
+  backdrop-filter: blur(18px) saturate(115%);
+}
+
+.lp-assistant-chips button,
+.lp-switch button {
+  min-height: 42px;
+  border-radius: 12px !important;
+  color: var(--text-secondary) !important;
+  font-weight: 670 !important;
+  transition: color 180ms ease, transform 220ms cubic-bezier(.16,1,.3,1) !important;
+}
+
+.lp-assistant-chips button:hover,
+.lp-switch button:hover { color: var(--text-primary) !important; transform: translateY(-1px); }
+
+.lp-assistant-chips button[data-active="true"],
+.lp-switch button[data-active="true"] { color: #071419 !important; }
+
+.lp-chip-liquid,
+.lp-switch-liquid {
+  background: var(--interactive) !important;
+  border: 1px solid rgba(255,255,255,.28) !important;
+  box-shadow: 0 8px 22px rgba(113,210,230,.21), inset 0 1px 0 rgba(255,255,255,.35) !important;
+}
+
+.lp-assistant-answer {
+  border-color: rgba(113,210,230,.18) !important;
+  background: rgba(113,210,230,.065) !important;
+}
+
+.lp-assistant-answer svg { color: var(--interactive) !important; }
+
+/* Return the weighted, physical hover to the three outcome cards. */
+.lp-solution-pill {
+  min-height: 132px;
+  transform-origin: 50% 88%;
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(.16,1,.3,1), border-color 220ms ease, box-shadow 280ms ease !important;
+}
+
+.lp-solution-pill:nth-child(1):hover { transform: perspective(900px) rotateZ(-1.5deg) rotateY(2.4deg) translateY(-7px); }
+.lp-solution-pill:nth-child(2):hover { transform: perspective(900px) rotateX(2deg) translateY(-8px); }
+.lp-solution-pill:nth-child(3):hover { transform: perspective(900px) rotateZ(1.5deg) rotateY(-2.4deg) translateY(-7px); }
+
+.lp-solution-pill:hover {
+  border-color: var(--interactive-line) !important;
+  box-shadow: 0 24px 52px rgba(0,0,0,.2), 0 0 0 1px rgba(113,210,230,.08) inset !important;
+}
+
+.lp-solution-pill p {
+  display: block !important;
+  max-width: 34ch;
+  color: var(--text-secondary) !important;
+  line-height: 1.48 !important;
+}
+
+.lp-solution-pill svg { color: var(--interactive) !important; }
+
+/* Keep secondary interactions visibly separate from conversion CTAs. */
+.lp-button-quiet,
+.lp-live-tools a,
+.lp-caps-note button,
+.lp-final-email {
+  color: var(--interactive) !important;
+}
+
+/* Remove the old flipping/rotating chip feeling. */
+.lp-chip,
+.lp-caps-chips button {
+  transform: none !important;
+  transform-style: flat !important;
+  transition: transform 220ms cubic-bezier(.16,1,.3,1), border-color 180ms ease, background-color 180ms ease !important;
+}
+
+.lp-chip:hover,
+.lp-caps-chips button:hover { transform: translateY(-2px) !important; }
+
+@media (max-width: 1023px) {
+  .site-header-bar { min-height: 58px !important; }
+  .site-menu-drawer { width: min(680px, 100vw) !important; }
+  .site-menu-grid { grid-template-columns: 1fr !important; gap: 34px !important; }
+}
+
+@media (max-width: 640px) {
+  .site-header .container-page { max-width: calc(100vw - 12px); }
+  .site-header-bar { padding-inline: 10px !important; }
+  .site-brand-name { font-size: .9rem !important; }
+  .lp-assistant-chips button,
+  .lp-switch button { min-height: 40px; font-size: .78rem !important; }
+  .lp-solution-pill { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header a[href$="/kontakt"]:not(.site-brand-lockup)::after { animation: none; }
+  .lp-solution-pill:hover,
+  .lp-solution-pill:nth-child(n):hover { transform: none !important; }
+}
