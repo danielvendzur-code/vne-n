@@ -28,7 +28,9 @@ export function RequestedRuntimePolish() {
       ] as const;
       drawerLabels.forEach(([href, label]) => {
         setText(
-          document.querySelector(`#site-navigation-drawer a[href="${href}"] .rb-line-sidebar__text`),
+          document.querySelector(
+            `#site-navigation-drawer a[href$="${href}"] .rb-line-sidebar__text`,
+          ),
           label,
         );
       });
