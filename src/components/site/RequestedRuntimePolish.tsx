@@ -53,9 +53,10 @@ export function RequestedRuntimePolish() {
         ["Chatboty, ktoré", "zvyšujú konverzie", "a pripravujú dopyty."].forEach(
           (text, index) => setText(lines[index] ?? null, text),
         );
-        hero
-          .querySelector("h1")
-          ?.setAttribute("aria-label", "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.");
+        const heading = hero.querySelector("h1");
+        if (heading?.getAttribute("aria-label") !== "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.") {
+          heading?.setAttribute("aria-label", "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.");
+        }
         setText(
           hero.querySelector(".lp-hero-lead"),
           "Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou, konfigurátorom alebo rezerváciami. Zákazník dostane odpoveď hneď a vy pripravený dopyt.",
@@ -183,7 +184,12 @@ export function RequestedRuntimePolish() {
 
     apply();
     const observer = new MutationObserver(schedule);
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["data-active"],
+    });
 
     return () => {
       observer.disconnect();
