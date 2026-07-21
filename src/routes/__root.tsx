@@ -1,13 +1,15 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
+  HeadContent,
   Outlet,
+  Scripts,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { SiteLayout } from "../components/site/Layout";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -18,7 +20,7 @@ function NotFoundComponent() {
       style={{
         backgroundColor: "var(--background)",
         backgroundImage:
-          "radial-gradient(circle at 85% 12%, rgba(201, 170, 112, 0.07), transparent 30rem), radial-gradient(circle at 8% 90%, rgba(127, 165, 143, 0.06), transparent 26rem)",
+          "radial-gradient(circle at 85% 12%, rgba(123, 203, 227, 0.06), transparent 30rem), radial-gradient(circle at 8% 90%, rgba(95, 145, 181, 0.05), transparent 26rem)",
       }}
     >
       <div className="max-w-md text-center">
@@ -116,28 +118,33 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 const personJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Daniel Vendzúr",
+  name: "Daniel Vendžúr",
   email: "mailto:daniel.vendzur@gmail.com",
   url: "https://danielvendzur-code.github.io/vne-n/",
   jobTitle: "Tvorca webových nástrojov — chatboty, kalkulačky, konfigurátory",
 });
+
+const interTightLatinExt =
+  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsJ8ah8QA.woff2";
+const interTightLatin =
+  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsH8ag.woff2";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Daniel Vendzúr — chatboty a webové nástroje na mieru" },
+      { title: "Daniel Vendžúr — chatboty a webové nástroje na mieru" },
       {
         name: "description",
         content:
           "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
       },
-      { name: "author", content: "Daniel Vendzúr" },
-      { name: "theme-color", content: "#06120d" },
-      { property: "og:site_name", content: "Daniel Vendzúr" },
+      { name: "author", content: "Daniel Vendžúr" },
+      { name: "theme-color", content: "#06131a" },
+      { property: "og:site_name", content: "Daniel Vendžúr" },
       { property: "og:locale", content: "sk_SK" },
-      { property: "og:title", content: "Daniel Vendzúr — weby, ktoré pracujú" },
+      { property: "og:title", content: "Daniel Vendžúr — weby, ktoré pracujú" },
       {
         property: "og:description",
         content: "Chatboty, ľubovoľné kalkulačky, konfigurátory a webové realizácie na mieru.",
@@ -168,8 +175,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
+        rel: "preload",
+        href: interTightLatinExt,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        href: interTightLatin,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&family=Inter:wght@400..600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&display=swap",
       },
     ],
     scripts: [{ type: "application/ld+json", children: personJsonLd }],
@@ -197,9 +218,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const outlet = <Outlet />;
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      {pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>}
     </QueryClientProvider>
   );
 }

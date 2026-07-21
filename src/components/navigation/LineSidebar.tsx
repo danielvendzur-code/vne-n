@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import "./LineSidebar.css";
@@ -171,12 +172,13 @@ export function LineSidebar({
             ref={(element) => {
               itemRefs.current[index] = element;
             }}
+            style={{ "--line-item-index": index } as CSSProperties}
             key={`${item.href}-${item.label}`}
           >
             {showMarker ? <span className="rb-line-sidebar__marker" aria-hidden="true" /> : null}
-            <a
+            <Link
               className="rb-line-sidebar__label"
-              href={item.href}
+              to={item.href as never}
               aria-current={activeIndex === index ? "location" : undefined}
               onFocus={() => {
                 targetsRef.current[index] = 1;
@@ -195,7 +197,7 @@ export function LineSidebar({
                 <span className="rb-line-sidebar__index">{String(index + 1).padStart(2, "0")}</span>
               ) : null}
               <span className="rb-line-sidebar__text">{item.label}</span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

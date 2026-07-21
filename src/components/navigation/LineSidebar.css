@@ -20,6 +20,21 @@
 .rb-line-sidebar__item {
   --line-effect: 0;
   position: relative;
+  opacity: 0;
+  filter: blur(6px);
+  transform: translate3d(18px, 0, 0);
+  transition:
+    opacity 280ms ease,
+    filter 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 420ms cubic-bezier(0.34, 1.42, 0.64, 1);
+  transition-delay: 0ms;
+}
+
+.site-menu-layer[data-open="true"] .rb-line-sidebar__item {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+  transition-delay: calc(105ms + var(--line-item-index, 0) * 54ms);
 }
 
 .rb-line-sidebar__item::before {
@@ -92,6 +107,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .rb-line-sidebar__item {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
   .rb-line-sidebar__label {
     will-change: auto;
   }
