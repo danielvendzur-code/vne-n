@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import "./DeratScrollStory.css";
+import "./DeratScrollStoryMobile.css";
 
 const frames = [
   {
@@ -53,9 +53,6 @@ const chapters = [
 
 export function DeratScrollStory() {
   const rootRef = useRef<HTMLElement>(null);
-  const mobileRef = useRef<HTMLDivElement>(null);
-  const [mobileStep, setMobileStep] = useState(0);
-  const reducedMotion = useReducedMotion();
   const progressValue = useMotionValue(0);
   const springProgress = useSpring(progressValue, {
     stiffness: 190,
@@ -173,60 +170,6 @@ export function DeratScrollStory() {
     return () => media.revert();
   }, [progressValue]);
 
-  useEffect(() => {
-    const scroller = mobileRef.current;
-    if (!scroller) return;
-
-    let frame = 0;
-    const updateStep = () => {
-      frame = 0;
-      const slides = Array.from(
-        scroller.querySelectorAll<HTMLElement>("[data-derat-mobile-slide]"),
-      );
-      if (!slides.length) return;
-
-      const center = scroller.scrollLeft + scroller.clientWidth / 2;
-      let closestIndex = 0;
-      let closestDistance = Number.POSITIVE_INFINITY;
-
-      slides.forEach((slide, index) => {
-        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-        const distance = Math.abs(center - slideCenter);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
-        }
-      });
-
-      setMobileStep(closestIndex);
-    };
-
-    const handleScroll = () => {
-      if (!frame) frame = window.requestAnimationFrame(updateStep);
-    };
-
-    updateStep();
-    scroller.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
-
-    return () => {
-      scroller.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  const goToMobileStep = (index: number) => {
-    const scroller = mobileRef.current;
-    const slide = scroller?.querySelectorAll<HTMLElement>("[data-derat-mobile-slide]")[index];
-    if (!scroller || !slide) return;
-
-    scroller.scrollTo({
-      left: slide.offsetLeft - (scroller.clientWidth - slide.offsetWidth) / 2,
-      behavior: reducedMotion ? "auto" : "smooth",
-    });
-  };
-
   return (
     <section
       ref={rootRef}
@@ -283,9 +226,9 @@ export function DeratScrollStory() {
         </ol>
       </div>
 
-      <div ref={mobileRef} className="derat-story__mobile" aria-label="Obrazovky kalkulačky DERAT">
+      <div className="derat-story__mobile" aria-label="Kroky kalkulačky DERAT">
         {frames.map((frame, index) => (
-          <article data-derat-mobile-slide className="derat-story__mobile-slide" key={frame.src}>
+          <article className="derat-story__mobile-slide" key={frame.src}>
             <figure>
               <img
                 src={frame.src}
@@ -303,19 +246,6 @@ export function DeratScrollStory() {
               <p>{chapters[index].copy}</p>
             </div>
           </article>
-        ))}
-      </div>
-
-      <div className="derat-story__dots" aria-label="Kroky ukážky DERAT">
-        {frames.map((frame, index) => (
-          <button
-            type="button"
-            key={frame.label}
-            aria-label={`Zobraziť krok ${index + 1}: ${frame.label}`}
-            aria-current={mobileStep === index ? "step" : undefined}
-            data-active={mobileStep === index}
-            onClick={() => goToMobileStep(index)}
-          />
         ))}
       </div>
     </section>
