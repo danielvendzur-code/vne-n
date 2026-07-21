@@ -1,0 +1,109 @@
+name: Publish current build to docs fallback
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/publish-docs-fallback.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+      - name: Build, export and publish with diagnostics
+        shell: bash
+        run: |
+          set +e
+
+          bun install --frozen-lockfile > /tmp/install.log 2>&1
+          INSTALL=$?
+          bun audit --prod --audit-level=high > /tmp/audit.log 2>&1
+          AUDIT=$?
+          node scripts/security-audit.mjs > /tmp/security.log 2>&1
+          SECURITY=$?
+          bun run lint > /tmp/lint.log 2>&1
+          LINT=$?
+          bun run test > /tmp/test.log 2>&1
+          TEST=$?
+          NITRO_PRESET=node-server VITE_BASE_PATH=/vne-n/ bun run build > /tmp/build.log 2>&1
+          BUILD=$?
+
+          EXPORT=99
+          VERIFY=99
+          if [ "$BUILD" -eq 0 ]; then
+            PORT=4173 node .output/server/index.mjs > /tmp/server.log 2>&1 &
+            SERVER_PID=$!
+            READY=1
+            for attempt in {1..40}; do
+              if curl --fail --silent http://127.0.0.1:4173/vne-n/ > /dev/null; then
+                READY=0
+                break
+              fi
+              sleep 1
+            done
+            if [ "$READY" -eq 0 ]; then
+              PAGES_BASE=vne-n GITHUB_SHA="$GITHUB_SHA" node scripts/export-github-pages.mjs > /tmp/export.log 2>&1
+              EXPORT=$?
+            else
+              echo "Preview server did not become ready" > /tmp/export.log
+              cat /tmp/server.log >> /tmp/export.log
+              EXPORT=98
+            fi
+            kill "$SERVER_PID" 2>/dev/null || true
+          else
+            echo "Build failed" > /tmp/export.log
+          fi
+
+          if [ "$EXPORT" -eq 0 ]; then
+            rm -rf docs
+            mkdir -p docs
+            cp -R pages-dist/. docs/
+            touch docs/.nojekyll
+            if grep -Fq "Chatboty, ktoré" docs/index.html && \
+               ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" docs/index.html && \
+               test -f docs/build-meta.json; then
+              VERIFY=0
+            else
+              VERIFY=1
+            fi
+          fi
+
+          {
+            echo "install=$INSTALL"
+            echo "audit=$AUDIT"
+            echo "security=$SECURITY"
+            echo "lint=$LINT"
+            echo "test=$TEST"
+            echo "build=$BUILD"
+            echo "export=$EXPORT"
+            echo "verify=$VERIFY"
+            for name in install audit security lint test build server export; do
+              echo
+              echo "===== $name ====="
+              cat "/tmp/$name.log" 2>/dev/null || true
+            done
+          } > DOCS_PUBLISH_AUDIT.txt
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add DOCS_PUBLISH_AUDIT.txt
+
+          if [ "$INSTALL" -eq 0 ] && [ "$AUDIT" -eq 0 ] && [ "$SECURITY" -eq 0 ] && [ "$LINT" -eq 0 ] && [ "$TEST" -eq 0 ] && [ "$BUILD" -eq 0 ] && [ "$EXPORT" -eq 0 ] && [ "$VERIFY" -eq 0 ]; then
+            git add docs
+            MESSAGE="deploy: publish current verified site to docs [skip main-quality]"
+          else
+            MESSAGE="chore: record docs publish failure [skip main-quality]"
+          fi
+
+          git commit -m "$MESSAGE" || true
+          git pull --rebase origin main
+          git push origin HEAD:main

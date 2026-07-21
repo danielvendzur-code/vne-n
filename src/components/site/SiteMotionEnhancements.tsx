@@ -118,10 +118,10 @@ export function SiteMotionEnhancements() {
       const rect = card.getBoundingClientRect();
       const normalizedX = clamp((pointerX - rect.left) / rect.width, 0, 1) * 2 - 1;
       const normalizedY = clamp((pointerY - rect.top) / rect.height, 0, 1) * 2 - 1;
-      const rotateY = normalizedX * 4;
-      const rotateX = normalizedY * -4;
-      card.style.transition = "transform 110ms linear";
-      card.style.transform = `translateY(-50%) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const rotateY = normalizedX * 2.4;
+      const rotateX = normalizedY * -2.4;
+      card.style.transition = "transform 130ms linear";
+      card.style.transform = `translateY(-50%) perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -137,8 +137,8 @@ export function SiteMotionEnhancements() {
         window.cancelAnimationFrame(pointerFrame);
         pointerFrame = 0;
       }
-      card.style.transition = "transform 420ms cubic-bezier(0.16, 1, 0.3, 1)";
-      card.style.transform = "translateY(-50%) perspective(1000px) rotateX(0deg) rotateY(0deg)";
+      card.style.transition = "transform 440ms cubic-bezier(0.16, 1, 0.3, 1)";
+      card.style.transform = "translateY(-50%) perspective(1100px) rotateX(0deg) rotateY(0deg)";
     };
 
     const serviceHandlers = serviceCards.map((service) => {

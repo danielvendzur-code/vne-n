@@ -160,7 +160,7 @@ function ProjectDetail() {
                 <Link
                   to="/projekty/$slug"
                   params={{ slug: other.slug }}
-                  style={{ "--card-accent": other.accent } as React.CSSProperties}
+                  style={{ "--card-accent": "var(--primary)" } as React.CSSProperties}
                 >
                   <div className="sp-project-top">
                     <span>
