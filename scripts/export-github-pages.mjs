@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 const origin = process.env.PAGES_ORIGIN || "http://127.0.0.1:4173";
 const base = `/${(process.env.PAGES_BASE || "vne-n").replace(/^\/+|\/+$/g, "")}`;
 const output = "pages-dist";
+const sourceSha = process.env.GITHUB_SHA || "local";
 
 const routes = [
   "/",
@@ -11,6 +12,7 @@ const routes = [
   "/projekty",
   "/postup",
   "/kontakt",
+  "/cookies",
   "/farby",
   "/projekty/ukazka-01",
   "/projekty/ukazka-02",
@@ -23,21 +25,66 @@ const routes = [
 await rm(output, { recursive: true, force: true });
 await cp(".output/public", output, { recursive: true });
 
+let homeHtml = "";
+
 for (const route of routes) {
-  const response = await fetch(`${origin}${base}${route}`);
+  const response = await fetch(`${origin}${base}${route}`, {
+    headers: { "Cache-Control": "no-cache" },
+  });
   if (!response.ok) {
     throw new Error(`Static export failed for ${route}: ${response.status}`);
   }
 
-  const target =
-    route === "/" ? join(output, "index.html") : join(output, route.slice(1), "index.html");
-  await mkdir(dirname(target), { recursive: true });
-  await writeFile(target, await response.text());
+  const html = await response.text();
+  if (!html.includes("<html") || !html.includes("</html>")) {
+    throw new Error(`Static export returned invalid HTML for ${route}`);
+  }
+
+  if (route === "/") {
+    homeHtml = html;
+    if (!homeHtml.includes("Chatboty, ktoré")) {
+      throw new Error("Homepage export does not contain the current chatbot-first hero copy");
+    }
+    if (homeHtml.includes("Webové nástroje, ktoré odovzdajú hotový dopyt")) {
+      throw new Error("Homepage export still contains obsolete hero copy");
+    }
+  }
+
+  const relative = route.slice(1);
+  const directoryTarget =
+    route === "/" ? join(output, "index.html") : join(output, relative, "index.html");
+  await mkdir(dirname(directoryTarget), { recursive: true });
+  await writeFile(directoryTarget, html);
+
+  // GitHub Pages and external links may request /route without a trailing slash.
+  // The sibling .html file makes that request resolvable without a platform-specific redirect.
+  if (route !== "/") {
+    const extensionTarget = join(output, `${relative}.html`);
+    await mkdir(dirname(extensionTarget), { recursive: true });
+    await writeFile(extensionTarget, html);
+  }
+
   console.log(`exported ${route}`);
 }
 
-const notFound = await fetch(`${origin}${base}/page-that-does-not-exist`);
-await writeFile(join(output, "404.html"), await notFound.text());
+if (!homeHtml) throw new Error("Homepage was not exported");
+
+// A copy of the application shell is the safest GitHub Pages fallback: the
+// client router reads the original URL and renders either the real route or
+// the polished in-app 404 screen.
+await writeFile(join(output, "404.html"), homeHtml);
 await writeFile(join(output, ".nojekyll"), "");
+await writeFile(
+  join(output, "build-meta.json"),
+  JSON.stringify(
+    {
+      sourceSha,
+      generatedAt: new Date().toISOString(),
+      routes,
+    },
+    null,
+    2,
+  ),
+);
 
 console.log(`GitHub Pages artifact is ready in ${output}/`);
