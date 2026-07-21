@@ -1,21 +1,23 @@
 /* Final requested refinement layer. Imported last on purpose. */
 :root {
-  --action: #f26f4f;
-  --action-hover: #ff8060;
-  --action-ink: #16100d;
-  --interactive: #71d2e6;
-  --interactive-soft: rgba(113, 210, 230, 0.12);
-  --interactive-line: rgba(113, 210, 230, 0.32);
+  --action: #64e3b3;
+  --action-hover: #7af0c5;
+  --action-ink: #052018;
+  --action-soft: rgba(100, 227, 179, 0.13);
+  --action-line: rgba(100, 227, 179, 0.42);
+  --interactive: #72d3ea;
+  --interactive-soft: rgba(114, 211, 234, 0.12);
+  --interactive-line: rgba(114, 211, 234, 0.32);
 }
 
-/* Header: larger, clearer and more alive without becoming noisy. */
+/* Header: larger, clearer and visibly interactive. */
 .site-header .container-page {
-  max-width: min(1540px, calc(100vw - 24px));
+  max-width: min(1720px, calc(100vw - 22px));
 }
 
 .site-header-bar {
-  min-height: 64px !important;
-  padding-inline: clamp(14px, 2vw, 26px) !important;
+  min-height: 68px !important;
+  padding-inline: clamp(15px, 2.2vw, 30px) !important;
 }
 
 .site-brand-lockup {
@@ -23,9 +25,9 @@
 }
 
 .site-brand-name {
-  font-size: 0.98rem !important;
-  font-weight: 720 !important;
-  letter-spacing: -0.025em;
+  font-size: 1rem !important;
+  font-weight: 740 !important;
+  letter-spacing: -0.028em;
 }
 
 .site-brand-lockup::after {
@@ -33,10 +35,10 @@
   display: none;
   color: var(--interactive);
   font-size: 0.67rem;
-  font-weight: 720;
-  letter-spacing: 0.055em;
+  font-weight: 760;
+  letter-spacing: 0.065em;
   text-transform: uppercase;
-  opacity: 0.9;
+  opacity: 0.94;
 }
 
 @media (min-width: 1180px) {
@@ -45,19 +47,21 @@
 
 .site-header nav[aria-label="Rýchla navigácia"] {
   flex: 1;
-  justify-content: center;
-  gap: clamp(26px, 3.1vw, 54px) !important;
-  padding-inline: clamp(18px, 3vw, 56px);
+  justify-content: space-evenly;
+  gap: clamp(28px, 3.5vw, 62px) !important;
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 3vw, 56px);
 }
 
 .site-nav-link {
   position: relative;
   isolation: isolate;
-  padding: 12px 3px;
-  font-size: 0.91rem !important;
-  font-weight: 650;
-  letter-spacing: -0.015em !important;
-  transition: color 180ms ease, transform 220ms cubic-bezier(.16,1,.3,1) !important;
+  padding: 14px 5px;
+  font-size: 0.96rem !important;
+  font-weight: 690;
+  letter-spacing: -0.018em !important;
+  transition: color 180ms ease, transform 240ms cubic-bezier(.16,1,.3,1) !important;
 }
 
 .site-nav-link::before {
@@ -65,15 +69,15 @@
   position: absolute;
   z-index: -1;
   left: 50%;
-  bottom: 4px;
-  width: 22px;
-  height: 7px;
+  bottom: 5px;
+  width: 26px;
+  height: 8px;
   border-radius: 999px;
   background: var(--interactive);
-  filter: blur(10px);
+  filter: blur(11px);
   opacity: 0;
-  transform: translate(-50%, 4px) scale(.6);
-  transition: opacity 180ms ease, transform 260ms cubic-bezier(.16,1,.3,1);
+  transform: translate(-50%, 5px) scale(.55);
+  transition: opacity 180ms ease, transform 280ms cubic-bezier(.16,1,.3,1);
 }
 
 .site-nav-link::after {
@@ -82,67 +86,79 @@
   left: 50%;
   bottom: 4px;
   width: 0;
-  height: 1.5px;
+  height: 2px;
   border-radius: 999px;
   background: var(--interactive);
   transform: translateX(-50%);
-  transition: width 260ms cubic-bezier(.16,1,.3,1);
+  transition: width 280ms cubic-bezier(.16,1,.3,1);
 }
 
-.site-nav-link:hover {
+.site-nav-link:hover,
+.site-nav-link:focus-visible {
   color: var(--text-primary) !important;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
-.site-nav-link:hover::before { opacity: .62; transform: translate(-50%, 0) scale(1); }
-.site-nav-link:hover::after { width: 100%; }
+.site-nav-link:hover::before,
+.site-nav-link:focus-visible::before { opacity: .62; transform: translate(-50%, 0) scale(1); }
+.site-nav-link:hover::after,
+.site-nav-link:focus-visible::after { width: 100%; }
 
+/* The consultation chip is the same mint CTA as every other primary action. */
 .site-header a[href$="/kontakt"]:not(.site-brand-lockup) {
   position: relative;
   overflow: hidden;
-  min-height: 42px;
-  border: 1px solid color-mix(in oklab, var(--action) 68%, white 12%);
+  min-height: 44px;
+  border: 1px solid color-mix(in oklab, var(--action) 70%, white 13%);
   background: var(--action) !important;
   color: var(--action-ink) !important;
-  box-shadow: 0 10px 28px rgba(242,111,79,.22), inset 0 1px 0 rgba(255,255,255,.28);
-  transition: transform 240ms cubic-bezier(.16,1,.3,1), box-shadow 240ms ease, background-color 180ms ease !important;
+  box-shadow: 0 12px 30px rgba(100,227,179,.2), inset 0 1px 0 rgba(255,255,255,.34);
+  transition: transform 260ms cubic-bezier(.16,1,.3,1), box-shadow 240ms ease, background-color 180ms ease !important;
 }
 
 .site-header a[href$="/kontakt"]:not(.site-brand-lockup)::after {
   content: "";
   position: absolute;
-  inset: -40% auto -40% -45%;
-  width: 28%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+  inset: -45% auto -45% -38%;
+  width: 24%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.58), transparent);
   transform: skewX(-18deg);
-  animation: requested-cta-glint 5.8s ease-in-out infinite;
+  animation: requested-cta-glint 6.4s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.site-header a[href$="/kontakt"]:not(.site-brand-lockup):hover {
-  transform: translateY(-2px) scale(1.015);
+.site-header a[href$="/kontakt"]:not(.site-brand-lockup):hover,
+.site-header a[href$="/kontakt"]:not(.site-brand-lockup):focus-visible {
+  transform: translateY(-2px) scale(1.018);
   background: var(--action-hover) !important;
-  box-shadow: 0 15px 34px rgba(242,111,79,.3), inset 0 1px 0 rgba(255,255,255,.34);
+  box-shadow: 0 18px 38px rgba(100,227,179,.28), inset 0 1px 0 rgba(255,255,255,.4);
 }
 
 @keyframes requested-cta-glint {
-  0%, 70% { left: -45%; opacity: 0; }
-  76% { opacity: 1; }
-  92%, 100% { left: 125%; opacity: 0; }
+  0%, 73% { left: -38%; opacity: 0; }
+  78% { opacity: 1; }
+  91%, 100% { left: 124%; opacity: 0; }
 }
 
-/* The drawer should use the available space, not float inside an empty column. */
+/* Open menu uses the available width instead of leaving dead space. */
 .site-menu-drawer {
-  width: min(920px, 96vw) !important;
+  width: min(1080px, 98vw) !important;
 }
 
 .site-menu-content {
-  padding-inline: clamp(22px, 5vw, 64px) !important;
+  padding-inline: clamp(26px, 5vw, 72px) !important;
 }
 
 .site-menu-grid {
-  grid-template-columns: minmax(260px, .86fr) minmax(360px, 1.14fr) !important;
-  gap: clamp(34px, 7vw, 92px) !important;
+  grid-template-columns: minmax(310px, .9fr) minmax(430px, 1.1fr) !important;
+  gap: clamp(42px, 7vw, 104px) !important;
   width: 100%;
+  align-items: stretch;
+}
+
+.site-menu-nav-column,
+.site-menu-services {
+  min-width: 0;
 }
 
 .site-menu-nav-column nav,
@@ -157,25 +173,33 @@
 .site-menu-solution,
 .site-menu-project-link,
 .site-menu-cta {
-  transition: transform 240ms cubic-bezier(.16,1,.3,1), border-color 180ms ease, background-color 180ms ease, box-shadow 220ms ease !important;
+  transition: transform 250ms cubic-bezier(.16,1,.3,1), border-color 180ms ease, background-color 180ms ease, box-shadow 230ms ease !important;
 }
 
 .site-menu-solution:hover,
-.site-menu-project-link:hover {
-  transform: translateX(5px);
+.site-menu-project-link:hover,
+.site-menu-solution:focus-visible,
+.site-menu-project-link:focus-visible {
+  transform: translateX(7px);
   border-color: var(--interactive-line) !important;
-  box-shadow: -10px 0 30px rgba(113,210,230,.08);
+  box-shadow: -12px 0 34px rgba(114,211,234,.09);
 }
 
 .site-menu-cta {
   background: var(--action) !important;
   color: var(--action-ink) !important;
-  border-color: color-mix(in oklab, var(--action) 68%, white 10%) !important;
+  border-color: color-mix(in oklab, var(--action) 70%, white 11%) !important;
+  box-shadow: 0 16px 36px rgba(100,227,179,.18) !important;
 }
 
-.site-menu-cta:hover { transform: translateY(-3px); background: var(--action-hover) !important; }
+.site-menu-cta:hover,
+.site-menu-cta:focus-visible {
+  transform: translateY(-3px);
+  background: var(--action-hover) !important;
+  box-shadow: 0 21px 44px rgba(100,227,179,.26) !important;
+}
 
-/* Unified action language across the page. */
+/* One visual language for all primary conversion actions. */
 .lp-button-primary,
 .lp-assistant-cta,
 .lp-caps-detail-cta,
@@ -184,53 +208,60 @@
 .lp-final-card .lp-button-light {
   --button-bg: var(--action);
   background: var(--action) !important;
-  border-color: color-mix(in oklab, var(--action) 72%, white 10%) !important;
+  border-color: color-mix(in oklab, var(--action) 72%, white 11%) !important;
   color: var(--action-ink) !important;
-  box-shadow: 0 12px 32px rgba(242,111,79,.2), inset 0 1px 0 rgba(255,255,255,.24) !important;
+  box-shadow: 0 14px 34px rgba(100,227,179,.2), inset 0 1px 0 rgba(255,255,255,.3) !important;
 }
 
 .lp-button-primary:hover,
 .lp-assistant-cta:hover,
 .lp-caps-detail-cta:hover,
 .lp-faq-ask:hover,
-.lp-final-card .lp-button:hover {
+.lp-final-card .lp-button:hover,
+.lp-button-primary:focus-visible,
+.lp-assistant-cta:focus-visible,
+.lp-caps-detail-cta:focus-visible,
+.lp-faq-ask:focus-visible,
+.lp-final-card .lp-button:focus-visible {
   background: var(--action-hover) !important;
-  transform: translateY(-3px) scale(1.012) !important;
-  box-shadow: 0 18px 38px rgba(242,111,79,.29), inset 0 1px 0 rgba(255,255,255,.3) !important;
+  transform: translateY(-3px) scale(1.01) !important;
+  box-shadow: 0 20px 42px rgba(100,227,179,.28), inset 0 1px 0 rgba(255,255,255,.38) !important;
 }
 
 .lp-button-primary .lp-button-content {
-  transition: transform 260ms cubic-bezier(.16,1,.3,1);
+  transition: transform 280ms cubic-bezier(.16,1,.3,1);
 }
 
-.lp-button-primary:hover .lp-button-content { transform: translateX(3px); }
-.lp-button-primary svg { transition: transform 260ms cubic-bezier(.16,1,.3,1); }
-.lp-button-primary:hover svg { transform: translateX(5px); }
+.lp-button-primary:hover .lp-button-content,
+.lp-button-primary:focus-visible .lp-button-content { transform: translateX(2px); }
+.lp-button-primary svg { transition: transform 280ms cubic-bezier(.16,1,.3,1); }
+.lp-button-primary:hover svg,
+.lp-button-primary:focus-visible svg { transform: translateX(5px); }
 
-/* Hero card: segmented controls now match the assistant widget. */
+/* Hero and comparison switches match the chatbot segmented control. */
 .lp-assistant-card > p {
   color: var(--text-primary) !important;
-  font-size: .84rem !important;
-  font-weight: 720 !important;
-  letter-spacing: -.01em;
+  font-size: .86rem !important;
+  font-weight: 740 !important;
+  letter-spacing: -.012em;
 }
 
 .lp-assistant-chips,
 .lp-switch {
   padding: 5px !important;
-  border: 1px solid rgba(113,210,230,.18) !important;
-  border-radius: 16px !important;
-  background: color-mix(in oklab, var(--surface) 82%, transparent) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 14px 38px rgba(0,0,0,.14);
-  backdrop-filter: blur(18px) saturate(115%);
+  border: 1px solid rgba(114,211,234,.2) !important;
+  border-radius: 17px !important;
+  background: color-mix(in oklab, var(--surface) 84%, transparent) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 14px 38px rgba(0,0,0,.14);
+  backdrop-filter: blur(18px) saturate(118%);
 }
 
 .lp-assistant-chips button,
 .lp-switch button {
-  min-height: 42px;
+  min-height: 43px;
   border-radius: 12px !important;
   color: var(--text-secondary) !important;
-  font-weight: 670 !important;
+  font-weight: 690 !important;
   transition: color 180ms ease, transform 220ms cubic-bezier(.16,1,.3,1) !important;
 }
 
@@ -238,49 +269,67 @@
 .lp-switch button:hover { color: var(--text-primary) !important; transform: translateY(-1px); }
 
 .lp-assistant-chips button[data-active="true"],
-.lp-switch button[data-active="true"] { color: #071419 !important; }
+.lp-switch button[data-active="true"] { color: #06171c !important; }
 
 .lp-chip-liquid,
 .lp-switch-liquid {
   background: var(--interactive) !important;
-  border: 1px solid rgba(255,255,255,.28) !important;
-  box-shadow: 0 8px 22px rgba(113,210,230,.21), inset 0 1px 0 rgba(255,255,255,.35) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  box-shadow: 0 9px 24px rgba(114,211,234,.22), inset 0 1px 0 rgba(255,255,255,.4) !important;
 }
 
 .lp-assistant-answer {
-  border-color: rgba(113,210,230,.18) !important;
-  background: rgba(113,210,230,.065) !important;
+  border-color: rgba(114,211,234,.2) !important;
+  background: rgba(114,211,234,.07) !important;
 }
 
 .lp-assistant-answer svg { color: var(--interactive) !important; }
 
-/* Return the weighted, physical hover to the three outcome cards. */
+/* Weighted hover: the cards lean toward the pointer and return softly. */
 .lp-solution-pill {
-  min-height: 132px;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --card-lift: 0px;
+  min-height: 154px;
   transform-origin: 50% 88%;
   transform-style: preserve-3d;
-  transition: transform 420ms cubic-bezier(.16,1,.3,1), border-color 220ms ease, box-shadow 280ms ease !important;
+  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--card-lift));
+  transition: transform 130ms linear, border-color 220ms ease, box-shadow 280ms ease !important;
+  will-change: transform;
 }
 
-.lp-solution-pill:nth-child(1):hover { transform: perspective(900px) rotateZ(-1.5deg) rotateY(2.4deg) translateY(-7px); }
-.lp-solution-pill:nth-child(2):hover { transform: perspective(900px) rotateX(2deg) translateY(-8px); }
-.lp-solution-pill:nth-child(3):hover { transform: perspective(900px) rotateZ(1.5deg) rotateY(-2.4deg) translateY(-7px); }
+.lp-solution-pill::after {
+  content: "";
+  position: absolute;
+  inset: auto 18% -12px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.28);
+  filter: blur(14px);
+  opacity: 0;
+  transform: scale(.8);
+  transition: opacity 260ms ease, transform 340ms cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
 
 .lp-solution-pill:hover {
+  --card-lift: -8px;
   border-color: var(--interactive-line) !important;
-  box-shadow: 0 24px 52px rgba(0,0,0,.2), 0 0 0 1px rgba(113,210,230,.08) inset !important;
+  box-shadow: 0 26px 56px rgba(0,0,0,.21), 0 0 0 1px rgba(114,211,234,.09) inset !important;
 }
+
+.lp-solution-pill:hover::after { opacity: .45; transform: scale(1); }
 
 .lp-solution-pill p {
   display: block !important;
-  max-width: 34ch;
+  max-width: 38ch;
   color: var(--text-secondary) !important;
-  line-height: 1.48 !important;
+  line-height: 1.5 !important;
 }
 
 .lp-solution-pill svg { color: var(--interactive) !important; }
 
-/* Keep secondary interactions visibly separate from conversion CTAs. */
+/* Secondary interactions remain cyan, clearly separate from CTAs. */
 .lp-button-quiet,
 .lp-live-tools a,
 .lp-caps-note button,
@@ -288,7 +337,7 @@
   color: var(--interactive) !important;
 }
 
-/* Remove the old flipping/rotating chip feeling. */
+/* Capability chips stay stable and do not flip. */
 .lp-chip,
 .lp-caps-chips button {
   transform: none !important;
@@ -299,10 +348,15 @@
 .lp-chip:hover,
 .lp-caps-chips button:hover { transform: translateY(-2px) !important; }
 
+@media (max-width: 1120px) {
+  .site-header nav[aria-label="Rýchla navigácia"] { gap: 24px !important; padding-inline: 18px; }
+  .site-nav-link { font-size: .89rem !important; }
+}
+
 @media (max-width: 1023px) {
   .site-header-bar { min-height: 58px !important; }
-  .site-menu-drawer { width: min(680px, 100vw) !important; }
-  .site-menu-grid { grid-template-columns: 1fr !important; gap: 34px !important; }
+  .site-menu-drawer { width: min(720px, 100vw) !important; }
+  .site-menu-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
 }
 
 @media (max-width: 640px) {
@@ -311,11 +365,10 @@
   .site-brand-name { font-size: .9rem !important; }
   .lp-assistant-chips button,
   .lp-switch button { min-height: 40px; font-size: .78rem !important; }
-  .lp-solution-pill { min-height: 0; }
+  .lp-solution-pill { min-height: 0; transition-duration: 300ms !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .site-header a[href$="/kontakt"]:not(.site-brand-lockup)::after { animation: none; }
-  .lp-solution-pill:hover,
-  .lp-solution-pill:nth-child(n):hover { transform: none !important; }
+  .lp-solution-pill { transform: none !important; transition-duration: .01ms !important; }
 }
