@@ -58,12 +58,8 @@ function NotFoundComponent() {
         >
           Odkaz sa nenašiel.
         </h1>
-        <p
-          className="mt-5 text-sm"
-          style={{ color: "var(--text-secondary)", lineHeight: 1.65 }}
-        >
-          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez overenú
-          navigáciu.
+        <p className="mt-5 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.65 }}>
+          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez overenú navigáciu.
         </p>
         <a
           href={import.meta.env.BASE_URL}
