@@ -6,6 +6,7 @@ import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
+import { RequestedRuntimePolish } from "./RequestedRuntimePolish";
 import "./SitePolish.css";
 import "./MineralTheme.css";
 import "./MineralThemePolish.css";
@@ -18,6 +19,7 @@ import "./MobileVerticalPolish.css";
 import "./MobileVerticalFinal.css";
 import "./MobileStoryBrandFix.css";
 import "./RequestedPolish.css";
+import "./RequestedPolishFinal.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -28,7 +30,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
-        <SiteMotionEnhancements key={pathname} />
+        <SiteMotionEnhancements key={`motion-${pathname}`} />
+        <RequestedRuntimePolish key={`requested-${pathname}`} />
         <CookieConsent />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
