@@ -16,23 +16,28 @@ const faqJsonLd = JSON.stringify({
 const serviceJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Daniel Vendzúr — chatboty, kalkulačky a konfigurátory na mieru",
+  name: "Daniel Vendžúr — chatboty na mieru pre vyššie konverzie",
   url: `${SITE_URL}/`,
   email: "daniel.vendzur@gmail.com",
   telephone: "+421948699433",
   areaServed: "SK",
   description:
-    "Chatboty, kalkulačky a konfigurátory na mieru — samostatne aj prepojené do jedného riešenia, ktoré firme odovzdá pripravený dopyt.",
-  founder: { "@type": "Person", name: "Daniel Vendzúr" },
-  knowsAbout: ["chatboty", "cenové kalkulačky", "produktové konfigurátory", "webové nástroje"],
+    "Chatboty na mieru — od jednoduchého AI poradcu po chatbot s kalkulačkou, konfigurátorom alebo rezerváciou, ktorý premieňa návštevy webu na pripravené dopyty.",
+  founder: { "@type": "Person", name: "Daniel Vendžúr" },
+  knowsAbout: [
+    "AI chatboty",
+    "chatboty s kalkulačkou",
+    "produktové konfigurátory",
+    "konverzná optimalizácia",
+  ],
 });
 
 export const Route = createFileRoute("/")({
   head: () => ({
     ...seo({
-      title: "Daniel Vendzúr — chatboty, kalkulačky a konfigurátory na mieru",
+      title: "Daniel Vendžúr — chatboty na mieru pre vyššie konverzie",
       description:
-        "Webové nástroje, ktoré odovzdajú hotový dopyt: chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
+        "Tvorím chatboty na mieru — jednoduché AI chatboty aj riešenia s kalkulačkou, konfigurátorom či rezerváciou, ktoré zvyšujú konverzie a odovzdajú pripravený dopyt.",
       path: "/",
     }),
     scripts: [
