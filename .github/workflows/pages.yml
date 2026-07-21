@@ -3,6 +3,9 @@ name: Deploy and verify GitHub Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "MAIN_QUALITY_AUDIT.txt"
+      - "PAGES_DEPLOY_AUDIT.txt"
   workflow_dispatch:
 
 permissions:
