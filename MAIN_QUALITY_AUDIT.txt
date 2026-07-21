@@ -1,4 +1,4 @@
-run_id=29826487623
+run_id=29826534901
 install=success
 lint=failure
 test=success
@@ -8,15 +8,7 @@ build=success
 $ eslint .
 
 /home/runner/work/vne-n/vne-n/scripts/security-audit.mjs
-    8:38  error  Replace `"node_modules",·".git",·".output",·"dist",·"pages-dist",·"coverage"` with `⏎··"node_modules",⏎··".git",⏎··".output",⏎··"dist",⏎··"pages-dist",⏎··"coverage",⏎`                                                                                                                                                    prettier/prettier
-   63:60  error  Insert `⏎·`                                                                                                                                                                                                                                                                                                                prettier/prettier
-   65:5   error  Replace `rootRoute.includes("<script·src=\"https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js\"")` with `⏎··rootRoute.includes(⏎····'<script·src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js"',⏎··)⏎`                                                                              prettier/prettier
-   70:56  error  Insert `⏎·`                                                                                                                                                                                                                                                                                                                prettier/prettier
-   73:62  error  Insert `⏎·`                                                                                                                                                                                                                                                                                                                prettier/prettier
-   79:42  error  Insert `⏎·`                                                                                                                                                                                                                                                                                                                prettier/prettier
-   97:22  error  Replace `"Validate·exported·artifact",·"Verify·live·deployment",·"/cookies/",·"/build-meta.json",·"live_smoke=success"` with `⏎··"Validate·exported·artifact",⏎··"Verify·live·deployment",⏎··"/cookies/",⏎··"/build-meta.json",⏎··"live_smoke=success",⏎`                                                                  prettier/prettier
-  102:34  error  Insert `⏎·`                                                                                                                                                                                                                                                                                                                prettier/prettier
-  117:13  error  Replace `"Verified:·secrets,·unsafe·runtime·primitives,·CSP,·referrer·policy,·widget·fallback,·final·design·layer,·route·export·and·live·smoke·contracts."` with `⏎··"Verified:·secrets,·unsafe·runtime·primitives,·CSP,·referrer·policy,·widget·fallback,·final·design·layer,·route·export·and·live·smoke·contracts.",⏎`  prettier/prettier
+  7:35  error  Replace `⏎··".js",⏎··".mjs",⏎··".cjs",⏎··".ts",⏎··".tsx",⏎··".json",⏎··".yml",⏎··".yaml",⏎` with `".js",·".mjs",·".cjs",·".ts",·".tsx",·".json",·".yml",·".yaml"`  prettier/prettier
 
 /home/runner/work/vne-n/vne-n/src/components/DemoViewer.tsx
   233:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
@@ -51,8 +43,8 @@ $ eslint .
 /home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs
   28:16  error  Replace `layout.lastIndexOf('import·"./'),·layout.indexOf('import·"./CompetitionSystem.css"')` with `⏎····layout.lastIndexOf('import·"./'),⏎····layout.indexOf('import·"./CompetitionSystem.css"'),⏎··`  prettier/prettier
 
-✖ 22 problems (12 errors, 10 warnings)
-  12 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 14 problems (4 errors, 10 warnings)
+  4 errors and 0 warnings potentially fixable with the `--fix` option.
 
 error: script "lint" exited with code 1
 
@@ -62,55 +54,55 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.532914
+  duration_ms: 7.387035
   type: 'test'
   ...
 # Subtest: final design system is imported last and removes bronze from the authoritative layer
 ok 2 - final design system is imported last and removes bronze from the authoritative layer
   ---
-  duration_ms: 3.14257
+  duration_ms: 2.215404
   type: 'test'
   ...
 # Subtest: all major homepage surfaces are covered by the final design layer
 ok 3 - all major homepage surfaces are covered by the final design layer
   ---
-  duration_ms: 1.32668
+  duration_ms: 1.033379
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 4 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.785304
+  duration_ms: 1.158402
   type: 'test'
   ...
 # Subtest: navigation has visible brand copy and no side-slide drawer animation
 ok 5 - navigation has visible brand copy and no side-slide drawer animation
   ---
-  duration_ms: 1.247942
+  duration_ms: 0.907774
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 6 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 3.208138
+  duration_ms: 2.119055
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 7 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 2.477006
+  duration_ms: 1.404752
   type: 'test'
   ...
 # Subtest: Pages workflow validates artifacts and the real live deployment
 ok 8 - Pages workflow validates artifacts and the real live deployment
   ---
-  duration_ms: 1.345568
+  duration_ms: 0.754007
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 9 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 1.283566
+  duration_ms: 0.958409
   type: 'test'
   ...
 1..9
@@ -121,7 +113,7 @@ ok 9 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 80.268034
+# duration_ms 72.611684
 
 ===== build =====
 $ vite build
@@ -152,7 +144,7 @@ computing gzip size...
 .output/public/assets/routes-Cmcstgpc.js              155.89 kB │ gzip:  59.10 kB
 .output/public/assets/index-tkg5jOlp.js               504.35 kB │ gzip: 160.36 kB
 
-[32m✓ built in 1.39s[39m
+[32m✓ built in 1.67s[39m
 [33m[plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
@@ -193,7 +185,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-BVqRHAXl.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-DMQ0d2cU.js                       58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BDk4m8ou.js                       70.82 kB │ gzip: 18.13 kB
 
-[32m✓ built in 521ms[39m
+[32m✓ built in 602ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -229,7 +221,7 @@ computing gzip size...
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.63 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
 .output/server/_libs/lucide-react.mjs                    19.14 kB │ gzip:   4.08 kB
-.output/server/index.mjs                                 21.79 kB │ gzip:   6.36 kB
+.output/server/index.mjs                                 21.79 kB │ gzip:   6.37 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
 .output/server/_ssr/router-BVqRHAXl.mjs                  56.13 kB │ gzip:  13.68 kB
@@ -240,6 +232,6 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 579ms[39m
+[32m✓ built in 646ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
