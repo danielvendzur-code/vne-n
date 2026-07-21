@@ -1,7 +1,0 @@
-run_id=29809410276
-result=success
-
-Running 1 test using 1 worker
-
-[1A[2K[1/1] qa-mobile-story/mobile.spec.ts:3:1 › logo visible and DERAT steps vertical
-[1A[2K  1 passed (4.3s)
