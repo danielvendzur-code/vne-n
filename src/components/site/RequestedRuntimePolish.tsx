@@ -21,9 +21,12 @@ const solutionCopy = [
 ] as const;
 
 const heroAnswers: Record<string, string> = {
-  Chatbot: "Odpovie 24/7, zistí potrebu zákazníka a pripraví dopyt, na ktorý môžete rovno reagovať.",
-  "S kalkulačkou": "Chatbot sa pýta prirodzene a počas rozhovoru vypočíta cenu alebo rozsah zákazky.",
-  "S konfigurátorom": "Chatbot prevedie zákazníka výberom a odošle vám kompletné zadanie bez ďalšieho vypytovania.",
+  Chatbot:
+    "Odpovie 24/7, zistí potrebu zákazníka a pripraví dopyt, na ktorý môžete rovno reagovať.",
+  "S kalkulačkou":
+    "Chatbot sa pýta prirodzene a počas rozhovoru vypočíta cenu alebo rozsah zákazky.",
+  "S konfigurátorom":
+    "Chatbot prevedie zákazníka výberom a odošle vám kompletné zadanie bez ďalšieho vypytovania.",
 };
 
 export function RequestedRuntimePolish() {
@@ -35,9 +38,9 @@ export function RequestedRuntimePolish() {
     const apply = () => {
       frame = 0;
 
-      document.querySelectorAll<HTMLElement>(".site-brand-name").forEach((brand) =>
-        setText(brand, "Daniel Vendžúr"),
-      );
+      document
+        .querySelectorAll<HTMLElement>(".site-brand-name")
+        .forEach((brand) => setText(brand, "Daniel Vendžúr"));
       const menuBrand = document.querySelector<HTMLElement>(".site-menu-brand > span");
       if (menuBrand) {
         const small = menuBrand.querySelector("small");
@@ -50,12 +53,18 @@ export function RequestedRuntimePolish() {
       const hero = document.querySelector<HTMLElement>(".lp-hero");
       if (hero) {
         const lines = Array.from(hero.querySelectorAll<HTMLElement>(".lp-hero-line > *"));
-        ["Chatboty, ktoré", "zvyšujú konverzie", "a pripravujú dopyty."].forEach(
-          (text, index) => setText(lines[index] ?? null, text),
+        ["Chatboty, ktoré", "zvyšujú konverzie", "a pripravujú dopyty."].forEach((text, index) =>
+          setText(lines[index] ?? null, text),
         );
         const heading = hero.querySelector("h1");
-        if (heading?.getAttribute("aria-label") !== "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.") {
-          heading?.setAttribute("aria-label", "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.");
+        if (
+          heading?.getAttribute("aria-label") !==
+          "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty."
+        ) {
+          heading?.setAttribute(
+            "aria-label",
+            "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.",
+          );
         }
         setText(
           hero.querySelector(".lp-hero-lead"),
@@ -71,11 +80,16 @@ export function RequestedRuntimePolish() {
         );
 
         const activeLabel = hero
-          .querySelector<HTMLElement>(".lp-assistant-chips button[data-active='true'] .lp-control-label")
+          .querySelector<HTMLElement>(
+            ".lp-assistant-chips button[data-active='true'] .lp-control-label",
+          )
           ?.textContent?.trim();
-        if (activeLabel) setText(hero.querySelector(".lp-assistant-answer span"), heroAnswers[activeLabel] ?? "");
+        if (activeLabel)
+          setText(hero.querySelector(".lp-assistant-answer span"), heroAnswers[activeLabel] ?? "");
 
-        const primaryText = hero.querySelector<HTMLElement>(".lp-button-primary .lp-button-content");
+        const primaryText = hero.querySelector<HTMLElement>(
+          ".lp-button-primary .lp-button-content",
+        );
         if (primaryText?.firstChild?.nodeType === Node.TEXT_NODE) {
           primaryText.firstChild.textContent = "Chcem chatbot na mieru ";
         }

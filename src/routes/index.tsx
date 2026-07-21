@@ -24,7 +24,13 @@ const serviceJsonLd = JSON.stringify({
   description:
     "Chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom alebo rezerváciami, ktoré pripravujú použiteľné dopyty.",
   founder: { "@type": "Person", name: "Daniel Vendžúr" },
-  knowsAbout: ["chatboty", "AI asistenti", "cenové kalkulačky", "produktové konfigurátory", "konverzia webu"],
+  knowsAbout: [
+    "chatboty",
+    "AI asistenti",
+    "cenové kalkulačky",
+    "produktové konfigurátory",
+    "konverzia webu",
+  ],
 });
 
 export const Route = createFileRoute("/")({
