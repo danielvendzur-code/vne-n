@@ -14,21 +14,23 @@ export function RequestedRuntimePolish() {
       frame = 0;
 
       const valueEyebrow = document.querySelector<HTMLElement>(".lp-value .lp-eyebrow");
-      if (valueEyebrow) {
+      if (valueEyebrow && valueEyebrow.textContent?.trim() !== "Rozdiel v praxi") {
         const marker = valueEyebrow.querySelector("i");
         valueEyebrow.replaceChildren();
         if (marker) valueEyebrow.append(marker);
         valueEyebrow.append(document.createTextNode("Rozdiel v praxi"));
       }
 
-      const drawerLinks = Array.from(
-        document.querySelectorAll<HTMLAnchorElement>("#site-navigation-drawer a[href]"),
-      );
-      drawerLinks.forEach((link) => {
-        const label = link.textContent?.trim();
-        if (label === "Služby") setText(link, "Chatboty a riešenia");
-        if (label === "Projekty") setText(link, "Ukážky");
-        if (label === "Postup") setText(link, "Spolupráca");
+      const drawerLabels = [
+        ["/sluzby", "Chatboty a riešenia"],
+        ["/projekty", "Ukážky"],
+        ["/postup", "Spolupráca"],
+      ] as const;
+      drawerLabels.forEach(([href, label]) => {
+        setText(
+          document.querySelector(`#site-navigation-drawer a[href="${href}"] .rb-line-sidebar__text`),
+          label,
+        );
       });
 
       const menuSolutionButtons = Array.from(
