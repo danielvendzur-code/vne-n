@@ -156,3 +156,34 @@ jobs:
           fetch_with_retry "/widget-loader.js" "DV_ASSISTANT_LOADER_ACTIVE"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
+
+      - name: Checkout latest main for deployment record
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Record verified live deployment
+        shell: bash
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          {
+            echo "deployment=success"
+            echo "dependency_audit=success"
+            echo "source_security_audit=success"
+            echo "live_smoke=success"
+            echo "source_sha=${SOURCE_SHA}"
+            echo "page_url=${PAGE_URL}"
+            echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > PAGES_DEPLOY_AUDIT.txt
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PAGES_DEPLOY_AUDIT.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: record verified Pages deployment [skip main-quality]"
+          git pull --rebase origin main
+          git push origin HEAD:main
