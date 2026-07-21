@@ -21,24 +21,33 @@ test("chatbot-first copy is rendered directly by React", async () => {
   );
 });
 
-test("final design system is imported last and removes bronze from the authoritative layer", async () => {
+test("final design layers load in the authoritative order and contain no bronze palette", async () => {
   const layout = await read("src/components/site/Layout.tsx");
-  const css = await read("src/components/site/CompetitionSystem.css");
+  const systemCss = await read("src/components/site/CompetitionSystem.css");
+  const routeCss = await read("src/components/site/CompetitionRoutes.css");
   assert.match(layout, /CompetitionSystem\.css/);
+  assert.match(layout, /CompetitionRoutes\.css/);
+  assert.ok(
+    layout.indexOf('import "./CompetitionSystem.css"') <
+      layout.indexOf('import "./CompetitionRoutes.css"'),
+  );
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./CompetitionSystem.css"'),
+    layout.indexOf('import "./CompetitionRoutes.css"'),
   );
-  assert.match(css, /--primary:\s*#65e6c1/i);
-  assert.match(css, /--primary-hover:\s*#83f1d0/i);
-  assert.match(css, /--accent:\s*#72c7ff/i);
-  assert.match(css, /--highlight:\s*#8aa7ff/i);
-  assert.doesNotMatch(css, /#c9aa70|#c47c5e|#bc7352/i);
-  assert.match(css, /prefers-reduced-motion:\s*reduce/);
-  assert.match(css, /focus-visible/);
+  assert.match(systemCss, /--primary:\s*#65e6c1/i);
+  assert.match(systemCss, /--primary-hover:\s*#83f1d0/i);
+  assert.match(systemCss, /--accent:\s*#72c7ff/i);
+  assert.match(systemCss, /--highlight:\s*#8aa7ff/i);
+  assert.doesNotMatch(systemCss, /#c9aa70|#c47c5e|#bc7352/i);
+  assert.doesNotMatch(routeCss, /#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i);
+  assert.match(systemCss, /prefers-reduced-motion:\s*reduce/);
+  assert.match(routeCss, /prefers-reduced-motion:\s*reduce/);
+  assert.match(systemCss, /focus-visible/);
+  assert.match(routeCss, /focus-visible/);
 });
 
-test("all major homepage surfaces are covered by the final design layer", async () => {
+test("all homepage surfaces are covered by the final design system", async () => {
   const css = await read("src/components/site/CompetitionSystem.css");
   for (const selector of [
     ".site-header-bar",
@@ -57,6 +66,26 @@ test("all major homepage surfaces are covered by the final design layer", async 
     ".premium-footer",
   ]) {
     assert.ok(css.includes(selector), `Missing final style for ${selector}`);
+  }
+});
+
+test("services, projects, process, contact and cookies have final route styling", async () => {
+  const css = await read("src/components/site/CompetitionRoutes.css");
+  for (const selector of [
+    ".sp-hero",
+    ".sp-service",
+    ".sp-combine",
+    ".sp-timeline-progress",
+    ".sp-project-card > a",
+    ".sp-cta",
+    ".contact-page",
+    ".contact-card",
+    ".contact-submit",
+    ".cookies-page",
+    ".cookies-card",
+    ".cookies-settings-button",
+  ]) {
+    assert.ok(css.includes(selector), `Missing final route style for ${selector}`);
   }
 });
 
@@ -108,8 +137,10 @@ test("static export covers cookies, clean URLs, SPA fallback and immutable build
   assert.match(exporter, /obsolete hero copy/);
 });
 
-test("Pages workflow validates artifacts and the real live deployment", async () => {
+test("Pages workflow validates security, artifacts and the real live deployment", async () => {
   const workflow = await read(".github/workflows/pages.yml");
+  assert.match(workflow, /Audit production dependencies/);
+  assert.match(workflow, /Run source and deployment security audit/);
   assert.match(workflow, /Lint source/);
   assert.match(workflow, /Run UX and deployment contracts/);
   assert.match(workflow, /Validate exported artifact/);
