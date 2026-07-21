@@ -65,7 +65,7 @@ function ProjectDetail() {
   const reducedMotion = useReducedMotion();
 
   const others = projects.filter((p) => p.slug !== project.slug).slice(0, 3);
-  const accentVars = { "--card-accent": project.accent } as React.CSSProperties;
+  const accentVars = { "--card-accent": "var(--primary)" } as React.CSSProperties;
 
   return (
     <div className="sp-page" style={accentVars}>
@@ -82,7 +82,7 @@ function ProjectDetail() {
             </Link>
           </motion.div>
           <motion.p className="sp-eyebrow" style={{ marginTop: "1.6rem" }} variants={staggerChild}>
-            <i style={{ background: project.accent }} />
+            <i style={{ background: "var(--primary)" }} />
             {project.label} · {project.category}
           </motion.p>
           <motion.h1 variants={staggerChild}>{project.title}</motion.h1>
@@ -187,7 +187,7 @@ function ProjectDetail() {
         onClose={() => setDemoOpen(false)}
         title={project.title}
         category={project.category}
-        accent={project.accent}
+        accent="var(--primary)"
         presentation={project.demoPresentation}
         demoUrl={project.demoUrl}
       />

@@ -169,7 +169,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
         Farba
       </div>
       <div className="mb-3 flex gap-2">
-        {["#c9aa70", "#7fa58f", "#bc7352", "#b7beb4"].map((c, i) => (
+        {[a, "#5f91b5", "#c9b48a", "#9aa7ad"].map((c, i) => (
           <span
             key={c}
             className="h-6 w-6 rounded-full"
@@ -187,7 +187,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
       >
         <span style={{ color: "var(--text-light)" }}>Výber</span>
         <span className="font-semibold" style={{ color: "var(--text-primary)" }}>
-          Variant B · zelená
+          Variant B · modrá
         </span>
       </div>
     </div>

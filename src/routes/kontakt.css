@@ -153,12 +153,8 @@
   inset: 0 0 auto;
   height: 1px;
   border-radius: 1.25rem 1.25rem 0 0;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(201, 170, 112, 0.4),
-    transparent
-  );
+  background: linear-gradient(to right, transparent, var(--primary), transparent);
+  opacity: 0.5;
 }
 
 .contact-card-head > span {
