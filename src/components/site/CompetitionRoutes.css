@@ -539,3 +539,219 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* ============================================================
+   Designer finish (merged in — CompetitionRoutes must remain the
+   final component style import per the deployment audit).
+   ============================================================ */
+.site-header-bar {
+  min-height: 62px !important;
+}
+
+.site-brand-name {
+  font-size: 1.01rem !important;
+  font-weight: 680 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--text-primary);
+}
+
+/* Precise underline that hugs the item text, grows from the correct side. */
+.site-header .site-nav-link {
+  padding: 6px 1px !important;
+  font-weight: 620 !important;
+  transform: none !important;
+}
+
+.site-header .site-nav-link::before {
+  display: none !important;
+  content: none !important;
+}
+
+.site-header .site-nav-link::after {
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  bottom: -3px !important;
+  height: 2px !important;
+  border-radius: 999px !important;
+  background: var(--interactive) !important;
+  transform: scaleX(0) !important;
+  transform-origin: right center !important;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.site-header .site-nav-link:hover,
+.site-header .site-nav-link:focus-visible {
+  transform: none !important;
+}
+
+.site-header .site-nav-link:hover::after,
+.site-header .site-nav-link:focus-visible::after,
+.site-header .site-nav-link[data-status="active"]::after {
+  transform: scaleX(1) !important;
+  transform-origin: left center !important;
+}
+
+/* Menu toggle: no boxy square — a quiet control that lifts on hover. */
+.site-header .site-menu-toggle {
+  border: 1px solid transparent !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--text-secondary) !important;
+  transition:
+    color 200ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease !important;
+}
+
+.site-header .site-menu-toggle:hover,
+.site-header .site-menu-toggle:focus-visible {
+  color: var(--text-primary) !important;
+  background: color-mix(in oklab, var(--text-primary) 7%, transparent) !important;
+  border-color: color-mix(in oklab, var(--text-primary) 12%, transparent) !important;
+  transform: none !important;
+}
+
+/* ---- Hero solution picker: 4 clear offerings, premium liquid selection ---- */
+.lp-hero-picker {
+  display: grid;
+  gap: 8px;
+  margin-top: 0.4rem;
+}
+
+.lp-hero-pick {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 1px solid rgba(222, 242, 245, 0.12);
+  border-radius: 14px;
+  color: var(--text-secondary);
+  background: linear-gradient(150deg, rgba(243, 248, 250, 0.05), rgba(243, 248, 250, 0.014));
+  font-size: 0.9rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 220ms ease,
+    border-color 260ms ease,
+    transform 340ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lp-hero-pick-icon {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  background: color-mix(in oklab, var(--primary) 14%, transparent);
+  color: var(--primary);
+  transition:
+    background-color 260ms ease,
+    color 220ms ease;
+}
+
+.lp-hero-pick-label {
+  position: relative;
+  z-index: 2;
+}
+
+.lp-hero-pick-fill {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 22% 0%, rgba(255, 255, 255, 0.4), transparent 46%),
+    linear-gradient(140deg, #83f1d0 0%, var(--primary) 52%, #4bccaa 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 12px 26px -16px rgba(101, 230, 193, 0.7);
+}
+
+.lp-hero-pick[data-active="true"] {
+  color: #04140f;
+  border-color: transparent;
+}
+
+.lp-hero-pick[data-active="true"] .lp-hero-pick-icon {
+  background: rgba(4, 20, 15, 0.18);
+  color: #04140f;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-hero-pick:not([data-active="true"]):hover {
+    color: var(--text-primary);
+    border-color: color-mix(in oklab, var(--primary) 45%, transparent);
+    transform: translateX(3px);
+  }
+  .lp-hero-pick:not([data-active="true"]):hover .lp-hero-pick-icon {
+    background: color-mix(in oklab, var(--primary) 22%, transparent);
+  }
+}
+
+/* ---- Unified premium chips (Koverta/Webko-inspired: crisp glass pills) ---- */
+:root .chip,
+:root .lp-page .lp-chip {
+  border: 1px solid rgba(222, 242, 245, 0.14) !important;
+  background:
+    linear-gradient(155deg, rgba(243, 248, 250, 0.07), rgba(243, 248, 250, 0.02)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 22px -18px rgba(0, 6, 10, 0.9) !important;
+  font-weight: 640 !important;
+  letter-spacing: -0.006em !important;
+}
+
+/* Caps chip "+" affordance: quieter, cleaner circle */
+:root .lp-page .lp-chip-icon {
+  width: 1.4rem !important;
+  height: 1.4rem !important;
+  border: 1px solid rgba(222, 242, 245, 0.16) !important;
+  background: transparent !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :root .chip:hover,
+  :root a.chip:hover,
+  :root button.chip:hover,
+  :root .lp-page .lp-chip:not([data-active="true"]):hover {
+    border-color: color-mix(in oklab, var(--primary) 46%, transparent) !important;
+    background:
+      radial-gradient(circle at 28% 0%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 46%),
+      linear-gradient(155deg, rgba(243, 248, 250, 0.1), rgba(243, 248, 250, 0.03)) !important;
+    transform: translateY(-2px) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 16px 30px -20px color-mix(in oklab, var(--primary) 60%, transparent) !important;
+  }
+}
+
+/* Active capability chip: solid mint liquid, dark ink, no busy dot */
+:root .lp-page .lp-chip[data-active="true"] {
+  border-color: transparent !important;
+  color: #04140f !important;
+}
+
+:root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
+  border-color: rgba(4, 20, 15, 0.28) !important;
+}
+
+:root .lp-page .lp-chip-fill {
+  background:
+    radial-gradient(circle at 26% 12%, rgba(255, 255, 255, 0.46), transparent 44%),
+    linear-gradient(140deg, #83f1d0 0%, var(--primary) 52%, #4bccaa 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 14px 28px -18px rgba(101, 230, 193, 0.7) !important;
+}
