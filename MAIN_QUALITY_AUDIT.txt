@@ -1,4 +1,4 @@
-run_id=29822509772
+run_id=29822759176
 install=success
 lint=success
 test=success
@@ -42,25 +42,25 @@ TAP version 13
 # Subtest: primary CTAs use mint and secondary interactions use cyan
 ok 1 - primary CTAs use mint and secondary interactions use cyan
   ---
-  duration_ms: 3.909654
+  duration_ms: 7.348584
   type: 'test'
   ...
 # Subtest: homepage copy is chatbot-first and the name is correct
 ok 2 - homepage copy is chatbot-first and the name is correct
   ---
-  duration_ms: 0.955423
+  duration_ms: 2.063921
   type: 'test'
   ...
 # Subtest: all three solution cards have descriptions, CTA and weighted pointer tilt
 ok 3 - all three solution cards have descriptions, CTA and weighted pointer tilt
   ---
-  duration_ms: 0.854092
+  duration_ms: 2.528053
   type: 'test'
   ...
 # Subtest: navigation and drawer were enlarged
 ok 4 - navigation and drawer were enlarged
   ---
-  duration_ms: 1.508457
+  duration_ms: 2.796345
   type: 'test'
   ...
 1..4
@@ -71,7 +71,7 @@ ok 4 - navigation and drawer were enlarged
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 49.709511
+# duration_ms 73.735854
 
 ===== build =====
 $ vite build
@@ -102,7 +102,7 @@ computing gzip size...
 .output/public/assets/routes-Buz3kRnP.js              154.82 kB │ gzip:  58.91 kB
 .output/public/assets/index-DXILlDvf.js               509.33 kB │ gzip: 161.52 kB
 
-[32m✓ built in 1.11s[39m
+[32m✓ built in 1.94s[39m
 [33m[plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
@@ -143,7 +143,7 @@ node_modules/.nitro/vite/services/ssr/assets/server-8s251Vrh.js                 
 node_modules/.nitro/vite/services/ssr/assets/router-BSSOserb.js                       59.29 kB │ gzip: 15.12 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CaJ9hWiU.js                       69.18 kB │ gzip: 17.85 kB
 
-[32m✓ built in 431ms[39m
+[32m✓ built in 594ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -179,7 +179,7 @@ computing gzip size...
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.63 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
 .output/server/_libs/lucide-react.mjs                    19.14 kB │ gzip:   4.08 kB
-.output/server/index.mjs                                 21.58 kB │ gzip:   6.30 kB
+.output/server/index.mjs                                 21.58 kB │ gzip:   6.31 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
 .output/server/_ssr/server-8s251Vrh.mjs                  56.83 kB │ gzip:  14.92 kB
@@ -190,6 +190,6 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 438ms[39m
+[32m✓ built in 659ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
