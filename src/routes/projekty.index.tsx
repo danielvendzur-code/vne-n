@@ -72,11 +72,11 @@ function ProjectsPage() {
                   <Link
                     to="/projekty/$slug"
                     params={{ slug: project.slug }}
-                    style={{ "--card-accent": project.accent } as React.CSSProperties}
+                    style={{ "--card-accent": "var(--primary)" } as React.CSSProperties}
                     onPointerMove={trackSpotlight}
                   >
                     <div className="sp-project-visual" aria-hidden="true">
-                      <Preview compact accent={project.accent} />
+                      <Preview compact />
                     </div>
                     <div className="sp-project-top">
                       <span>
