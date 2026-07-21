@@ -1,7 +1,7 @@
-run_id=29835548852
+run_id=29838096477
 install=success
 lint=success
-test=success
+test=failure
 build=success
 
 ===== lint =====
@@ -11,139 +11,2147 @@ $ eslint .
 $ node --test tests/home-contract.test.mjs
 TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
-ok 1 - chatbot-first copy is rendered directly by React
+not ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 7.552941
+  duration_ms: 6.302703
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Čo má váš chatbot zvládnuť\?/. Input:
+    
+    'import { Link } from "@tanstack/react-router";\n' +
+      'import { useEffect, useRef, useState, type ReactNode } from "react";\n' +
+      'import {\n' +
+      '  AnimatePresence,\n' +
+      '  motion,\n' +
+      '  MotionConfig,\n' +
+      '  useScroll,\n' +
+      '  useSpring,\n' +
+      '  type Variants,\n' +
+      '} from "motion/react";\n' +
+      'import {\n' +
+      '  ArrowRight,\n' +
+      '  ArrowUpRight,\n' +
+      '  BadgeCheck,\n' +
+      '  Bot,\n' +
+      '  Calculator,\n' +
+      '  CalendarClock,\n' +
+      '  Check,\n' +
+      '  Clock3,\n' +
+      '  ExternalLink,\n' +
+      '  Mail,\n' +
+      '  MessageCircle,\n' +
+      '  PenLine,\n' +
+      '  Plus,\n' +
+      '  Rocket,\n' +
+      '  SlidersHorizontal,\n' +
+      '  Sparkles,\n' +
+      '  Workflow,\n' +
+      '  X,\n' +
+      '} from "lucide-react";\n' +
+      'import { GlideField } from "@/components/effects/GlideField";\n' +
+      'import { Symbol } from "@/components/Symbol";\n' +
+      'import { DeratScrollStory } from "@/components/site/DeratScrollStory";\n' +
+      'import { siteConfig } from "@/config/site";\n' +
+      'import { faqs } from "@/data/faq";\n' +
+      'import { useMagnetic } from "@/hooks/useMagnetic";\n' +
+      'import { useReducedMotion } from "@/hooks/useReducedMotion";\n' +
+      'import { openSiteAssistant } from "@/lib/site-assistant";\n' +
+      'import "./PremiumLanding.css";\n' +
+      '\n' +
+      'type ComparisonMode = "without" | "with";\n' +
+      'type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";\n' +
+      'type RevealDirection = "up" | "left" | "right";\n' +
+      '\n' +
+      'const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];\n' +
+      'const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };\n' +
+      'const liquidControlSelector = ".lp-button, .lp-assistant-cta, .lp-faq-ask";\n' +
+      '\n' +
+      'const heroSequence: Variants = {\n' +
+      '  hidden: {},\n' +
+      '  visible: { transition: { staggerChildren: 0.085, delayChildren: 0.08 } },\n' +
+      '};\n' +
+      '\n' +
+      'const heroLine: Variants = {\n' +
+      '  hidden: { y: "112%", opacity: 0 },\n' +
+      '  visible: {\n' +
+      '    y: "0%",\n' +
+      '    opacity: 1,\n' +
+      '    transition: { duration: 0.82, ease: premiumEase },\n' +
+      '  },\n' +
+      '};\n' +
+      '\n' +
+      'const sequenceItem: Variants = {\n' +
+      '  hidden: { y: 24, opacity: 0 },\n' +
+      '  visible: {\n' +
+      '    y: 0,\n' +
+      '    opacity: 1,\n' +
+      '    transition: { duration: 0.72, ease: premiumEase },\n' +
+      '  },\n' +
+      '};\n' +
+      '\n' +
+      'const heroTools = {\n' +
+      '  chatbot: {\n' +
+      '    label: "AI chatbot",\n' +
+      '    icon: Bot,\n' +
+      '    text: "Odpovie 24/7, kvalifikuje záujem a pripraví dopyt, na ktorý môžete rovno reagovať.",\n' +
+      '  },\n' +
+      '  calculator: {\n' +
+      '    label: "Kalkulačka ceny",\n' +
+      '    icon: Calculator,\n' +
+      '    text: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa vašich pravidiel.",\n' +
+      '  },\n' +
+      '  configurator: {\n' +
+      '    label: "Konfigurátor",\n' +
+      '    icon: SlidersHorizontal,\n' +
+      '    text: "Prevedie výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",\n' +
+      '  },\n' +
+      '  assistant: {\n' +
+      '    label: "Webový asistent",\n' +
+      '    icon: Sparkles,\n' +
+      '    text: "Interaktívny sprievodca, ktorý zákazníka na webe navedie k správnemu ďalšiemu kroku.",\n' +
+      '  },\n' +
+      '} satisfies Record<HeroToolKey, { label: string; icon: typeof Bot; text: string }>;\n' +
+      '\n' +
+      'const comparisons = {\n' +
+      '  without: {\n' +
+      '    title: "Kontakt bez kontextu.",\n' +
+      '    copy: "Po formulári ešte zisťujete rozsah, lokalitu, termín aj očakávanie zákazníka.",\n' +
+      '    items: ["Odpoveď až neskôr", "Rovnaké otázky dookola", "Nejasná priorita dopytu"],\n' +
+      '  },\n' +
+      '  with: {\n' +
+      '    title: "Dopyt pripravený na ďalší krok.",\n' +
+      '    copy: "Návštevník dostane odpoveď hneď a vy kontakt spolu s relevantnými vstupmi.",\n' +
+      '    items: ["Odpoveď ihneď", "Kompletný kontext", "Menej ručného zisťovania"],\n' +
+      '  },\n' +
+      '};\n' +
+      '\n' +
+      'const solutions = [\n' +
+      '  {\n' +
+      '    icon: Bot,\n' +
+      '    title: "Chatbot na mieru",\n' +
+      '    copy: "Odpovedá na otázky, poradí návštevníkovi a odovzdá vám kontakt spolu s celým kontextom.",\n' +
+      '  },\n' +
+      '  {\n' +
+      '    icon: Calculator,\n' +
+      '    title: "Chatbot s kalkulačkou",\n' +
+      '    copy: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",\n' +
+      '  },\n' +
+      '  {\n' +
+      '    icon: Workflow,\n' +
+      '    title: "Chatbot s konfigurátorom",\n' +
+      '    copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle hotovú špecifikáciu.",\n' +
+      '  },\n' +
+      '];\n' +
+      '\n' +
+      'const projects = [\n' +
+      '  {\n' +
+      '    name: "Môj Plot",\n' +
+      '    type: "E-commerce · produktový web",\n' +
+      '    result: "Prehľadný výber oplotenia, služieb a ďalšieho kroku pre zákazníka.",\n' +
+      '    href: "https://mojplot.sk/",\n' +
+      '    image: `${import.meta.env.BASE_URL}work/portfolio/mojplot.webp`,\n' +
+      '    alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",\n' +
+      '    tone: "mint",\n' +
+      '  },\n' +
+      '  {\n' +
+      '    name: "Koverta",\n' +
+      '    type: "E-commerce · dopytový asistent",\n' +
+      '    result: "Produktový web pre dom a záhradu doplnený o rýchly kontakt a asistenta.",\n' +
+      '    href: "https://koverta.sk/",\n' +
+      '    image: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,\n' +
+      '    alt: "Domovská stránka Koverta s modernou pergolou",\n' +
+      '    tone: "sand",\n' +
+      '  },\n' +
+      '  {\n' +
+      '    name: "WEBKO",\n' +
+      '    type: "Prezentačný web · lead generation",\n' +
+      '    result: "Sebavedomá prezentácia služby s jasným smerovaním ku kontaktu.",\n' +
+      '    href: "https://www.webko.sk/",\n' +
+      '    image: `${import.meta.env.BASE_URL}work/portfolio/webko.webp`,\n' +
+      '    alt: "Tmavá domovská stránka WEBKO s ukážkou webových realizácií",\n' +
+      '    tone: "blue",\n' +
+      '  },\n' +
+      '];\n' +
+      '\n' +
+      'const liveTools = [\n' +
+      '  ["DERAT kalkulačka", "https://derat-chatbot-backend.vercel.app/"],\n' +
+      '  ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],\n' +
+      '  ["Webový asistent", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],\n' +
+      '] as const;\n' +
+      '\n' +
+      'const heroProof = [\n' +
+      '  { icon: BadgeCheck, text: "Reálne nasadené weby a živé nástroje" },\n' +
+      '  { icon: PenLine, text: "Logiku navrhujem ešte pred vývojom" },\n' +
+      '  { icon: Clock3, text: "Odpoveď zvyčajne do 1 pracovného dňa" },\n' +
+      '];\n' +
+      '\n' +
+      'const capabilityGroups = [\n' +
+      '  {\n' +
+      '    title: "Kalkulačky",\n' +
+      '    tone: "gold",\n' +
+      '    copy: "Výsledok z reálnych vstupov a pravidiel vašej služby.",\n' +
+      '    items: [\n' +
+      '      {\n' +
+      '        label: "Cenová ponuka",\n' +
+      '        desc: "Zákazník zadá, čo potrebuje, a hneď vidí orientačnú cenu. Vy dostanete rovnaké čísla aj s kontaktom — pripravené na ponuku.",\n' +
+      '        inputs: ["Rozmery", "Množstvo", "Doplnky", "Lokalita"],\n' +
+      '        output: "Orientačná cena či rozsah a kompletné zadanie na e-mail.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Spotreba materiálu",\n' +
+      '        desc: "Z plochy alebo rozmerov vypočíta potrebné množstvo materiálu vrátane rezervy a prepočtu na balenia.",\n' +
+      '        inputs: ["Plocha či rozmery", "Typ materiálu", "Rezerva"],\n' +
+      '        output: "Množstvo, počet balení a orientačná cena materiálu.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Návratnosť investície",\n' +
+      '        desc: "Porovná dnešné náklady s úsporou po investícii a ukáže zákazníkovi, kedy sa mu zaplatí sama.",\n' +
+      '        inputs: ["Aktuálne náklady", "Cena riešenia", "Očakávaná úspora"],\n' +
+      '        output: "Doba návratnosti a prehľad úspor v čase.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Rozmery a výmera",\n' +
+      '        desc: "Prepočty plôch, objemov a bežných metrov presne podľa vašich vzorcov — bez papiera a počítania v ruke.",\n' +
+      '        inputs: ["Tvar a rozmery", "Počet kusov"],\n' +
+      '        output: "Presná výmera pripravená pre cenovú ponuku.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Doprava a montáž",\n' +
+      '        desc: "K cene automaticky pripočíta dopravu podľa vzdialenosti a montáž podľa rozsahu prác.",\n' +
+      '        inputs: ["Adresa či vzdialenosť", "Rozsah montáže"],\n' +
+      '        output: "Finálna cena vrátane dopravy a montáže.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Splátky a financovanie",\n' +
+      '        desc: "Rozloží cenu na mesačné splátky podľa vašich podmienok, aby zákazník videl dostupnosť okamžite.",\n' +
+      '        inputs: ["Cena", "Akontácia", "Počet mesiacov"],\n' +
+      '        output: "Mesačná splátka a prehľad celého financovania.",\n' +
+      '      },\n' +
+      '    ],\n' +
+      '  },\n' +
+      '  {\n' +
+      '    title: "Konfigurátory",\n' +
+      '    tone: "mint",\n' +
+      '    copy: "Zákazník si poskladá produkt alebo službu krok za krokom.",\n' +
+      '    items: [\n' +
+      '      {\n' +
+      '        label: "Produkt na mieru",\n' +
+      '        desc: "Zákazník si poskladá produkt krok za krokom — od typu cez materiál až po doplnky. Nemusí nič vedieť vopred.",\n' +
+      '        inputs: ["Typ", "Materiál", "Rozmer", "Doplnky"],\n' +
+      '        output: "Hotová špecifikácia pripravená na výrobu či ponuku.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Výber variantu",\n' +
+      '        desc: "Pár otázok o použití a preferenciách zúži širokú ponuku na variant, ktorý naozaj sadne.",\n' +
+      '        inputs: ["Spôsob použitia", "Preferencie", "Rozpočet"],\n' +
+      '        output: "Odporúčaný variant aj so zdôvodnením.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Balíky služieb",\n' +
+      '        desc: "Poskladá balík služieb presne podľa potreby zákazníka a rovno ukáže, koľko bude stáť.",\n' +
+      '        inputs: ["Výber služieb", "Rozsah", "Frekvencia"],\n' +
+      '        output: "Zložený balík s cenou a zhrnutím.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Krokový sprievodca",\n' +
+      '        desc: "Zložité rozhodnutie rozdelí na jednoduché kroky s jasným postupom — nikto sa po ceste nestratí.",\n' +
+      '        inputs: ["Odpovede krok za krokom"],\n' +
+      '        output: "Zhrnutie výberu a jasný ďalší krok.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Rezervácia termínu",\n' +
+      '        desc: "Po výbere služby ponúkne voľné termíny a rezerváciu rovno potvrdí.",\n' +
+      '        inputs: ["Služba", "Preferovaný čas", "Kontakt"],\n' +
+      '        output: "Potvrdený termín aj s údajmi zákazníka.",\n' +
+      '      },\n' +
+      '    ],\n' +
+      '  },\n' +
+      '  {\n' +
+      '    title: "Chatboty",\n' +
+      '    tone: "coral",\n' +
+      '    copy: "Rozhovor, ktorý odpovie a pripraví použiteľný dopyt.",\n' +
+      '    items: [\n' +
+      '      {\n' +
+      '        label: "Dopytový asistent",\n' +
+      '        desc: "Pýta sa presne na to, čo pri každej zákazke potrebujete vedieť — a na nič nezabudne.",\n' +
+      '        inputs: ["Odpovede zákazníka", "Fotky a prílohy"],\n' +
+      '        output: "Kompletný dopyt s celým kontextom na e-mail.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Produktový poradca",\n' +
+      '        desc: "Odporúča z vašej ponuky podľa toho, čo zákazník naozaj rieši — ako skúsený predajca, nonstop.",\n' +
+      '        inputs: ["Potreba zákazníka", "Preferencie"],\n' +
+      '        output: "Odporúčanie produktu aj s dôvodom.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Časté otázky",\n' +
+      '        desc: "Odpovede na opakujúce sa otázky o cene, termínoch či službách — okamžite a vždy rovnako presne.",\n' +
+      '        inputs: ["Otázka zákazníka"],\n' +
+      '        output: "Odpoveď z vašich podkladov, nie vymyslená.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Kvalifikácia dopytu",\n' +
+      '        desc: "Zistí rozsah, termín aj vážnosť záujmu skôr, než dopyt pristane u vás na stole.",\n' +
+      '        inputs: ["Rozsah", "Termín", "Rozpočet"],\n' +
+      '        output: "Ohodnotený dopyt — viete, komu sa venovať skôr.",\n' +
+      '      },\n' +
+      '      {\n' +
+      '        label: "Objednávkový asistent",\n' +
+      '        desc: "Prevedie objednávkou krok za krokom a zozbiera všetky údaje bez jediného formulára.",\n' +
+      '        inputs: ["Výber", "Dopr'... 28031 more characters
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    import { Link } from "@tanstack/react-router";
+    import { useEffect, useRef, useState, type ReactNode } from "react";
+    import {
+      AnimatePresence,
+      motion,
+      MotionConfig,
+      useScroll,
+      useSpring,
+      type Variants,
+    } from "motion/react";
+    import {
+      ArrowRight,
+      ArrowUpRight,
+      BadgeCheck,
+      Bot,
+      Calculator,
+      CalendarClock,
+      Check,
+      Clock3,
+      ExternalLink,
+      Mail,
+      MessageCircle,
+      PenLine,
+      Plus,
+      Rocket,
+      SlidersHorizontal,
+      Sparkles,
+      Workflow,
+      X,
+    } from "lucide-react";
+    import { GlideField } from "@/components/effects/GlideField";
+    import { Symbol } from "@/components/Symbol";
+    import { DeratScrollStory } from "@/components/site/DeratScrollStory";
+    import { siteConfig } from "@/config/site";
+    import { faqs } from "@/data/faq";
+    import { useMagnetic } from "@/hooks/useMagnetic";
+    import { useReducedMotion } from "@/hooks/useReducedMotion";
+    import { openSiteAssistant } from "@/lib/site-assistant";
+    import "./PremiumLanding.css";
+    
+    type ComparisonMode = "without" | "with";
+    type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
+    type RevealDirection = "up" | "left" | "right";
+    
+    const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+    const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
+    const liquidControlSelector = ".lp-button, .lp-assistant-cta, .lp-faq-ask";
+    
+    const heroSequence: Variants = {
+      hidden: {},
+      visible: { transition: { staggerChildren: 0.085, delayChildren: 0.08 } },
+    };
+    
+    const heroLine: Variants = {
+      hidden: { y: "112%", opacity: 0 },
+      visible: {
+        y: "0%",
+        opacity: 1,
+        transition: { duration: 0.82, ease: premiumEase },
+      },
+    };
+    
+    const sequenceItem: Variants = {
+      hidden: { y: 24, opacity: 0 },
+      visible: {
+        y: 0,
+        opacity: 1,
+        transition: { duration: 0.72, ease: premiumEase },
+      },
+    };
+    
+    const heroTools = {
+      chatbot: {
+        label: "AI chatbot",
+        icon: Bot,
+        text: "Odpovie 24/7, kvalifikuje záujem a pripraví dopyt, na ktorý môžete rovno reagovať.",
+      },
+      calculator: {
+        label: "Kalkulačka ceny",
+        icon: Calculator,
+        text: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa vašich pravidiel.",
+      },
+      configurator: {
+        label: "Konfigurátor",
+        icon: SlidersHorizontal,
+        text: "Prevedie výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
+      },
+      assistant: {
+        label: "Webový asistent",
+        icon: Sparkles,
+        text: "Interaktívny sprievodca, ktorý zákazníka na webe navedie k správnemu ďalšiemu kroku.",
+      },
+    } satisfies Record<HeroToolKey, { label: string; icon: typeof Bot; text: string }>;
+    
+    const comparisons = {
+      without: {
+        title: "Kontakt bez kontextu.",
+        copy: "Po formulári ešte zisťujete rozsah, lokalitu, termín aj očakávanie zákazníka.",
+        items: ["Odpoveď až neskôr", "Rovnaké otázky dookola", "Nejasná priorita dopytu"],
+      },
+      with: {
+        title: "Dopyt pripravený na ďalší krok.",
+        copy: "Návštevník dostane odpoveď hneď a vy kontakt spolu s relevantnými vstupmi.",
+        items: ["Odpoveď ihneď", "Kompletný kontext", "Menej ručného zisťovania"],
+      },
+    };
+    
+    const solutions = [
+      {
+        icon: Bot,
+        title: "Chatbot na mieru",
+        copy: "Odpovedá na otázky, poradí návštevníkovi a odovzdá vám kontakt spolu s celým kontextom.",
+      },
+      {
+        icon: Calculator,
+        title: "Chatbot s kalkulačkou",
+        copy: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
+      },
+      {
+        icon: Workflow,
+        title: "Chatbot s konfigurátorom",
+        copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle hotovú špecifikáciu.",
+      },
+    ];
+    
+    const projects = [
+      {
+        name: "Môj Plot",
+        type: "E-commerce · produktový web",
+        result: "Prehľadný výber oplotenia, služieb a ďalšieho kroku pre zákazníka.",
+        href: "https://mojplot.sk/",
+        image: `${import.meta.env.BASE_URL}work/portfolio/mojplot.webp`,
+        alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",
+        tone: "mint",
+      },
+      {
+        name: "Koverta",
+        type: "E-commerce · dopytový asistent",
+        result: "Produktový web pre dom a záhradu doplnený o rýchly kontakt a asistenta.",
+        href: "https://koverta.sk/",
+        image: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,
+        alt: "Domovská stránka Koverta s modernou pergolou",
+        tone: "sand",
+      },
+      {
+        name: "WEBKO",
+        type: "Prezentačný web · lead generation",
+        result: "Sebavedomá prezentácia služby s jasným smerovaním ku kontaktu.",
+        href: "https://www.webko.sk/",
+        image: `${import.meta.env.BASE_URL}work/portfolio/webko.webp`,
+        alt: "Tmavá domovská stránka WEBKO s ukážkou webových realizácií",
+        tone: "blue",
+      },
+    ];
+    
+    const liveTools = [
+      ["DERAT kalkulačka", "https://derat-chatbot-backend.vercel.app/"],
+      ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],
+      ["Webový asistent", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
+    ] as const;
+    
+    const heroProof = [
+      { icon: BadgeCheck, text: "Reálne nasadené weby a živé nástroje" },
+      { icon: PenLine, text: "Logiku navrhujem ešte pred vývojom" },
+      { icon: Clock3, text: "Odpoveď zvyčajne do 1 pracovného dňa" },
+    ];
+    
+    const capabilityGroups = [
+      {
+        title: "Kalkulačky",
+        tone: "gold",
+        copy: "Výsledok z reálnych vstupov a pravidiel vašej služby.",
+        items: [
+          {
+            label: "Cenová ponuka",
+            desc: "Zákazník zadá, čo potrebuje, a hneď vidí orientačnú cenu. Vy dostanete rovnaké čísla aj s kontaktom — pripravené na ponuku.",
+            inputs: ["Rozmery", "Množstvo", "Doplnky", "Lokalita"],
+            output: "Orientačná cena či rozsah a kompletné zadanie na e-mail.",
+          },
+          {
+            label: "Spotreba materiálu",
+            desc: "Z plochy alebo rozmerov vypočíta potrebné množstvo materiálu vrátane rezervy a prepočtu na balenia.",
+            inputs: ["Plocha či rozmery", "Typ materiálu", "Rezerva"],
+            output: "Množstvo, počet balení a orientačná cena materiálu.",
+          },
+          {
+            label: "Návratnosť investície",
+            desc: "Porovná dnešné náklady s úsporou po investícii a ukáže zákazníkovi, kedy sa mu zaplatí sama.",
+            inputs: ["Aktuálne náklady", "Cena riešenia", "Očakávaná úspora"],
+            output: "Doba návratnosti a prehľad úspor v čase.",
+          },
+          {
+            label: "Rozmery a výmera",
+            desc: "Prepočty plôch, objemov a bežných metrov presne podľa vašich vzorcov — bez papiera a počítania v ruke.",
+            inputs: ["Tvar a rozmery", "Počet kusov"],
+            output: "Presná výmera pripravená pre cenovú ponuku.",
+          },
+          {
+            label: "Doprava a montáž",
+            desc: "K cene automaticky pripočíta dopravu podľa vzdialenosti a montáž podľa rozsahu prác.",
+            inputs: ["Adresa či vzdialenosť", "Rozsah montáže"],
+            output: "Finálna cena vrátane dopravy a montáže.",
+          },
+          {
+            label: "Splátky a financovanie",
+            desc: "Rozloží cenu na mesačné splátky podľa vašich podmienok, aby zákazník videl dostupnosť okamžite.",
+            inputs: ["Cena", "Akontácia", "Počet mesiacov"],
+            output: "Mesačná splátka a prehľad celého financovania.",
+          },
+        ],
+      },
+      {
+        title: "Konfigurátory",
+        tone: "mint",
+        copy: "Zákazník si poskladá produkt alebo službu krok za krokom.",
+        items: [
+          {
+            label: "Produkt na mieru",
+            desc: "Zákazník si poskladá produkt krok za krokom — od typu cez materiál až po doplnky. Nemusí nič vedieť vopred.",
+            inputs: ["Typ", "Materiál", "Rozmer", "Doplnky"],
+            output: "Hotová špecifikácia pripravená na výrobu či ponuku.",
+          },
+          {
+            label: "Výber variantu",
+            desc: "Pár otázok o použití a preferenciách zúži širokú ponuku na variant, ktorý naozaj sadne.",
+            inputs: ["Spôsob použitia", "Preferencie", "Rozpočet"],
+            output: "Odporúčaný variant aj so zdôvodnením.",
+          },
+          {
+            label: "Balíky služieb",
+            desc: "Poskladá balík služieb presne podľa potreby zákazníka a rovno ukáže, koľko bude stáť.",
+            inputs: ["Výber služieb", "Rozsah", "Frekvencia"],
+            output: "Zložený balík s cenou a zhrnutím.",
+          },
+          {
+            label: "Krokový sprievodca",
+            desc: "Zložité rozhodnutie rozdelí na jednoduché kroky s jasným postupom — nikto sa po ceste nestratí.",
+            inputs: ["Odpovede krok za krokom"],
+            output: "Zhrnutie výberu a jasný ďalší krok.",
+          },
+          {
+            label: "Rezervácia termínu",
+            desc: "Po výbere služby ponúkne voľné termíny a rezerváciu rovno potvrdí.",
+            inputs: ["Služba", "Preferovaný čas", "Kontakt"],
+            output: "Potvrdený termín aj s údajmi zákazníka.",
+          },
+        ],
+      },
+      {
+        title: "Chatboty",
+        tone: "coral",
+        copy: "Rozhovor, ktorý odpovie a pripraví použiteľný dopyt.",
+        items: [
+          {
+            label: "Dopytový asistent",
+            desc: "Pýta sa presne na to, čo pri každej zákazke potrebujete vedieť — a na nič nezabudne.",
+            inputs: ["Odpovede zákazníka", "Fotky a prílohy"],
+            output: "Kompletný dopyt s celým kontextom na e-mail.",
+          },
+          {
+            label: "Produktový poradca",
+            desc: "Odporúča z vašej ponuky podľa toho, čo zákazník naozaj rieši — ako skúsený predajca, nonstop.",
+            inputs: ["Potreba zákazníka", "Preferencie"],
+            output: "Odporúčanie produktu aj s dôvodom.",
+          },
+          {
+            label: "Časté otázky",
+            desc: "Odpovede na opakujúce sa otázky o cene, termínoch či službách — okamžite a vždy rovnako presne.",
+            inputs: ["Otázka zákazníka"],
+            output: "Odpoveď z vašich podkladov, nie vymyslená.",
+          },
+          {
+            label: "Kvalifikácia dopytu",
+            desc: "Zistí rozsah, termín aj vážnosť záujmu skôr, než dopyt pristane u vás na stole.",
+            inputs: ["Rozsah", "Termín", "Rozpočet"],
+            output: "Ohodnotený dopyt — viete, komu sa venovať skôr.",
+          },
+          {
+            label: "Objednávkový asistent",
+            desc: "Prevedie objednávkou krok za krokom a zozbiera všetky údaje bez jediného formulára.",
+            inputs: ["Výber", "Doprava", "Kontakt"],
+            output: "Kompletná objednávka pripravená na spracovanie.",
+          },
+        ],
+      },
+      {
+        title: "Prepojenia",
+        tone: "ink",
+        copy: "Dopyt skončí presne tam, kde s ním ďalej pracujete.",
+        items: [
+          {
+            label: "E-mail s celým kontextom",
+            desc: "Každý dopyt príde ako prehľadný e-mail so všetkými odpoveďami, výpočtom aj kontaktom.",
+            inputs: ["Ľubovoľný nástroj vyššie"],
+            output: "E-mail, na ktorý sa dá rovno odpovedať ponukou.",
+          },
+          {
+            label: "Kalendár a termíny",
+            desc: "Rezervácie a dohodnuté termíny sa zapisujú priamo do vášho kalendára.",
+            inputs: ["Voľné termíny", "Údaje zákazníka"],
+            output: "Udalosť v kalendári bez prepisovania.",
+          },
+          {
+            label: "Google tabuľka",
+            desc: "Každý dopyt pribudne ako nový riadok v tabuľke — prehľad bez systému navyše.",
+            inputs: ["Dáta z nástroja"],
+            output: "Živý prehľad dopytov na jednom mieste.",
+          },
+          {
+            label: "CRM či interný systém",
+            desc: "Dopyty tečú priamo do systému, s ktorým už dnes pracujete — bez kopírovania.",
+            inputs: ["Dáta z nástroja"],
+            output: "Nový záznam v CRM aj s celým kontextom.",
+          },
+          {
+            label: "Vlastné API",
+            desc: "Napojenie na čokoľvek, čo má rozhranie — sklad, fakturáciu či výrobu.",
+            inputs: ["Dáta z nástroja"],
+            output: "Automatický zápis tam, kam potrebujete.",
+          },
+        ],
+      },
+    ] as const;
+    
+    const process = [
+      {
+        icon: MessageCircle,
+        title: "Krátka analýza",
+        copy: "Prejdeme službu, zákazníka a kroky, ktoré dnes riešite ručne.",
+      },
+      {
+        icon: Workflow,
+        title: "Logika a prototyp",
+        copy: "Navrhnem otázky, rozhodovanie aj rozhranie ešte pred vývojom.",
+      },
+      {
+        icon: Rocket,
+        title: "Nasadenie",
+        copy: "Hotový nástroj otestujem, prepojím a nasadím priamo na váš web.",
+      },
+    ];
+    
+    function AnimatedPageProgress() {
+      const { scrollYProgress } = useScroll();
+      const scaleX = useSpring(scrollYProgress, { stiffness: 150, damping: 28, mass: 0.22 });
+      return <motion.div className="lp-progress" style={{ scaleX }} aria-hidden="true" />;
+    }
+    
+    function PageProgress() {
+      const reducedMotion = useReducedMotion();
+      return reducedMotion ? null : <AnimatedPageProgress />;
+    }
+    
+    function LiquidControlGlow() {
+      const reducedMotion = useReducedMotion();
+    
+      useEffect(() => {
+        const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+          .connection;
+        if (
+          reducedMotion ||
+          connection?.saveData ||
+          !window.matchMedia("(any-pointer: fine)").matches
+        ) {
+          return;
+        }
+    
+        let frame = 0;
+        let activeControl: HTMLElement | null = null;
+        let clientX = 0;
+        let clientY = 0;
+    
+        const clearActiveControl = () => {
+          if (!activeControl) return;
+          activeControl.style.removeProperty("--liquid-x");
+          activeControl.style.removeProperty("--liquid-y");
+          activeControl = null;
+        };
+    
+        const paint = () => {
+          frame = 0;
+          if (!activeControl) return;
+          const bounds = activeControl.getBoundingClientRect();
+          const x = Math.min(100, Math.max(0, ((clientX - bounds.left) / bounds.width) * 100));
+          const y = Math.min(100, Math.max(0, ((clientY - bounds.top) / bounds.height) * 100));
+          activeControl.style.setProperty("--liquid-x", `${x}%`);
+          activeControl.style.setProperty("--liquid-y", `${y}%`);
+        };
+    
+        const handlePointerMove = (event: PointerEvent) => {
+          if (event.pointerType === "touch") return;
+          const match =
+            event.target instanceof Element ? event.target.closest(liquidControlSelector) : null;
+          const nextControl = match instanceof HTMLElement ? match : null;
+          if (nextControl !== activeControl) {
+            clearActiveControl();
+            activeControl = nextControl;
+          }
+          if (!activeControl) return;
+          clientX = event.clientX;
+          clientY = event.clientY;
+          if (!frame) frame = window.requestAnimationFrame(paint);
+        };
+    
+        const handleWindowLeave = (event: MouseEvent) => {
+          if (!event.relatedTarget) clearActiveControl();
+        };
+    
+        window.addEventListener("pointermove", handlePointerMove, { passive: true, capture: true });
+        window.addEventListener("mouseout", handleWindowLeave, { passive: true });
+        window.addEventListener("blur", clearActiveControl);
+        return () => {
+          window.removeEventListener("pointermove", handlePointerMove, true);
+          window.removeEventListener("mouseout", handleWindowLeave);
+          window.removeEventListener("blur", clearActiveControl);
+          if (frame) window.cancelAnimationFrame(frame);
+          clearActiveControl();
+        };
+      }, [reducedMotion]);
+    
+      return null;
+    }
+    
+    function Reveal({
+      children,
+      className = "",
+      direction = "up",
+      delay = 0,
+      distance = 38,
+    }: {
+      children: ReactNode;
+      className?: string;
+      direction?: RevealDirection;
+      delay?: number;
+      distance?: number;
+    }) {
+      const reducedMotion = useReducedMotion();
+      const x = direction === "left" ? -distance : direction === "right" ? distance : 0;
+      const y = direction === "up" ? Math.min(distance, 28) : 0;
+    
+      return (
+        <motion.div
+          className={className}
+          initial={reducedMotion ? false : { opacity: 0, x, y }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: 0.72, delay, ease: premiumEase }}
+        >
+          {children}
+        </motion.div>
+      );
+    }
+    
+    function Heading({
+      eyebrow,
+      children,
+      copy,
+    }: {
+      eyebrow: string;
+      children: ReactNode;
+      copy?: string;
+    }) {
+      const reducedMotion = useReducedMotion();
+    
+      return (
+        <motion.div
+          className="lp-heading"
+          initial={reducedMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.34 }}
+          variants={{
+            hidden: { opacity: 0, x: -34 },
+            visible: {
+              opacity: 1,
+              x: 0,
+              transition: { duration: 0.7, ease: premiumEase, staggerChildren: 0.09 },
+            },
+          }}
+        >
+          <motion.p className="lp-eyebrow" variants={sequenceItem}>
+            <i />
+            {eyebrow}
+          </motion.p>
+          <motion.h2 variants={sequenceItem}>{children}</motion.h2>
+          {copy ? (
+            <motion.p className="lp-heading-copy" variants={sequenceItem}>
+              {copy}
+            </motion.p>
+          ) : null}
+        </motion.div>
+      );
+    }
+    
+    function Hero() {
+      const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
+      const reducedMotion = useReducedMotion();
+      const magneticCta = useMagnetic<HTMLAnchorElement>(0.055);
+    
+      return (
+        <section className="lp-hero" id="uvod">
+          <div className="lp-hero-glide" aria-hidden="true">
+            <GlideField className="glide-field--hero" radius={142} />
+          </div>
+          <div className="lp-hero-glow" aria-hidden="true" />
+          <div className="container-page lp-hero-grid">
+            <motion.div
+              className="lp-hero-copy"
+              variants={heroSequence}
+              initial={reducedMotion ? false : "hidden"}
+              animate="visible"
+            >
+              <h1 aria-label="Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.">
+                <span className="lp-hero-line" aria-hidden="true">
+                  <motion.span variants={heroLine}>Chatboty, ktoré</motion.span>
+                </span>
+                <span className="lp-hero-line" aria-hidden="true">
+                  <motion.span variants={heroLine}>zvyšujú konverzie</motion.span>
+                </span>
+                <span className="lp-hero-line" aria-hidden="true">
+                  <motion.em variants={heroLine}>a pripravujú dopyty.</motion.em>
+                </span>
+              </h1>
+              <motion.p className="lp-hero-lead" variants={sequenceItem}>
+                AI chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď — vy
+                pripravený dopyt.
+              </motion.p>
+              <motion.div className="lp-actions" variants={sequenceItem}>
+                <Link to="/kontakt" className="lp-button lp-button-primary" ref={magneticCta}>
+                  <span className="lp-button-content">
+                    Chcem chatbot na mieru <ArrowRight size={17} />
+                  </span>
+                </Link>
+                <a href="#projekty" className="lp-button lp-button-quiet">
+                  <span className="lp-button-content">Pozrieť realizácie</span>
+                </a>
+              </motion.div>
+              <motion.ul className="lp-hero-proof" variants={sequenceItem}>
+                {heroProof.map(({ icon: Icon, text }) => (
+                  <li key={text}>
+                    <Icon aria-hidden="true" />
+                    {text}
+                  </li>
+                ))}
+              </motion.ul>
+            </motion.div>
+    
+            <motion.div
+              className="lp-hero-stage"
+              initial={reducedMotion ? false : { opacity: 0, x: 54, scale: 0.975 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={
+                reducedMotion ? { duration: 0 } : { duration: 0.94, delay: 0.16, ease: premiumEase }
+              }
+            >
+              <div className="lp-assistant-card">
+                <p>Čo pre vás postavím</p>
+                <div className="lp-hero-picker" role="group" aria-label="Typ riešenia">
+                  {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
+                    ([key, tool]) => {
+                      const Icon = tool.icon;
+                      return (
+                        <motion.button
+                          type="button"
+                          key={key}
+                          className="lp-hero-pick"
+                          data-active={activeTool === key}
+                          aria-pressed={activeTool === key}
+                          onClick={() => setActiveTool(key)}
+                        >
+                          {activeTool === key ? (
+                            <motion.span
+                              className="lp-hero-pick-fill"
+                              layoutId="hero-tool-liquid"
+                              transition={liquidSpring}
+                              aria-hidden="true"
+                            />
+                          ) : null}
+                          <span className="lp-hero-pick-icon" aria-hidden="true">
+                            <Icon size={16} />
+                          </span>
+                          <span className="lp-hero-pick-label">{tool.label}</span>
+                        </motion.button>
+                      );
+                    },
+                  )}
+                </div>
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.div
+                    className="lp-assistant-answer"
+                    key={activeTool}
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
+                    transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
+                  >
+                    <Check />
+                    <span>{heroTools[activeTool].text}</span>
+                  </motion.div>
+                </AnimatePresence>
+                <button
+                  type="button"
+                  className="lp-assistant-cta"
+                  onClick={() => openSiteAssistant({ source: "hero-card" })}
+                >
+                  <span className="lp-button-content">
+                    Vyskúšať môjho chatbota <ArrowUpRight />
+                  </span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      );
+    }
+    
+    function SolutionCard({
+      solution,
+      index,
+    }: {
+      solution: (typeof solutions)[number];
+      index: number;
+    }) {
+      const reducedMotion = useReducedMotion();
+      const cardRef = useRef<HTMLElement>(null);
+      const Icon = solution.icon;
+    
+      return (
+        <motion.article
+          ref={cardRef}
+          className="lp-solution-pill"
+          initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.28 }}
+          transition={
+            reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
+          }
+          onPointerMove={(event) => {
+            if (reducedMotion || event.pointerType === "touch") return;
+            const card = event.currentTarget;
+            const bounds = card.getBoundingClientRect();
+            const x = (event.clientX - bounds.left) / Math.max(bounds.width, 1) - 0.5;
+            const y = (event.clientY - bounds.top) / Math.max(bounds.height, 1) - 0.5;
+            card.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
+            card.style.setProperty("--tilt-y", `${(x * 6).toFixed(2)}deg`);
+          }}
+          onPointerLeave={(event) => {
+            event.currentTarget.style.setProperty("--tilt-x", "0deg");
+            event.currentTarget.style.setProperty("--tilt-y", "0deg");
+          }}
+        >
+          <Icon aria-hidden="true" />
+          <div>
+            <h3>{solution.title}</h3>
+            <p>{solution.copy}</p>
+            <button
+              type="button"
+              className="lp-solution-cta"
+              onClick={() =>
+                openSiteAssistant({
+                  source: "solution-card",
+                  entry: "builder",
+                  category: solution.title,
+                })
+              }
+            >
+              Navrhnúť tento chatbot <ArrowUpRight aria-hidden="true" />
+            </button>
+          </div>
+        </motion.article>
+      );
+    }
+    
+    function ValueSection() {
+      const [mode, setMode] = useState<ComparisonMode>("with");
+      const active = comparisons[mode];
+      const reducedMotion = useReducedMotion();
+    
+      return (
+        <section className="lp-value" id="nastroje">
+          <div className="container-page">
+            <Heading
+              eyebrow="Rozdiel v praxi"
+              copy="Chatbot odpovie okamžite, zozbiera správne vstupy a odovzdá vám dopyt pripravený na ďalší krok."
+            >
+              Menej zisťovania. <em>Viac pripravených dopytov.</em>
+            </Heading>
+    
+            <Reveal className="lp-comparison" direction="right" distance={46}>
+              <div className="lp-switch" role="group" aria-label="Porovnanie webu bez a s chatbotom">
+                <motion.button
+                  type="button"
+                  data-active={mode === "without"}
+                  aria-pressed={mode === "without"}
+                  onClick={() => setMode("without")}
+                >
+                  {mode === "without" ? (
+                    <motion.span
+                      className="lp-switch-liquid"
+                      layoutId="comparison-liquid"
+                      transition={liquidSpring}
+                      aria-hidden="true"
+                    />
+                  ) : null}
+                  <span className="lp-control-label">Bez chatbota</span>
+                </motion.button>
+                <motion.button
+                  type="button"
+                  data-active={mode === "with"}
+                  aria-pressed={mode === "with"}
+                  onClick={() => setMode("with")}
+                >
+                  {mode === "with" ? (
+                    <motion.span
+                      className="lp-switch-liquid"
+                      layoutId="comparison-liquid"
+                      transition={liquidSpring}
+                      aria-hidden="true"
+                    />
+                  ) : null}
+                  <span className="lp-control-label">S chatbotom</span>
+                </motion.button>
+              </div>
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div
+                  className="lp-comparison-body"
+                  key={mode}
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
+                  initial={reducedMotion ? false : { opacity: 0, x: mode === "with" ? 18 : -18 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: mode === "with" ? 12 : -12 }}
+                  transition={reducedMotion ? { duration: 0 } : { duration: 0.38, ease: premiumEase }}
+                >
+                  <div className="lp-comparison-copy">
+                    <h3>{active.title}</h3>
+                    <span>{active.copy}</span>
+                  </div>
+                  <ul>
+                    {active.items.map((item) => (
+                      <li key={item}>
+                        {mode === "with" ? <Check /> : <X />}
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </AnimatePresence>
+            </Reveal>
+    
+            <div className="lp-solution-strip">
+              {solutions.map((solution, index) => (
+                <SolutionCard key={solution.title} solution={solution} index={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+    
+    function CapabilityGroup({
+      group,
+      index,
+    }: {
+      group: (typeof capabilityGroups)[number];
+      index: number;
+    }) {
+      const [active, setActive] = useState<string | null>(null);
+      const reducedMotion = useReducedMotion();
+      const { title, tone, copy, items } = group;
+      const activeItem = items.find((item) => item.label === active) ?? null;
+    
+      return (
+        <Reveal className="lp-caps-row" amount={0.2}>
+          <div className="lp-caps-row-head" data-tone={tone}>
+            <span className="lp-caps-num">0{index + 1}</span>
+            <div>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </div>
+          </div>
+          <div className="lp-caps-row-body">
+            <div className="lp-caps-chips" role="group" aria-label={title}>
+              {items.map((item) => {
+                const isActive = active === item.label;
+                return (
+                  <motion.button
+                    type="button"
+                    key={item.label}
+                    className="lp-chip"
+                    data-tone={tone}
+                    data-active={isActive}
+                    aria-expanded={isActive}
+                    onClick={() => setActive(isActive ? null : item.label)}
+                    whileTap={reducedMotion ? undefined : { scale: 0.965 }}
+                  >
+                    {isActive ? (
+                      <motion.span
+                        className="lp-chip-fill"
+                        layoutId={`caps-fill-${title}`}
+                        transition={liquidSpring}
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                    <span className="lp-chip-label">{item.label}</span>
+                    <span className="lp-chip-icon" aria-hidden="true">
+                      <Plus />
+                    </span>
+                  </motion.button>
+                );
+              })}
+            </div>
+            <AnimatePresence initial={false} mode="wait">
+              {activeItem ? (
+                <motion.div
+                  className="lp-caps-detail"
+                  key={activeItem.label}
+                  role="status"
+                  aria-live="polite"
+                  initial={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+                  transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: premiumEase }}
+                >
+                  <div className="lp-caps-detail-inner" data-tone={tone}>
+                    <div className="lp-caps-detail-copy">
+                      <h4>{activeItem.label}</h4>
+                      <p>{activeItem.desc}</p>
+                      <button
+                        type="button"
+                        className="lp-caps-detail-cta"
+                        onClick={() =>
+                          openSiteAssistant({ source: "capability-chip", category: activeItem.label })
+                        }
+                      >
+                        Otvoriť krátke zadanie <ArrowUpRight aria-hidden="true" />
+                      </button>
+                    </div>
+                    <dl className="lp-caps-detail-spec">
+                      <div>
+                        <dt>Vstupy od zákazníka</dt>
+                        <dd>
+                          <span className="lp-caps-inputs">
+                            {activeItem.inputs.map((input) => (
+                              <span className="lp-caps-input" key={input}>
+                                {input}
+                              </span>
+                            ))}
+                          </span>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Výstup pre vás</dt>
+                        <dd>{activeItem.output}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </div>
+        </Reveal>
+      );
+    }
+    
+    function Capabilities() {
+      return (
+        <section className="lp-caps" id="moznosti">
+          <div className="container-page">
+            <Heading
+              eyebrow="Čo všetko viem postaviť"
+              copy="Vyberte, čo je najbližšie k vašej situácii — po rozkliknutí uvidíte, čo nástroj robí, aké vstupy zbiera a čo z neho dostanete."
+            >
+              Ak sa to dá opísať pravidlami, <em>dá sa to postaviť.</em>
+            </Heading>
+    
+            <div className="lp-caps-rows">
+              {capabilityGroups.map((group, groupIndex) => (
+                <CapabilityGroup key={group.title} group={group} index={groupIndex} />
+              ))}
+            </div>
+    
+            <Reveal className="lp-caps-note" delay={0.08}>
+              <CalendarClock aria-hidden="true" />
+              <p>
+                Nenašli ste svoju situáciu? Opíšte ju vlastnými slovami —{" "}
+                <button type="button" onClick={() => openSiteAssistant({ source: "capability-note" })}>
+                  chatbot z nej pripraví zadanie
+                </button>{" "}
+                a ja sa ozvem s konkrétnym návrhom.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+    
+    function FaqItem({ question, answer }: { question: string; answer: string }) {
+      const [open, setOpen] = useState(false);
+      const reducedMotion = useReducedMotion();
+    
+      return (
+        <div className="lp-faq-item" data-open={open}>
+          <h3>
+            <button type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+              <span>{question}</span>
+              <i aria-hidden="true" />
+            </button>
+          </h3>
+          <AnimatePresence initial={false}>
+            {open ? (
+              <motion.div
+                className="lp-faq-body"
+                initial={reducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={reducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                transition={reducedMotion ? { duration: 0 } : { duration: 0.4, ease: premiumEase }}
+              >
+                <p>{answer}</p>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        </div>
+      );
+    }
+    
+    function FaqSection() {
+      return (
+        <section className="lp-faq" id="otazky">
+          <div className="container-page lp-faq-grid">
+            <div className="lp-faq-side">
+              <Heading
+                eyebrow="Časté otázky"
+                copy="Ak tu odpoveď nie je, napíšte mi — alebo sa spýtajte priamo chatbota v rohu obrazovky."
+              >
+                Všetko, čo firmy <em>zaujíma najskôr.</em>
+              </Heading>
+              <Reveal delay={0.12}>
+                <button
+                  type="button"
+                  className="lp-faq-ask"
+                  onClick={() => openSiteAssistant({ source: "faq" })}
+                >
+                  <MessageCircle aria-hidden="true" />
+                  Spýtať sa na čokoľvek
+                </button>
+              </Reveal>
+            </div>
+            <Reveal className="lp-faq-list" direction="right" distance={40}>
+              {faqs.map((faq) => (
+                <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
+              ))}
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+    
+    function ProjectImage({ src, alt }: { src: string; alt: string }) {
+      const [loaded, setLoaded] = useState(false);
+    
+      return (
+        <div className="lp-project-media" data-loaded={loaded}>
+          <img
+            src={src}
+            alt={alt}
+            width="1440"
+            height="1000"
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            onLoad={() => setLoaded(true)}
+          />
+        </div>
+      );
+    }
+    
+    function Portfolio() {
+      return (
+        <section className="lp-portfolio" id="projekty">
+          <div className="container-page">
+            <Heading
+              eyebrow="Vybrané realizácie"
+              copy="Každý náhľad je reálny projekt. Kliknite a pozrite si ho priamo na živom webe."
+            >
+              Reálne weby. <em>Žiadne generické makety.</em>
+            </Heading>
+    
+            <div className="lp-project-grid">
+              {projects.map((project, index) => (
+                <Reveal
+                  className="lp-project"
+                  key={project.name}
+                  direction={index % 2 === 0 ? "left" : "right"}
+                  distance={34}
+                  delay={index * 0.06}
+                >
+                  <a href={project.href} target="_blank" rel="noreferrer" data-tone={project.tone}>
+                    <ProjectImage src={project.image} alt={project.alt} />
+                    <div className="lp-project-copy">
+                      <span>0{index + 1}</span>
+                      <p>{project.type}</p>
+                      <h3>{project.name}</h3>
+                      <small>{project.result}</small>
+                      <b>
+                        Pozrieť živý projekt <ExternalLink />
+                      </b>
+                    </div>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+    
+            <div className="lp-live-tools">
+              <span>Živé nástroje</span>
+              {liveTools.map(([name, href]) => (
+                <a key={name} href={href} target="_blank" rel="noreferrer">
+                  {name}
+                  <ArrowUpRight />
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+    
+    function ProcessAndCta() {
+      const reducedMotion = useReducedMotion();
+      const magneticFinal = useMagnetic<HTMLAnchorElement>(0.12);
+    
+      return (
+        <section className="lp-process" id="spolupraca">
+          <GlideField className="glide-field--ambient" radius={110} intensity={0.5} />
+          <div className="container-page lp-process-grid">
+            <div>
+              <Heading
+                eyebrow="Ako spolupráca prebieha"
+                copy="Od prvých otázok po nasadenie máte vždy jasný ďalší krok."
+              >
+                Krátko, zrozumiteľne <em>a bez chaosu.</em>
+              </Heading>
+              <ol className="lp-process-list">
+                {process.map(({ icon: Icon, title, copy }, index) => (
+                  <motion.li
+                    key={title}
+                    initial={reducedMotion ? false : { opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={
+                      reducedMotion
+                        ? { duration: 0 }
+                        : { duration: 0.64, delay: index * 0.09, ease: premiumEase }
+                    }
+                  >
+                    <span>0{index + 1}</span>
+                    <Icon />
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{copy}</p>
+                    </div>
+                  </motion.li>
+                ))}
+              </ol>
+            </div>
+    
+            <Reveal className="lp-final-card" direction="right" distance={44}>
+              <Symbol size={52} />
+              <p>Máte nápad alebo opakujúci sa proces?</p>
+              <h2>Pozrime sa, čo môže váš web robiť automaticky.</h2>
+              <Link to="/kontakt" className="lp-button lp-button-light" ref={magneticFinal}>
+                <span className="lp-button-content">
+                  Nezáväzná konzultácia <ArrowRight />
+                </span>
+              </Link>
+              <a href={`mailto:${siteConfig.contact.email}`} className="lp-final-email">
+                <Mail /> {siteConfig.contact.email}
+              </a>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+    
+    export function PremiumLanding() {
+      return (
+        <MotionConfig reducedMotion="user">
+          <div className="lp-page">
+            <LiquidControlGlow />
+            <PageProgress />
+            <Hero />
+            <ValueSection />
+            <Capabilities />
+            <DeratScrollStory />
+            <Portfolio />
+            <FaqSection />
+            <ProcessAndCta />
+          </div>
+        </MotionConfig>
+      );
+    }
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:13:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
   ...
 # Subtest: final design layers load in the authoritative order and contain no bronze palette
-ok 2 - final design layers load in the authoritative order and contain no bronze palette
+not ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 2.799568
+  duration_ms: 3.562861
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:24:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    913 !== 879
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 879
+  actual: 913
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:34:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: all homepage surfaces are covered by the final design system
 ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 0.873835
+  duration_ms: 0.851822
   type: 'test'
   ...
 # Subtest: services, projects, process, contact and cookies have final route styling
 ok 4 - services, projects, process, contact and cookies have final route styling
   ---
-  duration_ms: 0.778607
+  duration_ms: 0.572271
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.412904
+  duration_ms: 1.572847
   type: 'test'
   ...
 # Subtest: navigation has visible brand copy and no side-slide drawer animation
-ok 6 - navigation has visible brand copy and no side-slide drawer animation
+not ok 6 - navigation has visible brand copy and no side-slide drawer animation
   ---
-  duration_ms: 0.896327
+  duration_ms: 0.911401
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:105:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /site-brand-copy/. Input:
+    
+    'import { Link } from "@tanstack/react-router";\n' +
+      'import { useCallback, useEffect, useRef, useState } from "react";\n' +
+      'import { motion } from "motion/react";\n' +
+      'import { ArrowRight, ArrowUpRight, Bot, Calculator, Mail, SlidersHorizontal } from "lucide-react";\n' +
+      'import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";\n' +
+      'import { Symbol } from "@/components/Symbol";\n' +
+      'import { siteConfig } from "@/config/site";\n' +
+      'import { useFocusTrap } from "@/hooks/useFocusTrap";\n' +
+      'import { useReducedMotion } from "@/hooks/useReducedMotion";\n' +
+      'import { openSiteAssistant } from "@/lib/site-assistant";\n' +
+      'import "./Nav.css";\n' +
+      'import "./BrandMenuV2.css";\n' +
+      '\n' +
+      'const drawerItems: LineSidebarItem[] = [\n' +
+      '  { label: "Domov", href: "/" },\n' +
+      '  { label: "Chatboty a riešenia", href: "/sluzby" },\n' +
+      '  { label: "Ukážky", href: "/projekty" },\n' +
+      '  { label: "Spolupráca", href: "/postup" },\n' +
+      '  { label: "Kontakt", href: "/kontakt" },\n' +
+      '];\n' +
+      '\n' +
+      'const menuSolutions = [\n' +
+      '  {\n' +
+      '    icon: Bot,\n' +
+      '    title: "AI chatbot na mieru",\n' +
+      '    copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",\n' +
+      '    mode: "assistant" as const,\n' +
+      '  },\n' +
+      '  {\n' +
+      '    icon: Calculator,\n' +
+      '    title: "Chatbot s kalkulačkou",\n' +
+      '    copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",\n' +
+      '    mode: "calculator" as const,\n' +
+      '  },\n' +
+      '  {\n' +
+      '    icon: SlidersHorizontal,\n' +
+      '    title: "Chatbot s konfigurátorom",\n' +
+      '    copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",\n' +
+      '    mode: "calculator" as const,\n' +
+      '  },\n' +
+      '];\n' +
+      '\n' +
+      'export function Nav() {\n' +
+      '  const [open, setOpen] = useState(false);\n' +
+      '  const [scrolled, setScrolled] = useState(false);\n' +
+      '  const drawerRef = useRef<HTMLElement>(null);\n' +
+      '  const closeMenu = useCallback(() => setOpen(false), []);\n' +
+      '  const reducedMotion = useReducedMotion();\n' +
+      '\n' +
+      '  useFocusTrap(drawerRef, open, closeMenu);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const onScroll = () => setScrolled(window.scrollY > 8);\n' +
+      '    onScroll();\n' +
+      '    window.addEventListener("scroll", onScroll, { passive: true });\n' +
+      '    return () => window.removeEventListener("scroll", onScroll);\n' +
+      '  }, []);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    if (!open) return;\n' +
+      '    const previous = document.body.style.overflow;\n' +
+      '    document.body.style.overflow = "hidden";\n' +
+      '    document.body.dataset.siteMenuOpen = "true";\n' +
+      '    return () => {\n' +
+      '      document.body.style.overflow = previous;\n' +
+      '      delete document.body.dataset.siteMenuOpen;\n' +
+      '    };\n' +
+      '  }, [open]);\n' +
+      '\n' +
+      '  const openMenuAssistant = (mode: "assistant" | "calculator", category?: string) => {\n' +
+      '    closeMenu();\n' +
+      '    window.setTimeout(\n' +
+      '      () =>\n' +
+      '        openSiteAssistant({\n' +
+      '          source: "sidebar-solution",\n' +
+      '          entry: mode === "calculator" ? "builder" : undefined,\n' +
+      '          category,\n' +
+      '        }),\n' +
+      '      360,\n' +
+      '    );\n' +
+      '  };\n' +
+      '\n' +
+      '  return (\n' +
+      '    <header\n' +
+      '      className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"\n' +
+      '      style={{ zIndex: open ? 90 : 40 }}\n' +
+      '    >\n' +
+      '      <div className="container-page flex items-center justify-between h-13 md:h-15">\n' +
+      '        <div\n' +
+      '          className="site-header-bar flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"\n' +
+      '          style={{\n' +
+      '            minHeight: 56,\n' +
+      '            backgroundColor: scrolled\n' +
+      '              ? "color-mix(in oklab, var(--surface) 92%, transparent)"\n' +
+      '              : "color-mix(in oklab, var(--surface) 74%, transparent)",\n' +
+      '            border: "1px solid var(--border)",\n' +
+      '            boxShadow: scrolled\n' +
+      '              ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(242, 239, 230, 0.04) inset"\n' +
+      '              : "0 10px 30px rgba(0, 0, 0, 0.16)",\n' +
+      '          }}\n' +
+      '        >\n' +
+      '          <Link\n' +
+      '            to="/"\n' +
+      '            className="site-brand-lockup flex items-center gap-2.5"\n' +
+      '            aria-label="Daniel Vendžúr — domov"\n' +
+      '          >\n' +
+      '            <Symbol size={34} />\n' +
+      '            <span className="site-brand-name">Daniel Vendžúr</span>\n' +
+      '          </Link>\n' +
+      '\n' +
+      '          <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">\n' +
+      '            {siteConfig.nav.map((item) => (\n' +
+      '              <Link\n' +
+      '                key={item.to}\n' +
+      '                to={item.to}\n' +
+      '                aria-label={item.to === "/sluzby" ? "Služby" : undefined}\n' +
+      '                className="site-nav-link text-[13.5px] tracking-tight transition-colors"\n' +
+      '                activeProps={{ style: { color: "var(--primary)" } }}\n' +
+      '                inactiveProps={{ style: { color: "var(--text-secondary)" } }}\n' +
+      '              >\n' +
+      '                {item.label}\n' +
+      '              </Link>\n' +
+      '            ))}\n' +
+      '          </nav>\n' +
+      '\n' +
+      '          <div className="flex items-center gap-2">\n' +
+      '            <Link\n' +
+      '              to="/kontakt"\n' +
+      '              className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"\n' +
+      '            >\n' +
+      '              Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />\n' +
+      '            </Link>\n' +
+      '            <button\n' +
+      '              onClick={() => setOpen((value) => !value)}\n' +
+      '              aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}\n' +
+      '              aria-expanded={open}\n' +
+      '              aria-controls="site-navigation-drawer"\n' +
+      '              className="site-menu-toggle"\n' +
+      '            >\n' +
+      '              <span>Menu</span>\n' +
+      '              <MenuIcon open={open} />\n' +
+      '            </button>\n' +
+      '          </div>\n' +
+      '        </div>\n' +
+      '      </div>\n' +
+      '\n' +
+      '      <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>\n' +
+      '        <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />\n' +
+      '        <motion.aside\n' +
+      '          id="site-navigation-drawer"\n' +
+      '          ref={drawerRef}\n' +
+      '          className="site-menu-drawer"\n' +
+      '          role="dialog"\n' +
+      '          aria-modal="true"\n' +
+      '          aria-label="Navigácia"\n' +
+      '          tabIndex={-1}\n' +
+      '          initial={false}\n' +
+      '          animate={{\n' +
+      '            opacity: open ? 1 : 0,\n' +
+      '            y: open ? 0 : 14,\n' +
+      '            scale: open ? 1 : 0.985,\n' +
+      '          }}\n' +
+      '          transition={\n' +
+      '            reducedMotion\n' +
+      '              ? { duration: 0 }\n' +
+      '              : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }\n' +
+      '          }\n' +
+      '          style={{\n' +
+      '            transition: "none",\n' +
+      '            willChange: reducedMotion ? undefined : "transform, opacity",\n' +
+      '          }}\n' +
+      '        >\n' +
+      '          <div className="site-menu-head">\n' +
+      '            <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">\n' +
+      '              <Symbol size={44} />\n' +
+      '              <span>\n' +
+      '                Daniel Vendžúr\n' +
+      '                <small>chatboty a konverzné nástroje na mieru</small>\n' +
+      '              </span>\n' +
+      '            </Link>\n' +
+      '            <button\n' +
+      '              className="site-menu-close"\n' +
+      '              type="button"\n' +
+      '              aria-label="Zavrieť menu"\n' +
+      '              onClick={closeMenu}\n' +
+      '            >\n' +
+      '              Zavrieť <MenuIcon open />\n' +
+      '            </button>\n' +
+      '          </div>\n' +
+      '\n' +
+      '          <div className="site-menu-content">\n' +
+      '            <div className="site-menu-grid">\n' +
+      '              <div className="site-menu-nav-column">\n' +
+      '                <p className="site-menu-eyebrow">Navigácia</p>\n' +
+      '                <LineSidebar\n' +
+      '                  items={drawerItems}\n' +
+      '                  onItemClick={closeMenu}\n' +
+      '                  accentColor="#72d3ea"\n' +
+      '                  textColor="#f3f8fa"\n' +
+      '                  markerColor="rgba(210, 237, 243, 0.2)"\n' +
+      '                  markerLength={48}\n' +
+      '                  maxShift={20}\n' +
+      '                  itemGap={18}\n' +
+      '                  fontSize={1.24}\n' +
+      '                />\n' +
+      '              </div>\n' +
+      '\n' +
+      '              <aside className="site-menu-services" aria-label="Rýchly výber riešenia">\n' +
+      '                <p className="site-menu-eyebrow">Chatboty</p>\n' +
+      '                <p className="site-menu-services-intro">\n' +
+      '                  Vyberte najbližší typ. Asistent pripraví krátke zadanie bez zbytočného formulára.\n' +
+      '                </p>\n' +
+      '                <div className="site-menu-solution-list">\n' +
+      '                  {menuSolutions.map(({ icon: Icon, title, copy, mode }) => (\n' +
+      '                    <button\n' +
+      '                      type="button"\n' +
+      '                      className="site-menu-solution"\n' +
+      '                      key={title}\n' +
+      '                      onClick={() => openMenuAssistant(mode, title)}\n' +
+      '                    >\n' +
+      '                      <span className="site-menu-solution-icon">\n' +
+      '                        <Icon size={17} aria-hidden="true" />\n' +
+      '                      </span>\n' +
+      '                      <span>\n' +
+      '                        <b>{title}</b>\n' +
+      '                        <small>{copy}</small>\n' +
+      '                      </span>\n' +
+      '                      <ArrowUpRight size={16} aria-hidden="true" />\n' +
+      '                    </button>\n' +
+      '                  ))}\n' +
+      '                </div>\n' +
+      '                <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>\n' +
+      '                  Pozrieť hotové realizácie <ArrowRight size={16} aria-hidden="true" />\n' +
+      '                </Link>\n' +
+      '              </aside>\n' +
+      '            </div>\n' +
+      '          </div>\n' +
+      '\n' +
+      '          <div className="site-menu-footer">\n' +
+      '            <button\n' +
+      '              className="site-menu-cta"\n' +
+      '              type="button"\n' +
+      '              onClick={() => openMenuAssistant("assistant")}\n' +
+      '            >\n' +
+      '              <span>\n' +
+      '                <small>Máte konkrétny nápad?</small>\n' +
+      '                Prejdime si ho spolu\n' +
+      '              </span>\n' +
+      '              <ArrowUpRight size={20} />\n' +
+      '            </button>\n' +
+      '            <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>\n' +
+      '              <Mail size={14} /> {siteConfig.contact.email}\n' +
+      '            </a>\n' +
+      '          </div>\n' +
+      '        </motion.aside>\n' +
+      '      </div>\n' +
+      '    </header>\n' +
+      '  );\n' +
+      '}\n' +
+      '\n' +
+      'function MenuIcon({ open }: { open: boolean }) {\n' +
+      '  return (\n' +
+      '    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">\n' +
+      '      <line\n' +
+      '        x1="3"\n' +
+      '        y1="7"\n' +
+      '        x2="15"\n' +
+      '        y2="7"\n' +
+      '        stroke="currentColor"\n' +
+      '        strokeWidth="1.4"\n' +
+      '        strokeLinecap="round"\n' +
+      '        style={{\n' +
+      '          transform: open ? "rotate(45deg) translate(1px, 1px)" : "none",\n' +
+      '          transformOrigin: "9px 9px",\n' +
+      '          transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",\n' +
+      '        }}\n' +
+      '      />\n' +
+      '      <line\n' +
+      '        x1="3"\n' +
+      '        y1="11'... 359 more characters
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    import { Link } from "@tanstack/react-router";
+    import { useCallback, useEffect, useRef, useState } from "react";
+    import { motion } from "motion/react";
+    import { ArrowRight, ArrowUpRight, Bot, Calculator, Mail, SlidersHorizontal } from "lucide-react";
+    import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
+    import { Symbol } from "@/components/Symbol";
+    import { siteConfig } from "@/config/site";
+    import { useFocusTrap } from "@/hooks/useFocusTrap";
+    import { useReducedMotion } from "@/hooks/useReducedMotion";
+    import { openSiteAssistant } from "@/lib/site-assistant";
+    import "./Nav.css";
+    import "./BrandMenuV2.css";
+    
+    const drawerItems: LineSidebarItem[] = [
+      { label: "Domov", href: "/" },
+      { label: "Chatboty a riešenia", href: "/sluzby" },
+      { label: "Ukážky", href: "/projekty" },
+      { label: "Spolupráca", href: "/postup" },
+      { label: "Kontakt", href: "/kontakt" },
+    ];
+    
+    const menuSolutions = [
+      {
+        icon: Bot,
+        title: "AI chatbot na mieru",
+        copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",
+        mode: "assistant" as const,
+      },
+      {
+        icon: Calculator,
+        title: "Chatbot s kalkulačkou",
+        copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",
+        mode: "calculator" as const,
+      },
+      {
+        icon: SlidersHorizontal,
+        title: "Chatbot s konfigurátorom",
+        copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",
+        mode: "calculator" as const,
+      },
+    ];
+    
+    export function Nav() {
+      const [open, setOpen] = useState(false);
+      const [scrolled, setScrolled] = useState(false);
+      const drawerRef = useRef<HTMLElement>(null);
+      const closeMenu = useCallback(() => setOpen(false), []);
+      const reducedMotion = useReducedMotion();
+    
+      useFocusTrap(drawerRef, open, closeMenu);
+    
+      useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 8);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+      }, []);
+    
+      useEffect(() => {
+        if (!open) return;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        document.body.dataset.siteMenuOpen = "true";
+        return () => {
+          document.body.style.overflow = previous;
+          delete document.body.dataset.siteMenuOpen;
+        };
+      }, [open]);
+    
+      const openMenuAssistant = (mode: "assistant" | "calculator", category?: string) => {
+        closeMenu();
+        window.setTimeout(
+          () =>
+            openSiteAssistant({
+              source: "sidebar-solution",
+              entry: mode === "calculator" ? "builder" : undefined,
+              category,
+            }),
+          360,
+        );
+      };
+    
+      return (
+        <header
+          className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
+          style={{ zIndex: open ? 90 : 40 }}
+        >
+          <div className="container-page flex items-center justify-between h-13 md:h-15">
+            <div
+              className="site-header-bar flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"
+              style={{
+                minHeight: 56,
+                backgroundColor: scrolled
+                  ? "color-mix(in oklab, var(--surface) 92%, transparent)"
+                  : "color-mix(in oklab, var(--surface) 74%, transparent)",
+                border: "1px solid var(--border)",
+                boxShadow: scrolled
+                  ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(242, 239, 230, 0.04) inset"
+                  : "0 10px 30px rgba(0, 0, 0, 0.16)",
+              }}
+            >
+              <Link
+                to="/"
+                className="site-brand-lockup flex items-center gap-2.5"
+                aria-label="Daniel Vendžúr — domov"
+              >
+                <Symbol size={34} />
+                <span className="site-brand-name">Daniel Vendžúr</span>
+              </Link>
+    
+              <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
+                {siteConfig.nav.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    aria-label={item.to === "/sluzby" ? "Služby" : undefined}
+                    className="site-nav-link text-[13.5px] tracking-tight transition-colors"
+                    activeProps={{ style: { color: "var(--primary)" } }}
+                    inactiveProps={{ style: { color: "var(--text-secondary)" } }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+    
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/kontakt"
+                  className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
+                >
+                  Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
+                </Link>
+                <button
+                  onClick={() => setOpen((value) => !value)}
+                  aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}
+                  aria-expanded={open}
+                  aria-controls="site-navigation-drawer"
+                  className="site-menu-toggle"
+                >
+                  <span>Menu</span>
+                  <MenuIcon open={open} />
+                </button>
+              </div>
+            </div>
+          </div>
+    
+          <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
+            <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
+            <motion.aside
+              id="site-navigation-drawer"
+              ref={drawerRef}
+              className="site-menu-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigácia"
+              tabIndex={-1}
+              initial={false}
+              animate={{
+                opacity: open ? 1 : 0,
+                y: open ? 0 : 14,
+                scale: open ? 1 : 0.985,
+              }}
+              transition={
+                reducedMotion
+                  ? { duration: 0 }
+                  : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
+              }
+              style={{
+                transition: "none",
+                willChange: reducedMotion ? undefined : "transform, opacity",
+              }}
+            >
+              <div className="site-menu-head">
+                <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
+                  <Symbol size={44} />
+                  <span>
+                    Daniel Vendžúr
+                    <small>chatboty a konverzné nástroje na mieru</small>
+                  </span>
+                </Link>
+                <button
+                  className="site-menu-close"
+                  type="button"
+                  aria-label="Zavrieť menu"
+                  onClick={closeMenu}
+                >
+                  Zavrieť <MenuIcon open />
+                </button>
+              </div>
+    
+              <div className="site-menu-content">
+                <div className="site-menu-grid">
+                  <div className="site-menu-nav-column">
+                    <p className="site-menu-eyebrow">Navigácia</p>
+                    <LineSidebar
+                      items={drawerItems}
+                      onItemClick={closeMenu}
+                      accentColor="#72d3ea"
+                      textColor="#f3f8fa"
+                      markerColor="rgba(210, 237, 243, 0.2)"
+                      markerLength={48}
+                      maxShift={20}
+                      itemGap={18}
+                      fontSize={1.24}
+                    />
+                  </div>
+    
+                  <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
+                    <p className="site-menu-eyebrow">Chatboty</p>
+                    <p className="site-menu-services-intro">
+                      Vyberte najbližší typ. Asistent pripraví krátke zadanie bez zbytočného formulára.
+                    </p>
+                    <div className="site-menu-solution-list">
+                      {menuSolutions.map(({ icon: Icon, title, copy, mode }) => (
+                        <button
+                          type="button"
+                          className="site-menu-solution"
+                          key={title}
+                          onClick={() => openMenuAssistant(mode, title)}
+                        >
+                          <span className="site-menu-solution-icon">
+                            <Icon size={17} aria-hidden="true" />
+                          </span>
+                          <span>
+                            <b>{title}</b>
+                            <small>{copy}</small>
+                          </span>
+                          <ArrowUpRight size={16} aria-hidden="true" />
+                        </button>
+                      ))}
+                    </div>
+                    <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
+                      Pozrieť hotové realizácie <ArrowRight size={16} aria-hidden="true" />
+                    </Link>
+                  </aside>
+                </div>
+              </div>
+    
+              <div className="site-menu-footer">
+                <button
+                  className="site-menu-cta"
+                  type="button"
+                  onClick={() => openMenuAssistant("assistant")}
+                >
+                  <span>
+                    <small>Máte konkrétny nápad?</small>
+                    Prejdime si ho spolu
+                  </span>
+                  <ArrowUpRight size={20} />
+                </button>
+                <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>
+                  <Mail size={14} /> {siteConfig.contact.email}
+                </a>
+              </div>
+            </motion.aside>
+          </div>
+        </header>
+      );
+    }
+    
+    function MenuIcon({ open }: { open: boolean }) {
+      return (
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <line
+            x1="3"
+            y1="7"
+            x2="15"
+            y2="7"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            style={{
+              transform: open ? "rotate(45deg) translate(1px, 1px)" : "none",
+              transformOrigin: "9px 9px",
+              transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          />
+          <line
+            x1="3"
+            y1="11"
+            x2="15"
+            y2="11"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            style={{
+              transform: open ? "rotate(-45deg) translate(1px, -1px)" : "none",
+              transformOrigin: "9px 9px",
+              transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          />
+        </svg>
+      );
+    }
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:107:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 1.865911
+  duration_ms: 1.402831
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 0.758448
+  duration_ms: 0.53151
   type: 'test'
   ...
 # Subtest: Pages workflow validates security, artifacts and the real live deployment
 ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 1.038552
+  duration_ms: 0.733884
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 1.153899
+  duration_ms: 0.79141
   type: 'test'
   ...
 1..10
 # tests 10
 # suites 0
-# pass 10
-# fail 0
+# pass 7
+# fail 3
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 74.910425
+# duration_ms 61.156781
+error: script "test" exited with code 1
 
 ===== build =====
 $ vite build
 [33mThe plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the [1mresolve.tsconfigPaths[22m option. You can remove the plugin and set [1mresolve.tsconfigPaths: true[22m in your Vite config instead.[39m
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
-[2Ktransforming...✓ 2357 modules transformed.
+[2Ktransforming...✓ 2358 modules transformed.
 rendering chunks...
 computing gzip size...
 .output/public/assets/motion-primitives-BSyIAIjQ.css   13.51 kB │ gzip:  3.20 kB
 .output/public/assets/routes-BQo8BSvi.css              41.68 kB │ gzip:  8.47 kB
-.output/public/assets/styles-SlDx13AK.css              81.05 kB │ gzip: 14.30 kB
-.output/public/assets/index-GsREXXm4.css              165.15 kB │ gzip: 30.55 kB
-.output/public/assets/projekty._slug--O691Q8d.js        0.72 kB │ gzip:  0.44 kB
+.output/public/assets/styles-CUMH_Z9c.css              81.10 kB │ gzip: 14.30 kB
+.output/public/assets/index-B6jMsdS4.css              168.63 kB │ gzip: 31.07 kB
+.output/public/assets/projekty._slug-BsSv7tkk.js        0.72 kB │ gzip:  0.44 kB
 .output/public/assets/rolldown-runtime-Cyuzqnbw.js      0.82 kB │ gzip:  0.47 kB
-.output/public/assets/motion-primitives-s6XJuEqr.js     1.65 kB │ gzip:  0.75 kB
-.output/public/assets/cookies-ClaH-Toc.js               3.90 kB │ gzip:  1.50 kB
-.output/public/assets/postup-PsTILXIC.js                4.30 kB │ gzip:  2.04 kB
-.output/public/assets/sluzby-D1eFmAmx.js                4.65 kB │ gzip:  1.88 kB
-.output/public/assets/kontakt-CFWyRq9h.js               4.97 kB │ gzip:  2.01 kB
-.output/public/assets/farby-BBn5tPRI.js                 7.97 kB │ gzip:  2.90 kB
-.output/public/assets/projekty.index-DKE0b64f.js        8.25 kB │ gzip:  2.67 kB
-.output/public/assets/projekty._slug-CzfI9A0g.js        8.36 kB │ gzip:  2.83 kB
-.output/public/assets/routes-BsmL4VGZ.js               41.86 kB │ gzip: 14.41 kB
+.output/public/assets/motion-primitives-KPuTDYta.js     1.65 kB │ gzip:  0.76 kB
+.output/public/assets/cookies-DdogArEg.js               3.90 kB │ gzip:  1.50 kB
+.output/public/assets/postup-yuMjlOKu.js                4.30 kB │ gzip:  2.03 kB
+.output/public/assets/sluzby-BOXSoNv1.js                4.65 kB │ gzip:  1.88 kB
+.output/public/assets/kontakt-C3KOWVG0.js               4.98 kB │ gzip:  2.02 kB
+.output/public/assets/farby--5tLQlA2.js                 7.97 kB │ gzip:  2.90 kB
+.output/public/assets/projekty.index-OQaZfEzx.js        8.25 kB │ gzip:  2.66 kB
+.output/public/assets/projekty._slug-kRIKKke_.js        8.36 kB │ gzip:  2.83 kB
+.output/public/assets/routes-BF9K3Hk1.js               42.15 kB │ gzip: 14.47 kB
 .output/public/assets/vendor-Sz_lmkba.js               51.67 kB │ gzip: 20.33 kB
 .output/public/assets/vendor-BJXVHgCM.js               62.55 kB │ gzip: 25.74 kB
 .output/public/assets/motion-Bke7a2kg.js              145.66 kB │ gzip: 49.05 kB
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
-.output/public/assets/index-CWV9BVaX.js               209.48 kB │ gzip: 68.48 kB
+.output/public/assets/index-DFnvBTj9.js               209.87 kB │ gzip: 68.65 kB
 
-[32m✓ built in 1.55s[39m
+[32m✓ built in 1.06s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
-[2Ktransforming...✓ 123 modules transformed.
+[2Ktransforming...✓ 124 modules transformed.
 rendering chunks...
 computing gzip size...
 node_modules/.nitro/vite/services/ssr/assets/cookies-By_i-lus.css                      4.59 kB │ gzip:  1.52 kB
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-BSyIAIjQ.css           13.51 kB │ gzip:  3.20 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BQo8BSvi.css                      41.68 kB │ gzip:  8.47 kB
-node_modules/.nitro/vite/services/ssr/assets/styles-SlDx13AK.css                      81.05 kB │ gzip: 14.30 kB
-node_modules/.nitro/vite/services/ssr/assets/router-BRctKGNM.css                     160.56 kB │ gzip: 29.61 kB
+node_modules/.nitro/vite/services/ssr/assets/styles-CUMH_Z9c.css                      81.10 kB │ gzip: 14.30 kB
+node_modules/.nitro/vite/services/ssr/assets/router-zv24Zid4.css                     164.04 kB │ gzip: 30.17 kB
 node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-0GVloK9P.js              0.44 kB │ gzip:  0.29 kB
 node_modules/.nitro/vite/services/ssr/assets/useReducedMotion-BRrsaBMY.js              0.75 kB │ gzip:  0.37 kB
 node_modules/.nitro/vite/services/ssr/assets/site-BXlppVNm.js                          0.76 kB │ gzip:  0.47 kB
-node_modules/.nitro/vite/services/ssr/assets/start-D_uxQ8_J.js                         0.84 kB │ gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/start-uXrMSFEj.js                         0.84 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/site-assistant-nRt5KrGt.js                0.93 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-CWE7mHKW.js                1.15 kB │ gzip:  0.56 kB
 node_modules/.nitro/vite/services/ssr/assets/faq-ClMoF7tn.js                           1.61 kB │ gzip:  0.99 kB
 node_modules/.nitro/vite/services/ssr/assets/Symbol-B3FZ6rYb.js                        1.85 kB │ gzip:  0.76 kB
-node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BHghaaph.js    2.77 kB │ gzip:  0.74 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-SCgcgcJK.js    2.77 kB │ gzip:  0.74 kB
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-B5RwApV3.js             3.22 kB │ gzip:  1.11 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-Dbj4sOtI.js                       3.58 kB │ gzip:  1.36 kB
 node_modules/.nitro/vite/services/ssr/assets/projects-D81UYxuu.js                      3.81 kB │ gzip:  1.50 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-14ClTU0X.js                4.16 kB │ gzip:  1.56 kB
 node_modules/.nitro/vite/services/ssr/index.js                                         4.55 kB │ gzip:  1.99 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-DrLxraGZ.js                       5.96 kB │ gzip:  1.79 kB
-node_modules/.nitro/vite/services/ssr/assets/postup-1wentEZg.js                        6.26 kB │ gzip:  2.43 kB
+node_modules/.nitro/vite/services/ssr/assets/postup-Dgej7hS4.js                        6.26 kB │ gzip:  2.44 kB
 node_modules/.nitro/vite/services/ssr/assets/sluzby-BebRiFmT.js                        6.97 kB │ gzip:  2.30 kB
-node_modules/.nitro/vite/services/ssr/assets/kontakt-DKBoR4CK.js                       8.45 kB │ gzip:  2.54 kB
-node_modules/.nitro/vite/services/ssr/assets/farby-C1t4ONL8.js                        12.27 kB │ gzip:  3.52 kB
+node_modules/.nitro/vite/services/ssr/assets/kontakt-PqF2RFhQ.js                       8.45 kB │ gzip:  2.54 kB
+node_modules/.nitro/vite/services/ssr/assets/farby-809T0Qkg.js                        12.27 kB │ gzip:  3.52 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty.index-CPMHUcJ_.js               12.48 kB │ gzip:  3.41 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-kp6O6WoE.js               13.84 kB │ gzip:  3.68 kB
-node_modules/.nitro/vite/services/ssr/assets/router-Brs0hya6.js                       57.53 kB │ gzip: 14.43 kB
-node_modules/.nitro/vite/services/ssr/assets/tanstack-Cls8-9nJ.js                     64.34 kB │ gzip: 15.93 kB
-node_modules/.nitro/vite/services/ssr/assets/routes-BVnTZpZY.js                       72.56 kB │ gzip: 18.37 kB
+node_modules/.nitro/vite/services/ssr/assets/router-CQyFURLt.js                       57.50 kB │ gzip: 14.44 kB
+node_modules/.nitro/vite/services/ssr/assets/tanstack-By8Zx5ad.js                     64.34 kB │ gzip: 15.92 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-BQHtVxn8.js                       73.13 kB │ gzip: 18.50 kB
 
-[32m✓ built in 617ms[39m
+[32m✓ built in 418ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -151,17 +2159,17 @@ node_modules/.nitro/vite/services/ssr/assets/routes-BVnTZpZY.js                 
 rendering chunks...
 computing gzip size...
 .output/server/_runtime.mjs                 1.79 kB │ gzip:   0.81 kB
-.output/server/_libs/lucide-react.mjs      28.60 kB │ gzip:   5.37 kB
+.output/server/_libs/lucide-react.mjs      29.56 kB │ gzip:   5.55 kB
 .output/server/_libs/h3+h3-v2+srvx.mjs     33.49 kB │ gzip:   6.73 kB
-.output/server/index.mjs                   37.87 kB │ gzip:  10.48 kB
-.output/server/_ssr/vendor2.mjs            69.71 kB │ gzip:  18.40 kB
+.output/server/index.mjs                   37.87 kB │ gzip:  10.49 kB
+.output/server/_ssr/vendor2.mjs            80.05 kB │ gzip:  21.25 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            260.54 kB │ gzip:  59.40 kB
+.output/server/_ssr/vendor.mjs            250.98 kB │ gzip:  57.66 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 654ms[39m
+[32m✓ built in 446ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
