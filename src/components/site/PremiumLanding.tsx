@@ -666,7 +666,7 @@ function SolutionCard({
             })
           }
         >
-          Navrhnúť tento chatbot <ArrowUpRight aria-hidden="true" />
+          Chcem takéto riešenie <ArrowUpRight aria-hidden="true" />
         </button>
       </div>
     </motion.article>
