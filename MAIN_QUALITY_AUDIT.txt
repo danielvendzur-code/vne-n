@@ -1,4 +1,4 @@
-run_id=29824066191
+run_id=29825344177
 install=success
 lint=success
 test=success
@@ -42,31 +42,31 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.114544
+  duration_ms: 6.360415
   type: 'test'
   ...
 # Subtest: primary CTAs use mint and secondary interactions use cyan
 ok 2 - primary CTAs use mint and secondary interactions use cyan
   ---
-  duration_ms: 1.796879
+  duration_ms: 1.397215
   type: 'test'
   ...
 # Subtest: three solution cards are complete and interactive in source
 ok 3 - three solution cards are complete and interactive in source
   ---
-  duration_ms: 2.503634
+  duration_ms: 1.925734
   type: 'test'
   ...
 # Subtest: navigation has visible logo copy, chatbot labels and no side-slide animation
 ok 4 - navigation has visible logo copy, chatbot labels and no side-slide animation
   ---
-  duration_ms: 1.541991
+  duration_ms: 1.156945
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 5 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 1.192546
+  duration_ms: 0.921575
   type: 'test'
   ...
 1..5
@@ -77,7 +77,7 @@ ok 5 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 79.322156
+# duration_ms 65.462287
 
 ===== build =====
 $ vite build
@@ -108,12 +108,12 @@ computing gzip size...
 .output/public/assets/routes-CaeyMq_l.js              155.89 kB │ gzip:  59.10 kB
 .output/public/assets/index-BGXHDPgp.js               503.21 kB │ gzip: 159.98 kB
 
-[32m✓ built in 1.59s[39m
 [33m[plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 1.45s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 121 modules transformed.
 rendering chunks...
@@ -149,7 +149,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-DyLNLo28.js                 
 node_modules/.nitro/vite/services/ssr/assets/server-Dj7cJeXT.js                       58.69 kB │ gzip: 15.11 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BDk4m8ou.js                       70.82 kB │ gzip: 18.13 kB
 
-[32m✓ built in 550ms[39m
+[32m✓ built in 533ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -185,7 +185,7 @@ computing gzip size...
 .output/server/_libs/react+tanstack__react-query.mjs     17.50 kB │ gzip:   4.63 kB
 .output/server/_libs/h3-v2+srvx.mjs                      18.42 kB │ gzip:   5.20 kB
 .output/server/_libs/lucide-react.mjs                    19.14 kB │ gzip:   4.08 kB
-.output/server/index.mjs                                 21.58 kB │ gzip:   6.31 kB
+.output/server/index.mjs                                 21.58 kB │ gzip:   6.34 kB
 .output/server/_libs/h3+rou3+srvx.mjs                    40.33 kB │ gzip:  10.92 kB
 .output/server/_libs/tanstack__query-core.mjs            47.92 kB │ gzip:  10.65 kB
 .output/server/_ssr/router-DyLNLo28.mjs                  54.77 kB │ gzip:  13.27 kB
@@ -196,6 +196,6 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 594ms[39m
+[32m✓ built in 613ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
