@@ -1,12 +1,14 @@
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
 /**
- * Gives an element a gentle magnetic pull towards the cursor.
+ * Gives an element a restrained magnetic pull towards the cursor.
  * Desktop-only (fine pointer), disabled for reduced motion; the element
  * springs back to rest when the pointer leaves.
  */
-export function useMagnetic<T extends HTMLElement>(strength = 0.16) {
+export function useMagnetic<T extends HTMLElement>(strength = 0.08) {
   const ref = useRef<T>(null);
   const reducedMotion = useReducedMotion();
 
@@ -21,10 +23,11 @@ export function useMagnetic<T extends HTMLElement>(strength = 0.16) {
     let currentX = 0;
     let currentY = 0;
     let settled = true;
+    const maxOffset = 5;
 
     const tick = () => {
-      currentX += (targetX - currentX) * 0.18;
-      currentY += (targetY - currentY) * 0.18;
+      currentX += (targetX - currentX) * 0.2;
+      currentY += (targetY - currentY) * 0.2;
       const done =
         Math.abs(currentX - targetX) < 0.08 &&
         Math.abs(currentY - targetY) < 0.08 &&
@@ -49,8 +52,16 @@ export function useMagnetic<T extends HTMLElement>(strength = 0.16) {
 
     const handleMove = (event: PointerEvent) => {
       const bounds = element.getBoundingClientRect();
-      targetX = (event.clientX - bounds.left - bounds.width / 2) * strength;
-      targetY = (event.clientY - bounds.top - bounds.height / 2) * strength;
+      targetX = clamp(
+        (event.clientX - bounds.left - bounds.width / 2) * Math.min(strength, 0.1),
+        -maxOffset,
+        maxOffset,
+      );
+      targetY = clamp(
+        (event.clientY - bounds.top - bounds.height / 2) * Math.min(strength, 0.1),
+        -maxOffset,
+        maxOffset,
+      );
       schedule();
     };
 
