@@ -1,4 +1,4 @@
-run_id=29822759176
+run_id=29823086632
 install=success
 lint=success
 test=success
@@ -42,25 +42,25 @@ TAP version 13
 # Subtest: primary CTAs use mint and secondary interactions use cyan
 ok 1 - primary CTAs use mint and secondary interactions use cyan
   ---
-  duration_ms: 7.348584
+  duration_ms: 5.18004
   type: 'test'
   ...
 # Subtest: homepage copy is chatbot-first and the name is correct
 ok 2 - homepage copy is chatbot-first and the name is correct
   ---
-  duration_ms: 2.063921
+  duration_ms: 1.378035
   type: 'test'
   ...
 # Subtest: all three solution cards have descriptions, CTA and weighted pointer tilt
 ok 3 - all three solution cards have descriptions, CTA and weighted pointer tilt
   ---
-  duration_ms: 2.528053
+  duration_ms: 1.091894
   type: 'test'
   ...
 # Subtest: navigation and drawer were enlarged
 ok 4 - navigation and drawer were enlarged
   ---
-  duration_ms: 2.796345
+  duration_ms: 2.014163
   type: 'test'
   ...
 1..4
@@ -71,7 +71,7 @@ ok 4 - navigation and drawer were enlarged
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 73.735854
+# duration_ms 62.449047
 
 ===== build =====
 $ vite build
@@ -102,7 +102,7 @@ computing gzip size...
 .output/public/assets/routes-Buz3kRnP.js              154.82 kB │ gzip:  58.91 kB
 .output/public/assets/index-DXILlDvf.js               509.33 kB │ gzip: 161.52 kB
 
-[32m✓ built in 1.94s[39m
+[32m✓ built in 1.49s[39m
 [33m[plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
@@ -143,7 +143,7 @@ node_modules/.nitro/vite/services/ssr/assets/server-8s251Vrh.js                 
 node_modules/.nitro/vite/services/ssr/assets/router-BSSOserb.js                       59.29 kB │ gzip: 15.12 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CaJ9hWiU.js                       69.18 kB │ gzip: 17.85 kB
 
-[32m✓ built in 594ms[39m
+[32m✓ built in 555ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -190,6 +190,6 @@ computing gzip size...
 .output/server/_libs/framer-motion.mjs                  380.77 kB │ gzip:  99.67 kB
 .output/server/_libs/@tanstack/react-router+[...].mjs   669.67 kB │ gzip: 140.16 kB
 
-[32m✓ built in 659ms[39m
+[32m✓ built in 572ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
