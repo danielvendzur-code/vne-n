@@ -25,7 +25,10 @@ test("final design system is imported last and removes bronze from the authorita
   const layout = await read("src/components/site/Layout.tsx");
   const css = await read("src/components/site/CompetitionSystem.css");
   assert.match(layout, /CompetitionSystem\.css/);
-  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./CompetitionSystem.css"'));
+  assert.equal(
+    layout.lastIndexOf('import "./'),
+    layout.indexOf('import "./CompetitionSystem.css"'),
+  );
   assert.match(css, /--primary:\s*#65e6c1/i);
   assert.match(css, /--primary-hover:\s*#83f1d0/i);
   assert.match(css, /--accent:\s*#72c7ff/i);
