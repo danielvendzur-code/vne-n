@@ -1,0 +1,132 @@
+name: Mobile story and brand audit
+
+on:
+  push:
+    branches:
+      - claude/web-portfolio-publish-ynh7sk
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mobile-story-brand-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: ${{ !contains(github.event.head_commit.message, '[skip mobile-story-audit]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run lint
+      - run: NITRO_PRESET=node-server bun run build
+      - run: |
+          npm install --no-save --ignore-scripts @playwright/test@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Mobile browser audit
+        shell: bash
+        run: |
+          mkdir -p qa-mobile-story
+          cat > qa-mobile-story/mobile.spec.ts <<'TEST'
+          import { test, expect } from "@playwright/test";
+
+          test("logo visible and DERAT steps vertical", async ({ browser }) => {
+            const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+            const page = await context.newPage();
+            const errors: string[] = [];
+            page.on("pageerror", (error) => errors.push(error.message));
+            await page.goto("http://127.0.0.1:3000", { waitUntil: "domcontentloaded" });
+            await page.waitForTimeout(1400);
+            expect(errors).toEqual([]);
+
+            const brand = page.locator(".site-brand-lockup");
+            await expect(brand).toBeVisible();
+            await expect(brand.locator(".brand-symbol")).toBeVisible();
+            await expect(brand.locator(".site-brand-name")).toContainText("Daniel Vendžúr");
+            const brandMetrics = await brand.evaluate((element) => {
+              const symbol = element.querySelector(".brand-symbol") as HTMLElement;
+              const name = element.querySelector(".site-brand-name") as HTMLElement;
+              const symbolBox = symbol.getBoundingClientRect();
+              const nameStyle = getComputedStyle(name);
+              return { symbolWidth: symbolBox.width, symbolHeight: symbolBox.height, fontSize: parseFloat(nameStyle.fontSize) };
+            });
+            expect(brandMetrics.symbolWidth).toBeGreaterThanOrEqual(39);
+            expect(brandMetrics.symbolHeight).toBeGreaterThanOrEqual(39);
+            expect(brandMetrics.fontSize).toBeGreaterThanOrEqual(13);
+            await page.screenshot({ path: "qa-mobile-story/mobile-header.png" });
+
+            const story = page.locator(".derat-story");
+            await story.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(700);
+            const mobile = page.locator(".derat-story__mobile");
+            await expect(mobile).toBeVisible();
+            const metrics = await mobile.evaluate((element) => {
+              const style = getComputedStyle(element);
+              const slides = Array.from(element.querySelectorAll(".derat-story__mobile-slide"));
+              const boxes = slides.map((slide) => {
+                const box = slide.getBoundingClientRect();
+                return { top: box.top, left: box.left, width: box.width };
+              });
+              return {
+                display: style.display,
+                gridAutoFlow: style.gridAutoFlow,
+                overflowX: style.overflowX,
+                scrollSnapType: style.scrollSnapType,
+                width: element.getBoundingClientRect().width,
+                boxes,
+              };
+            });
+            expect(metrics.display).toBe("grid");
+            expect(metrics.gridAutoFlow).not.toBe("column");
+            expect(["visible", "clip"]).toContain(metrics.overflowX);
+            expect(["none", ""]).toContain(metrics.scrollSnapType);
+            expect(metrics.boxes).toHaveLength(4);
+            for (let index = 1; index < metrics.boxes.length; index += 1) {
+              expect(metrics.boxes[index].top).toBeGreaterThan(metrics.boxes[index - 1].top + 100);
+              expect(Math.abs(metrics.boxes[index].left - metrics.boxes[0].left)).toBeLessThanOrEqual(1);
+              expect(Math.abs(metrics.boxes[index].width - metrics.boxes[0].width)).toBeLessThanOrEqual(1);
+            }
+            const overflow = await page.evaluate(() => ({
+              scrollWidth: document.documentElement.scrollWidth,
+              clientWidth: document.documentElement.clientWidth,
+            }));
+            expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
+            await story.screenshot({ path: "qa-mobile-story/mobile-derat-vertical.png" });
+            await context.close();
+          });
+          TEST
+          PORT=3000 NITRO_PORT=3000 node .output/server/index.mjs > /tmp/mobile-story-server.log 2>&1 &
+          PID=$!
+          trap 'kill $PID 2>/dev/null || true' EXIT
+          for attempt in {1..40}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npx playwright test qa-mobile-story/mobile.spec.ts --workers=1 --reporter=line > /tmp/mobile-story-browser.log 2>&1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-story-brand-${{ github.run_id }}
+          path: qa-mobile-story
+          retention-days: 3
+      - name: Save result
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "run_id=${{ github.run_id }}"
+            echo "result=${{ job.status }}"
+            cat /tmp/mobile-story-browser.log 2>/dev/null || true
+          } > MOBILE_STORY_BRAND_AUDIT.txt
+          echo "${{ github.run_id }}" > MOBILE_STORY_BRAND_RUN_ID.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add MOBILE_STORY_BRAND_AUDIT.txt MOBILE_STORY_BRAND_RUN_ID.txt
+          git commit -m "chore: ulož mobilný story audit [skip mobile-story-audit]" || exit 0
+          git push origin HEAD:claude/web-portfolio-publish-ynh7sk
