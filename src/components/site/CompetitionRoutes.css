@@ -847,12 +847,64 @@
   letter-spacing: -0.014em !important;
 }
 
+/* Selection fills slowly outward from the centre of the tile to its edges. */
 .lp-page .lp-hero-pick-fill {
   border-radius: 16px !important;
+  clip-path: circle(74% at 50% 50%);
+  animation: lpHeroPickFill 760ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
+}
+
+@keyframes lpHeroPickFill {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    clip-path: circle(74% at 50% 50%);
+  }
 }
 
 .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon {
   transform: translateY(-1px) scale(1.06) !important;
+  transition-delay: 300ms !important;
+}
+
+/* Hold the dark ink until the fill has spread past the label, so the text
+   never flashes dark-on-dark while the tile is still filling. */
+.lp-page .lp-hero-pick[data-active="true"] {
+  transition-delay: 300ms !important;
+}
+
+/* "+ chatbot" affordance on the calculator / configurator tiles. */
+.lp-page .lp-hero-pick-plus {
+  position: absolute !important;
+  z-index: 2 !important;
+  top: 12px !important;
+  right: 13px !important;
+  font-size: 0.6rem !important;
+  font-weight: 720 !important;
+  letter-spacing: 0.01em !important;
+  color: color-mix(in oklab, var(--primary) 76%, white 8%) !important;
+  opacity: 0.9 !important;
+  pointer-events: none !important;
+  transition: color 220ms ease !important;
+}
+
+.lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
+  color: #04140f !important;
+  opacity: 0.78 !important;
+  transition-delay: 300ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-page .lp-hero-pick-fill {
+    animation: none !important;
+    clip-path: none !important;
+  }
+  .lp-page .lp-hero-pick[data-active="true"],
+  .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon,
+  .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
+    transition-delay: 0ms !important;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -867,11 +919,11 @@
   }
 }
 
-/* ---- Chips: new softer rounded-rect shape + premium motion ---- */
+/* ---- Chips: crisp glass pill shape + premium motion ---- */
 :root .chip,
 :root .lp-page .lp-chip {
-  border-radius: 12px !important;
-  padding: 0.56rem 0.9rem !important;
+  border-radius: 999px !important;
+  padding: 0.5rem 0.95rem 0.5rem 1rem !important;
   transition:
     color 220ms ease,
     border-color 260ms ease,
@@ -886,11 +938,11 @@
 }
 
 :root .lp-page .lp-chip-fill {
-  border-radius: 12px !important;
+  border-radius: 999px !important;
 }
 
 :root .lp-page .lp-chip-icon {
-  border-radius: 8px !important;
+  border-radius: 999px !important;
 }
 
 @media (hover: hover) and (pointer: fine) {

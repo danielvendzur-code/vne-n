@@ -79,18 +79,20 @@ const heroTools = {
     label: "Kalkulačka ceny",
     icon: Calculator,
     text: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa vašich pravidiel.",
+    combo: true,
   },
   configurator: {
     label: "Konfigurátor",
     icon: SlidersHorizontal,
     text: "Prevedie výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
+    combo: true,
   },
   assistant: {
     label: "Webový asistent",
     icon: Sparkles,
     text: "Interaktívny sprievodca, ktorý zákazníka na webe navedie k správnemu ďalšiemu kroku.",
   },
-} satisfies Record<HeroToolKey, { label: string; icon: typeof Bot; text: string }>;
+} satisfies Record<HeroToolKey, { label: string; icon: typeof Bot; text: string; combo?: boolean }>;
 
 const comparisons = {
   without: {
@@ -568,17 +570,13 @@ function Hero() {
                       onClick={() => setActiveTool(key)}
                     >
                       {activeTool === key ? (
-                        <motion.span
-                          className="lp-hero-pick-fill"
-                          layoutId="hero-tool-liquid"
-                          transition={liquidSpring}
-                          aria-hidden="true"
-                        />
+                        <span className="lp-hero-pick-fill" aria-hidden="true" />
                       ) : null}
                       <span className="lp-hero-pick-icon" aria-hidden="true">
                         <Icon size={16} />
                       </span>
                       <span className="lp-hero-pick-label">{tool.label}</span>
+                      {tool.combo ? <span className="lp-hero-pick-plus">+ chatbot</span> : null}
                     </motion.button>
                   );
                 },
