@@ -1,7 +1,7 @@
-run_id=29829673334
+run_id=29830585132
 install=success
 lint=success
-test=success
+test=failure
 build=success
 
 ===== lint =====
@@ -13,72 +13,349 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 4.158379
+  duration_ms: 8.759988
   type: 'test'
   ...
 # Subtest: final design layers load in the authoritative order and contain no bronze palette
 ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 1.598049
+  duration_ms: 3.541058
   type: 'test'
   ...
 # Subtest: all homepage surfaces are covered by the final design system
 ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 0.494185
+  duration_ms: 1.141902
   type: 'test'
   ...
 # Subtest: services, projects, process, contact and cookies have final route styling
 ok 4 - services, projects, process, contact and cookies have final route styling
   ---
-  duration_ms: 0.438961
+  duration_ms: 1.10016
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 0.763181
+  duration_ms: 1.696188
   type: 'test'
   ...
 # Subtest: navigation has visible brand copy and no side-slide drawer animation
 ok 6 - navigation has visible brand copy and no side-slide drawer animation
   ---
-  duration_ms: 0.660235
+  duration_ms: 1.521609
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 0.981249
+  duration_ms: 2.925481
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 0.37851
+  duration_ms: 0.884258
   type: 'test'
   ...
 # Subtest: Pages workflow validates security, artifacts and the real live deployment
-ok 9 - Pages workflow validates security, artifacts and the real live deployment
+not ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 0.546093
+  duration_ms: 2.049755
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:140:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Validate exported artifact/. Input:
+    
+    'name: Deploy and verify GitHub Pages\n' +
+      '\n' +
+      'on:\n' +
+      '  push:\n' +
+      '    branches: [main]\n' +
+      '  workflow_dispatch:\n' +
+      '\n' +
+      'permissions:\n' +
+      '  contents: write\n' +
+      '  pages: write\n' +
+      '  id-token: write\n' +
+      '\n' +
+      'concurrency:\n' +
+      '  group: pages-current-main\n' +
+      '  cancel-in-progress: false\n' +
+      '\n' +
+      'jobs:\n' +
+      '  build:\n' +
+      "    if: ${{ github.actor != 'github-actions[bot]' }}\n" +
+      '    runs-on: ubuntu-latest\n' +
+      '    steps:\n' +
+      '      - name: Checkout current main\n' +
+      '        uses: actions/checkout@v4\n' +
+      '        with:\n' +
+      '          ref: main\n' +
+      '          fetch-depth: 0\n' +
+      '\n' +
+      '      - name: Configure Pages\n' +
+      '        uses: actions/configure-pages@v5\n' +
+      '\n' +
+      '      - name: Setup Bun\n' +
+      '        uses: oven-sh/setup-bun@v2\n' +
+      '\n' +
+      '      - name: Install dependencies\n' +
+      '        run: bun install --frozen-lockfile\n' +
+      '\n' +
+      '      - name: Audit production dependencies\n' +
+      '        run: bun audit --prod --audit-level=high\n' +
+      '\n' +
+      '      - name: Run source and deployment security audit\n' +
+      '        run: node scripts/security-audit.mjs\n' +
+      '\n' +
+      '      - name: Lint source\n' +
+      '        run: bun run lint\n' +
+      '\n' +
+      '      - name: Run UX and deployment contracts\n' +
+      '        run: bun run test\n' +
+      '\n' +
+      '      - name: Build production server\n' +
+      '        run: bun run build\n' +
+      '        env:\n' +
+      '          NITRO_PRESET: node-server\n' +
+      '          VITE_BASE_PATH: /vne-n/\n' +
+      '\n' +
+      '      - name: Export static Pages artifact\n' +
+      '        shell: bash\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          PORT=4173 node .output/server/index.mjs > /tmp/vne-n-preview.log 2>&1 &\n' +
+      '          SERVER_PID=$!\n' +
+      "          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT\n" +
+      '\n' +
+      '          ready=false\n' +
+      '          for attempt in {1..40}; do\n' +
+      '            if curl --fail --silent "http://127.0.0.1:4173/vne-n/" > /dev/null; then\n' +
+      '              ready=true\n' +
+      '              break\n' +
+      '            fi\n' +
+      '            sleep 1\n' +
+      '          done\n' +
+      '\n' +
+      '          if [ "$ready" != true ]; then\n' +
+      '            cat /tmp/vne-n-preview.log\n' +
+      '            exit 1\n' +
+      '          fi\n' +
+      '\n' +
+      '          PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs\n' +
+      '\n' +
+      '      - name: Validate current artifact\n' +
+      '        shell: bash\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          test -f pages-dist/index.html\n' +
+      '          test -f pages-dist/404.html\n' +
+      '          test -f pages-dist/build-meta.json\n' +
+      '          grep -Fq "Chatboty, ktoré" pages-dist/index.html\n' +
+      '          ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html\n' +
+      '          grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json\n' +
+      '\n' +
+      '      - name: Upload current Pages artifact\n' +
+      '        uses: actions/upload-pages-artifact@v3\n' +
+      '        with:\n' +
+      '          path: pages-dist\n' +
+      '\n' +
+      '  deploy:\n' +
+      '    environment:\n' +
+      '      name: github-pages\n' +
+      '      url: ${{ steps.deployment.outputs.page_url }}\n' +
+      '    runs-on: ubuntu-latest\n' +
+      '    needs: build\n' +
+      '    steps:\n' +
+      '      - name: Deploy current main\n' +
+      '        id: deployment\n' +
+      '        uses: actions/deploy-pages@v5\n' +
+      '\n' +
+      '      - name: Verify current live build\n' +
+      '        shell: bash\n' +
+      '        env:\n' +
+      '          PAGE_URL: ${{ steps.deployment.outputs.page_url }}\n' +
+      '          SOURCE_SHA: ${{ github.sha }}\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          BASE="${PAGE_URL%/}"\n' +
+      '\n' +
+      '          for attempt in {1..30}; do\n' +
+      '            HOME_BODY="$(curl --location --fail --silent --show-error --header \'Cache-Control: no-cache\' "${BASE}/?sha=${SOURCE_SHA}-${attempt}" || true)"\n' +
+      '            META_BODY="$(curl --location --fail --silent --show-error --header \'Cache-Control: no-cache\' "${BASE}/build-meta.json?sha=${SOURCE_SHA}-${attempt}" || true)"\n' +
+      '\n' +
+      `            if printf '%s' "$HOME_BODY" | grep -Fq "Chatboty, ktoré" && \\\n` +
+      `               ! printf '%s' "$HOME_BODY" | grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" && \\\n` +
+      `               printf '%s' "$META_BODY" | grep -Fq "$SOURCE_SHA"; then\n` +
+      '              echo "verified current live build"\n' +
+      '              exit 0\n' +
+      '            fi\n' +
+      '\n' +
+      '            sleep 5\n' +
+      '          done\n' +
+      '\n' +
+      '          echo "Live GitHub Pages is not serving the current main build"\n' +
+      '          exit 1\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    name: Deploy and verify GitHub Pages
+    
+    on:
+      push:
+        branches: [main]
+      workflow_dispatch:
+    
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    concurrency:
+      group: pages-current-main
+      cancel-in-progress: false
+    
+    jobs:
+      build:
+        if: ${{ github.actor != 'github-actions[bot]' }}
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout current main
+            uses: actions/checkout@v4
+            with:
+              ref: main
+              fetch-depth: 0
+    
+          - name: Configure Pages
+            uses: actions/configure-pages@v5
+    
+          - name: Setup Bun
+            uses: oven-sh/setup-bun@v2
+    
+          - name: Install dependencies
+            run: bun install --frozen-lockfile
+    
+          - name: Audit production dependencies
+            run: bun audit --prod --audit-level=high
+    
+          - name: Run source and deployment security audit
+            run: node scripts/security-audit.mjs
+    
+          - name: Lint source
+            run: bun run lint
+    
+          - name: Run UX and deployment contracts
+            run: bun run test
+    
+          - name: Build production server
+            run: bun run build
+            env:
+              NITRO_PRESET: node-server
+              VITE_BASE_PATH: /vne-n/
+    
+          - name: Export static Pages artifact
+            shell: bash
+            run: |
+              set -euo pipefail
+              PORT=4173 node .output/server/index.mjs > /tmp/vne-n-preview.log 2>&1 &
+              SERVER_PID=$!
+              trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+    
+              ready=false
+              for attempt in {1..40}; do
+                if curl --fail --silent "http://127.0.0.1:4173/vne-n/" > /dev/null; then
+                  ready=true
+                  break
+                fi
+                sleep 1
+              done
+    
+              if [ "$ready" != true ]; then
+                cat /tmp/vne-n-preview.log
+                exit 1
+              fi
+    
+              PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs
+    
+          - name: Validate current artifact
+            shell: bash
+            run: |
+              set -euo pipefail
+              test -f pages-dist/index.html
+              test -f pages-dist/404.html
+              test -f pages-dist/build-meta.json
+              grep -Fq "Chatboty, ktoré" pages-dist/index.html
+              ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
+              grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json
+    
+          - name: Upload current Pages artifact
+            uses: actions/upload-pages-artifact@v3
+            with:
+              path: pages-dist
+    
+      deploy:
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          - name: Deploy current main
+            id: deployment
+            uses: actions/deploy-pages@v5
+    
+          - name: Verify current live build
+            shell: bash
+            env:
+              PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+              SOURCE_SHA: ${{ github.sha }}
+            run: |
+              set -euo pipefail
+              BASE="${PAGE_URL%/}"
+    
+              for attempt in {1..30}; do
+                HOME_BODY="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' "${BASE}/?sha=${SOURCE_SHA}-${attempt}" || true)"
+                META_BODY="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' "${BASE}/build-meta.json?sha=${SOURCE_SHA}-${attempt}" || true)"
+    
+                if printf '%s' "$HOME_BODY" | grep -Fq "Chatboty, ktoré" && \
+                   ! printf '%s' "$HOME_BODY" | grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" && \
+                   printf '%s' "$META_BODY" | grep -Fq "$SOURCE_SHA"; then
+                  echo "verified current live build"
+                  exit 0
+                fi
+    
+                sleep 5
+              done
+    
+              echo "Live GitHub Pages is not serving the current main build"
+              exit 1
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:146:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 0.592464
+  duration_ms: 1.993692
   type: 'test'
   ...
 1..10
 # tests 10
 # suites 0
-# pass 10
-# fail 0
+# pass 9
+# fail 1
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 44.355406
+# duration_ms 84.657558
+error: script "test" exited with code 1
 
 ===== build =====
 $ vite build
@@ -108,7 +385,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-B_NjrYZq.js               209.49 kB │ gzip: 68.49 kB
 
-[32m✓ built in 1.03s[39m
+[32m✓ built in 1.55s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 123 modules transformed.
 rendering chunks...
@@ -143,7 +420,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-CLpOr7mZ.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-DGtfIIgd.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-l6oqELmX.js                       72.61 kB │ gzip: 18.38 kB
 
-[32m✓ built in 400ms[39m
+[32m✓ built in 605ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -154,7 +431,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs      28.60 kB │ gzip:   5.37 kB
 .output/server/_libs/h3+h3-v2+srvx.mjs     33.49 kB │ gzip:   6.73 kB
 .output/server/index.mjs                   37.87 kB │ gzip:  10.49 kB
-.output/server/_ssr/vendor.mjs             50.47 kB │ gzip:  12.86 kB
+.output/server/_ssr/vendor.mjs             50.47 kB │ gzip:  12.87 kB
 .output/server/_ssr/vendor3.mjs            80.06 kB │ gzip:  21.26 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
@@ -163,6 +440,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 430ms[39m
+[32m✓ built in 632ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
