@@ -55,6 +55,7 @@
       fontFamily: "inherit",
       textDecoration: "none",
     });
+
     const icon = anchor.firstElementChild;
     if (icon instanceof HTMLElement) {
       Object.assign(icon.style, {
@@ -69,14 +70,20 @@
         fontWeight: "900",
       });
     }
+
     const copy = anchor.lastElementChild;
     if (copy instanceof HTMLElement) {
       Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });
       const strong = copy.querySelector("strong");
       const small = copy.querySelector("small");
-      if (strong instanceof HTMLElement) Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
-      if (small instanceof HTMLElement) Object.assign(small.style, { color: "#a9bec3", fontSize: "11px" });
+      if (strong instanceof HTMLElement) {
+        Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
+      }
+      if (small instanceof HTMLElement) {
+        Object.assign(small.style, { color: "#a9bec3", fontSize: "11px" });
+      }
     }
+
     document.body.appendChild(anchor);
   };
 
@@ -120,7 +127,8 @@
   };
 
   const start = () => {
-    document.documentElement.dataset.basePath = document.documentElement.dataset.basePath || "/vne-n";
+    document.documentElement.dataset.basePath =
+      document.documentElement.dataset.basePath || "/vne-n";
     loadNext();
   };
 
