@@ -179,13 +179,16 @@ export function DeratScrollStory() {
     >
       <header className="container-page derat-story__heading">
         <div>
-          <p className="derat-story__kicker">DERAT / reálna realizácia</p>
-          <h2 id="derat-story-title">Štyri odpovede. Jeden pripravený dopyt.</h2>
+          <p className="derat-story__kicker">Príklad realizácie · DERAT</p>
+          <h2 id="derat-story-title">Kalkulačka, ktorá z návštevníka spraví pripravený dopyt.</h2>
         </div>
         <div className="derat-story__intro">
-          <p>Ukážka cesty, ktorá premení neistotu návštevníka na použiteľné zadanie pre firmu.</p>
+          <p>
+            Reálny projekt pre deratizačnú službu: štyri otázky premenia neistotu zákazníka na
+            konkrétne zadanie s cenou aj kontaktom.
+          </p>
           <a href="https://derat-chatbot-backend.vercel.app/" target="_blank" rel="noreferrer">
-            Otvoriť živý DERAT <span aria-hidden="true">↗</span>
+            Otvoriť živý projekt <span aria-hidden="true">↗</span>
           </a>
         </div>
       </header>

@@ -23,6 +23,8 @@ import {
   PenLine,
   Plus,
   Rocket,
+  SlidersHorizontal,
+  Sparkles,
   Workflow,
   X,
 } from "lucide-react";
@@ -37,7 +39,7 @@ import { openSiteAssistant } from "@/lib/site-assistant";
 import "./PremiumLanding.css";
 
 type ComparisonMode = "without" | "with";
-type HeroToolKey = "chatbot" | "calculator" | "configurator";
+type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
 type RevealDirection = "up" | "left" | "right";
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -69,18 +71,26 @@ const sequenceItem: Variants = {
 
 const heroTools = {
   chatbot: {
-    label: "Chatbot",
-    text: "Odpovie 24/7, zistí potrebu zákazníka a pripraví dopyt, na ktorý môžete rovno reagovať.",
+    label: "AI chatbot",
+    icon: Bot,
+    text: "Odpovie 24/7, kvalifikuje záujem a pripraví dopyt, na ktorý môžete rovno reagovať.",
   },
   calculator: {
-    label: "S kalkulačkou",
-    text: "Vedie prirodzený rozhovor a počas neho vypočíta cenu alebo rozsah zákazky podľa vašich pravidiel.",
+    label: "Kalkulačka ceny",
+    icon: Calculator,
+    text: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa vašich pravidiel.",
   },
   configurator: {
-    label: "S konfigurátorom",
-    text: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
+    label: "Konfigurátor",
+    icon: SlidersHorizontal,
+    text: "Prevedie výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
   },
-} satisfies Record<HeroToolKey, { label: string; text: string }>;
+  assistant: {
+    label: "Webový asistent",
+    icon: Sparkles,
+    text: "Interaktívny sprievodca, ktorý zákazníka na webe navedie k správnemu ďalšiemu kroku.",
+  },
+} satisfies Record<HeroToolKey, { label: string; icon: typeof Bot; text: string }>;
 
 const comparisons = {
   without: {
@@ -511,8 +521,8 @@ function Hero() {
             </span>
           </h1>
           <motion.p className="lp-hero-lead" variants={sequenceItem}>
-            Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou,
-            konfigurátorom alebo rezerváciami. Zákazník dostane odpoveď hneď a vy pripravený dopyt.
+            AI chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď — vy
+            pripravený dopyt.
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
             <Link to="/kontakt" className="lp-button lp-button-primary" ref={magneticCta}>
@@ -543,28 +553,35 @@ function Hero() {
           }
         >
           <div className="lp-assistant-card">
-            <p>Čo má váš chatbot zvládnuť?</p>
-            <div className="lp-assistant-chips" role="group" aria-label="Typ chatbota">
+            <p>Čo pre vás postavím</p>
+            <div className="lp-hero-picker" role="group" aria-label="Typ riešenia">
               {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
-                ([key, tool]) => (
-                  <motion.button
-                    type="button"
-                    key={key}
-                    data-active={activeTool === key}
-                    aria-pressed={activeTool === key}
-                    onClick={() => setActiveTool(key)}
-                  >
-                    {activeTool === key ? (
-                      <motion.span
-                        className="lp-chip-liquid"
-                        layoutId="hero-tool-liquid"
-                        transition={liquidSpring}
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <span className="lp-control-label">{tool.label}</span>
-                  </motion.button>
-                ),
+                ([key, tool]) => {
+                  const Icon = tool.icon;
+                  return (
+                    <motion.button
+                      type="button"
+                      key={key}
+                      className="lp-hero-pick"
+                      data-active={activeTool === key}
+                      aria-pressed={activeTool === key}
+                      onClick={() => setActiveTool(key)}
+                    >
+                      {activeTool === key ? (
+                        <motion.span
+                          className="lp-hero-pick-fill"
+                          layoutId="hero-tool-liquid"
+                          transition={liquidSpring}
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span className="lp-hero-pick-icon" aria-hidden="true">
+                        <Icon size={16} />
+                      </span>
+                      <span className="lp-hero-pick-label">{tool.label}</span>
+                    </motion.button>
+                  );
+                },
               )}
             </div>
             <AnimatePresence mode="popLayout" initial={false}>

@@ -21,6 +21,7 @@ import "./RequestedPolish.css";
 import "./RequestedPolishFinal.css";
 import "./CompetitionSystem.css";
 import "./CompetitionRoutes.css";
+import "./DesignerFinish.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
