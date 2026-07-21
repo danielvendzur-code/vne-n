@@ -1,0 +1,415 @@
+name: World-class homepage refactor v2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/world-class-homepage-refactor-v2.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - name: Apply direct-source refactor
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          def sub(path, pattern, replacement, *, flags=0, count=1, label="replacement"):
+              p = Path(path)
+              text = p.read_text()
+              text, n = re.subn(pattern, replacement, text, count=count, flags=flags)
+              if n != count:
+                  raise SystemExit(f"{label} failed in {path}: expected {count}, got {n}")
+              p.write_text(text)
+
+          landing = "src/components/site/PremiumLanding.tsx"
+          p = Path(landing)
+          text = p.read_text().replace(
+              'import { useEffect, useState, type ReactNode } from "react";',
+              'import { useEffect, useRef, useState, type ReactNode } from "react";',
+          )
+          p.write_text(text)
+
+          sub(
+              landing,
+              r'const heroTools = \{.*?\} satisfies Record<HeroToolKey, \{ label: string; text: string \}>;',
+              '''const heroTools = {
+            chatbot: {
+              label: "Chatbot",
+              text: "Odpovie 24/7, zistí potrebu zákazníka a pripraví dopyt, na ktorý môžete rovno reagovať.",
+            },
+            calculator: {
+              label: "S kalkulačkou",
+              text: "Vedie prirodzený rozhovor a počas neho vypočíta cenu alebo rozsah zákazky podľa vašich pravidiel.",
+            },
+            configurator: {
+              label: "S konfigurátorom",
+              text: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
+            },
+          } satisfies Record<HeroToolKey, { label: string; text: string }>;''',
+              flags=re.S,
+              label="hero tools",
+          )
+
+          sub(
+              landing,
+              r'const solutions = \[.*?\];\n\nconst projects',
+              '''const solutions = [
+            {
+              icon: Bot,
+              title: "Chatbot na mieru",
+              copy: "Odpovedá na otázky, poradí návštevníkovi a odovzdá vám kontakt spolu s celým kontextom.",
+            },
+            {
+              icon: Calculator,
+              title: "Chatbot s kalkulačkou",
+              copy: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
+            },
+            {
+              icon: Workflow,
+              title: "Chatbot s konfigurátorom",
+              copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle hotovú špecifikáciu.",
+            },
+          ];
+
+          const projects''',
+              flags=re.S,
+              label="solutions data",
+          )
+
+          sub(
+              landing,
+              r'<h1 aria-label="Webové nástroje, ktoré odovzdajú hotový dopyt\.">.*?</h1>',
+              '''<h1 aria-label="Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.">
+            <span className="lp-hero-line" aria-hidden="true">
+              <motion.span variants={heroLine}>Chatboty, ktoré</motion.span>
+            </span>
+            <span className="lp-hero-line" aria-hidden="true">
+              <motion.span variants={heroLine}>zvyšujú konverzie</motion.span>
+            </span>
+            <span className="lp-hero-line" aria-hidden="true">
+              <motion.em variants={heroLine}>a pripravujú dopyty.</motion.em>
+            </span>
+          </h1>''',
+              flags=re.S,
+              label="hero heading",
+          )
+          sub(
+              landing,
+              r'<motion\.p className="lp-hero-lead" variants=\{sequenceItem\}>.*?</motion\.p>',
+              '''<motion.p className="lp-hero-lead" variants={sequenceItem}>
+            Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou,
+            konfigurátorom alebo rezerváciami. Zákazník dostane odpoveď hneď a vy pripravený dopyt.
+          </motion.p>''',
+              flags=re.S,
+              label="hero lead",
+          )
+
+          text = Path(landing).read_text()
+          replacements = {
+              'const magneticCta = useMagnetic<HTMLAnchorElement>(0.14);': 'const magneticCta = useMagnetic<HTMLAnchorElement>(0.055);',
+              'Chcem riešenie na mieru <ArrowRight size={17} />': 'Chcem chatbot na mieru <ArrowRight size={17} />',
+              '<p>Čo má zákazník dostať hneď?</p>': '<p>Čo má váš chatbot zvládnuť?</p>',
+              'aria-label="Typ webového nástroja"': 'aria-label="Typ chatbota"',
+              'eyebrow="Čo sa zmení"': 'eyebrow="Rozdiel v praxi"',
+              'copy="Nástroj má zákazníkovi zjednodušiť rozhodnutie a vám ušetriť opakované otázky."': 'copy="Chatbot odpovie okamžite, zozbiera správne vstupy a odovzdá vám dopyt pripravený na ďalší krok."',
+              'aria-label="Porovnanie webu bez a s nástrojom"': 'aria-label="Porovnanie webu bez a s chatbotom"',
+              '<span className="lp-control-label">Bez nástroja</span>': '<span className="lp-control-label">Bez chatbota</span>',
+              '<span className="lp-control-label">S nástrojom</span>': '<span className="lp-control-label">S chatbotom</span>',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f"missing landing token: {old}")
+              text = text.replace(old, new, 1)
+          Path(landing).write_text(text)
+
+          component = r'''
+          function SolutionCard({
+            solution,
+            index,
+          }: {
+            solution: (typeof solutions)[number];
+            index: number;
+          }) {
+            const reducedMotion = useReducedMotion();
+            const cardRef = useRef<HTMLElement>(null);
+            const Icon = solution.icon;
+
+            return (
+              <motion.article
+                ref={cardRef}
+                className="lp-solution-pill"
+                initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.28 }}
+                transition={
+                  reducedMotion
+                    ? { duration: 0 }
+                    : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
+                }
+                onPointerMove={(event) => {
+                  if (reducedMotion || event.pointerType === "touch") return;
+                  const card = event.currentTarget;
+                  const bounds = card.getBoundingClientRect();
+                  const x = (event.clientX - bounds.left) / Math.max(bounds.width, 1) - 0.5;
+                  const y = (event.clientY - bounds.top) / Math.max(bounds.height, 1) - 0.5;
+                  card.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
+                  card.style.setProperty("--tilt-y", `${(x * 6).toFixed(2)}deg`);
+                }}
+                onPointerLeave={(event) => {
+                  event.currentTarget.style.setProperty("--tilt-x", "0deg");
+                  event.currentTarget.style.setProperty("--tilt-y", "0deg");
+                }}
+              >
+                <Icon aria-hidden="true" />
+                <div>
+                  <h3>{solution.title}</h3>
+                  <p>{solution.copy}</p>
+                  <button
+                    type="button"
+                    className="lp-solution-cta"
+                    onClick={() =>
+                      openSiteAssistant({
+                        source: "solution-card",
+                        entry: "builder",
+                        category: solution.title,
+                      })
+                    }
+                  >
+                    Navrhnúť tento chatbot <ArrowUpRight aria-hidden="true" />
+                  </button>
+                </div>
+              </motion.article>
+            );
+          }
+
+          '''
+          p = Path(landing)
+          text = p.read_text()
+          marker = 'function ValueSection() {'
+          if marker not in text:
+              raise SystemExit('ValueSection marker missing')
+          text = text.replace(marker, component + marker, 1)
+          p.write_text(text)
+
+          sub(
+              landing,
+              r'\{solutions\.map\(\(\{ icon: Icon, title, copy \}, index\) => \(.*?\)\)\}',
+              '''{solutions.map((solution, index) => (
+              <SolutionCard key={solution.title} solution={solution} index={index} />
+            ))}''',
+              flags=re.S,
+              label="solution cards render",
+          )
+
+          nav = "src/components/site/Nav.tsx"
+          sub(
+              nav,
+              r'const drawerItems: LineSidebarItem\[\] = \[.*?\];',
+              '''const drawerItems: LineSidebarItem[] = [
+            { label: "Domov", href: "/" },
+            { label: "Chatboty a riešenia", href: "/sluzby" },
+            { label: "Ukážky", href: "/projekty" },
+            { label: "Spolupráca", href: "/postup" },
+            { label: "Kontakt", href: "/kontakt" },
+          ];''',
+              flags=re.S,
+              label="drawer items",
+          )
+          sub(
+              nav,
+              r'const menuSolutions = \[.*?\];',
+              '''const menuSolutions = [
+            {
+              icon: Bot,
+              title: "AI chatbot na mieru",
+              copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",
+              mode: "assistant" as const,
+            },
+            {
+              icon: Calculator,
+              title: "Chatbot s kalkulačkou",
+              copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",
+              mode: "calculator" as const,
+            },
+            {
+              icon: SlidersHorizontal,
+              title: "Chatbot s konfigurátorom",
+              copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",
+              mode: "calculator" as const,
+            },
+          ];''',
+              flags=re.S,
+              label="menu solutions",
+          )
+          sub(
+              nav,
+              r'<Symbol size=\{34\} />\s*<span className="site-brand-name">Daniel Vendžúr</span>',
+              '''<Symbol size={38} />
+            <span className="site-brand-copy">
+              <span className="site-brand-name">Daniel Vendžúr</span>
+              <small>chatboty na mieru</small>
+            </span>''',
+              flags=re.S,
+              label="brand lockup",
+          )
+          sub(
+              nav,
+              r'<Link\s+to="/kontakt"\s+className="hidden lg:inline-flex.*?</Link>',
+              '''<Link
+              to="/kontakt"
+              className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
+            >
+              Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
+            </Link>''',
+              flags=re.S,
+              label="consultation CTA",
+          )
+          sub(
+              nav,
+              r'initial=\{false\}\s*animate=\{\{ x: open \? "0%" : "102%" \}\}\s*transition=\{.*?\}\s*style=\{\{\s*transition: "none",\s*willChange: reducedMotion \? undefined : "transform",\s*\}\}',
+              '''initial={false}
+          animate={{
+            opacity: open ? 1 : 0,
+            y: open ? 0 : 14,
+            scale: open ? 1 : 0.985,
+          }}
+          transition={
+            reducedMotion
+              ? { duration: 0 }
+              : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
+          }
+          style={{
+            transition: "none",
+            willChange: reducedMotion ? undefined : "transform, opacity",
+          }}''',
+              flags=re.S,
+              label="menu motion",
+          )
+          p = Path(nav)
+          text = p.read_text()
+          for old, new in {
+              '<Symbol size={40} />': '<Symbol size={44} />',
+              '<small>weby a nástroje na mieru</small>': '<small>chatboty a konverzné nástroje na mieru</small>',
+              '<p className="site-menu-eyebrow">Riešenia</p>': '<p className="site-menu-eyebrow">Chatboty</p>',
+          }.items():
+              if old not in text:
+                  raise SystemExit(f"missing nav token: {old}")
+              text = text.replace(old, new, 1)
+          p.write_text(text)
+
+          config = Path("src/config/site.ts")
+          text = config.read_text()
+          text = text.replace(
+              'title: "Daniel Vendžúr — weby a digitálne nástroje na mieru",',
+              'title: "Daniel Vendžúr — chatboty na mieru",',
+          )
+          text = text.replace(
+              '"Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",',
+              '"Navrhujem chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom a rezerváciami.",',
+          )
+          config.write_text(text)
+
+          layout = Path("src/components/site/Layout.tsx")
+          text = layout.read_text()
+          text = text.replace('import { RequestedRuntimePolish } from "./RequestedRuntimePolish";\n', '')
+          text = text.replace('        <RequestedRuntimePolish key={`requested-${pathname}`} />\n', '')
+          layout.write_text(text)
+
+          motion = Path("src/components/site/SiteMotionEnhancements.tsx")
+          text = motion.read_text()
+          text, n = re.subn(
+              r'\nconst replaceText = .*?\n  \}, \[\]\);\n\n  useEffect\(\(\) => \{\n    const images',
+              '\n\n  useEffect(() => {\n    const images',
+              text,
+              count=1,
+              flags=re.S,
+          )
+          if n != 1 or 'refineHomepageCopy' in text or 'const replaceText' in text:
+              raise SystemExit('runtime copy mutation removal failed')
+          motion.write_text(text)
+
+          Path("src/components/site/RequestedRuntimePolish.tsx").unlink(missing_ok=True)
+
+          Path("tests/home-contract.test.mjs").write_text(r'''import test from "node:test";
+          import assert from "node:assert/strict";
+          import { access, readFile } from "node:fs/promises";
+
+          const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
+
+          test("chatbot-first copy is rendered directly by React", async () => {
+            const landing = await read("src/components/site/PremiumLanding.tsx");
+            const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
+            const layout = await read("src/components/site/Layout.tsx");
+            assert.match(landing, /Chatboty, ktoré/);
+            assert.match(landing, /zvyšujú konverzie/);
+            assert.match(landing, /Čo má váš chatbot zvládnuť\?/);
+            assert.match(landing, /Bez chatbota/);
+            assert.match(landing, /S chatbotom/);
+            assert.doesNotMatch(motion, /refineHomepageCopy|replaceText/);
+            assert.doesNotMatch(layout, /RequestedRuntimePolish/);
+            await assert.rejects(access(new URL("../src/components/site/RequestedRuntimePolish.tsx", import.meta.url)));
+          });
+
+          test("primary CTAs use mint and secondary interactions use cyan", async () => {
+            const css = await read("src/components/site/RequestedPolish.css");
+            assert.match(css, /--action:\s*#64e3b3/i);
+            assert.match(css, /--action-hover:\s*#7af0c5/i);
+            assert.match(css, /--interactive:\s*#72d3ea/i);
+            assert.doesNotMatch(css, /--action:\s*#f26f4f/i);
+          });
+
+          test("three solution cards are complete and interactive in source", async () => {
+            const landing = await read("src/components/site/PremiumLanding.tsx");
+            const css = await read("src/components/site/RequestedPolish.css");
+            assert.match(landing, /Chatbot na mieru/);
+            assert.match(landing, /Chatbot s kalkulačkou/);
+            assert.match(landing, /Chatbot s konfigurátorom/);
+            assert.match(landing, /Navrhnúť tento chatbot/);
+            assert.match(landing, /onPointerMove/);
+            assert.match(landing, /--tilt-x/);
+            assert.match(css, /rotateX\(var\(--tilt-x\)\)/);
+          });
+
+          test("navigation has visible logo copy, chatbot labels and no side-slide animation", async () => {
+            const nav = await read("src/components/site/Nav.tsx");
+            const finalCss = await read("src/components/site/RequestedPolishFinal.css");
+            assert.match(nav, /site-brand-copy/);
+            assert.match(nav, /chatboty na mieru/);
+            assert.match(nav, /Chatboty a riešenia/);
+            assert.match(nav, /opacity: open \? 1 : 0/);
+            assert.doesNotMatch(nav, /animate=\{\{ x:/);
+            assert.match(finalCss, /--line-font-size:\s*1\.66rem/);
+          });
+          ''')
+          PY
+      - name: Format changed files
+        run: bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/Nav.tsx src/components/site/Layout.tsx src/components/site/SiteMotionEnhancements.tsx src/config/site.ts tests/home-contract.test.mjs
+      - name: Lint
+        run: bun run lint
+      - name: Tests
+        run: bun run test
+      - name: Build
+        env:
+          NITRO_PRESET: node-server
+        run: bun run build
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "refactor: move chatbot-first UX into direct React source [skip main-quality]"
+          git push origin HEAD:main
