@@ -95,7 +95,7 @@ test("three solution cards are complete and use bounded pointer interaction", as
   assert.match(landing, /Chatbot na mieru/);
   assert.match(landing, /Chatbot s kalkulačkou/);
   assert.match(landing, /Chatbot s konfigurátorom/);
-  assert.match(landing, /Navrhnúť tento chatbot/);
+  assert.match(landing, /Chcem takéto riešenie/);
   assert.match(landing, /onPointerMove/);
   assert.match(landing, /event\.pointerType === "touch"/);
   assert.match(landing, /--tilt-x/);
