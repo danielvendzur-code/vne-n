@@ -58,8 +58,12 @@ function NotFoundComponent() {
         >
           Odkaz sa nenašiel.
         </h1>
-        <p className="mt-5 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.65 }}>
-          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez overenú navigáciu.
+        <p
+          className="mt-5 text-sm"
+          style={{ color: "var(--text-secondary)", lineHeight: 1.65 }}
+        >
+          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez overenú
+          navigáciu.
         </p>
         <a
           href={import.meta.env.BASE_URL}
@@ -85,6 +89,7 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
@@ -181,7 +186,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         property: "og:description",
-        content: "Chatboty, kalkulačky, konfigurátory a rezervácie prepojené do jedného plynulého riešenia.",
+        content:
+          "Chatboty, kalkulačky, konfigurátory a rezervácie prepojené do jedného plynulého riešenia.",
       },
       { property: "og:type", content: "website" },
       {
@@ -237,7 +243,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const basePath = import.meta.env.BASE_URL === "/" ? "/" : import.meta.env.BASE_URL.replace(/\/$/, "");
+  const basePath =
+    import.meta.env.BASE_URL === "/" ? "/" : import.meta.env.BASE_URL.replace(/\/$/, "");
 
   return (
     <html lang="sk" data-base-path={basePath} suppressHydrationWarning>
