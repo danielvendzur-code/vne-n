@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   build:
+    if: ${{ github.actor != 'github-actions[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -64,9 +65,26 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Let the legacy branch deployment finish
-        run: sleep 30
-
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Checkout latest main for deployment record
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Record successful deployment
+        shell: bash
+        run: |
+          {
+            echo "deployment=success"
+            echo "source_sha=${GITHUB_SHA}"
+            echo "page_url=${{ steps.deployment.outputs.page_url }}"
+            echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > PAGES_DEPLOY_AUDIT.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PAGES_DEPLOY_AUDIT.txt
+          git commit -m "chore: record Pages deployment [skip main-quality]" || exit 0
+          git push origin HEAD:main
