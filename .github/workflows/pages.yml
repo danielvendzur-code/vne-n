@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy and verify GitHub Pages
 
 on:
   push:
@@ -31,6 +31,12 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Lint source
+        run: bun run lint
+
+      - name: Run UX and deployment contracts
+        run: bun run test
+
       - name: Build production server
         run: bun run build
         env:
@@ -40,18 +46,46 @@ jobs:
       - name: Export static Pages artifact
         shell: bash
         run: |
+          set -euo pipefail
           PORT=4173 node .output/server/index.mjs > /tmp/vne-n-preview.log 2>&1 &
           SERVER_PID=$!
-          trap 'kill $SERVER_PID' EXIT
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
 
-          for attempt in {1..30}; do
+          ready=false
+          for attempt in {1..40}; do
             if curl --fail --silent "http://127.0.0.1:4173/${{ github.event.repository.name }}/" > /dev/null; then
+              ready=true
               break
             fi
             sleep 1
           done
 
-          PAGES_BASE="${{ github.event.repository.name }}" node scripts/export-github-pages.mjs
+          if [ "$ready" != true ]; then
+            cat /tmp/vne-n-preview.log
+            exit 1
+          fi
+
+          PAGES_BASE="${{ github.event.repository.name }}" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs
+
+      - name: Validate exported artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f pages-dist/index.html
+          test -f pages-dist/404.html
+          test -f pages-dist/widget-loader.js
+          test -f pages-dist/build-meta.json
+          grep -Fq "Chatboty, ktoré" pages-dist/index.html
+          grep -Fq "Content-Security-Policy" pages-dist/index.html
+          grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
+          ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
+
+          for route in sluzby projekty postup kontakt cookies farby; do
+            test -f "pages-dist/${route}/index.html"
+            test -f "pages-dist/${route}.html"
+          done
+
+          grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -69,22 +103,69 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
+      - name: Verify live deployment and all public routes
+        id: smoke
+        shell: bash
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          BASE="${PAGE_URL%/}"
+
+          fetch_with_retry() {
+            local path="$1"
+            local expected="$2"
+            local body="/tmp/live-$(echo "$path" | tr '/.' '__').txt"
+
+            for attempt in {1..24}; do
+              if curl --location --fail --silent --show-error \
+                --header "Cache-Control: no-cache" \
+                "${BASE}${path}?verify=${SOURCE_SHA}-${attempt}" > "$body"; then
+                if [ -z "$expected" ] || grep -Fq "$expected" "$body"; then
+                  echo "verified ${path}"
+                  return 0
+                fi
+              fi
+              sleep 5
+            done
+
+            echo "Live verification failed for ${path}"
+            cat "$body" 2>/dev/null || true
+            return 1
+          }
+
+          fetch_with_retry "/" "Chatboty, ktoré"
+          fetch_with_retry "/sluzby" ""
+          fetch_with_retry "/sluzby/" ""
+          fetch_with_retry "/projekty/" ""
+          fetch_with_retry "/postup/" ""
+          fetch_with_retry "/kontakt/" ""
+          fetch_with_retry "/cookies/" ""
+          fetch_with_retry "/widget-loader.js" "DV_ASSISTANT_LOADER_ACTIVE"
+          fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
+
       - name: Checkout latest main for deployment record
         uses: actions/checkout@v4
         with:
           ref: main
 
-      - name: Record successful deployment
+      - name: Record verified deployment
         shell: bash
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SOURCE_SHA: ${{ github.sha }}
         run: |
           {
             echo "deployment=success"
-            echo "source_sha=${GITHUB_SHA}"
-            echo "page_url=${{ steps.deployment.outputs.page_url }}"
+            echo "live_smoke=success"
+            echo "source_sha=${SOURCE_SHA}"
+            echo "page_url=${PAGE_URL}"
             echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           } > PAGES_DEPLOY_AUDIT.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add PAGES_DEPLOY_AUDIT.txt
-          git commit -m "chore: record Pages deployment [skip main-quality]" || exit 0
+          git commit -m "chore: record verified Pages deployment [skip main-quality]" || exit 0
+          git pull --rebase origin main
           git push origin HEAD:main
