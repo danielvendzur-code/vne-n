@@ -30,6 +30,12 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # Claim GitHub Actions as the Pages build type so the built-in
+          # branch/Jekyll builder ("pages build and deployment") stops running
+          # and can no longer overwrite this workflow's deployment with an
+          # empty repo-root site (which was serving 404 on every route).
+          enablement: true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
