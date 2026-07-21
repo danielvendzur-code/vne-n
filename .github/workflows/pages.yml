@@ -31,6 +31,12 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Audit production dependencies
+        run: bun audit --prod --audit-level=high
+
+      - name: Run source and deployment security audit
+        run: node scripts/security-audit.mjs
+
       - name: Lint source
         run: bun run lint
 
@@ -158,6 +164,8 @@ jobs:
         run: |
           {
             echo "deployment=success"
+            echo "dependency_audit=success"
+            echo "source_security_audit=success"
             echo "live_smoke=success"
             echo "source_sha=${SOURCE_SHA}"
             echo "page_url=${PAGE_URL}"
