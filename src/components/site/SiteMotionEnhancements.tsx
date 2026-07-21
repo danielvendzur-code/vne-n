@@ -3,60 +3,8 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
-const replaceText = (element: Element | null, value: string) => {
-  if (element && element.textContent !== value) element.textContent = value;
-};
-
 export function SiteMotionEnhancements() {
   const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    let frame = 0;
-
-    const refineHomepageCopy = () => {
-      frame = 0;
-      const hero = document.querySelector<HTMLElement>(".lp-hero");
-      if (!hero) return;
-
-      const heading = hero.querySelector<HTMLHeadingElement>("h1");
-      const lines = Array.from(hero.querySelectorAll<HTMLElement>(".lp-hero-line > *"));
-      const lineCopy = ["Chatboty, ktoré", "zvyšujú konverzie", "a pripravujú dopyty."];
-      lines.slice(0, 3).forEach((line, index) => replaceText(line, lineCopy[index]));
-      heading?.setAttribute("aria-label", "Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.");
-
-      replaceText(
-        hero.querySelector(".lp-hero-lead"),
-        "Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou, konfigurátorom alebo rezerváciami. Návštevník dostane odpoveď hneď a vy použiteľný dopyt.",
-      );
-      replaceText(hero.querySelector(".lp-assistant-card > p"), "Čo má váš chatbot zvládnuť?");
-
-      const toolLabels = Array.from(
-        hero.querySelectorAll<HTMLElement>(".lp-assistant-chips .lp-control-label"),
-      );
-      ["Chatbot", "S kalkulačkou", "S konfigurátorom"].forEach((label, index) =>
-        replaceText(toolLabels[index] ?? null, label),
-      );
-
-      const comparisonLabels = Array.from(
-        document.querySelectorAll<HTMLElement>(".lp-switch .lp-control-label"),
-      );
-      replaceText(comparisonLabels[0] ?? null, "Bez chatbota");
-      replaceText(comparisonLabels[1] ?? null, "S chatbotom");
-    };
-
-    const scheduleRefinement = () => {
-      if (!frame) frame = window.requestAnimationFrame(refineHomepageCopy);
-    };
-
-    refineHomepageCopy();
-    const observer = new MutationObserver(scheduleRefinement);
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    return () => {
-      observer.disconnect();
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
 
   useEffect(() => {
     const images = Array.from(document.querySelectorAll<HTMLImageElement>(".lp-project-media img"));

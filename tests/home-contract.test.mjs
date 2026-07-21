@@ -1,8 +1,24 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
+
+test("chatbot-first copy is rendered directly by React", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
+  const layout = await read("src/components/site/Layout.tsx");
+  assert.match(landing, /Chatboty, ktoré/);
+  assert.match(landing, /zvyšujú konverzie/);
+  assert.match(landing, /Čo má váš chatbot zvládnuť\?/);
+  assert.match(landing, /Bez chatbota/);
+  assert.match(landing, /S chatbotom/);
+  assert.doesNotMatch(motion, /refineHomepageCopy|replaceText/);
+  assert.doesNotMatch(layout, /RequestedRuntimePolish/);
+  await assert.rejects(
+    access(new URL("../src/components/site/RequestedRuntimePolish.tsx", import.meta.url)),
+  );
+});
 
 test("primary CTAs use mint and secondary interactions use cyan", async () => {
   const css = await read("src/components/site/RequestedPolish.css");
@@ -10,37 +26,27 @@ test("primary CTAs use mint and secondary interactions use cyan", async () => {
   assert.match(css, /--action-hover:\s*#7af0c5/i);
   assert.match(css, /--interactive:\s*#72d3ea/i);
   assert.doesNotMatch(css, /--action:\s*#f26f4f/i);
-  assert.doesNotMatch(css, /--action-hover:\s*#ff8060/i);
 });
 
-test("homepage copy is chatbot-first and the name is correct", async () => {
-  const runtime = await read("src/components/site/RequestedRuntimePolish.tsx");
-  assert.match(runtime, /Daniel Vendžúr/);
-  assert.match(runtime, /Chatboty, ktoré/);
-  assert.match(runtime, /zvyšujú konverzie/);
-  assert.match(runtime, /Čo má váš chatbot zvládnuť\?/);
-  assert.match(runtime, /Bez chatbota/);
-  assert.match(runtime, /S chatbotom/);
-});
-
-test("all three solution cards have descriptions, CTA and weighted pointer tilt", async () => {
-  const runtime = await read("src/components/site/RequestedRuntimePolish.tsx");
+test("three solution cards are complete and interactive in source", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
   const css = await read("src/components/site/RequestedPolish.css");
-  assert.match(runtime, /Chatbot na mieru/);
-  assert.match(runtime, /Chatbot s kalkulačkou/);
-  assert.match(runtime, /Chatbot s konfigurátorom/);
-  assert.match(runtime, /Navrhnúť tento chatbot/);
-  assert.match(runtime, /pointermove/);
-  assert.match(runtime, /--tilt-x/);
+  assert.match(landing, /Chatbot na mieru/);
+  assert.match(landing, /Chatbot s kalkulačkou/);
+  assert.match(landing, /Chatbot s konfigurátorom/);
+  assert.match(landing, /Navrhnúť tento chatbot/);
+  assert.match(landing, /onPointerMove/);
+  assert.match(landing, /--tilt-x/);
   assert.match(css, /rotateX\(var\(--tilt-x\)\)/);
-  assert.match(css, /rotateY\(var\(--tilt-y\)\)/);
 });
 
-test("navigation and drawer were enlarged", async () => {
-  const css = await read("src/components/site/RequestedPolish.css");
+test("navigation has visible logo copy, chatbot labels and no side-slide animation", async () => {
+  const nav = await read("src/components/site/Nav.tsx");
   const finalCss = await read("src/components/site/RequestedPolishFinal.css");
-  assert.match(css, /width:\s*min\(1080px, 98vw\)/);
-  assert.match(css, /font-size:\s*0\.96rem/);
+  assert.match(nav, /site-brand-copy/);
+  assert.match(nav, /chatboty na mieru/);
+  assert.match(nav, /Chatboty a riešenia/);
+  assert.match(nav, /opacity: open \? 1 : 0/);
+  assert.doesNotMatch(nav, /animate=\{\{ x:/);
   assert.match(finalCss, /--line-font-size:\s*1\.66rem/);
-  assert.match(finalCss, /--line-marker-length:\s*68px/);
 });

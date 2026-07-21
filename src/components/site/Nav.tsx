@@ -13,29 +13,29 @@ import "./BrandMenuV2.css";
 
 const drawerItems: LineSidebarItem[] = [
   { label: "Domov", href: "/" },
-  { label: "Služby", href: "/sluzby" },
-  { label: "Projekty", href: "/projekty" },
-  { label: "Postup", href: "/postup" },
+  { label: "Chatboty a riešenia", href: "/sluzby" },
+  { label: "Ukážky", href: "/projekty" },
+  { label: "Spolupráca", href: "/postup" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 
 const menuSolutions = [
   {
     icon: Bot,
-    title: "Chatbot na mieru",
-    copy: "Odpovede, kvalifikácia a hotový dopyt.",
+    title: "AI chatbot na mieru",
+    copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",
     mode: "assistant" as const,
   },
   {
     icon: Calculator,
-    title: "Kalkulačka",
-    copy: "Cena, spotreba alebo návratnosť podľa vašich pravidiel.",
+    title: "Chatbot s kalkulačkou",
+    copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",
     mode: "calculator" as const,
   },
   {
     icon: SlidersHorizontal,
-    title: "Konfigurátor",
-    copy: "Prehľadný výber produktu bez zbytočného vysvetľovania.",
+    title: "Chatbot s konfigurátorom",
+    copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",
     mode: "calculator" as const,
   },
 ];
@@ -104,8 +104,11 @@ export function Nav() {
             className="site-brand-lockup flex items-center gap-2"
             aria-label="Daniel Vendžúr — domov"
           >
-            <Symbol size={34} />
-            <span className="site-brand-name">Daniel Vendžúr</span>
+            <Symbol size={38} />
+            <span className="site-brand-copy">
+              <span className="site-brand-name">Daniel Vendžúr</span>
+              <small>chatboty na mieru</small>
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
@@ -126,10 +129,9 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <Link
               to="/kontakt"
-              className="hidden lg:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
-              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+              className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
             >
-              Nezáväzná konzultácia
+              Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
             <button
               onClick={() => setOpen((value) => !value)}
@@ -156,25 +158,27 @@ export function Nav() {
           aria-label="Navigácia"
           tabIndex={-1}
           initial={false}
-          animate={{ x: open ? "0%" : "102%" }}
+          animate={{
+            opacity: open ? 1 : 0,
+            y: open ? 0 : 14,
+            scale: open ? 1 : 0.985,
+          }}
           transition={
             reducedMotion
               ? { duration: 0 }
-              : open
-                ? { type: "spring", stiffness: 300, damping: 31, mass: 0.82 }
-                : { type: "spring", stiffness: 360, damping: 38, mass: 0.78 }
+              : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
           }
           style={{
             transition: "none",
-            willChange: reducedMotion ? undefined : "transform",
+            willChange: reducedMotion ? undefined : "transform, opacity",
           }}
         >
           <div className="site-menu-head">
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
-              <Symbol size={40} />
+              <Symbol size={44} />
               <span>
                 Daniel Vendžúr
-                <small>weby a nástroje na mieru</small>
+                <small>chatboty a konverzné nástroje na mieru</small>
               </span>
             </Link>
             <button
@@ -205,7 +209,7 @@ export function Nav() {
               </div>
 
               <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
-                <p className="site-menu-eyebrow">Riešenia</p>
+                <p className="site-menu-eyebrow">Chatboty</p>
                 <p className="site-menu-services-intro">
                   Vyberte najbližší typ. Asistent pripraví krátke zadanie bez zbytočného formulára.
                 </p>
