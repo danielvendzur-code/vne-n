@@ -90,12 +90,13 @@ if (!loader.includes("https://danielvendzur-code.github.io")) {
 }
 
 const layout = await read("src/components/site/Layout.tsx");
-const competitionIndex = layout.indexOf('import "./CompetitionSystem.css"');
+const systemIndex = layout.indexOf('import "./CompetitionSystem.css"');
+const routesIndex = layout.indexOf('import "./CompetitionRoutes.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
-if (competitionIndex === -1) fail("CompetitionSystem.css is not imported");
-if (competitionIndex !== lastStyleImport) {
-  fail("CompetitionSystem.css must be the final component style import");
-}
+if (systemIndex === -1) fail("CompetitionSystem.css is not imported");
+if (routesIndex === -1) fail("CompetitionRoutes.css is not imported");
+if (systemIndex >= routesIndex) fail("CompetitionRoutes.css must load after CompetitionSystem.css");
+if (routesIndex !== lastStyleImport) fail("CompetitionRoutes.css must be the final component style import");
 
 const competitionCss = await read("src/components/site/CompetitionSystem.css");
 for (const token of ["#65e6c1", "#72c7ff", "prefers-reduced-motion", "focus-visible"]) {
@@ -107,6 +108,21 @@ if (/#c9aa70|#c47c5e|#bc7352/i.test(competitionCss)) {
   fail("Bronze, copper or old primary colours remain in the final design layer");
 }
 
+const routeCss = await read("src/components/site/CompetitionRoutes.css");
+for (const selector of [
+  ".sp-hero",
+  ".sp-service",
+  ".sp-project-card > a",
+  ".sp-timeline-progress",
+  ".contact-card",
+  ".cookies-card",
+]) {
+  if (!routeCss.includes(selector)) fail(`Route design layer is missing ${selector}`);
+}
+if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(routeCss)) {
+  fail("Bronze, copper or gold remains in the final route design layer");
+}
+
 const exporter = await read("scripts/export-github-pages.mjs");
 for (const token of ["/cookies", "404.html", "build-meta.json", "Chatboty, ktor√©"]) {
   if (!exporter.includes(token)) fail(`Static exporter is missing ${token}`);
@@ -114,6 +130,8 @@ for (const token of ["/cookies", "404.html", "build-meta.json", "Chatboty, ktor√
 
 const pagesWorkflow = await read(".github/workflows/pages.yml");
 for (const token of [
+  "Audit production dependencies",
+  "Run source and deployment security audit",
   "Validate exported artifact",
   "Verify live deployment",
   "/cookies/",
@@ -142,5 +160,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, widget fallback, final design layer, route export and live smoke contracts.",
+  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, widget fallback, all final design layers, route export, dependency audit and live smoke contracts.",
 );
