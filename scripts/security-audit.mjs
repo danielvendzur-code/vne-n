@@ -4,16 +4,7 @@ import { extname, join } from "node:path";
 const root = new URL("../", import.meta.url);
 const failures = [];
 const checkedFiles = [];
-const sourceExtensions = new Set([
-  ".js",
-  ".mjs",
-  ".cjs",
-  ".ts",
-  ".tsx",
-  ".json",
-  ".yml",
-  ".yaml",
-]);
+const sourceExtensions = new Set([".js", ".mjs", ".cjs", ".ts", ".tsx", ".json", ".yml", ".yaml"]);
 const excludedDirectories = new Set([
   "node_modules",
   ".git",
