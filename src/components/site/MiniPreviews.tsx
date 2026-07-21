@@ -10,49 +10,86 @@ interface MiniProps {
 }
 
 function usePalette(accent?: string) {
+  const a = accent ?? "var(--primary)";
   return {
-    accent: accent ?? "var(--primary)",
-    accentSoft: accent
-      ? `color-mix(in oklab, ${accent} 16%, var(--surface))`
-      : "var(--primary-soft)",
+    accent: a,
+    accentSoft: `color-mix(in oklab, ${a} 20%, transparent)`,
+    accentInk: accent ? `color-mix(in oklab, ${a} 26%, #06120d)` : "#06120d",
   };
 }
 
-export function AssistantMini({ compact, accent }: MiniProps) {
-  const { accent: a, accentSoft } = usePalette(accent);
+/** Rounded pill used inside previews; active state fills with the card accent. */
+function Chip({
+  children,
+  active,
+  accent,
+}: {
+  children: string;
+  active?: boolean;
+  accent: string;
+}) {
   return (
-    <div className={compact ? "p-3" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
-      <div className="mb-2 text-[11px]" style={{ color: "var(--text-secondary)" }}>
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        borderRadius: 999,
+        padding: "0.28rem 0.7rem",
+        fontSize: "0.72rem",
+        fontWeight: 600,
+        lineHeight: 1.2,
+        whiteSpace: "nowrap",
+        border: `1px solid ${active ? "transparent" : "var(--border-strong)"}`,
+        color: active ? "#06120d" : "var(--text-secondary)",
+        background: active ? accent : "transparent",
+        boxShadow: active ? `0 6px 16px -10px ${accent}` : "none",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+export function AssistantMini({ compact, accent }: MiniProps) {
+  const { accent: a } = usePalette(accent);
+  return (
+    <div className={compact ? "p-3.5" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
+      <div
+        className="mb-2 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide"
+        style={{ color: "var(--text-light)" }}
+      >
+        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: a }} />
         Otázka 2 z 4
       </div>
       <div
-        className="rounded-lg px-3 py-2 text-sm mb-2 max-w-[85%]"
+        className="mb-2.5 max-w-[88%] rounded-2xl rounded-tl-md px-3 py-2 text-sm"
         style={{ backgroundColor: "var(--background-soft)", color: "var(--text-primary)" }}
       >
         Aký typ služby vás zaujíma?
       </div>
-      <div className="flex flex-wrap gap-1.5 mb-3">
-        {["Konzultácia", "Obhliadka", "Ponuka", "Iné"].map((choice, index) => (
-          <ChoiceChip
-            key={choice}
-            label={choice}
-            index={index + 1}
-            selected={index === 1}
-            accent={a}
-            accentSoft={accentSoft}
-          />
-        ))}
+      <div className="mb-3 flex flex-wrap gap-1.5">
+        <Chip accent={a}>Konzultácia</Chip>
+        <Chip accent={a} active>
+          Obhliadka
+        </Chip>
+        <Chip accent={a}>Ponuka</Chip>
+        <Chip accent={a}>Iné</Chip>
       </div>
       <div
-        className="rounded-lg px-3 py-2 text-xs"
+        className="rounded-xl px-3 py-2.5 text-xs"
         style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
       >
-        <div style={{ color: "var(--text-secondary)" }} className="mb-1">
+        <div
+          style={{ color: "var(--text-light)" }}
+          className="mb-1.5 text-[10px] uppercase tracking-wide"
+        >
           Zhrnutie
         </div>
-        <div className="flex justify-between">
-          <span style={{ color: "var(--text-primary)" }}>Typ</span>
-          <span className="font-medium">Obhliadka</span>
+        <div className="flex items-center justify-between">
+          <span style={{ color: "var(--text-secondary)" }}>Typ</span>
+          <span className="font-semibold" style={{ color: "var(--text-primary)" }}>
+            Obhliadka
+          </span>
         </div>
       </div>
     </div>
@@ -62,19 +99,25 @@ export function AssistantMini({ compact, accent }: MiniProps) {
 export function CalculatorMini({ compact, accent }: MiniProps) {
   const { accent: a } = usePalette(accent);
   return (
-    <div className={compact ? "p-3" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
-      <div className="grid grid-cols-2 gap-2 mb-3">
+    <div className={compact ? "p-3.5" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
+      <div className="mb-3 grid grid-cols-2 gap-2">
         <Field label="Rozmery" value="42 m" />
         <Field label="Materiál" value="Variant B" />
         <Field label="Doprava" value="35 km" />
         <Field label="Montáž" value="Áno" />
       </div>
       <div
-        className="rounded-lg p-3 flex items-center justify-between"
-        style={{ backgroundColor: "var(--background-soft)", border: "1px solid var(--border)" }}
+        className="flex items-center justify-between rounded-xl p-3"
+        style={{
+          background: `linear-gradient(150deg, color-mix(in oklab, ${a} 12%, var(--background-soft)), var(--background-soft))`,
+          border: `1px solid color-mix(in oklab, ${a} 30%, var(--border))`,
+        }}
       >
         <div>
-          <div className="text-[11px]" style={{ color: "var(--text-secondary)" }}>
+          <div
+            className="text-[10px] uppercase tracking-wide"
+            style={{ color: "var(--text-light)" }}
+          >
             Orientačný rozsah
           </div>
           <div className="text-lg font-semibold tabular-nums" style={{ color: a }}>
@@ -82,14 +125,9 @@ export function CalculatorMini({ compact, accent }: MiniProps) {
           </div>
         </div>
         <span
-          className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[11px] font-semibold"
-          style={{
-            backgroundColor: a,
-            border: "1px solid color-mix(in oklab, white 30%, transparent)",
-            color: "var(--primary-foreground)",
-          }}
+          className="rounded-lg px-3 py-1.5 text-[11px] font-semibold"
+          style={{ backgroundColor: a, color: "#06120d" }}
         >
-          <i className="h-2 w-0.5 rounded-full bg-current opacity-55" aria-hidden="true" />
           Prepočítať
         </span>
       </div>
@@ -98,105 +136,74 @@ export function CalculatorMini({ compact, accent }: MiniProps) {
 }
 
 export function ConfiguratorMini({ compact, accent }: MiniProps) {
-  const { accent: a, accentSoft } = usePalette(accent);
+  const { accent: a } = usePalette(accent);
   return (
-    <div className={compact ? "p-3" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
+    <div className={compact ? "p-3.5" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
       <StepBar step={2} total={3} accent={a} />
-      <div className="mt-3 mb-2 text-[11px]" style={{ color: "var(--text-secondary)" }}>
+      <div
+        className="mb-2 mt-3 text-[10px] uppercase tracking-wide"
+        style={{ color: "var(--text-light)" }}
+      >
         Variant
       </div>
-      <div className="flex gap-1.5 mb-3">
-        {["A", "B", "C", "D"].map((variant, index) => (
-          <ChoiceChip
-            key={variant}
-            label={variant}
-            index={index + 1}
-            selected={index === 1}
-            accent={a}
-            accentSoft={accentSoft}
-            compact
-          />
+      <div className="mb-3 flex gap-1.5">
+        {["A", "B", "C", "D"].map((v, i) => (
+          <span
+            key={v}
+            className="grid h-8 w-8 place-items-center rounded-lg text-xs font-semibold"
+            style={{
+              border: `1px solid ${i === 1 ? "transparent" : "var(--border-strong)"}`,
+              color: i === 1 ? "#06120d" : "var(--text-secondary)",
+              background: i === 1 ? a : "transparent",
+              boxShadow: i === 1 ? `0 6px 16px -10px ${a}` : "none",
+            }}
+          >
+            {v}
+          </span>
         ))}
       </div>
-      <div className="mb-2 text-[11px]" style={{ color: "var(--text-secondary)" }}>
+      <div
+        className="mb-2 text-[10px] uppercase tracking-wide"
+        style={{ color: "var(--text-light)" }}
+      >
         Farba
       </div>
-      <div className="flex gap-2 mb-3">
-        {["#7bcbe3", "#5f91b5", "#9fcfe0", "#c4e3ec"].map((color, index) => (
+      <div className="mb-3 flex gap-2">
+        {[a, "#5f91b5", "#c9b48a", "#9aa7ad"].map((c, i) => (
           <span
-            key={color}
-            className="h-6 w-6 rounded-md"
+            key={c}
+            className="h-6 w-6 rounded-full"
             style={{
-              backgroundColor: color,
-              border: "1px solid color-mix(in oklab, white 25%, transparent)",
-              boxShadow:
-                index === 0
-                  ? `0 0 0 2px var(--surface), 0 0 0 3px ${a}`
-                  : "inset 0 1px rgba(255,255,255,.22)",
+              backgroundColor: c,
+              outline: i === 0 ? `2px solid ${a}` : "1px solid var(--border)",
+              outlineOffset: 2,
             }}
           />
         ))}
       </div>
       <div
-        className="rounded-lg px-3 py-2 text-xs flex justify-between"
+        className="flex items-center justify-between rounded-xl px-3 py-2.5 text-xs"
         style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
       >
-        <span style={{ color: "var(--text-secondary)" }}>Výber</span>
-        <span className="font-medium">Variant B · modrá</span>
+        <span style={{ color: "var(--text-light)" }}>Výber</span>
+        <span className="font-semibold" style={{ color: "var(--text-primary)" }}>
+          Variant B · modrá
+        </span>
       </div>
     </div>
-  );
-}
-
-function ChoiceChip({
-  label,
-  index,
-  selected,
-  accent,
-  accentSoft,
-  compact = false,
-}: {
-  label: string;
-  index: number;
-  selected: boolean;
-  accent: string;
-  accentSoft: string;
-  compact?: boolean;
-}) {
-  return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-md py-1 text-[11px] font-medium ${
-        compact ? "px-2" : "px-2.5"
-      }`}
-      style={{
-        backgroundColor: selected
-          ? accentSoft
-          : "color-mix(in oklab, var(--surface-raised) 52%, transparent)",
-        border: `1px solid ${selected ? accent : "var(--border-strong)"}`,
-        color: selected ? "var(--text-primary)" : "var(--text-secondary)",
-      }}
-    >
-      <small
-        className="font-mono text-[8px] leading-none opacity-60"
-        style={{ color: selected ? accent : "inherit" }}
-      >
-        {String(index).padStart(2, "0")}
-      </small>
-      {label}
-    </span>
   );
 }
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div
-      className="rounded-md px-2.5 py-2"
+      className="rounded-lg px-2.5 py-2"
       style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
     >
-      <div className="text-[10px]" style={{ color: "var(--text-secondary)" }}>
+      <div className="text-[10px] uppercase tracking-wide" style={{ color: "var(--text-light)" }}>
         {label}
       </div>
-      <div className="text-sm font-medium tabular-nums" style={{ color: "var(--text-primary)" }}>
+      <div className="text-sm font-semibold tabular-nums" style={{ color: "var(--text-primary)" }}>
         {value}
       </div>
     </div>
@@ -205,12 +212,12 @@ function Field({ label, value }: { label: string; value: string }) {
 
 function StepBar({ step, total, accent }: { step: number; total: number; accent: string }) {
   return (
-    <div className="flex gap-1.5">
-      {Array.from({ length: total }).map((_, index) => (
+    <div className="flex gap-1">
+      {Array.from({ length: total }).map((_, i) => (
         <span
-          key={index}
-          className="h-1 flex-1 rounded-sm"
-          style={{ backgroundColor: index < step ? accent : "var(--border-strong)" }}
+          key={i}
+          className="h-1 flex-1 rounded-full"
+          style={{ backgroundColor: i < step ? accent : "var(--border-strong)" }}
         />
       ))}
     </div>

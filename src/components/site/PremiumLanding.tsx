@@ -42,8 +42,7 @@ type RevealDirection = "up" | "left" | "right";
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
-const liquidControlSelector =
-  ".lp-button, .lp-assistant-cta, .lp-assistant-chips button, .lp-switch button, .lp-faq-ask";
+const liquidControlSelector = ".lp-button, .lp-assistant-cta, .lp-faq-ask";
 
 const heroSequence: Variants = {
   hidden: {},
