@@ -38,7 +38,6 @@ export function RequestedRuntimePolish() {
       document.querySelectorAll<HTMLElement>(".site-brand-name").forEach((brand) =>
         setText(brand, "Daniel Vendžúr"),
       );
-      setText(document.querySelector(".site-menu-brand > span"), "Daniel Vendžúrchatboty a konverzné nástroje na mieru");
       const menuBrand = document.querySelector<HTMLElement>(".site-menu-brand > span");
       if (menuBrand) {
         const small = menuBrand.querySelector("small");
