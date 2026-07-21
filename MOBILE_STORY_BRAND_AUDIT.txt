@@ -1,0 +1,26 @@
+run_id=29809238232
+result=failure
+
+Running 1 test using 1 worker
+
+[1A[2K[1/1] qa-mobile-story/mobile.spec.ts:3:1 › logo visible and DERAT steps vertical
+[1A[2K  1) qa-mobile-story/mobile.spec.ts:3:1 › logo visible and DERAT steps vertical ────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: not [32m"column"[39m
+
+      48 |   });
+      49 |   expect(metrics.display).toBe("grid");
+    > 50 |   expect(metrics.gridAutoFlow).not.toBe("column");
+         |                                    ^
+      51 |   expect(["visible", "clip"]).toContain(metrics.overflowX);
+      52 |   expect(["none", ""]).toContain(metrics.scrollSnapType);
+      53 |   expect(metrics.boxes).toHaveLength(4);
+        at /home/runner/work/vne-n/vne-n/qa-mobile-story/mobile.spec.ts:50:36
+
+    Error Context: test-results/qa-mobile-story-mobile-logo-visible-and-DERAT-steps-vertical/error-context.md
+
+
+[1A[2K  1 failed
+    qa-mobile-story/mobile.spec.ts:3:1 › logo visible and DERAT steps vertical ─────────────────────
