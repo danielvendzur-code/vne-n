@@ -28,9 +28,14 @@ const FIELD_LIMITS = {
   project: 1_500,
 } as const;
 
+function isBlockedControlCharacter(character: string): boolean {
+  const code = character.charCodeAt(0);
+  return code <= 8 || (code >= 11 && code <= 12) || (code >= 14 && code <= 31) || code === 127;
+}
+
 function cleanField(value: string, limit: number): string {
-  return value
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, " ")
+  return Array.from(value, (character) => (isBlockedControlCharacter(character) ? " " : character))
+    .join("")
     .replace(/\s{4,}/g, "   ")
     .trim()
     .slice(0, limit);
