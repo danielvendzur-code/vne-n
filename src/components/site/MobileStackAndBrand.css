@@ -1,0 +1,177 @@
+/* Final mobile/header correction: keep the brand unmistakable and remove all
+   horizontal chip carousels in favour of a clean vertical mobile flow. */
+
+.site-brand-lockup {
+  min-width: 0;
+  gap: 0.7rem !important;
+}
+
+.site-brand-lockup .brand-symbol {
+  width: 2.45rem !important;
+  height: 2.45rem !important;
+  flex: 0 0 2.45rem;
+}
+
+.site-brand-name {
+  display: block;
+  font-size: 0.92rem !important;
+  font-weight: 790 !important;
+  letter-spacing: -0.03em !important;
+}
+
+@media (max-width: 760px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .site-header {
+    padding-top: 0.65rem !important;
+  }
+
+  .site-header .container-page {
+    padding-inline: 0.75rem !important;
+  }
+
+  .site-header-bar {
+    min-height: 4rem !important;
+    border-radius: 1.15rem !important;
+    padding-inline: 0.8rem !important;
+  }
+
+  .site-brand-lockup .brand-symbol {
+    width: 2.55rem !important;
+    height: 2.55rem !important;
+    flex-basis: 2.55rem;
+  }
+
+  .site-brand-name {
+    max-width: 8.5rem;
+    overflow: hidden;
+    font-size: 0.94rem !important;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+  }
+
+  .site-menu-toggle {
+    min-width: 4.65rem;
+    height: 2.65rem;
+    border-radius: 0.9rem;
+  }
+
+  /* Hero tools: always vertical, never swipe/slide sideways. */
+  :root .lp-page .lp-assistant-chips {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0.46rem !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+  }
+
+  :root .lp-page .lp-assistant-chips button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 3.15rem !important;
+    justify-content: flex-start !important;
+    padding-inline: 1rem !important;
+    text-align: left !important;
+    scroll-snap-align: none !important;
+  }
+
+  /* Before/after selector: clear stacked options instead of horizontal sliding. */
+  :root .lp-page .lp-switch {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0.46rem !important;
+    overflow: visible !important;
+  }
+
+  :root .lp-page .lp-switch button {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-content: flex-start !important;
+    padding-inline: 1rem !important;
+    text-align: left !important;
+  }
+
+  /* Capability chips: one readable control per row. */
+  :root .lp-page .lp-caps-chips {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0.5rem !important;
+    overflow: visible !important;
+  }
+
+  :root .lp-page .lp-chip {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-content: flex-start !important;
+    border-radius: 1rem !important;
+    padding: 0.65rem 0.8rem !important;
+    text-align: left !important;
+  }
+
+  /* Chatbot quick replies: one under another, no horizontal carousel. */
+  .cw-widget .cw-quick-replies {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    overflow: visible !important;
+    padding-inline: 1px !important;
+    scroll-snap-type: none !important;
+  }
+
+  .cw-widget .cw-quick-replies .cw-chip,
+  .cw-widget .cw-chip:not(.cw-chip--primary) {
+    width: 100% !important;
+    max-width: none !important;
+    flex: 0 0 auto !important;
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+    border-radius: 14px !important;
+    padding: 10px 13px !important;
+    text-align: left !important;
+    white-space: normal !important;
+    scroll-snap-align: none !important;
+  }
+
+  .cw-widget .cw-chip--primary {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .cw-widget .cw-tabs {
+    width: auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    overflow: hidden !important;
+  }
+
+  .cw-widget .cw-panel {
+    max-width: calc(100vw - 16px) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-brand-name {
+    max-width: 7.3rem;
+    font-size: 0.86rem !important;
+  }
+
+  .site-brand-lockup .brand-symbol {
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+    flex-basis: 2.35rem;
+  }
+
+  .site-menu-toggle {
+    min-width: 4.25rem;
+    padding-inline: 0.65rem;
+  }
+}
