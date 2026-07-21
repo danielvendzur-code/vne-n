@@ -152,3 +152,4 @@ jobs:
           fetch_with_retry "/cookies/" ""
           fetch_with_retry "/widget-loader.js" "DV_ASSISTANT_LOADER_ACTIVE"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
+          echo "live_smoke=success"
