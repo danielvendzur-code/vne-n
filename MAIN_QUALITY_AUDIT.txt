@@ -1,4 +1,4 @@
-run_id=29840883726
+run_id=29840984332
 install=success
 lint=success
 test=success
@@ -13,61 +13,61 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.438237
+  duration_ms: 7.452285
   type: 'test'
   ...
 # Subtest: final design layers load in the authoritative order and contain no bronze palette
 ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 3.227215
+  duration_ms: 2.680642
   type: 'test'
   ...
 # Subtest: all homepage surfaces are covered by the final design system
 ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 1.204791
+  duration_ms: 0.88106
   type: 'test'
   ...
 # Subtest: services, projects, process, contact and cookies have final route styling
 ok 4 - services, projects, process, contact and cookies have final route styling
   ---
-  duration_ms: 1.007591
+  duration_ms: 0.764691
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.898476
+  duration_ms: 1.375212
   type: 'test'
   ...
 # Subtest: navigation keeps only the compact brand name and no side-slide drawer animation
 ok 6 - navigation keeps only the compact brand name and no side-slide drawer animation
   ---
-  duration_ms: 2.076583
+  duration_ms: 1.872619
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 1.221957
+  duration_ms: 1.019451
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 0.866423
+  duration_ms: 0.706882
   type: 'test'
   ...
 # Subtest: Pages workflow validates security, artifacts and the real live deployment
 ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 1.189018
+  duration_ms: 0.967474
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 1.27827
+  duration_ms: 0.956834
   type: 'test'
   ...
 1..10
@@ -78,7 +78,7 @@ ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 80.922753
+# duration_ms 78.046307
 
 ===== build =====
 $ vite build
@@ -108,7 +108,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-BM2oyLBt.js               209.85 kB │ gzip: 68.65 kB
 
-[32m✓ built in 1.42s[39m
+[32m✓ built in 1.40s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 123 modules transformed.
 rendering chunks...
@@ -143,7 +143,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-B04AlUQ6.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-29gRcTTQ.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BQHtVxn8.js                       73.13 kB │ gzip: 18.50 kB
 
-[32m✓ built in 531ms[39m
+[32m✓ built in 544ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -162,6 +162,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 544ms[39m
+[32m✓ built in 558ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
