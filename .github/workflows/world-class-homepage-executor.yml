@@ -49,6 +49,31 @@ jobs:
           fi
 
           if [ "$REFACTOR" -eq 0 ]; then
+            python <<'PY' > /tmp/repair.log 2>&1
+          from pathlib import Path
+          path = Path('src/components/site/SiteMotionEnhancements.tsx')
+          text = path.read_text()
+          if 'export function SiteMotionEnhancements()' not in text:
+              marker = 'const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));\n'
+              if marker not in text:
+                  raise SystemExit('clamp marker missing')
+              text = text.replace(
+                  marker,
+                  marker + '\nexport function SiteMotionEnhancements() {\n  const reducedMotion = useReducedMotion();\n',
+                  1,
+              )
+          if 'refineHomepageCopy' in text or 'const replaceText' in text:
+              raise SystemExit('runtime copy patch remains')
+          if text.count('export function SiteMotionEnhancements()') != 1:
+              raise SystemExit('invalid component declaration count')
+          path.write_text(text)
+          PY
+            REPAIR=$?
+          else
+            REPAIR=99
+          fi
+
+          if [ "$REPAIR" -eq 0 ]; then
             bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/Nav.tsx src/components/site/Layout.tsx src/components/site/SiteMotionEnhancements.tsx src/config/site.ts tests/home-contract.test.mjs > /tmp/format.log 2>&1
             FORMAT=$?
             bun run lint > /tmp/lint.log 2>&1
@@ -68,11 +93,12 @@ jobs:
             echo "install=$INSTALL"
             echo "extract=$EXTRACT"
             echo "refactor=$REFACTOR"
+            echo "repair=$REPAIR"
             echo "format=$FORMAT"
             echo "lint=$LINT"
             echo "test=$TEST"
             echo "build=$BUILD"
-            for name in install extract refactor format lint test build; do
+            for name in install extract refactor repair format lint test build; do
               echo
               echo "===== $name ====="
               cat "/tmp/$name.log" 2>/dev/null || true
@@ -83,7 +109,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add HOMEPAGE_REFACTOR_EXECUTION.txt
 
-          if [ "$INSTALL" -eq 0 ] && [ "$EXTRACT" -eq 0 ] && [ "$REFACTOR" -eq 0 ] && [ "$FORMAT" -eq 0 ] && [ "$LINT" -eq 0 ] && [ "$TEST" -eq 0 ] && [ "$BUILD" -eq 0 ]; then
+          if [ "$INSTALL" -eq 0 ] && [ "$EXTRACT" -eq 0 ] && [ "$REFACTOR" -eq 0 ] && [ "$REPAIR" -eq 0 ] && [ "$FORMAT" -eq 0 ] && [ "$LINT" -eq 0 ] && [ "$TEST" -eq 0 ] && [ "$BUILD" -eq 0 ]; then
             git add -A
             MESSAGE="refactor: move chatbot-first UX into direct React source [skip main-quality]"
           else
