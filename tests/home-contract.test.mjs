@@ -10,7 +10,7 @@ test("chatbot-first copy is rendered directly by React", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   assert.match(landing, /Chatboty, ktoré/);
   assert.match(landing, /zvyšujú konverzie/);
-  assert.match(landing, /Čo má váš chatbot zvládnuť\?/);
+  assert.match(landing, /Čo pre vás postavím/);
   assert.match(landing, /Bez chatbota/);
   assert.match(landing, /S chatbotom/);
   assert.doesNotMatch(landing, /Webové nástroje, ktoré odovzdajú hotový dopyt/);
@@ -102,12 +102,13 @@ test("three solution cards are complete and use bounded pointer interaction", as
   assert.match(css, /rotateX\(var\(--tilt-x\)\)/);
 });
 
-test("navigation has visible brand copy and no side-slide drawer animation", async () => {
+test("navigation keeps only the compact brand name and no side-slide drawer animation", async () => {
   const nav = await read("src/components/site/Nav.tsx");
-  assert.match(nav, /site-brand-copy/);
-  assert.match(nav, /chatboty na mieru/);
+  assert.match(nav, /site-brand-name/);
+  assert.match(nav, /Daniel Vendžúr/);
   assert.match(nav, /Chatboty a riešenia/);
   assert.match(nav, /opacity: open \? 1 : 0/);
+  assert.doesNotMatch(nav, /site-brand-copy/);
   assert.doesNotMatch(nav, /animate=\{\{ x:/);
 });
 
