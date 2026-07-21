@@ -1,4 +1,4 @@
-run_id=29839051599
+run_id=29839194889
 install=success
 lint=success
 test=failure
@@ -13,7 +13,7 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 not ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 6.772027
+  duration_ms: 8.085254
   type: 'test'
   location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:7:1'
   failureType: 'testCodeFailure'
@@ -1420,31 +1420,31 @@ not ok 1 - chatbot-first copy is rendered directly by React
 # Subtest: final design layers load in the authoritative order and contain no bronze palette
 ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 4.063744
+  duration_ms: 4.312547
   type: 'test'
   ...
 # Subtest: all homepage surfaces are covered by the final design system
 ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 0.75521
+  duration_ms: 0.849155
   type: 'test'
   ...
 # Subtest: services, projects, process, contact and cookies have final route styling
 ok 4 - services, projects, process, contact and cookies have final route styling
   ---
-  duration_ms: 0.621963
+  duration_ms: 0.693
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.673082
+  duration_ms: 1.966753
   type: 'test'
   ...
 # Subtest: navigation has visible brand copy and no side-slide drawer animation
 not ok 6 - navigation has visible brand copy and no side-slide drawer animation
   ---
-  duration_ms: 1.028048
+  duration_ms: 1.142866
   type: 'test'
   location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:105:1'
   failureType: 'testCodeFailure'
@@ -2040,25 +2040,25 @@ not ok 6 - navigation has visible brand copy and no side-slide drawer animation
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 1.291438
+  duration_ms: 1.635103
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 0.508879
+  duration_ms: 0.668843
   type: 'test'
   ...
 # Subtest: Pages workflow validates security, artifacts and the real live deployment
 ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 0.767439
+  duration_ms: 0.94462
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 0.821479
+  duration_ms: 0.969732
   type: 'test'
   ...
 1..10
@@ -2069,7 +2069,7 @@ ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 62.119301
+# duration_ms 70.438294
 error: script "test" exited with code 1
 
 ===== build =====
@@ -2100,7 +2100,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-BM2oyLBt.js               209.85 kB │ gzip: 68.65 kB
 
-[32m✓ built in 1.14s[39m
+[32m✓ built in 1.35s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 123 modules transformed.
 rendering chunks...
@@ -2135,7 +2135,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-B04AlUQ6.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-29gRcTTQ.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BQHtVxn8.js                       73.13 kB │ gzip: 18.50 kB
 
-[32m✓ built in 474ms[39m
+[32m✓ built in 528ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-21`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -2149,11 +2149,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            80.05 kB │ gzip:  21.25 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            250.89 kB │ gzip:  57.66 kB
+.output/server/_ssr/vendor.mjs            250.89 kB │ gzip:  57.64 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 499ms[39m
+[32m✓ built in 614ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
