@@ -230,7 +230,11 @@ export const FEATURES: FeatureOption[] = [
     label: "Posielať zhrnutia e-mailom",
     description: "Vám aj zákazníkovi automaticky.",
   },
-  { id: "crm", label: "Zapisovať do CRM / tabuľky", description: "Každý dopyt na správnom mieste." },
+  {
+    id: "crm",
+    label: "Zapisovať do CRM / tabuľky",
+    description: "Každý dopyt na správnom mieste.",
+  },
   {
     id: "handoff",
     label: "Prepnúť na živého človeka",
@@ -262,7 +266,11 @@ export const VOLUMES: VolumeOption[] = [
   { id: "v20", label: "Do 20", description: "Občasné dopyty, dôraz na osobný tón." },
   { id: "v100", label: "20 – 100", description: "Stabilný tok — asistent odbremení telefón." },
   { id: "v500", label: "100 – 500", description: "Vyťažená prevádzka, triedenie má veľký efekt." },
-  { id: "v500plus", label: "Viac než 500", description: "Veľký objem — automatizácia je nevyhnutná." },
+  {
+    id: "v500plus",
+    label: "Viac než 500",
+    description: "Veľký objem — automatizácia je nevyhnutná.",
+  },
 ];
 
 export type TimelineOption = {
