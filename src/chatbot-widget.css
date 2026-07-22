@@ -1,23 +1,17 @@
 /* ============================================================
-   Webový asistent · paleta podľa webu danielvendzur
-   Lesná zelená + živá jarná zelená, mätové tinty, koralový
-   akcent, indigo CTA. Liquid glass prepínač režimov (iOS),
-   chipy a tlačidlá so sekvenciou „border sa obkreslí tenkou
-   čiarkou → celé sa rozsvieti". Vstupy prvkov animuje anime.js
+   Webový asistent · mineral/teal paleta podľa portfólia
+   danielvendzur. Tmavé sklo, mätový (mint) primár, tiché
+   modré/cyan akcenty. Pill chipy s „center-out" výplňou,
+   segmentový prepínač režimov, sklenené karty, animované logo
+   a „vlnový" typing indikátor. Vstupy prvkov animuje anime.js
    (pružinový stagger, kreslená fajka).
    ============================================================ */
 
-/* uhol pre animáciu obkreslenia borderu */
-@property --cw-draw {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
 .cw-widget {
-  color: #0d2b21;
-  background: #f7f6f2;
+  color: var(--cw-ink);
+  background: transparent;
   font-family:
+    "Inter Tight",
     Inter,
     ui-sans-serif,
     system-ui,
@@ -27,39 +21,53 @@
     sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 
   /* text */
-  --cw-ink: #0d2b21;
-  --cw-muted: #64766c;
-  --cw-faint: #93a49a;
+  --cw-ink: #f4f8f8;
+  --cw-muted: #b3c3c7;
+  --cw-faint: #7f969c;
+  --cw-on-mint: #04140f; /* tmavý „ink" na mätovej výplni */
 
-  /* zelená rodina (podľa webu) */
-  --cw-forest: #0e3d2c;
-  --cw-forest-2: #0a2e21;
-  --cw-spring: #22b573;
-  --cw-spring-hi: #3ecf8e;
-  --cw-mint: #e7f6ee;
-  --cw-mint-strong: #cdeadb;
+  /* mineral povrchy */
+  --cw-bg: #061216;
+  --cw-bg-soft: #091a20;
+  --cw-surface: #0d2229;
+  --cw-surface-2: #0a1c22;
+  --cw-surface-raised: #122d35;
+
+  /* mätová rodina (primár) */
+  --cw-mint: #65e6c1;
+  --cw-mint-hi: #83f1d0;
+  --cw-mint-deep: #4bccaa;
 
   /* akcenty */
-  --cw-coral: #ff7a5f;
-  --cw-coral-soft: #ffece6;
-  --cw-indigo: #5a5bf0;
-  --cw-indigo-dark: #4849e0;
+  --cw-accent: #72c7ff; /* modrá */
+  --cw-cyan: #72d3ea; /* sekundárna interakcia */
+  --cw-highlight: #8aa7ff;
 
-  /* povrchy */
-  --cw-paper: #f7f6f2;
-  --cw-card: #ffffff;
-  --cw-line: #e7e5dd;
-  --cw-line-strong: #d9d6cc;
+  /* linky */
+  --cw-line: rgba(222, 242, 245, 0.12);
+  --cw-line-strong: rgba(222, 242, 245, 0.22);
 
-  /* farby pre draw→glow sekvenciu (per-element prepísateľné) */
-  --cw-ring1: var(--cw-spring);
-  --cw-ring2: var(--cw-spring-hi);
-  --cw-glow: rgba(34, 181, 115, 0.4);
+  /* sklo + výplne */
+  --cw-glass: linear-gradient(155deg, rgba(243, 248, 250, 0.07), rgba(243, 248, 250, 0.02));
+  --cw-glass-hi: linear-gradient(155deg, rgba(243, 248, 250, 0.1), rgba(243, 248, 250, 0.03));
+  --cw-mint-fill: linear-gradient(140deg, #83f1d0 0%, #65e6c1 52%, #4bccaa 100%);
+  --cw-mint-gloss: radial-gradient(circle at 26% 12%, rgba(255, 255, 255, 0.46), transparent 44%);
 
-  --cw-shadow: 0 30px 70px -22px rgba(13, 43, 33, 0.28), 0 10px 28px -14px rgba(13, 43, 33, 0.14);
-  --cw-font: Inter, ui-sans-serif, system-ui, sans-serif;
+  /* tiene + lesk */
+  --cw-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --cw-shadow: 0 8px 22px -18px rgba(0, 6, 10, 0.9);
+  --cw-shadow-lg: 0 30px 70px -26px rgba(0, 5, 9, 0.85), 0 12px 30px -18px rgba(0, 5, 9, 0.7);
+  --cw-glow: 0 16px 30px -20px color-mix(in oklab, #65e6c1 60%, transparent);
+
+  /* pohyb */
+  --cw-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --cw-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --cw-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --cw-font: "Inter Tight", Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
 .cw-widget *,
@@ -83,16 +91,18 @@
   position: relative;
   min-height: 100dvh;
   overflow: hidden;
-  background: var(--cw-paper);
+  background:
+    radial-gradient(circle at 88% 14%, rgba(114, 199, 255, 0.08), transparent 30rem),
+    radial-gradient(circle at 14% 88%, rgba(101, 230, 193, 0.05), transparent 26rem), var(--cw-bg);
 }
 
 .widget-preview__surface {
   position: absolute;
   inset: 0;
-  opacity: 0.4;
+  opacity: 0.5;
   background-image:
-    linear-gradient(rgba(14, 61, 44, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14, 61, 44, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(222, 242, 245, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(222, 242, 245, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: linear-gradient(135deg, transparent 2%, #000 42%, transparent 96%);
 }
@@ -105,17 +115,30 @@
 /* ============================================================
    Animácie
    ============================================================ */
-@keyframes cw-pulse {
+/* jemný idle „float" launchera */
+@keyframes cw-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+/* mäkký mätový dych okolo launchera */
+@keyframes cw-breathe {
   0%,
   100% {
     box-shadow:
-      0 14px 34px -10px rgba(14, 61, 44, 0.45),
-      0 0 0 0 rgba(34, 181, 115, 0.35);
+      0 16px 34px -18px rgba(0, 6, 10, 0.85),
+      0 0 0 0 rgba(101, 230, 193, 0.28),
+      var(--cw-inset);
   }
   50% {
     box-shadow:
-      0 14px 34px -10px rgba(14, 61, 44, 0.45),
-      0 0 0 14px rgba(34, 181, 115, 0);
+      0 16px 34px -18px rgba(0, 6, 10, 0.85),
+      0 0 0 12px rgba(101, 230, 193, 0),
+      var(--cw-inset);
   }
 }
 @keyframes cw-in-bot {
@@ -156,10 +179,19 @@
     transform: scale(1);
   }
   45% {
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
   100% {
     transform: scale(1);
+  }
+}
+/* výplň aktívneho výberu sa vynorí zo stredu k okrajom */
+@keyframes cw-fill-out {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    clip-path: circle(75% at 50% 50%);
   }
 }
 @keyframes cw-step-box {
@@ -182,15 +214,16 @@
     transform: none;
   }
 }
+/* typing „vlna" — tri mätové bodky s posunom fázy */
 @keyframes cw-dot {
   0%,
-  80%,
+  70%,
   100% {
-    transform: translateY(0) scale(0.7);
-    opacity: 0.45;
+    transform: translateY(0);
+    opacity: 0.5;
   }
-  40% {
-    transform: translateY(-4px) scale(1);
+  35% {
+    transform: translateY(-5px);
     opacity: 1;
   }
 }
@@ -206,13 +239,13 @@
   0%,
   100% {
     box-shadow:
-      0 0 0 0 rgba(34, 181, 115, 0.55),
-      0 0 6px rgba(34, 181, 115, 0.7);
+      0 0 0 0 rgba(101, 230, 193, 0.55),
+      0 0 6px rgba(101, 230, 193, 0.7);
   }
   50% {
     box-shadow:
-      0 0 0 5px rgba(34, 181, 115, 0),
-      0 0 6px rgba(34, 181, 115, 0.7);
+      0 0 0 5px rgba(101, 230, 193, 0),
+      0 0 6px rgba(101, 230, 193, 0.7);
   }
 }
 @keyframes cw-panel-in {
@@ -262,46 +295,7 @@
     scale: 1.1 0.8;
   }
 }
-/* 1) tenká čiarka obkreslí border a rozplynie sa… */
-@keyframes cw-draw-ring {
-  0% {
-    --cw-draw: 0deg;
-    opacity: 1;
-  }
-  62% {
-    --cw-draw: 360deg;
-    opacity: 1;
-  }
-  80%,
-  100% {
-    --cw-draw: 360deg;
-    opacity: 0;
-  }
-}
-/* 2) …a prvok sa mäkko rozsvieti (bez tvrdého ringu) */
-@keyframes cw-light-up {
-  0%,
-  55% {
-    box-shadow: 0 0 0 rgba(13, 43, 33, 0);
-  }
-  74% {
-    box-shadow: 0 10px 26px var(--cw-glow);
-  }
-  100% {
-    box-shadow: 0 8px 20px var(--cw-glow);
-  }
-}
-/* výplň, ktorá sa vynorí po obkreslení */
-@keyframes cw-fill-in {
-  0%,
-  58% {
-    opacity: 0;
-  }
-  80%,
-  100% {
-    opacity: 1;
-  }
-}
+/* živé bodky loga — pomalá vlna */
 @keyframes bl-dot-wave {
   0%,
   84%,
@@ -320,7 +314,7 @@
 }
 
 /* ============================================================
-   Logo — chatová bublina so živými bodkami vo farbách brandu
+   Logo — chatová bublina s mätovými bodkami
    ============================================================ */
 .bl {
   display: block;
@@ -335,101 +329,111 @@
 }
 
 .bl__dot {
-  fill: var(--cw-spring);
+  fill: var(--cw-mint);
   animation: bl-dot-wave 5.4s ease-in-out infinite;
 }
 
 .bl__dot:nth-of-type(2) {
   animation-delay: 0.14s;
-  fill: var(--cw-coral);
+  fill: var(--cw-cyan);
 }
 
 .bl__dot:nth-of-type(3) {
   animation-delay: 0.28s;
-  fill: var(--cw-indigo);
+  fill: var(--cw-accent);
 }
 
 .bl--launcher {
   width: 40px;
   height: 40px;
-  color: #ffffff;
+  color: var(--cw-mint);
 }
 
 .bl--header {
   width: 24px;
   height: 24px;
-  color: #ffffff;
+  color: var(--cw-mint);
 }
 
 .bl--avatar {
   width: 17px;
   height: 17px;
-  color: #ffffff;
+  color: var(--cw-mint);
 }
 
 /* ============================================================
-   Spúšťacia bublina — sýta zelená ako CTA na webe
+   Spúšťacia bublina — tmavé sklo, mätový lem a jemný float
    ============================================================ */
 .cw-launcher {
   position: fixed;
   z-index: 2147483002;
   right: 24px;
   bottom: 20px;
-  width: 72px;
-  height: 72px;
+  width: 68px;
+  height: 68px;
   padding: 0;
   display: grid;
   place-items: center;
-  border: 0;
+  border: 1px solid rgba(101, 230, 193, 0.32);
   border-radius: 50%;
-  background: linear-gradient(140deg, #2bc07e, #179b60);
+  color: var(--cw-mint);
+  background:
+    radial-gradient(38px 30px at 30% 22%, rgba(101, 230, 193, 0.22), transparent 62%),
+    linear-gradient(180deg, var(--cw-surface-raised), var(--cw-surface));
   box-shadow:
-    0 14px 34px -10px rgba(14, 61, 44, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    0 16px 34px -18px rgba(0, 6, 10, 0.85),
+    var(--cw-inset);
   cursor: pointer;
   transition:
-    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.28s ease;
-  animation: cw-pulse 3.2s ease-in-out infinite;
+    transform 0.42s var(--cw-spring),
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    opacity 0.28s ease;
+  animation:
+    cw-float 3s ease-in-out infinite,
+    cw-breathe 3s ease-in-out infinite;
 }
 
 .cw-launcher .bl__dot {
-  fill: #0e3d2c;
+  fill: var(--cw-mint);
 }
 .cw-launcher .bl__dot:nth-of-type(2) {
-  fill: #ff8a70;
+  fill: var(--cw-cyan);
 }
 .cw-launcher .bl__dot:nth-of-type(3) {
-  fill: #6b6bff;
+  fill: var(--cw-accent);
 }
 
 .cw-launcher:hover {
   transform: translateY(-3px) scale(1.05);
+  border-color: rgba(101, 230, 193, 0.58);
   box-shadow:
-    0 18px 40px -8px rgba(34, 181, 115, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    0 22px 44px -18px rgba(0, 6, 10, 0.9),
+    0 16px 30px -20px color-mix(in oklab, #65e6c1 55%, transparent),
+    var(--cw-inset);
   animation-play-state: paused;
 }
 
+/* plynulý morph pri otvorení */
 .cw-launcher[aria-expanded="true"] {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(8px) scale(0.86);
+  transform: translateY(10px) scale(0.7) rotate(-8deg);
   animation: none;
   transition:
-    opacity 0.22s ease,
-    transform 0.22s ease;
+    opacity 0.26s ease,
+    transform 0.34s var(--cw-ease);
 }
 
 .cw-launcher__online {
   position: absolute;
-  right: 4px;
-  bottom: 5px;
+  right: 5px;
+  bottom: 6px;
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #0e3d2c;
-  border: 2.5px solid #ffffff;
+  background: var(--cw-mint);
+  border: 2.5px solid var(--cw-surface);
   animation: cw-live 2.4s ease-in-out infinite;
 }
 
@@ -438,8 +442,8 @@
 .cw-panel button:focus-visible,
 .cw-panel input:focus-visible,
 .cw-panel textarea:focus-visible {
-  outline: 2.5px solid rgba(34, 181, 115, 0.55);
-  outline-offset: 2px;
+  outline: 2.5px solid var(--cw-accent);
+  outline-offset: 3px;
 }
 
 /* ============================================================
@@ -449,15 +453,17 @@
   position: fixed;
   z-index: 2147483001;
   right: 22px;
-  bottom: 106px;
-  max-width: 280px;
-  background: var(--cw-card);
+  bottom: 100px;
+  max-width: 284px;
+  color: var(--cw-ink);
+  background: linear-gradient(155deg, var(--cw-surface-raised), var(--cw-surface-2));
   border: 1px solid var(--cw-line);
+  border-top-color: rgba(101, 230, 193, 0.42);
   border-radius: 18px;
   border-bottom-right-radius: 6px;
   padding: 15px 17px 16px;
-  box-shadow: 0 18px 46px rgba(13, 43, 33, 0.16);
-  animation: cw-panel-in 0.4s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+  box-shadow: var(--cw-shadow-lg), var(--cw-inset);
+  animation: cw-panel-in 0.4s var(--cw-ease) both;
 }
 
 .cw-teaser::after {
@@ -467,7 +473,7 @@
   bottom: -8px;
   width: 16px;
   height: 16px;
-  background: var(--cw-card);
+  background: var(--cw-surface-2);
   border-right: 1px solid var(--cw-line);
   border-bottom: 1px solid var(--cw-line);
   transform: rotate(45deg);
@@ -481,7 +487,7 @@
   height: 20px;
   border: 0;
   border-radius: 50%;
-  background: #f0eee7;
+  background: var(--cw-surface-raised);
   color: var(--cw-muted);
   font-size: 14px;
   line-height: 1;
@@ -494,7 +500,7 @@
 
 .cw-teaser__close:hover {
   background: var(--cw-mint);
-  color: var(--cw-forest);
+  color: var(--cw-on-mint);
 }
 
 .cw-teaser__content {
@@ -509,7 +515,8 @@
 
 .cw-teaser__content strong {
   display: block;
-  font: 800 14.5px/1.3 var(--cw-font);
+  font: 720 14.5px/1.3 var(--cw-font);
+  letter-spacing: -0.015em;
   color: var(--cw-ink);
   margin-bottom: 3px;
 }
@@ -521,8 +528,8 @@
 }
 
 .cw-teaser__copy b {
-  color: var(--cw-spring);
-  font-weight: 800;
+  color: var(--cw-mint);
+  font-weight: 720;
 }
 
 /* ============================================================
@@ -536,30 +543,34 @@
   width: min(430px, calc(100vw - 40px));
   height: min(720px, calc(100dvh - 40px));
   border-radius: 24px;
-  background: #ffffff;
-  border: 1px solid #edebe4;
+  color: var(--cw-ink);
+  background:
+    radial-gradient(120% 68% at 50% -8%, rgba(114, 199, 255, 0.1), transparent 58%),
+    radial-gradient(85% 58% at 92% 108%, rgba(101, 230, 193, 0.07), transparent 62%), var(--cw-bg);
+  border: 1px solid var(--cw-line-strong);
   box-shadow:
-    0 24px 60px -18px rgba(13, 43, 33, 0.24),
-    0 8px 22px -12px rgba(13, 43, 33, 0.1);
+    0 34px 78px -26px rgba(0, 5, 9, 0.88),
+    0 14px 36px -20px rgba(0, 5, 9, 0.78),
+    var(--cw-inset);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: var(--cw-ink);
-  animation: cw-panel-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: cw-panel-in 0.34s var(--cw-ease) both;
 }
 
-/* hlavička — čistá biela ako navigácia webu */
+/* hlavička — jemné sklo */
 .cw-panel-head {
   position: relative;
   overflow: hidden;
   padding: 13px 14px;
-  background: #fff;
-  border-bottom: 1px solid #f0eee6;
+  background: linear-gradient(180deg, rgba(18, 45, 53, 0.82), rgba(10, 28, 34, 0.5));
+  border-bottom: 1px solid var(--cw-line);
   color: var(--cw-ink);
   display: flex;
   align-items: center;
   gap: 11px;
   flex: 0 0 auto;
+  box-shadow: var(--cw-inset);
 }
 
 .cw-panel-head__mascot {
@@ -568,24 +579,25 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(140deg, #2bc07e, #179b60);
+  border: 1px solid var(--cw-line);
+  background: linear-gradient(180deg, var(--cw-surface-raised), var(--cw-surface));
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
   box-shadow:
-    0 6px 16px rgba(34, 181, 115, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    0 6px 16px -8px rgba(0, 6, 10, 0.7),
+    var(--cw-inset);
 }
 
 .cw-panel-head__mascot .bl__dot {
-  fill: #0e3d2c;
+  fill: var(--cw-mint);
 }
 .cw-panel-head__mascot .bl__dot:nth-of-type(2) {
-  fill: #ff8a70;
+  fill: var(--cw-cyan);
 }
 .cw-panel-head__mascot .bl__dot:nth-of-type(3) {
-  fill: #6b6bff;
+  fill: var(--cw-accent);
 }
 
 .cw-panel-head__title {
@@ -601,9 +613,9 @@
 
 .cw-panel-head__title b {
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 720;
   line-height: 1.1;
-  letter-spacing: -0.1px;
+  letter-spacing: -0.015em;
 }
 
 .cw-panel-head__meta {
@@ -620,7 +632,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--cw-spring);
+  background: var(--cw-mint);
   animation: cw-live 2.4s ease-in-out infinite;
   flex: 0 0 auto;
 }
@@ -636,8 +648,8 @@
   width: 36px;
   height: 36px;
   border: 1px solid var(--cw-line);
-  background: #fff;
-  color: var(--cw-ink);
+  background: var(--cw-surface);
+  color: var(--cw-muted);
   border-radius: 11px;
   display: flex;
   align-items: center;
@@ -651,15 +663,15 @@
 }
 
 .cw-panel-head__actions button:hover {
-  background: var(--cw-forest);
-  border-color: var(--cw-forest);
-  color: #fff;
+  border-color: rgba(101, 230, 193, 0.44);
+  background: var(--cw-surface-raised);
+  color: var(--cw-mint);
 }
 
 .cw-panel-head__actions button svg {
   width: 18px;
   height: 18px;
-  transition: transform 0.5s cubic-bezier(0.3, 1.4, 0.5, 1);
+  transition: transform 0.5s var(--cw-spring);
 }
 
 .cw-panel-head__actions button[data-testid="widget-reset"]:hover svg {
@@ -667,9 +679,9 @@
 }
 
 .cw-panel-head__actions .cw-panel-head__close:hover {
-  background: var(--cw-coral);
-  border-color: var(--cw-coral);
-  color: #fff;
+  background: var(--cw-mint);
+  border-color: var(--cw-mint);
+  color: var(--cw-on-mint);
 }
 
 /* „rozmýšľací" lúč */
@@ -685,12 +697,12 @@
   background: linear-gradient(
     90deg,
     transparent,
-    var(--cw-spring) 26%,
-    var(--cw-spring-hi) 50%,
-    var(--cw-spring) 74%,
+    var(--cw-mint) 26%,
+    var(--cw-mint-hi) 50%,
+    var(--cw-mint) 74%,
     transparent
   );
-  filter: drop-shadow(0 0 7px rgba(34, 181, 115, 0.7));
+  filter: drop-shadow(0 0 7px rgba(101, 230, 193, 0.7));
   transition: opacity 0.3s;
 }
 
@@ -700,41 +712,47 @@
 }
 
 /* ============================================================
-   Prepínač režimov — iOS liquid glass segmented control
+   Prepínač režimov — segmentový sklenený prepínač
    ============================================================ */
 .cw-tabs {
   position: relative;
   display: flex;
   gap: 0;
   margin: 10px 13px;
-  padding: 4px;
-  border-radius: 999px;
-  background: #f2f1ea;
-  border: 0;
+  padding: 5px;
+  border-radius: 17px;
+  border: 1px solid var(--cw-line);
+  background: rgba(2, 14, 18, 0.66);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 16px 34px -30px rgba(0, 4, 8, 0.9);
   flex: 0 0 auto;
 }
 
 .cw-tabs__glass {
   position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
-  width: calc(50% - 4px);
-  border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(13, 43, 33, 0.12);
-  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 12px 26px -18px rgba(101, 230, 193, 0.6);
+  transition: transform 0.55s var(--cw-spring);
   will-change: transform;
 }
 
 .cw-tabs[data-mode="calculator"] .cw-tabs__glass {
   transform: translateX(0);
-  animation: cw-squish-a 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: cw-squish-a 0.55s var(--cw-spring);
 }
 
 .cw-tabs[data-mode="assistant"] .cw-tabs__glass {
   transform: translateX(100%);
-  animation: cw-squish-b 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: cw-squish-b 0.55s var(--cw-spring);
 }
 
 .cw-tabs button {
@@ -745,12 +763,13 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  padding: 9px 8px;
+  padding: 10px 8px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 12px;
   background: none;
-  color: var(--cw-muted);
-  font: 700 12px var(--cw-font);
+  color: var(--cw-faint);
+  font: 680 12px var(--cw-font);
+  letter-spacing: 0.005em;
   cursor: pointer;
   transition: color 0.3s ease;
 }
@@ -761,8 +780,8 @@
 }
 
 .cw-tabs button[data-active="true"] {
-  color: var(--cw-ink);
-  font-weight: 800;
+  color: var(--cw-on-mint);
+  font-weight: 760;
 }
 
 .cw-tabs button:not([data-active="true"]):hover {
@@ -774,7 +793,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  animation: cw-mode-in 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: cw-mode-in 0.38s var(--cw-ease) both;
 }
 
 /* ============================================================
@@ -804,7 +823,7 @@
 }
 
 .cw-messages::-webkit-scrollbar-thumb {
-  background: var(--cw-line-strong);
+  background: rgba(101, 230, 193, 0.3);
   border-radius: 999px;
 }
 
@@ -812,7 +831,7 @@
   display: flex;
   gap: 8px;
   align-items: flex-end;
-  animation: cw-in-bot 0.42s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+  animation: cw-in-bot 0.42s var(--cw-ease) both;
 }
 
 /* odoslané správy animuje anime.js (prílet lietadla od vstupného poľa) */
@@ -825,7 +844,8 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: linear-gradient(140deg, #2bc07e, #179b60);
+  border: 1px solid var(--cw-line);
+  background: linear-gradient(180deg, var(--cw-surface-raised), var(--cw-surface));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -833,13 +853,13 @@
 }
 
 .cw-avatar .bl__dot {
-  fill: #0e3d2c;
+  fill: var(--cw-mint);
 }
 .cw-avatar .bl__dot:nth-of-type(2) {
-  fill: #ff8a70;
+  fill: var(--cw-cyan);
 }
 .cw-avatar .bl__dot:nth-of-type(3) {
-  fill: #6b6bff;
+  fill: var(--cw-accent);
 }
 
 .cw-message-wrap {
@@ -853,24 +873,29 @@
   align-items: flex-end;
 }
 
-/* bubliny bez borderov — Intercom štýl */
+/* bubliny — bot na skle, ja v mätovej výplni */
 .cw-message-wrap p {
   margin: 0;
   max-width: 100%;
   padding: 11px 14px;
-  border-radius: 18px;
-  border-bottom-left-radius: 6px;
+  border-radius: 16px;
+  border-bottom-left-radius: 5px;
   font: 500 13px/1.55 var(--cw-font);
-  background: #f2f1ea;
-  border: 0;
+  background: var(--cw-surface);
+  border: 1px solid var(--cw-line);
   color: var(--cw-ink);
+  box-shadow: var(--cw-inset);
 }
 
 .cw-message-row--me .cw-message-wrap p {
-  background: var(--cw-forest);
-  border-radius: 18px;
-  border-bottom-right-radius: 6px;
-  color: #f2faf5;
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  border-bottom-right-radius: 5px;
+  color: var(--cw-on-mint);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 12px 24px -18px rgba(101, 230, 193, 0.5);
 }
 
 .cw-typing {
@@ -878,31 +903,33 @@
   gap: 4px;
   align-items: center;
   padding: 14px;
-  background: #f2f1ea;
-  border: 0;
-  border-radius: 18px;
-  border-bottom-left-radius: 6px;
+  background: var(--cw-surface);
+  border: 1px solid var(--cw-line);
+  border-radius: 16px;
+  border-bottom-left-radius: 5px;
+  box-shadow: var(--cw-inset);
 }
 
+/* typing „vlna" — bodka 2 oneskorená o 0.15s, bodka 3 o 0.3s */
 .cw-typing i {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--cw-spring);
-  animation: cw-dot 1.1s ease-in-out infinite;
+  background: var(--cw-mint);
+  animation: cw-dot 1.15s ease-in-out infinite;
 }
 
 .cw-typing i:nth-child(2) {
   animation-delay: 0.15s;
-  background: var(--cw-coral);
+  background: var(--cw-mint-hi);
 }
 .cw-typing i:nth-child(3) {
   animation-delay: 0.3s;
-  background: var(--cw-indigo);
+  background: var(--cw-cyan);
 }
 
 /* ============================================================
-   Chipy — obkreslenie borderu čiarkou → rozsvietenie
+   Chipy — sklenené pill chipy, aktívny = mätová „center-out" výplň
    ============================================================ */
 .cw-quick-replies {
   display: flex;
@@ -912,51 +939,28 @@
   flex: 0 0 auto;
 }
 
-/* chip = mäkká výplň bez borderu (Intercom / Gemini štýl) */
 .cw-chip {
   position: relative;
   z-index: 0;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
-  border: 0;
+  border: 1px solid var(--cw-line);
   border-radius: 999px;
-  color: var(--cw-ink);
-  background: #f2f1ea;
+  color: #c9d7dc;
+  background: var(--cw-glass);
   padding: 10px 16px;
-  font: 700 11.5px var(--cw-font);
-  letter-spacing: 0.2px;
+  font: 640 11.5px var(--cw-font);
+  letter-spacing: -0.006em;
   cursor: pointer;
+  box-shadow: var(--cw-inset), var(--cw-shadow);
   transition:
-    padding 0.38s cubic-bezier(0.2, 0.8, 0.2, 1),
+    padding 0.38s var(--cw-ease),
     color 0.3s ease,
+    border-color 0.3s ease,
     background 0.3s ease,
-    transform 0.38s cubic-bezier(0.2, 0.85, 0.25, 1);
-}
-
-/* obkresľovacia čiarka — tenká, jednofarebná, po dokreslení sa rozplynie */
-.cw-chip::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: inherit;
-  padding: 1.2px;
-  background: conic-gradient(
-    from -90deg,
-    var(--cw-ring1) 0deg,
-    var(--cw-ring1) var(--cw-draw),
-    transparent var(--cw-draw)
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  pointer-events: none;
+    box-shadow 0.42s var(--cw-ease),
+    transform 0.42s var(--cw-ease);
 }
 
 /* vysúvacia šípka */
@@ -966,66 +970,85 @@
   right: 13px;
   top: 50%;
   transform: translateY(-50%) translateX(-7px);
-  font: 800 12px var(--cw-font);
-  color: var(--cw-spring);
+  font: 720 12px var(--cw-font);
+  color: var(--cw-mint);
   opacity: 0;
   transition:
     opacity 0.3s ease,
-    transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform 0.38s var(--cw-ease);
 }
 
 .cw-chip:hover,
 .cw-chip:focus-visible {
-  --cw-glow: rgba(34, 181, 115, 0.22);
   padding-right: 33px;
-  color: var(--cw-forest);
-  background: var(--cw-mint);
+  color: var(--cw-ink);
+  border-color: color-mix(in oklab, var(--cw-mint) 46%, transparent);
+  background:
+    radial-gradient(
+      circle at 28% 0%,
+      color-mix(in oklab, var(--cw-mint) 16%, transparent),
+      transparent 46%
+    ),
+    var(--cw-glass-hi);
   transform: translateY(-2px);
-  animation: cw-light-up 1s ease forwards;
-}
-
-.cw-chip:hover::before,
-.cw-chip:focus-visible::before {
-  animation: cw-draw-ring 1s linear forwards;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    var(--cw-glow);
 }
 
 .cw-chip:hover::after,
 .cw-chip:focus-visible::after {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
-  transition-delay: 0.45s;
+  transition-delay: 0.05s;
 }
 
 .cw-chip:active {
   transform: translateY(0) scale(0.97);
 }
 
-/* primárny čip — lesná zelená, sekvenciu prehrá sám po zobrazení */
+/* primárny čip — plná mätová výplň, tmavý ink, „center-out" nábeh */
 .cw-chip--primary {
-  --cw-ring1: var(--cw-spring-hi);
-  --cw-glow: rgba(14, 61, 44, 0.3);
-  background: var(--cw-forest);
-  color: #fff;
-  font-weight: 800;
+  color: var(--cw-on-mint);
+  border-color: transparent;
+  background: transparent;
+  font-weight: 720;
   padding-right: 33px;
-  animation: cw-light-up 1.1s 0.9s ease both;
+  box-shadow: 0 16px 30px -22px rgba(101, 230, 193, 0.82);
 }
 
 .cw-chip--primary::before {
-  animation: cw-draw-ring 1.1s 0.9s linear both;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -1px 0 rgba(15, 96, 124, 0.12);
+  clip-path: circle(75% at 50% 50%);
+  animation: cw-fill-out 760ms var(--cw-ease-out) 0.35s both;
 }
 
 .cw-chip--primary::after {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
-  color: var(--cw-spring-hi);
+  color: var(--cw-on-mint);
 }
 
 .cw-chip--primary:hover,
 .cw-chip--primary:focus-visible {
-  color: #fff;
-  background: #145240;
+  color: var(--cw-on-mint);
   transform: translateY(-2px);
+  box-shadow: 0 20px 34px -20px rgba(101, 230, 193, 0.9);
+}
+
+.cw-chip--primary:hover::before,
+.cw-chip--primary:focus-visible::before {
+  background:
+    radial-gradient(circle at 32% 12%, rgba(255, 255, 255, 0.56), transparent 44%),
+    linear-gradient(140deg, #93f6da 0%, #6fecca 52%, #52d6b3 100%);
 }
 
 /* vstupný riadok — pill pole ako moderné chat appky */
@@ -1044,9 +1067,9 @@
   flex: 1;
   min-width: 0;
   height: 44px;
-  border: 1.5px solid transparent;
+  border: 1px solid var(--cw-line);
   border-radius: 999px;
-  background: #f2f1ea;
+  background: var(--cw-surface-2);
   padding: 0 18px;
   font: 600 13px var(--cw-font);
   color: var(--cw-ink);
@@ -1059,22 +1082,26 @@
 }
 
 .cw-inputbar input:focus {
-  border-color: var(--cw-spring);
-  background: #fff;
+  border-color: var(--cw-mint);
+  background: var(--cw-surface);
+  box-shadow: 0 0 0 3px rgba(101, 230, 193, 0.13);
 }
 
 .cw-inputbar > button {
   width: 44px;
   height: 44px;
-  border: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  background: linear-gradient(140deg, #2bc07e, #179b60);
-  color: #fff;
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
+  color: var(--cw-on-mint);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex: 0 0 auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 12px 22px -16px rgba(101, 230, 193, 0.72);
   transition:
     transform 0.15s,
     box-shadow 0.2s,
@@ -1083,7 +1110,7 @@
 
 .cw-inputbar > button:hover:not(:disabled) {
   filter: brightness(1.06);
-  box-shadow: 0 8px 20px rgba(34, 181, 115, 0.35);
+  box-shadow: 0 16px 28px -16px rgba(101, 230, 193, 0.8);
   transform: scale(1.06);
 }
 
@@ -1148,9 +1175,9 @@
   height: 30px;
   border-radius: 50%;
   border: 1px solid var(--cw-line);
-  background: #fff;
-  color: var(--cw-ink);
-  font-weight: 900;
+  background: var(--cw-surface);
+  color: var(--cw-muted);
+  font-weight: 720;
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
@@ -1159,8 +1186,8 @@
 }
 
 .cw-progress__back:hover:not(:disabled) {
-  border-color: var(--cw-spring);
-  color: var(--cw-spring);
+  border-color: var(--cw-mint);
+  color: var(--cw-mint);
 }
 
 .cw-progress__back:disabled {
@@ -1179,7 +1206,7 @@
 .cw-progress__dots i {
   height: 6px;
   border-radius: 999px;
-  background: #e9e7df;
+  background: rgba(222, 242, 245, 0.1);
   transition:
     height 0.22s ease,
     background 0.22s ease,
@@ -1187,13 +1214,13 @@
 }
 
 .cw-progress__dots i.done {
-  background: var(--cw-spring);
+  background: var(--cw-mint);
 }
 
 .cw-progress__dots i.active {
   height: 18px;
-  background: linear-gradient(140deg, #114634, var(--cw-forest-2));
-  box-shadow: 0 5px 12px rgba(14, 61, 44, 0.3);
+  background: var(--cw-mint-fill);
+  box-shadow: 0 5px 12px -4px rgba(101, 230, 193, 0.5);
 }
 
 .cw-progress__dots i.active::after {
@@ -1202,15 +1229,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font: 900 10px var(--cw-font);
+  color: var(--cw-on-mint);
+  font: 720 10px var(--cw-font);
 }
 
 .cw-progress__count {
-  font: 900 11px var(--cw-font);
-  color: var(--cw-spring);
+  font: 720 11px var(--cw-font);
+  color: var(--cw-mint);
   white-space: nowrap;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.02em;
 }
 
 .cw-calc-body {
@@ -1227,16 +1254,16 @@
 }
 
 .cw-calc-body::-webkit-scrollbar-thumb {
-  background: var(--cw-line-strong);
+  background: rgba(101, 230, 193, 0.3);
   border-radius: 999px;
 }
 
 .cw-q {
   margin: 0 0 3px;
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 720;
   color: var(--cw-ink);
-  letter-spacing: -0.2px;
+  letter-spacing: -0.02em;
   animation: cw-q-in 0.42s ease both;
 }
 
@@ -1263,12 +1290,13 @@
   gap: 12px;
   min-height: 74px;
   padding: 13px 15px;
-  border: 1px solid #eceae2;
-  background: #fff;
+  border: 1px solid var(--cw-line);
+  background: var(--cw-surface);
   border-radius: 16px;
   cursor: pointer;
   text-align: left;
-  transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: var(--cw-inset);
+  transition: 0.24s var(--cw-ease);
 }
 
 /* šípka vpravo ako na riadkových kartách Airbnb/Linear */
@@ -1279,7 +1307,7 @@
   top: 50%;
   transform: translateY(-52%);
   font: 300 22px/1 var(--cw-font);
-  color: #c9c5b8;
+  color: var(--cw-faint);
   transition:
     color 0.2s,
     transform 0.25s;
@@ -1287,21 +1315,22 @@
 }
 
 .cw-rowcard:hover {
-  border-color: var(--cw-spring);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(13, 43, 33, 0.07);
+  border-color: color-mix(in oklab, var(--cw-mint) 40%, transparent);
+  transform: translateY(-2px);
+  box-shadow: var(--cw-inset), var(--cw-glow);
 }
 
 .cw-rowcard:hover::before {
-  color: var(--cw-spring);
+  color: var(--cw-mint);
   transform: translateY(-52%) translateX(3px);
 }
 
 .cw-rowcard[data-selected="true"] {
-  border: 1.5px solid var(--cw-spring);
-  padding: 12.5px 14.5px;
-  background: #eaf7f0;
-  animation: cw-sel-pop 0.34s cubic-bezier(0.2, 1.6, 0.35, 1);
+  border-color: rgba(101, 230, 193, 0.62);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(101, 230, 193, 0.12), transparent 46%),
+    var(--cw-surface-raised);
+  animation: cw-sel-pop 0.34s var(--cw-spring);
 }
 
 .cw-rowcard[data-selected="true"]::before {
@@ -1317,12 +1346,13 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--cw-spring);
-  color: #fff;
+  background: var(--cw-mint-fill);
+  color: var(--cw-on-mint);
   display: flex;
   align-items: center;
   justify-content: center;
-  font: 900 12px var(--cw-font);
+  font: 800 12px var(--cw-font);
+  box-shadow: 0 6px 14px -6px rgba(101, 230, 193, 0.6);
   animation: cw-pop 0.3s ease;
 }
 
@@ -1330,8 +1360,9 @@
   width: 46px;
   height: 46px;
   border-radius: 13px;
-  background: var(--cw-mint);
-  color: var(--cw-spring);
+  border: 1px solid rgba(101, 230, 193, 0.22);
+  background: linear-gradient(160deg, rgba(101, 230, 193, 0.14), rgba(114, 199, 255, 0.04));
+  color: var(--cw-mint);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1341,8 +1372,9 @@
 
 .cw-rowcard:hover .cw-rowcard__icon,
 .cw-rowcard[data-selected="true"] .cw-rowcard__icon {
-  background: linear-gradient(140deg, #2bc07e, #179b60);
-  color: #fff;
+  border-color: transparent;
+  background: var(--cw-mint-fill);
+  color: var(--cw-on-mint);
 }
 
 .cw-rowcard__icon svg {
@@ -1359,9 +1391,10 @@
 .cw-rowcard__body b {
   display: block;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 720;
   color: var(--cw-ink);
   line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 .cw-rowcard__body span {
@@ -1377,15 +1410,16 @@
   position: absolute;
   top: -8px;
   right: 12px;
-  font: 800 9px var(--cw-font);
+  font: 720 9px var(--cw-font);
   font-style: normal;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #fff;
-  background: linear-gradient(140deg, #ff8a70, #f2603f);
+  letter-spacing: 0.05em;
+  color: var(--cw-accent);
+  background: rgba(114, 199, 255, 0.12);
+  border: 1px solid rgba(114, 199, 255, 0.34);
   padding: 3px 8px;
   border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(255, 122, 95, 0.4);
+  box-shadow: 0 4px 12px -6px rgba(114, 199, 255, 0.5);
 }
 
 /* vlastná predstava */
@@ -1398,7 +1432,7 @@
   width: 100%;
   border: 1px solid var(--cw-line);
   border-radius: 12px;
-  background: var(--cw-paper);
+  background: var(--cw-surface);
   padding: 11px 12px;
   font: 600 12.5px/1.45 var(--cw-font);
   color: var(--cw-ink);
@@ -1416,9 +1450,9 @@
 
 .cw-custom textarea:focus,
 .cw-lead__form textarea:focus {
-  border-color: var(--cw-spring);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.14);
+  border-color: var(--cw-mint);
+  background: var(--cw-surface-raised);
+  box-shadow: 0 0 0 3px rgba(101, 230, 193, 0.13);
 }
 
 /* --- mriežka malých kariet (odvetvie) --- */
@@ -1430,8 +1464,8 @@
 
 .cw-scard {
   position: relative;
-  border: 1px solid #eceae2;
-  background: #fff;
+  border: 1px solid var(--cw-line);
+  background: var(--cw-surface);
   border-radius: 16px;
   cursor: pointer;
   padding: 15px 8px 13px;
@@ -1440,20 +1474,22 @@
   align-items: center;
   gap: 9px;
   text-align: center;
-  transition: 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: var(--cw-inset);
+  transition: 0.24s var(--cw-ease);
 }
 
 .cw-scard:hover {
-  border-color: var(--cw-spring);
+  border-color: color-mix(in oklab, var(--cw-mint) 40%, transparent);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(13, 43, 33, 0.07);
+  box-shadow: var(--cw-inset), var(--cw-glow);
 }
 
 .cw-scard[data-selected="true"] {
-  border: 1.5px solid var(--cw-spring);
-  padding: 14.5px 7.5px 12.5px;
-  background: #eaf7f0;
-  animation: cw-sel-pop 0.34s cubic-bezier(0.2, 1.6, 0.35, 1);
+  border-color: rgba(101, 230, 193, 0.62);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(101, 230, 193, 0.12), transparent 50%),
+    var(--cw-surface-raised);
+  animation: cw-sel-pop 0.34s var(--cw-spring);
 }
 
 .cw-scard[data-selected="true"]::after {
@@ -1464,12 +1500,13 @@
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background: var(--cw-spring);
-  color: #fff;
+  background: var(--cw-mint-fill);
+  color: var(--cw-on-mint);
   display: flex;
   align-items: center;
   justify-content: center;
-  font: 900 11px var(--cw-font);
+  font: 800 11px var(--cw-font);
+  box-shadow: 0 5px 12px -6px rgba(101, 230, 193, 0.6);
   animation: cw-pop 0.3s ease;
 }
 
@@ -1477,21 +1514,24 @@
   width: 38px;
   height: 38px;
   border-radius: 11px;
-  background: var(--cw-mint);
-  color: var(--cw-spring);
+  border: 1px solid rgba(101, 230, 193, 0.22);
+  background: linear-gradient(160deg, rgba(101, 230, 193, 0.14), rgba(114, 199, 255, 0.04));
+  color: var(--cw-mint);
   display: flex;
   align-items: center;
   justify-content: center;
   transition:
-    transform 0.3s cubic-bezier(0.2, 1.6, 0.4, 1),
+    transform 0.3s var(--cw-spring),
     background 0.25s,
+    border-color 0.25s,
     color 0.25s;
 }
 
 .cw-scard:hover .cw-scard__icon,
 .cw-scard[data-selected="true"] .cw-scard__icon {
-  background: linear-gradient(140deg, #2bc07e, #179b60);
-  color: #fff;
+  border-color: transparent;
+  background: var(--cw-mint-fill);
+  color: var(--cw-on-mint);
   transform: scale(1.06);
 }
 
@@ -1502,9 +1542,10 @@
 
 .cw-scard b {
   font-size: 11.5px;
-  font-weight: 800;
+  font-weight: 720;
   color: var(--cw-ink);
   line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 /* --- karta „čo chatbot zvládne pre odvetvie" --- */
@@ -1512,9 +1553,9 @@
   margin-top: 11px;
   padding: 12px 13px;
   border-radius: 14px;
-  background: var(--cw-mint);
-  border: 1px solid var(--cw-mint-strong);
-  border-left: 3px solid var(--cw-spring);
+  background: var(--cw-surface-2);
+  border: 1px solid var(--cw-line);
+  border-left: 3px solid var(--cw-mint);
   animation: cw-step-box 0.35s ease both;
 }
 
@@ -1522,8 +1563,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font: 800 11.5px var(--cw-font);
-  color: var(--cw-forest);
+  font: 720 11.5px var(--cw-font);
+  color: var(--cw-mint);
   margin-bottom: 7px;
 }
 
@@ -1531,7 +1572,7 @@
   width: 14px;
   height: 14px;
   flex: 0 0 auto;
-  color: var(--cw-spring);
+  color: var(--cw-mint);
 }
 
 .cw-industry-tip ul {
@@ -1558,7 +1599,7 @@
   width: 6px;
   height: 6px;
   border-radius: 2px;
-  background: var(--cw-spring);
+  background: var(--cw-mint);
 }
 
 /* --- zoznam s rádiami / checkboxami --- */
@@ -1569,8 +1610,8 @@
 }
 
 .cw-opt {
-  border: 1px solid #eceae2;
-  background: #fff;
+  border: 1px solid var(--cw-line);
+  background: var(--cw-surface);
   border-radius: 15px;
   cursor: pointer;
   display: flex;
@@ -1578,20 +1619,22 @@
   align-items: center;
   padding: 12px;
   text-align: left;
-  transition: 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: var(--cw-inset);
+  transition: 0.2s var(--cw-ease);
 }
 
 .cw-opt:hover {
-  border-color: var(--cw-spring);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(13, 43, 33, 0.07);
+  border-color: color-mix(in oklab, var(--cw-mint) 40%, transparent);
+  transform: translateY(-2px);
+  box-shadow: var(--cw-inset), var(--cw-glow);
 }
 
 .cw-opt[data-selected="true"] {
-  border: 1.5px solid var(--cw-spring);
-  padding: 11.5px;
-  background: #eaf7f0;
-  animation: cw-sel-pop 0.34s cubic-bezier(0.2, 1.6, 0.35, 1);
+  border-color: rgba(101, 230, 193, 0.62);
+  background:
+    radial-gradient(circle at 16% 0%, rgba(101, 230, 193, 0.12), transparent 46%),
+    var(--cw-surface-raised);
+  animation: cw-sel-pop 0.34s var(--cw-spring);
 }
 
 .cw-opt__radio {
@@ -1603,7 +1646,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: var(--cw-surface-2);
   transition: border-color 0.15s;
 }
 
@@ -1612,7 +1655,7 @@
 }
 
 .cw-opt[data-selected="true"] .cw-opt__radio {
-  border-color: var(--cw-spring);
+  border-color: var(--cw-mint);
 }
 
 .cw-opt[data-selected="true"] .cw-opt__radio::after {
@@ -1620,7 +1663,7 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: var(--cw-spring);
+  background: var(--cw-mint);
   animation: cw-pop 0.25s ease;
 }
 
@@ -1629,8 +1672,8 @@
   height: 5px;
   border-radius: 0;
   background: none;
-  border-left: 2px solid var(--cw-spring);
-  border-bottom: 2px solid var(--cw-spring);
+  border-left: 2px solid var(--cw-mint);
+  border-bottom: 2px solid var(--cw-mint);
   transform: rotate(-45deg) translateY(-1px);
 }
 
@@ -1642,8 +1685,9 @@
 .cw-opt__body b {
   display: block;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 720;
   color: var(--cw-ink);
+  letter-spacing: -0.01em;
 }
 
 .cw-opt__body span {
@@ -1657,26 +1701,28 @@
 /* --- objem dopytov --- */
 .cw-grid--volume .cw-vcard {
   position: relative;
-  border: 1px solid #eceae2;
-  background: #fff;
+  border: 1px solid var(--cw-line);
+  background: var(--cw-surface);
   border-radius: 16px;
   padding: 14px 12px;
   cursor: pointer;
   text-align: left;
-  transition: 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: var(--cw-inset);
+  transition: 0.2s var(--cw-ease);
 }
 
 .cw-vcard:hover {
-  border-color: var(--cw-spring);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(13, 43, 33, 0.07);
+  border-color: color-mix(in oklab, var(--cw-mint) 40%, transparent);
+  transform: translateY(-2px);
+  box-shadow: var(--cw-inset), var(--cw-glow);
 }
 
 .cw-vcard[data-selected="true"] {
-  border: 1.5px solid var(--cw-spring);
-  padding: 13.5px 11.5px;
-  background: #eaf7f0;
-  animation: cw-sel-pop 0.34s cubic-bezier(0.2, 1.6, 0.35, 1);
+  border-color: rgba(101, 230, 193, 0.62);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(101, 230, 193, 0.12), transparent 46%),
+    var(--cw-surface-raised);
+  animation: cw-sel-pop 0.34s var(--cw-spring);
 }
 
 .cw-vcard[data-selected="true"]::after {
@@ -1687,19 +1733,21 @@
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background: var(--cw-spring);
-  color: #fff;
+  background: var(--cw-mint-fill);
+  color: var(--cw-on-mint);
   display: flex;
   align-items: center;
   justify-content: center;
-  font: 900 11px var(--cw-font);
+  font: 800 11px var(--cw-font);
+  box-shadow: 0 5px 12px -6px rgba(101, 230, 193, 0.6);
   animation: cw-pop 0.3s ease;
 }
 
 .cw-vcard b {
   display: block;
-  font: 900 15px var(--cw-font);
-  color: var(--cw-spring);
+  font: 760 15px var(--cw-font);
+  color: var(--cw-mint);
+  letter-spacing: -0.01em;
 }
 
 .cw-vcard span {
@@ -1709,17 +1757,17 @@
   color: var(--cw-muted);
 }
 
-/* --- zhrnutie — tmavozelená karta ako cena na webe --- */
+/* --- zhrnutie — tmavá mineral karta s mätovými akcentmi --- */
 .cw-summary {
   position: relative;
   overflow: hidden;
-  border: 0;
+  border: 1px solid rgba(101, 230, 193, 0.32);
   border-radius: 18px;
-  background: linear-gradient(150deg, #114634, var(--cw-forest-2));
+  background: linear-gradient(165deg, var(--cw-surface-raised), var(--cw-surface));
   padding: 15px 14px;
-  box-shadow: 0 14px 34px rgba(14, 61, 44, 0.3);
+  box-shadow: var(--cw-shadow-lg);
   margin-bottom: 11px;
-  color: #f0faf4;
+  color: var(--cw-ink);
 }
 
 .cw-summary::after {
@@ -1730,16 +1778,16 @@
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(62, 207, 142, 0.25), transparent 70%);
+  background: radial-gradient(circle, rgba(101, 230, 193, 0.16), transparent 70%);
   pointer-events: none;
 }
 
 .cw-summary__label {
   display: block;
-  font: 900 9.5px var(--cw-font);
+  font: 800 9.5px var(--cw-font);
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--cw-spring-hi);
+  letter-spacing: 0.12em;
+  color: var(--cw-mint);
   margin-bottom: 8px;
 }
 
@@ -1748,9 +1796,9 @@
   justify-content: space-between;
   gap: 10px;
   padding: 5px 0;
-  border-bottom: 1px dashed rgba(240, 250, 244, 0.18);
+  border-bottom: 1px dashed rgba(222, 242, 245, 0.14);
   font: 600 11.3px var(--cw-font);
-  color: rgba(240, 250, 244, 0.7);
+  color: var(--cw-muted);
 }
 
 .cw-summary__row:last-of-type {
@@ -1758,7 +1806,7 @@
 }
 
 .cw-summary__row b {
-  color: #ffffff;
+  color: var(--cw-ink);
   font-weight: 700;
   text-align: right;
   max-width: 62%;
@@ -1783,22 +1831,24 @@
 
 .cw-summary__pills span {
   font: 700 9.5px var(--cw-font);
-  color: var(--cw-spring-hi);
-  background: rgba(62, 207, 142, 0.12);
-  border: 1px solid rgba(62, 207, 142, 0.4);
+  color: var(--cw-mint-hi);
+  background: rgba(101, 230, 193, 0.1);
+  border: 1px solid rgba(101, 230, 193, 0.34);
   padding: 4px 8px;
   border-radius: 999px;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.01em;
 }
 
 /* --- kontaktný formulár --- */
 .cw-lead {
   border: 1px solid var(--cw-line);
   border-radius: 16px;
-  background: #fff;
+  background: var(--cw-surface);
   padding: 14px;
   margin-bottom: 6px;
-  box-shadow: 0 6px 18px rgba(13, 43, 33, 0.06);
+  box-shadow:
+    var(--cw-inset),
+    0 10px 26px -20px rgba(0, 6, 10, 0.7);
 }
 
 .cw-lead__head {
@@ -1812,13 +1862,16 @@
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: linear-gradient(140deg, #2bc07e, #179b60);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--cw-on-mint);
   flex: 0 0 38px;
-  box-shadow: 0 5px 14px rgba(34, 181, 115, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 12px 20px -16px rgba(101, 230, 193, 0.74);
 }
 
 .cw-lead__icon svg {
@@ -1829,7 +1882,9 @@
 .cw-lead__head b {
   display: block;
   font-size: 13.5px;
+  font-weight: 720;
   color: var(--cw-ink);
+  letter-spacing: -0.01em;
 }
 
 .cw-lead__head small {
@@ -1852,7 +1907,7 @@
 .cw-lead__form input {
   width: 100%;
   border: 1px solid var(--cw-line);
-  background: var(--cw-paper);
+  background: var(--cw-surface-2);
   border-radius: 11px;
   padding: 11px;
   font: 600 12.5px var(--cw-font);
@@ -1862,9 +1917,9 @@
 }
 
 .cw-lead__form input:focus {
-  border-color: var(--cw-spring);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(34, 181, 115, 0.14);
+  border-color: var(--cw-mint);
+  background: var(--cw-surface-raised);
+  box-shadow: 0 0 0 3px rgba(101, 230, 193, 0.13);
 }
 
 .cw-consent {
@@ -1881,7 +1936,7 @@
   height: 17px;
   flex: 0 0 17px;
   margin: 0;
-  accent-color: var(--cw-spring);
+  accent-color: var(--cw-mint);
   cursor: pointer;
 }
 
@@ -1890,102 +1945,50 @@
   border-radius: 11px;
   padding: 9px 11px;
   font: 700 11.5px var(--cw-font);
-  background: var(--cw-coral-soft);
-  color: #b3402a;
-  border: 1px solid #f5c8ba;
+  background: rgba(114, 199, 255, 0.1);
+  color: var(--cw-accent);
+  border: 1px solid rgba(114, 199, 255, 0.34);
   animation: cw-q-in 0.25s ease both;
 }
 
 /* ============================================================
-   Primárne tlačidlá — indigo CTA ako na webe,
-   hover: obkreslenie čiarkou → rozsvietenie
+   Primárne tlačidlá — plná mätová výplň, tmavý ink, hover lift
    ============================================================ */
 .cw-submit,
 .cw-next {
-  --cw-ring1: rgba(255, 255, 255, 0.95);
-  --cw-ring2: #c7d2fe;
-  --cw-glow: rgba(90, 91, 240, 0.5);
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   z-index: 0;
-  border: 0;
+  border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 999px;
-  background: linear-gradient(140deg, #6a6bff, var(--cw-indigo-dark));
-  color: #ffffff;
-  font: 800 13px var(--cw-font);
-  letter-spacing: 0.2px;
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
+  color: var(--cw-on-mint);
+  font: 760 13px var(--cw-font);
+  letter-spacing: -0.005em;
   padding: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 10px 24px rgba(90, 91, 240, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    0 16px 30px -20px rgba(101, 230, 193, 0.8);
   transition:
-    transform 0.18s ease,
-    filter 0.25s ease;
-}
-
-/* obkresľovacia čiarka */
-.cw-submit::before,
-.cw-next::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: 2;
-  border-radius: inherit;
-  padding: 1.8px;
-  background: conic-gradient(
-    from -90deg,
-    var(--cw-ring1) 0deg,
-    var(--cw-ring2) var(--cw-draw),
-    transparent var(--cw-draw)
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* jasnejšia výplň po obkreslení */
-.cw-submit::after,
-.cw-next::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(140deg, #7d7eff, #5a5bf0);
-  opacity: 0;
-  pointer-events: none;
+    transform 0.24s var(--cw-ease),
+    filter 0.25s ease,
+    box-shadow 0.28s ease;
 }
 
 .cw-submit:hover:not(:disabled),
 .cw-next:hover:not(:disabled),
 .cw-submit:focus-visible:not(:disabled),
 .cw-next:focus-visible:not(:disabled) {
-  transform: translateY(-1.5px);
-  animation: cw-light-up 1s ease forwards;
-}
-
-.cw-submit:hover:not(:disabled)::before,
-.cw-next:hover:not(:disabled)::before,
-.cw-submit:focus-visible:not(:disabled)::before,
-.cw-next:focus-visible:not(:disabled)::before {
-  animation: cw-draw-ring 1s linear forwards;
-}
-
-.cw-submit:hover:not(:disabled)::after,
-.cw-next:hover:not(:disabled)::after,
-.cw-submit:focus-visible:not(:disabled)::after,
-.cw-next:focus-visible:not(:disabled)::after {
-  animation: cw-fill-in 1s ease forwards;
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 22px 40px -20px rgba(101, 230, 193, 0.9);
 }
 
 .cw-submit:active:not(:disabled),
@@ -1995,7 +1998,7 @@
 
 .cw-next:disabled,
 .cw-submit:disabled {
-  opacity: 0.45;
+  opacity: 0.42;
   cursor: default;
   box-shadow: none;
 }
@@ -2013,8 +2016,8 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  border: 2.5px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #fff;
+  border: 2.5px solid rgba(4, 20, 15, 0.3);
+  border-top-color: var(--cw-on-mint);
   animation: cw-spin 0.8s linear infinite;
 }
 
@@ -2032,7 +2035,7 @@
   gap: 10px;
   padding: 10px 13px 13px;
   border-top: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff 40%);
+  background: linear-gradient(180deg, rgba(6, 18, 22, 0), var(--cw-bg) 42%);
   align-items: center;
 }
 
@@ -2040,17 +2043,17 @@
   flex: 1;
   border: 1px solid var(--cw-line-strong);
   border-radius: 999px;
-  background: #fff;
+  background: var(--cw-surface);
   color: var(--cw-ink);
-  font: 800 12.5px var(--cw-font);
+  font: 720 12.5px var(--cw-font);
   padding: 12px;
   cursor: pointer;
   transition: 0.22s;
 }
 
 .cw-restart:hover {
-  border-color: var(--cw-spring);
-  color: var(--cw-spring);
+  border-color: var(--cw-mint);
+  color: var(--cw-mint);
 }
 
 /* --- poďakovanie --- */
@@ -2068,15 +2071,16 @@
   height: 52px;
   margin: 0 auto 10px;
   border-radius: 16px;
-  background: linear-gradient(140deg, #2bc07e, #179b60);
-  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
+  color: var(--cw-on-mint);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 12px 28px rgba(34, 181, 115, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  animation: cw-pop 0.4s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 16px 30px -16px rgba(101, 230, 193, 0.6);
+  animation: cw-pop 0.4s var(--cw-spring) both;
 }
 
 .cw-thanks__icon svg {
@@ -2087,8 +2091,8 @@
 .cw-thanks h3 {
   margin: 0;
   color: var(--cw-ink);
-  font: 900 17px var(--cw-font);
-  letter-spacing: -0.1px;
+  font: 760 17px var(--cw-font);
+  letter-spacing: -0.02em;
 }
 
 .cw-thanks p {
@@ -2099,7 +2103,7 @@
 }
 
 .cw-thanks p b {
-  color: var(--cw-spring);
+  color: var(--cw-mint);
 }
 
 .cw-thanks__grid {
@@ -2113,7 +2117,7 @@
 .cw-thanks__grid div {
   border: 1px solid var(--cw-line);
   border-radius: 11px;
-  background: var(--cw-paper);
+  background: var(--cw-surface);
   padding: 8px 9px;
   color: var(--cw-ink);
   font: 700 11px/1.35 var(--cw-font);
@@ -2125,7 +2129,7 @@
   color: var(--cw-faint);
   font: 800 8.5px var(--cw-font);
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.06em;
   margin-bottom: 2px;
 }
 
@@ -2136,18 +2140,20 @@
 
 .cw-thanks__actions button {
   flex: 1;
-  border: 0;
+  border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 999px;
   padding: 12px 8px;
-  font: 800 12px var(--cw-font);
+  font: 760 12px var(--cw-font);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: linear-gradient(140deg, #6a6bff, var(--cw-indigo-dark));
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(90, 91, 240, 0.35);
+  background: var(--cw-mint-gloss), var(--cw-mint-fill);
+  color: var(--cw-on-mint);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    0 12px 24px -18px rgba(101, 230, 193, 0.7);
   transition: 0.25s;
 }
 
@@ -2157,20 +2163,20 @@
 }
 
 .cw-thanks__actions button:hover {
-  filter: brightness(1.07);
-  transform: translateY(-1px);
+  filter: brightness(1.05);
+  transform: translateY(-2px);
 }
 
 .cw-thanks__actions button.ghost {
-  background: #fff;
   border: 1px solid var(--cw-line-strong);
+  background: var(--cw-surface);
   color: var(--cw-ink);
-  box-shadow: none;
+  box-shadow: var(--cw-inset);
 }
 
 .cw-thanks__actions button.ghost:hover {
-  border-color: var(--cw-spring);
-  color: var(--cw-spring);
+  border-color: var(--cw-mint);
+  color: var(--cw-mint);
   filter: none;
 }
 
@@ -2208,7 +2214,7 @@
 
   .cw-teaser {
     right: 16px;
-    bottom: 98px;
+    bottom: 92px;
     max-width: 250px;
   }
 
@@ -2233,8 +2239,8 @@
   .cw-panel-body,
   .cw-message-row,
   .cw-chip,
-  .cw-chip::before,
   .cw-chip::after,
+  .cw-chip--primary::before,
   .cw-rowcard,
   .cw-scard,
   .cw-opt,
@@ -2247,14 +2253,14 @@
   .cw-launcher__online,
   .cw-submit,
   .cw-next,
-  .cw-submit::before,
-  .cw-next::before,
-  .cw-submit::after,
-  .cw-next::after,
   .cw-tabs__glass,
   .cw-inputbar > button.is-sending svg,
   .bl__dot {
     animation: none !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .cw-chip--primary::before {
+    clip-path: circle(75% at 50% 50%);
   }
 }
