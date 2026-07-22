@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { DemoPresentation, ProjectCategory } from "@/data/projects";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
@@ -25,7 +25,7 @@ export function DemoViewer({
   presentation,
   demoUrl,
 }: DemoViewerProps) {
-  const dialogRef = useRef<HTMLElement | null>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const reducedMotion = useReducedMotion();
@@ -48,24 +48,7 @@ export function DemoViewer({
     };
   }, [open, demoUrl]);
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const focusFrame = window.requestAnimationFrame(() => {
-      closeBtnRef.current?.focus({ preventScroll: true });
-    });
-
-    return () => {
-      window.cancelAnimationFrame(focusFrame);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [open]);
-
-  useEffect(() => {
-    if (open) setLoadedUrl(null);
-  }, [demoUrl, open]);
-
-  const maxWidth = presentation === "wide" ? "1180px" : "720px";
-  const iframeLoading = Boolean(demoUrl && loadedUrl !== demoUrl);
+  const maxWidth = presentation === "wide" ? "min(1180px, 96vw)" : "min(720px, 96vw)";
 
   return (
     <AnimatePresence>
@@ -238,7 +221,7 @@ function DemoSkeleton({ reducedMotion }: { reducedMotion: boolean }) {
 
 function DemoPlaceholder({ title, accent }: { title: string; accent: string }) {
   return (
-    <div className="flex h-full min-h-[60vh] flex-col items-center justify-center gap-4 p-8 text-center">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-8 text-center">
       <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: accent }} />
       <p className="max-w-md text-sm" style={{ color: "var(--text-secondary)" }}>
         {title} — funkčná ukážka sa sem pripojí neskôr. Údaje sa neodosielajú.

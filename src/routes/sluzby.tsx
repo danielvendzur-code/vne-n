@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import type { PointerEvent } from "react";
 import { ArrowRight, Bot, Calculator, MessageCircle, SlidersHorizontal } from "lucide-react";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { openSiteAssistant } from "@/lib/site-assistant";
@@ -46,19 +45,6 @@ const services = [
     output: "Konkrétna konfigurácia pripravená na výrobu alebo cenovú ponuku.",
   },
 ];
-
-function trackServiceSpotlight(event: PointerEvent<HTMLElement>) {
-  if (event.pointerType === "touch") return;
-  const bounds = event.currentTarget.getBoundingClientRect();
-  event.currentTarget.style.setProperty(
-    "--spot-x",
-    `${(((event.clientX - bounds.left) / bounds.width) * 100).toFixed(1)}%`,
-  );
-  event.currentTarget.style.setProperty(
-    "--spot-y",
-    `${(((event.clientY - bounds.top) / bounds.height) * 100).toFixed(1)}%`,
-  );
-}
 
 function ServicesPage() {
   return (

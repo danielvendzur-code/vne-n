@@ -1,12 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
-import { motion, type Variants } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import "./LineSidebar.css";
 
 export type LineSidebarItem = {
   label: string;
-  to: "/" | "/sluzby" | "/projekty" | "/postup" | "/kontakt";
+  href: string;
 };
 
 type Falloff = "linear" | "smooth" | "sharp";
@@ -41,27 +40,12 @@ const falloffCurves: Record<Falloff, (progress: number) => number> = {
   sharp: (progress) => progress * progress * progress,
 };
 
-const menuListVariants: Variants = {
-  hidden: {},
-  visible: { transition: { delayChildren: 0.12, staggerChildren: 0.065 } },
-};
-
-const menuItemVariants: Variants = {
-  hidden: { opacity: 0, x: 22, filter: "blur(5px)" },
-  visible: {
-    opacity: 1,
-    x: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.46, ease: [0.16, 1, 0.3, 1] },
-  },
-};
-
 /** React Bits LineSidebar, adapted to render semantic, keyboard-accessible links. */
 export function LineSidebar({
   items,
-  accentColor = "#3478f6",
-  textColor = "#f7f9fc",
-  markerColor = "rgba(247, 249, 252, 0.22)",
+  accentColor = "#bc7352",
+  textColor = "#f2efe6",
+  markerColor = "rgba(242, 239, 230, 0.22)",
   showIndex = true,
   showMarker = true,
   proximityRadius = 110,
@@ -176,17 +160,14 @@ export function LineSidebar({
       style={style}
       aria-label="Hlavné menu"
     >
-      <motion.ul
+      <ul
         ref={listRef}
         className="rb-line-sidebar__list"
         onPointerMove={handlePointerMove}
         onPointerLeave={resetTargets}
-        initial={reducedMotion ? false : "hidden"}
-        animate="visible"
-        variants={menuListVariants}
       >
         {items.map((item, index) => (
-          <motion.li
+          <li
             className="rb-line-sidebar__item"
             ref={(element) => {
               itemRefs.current[index] = element;
@@ -219,7 +200,7 @@ export function LineSidebar({
             </Link>
           </li>
         ))}
-      </motion.ul>
+      </ul>
     </nav>
   );
 }

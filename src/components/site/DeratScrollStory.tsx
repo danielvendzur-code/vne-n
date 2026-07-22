@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, useMotionValue, useSpring } from "motion/react";
 import "./DeratScrollStory.css";
 import "./DeratScrollStoryMobile.css";
 
@@ -71,7 +70,6 @@ export function DeratScrollStory() {
         const image = new Image();
         image.decoding = "async";
         image.src = frame.src;
-        void image.decode().catch(() => undefined);
         pendingImages.push(image);
       });
     };
@@ -92,50 +90,6 @@ export function DeratScrollStory() {
     observer.observe(root);
 
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const track = mobileTrackRef.current;
-    if (!track) return;
-
-    let animationFrame = 0;
-    const updateActiveFrame = () => {
-      animationFrame = 0;
-      if (track.clientWidth === 0) return;
-
-      const trackCenter = track.scrollLeft + track.clientWidth / 2;
-      let closestIndex = 0;
-      let closestDistance = Number.POSITIVE_INFINITY;
-
-      mobileSlideRefs.current.forEach((slide, index) => {
-        if (!slide) return;
-        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-        const distance = Math.abs(trackCenter - slideCenter);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
-        }
-      });
-
-      setActiveMobileFrame((current) => (current === closestIndex ? current : closestIndex));
-    };
-
-    const requestUpdate = () => {
-      if (animationFrame) return;
-      animationFrame = window.requestAnimationFrame(updateActiveFrame);
-    };
-
-    track.addEventListener("scroll", requestUpdate, { passive: true });
-    const resizeObserver =
-      "ResizeObserver" in window ? new ResizeObserver(requestUpdate) : undefined;
-    resizeObserver?.observe(track);
-    requestUpdate();
-
-    return () => {
-      track.removeEventListener("scroll", requestUpdate);
-      resizeObserver?.disconnect();
-      if (animationFrame) window.cancelAnimationFrame(animationFrame);
-    };
   }, []);
 
   useEffect(() => {
@@ -210,7 +164,6 @@ export function DeratScrollStory() {
       return () => {
         progressValue.set(0);
         context.revert();
-        progressTarget.set(0);
       };
     });
 
@@ -275,14 +228,7 @@ export function DeratScrollStory() {
 
       <div className="derat-story__mobile" aria-label="Kroky kalkulačky DERAT">
         {frames.map((frame, index) => (
-          <article
-            ref={(element) => {
-              mobileSlideRefs.current[index] = element;
-            }}
-            className="derat-story__mobile-slide"
-            key={frame.src}
-            aria-label={`${index + 1} z ${frames.length}: ${frame.label}`}
-          >
+          <article className="derat-story__mobile-slide" key={frame.src}>
             <figure>
               <img
                 src={frame.src}
@@ -302,23 +248,6 @@ export function DeratScrollStory() {
           </article>
         ))}
       </div>
-      <nav className="derat-story__mobile-dots" aria-label="Navigácia medzi obrazovkami">
-        {frames.map((frame, index) => (
-          <button
-            key={frame.src}
-            type="button"
-            className={activeMobileFrame === index ? "is-active" : undefined}
-            aria-label={`Zobraziť krok ${index + 1}: ${frame.label}`}
-            aria-current={activeMobileFrame === index ? "step" : undefined}
-            onClick={() => scrollToMobileFrame(index)}
-          >
-            <span />
-          </button>
-        ))}
-      </nav>
-      <p className="sr-only" aria-live="polite">
-        Krok {activeMobileFrame + 1} zo {frames.length}: {frames[activeMobileFrame].label}
-      </p>
     </section>
   );
 }

@@ -21,10 +21,9 @@ import "./RequestedPolish.css";
 import "./RequestedPolishFinal.css";
 import "./CompetitionSystem.css";
 import "./CompetitionRoutes.css";
+import "./BlackBlueFinal.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const premiumEase = [0.16, 1, 0.3, 1] as const;
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });

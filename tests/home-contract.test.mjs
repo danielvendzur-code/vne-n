@@ -21,30 +21,36 @@ test("chatbot-first copy is rendered directly by React", async () => {
   );
 });
 
-test("final design layers load in the authoritative order and contain no bronze palette", async () => {
+test("black-blue design layer loads last and owns the final palette", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const systemCss = await read("src/components/site/CompetitionSystem.css");
   const routeCss = await read("src/components/site/CompetitionRoutes.css");
+  const finalCss = await read("src/components/site/BlackBlueFinal.css");
   assert.match(layout, /CompetitionSystem\.css/);
   assert.match(layout, /CompetitionRoutes\.css/);
+  assert.match(layout, /BlackBlueFinal\.css/);
   assert.ok(
     layout.indexOf('import "./CompetitionSystem.css"') <
       layout.indexOf('import "./CompetitionRoutes.css"'),
   );
-  assert.equal(
-    layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./CompetitionRoutes.css"'),
+  assert.ok(
+    layout.indexOf('import "./CompetitionRoutes.css"') <
+      layout.indexOf('import "./BlackBlueFinal.css"'),
   );
-  assert.match(systemCss, /--primary:\s*#65e6c1/i);
-  assert.match(systemCss, /--primary-hover:\s*#83f1d0/i);
-  assert.match(systemCss, /--accent:\s*#72c7ff/i);
-  assert.match(systemCss, /--highlight:\s*#8aa7ff/i);
+  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./BlackBlueFinal.css"'));
+  assert.match(finalCss, /--primary:\s*#3478f6/i);
+  assert.match(finalCss, /--primary-hover:\s*#1f55c9/i);
+  assert.match(finalCss, /--accent:\s*#3478f6/i);
+  assert.match(finalCss, /--highlight:\s*#3478f6/i);
+  assert.match(finalCss, /--background:\s*#050609/i);
   assert.doesNotMatch(systemCss, /#c9aa70|#c47c5e|#bc7352/i);
   assert.doesNotMatch(routeCss, /#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i);
+  assert.doesNotMatch(finalCss, /#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i);
   assert.match(systemCss, /prefers-reduced-motion:\s*reduce/);
   assert.match(routeCss, /prefers-reduced-motion:\s*reduce/);
   assert.match(systemCss, /focus-visible/);
   assert.match(routeCss, /focus-visible/);
+  assert.match(finalCss, /focus-visible/);
 });
 
 test("all homepage surfaces are covered by the final design system", async () => {

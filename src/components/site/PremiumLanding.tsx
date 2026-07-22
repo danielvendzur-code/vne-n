@@ -4,10 +4,8 @@ import {
   AnimatePresence,
   motion,
   MotionConfig,
-  useMotionValue,
   useScroll,
   useSpring,
-  useTransform,
   type Variants,
 } from "motion/react";
 import {
@@ -489,10 +487,10 @@ function Hero() {
   const magneticCta = useMagnetic<HTMLAnchorElement>(0.055);
 
   return (
-    <section className="lp-hero" id="uvod" ref={heroRef}>
-      <motion.div className="lp-hero-glide" aria-hidden="true" style={{ y: glideY }}>
+    <section className="lp-hero" id="uvod">
+      <div className="lp-hero-glide" aria-hidden="true">
         <GlideField className="glide-field--hero" radius={142} />
-      </motion.div>
+      </div>
       <div className="lp-hero-glow" aria-hidden="true" />
       <div className="container-page lp-hero-grid">
         <motion.div
@@ -566,36 +564,34 @@ function Hero() {
                     ) : null}
                     <span className="lp-control-label">{tool.label}</span>
                   </motion.button>
-                ))}
-              </div>
-              <AnimatePresence mode="popLayout" initial={false}>
-                <motion.div
-                  className="lp-assistant-answer"
-                  key={activeTool}
-                  role="status"
-                  aria-live="polite"
-                  aria-atomic="true"
-                  initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
-                  transition={
-                    reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }
-                  }
-                >
-                  <Check />
-                  <span>{heroTools[activeTool].text}</span>
-                </motion.div>
-              </AnimatePresence>
-              <button
-                type="button"
-                className="lp-assistant-cta"
-                onClick={() => openSiteAssistant({ source: "hero-card" })}
+                ),
+              )}
+            </div>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                className="lp-assistant-answer"
+                key={activeTool}
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
+                transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
               >
-                <span className="lp-button-content">
-                  Vyskúšať môjho chatbota <ArrowUpRight />
-                </span>
-              </button>
-            </motion.div>
+                <Check />
+                <span>{heroTools[activeTool].text}</span>
+              </motion.div>
+            </AnimatePresence>
+            <button
+              type="button"
+              className="lp-assistant-cta"
+              onClick={() => openSiteAssistant({ source: "hero-card" })}
+            >
+              <span className="lp-button-content">
+                Vyskúšať môjho chatbota <ArrowUpRight />
+              </span>
+            </button>
           </div>
         </motion.div>
       </div>

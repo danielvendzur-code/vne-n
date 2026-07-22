@@ -150,7 +150,7 @@ const contentSecurityPolicy = [
   "form-action 'self' mailto:",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://danielvendzur-code.github.io https://*.vercel.app",
   "script-src 'self' 'unsafe-inline' https://danielvendzur-code.github.io https://*.vercel.app",
   "connect-src 'self' https://*.vercel.app",
   "manifest-src 'self'",
@@ -173,7 +173,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Navrhujem chatboty na mieru — od jednoduchého asistenta po chatbot s kalkulačkou, konfigurátorom alebo rezerváciami.",
       },
       { name: "author", content: "Daniel Vendžúr" },
-      { name: "theme-color", content: "#061216" },
+      { name: "theme-color", content: "#050609" },
       { property: "og:site_name", content: "Daniel Vendžúr" },
       { property: "og:locale", content: "sk_SK" },
       {

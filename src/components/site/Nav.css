@@ -70,10 +70,10 @@
 }
 
 .site-menu-brand .brand-symbol {
-  --brand-symbol-shell: #f7f9fc;
-  --brand-symbol-face: #3478f6;
-  --brand-symbol-signal: #3478f6;
-  --brand-symbol-accent: #3478f6;
+  --brand-symbol-shell: #f2efe6;
+  --brand-symbol-face: #bc7352;
+  --brand-symbol-signal: #c9aa70;
+  --brand-symbol-accent: #7fa58f;
 }
 
 .site-header-bar > a:focus-visible .brand-symbol__shell,
