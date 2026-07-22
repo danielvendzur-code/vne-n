@@ -1,4 +1,4 @@
-run_id=29908499869
+run_id=29909053019
 install=success
 lint=success
 test=success
@@ -13,61 +13,61 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 7.156375
+  duration_ms: 9.038611
   type: 'test'
   ...
 # Subtest: final design layers load in the authoritative order and contain no bronze palette
 ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 2.659938
+  duration_ms: 3.597645
   type: 'test'
   ...
 # Subtest: all homepage surfaces are covered by the final design system
 ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 0.83124
+  duration_ms: 1.29292
   type: 'test'
   ...
 # Subtest: services, projects, process, contact and cookies have final route styling
 ok 4 - services, projects, process, contact and cookies have final route styling
   ---
-  duration_ms: 0.740425
+  duration_ms: 1.221337
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.316393
+  duration_ms: 1.873156
   type: 'test'
   ...
 # Subtest: navigation keeps only the compact brand name and no side-slide drawer animation
 ok 6 - navigation keeps only the compact brand name and no side-slide drawer animation
   ---
-  duration_ms: 1.375382
+  duration_ms: 2.048746
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 0.926823
+  duration_ms: 1.442243
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 0.632594
+  duration_ms: 1.240853
   type: 'test'
   ...
 # Subtest: Pages workflow validates security, artifacts and the real live deployment
 ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 0.926983
+  duration_ms: 1.413416
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 0.929647
+  duration_ms: 1.49047
   type: 'test'
   ...
 1..10
@@ -78,7 +78,7 @@ ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 72.902337
+# duration_ms 82.476167
 
 ===== build =====
 $ vite build
@@ -108,7 +108,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-CxwyAvkH.js               209.87 kB │ gzip: 68.66 kB
 
-[32m✓ built in 1.33s[39m
+[32m✓ built in 1.79s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 124 modules transformed.
 rendering chunks...
@@ -143,7 +143,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-BRm2GJk4.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-CX1OTkGv.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BS6hLe_z.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 543ms[39m
+[32m✓ built in 586ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-22`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -157,11 +157,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            69.71 kB │ gzip:  18.39 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            261.18 kB │ gzip:  59.51 kB
+.output/server/_ssr/vendor.mjs            261.39 kB │ gzip:  59.58 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 535ms[39m
+[32m✓ built in 564ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
