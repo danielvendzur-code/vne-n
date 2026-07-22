@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import "./DeratScrollStory.css";
 
 const frames = [
@@ -51,6 +52,27 @@ const chapters = [
 
 export function DeratScrollStory() {
   const rootRef = useRef<HTMLElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
+  const mobileSlideRefs = useRef<Array<HTMLElement | null>>([]);
+  const [activeMobileFrame, setActiveMobileFrame] = useState(0);
+  const progressTarget = useMotionValue(0);
+  const progressSpring = useSpring(progressTarget, {
+    stiffness: 290,
+    damping: 29,
+    mass: 0.78,
+  });
+
+  const scrollToMobileFrame = useCallback((index: number) => {
+    const track = mobileTrackRef.current;
+    const slide = mobileSlideRefs.current[index];
+    if (!track || !slide) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    track.scrollTo({
+      left: slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -62,6 +84,7 @@ export function DeratScrollStory() {
         const image = new Image();
         image.decoding = "async";
         image.src = frame.src;
+        void image.decode().catch(() => undefined);
         pendingImages.push(image);
       });
     };
@@ -85,6 +108,50 @@ export function DeratScrollStory() {
   }, []);
 
   useEffect(() => {
+    const track = mobileTrackRef.current;
+    if (!track) return;
+
+    let animationFrame = 0;
+    const updateActiveFrame = () => {
+      animationFrame = 0;
+      if (track.clientWidth === 0) return;
+
+      const trackCenter = track.scrollLeft + track.clientWidth / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      mobileSlideRefs.current.forEach((slide, index) => {
+        if (!slide) return;
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const distance = Math.abs(trackCenter - slideCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActiveMobileFrame((current) => (current === closestIndex ? current : closestIndex));
+    };
+
+    const requestUpdate = () => {
+      if (animationFrame) return;
+      animationFrame = window.requestAnimationFrame(updateActiveFrame);
+    };
+
+    track.addEventListener("scroll", requestUpdate, { passive: true });
+    const resizeObserver =
+      "ResizeObserver" in window ? new ResizeObserver(requestUpdate) : undefined;
+    resizeObserver?.observe(track);
+    requestUpdate();
+
+    return () => {
+      track.removeEventListener("scroll", requestUpdate);
+      resizeObserver?.disconnect();
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
@@ -105,11 +172,11 @@ export function DeratScrollStory() {
       }
 
       const context = gsap.context(() => {
-        gsap.set(frameElements, { autoAlpha: 0, scale: 1.018 });
-        gsap.set(frameElements[0], { autoAlpha: 1, scale: 1 });
-        gsap.set(copySteps, { opacity: 0.76, y: 12 });
+        progressTarget.set(0);
+        gsap.set(frameElements, { autoAlpha: 0 });
+        gsap.set(frameElements[0], { autoAlpha: 1 });
+        gsap.set(copySteps, { opacity: 0.62, y: 16 });
         gsap.set(copySteps[0], { opacity: 1, y: 0 });
-        if (progress) gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
 
         const timeline = gsap.timeline({
           defaults: { overwrite: "auto" },
@@ -117,7 +184,7 @@ export function DeratScrollStory() {
             trigger: story,
             start: "top top+=104",
             end: "bottom bottom-=64",
-            scrub: 0.55,
+            scrub: 0.72,
             invalidateOnRefresh: true,
           },
         });
@@ -126,50 +193,50 @@ export function DeratScrollStory() {
 
         frameElements.slice(1).forEach((frame, index) => {
           const nextIndex = index + 1;
-          const transitionAt = nextIndex - 0.2;
+          const transitionAt = nextIndex - 0.34;
 
           timeline
-            .to(
-              frameElements[index],
-              { autoAlpha: 0, scale: 0.986, duration: 0.42, ease: "power2.inOut" },
-              transitionAt,
-            )
+            .to(frameElements[index], { autoAlpha: 0, duration: 0.68, ease: "none" }, transitionAt)
             .fromTo(
               frame,
-              { autoAlpha: 0, scale: 1.018 },
-              { autoAlpha: 1, scale: 1, duration: 0.42, ease: "power2.inOut" },
+              { autoAlpha: 0 },
+              { autoAlpha: 1, duration: 0.68, ease: "none" },
               transitionAt,
             )
             .to(
               copySteps[index],
-              { opacity: 0.76, y: -10, duration: 0.34, ease: "power2.inOut" },
+              { opacity: 0.62, y: -14, duration: 0.58, ease: "power2.inOut" },
               transitionAt,
             )
             .fromTo(
               copySteps[nextIndex],
-              { opacity: 0.76, y: 12 },
-              { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" },
-              transitionAt + 0.04,
+              { opacity: 0.62, y: 16 },
+              { opacity: 1, y: 0, duration: 0.62, ease: "power2.out" },
+              transitionAt + 0.06,
             );
         });
 
         if (progress) {
-          timeline.fromTo(
-            progress,
-            { scaleX: 0 },
-            { scaleX: 1, duration: frameElements.length, ease: "none" },
-            0,
-          );
+          ScrollTrigger.create({
+            trigger: story,
+            start: "top top+=104",
+            end: "bottom bottom-=64",
+            invalidateOnRefresh: true,
+            onUpdate: (self) => progressTarget.set(self.progress),
+            onLeave: () => progressTarget.set(1),
+            onLeaveBack: () => progressTarget.set(0),
+          });
         }
       }, root);
 
       return () => {
         context.revert();
+        progressTarget.set(0);
       };
     });
 
     return () => media.revert();
-  }, []);
+  }, [progressTarget]);
 
   return (
     <section
@@ -211,7 +278,7 @@ export function DeratScrollStory() {
               ))}
             </div>
             <div className="derat-story__progress" aria-hidden="true">
-              <span data-derat-progress />
+              <motion.span data-derat-progress style={{ scaleX: progressSpring }} />
             </div>
           </div>
         </div>
@@ -227,9 +294,20 @@ export function DeratScrollStory() {
         </ol>
       </div>
 
-      <div className="derat-story__mobile" aria-label="Obrazovky kalkulačky DERAT">
+      <div
+        ref={mobileTrackRef}
+        className="derat-story__mobile"
+        aria-label="Obrazovky kalkulačky DERAT"
+      >
         {frames.map((frame, index) => (
-          <article className="derat-story__mobile-slide" key={frame.src}>
+          <article
+            ref={(element) => {
+              mobileSlideRefs.current[index] = element;
+            }}
+            className="derat-story__mobile-slide"
+            key={frame.src}
+            aria-label={`${index + 1} z ${frames.length}: ${frame.label}`}
+          >
             <figure>
               <img
                 src={frame.src}
@@ -249,6 +327,23 @@ export function DeratScrollStory() {
           </article>
         ))}
       </div>
+      <nav className="derat-story__mobile-dots" aria-label="Navigácia medzi obrazovkami">
+        {frames.map((frame, index) => (
+          <button
+            key={frame.src}
+            type="button"
+            className={activeMobileFrame === index ? "is-active" : undefined}
+            aria-label={`Zobraziť krok ${index + 1}: ${frame.label}`}
+            aria-current={activeMobileFrame === index ? "step" : undefined}
+            onClick={() => scrollToMobileFrame(index)}
+          >
+            <span />
+          </button>
+        ))}
+      </nav>
+      <p className="sr-only" aria-live="polite">
+        Krok {activeMobileFrame + 1} zo {frames.length}: {frames[activeMobileFrame].label}
+      </p>
     </section>
   );
 }

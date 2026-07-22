@@ -1,16 +1,14 @@
 .derat-story {
-  --derat-ink: #041415;
-  --derat-paper: #f4fbf8;
-  --derat-muted: #a9c1bc;
-  --derat-mint: #32d3a2;
+  --derat-ink: var(--background, #06120d);
+  --derat-paper: var(--text-primary, #f4f1e8);
+  --derat-muted: var(--text-secondary, #bfc7bc);
+  --derat-mint: var(--accent, #7fa58f);
   position: relative;
   overflow: clip;
   padding: clamp(5rem, 9vw, 8.5rem) 0 clamp(5rem, 9vw, 8rem);
+  border-block: 1px solid var(--border, rgba(244, 241, 232, 0.12));
   color: var(--derat-paper);
-  background:
-    radial-gradient(circle at 92% 15%, rgba(50, 211, 162, 0.09), transparent 31rem),
-    radial-gradient(circle at 8% 72%, rgba(112, 168, 255, 0.055), transparent 27rem),
-    var(--derat-ink);
+  background: var(--derat-ink);
 }
 
 .derat-story::before {
@@ -64,9 +62,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-  min-height: 3rem;
-  padding: 0.78rem 1.15rem;
-  border-bottom: 1px solid rgba(50, 211, 162, 0.48);
+  min-height: 2.5rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--derat-mint) 58%, transparent);
   color: var(--derat-paper);
   font-size: 0.84rem;
   font-weight: 760;
@@ -84,7 +82,7 @@
 }
 
 .derat-story__intro a:focus-visible {
-  outline: 3px solid rgba(112, 168, 255, 0.68);
+  outline: 2px solid var(--highlight, #d9bd83);
   outline-offset: 5px;
 }
 
@@ -115,12 +113,9 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  border: 1px solid rgba(244, 251, 248, 0.14);
-  border-radius: clamp(1.5rem, 3vw, 2.35rem);
-  background: #10282a;
-  box-shadow:
-    0 3.5rem 8rem rgba(0, 0, 0, 0.48),
-    0 0 0 1px rgba(50, 211, 162, 0.025) inset;
+  border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
+  border-radius: clamp(0.65rem, 1.2vw, 1rem);
+  background: var(--surface, #10261d);
   isolation: isolate;
 }
 
@@ -132,7 +127,9 @@
   margin: 0;
   opacity: 0;
   visibility: hidden;
-  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: opacity;
 }
 
 .derat-story__frame:first-child {
@@ -147,6 +144,7 @@
   object-fit: cover;
   object-position: center;
   image-rendering: auto;
+  transform: translateZ(0);
   backface-visibility: hidden;
 }
 
@@ -155,8 +153,7 @@
   width: 100%;
   height: 3px;
   margin-top: 1.4rem;
-  border-radius: 999px;
-  background: rgba(244, 251, 248, 0.12);
+  background: var(--border, rgba(244, 241, 232, 0.12));
 }
 
 .derat-story__progress span {
@@ -164,7 +161,8 @@
   width: 100%;
   height: 100%;
   background: var(--derat-mint);
-  box-shadow: 0 0 18px rgba(50, 211, 162, 0.45);
+  transform-origin: left center;
+  will-change: transform;
 }
 
 .derat-story__copy-list {
@@ -213,6 +211,10 @@
   display: none;
 }
 
+.derat-story__mobile-dots {
+  display: none;
+}
+
 @media (max-width: 899px) {
   .derat-story {
     padding-block: 5rem;
@@ -232,20 +234,23 @@
   }
 
   .derat-story__mobile {
+    --derat-slide-size: min(84vw, 28rem);
+    --derat-track-edge: max(1.25rem, calc((100% - var(--derat-slide-size)) / 2));
     position: relative;
     z-index: 1;
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: min(84vw, 28rem);
+    grid-auto-columns: var(--derat-slide-size);
     gap: 1.1rem;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
-    scroll-padding-inline: 1.25rem;
+    scroll-padding-inline: var(--derat-track-edge);
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     margin-top: 3.25rem;
-    padding: 0 1.25rem 1rem;
+    padding: 0 var(--derat-track-edge) 1rem;
     touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
   }
 
   .derat-story__mobile::-webkit-scrollbar {
@@ -262,10 +267,9 @@
     overflow: hidden;
     aspect-ratio: 3 / 4;
     margin: 0;
-    border: 1px solid rgba(244, 251, 248, 0.14);
-    border-radius: 1.55rem;
-    background: #10282a;
-    box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.36);
+    border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
+    border-radius: 0.85rem;
+    background: var(--surface, #10261d);
   }
 
   .derat-story__mobile-slide img {
@@ -281,6 +285,50 @@
 
   .derat-story__mobile-copy h3 {
     font-size: clamp(1.7rem, 7.5vw, 2.45rem);
+  }
+
+  .derat-story__mobile-dots {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 0.1rem;
+    margin-top: 0.4rem;
+  }
+
+  .derat-story__mobile-dots button {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    place-items: center;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .derat-story__mobile-dots button span {
+    width: 0.38rem;
+    height: 0.38rem;
+    border: 1px solid var(--text-light, #8d9c92);
+    border-radius: 50%;
+    background: transparent;
+    transition:
+      transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .derat-story__mobile-dots button.is-active span {
+    transform: scale(1.55);
+    border-color: var(--derat-mint);
+    background: var(--derat-mint);
+  }
+
+  .derat-story__mobile-dots button:focus-visible {
+    outline: 2px solid var(--highlight, #d9bd83);
+    outline-offset: -0.35rem;
   }
 }
 
@@ -298,18 +346,29 @@
     z-index: 1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
     gap: clamp(1.25rem, 3vw, 2.5rem);
     max-width: 76rem;
+    overflow: visible;
+    overscroll-behavior: auto;
+    scroll-snap-type: none;
     margin: 4rem auto 0;
     padding: 0 1.25rem;
+    touch-action: auto;
+  }
+
+  .derat-story__mobile-dots {
+    display: none;
   }
 
   .derat-story__mobile-slide figure {
     overflow: hidden;
     aspect-ratio: 3 / 4;
     margin: 0;
-    border-radius: 1.55rem;
-    background: #10282a;
+    border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
+    border-radius: 0.85rem;
+    background: var(--surface, #10261d);
   }
 
   .derat-story__mobile-slide img {
