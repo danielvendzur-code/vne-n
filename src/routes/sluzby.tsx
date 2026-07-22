@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { PointerEvent } from "react";
 import { ArrowRight, Bot, Calculator, MessageCircle, SlidersHorizontal } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
@@ -47,6 +48,19 @@ const services = [
   },
 ];
 
+function trackServiceSpotlight(event: PointerEvent<HTMLElement>) {
+  if (event.pointerType === "touch") return;
+  const bounds = event.currentTarget.getBoundingClientRect();
+  event.currentTarget.style.setProperty(
+    "--spot-x",
+    `${(((event.clientX - bounds.left) / bounds.width) * 100).toFixed(1)}%`,
+  );
+  event.currentTarget.style.setProperty(
+    "--spot-y",
+    `${(((event.clientY - bounds.top) / bounds.height) * 100).toFixed(1)}%`,
+  );
+}
+
 function ServicesPage() {
   return (
     <SiteLayout>
@@ -78,7 +92,11 @@ function ServicesPage() {
             <div className="sp-service-list">
               {services.map((service, index) => (
                 <Reveal key={service.id} delay={index * 0.05} amount={0.22}>
-                  <article className="sp-service" id={service.id}>
+                  <article
+                    className="sp-service"
+                    id={service.id}
+                    onPointerMove={trackServiceSpotlight}
+                  >
                     <span className="sp-service-index">0{index + 1}</span>
                     <div className="sp-service-head">
                       <service.icon aria-hidden="true" />

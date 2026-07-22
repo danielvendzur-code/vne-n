@@ -487,7 +487,10 @@ button.chip {
 
 .premium-footer-main {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(8rem, 0.5fr) minmax(9rem, 0.6fr) minmax(13rem, 0.75fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(8rem, 0.5fr) minmax(9rem, 0.6fr) minmax(
+      13rem,
+      0.75fr
+    );
   gap: 3rem;
   padding-block: 4rem;
 }
@@ -521,6 +524,7 @@ button.chip {
 
 .premium-footer-links a,
 .premium-footer-links button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -528,12 +532,36 @@ button.chip {
   color: var(--text-primary);
   font-size: 0.78rem;
   text-align: left;
-  transition: color 160ms var(--ease-out);
+  text-decoration: none;
+  transition:
+    color 220ms var(--ease-out),
+    transform 300ms var(--ease-out);
+}
+
+.premium-footer-links a::after,
+.premium-footer-links button::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.22rem;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 360ms var(--ease-out);
 }
 
 .premium-footer-links a:hover,
 .premium-footer-links button:hover {
   color: var(--primary);
+  transform: translateX(2px);
+}
+
+.premium-footer-links a:hover::after,
+.premium-footer-links button:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 .premium-footer-bottom {

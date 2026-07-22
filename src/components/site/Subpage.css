@@ -146,6 +146,7 @@
 .sp-service {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: clamp(1.6rem, 4vw, 3.4rem);
@@ -159,8 +160,32 @@
   transition: border-color 320ms ease;
 }
 
+.sp-service::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    36rem circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    rgba(244, 241, 232, 0.045),
+    transparent 44%
+  );
+  transition: opacity 320ms ease;
+}
+
+.sp-service > * {
+  position: relative;
+  z-index: 1;
+}
+
 .sp-service:hover {
   border-color: rgba(127, 165, 143, 0.35);
+}
+
+.sp-service:hover::before {
+  opacity: 1;
 }
 
 .sp-service-index {
