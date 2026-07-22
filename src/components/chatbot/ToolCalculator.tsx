@@ -182,8 +182,8 @@ export function ToolCalculator({
           </span>
           <h3>Návrh je pripravený</h3>
           <p>
-            Ďakujem, <b>{lead.name.trim()}</b>. V ostrej verzii by vám teraz prišlo zhrnutie
-            návrhu e-mailom — táto ukážka nič neodosiela.
+            Ďakujem, <b>{lead.name.trim()}</b>. V ostrej verzii by vám teraz prišlo zhrnutie návrhu
+            e-mailom — táto ukážka nič neodosiela.
           </p>
           <div className="cw-thanks__grid">
             <div>
