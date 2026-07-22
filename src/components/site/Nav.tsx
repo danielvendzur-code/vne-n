@@ -101,14 +101,11 @@ export function Nav() {
         >
           <Link
             to="/"
-            className="site-brand-lockup flex items-center gap-2"
+            className="site-brand-lockup flex items-center gap-2.5"
             aria-label="Daniel Vendžúr — domov"
           >
-            <Symbol size={38} />
-            <span className="site-brand-copy">
-              <span className="site-brand-name">Daniel Vendžúr</span>
-              <small>chatboty na mieru</small>
-            </span>
+            <Symbol size={34} />
+            <span className="site-brand-name">Daniel Vendžúr</span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">

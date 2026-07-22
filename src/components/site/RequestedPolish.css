@@ -25,24 +25,9 @@
 }
 
 .site-brand-name {
-  font-size: 1rem !important;
-  font-weight: 740 !important;
-  letter-spacing: -0.028em;
-}
-
-.site-brand-lockup::after {
-  content: "chatboty na mieru";
-  display: none;
-  color: var(--interactive);
-  font-size: 0.67rem;
-  font-weight: 760;
-  letter-spacing: 0.065em;
-  text-transform: uppercase;
-  opacity: 0.94;
-}
-
-@media (min-width: 1180px) {
-  .site-brand-lockup::after { display: inline-block; }
+  font-size: 1.02rem !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.03em;
 }
 
 .site-header nav[aria-label="Rýchla navigácia"] {
@@ -56,56 +41,42 @@
 
 .site-nav-link {
   position: relative;
-  isolation: isolate;
-  padding: 14px 5px;
-  font-size: 0.96rem !important;
-  font-weight: 690;
-  letter-spacing: -0.018em !important;
-  transition: color 180ms ease, transform 240ms cubic-bezier(.16,1,.3,1) !important;
+  padding: 8px 2px;
+  font-size: 0.95rem !important;
+  font-weight: 640;
+  letter-spacing: -0.016em !important;
+  transition: color 200ms ease !important;
 }
 
-.site-nav-link::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  bottom: 5px;
-  width: 26px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--interactive);
-  filter: blur(11px);
-  opacity: 0;
-  transform: translate(-50%, 5px) scale(.55);
-  transition: opacity 180ms ease, transform 280ms cubic-bezier(.16,1,.3,1);
-}
-
+/* Precise underline that sits exactly under the item text. */
 .site-nav-link::after {
   content: "";
   position: absolute;
-  left: 50%;
-  bottom: 4px;
-  width: 0;
+  left: 0;
+  right: 0;
+  bottom: -1px;
   height: 2px;
   border-radius: 999px;
   background: var(--interactive);
-  transform: translateX(-50%);
-  transition: width 280ms cubic-bezier(.16,1,.3,1);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 300ms cubic-bezier(.16,1,.3,1);
 }
 
 .site-nav-link:hover,
 .site-nav-link:focus-visible {
   color: var(--text-primary) !important;
-  transform: translateY(-2px);
 }
 
-.site-nav-link:hover::before,
-.site-nav-link:focus-visible::before { opacity: .62; transform: translate(-50%, 0) scale(1); }
 .site-nav-link:hover::after,
-.site-nav-link:focus-visible::after { width: 100%; }
+.site-nav-link:focus-visible::after,
+.site-nav-link[data-status="active"]::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
 
-/* The consultation chip is the same mint CTA as every other primary action. */
-.site-header a[href$="/kontakt"]:not(.site-brand-lockup) {
+/* The consultation chip is the same mint CTA — but ONLY the CTA, not the nav "Kontakt" link. */
+.site-consultation-cta {
   position: relative;
   overflow: hidden;
   min-height: 44px;
@@ -116,7 +87,7 @@
   transition: transform 260ms cubic-bezier(.16,1,.3,1), box-shadow 240ms ease, background-color 180ms ease !important;
 }
 
-.site-header a[href$="/kontakt"]:not(.site-brand-lockup)::after {
+.site-consultation-cta::after {
   content: "";
   position: absolute;
   inset: -45% auto -45% -38%;
@@ -127,8 +98,8 @@
   pointer-events: none;
 }
 
-.site-header a[href$="/kontakt"]:not(.site-brand-lockup):hover,
-.site-header a[href$="/kontakt"]:not(.site-brand-lockup):focus-visible {
+.site-consultation-cta:hover,
+.site-consultation-cta:focus-visible {
   transform: translateY(-2px) scale(1.018);
   background: var(--action-hover) !important;
   box-shadow: 0 18px 38px rgba(100,227,179,.28), inset 0 1px 0 rgba(255,255,255,.4);

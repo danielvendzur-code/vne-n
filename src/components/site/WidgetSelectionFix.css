@@ -1,0 +1,66 @@
+/* Final selected-card border behavior.
+   One dim mint perimeter remains visible while a brighter highlight travels
+   around the complete edge on every builder step. */
+
+@property --cw-selection-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes cw-selection-orbit {
+  to {
+    --cw-selection-angle: 360deg;
+  }
+}
+
+/* Remove the previous clip-path border. On the first step it reused the
+   row-card chevron pseudo-element and could appear displaced or top-heavy. */
+.cw-widget .cw-rowcard[data-selected="true"]::before,
+.cw-widget .cw-scard[data-selected="true"]::before,
+.cw-widget .cw-opt[data-selected="true"]::before,
+.cw-widget .cw-vcard[data-selected="true"]::before {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+.cw-widget .cw-rowcard[data-selected="true"],
+.cw-widget .cw-scard[data-selected="true"],
+.cw-widget .cw-opt[data-selected="true"],
+.cw-widget .cw-vcard[data-selected="true"] {
+  border: 1.5px solid transparent !important;
+  background:
+    linear-gradient(145deg, rgba(101, 230, 193, 0.14), rgba(114, 199, 255, 0.055)) padding-box,
+    conic-gradient(
+        from var(--cw-selection-angle),
+        rgba(101, 230, 193, 0.38) 0deg,
+        rgba(101, 230, 193, 0.38) 274deg,
+        #83f1d0 306deg,
+        #72c7ff 336deg,
+        rgba(101, 230, 193, 0.38) 360deg
+      )
+      border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.15),
+    0 0 22px rgba(101, 230, 193, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  animation:
+    cw-sel-pop 0.34s var(--cw-spring) both,
+    cw-selection-orbit 2.65s linear infinite !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-widget .cw-rowcard[data-selected="true"],
+  .cw-widget .cw-scard[data-selected="true"],
+  .cw-widget .cw-opt[data-selected="true"],
+  .cw-widget .cw-vcard[data-selected="true"] {
+    animation: none !important;
+    background:
+      linear-gradient(145deg, rgba(101, 230, 193, 0.14), rgba(114, 199, 255, 0.055)) padding-box,
+      linear-gradient(135deg, #83f1d0, #65e6c1 52%, #72c7ff) border-box !important;
+  }
+}

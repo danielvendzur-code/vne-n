@@ -114,7 +114,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260722-black-blue`;
+    script.src = `${source}?v=20260722-black-blue-v2`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;

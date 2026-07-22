@@ -12,6 +12,7 @@ import {
   QUESTIONS,
   RECOMMENDED_FEATURES,
   STEPS,
+  TIMELINES,
   VOLUMES,
 } from "../../lib/assistant-flow";
 import type { AssistantPreset, InterestId } from "../../types/assistant";
@@ -59,6 +60,7 @@ export function ToolCalculator({
     initialInterest ? RECOMMENDED_FEATURES[initialInterest] : [],
   );
   const [volume, setVolume] = useState<string | null>(null);
+  const [timeline, setTimeline] = useState<string | null>(null);
   const [lead, setLead] = useState<LeadState>(EMPTY_LEAD);
   const [leadError, setLeadError] = useState("");
   const [sendState, setSendState] = useState<SendState>("idle");
@@ -76,6 +78,7 @@ export function ToolCalculator({
     setChannel(null);
     setFeatures(nextInterest ? RECOMMENDED_FEATURES[nextInterest] : []);
     setVolume(null);
+    setTimeline(null);
     setLead(EMPTY_LEAD);
     setLeadError("");
     setSendState("idle");
@@ -127,6 +130,8 @@ export function ToolCalculator({
         return features.length > 0;
       case "volume":
         return volume !== null;
+      case "timeline":
+        return timeline !== null;
       default:
         return true;
     }
@@ -165,6 +170,7 @@ export function ToolCalculator({
     ["Nasadenie", labelOf(CHANNELS, channel)],
     ["Funkcie", featureLabels.length ? featureLabels.join(", ") : "—"],
     ["Dopyty mesačne", labelOf(VOLUMES, volume)],
+    ["Spustenie", labelOf(TIMELINES, timeline)],
   ];
 
   if (sendState === "done") {
@@ -176,7 +182,7 @@ export function ToolCalculator({
           </span>
           <h3>Návrh je pripravený</h3>
           <p>
-            Ďakujem, <b>{lead.name.trim()}</b>. V ostrej verzii by vám teraz prišlo zhrnutie
+            Ďakujem, <b>{lead.name.trim()}</b>. V ostrej verzii by vám teraz prišlo zhrnutie návrhu
             e-mailom — táto ukážka nič neodosiela.
           </p>
           <div className="cw-thanks__grid">
@@ -397,6 +403,28 @@ export function ToolCalculator({
             </div>
           ) : null}
 
+          {stepId === "timeline" ? (
+            <div className="cw-grid cw-grid--volume">
+              {TIMELINES.map((option) => {
+                const selected = timeline === option.id;
+                return (
+                  <button
+                    type="button"
+                    className="cw-vcard"
+                    data-testid={`timeline-${option.id}`}
+                    data-selected={selected}
+                    aria-pressed={selected}
+                    key={option.id}
+                    onClick={() => setTimeline(option.id)}
+                  >
+                    <b>{option.label}</b>
+                    <span>{option.description}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
+
           {stepId === "contact" ? (
             <>
               <div className="cw-summary">
@@ -414,10 +442,11 @@ export function ToolCalculator({
                   </div>
                 ) : null}
                 <div className="cw-summary__pills">
-                  <span>✓ Návrh riešenia</span>
-                  <span>✓ Odhad ceny do 24 h</span>
-                  <span>✓ Ukážka na mieru</span>
-                  <span>✓ Bez záväzkov</span>
+                  {["Návrh riešenia", "Orientačný rozsah", "Ukážka na mieru", "Bez záväzkov"].map(
+                    (pill) => (
+                      <span key={pill}>✓ {pill}</span>
+                    ),
+                  )}
                 </div>
               </div>
 
@@ -428,7 +457,7 @@ export function ToolCalculator({
                   </span>
                   <span>
                     <b>Kam mám poslať návrh?</b>
-                    <small>Ozvem sa s návrhom a orientačnou cenou.</small>
+                    <small>Ozvem sa s odporúčaním a orientačným rozsahom riešenia.</small>
                   </span>
                 </div>
                 <div className="cw-lead__form">

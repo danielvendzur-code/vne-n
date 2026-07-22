@@ -3,6 +3,9 @@ name: Deploy and verify GitHub Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "MAIN_QUALITY_AUDIT.txt"
+      - "PAGES_DEPLOY_AUDIT.txt"
   workflow_dispatch:
 
 permissions:
@@ -12,7 +15,7 @@ permissions:
 
 concurrency:
   group: pages-current-main
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -82,9 +85,11 @@ jobs:
           set -euo pipefail
           test -f pages-dist/index.html
           test -f pages-dist/404.html
+          test -f pages-dist/preview.html
           test -f pages-dist/widget-loader.js
           test -f pages-dist/build-meta.json
           grep -Fq "Chatboty, ktoré" pages-dist/index.html
+          grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
@@ -144,6 +149,7 @@ jobs:
           }
 
           fetch_with_retry "/" "Chatboty, ktoré"
+          fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
           fetch_with_retry "/sluzby" ""
           fetch_with_retry "/sluzby/" ""
           fetch_with_retry "/projekty/" ""
@@ -153,3 +159,34 @@ jobs:
           fetch_with_retry "/widget-loader.js" "DV_ASSISTANT_LOADER_ACTIVE"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
+
+      - name: Checkout latest main for deployment record
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Record verified live deployment
+        shell: bash
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          {
+            echo "deployment=success"
+            echo "dependency_audit=success"
+            echo "source_security_audit=success"
+            echo "live_smoke=success"
+            echo "source_sha=${SOURCE_SHA}"
+            echo "page_url=${PAGE_URL}"
+            echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > PAGES_DEPLOY_AUDIT.txt
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PAGES_DEPLOY_AUDIT.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: record verified Pages deployment [skip main-quality]"
+          git pull --rebase origin main
+          git push origin HEAD:main
