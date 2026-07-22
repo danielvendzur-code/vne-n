@@ -1,13 +1,34 @@
 import type { AssistantPreset, InterestId } from "../types/assistant";
 
-export type StepId = "interest" | "industry" | "channel" | "features" | "volume" | "contact";
+export type StepId =
+  | "interest"
+  | "goal"
+  | "industry"
+  | "channel"
+  | "features"
+  | "volume"
+  | "timeline"
+  | "contact";
 
-export const STEPS: StepId[] = ["interest", "industry", "channel", "features", "volume", "contact"];
+export const STEPS: StepId[] = [
+  "interest",
+  "goal",
+  "industry",
+  "channel",
+  "features",
+  "volume",
+  "timeline",
+  "contact",
+];
 
 export const QUESTIONS: Record<StepId, [title: string, subtitle: string]> = {
   interest: [
     "Čo vás zaujíma?",
     "Vyberte, s čím vám mám pomôcť. Detaily doladíme v ďalších krokoch.",
+  ],
+  goal: [
+    "Čo od návrhu čakáte?",
+    "Vyberte, či chcem spočítať aj orientačnú cenu, alebo zatiaľ len prejsť možnosti.",
   ],
   industry: [
     "V akom odvetví podnikáte?",
@@ -19,6 +40,10 @@ export const QUESTIONS: Record<StepId, [title: string, subtitle: string]> = {
   ],
   features: ["Čo má asistent zvládnuť?", "Označte všetko, čo dáva zmysel. Pokojne viac možností."],
   volume: ["Koľko dopytov mesačne riešite?", "Stačí odhad — pomôže nastaviť kapacitu a cenu."],
+  timeline: [
+    "Kedy to plánujete spustiť?",
+    "Stačí orientačne — pomôže mi navrhnúť tempo a ďalší krok.",
+  ],
   contact: [
     "Zhrnutie návrhu",
     "Skontrolujte výber a nechajte mi kontakt — pripravím návrh na mieru.",
@@ -63,6 +88,32 @@ export const INTERESTS: InterestOption[] = [
     id: "custom",
     label: "Niečo iné",
     description: "Popíšte vlastnú predstavu — navrhnem riešenie na mieru.",
+    icon: "spark",
+  },
+];
+
+export type GoalMode = "price" | "explore";
+
+export type GoalOption = {
+  id: GoalMode;
+  label: string;
+  description: string;
+  icon: "calculator" | "spark";
+};
+
+/* Rozhodnutie, či chce návštevník aj orientačnú cenu, alebo zatiaľ len
+   nezáväzne zistiť možnosti (platí pre kalkulačku aj konfigurátor). */
+export const GOALS: GoalOption[] = [
+  {
+    id: "price",
+    label: "Spočítať orientačnú cenu",
+    description: "Podľa vašich parametrov pripravím odhad ceny aj návrh riešenia.",
+    icon: "calculator",
+  },
+  {
+    id: "explore",
+    label: "Zatiaľ len zistiť možnosti",
+    description: "Bez ceny — nezáväzne prejdeme, čo dáva pre vás zmysel.",
     icon: "spark",
   },
 ];
@@ -245,6 +296,23 @@ export const VOLUMES: VolumeOption[] = [
   { id: "v100", label: "20 – 100", description: "Stabilný tok — asistent odbremení telefón." },
   { id: "v500", label: "100 – 500", description: "Vyťažená prevádzka, triedenie má veľký efekt." },
   { id: "v500plus", label: "Viac než 500", description: "Veľký objem — automatizácia je nutnosť." },
+];
+
+export type TimelineOption = {
+  id: string;
+  label: string;
+  description: string;
+};
+
+export const TIMELINES: TimelineOption[] = [
+  { id: "asap", label: "Čo najskôr", description: "Chcem to rozbehnúť hneď, ako sa dá." },
+  { id: "1-2m", label: "Do 1–2 mesiacov", description: "Mám čas na prípravu a ladenie." },
+  { id: "quarter", label: "Tento kvartál", description: "Plánujem to v najbližších mesiacoch." },
+  {
+    id: "explore",
+    label: "Zatiaľ len zisťujem",
+    description: "Zbieram informácie, termín zatiaľ neriešim.",
+  },
 ];
 
 export const PRESET_TO_INTEREST: Record<AssistantPreset, InterestId> = {

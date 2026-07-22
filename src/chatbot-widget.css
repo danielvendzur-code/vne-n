@@ -7,6 +7,13 @@
    (pružinový stagger, kreslená fajka).
    ============================================================ */
 
+/* uhol pre „obkreslenie" borderu pri výbere (od stredu hore aj dole k bokom) */
+@property --cw-bd {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .cw-widget {
   color: var(--cw-ink);
   background: transparent;
@@ -192,6 +199,25 @@
   }
   to {
     clip-path: circle(75% at 50% 50%);
+  }
+}
+/* border sa obkreslí od stredu hore aj dole, obe čiary sa stretnú na bokoch,
+   a na konci sa mäkko upokojí (stlmí) */
+@keyframes cw-border-draw {
+  0% {
+    --cw-bd: 0deg;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 6px rgba(101, 230, 193, 0.55));
+  }
+  62% {
+    --cw-bd: 90deg;
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(101, 230, 193, 0.7));
+  }
+  100% {
+    --cw-bd: 90deg;
+    opacity: 0.42;
+    filter: drop-shadow(0 0 3px rgba(101, 230, 193, 0.25));
   }
 }
 @keyframes cw-step-box {
@@ -1334,8 +1360,39 @@
   animation: cw-sel-pop 0.34s var(--cw-spring);
 }
 
-.cw-rowcard[data-selected="true"]::before {
-  display: none;
+/* výber „obkreslí" border od stredu hore aj dole k bokom, potom sa upokojí */
+.cw-rowcard[data-selected="true"]::before,
+.cw-scard[data-selected="true"]::before,
+.cw-opt[data-selected="true"]::before,
+.cw-vcard[data-selected="true"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: conic-gradient(
+    from -90deg,
+    var(--cw-mint-hi) 0deg,
+    var(--cw-mint-hi) var(--cw-bd),
+    transparent var(--cw-bd),
+    transparent calc(180deg - var(--cw-bd)),
+    var(--cw-mint-hi) calc(180deg - var(--cw-bd)),
+    var(--cw-mint-hi) calc(180deg + var(--cw-bd)),
+    transparent calc(180deg + var(--cw-bd)),
+    transparent calc(360deg - var(--cw-bd)),
+    var(--cw-mint-hi) calc(360deg - var(--cw-bd)),
+    var(--cw-mint-hi) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: cw-border-draw 0.78s var(--cw-ease-out) both;
 }
 
 .cw-rowcard[data-selected="true"]::after {
@@ -1611,6 +1668,7 @@
 }
 
 .cw-opt {
+  position: relative;
   border: 1px solid var(--cw-line);
   background: var(--cw-surface);
   border-radius: 15px;
@@ -2265,5 +2323,15 @@
 
   .cw-chip--primary::before {
     clip-path: circle(75% at 50% 50%);
+  }
+
+  /* výber ukáž ako hotový (obkreslený) border bez animácie */
+  .cw-rowcard[data-selected="true"]::before,
+  .cw-scard[data-selected="true"]::before,
+  .cw-opt[data-selected="true"]::before,
+  .cw-vcard[data-selected="true"]::before {
+    animation: none !important;
+    --cw-bd: 90deg;
+    opacity: 0.6;
   }
 }

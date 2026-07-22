@@ -5,6 +5,7 @@ import {
   buildProposalNumber,
   CHANNELS,
   FEATURES,
+  GOALS,
   INDUSTRIES,
   INTERESTS,
   labelOf,
@@ -12,8 +13,10 @@ import {
   QUESTIONS,
   RECOMMENDED_FEATURES,
   STEPS,
+  TIMELINES,
   VOLUMES,
 } from "../../lib/assistant-flow";
+import type { GoalMode } from "../../lib/assistant-flow";
 import type { AssistantPreset, InterestId } from "../../types/assistant";
 import { WidgetIcon } from "./WidgetIcon";
 
@@ -52,6 +55,7 @@ export function ToolCalculator({
 
   const [step, setStep] = useState(0);
   const [interest, setInterest] = useState<InterestId | null>(initialInterest);
+  const [goal, setGoal] = useState<GoalMode | null>(null);
   const [customText, setCustomText] = useState("");
   const [industry, setIndustry] = useState<string | null>(null);
   const [channel, setChannel] = useState<string | null>(null);
@@ -59,6 +63,7 @@ export function ToolCalculator({
     initialInterest ? RECOMMENDED_FEATURES[initialInterest] : [],
   );
   const [volume, setVolume] = useState<string | null>(null);
+  const [timeline, setTimeline] = useState<string | null>(null);
   const [lead, setLead] = useState<LeadState>(EMPTY_LEAD);
   const [leadError, setLeadError] = useState("");
   const [sendState, setSendState] = useState<SendState>("idle");
@@ -71,11 +76,13 @@ export function ToolCalculator({
   const restart = (nextInterest: InterestId | null) => {
     setStep(0);
     setInterest(nextInterest);
+    setGoal(null);
     setCustomText("");
     setIndustry(null);
     setChannel(null);
     setFeatures(nextInterest ? RECOMMENDED_FEATURES[nextInterest] : []);
     setVolume(null);
+    setTimeline(null);
     setLead(EMPTY_LEAD);
     setLeadError("");
     setSendState("idle");
@@ -119,6 +126,8 @@ export function ToolCalculator({
     switch (stepId) {
       case "interest":
         return interest !== null && (interest !== "custom" || customText.trim().length > 0);
+      case "goal":
+        return goal !== null;
       case "industry":
         return industry !== null;
       case "channel":
@@ -127,6 +136,8 @@ export function ToolCalculator({
         return features.length > 0;
       case "volume":
         return volume !== null;
+      case "timeline":
+        return timeline !== null;
       default:
         return true;
     }
@@ -159,12 +170,22 @@ export function ToolCalculator({
     sendTimerRef.current = window.setTimeout(() => setSendState("done"), 900);
   };
 
+  const isExplore = goal === "explore";
+  const goalSummary =
+    goal === "price"
+      ? "Orientačná cena + návrh"
+      : goal === "explore"
+        ? "Prehľad možností (bez ceny)"
+        : "—";
+
   const summaryRows: Array<[string, string]> = [
     ["Riešenie", interest === "custom" ? "Riešenie na mieru" : labelOf(INTERESTS, interest)],
+    ["Cieľ", goalSummary],
     ["Odvetvie", labelOf(INDUSTRIES, industry)],
     ["Nasadenie", labelOf(CHANNELS, channel)],
     ["Funkcie", featureLabels.length ? featureLabels.join(", ") : "—"],
     ["Dopyty mesačne", labelOf(VOLUMES, volume)],
+    ["Spustenie", labelOf(TIMELINES, timeline)],
   ];
 
   if (sendState === "done") {
@@ -174,10 +195,11 @@ export function ToolCalculator({
           <span className="cw-thanks__icon" ref={thanksIconRef}>
             <WidgetIcon name="check" />
           </span>
-          <h3>Návrh je pripravený</h3>
+          <h3>{isExplore ? "Prehľad je pripravený" : "Návrh je pripravený"}</h3>
           <p>
-            Ďakujem, <b>{lead.name.trim()}</b>. V ostrej verzii by vám teraz prišlo zhrnutie
-            e-mailom — táto ukážka nič neodosiela.
+            Ďakujem, <b>{lead.name.trim()}</b>. V ostrej verzii by vám teraz prišlo{" "}
+            {isExplore ? "zhrnutie možností" : "zhrnutie s cenou"} e-mailom — táto ukážka nič
+            neodosiela.
           </p>
           <div className="cw-thanks__grid">
             <div>
@@ -186,7 +208,7 @@ export function ToolCalculator({
             </div>
             <div>
               <span>Odvetvie</span>
-              {summaryRows[1][1]}
+              {summaryRows[2][1]}
             </div>
             <div>
               <span>Kontakt</span>
@@ -280,6 +302,33 @@ export function ToolCalculator({
                 </div>
               ) : null}
             </>
+          ) : null}
+
+          {stepId === "goal" ? (
+            <div className="cw-rows">
+              {GOALS.map((option) => {
+                const selected = goal === option.id;
+                return (
+                  <button
+                    type="button"
+                    className="cw-rowcard"
+                    data-testid={`goal-${option.id}`}
+                    data-selected={selected}
+                    aria-pressed={selected}
+                    key={option.id}
+                    onClick={() => setGoal(option.id)}
+                  >
+                    <span className="cw-rowcard__icon">
+                      <WidgetIcon name={option.icon} />
+                    </span>
+                    <span className="cw-rowcard__body">
+                      <b>{option.label}</b>
+                      <span>{option.description}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           ) : null}
 
           {stepId === "industry" ? (
@@ -397,6 +446,28 @@ export function ToolCalculator({
             </div>
           ) : null}
 
+          {stepId === "timeline" ? (
+            <div className="cw-grid cw-grid--volume">
+              {TIMELINES.map((option) => {
+                const selected = timeline === option.id;
+                return (
+                  <button
+                    type="button"
+                    className="cw-vcard"
+                    data-testid={`timeline-${option.id}`}
+                    data-selected={selected}
+                    aria-pressed={selected}
+                    key={option.id}
+                    onClick={() => setTimeline(option.id)}
+                  >
+                    <b>{option.label}</b>
+                    <span>{option.description}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
+
           {stepId === "contact" ? (
             <>
               <div className="cw-summary">
@@ -414,10 +485,17 @@ export function ToolCalculator({
                   </div>
                 ) : null}
                 <div className="cw-summary__pills">
-                  <span>✓ Návrh riešenia</span>
-                  <span>✓ Odhad ceny do 24 h</span>
-                  <span>✓ Ukážka na mieru</span>
-                  <span>✓ Bez záväzkov</span>
+                  {(isExplore
+                    ? [
+                        "Prehľad možností",
+                        "Odporúčanie na mieru",
+                        "Bez ceny a záväzkov",
+                        "Jasný ďalší krok",
+                      ]
+                    : ["Návrh riešenia", "Odhad ceny do 24 h", "Ukážka na mieru", "Bez záväzkov"]
+                  ).map((pill) => (
+                    <span key={pill}>✓ {pill}</span>
+                  ))}
                 </div>
               </div>
 
@@ -427,8 +505,12 @@ export function ToolCalculator({
                     <WidgetIcon name="mail" />
                   </span>
                   <span>
-                    <b>Kam mám poslať návrh?</b>
-                    <small>Ozvem sa s návrhom a orientačnou cenou.</small>
+                    <b>{isExplore ? "Kam vám mám napísať?" : "Kam mám poslať návrh?"}</b>
+                    <small>
+                      {isExplore
+                        ? "Pošlem prehľad možností a odporúčanie — bez ceny a záväzkov."
+                        : "Ozvem sa s návrhom a orientačnou cenou."}
+                    </small>
                   </span>
                 </div>
                 <div className="cw-lead__form">
@@ -496,7 +578,8 @@ export function ToolCalculator({
                       </>
                     ) : (
                       <>
-                        <WidgetIcon name="send" /> Pripraviť návrh
+                        <WidgetIcon name="send" />{" "}
+                        {isExplore ? "Pripraviť prehľad" : "Pripraviť návrh"}
                       </>
                     )}
                   </button>
