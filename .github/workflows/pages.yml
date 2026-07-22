@@ -149,7 +149,7 @@ jobs:
           }
 
           fetch_with_retry "/" "Chatboty, ktoré"
-          fetch_with_retry "/preview.html" "Chatboty, ktoré"
+          fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
           fetch_with_retry "/sluzby" ""
           fetch_with_retry "/sluzby/" ""
           fetch_with_retry "/projekty/" ""
