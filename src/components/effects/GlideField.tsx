@@ -62,10 +62,10 @@ type BurstState = {
 };
 
 const DEFAULT_PALETTE: Palette = {
-  base: [242, 239, 230],
-  active: [111, 151, 132],
-  secondary: [201, 170, 112],
-  impact: [188, 115, 82],
+  base: [247, 249, 252],
+  active: [52, 120, 246],
+  secondary: [52, 120, 246],
+  impact: [52, 120, 246],
 };
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));

@@ -7,32 +7,32 @@
 :root {
   color-scheme: dark;
 
-  --background: #06120d;
-  --background-soft: #091a14;
-  --surface: #10261d;
-  --surface-raised: #17352a;
-  --surface-muted: #0c1f18;
+  --background: #050609;
+  --background-soft: #090b10;
+  --surface: #0e1118;
+  --surface-raised: #151a24;
+  --surface-muted: #0a0d13;
 
-  --text-primary: #f4f1e8;
-  --text-secondary: #bfc7bc;
-  --text-light: #8d9c92;
+  --text-primary: #f7f9fc;
+  --text-secondary: #aeb6c2;
+  --text-light: #747e8d;
 
-  --primary: #bc7352;
-  --primary-hover: #cd8665;
-  --primary-soft: rgba(188, 115, 82, 0.14);
-  --primary-foreground: #07140e;
-  --primary-dark: #06120d;
+  --primary: #3478f6;
+  --primary-hover: #1f55c9;
+  --primary-soft: rgba(52, 120, 246, 0.14);
+  --primary-foreground: #ffffff;
+  --primary-dark: #050609;
 
-  --accent: #7fa58f;
-  --accent-hover: #98baa8;
-  --accent-soft: rgba(127, 165, 143, 0.14);
-  --accent-foreground: #07140e;
+  --accent: #3478f6;
+  --accent-hover: #1f55c9;
+  --accent-soft: rgba(52, 120, 246, 0.14);
+  --accent-foreground: #ffffff;
 
-  --highlight: #d9bd83;
-  --highlight-soft: rgba(217, 189, 131, 0.15);
+  --highlight: #3478f6;
+  --highlight-soft: rgba(52, 120, 246, 0.15);
 
-  --border: rgba(242, 239, 230, 0.12);
-  --border-strong: rgba(242, 239, 230, 0.22);
+  --border: rgba(247, 249, 252, 0.12);
+  --border-strong: rgba(247, 249, 252, 0.22);
 
   --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.035);
   --shadow-dialog: 0 30px 90px rgba(0, 0, 0, 0.48);
@@ -49,8 +49,8 @@
   --secondary-foreground: var(--text-primary);
   --muted: var(--background-soft);
   --muted-foreground: var(--text-secondary);
-  --destructive: #ff7f72;
-  --destructive-foreground: #07140e;
+  --destructive: #3478f6;
+  --destructive-foreground: #ffffff;
   --input: var(--border);
   --ring: var(--primary);
 }
@@ -286,12 +286,12 @@ button.chip {
   a.chip:hover,
   button.chip:hover {
     color: var(--text-primary);
-    border-color: rgba(127, 165, 143, 0.52);
-    background: rgba(127, 165, 143, 0.11);
+    border-color: rgba(52, 120, 246, 0.52);
+    background: rgba(52, 120, 246, 0.11);
     transform: translateY(-2px);
     box-shadow:
       inset 0 1px rgba(255, 255, 255, 0.09),
-      0 12px 26px -20px rgba(127, 165, 143, 0.65);
+      0 12px 26px -20px rgba(52, 120, 246, 0.65);
   }
 }
 
@@ -479,9 +479,7 @@ button.chip {
   margin-top: 0;
   border-top: 1px solid var(--border);
   background:
-    url("./assets/forest-grain.svg") repeat,
-    radial-gradient(circle at 8% 0%, rgba(201, 170, 112, 0.06), transparent 30rem),
-    radial-gradient(circle at 92% 100%, rgba(127, 165, 143, 0.055), transparent 28rem),
+    radial-gradient(circle at 8% 0%, rgba(52, 120, 246, 0.055), transparent 30rem),
     var(--background-soft);
 }
 

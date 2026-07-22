@@ -1,8 +1,8 @@
 .glide-field {
-  --glide-base: 242 239 230;
-  --glide-active: 111 151 132;
-  --glide-secondary: 201 170 112;
-  --glide-impact: 188 115 82;
+  --glide-base: 247 249 252;
+  --glide-active: 52 120 246;
+  --glide-secondary: 52 120 246;
+  --glide-impact: 52 120 246;
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -12,7 +12,7 @@
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 76% 28%, rgb(var(--glide-active) / 0.065), transparent 34%),
     radial-gradient(circle at 36% 76%, rgb(var(--glide-secondary) / 0.045), transparent 31%),
-    linear-gradient(145deg, #050f0b, #0a1b14 54%, #10261d);
+    linear-gradient(145deg, #050609, #090b10 54%, #0e1118);
 }
 
 .glide-field__canvas {
@@ -29,8 +29,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgb(3 13 9 / 0.2), transparent 29%, transparent 74%, rgb(3 13 9 / 0.18)),
-    linear-gradient(180deg, rgb(3 13 9 / 0.2), transparent 22%, transparent 72%, rgb(3 13 9 / 0.46));
+    linear-gradient(90deg, rgb(5 6 9 / 0.2), transparent 29%, transparent 74%, rgb(5 6 9 / 0.18)),
+    linear-gradient(180deg, rgb(5 6 9 / 0.2), transparent 22%, transparent 72%, rgb(5 6 9 / 0.46));
 }
 
 .glide-field--hero {
@@ -38,7 +38,7 @@
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 77% 31%, rgb(var(--glide-active) / 0.075), transparent 35%),
     radial-gradient(circle at 38% 79%, rgb(var(--glide-secondary) / 0.05), transparent 30%),
-    linear-gradient(145deg, #050f0b, #0a1b14 54%, #10261d);
+    linear-gradient(145deg, #050609, #090b10 54%, #0e1118);
 }
 
 .glide-field--hero .glide-field__canvas {
@@ -61,8 +61,8 @@
 
 .glide-field--hero .glide-field__vignette {
   background:
-    linear-gradient(90deg, rgb(3 13 9 / 0.34), transparent 40%, transparent 78%),
-    linear-gradient(180deg, rgb(3 13 9 / 0.18), transparent 20%, transparent 76%, rgb(3 13 9 / 0.5));
+    linear-gradient(90deg, rgb(5 6 9 / 0.34), transparent 40%, transparent 78%),
+    linear-gradient(180deg, rgb(5 6 9 / 0.18), transparent 20%, transparent 76%, rgb(5 6 9 / 0.5));
 }
 
 .glide-field--ambient {
@@ -98,7 +98,7 @@
       url("../../assets/forest-grain.svg") repeat,
       radial-gradient(circle at 76% 24%, rgb(var(--glide-active) / 0.065), transparent 35%),
       radial-gradient(circle at 30% 78%, rgb(var(--glide-secondary) / 0.04), transparent 32%),
-      linear-gradient(150deg, #050f0b, #0a1b14 54%, #10261d);
+      linear-gradient(150deg, #050609, #090b10 54%, #0e1118);
   }
 
   .glide-field--hero .glide-field__canvas {

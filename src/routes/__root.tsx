@@ -20,7 +20,7 @@ function NotFoundComponent() {
       style={{
         backgroundColor: "var(--background)",
         backgroundImage:
-          "radial-gradient(circle at 85% 12%, rgba(201, 170, 112, 0.07), transparent 30rem), radial-gradient(circle at 8% 90%, rgba(127, 165, 143, 0.06), transparent 26rem)",
+          "radial-gradient(circle at 85% 12%, rgba(52, 120, 246, 0.07), transparent 30rem)",
       }}
     >
       <div className="max-w-md text-center">
@@ -136,7 +136,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
       },
       { name: "author", content: "Daniel Vendzúr" },
-      { name: "theme-color", content: "#06120d" },
+      { name: "theme-color", content: "#050609" },
       { property: "og:site_name", content: "Daniel Vendzúr" },
       { property: "og:locale", content: "sk_SK" },
       { property: "og:title", content: "Daniel Vendzúr — weby, ktoré pracujú" },

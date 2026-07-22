@@ -1,8 +1,8 @@
 .derat-story {
-  --derat-ink: var(--background, #06120d);
-  --derat-paper: var(--text-primary, #f4f1e8);
+  --derat-ink: var(--background, #050609);
+  --derat-paper: var(--text-primary, #f7f9fc);
   --derat-muted: var(--text-secondary, #bfc7bc);
-  --derat-mint: var(--accent, #7fa58f);
+  --derat-mint: var(--accent, #3478f6);
   position: relative;
   overflow: clip;
   padding: clamp(5rem, 9vw, 8.5rem) 0 clamp(5rem, 9vw, 8rem);
@@ -82,7 +82,7 @@
 }
 
 .derat-story__intro a:focus-visible {
-  outline: 2px solid var(--highlight, #d9bd83);
+  outline: 2px solid var(--highlight, #3478f6);
   outline-offset: 5px;
 }
 
@@ -115,7 +115,7 @@
   overflow: hidden;
   border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
   border-radius: clamp(0.65rem, 1.2vw, 1rem);
-  background: var(--surface, #10261d);
+  background: var(--surface, #0e1118);
   isolation: isolate;
 }
 
@@ -269,7 +269,7 @@
     margin: 0;
     border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
     border-radius: 0.85rem;
-    background: var(--surface, #10261d);
+    background: var(--surface, #0e1118);
   }
 
   .derat-story__mobile-slide img {
@@ -327,7 +327,7 @@
   }
 
   .derat-story__mobile-dots button:focus-visible {
-    outline: 2px solid var(--highlight, #d9bd83);
+    outline: 2px solid var(--highlight, #3478f6);
     outline-offset: -0.35rem;
   }
 }
@@ -368,7 +368,7 @@
     margin: 0;
     border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
     border-radius: 0.85rem;
-    background: var(--surface, #10261d);
+    background: var(--surface, #0e1118);
   }
 
   .derat-story__mobile-slide img {

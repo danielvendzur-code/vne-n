@@ -3,10 +3,8 @@
   overflow: hidden;
   color: var(--text-primary);
   background:
-    url("../assets/forest-grain.svg") repeat,
-    radial-gradient(circle at 96% 8%, rgba(201, 170, 112, 0.08), transparent 34rem),
-    radial-gradient(circle at 4% 82%, rgba(127, 165, 143, 0.065), transparent 30rem),
-    linear-gradient(150deg, #06120e 0%, #0c1f18 48%, #050f0b 100%);
+    radial-gradient(circle at 96% 8%, rgba(52, 120, 246, 0.08), transparent 34rem),
+    linear-gradient(150deg, #050609 0%, #090b10 48%, #050609 100%);
 }
 
 .contact-page *,
@@ -22,7 +20,7 @@
   width: 52rem;
   height: 52rem;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 170, 112, 0.09), transparent 68%);
+  background: radial-gradient(circle, rgba(52, 120, 246, 0.09), transparent 68%);
   filter: blur(10px);
   pointer-events: none;
 }
@@ -56,8 +54,8 @@
   border-radius: 50%;
   background: var(--primary);
   box-shadow:
-    0 0 0 0.38rem rgba(188, 115, 82, 0.1),
-    0 0 22px rgba(188, 115, 82, 0.3);
+    0 0 0 0.38rem rgba(52, 120, 246, 0.1),
+    0 0 22px rgba(52, 120, 246, 0.3);
 }
 
 .contact-intro h1 {
@@ -242,7 +240,7 @@
 .contact-card select:focus {
   border-color: var(--primary);
   background: var(--primary-dark);
-  box-shadow: 0 0 0 3px rgba(188, 115, 82, 0.15);
+  box-shadow: 0 0 0 3px rgba(52, 120, 246, 0.15);
 }
 
 .contact-submit,
@@ -302,12 +300,12 @@
   width: 100%;
   border: 1px solid var(--border-strong);
   color: var(--primary-hover);
-  background: rgba(127, 165, 143, 0.08);
+  background: rgba(52, 120, 246, 0.08);
 }
 
 .contact-assistant:hover {
   border-color: var(--primary);
-  background: rgba(127, 165, 143, 0.14);
+  background: rgba(52, 120, 246, 0.14);
 }
 
 @media (max-width: 1000px) {

@@ -59,9 +59,9 @@ const menuItemVariants: Variants = {
 /** React Bits LineSidebar, adapted to render semantic, keyboard-accessible links. */
 export function LineSidebar({
   items,
-  accentColor = "#bc7352",
-  textColor = "#f2efe6",
-  markerColor = "rgba(242, 239, 230, 0.22)",
+  accentColor = "#3478f6",
+  textColor = "#f7f9fc",
+  markerColor = "rgba(247, 249, 252, 0.22)",
   showIndex = true,
   showMarker = true,
   proximityRadius = 110,

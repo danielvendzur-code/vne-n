@@ -121,7 +121,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
         Farba
       </div>
       <div className="flex gap-1.5 mb-3">
-        {["#c9aa70", "#7fa58f", "#bc7352", "#b7beb4"].map((c, i) => (
+        {["#3478f6", "#1f55c9", "#f7f9fc", "#747e8d"].map((c, i) => (
           <span
             key={c}
             className="h-6 w-6 rounded-full"
@@ -138,7 +138,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
         style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border)" }}
       >
         <span style={{ color: "var(--text-secondary)" }}>Výber</span>
-        <span className="font-medium">Variant B · zelená</span>
+        <span className="font-medium">Variant B · modrá</span>
       </div>
     </div>
   );
