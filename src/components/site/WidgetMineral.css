@@ -451,12 +451,12 @@
 
 .cw-widget .cw-rowcard__icon,
 .cw-widget .cw-scard__icon {
-  border-color: rgba(101, 230, 193, 0.22) !important;
+  border-color: rgba(101, 230, 193, 0.2) !important;
   color: #83f1d0 !important;
   background: linear-gradient(
     160deg,
-    rgba(101, 230, 193, 0.14),
-    rgba(114, 199, 255, 0.04)
+    rgba(101, 230, 193, 0.16),
+    rgba(101, 230, 193, 0.04)
   ) !important;
 }
 
@@ -471,11 +471,11 @@
 
 .cw-widget .cw-rowcard__badge,
 .cw-widget .cw-opt__tag {
-  border: 1px solid rgba(114, 199, 255, 0.34) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
   border-radius: 999px !important;
-  color: #91d4ff !important;
-  background: rgba(114, 199, 255, 0.1) !important;
-  box-shadow: none !important;
+  color: #04140f !important;
+  background: linear-gradient(140deg, #83f1d0 0%, #65e6c1 52%, #4bccaa 100%) !important;
+  box-shadow: 0 5px 12px -6px rgba(101, 230, 193, 0.6) !important;
 }
 
 .cw-widget .cw-industry-tip {
