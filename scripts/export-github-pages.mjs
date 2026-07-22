@@ -2,8 +2,10 @@ import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
 const origin = process.env.PAGES_ORIGIN || "http://127.0.0.1:4173";
-const base = `/${(process.env.PAGES_BASE || "vne-n").replace(/^\/+|\/+$/g, "")}`;
+const projectName = (process.env.PAGES_BASE || "vne-n").replace(/^\/+|\/+$/g, "");
+const base = `/${projectName}`;
 const output = "pages-dist";
+const fallbackSnapshot = ".pages-dist-snapshot";
 const sourceSha = process.env.GITHUB_SHA || "local";
 
 const routes = [
@@ -23,6 +25,7 @@ const routes = [
 ];
 
 await rm(output, { recursive: true, force: true });
+await rm(fallbackSnapshot, { recursive: true, force: true });
 await cp(".output/public", output, { recursive: true });
 
 let homeHtml = "";
@@ -73,7 +76,9 @@ if (!homeHtml) throw new Error("Homepage was not exported");
 // client router reads the original URL and renders either the real route or
 // the polished in-app 404 screen.
 await writeFile(join(output, "404.html"), homeHtml);
+await writeFile(join(output, "index.htm"), homeHtml);
 await writeFile(join(output, ".nojekyll"), "");
+await writeFile(join(output, "health.txt"), `ok\nsource_sha=${sourceSha}\n`);
 await writeFile(
   join(output, "build-meta.json"),
   JSON.stringify(
@@ -81,10 +86,19 @@ await writeFile(
       sourceSha,
       generatedAt: new Date().toISOString(),
       routes,
+      projectName,
     },
     null,
     2,
   ),
 );
 
-console.log(`GitHub Pages artifact is ready in ${output}/`);
+// GitHub Pages normally mounts a project artifact directly at /<repo>/.
+// A duplicated project-named directory also covers the alternate mount shape
+// that otherwise returns GitHub's generic "File not found" page at /<repo>/.
+await cp(output, fallbackSnapshot, { recursive: true });
+await mkdir(join(output, projectName), { recursive: true });
+await cp(fallbackSnapshot, join(output, projectName), { recursive: true });
+await rm(fallbackSnapshot, { recursive: true, force: true });
+
+console.log(`GitHub Pages artifact is ready in ${output}/ and ${output}/${projectName}/`);
