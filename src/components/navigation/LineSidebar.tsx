@@ -1,10 +1,12 @@
+import { Link } from "@tanstack/react-router";
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import { motion, type Variants } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import "./LineSidebar.css";
 
 export type LineSidebarItem = {
   label: string;
-  href: string;
+  to: "/" | "/sluzby" | "/projekty" | "/postup" | "/kontakt";
 };
 
 type Falloff = "linear" | "smooth" | "sharp";
@@ -37,6 +39,21 @@ const falloffCurves: Record<Falloff, (progress: number) => number> = {
   linear: (progress) => progress,
   smooth: (progress) => progress * progress * (3 - 2 * progress),
   sharp: (progress) => progress * progress * progress,
+};
+
+const menuListVariants: Variants = {
+  hidden: {},
+  visible: { transition: { delayChildren: 0.12, staggerChildren: 0.065 } },
+};
+
+const menuItemVariants: Variants = {
+  hidden: { opacity: 0, x: 22, filter: "blur(5px)" },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.46, ease: [0.16, 1, 0.3, 1] },
+  },
 };
 
 /** React Bits LineSidebar, adapted to render semantic, keyboard-accessible links. */
@@ -159,24 +176,28 @@ export function LineSidebar({
       style={style}
       aria-label="Hlavné menu"
     >
-      <ul
+      <motion.ul
         ref={listRef}
         className="rb-line-sidebar__list"
         onPointerMove={handlePointerMove}
         onPointerLeave={resetTargets}
+        initial={reducedMotion ? false : "hidden"}
+        animate="visible"
+        variants={menuListVariants}
       >
         {items.map((item, index) => (
-          <li
+          <motion.li
             className="rb-line-sidebar__item"
             ref={(element) => {
               itemRefs.current[index] = element;
             }}
-            key={`${item.href}-${item.label}`}
+            key={`${item.to}-${item.label}`}
+            variants={menuItemVariants}
           >
             {showMarker ? <span className="rb-line-sidebar__marker" aria-hidden="true" /> : null}
-            <a
+            <Link
               className="rb-line-sidebar__label"
-              href={item.href}
+              to={item.to}
               aria-current={activeIndex === index ? "location" : undefined}
               onFocus={() => {
                 targetsRef.current[index] = 1;
@@ -195,10 +216,10 @@ export function LineSidebar({
                 <span className="rb-line-sidebar__index">{String(index + 1).padStart(2, "0")}</span>
               ) : null}
               <span className="rb-line-sidebar__text">{item.label}</span>
-            </a>
-          </li>
+            </Link>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     </nav>
   );
 }

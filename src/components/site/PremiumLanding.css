@@ -313,11 +313,11 @@
 .lp-hero-glide {
   position: absolute;
   z-index: 0;
-  inset: 0;
+  inset: -2rem 0;
   pointer-events: none;
 }
 
-.lp-assistant-card {
+.lp-assistant-anchor {
   position: absolute;
   z-index: 4;
   top: 50%;
@@ -325,18 +325,22 @@
   bottom: auto;
   width: min(86%, 31rem);
   transform: translateY(-50%);
+  perspective: 75rem;
+}
+
+.lp-assistant-card {
+  position: relative;
+  width: 100%;
   overflow: hidden;
   border: 1px solid rgba(242, 239, 230, 0.15);
   border-top-color: rgba(201, 170, 112, 0.54);
   border-radius: 0.95rem;
   padding: clamp(1.15rem, 2.4vw, 1.65rem);
   color: var(--lp-ink);
-  background: linear-gradient(145deg, rgba(18, 47, 35, 0.9), rgba(8, 25, 18, 0.94));
-  box-shadow:
-    0 2rem 5rem rgba(0, 0, 0, 0.48),
-    inset 0 1px rgba(242, 239, 230, 0.07);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
-  backdrop-filter: blur(24px) saturate(120%);
+  background: linear-gradient(145deg, rgba(18, 47, 35, 0.98), rgba(8, 25, 18, 0.99));
+  box-shadow: 0 2rem 4.5rem -3.5rem rgba(0, 0, 0, 0.9);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .lp-assistant-card > p {
@@ -922,7 +926,10 @@
   border: 1px solid var(--lp-line);
   border-radius: 0.85rem;
   background: linear-gradient(155deg, rgba(18, 44, 33, 0.55), rgba(9, 26, 19, 0.85));
-  transition: border-color 280ms ease, background-color 280ms ease;
+  transition:
+    transform 360ms var(--lp-liquid-ease),
+    border-color 280ms ease,
+    background-color 280ms ease;
 }
 
 .lp-faq-item[data-open="true"] {
@@ -1544,6 +1551,11 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .lp-faq-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(127, 165, 143, 0.32);
+  }
+
   .lp-button:hover,
   .lp-assistant-cta:hover {
     transform: translateY(-3px) scale(1.012);
@@ -1658,7 +1670,7 @@
     min-height: 35rem;
   }
 
-  .lp-assistant-card {
+  .lp-assistant-anchor {
     width: min(66%, 29rem);
   }
 
@@ -1727,12 +1739,15 @@
     opacity: 0.9;
   }
 
-  .lp-assistant-card {
+  .lp-assistant-anchor {
     top: auto;
     right: 0.8rem;
     bottom: 0.8rem;
     width: calc(100% - 1.6rem);
     transform: none;
+  }
+
+  .lp-assistant-card {
     border-radius: 0.85rem;
   }
 

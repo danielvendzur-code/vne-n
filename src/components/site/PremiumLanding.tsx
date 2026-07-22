@@ -1,11 +1,19 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from "react";
 import {
   AnimatePresence,
   motion,
   MotionConfig,
+  useMotionValue,
   useScroll,
   useSpring,
+  useTransform,
   type Variants,
 } from "motion/react";
 import {
@@ -486,12 +494,57 @@ function Hero() {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
   const reducedMotion = useReducedMotion();
   const magneticCta = useMagnetic<HTMLAnchorElement>(0.14);
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const glideOffset = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [0, 30]);
+  const glideY = useSpring(glideOffset, { stiffness: 170, damping: 28, mass: 0.74 });
+  const tiltXTarget = useMotionValue(0);
+  const tiltYTarget = useMotionValue(0);
+  const tiltX = useSpring(tiltXTarget, liquidSpring);
+  const tiltY = useSpring(tiltYTarget, liquidSpring);
+  const tiltEnabled = useRef(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const syncTiltCapability = () => {
+      tiltEnabled.current = query.matches && !reducedMotion;
+      if (!tiltEnabled.current) {
+        tiltXTarget.set(0);
+        tiltYTarget.set(0);
+      }
+    };
+
+    syncTiltCapability();
+    query.addEventListener("change", syncTiltCapability);
+    return () => query.removeEventListener("change", syncTiltCapability);
+  }, [reducedMotion, tiltXTarget, tiltYTarget]);
+
+  const resetCardTilt = () => {
+    tiltXTarget.set(0);
+    tiltYTarget.set(0);
+  };
+
+  const updateCardTilt = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (reducedMotion || event.pointerType === "touch" || !tiltEnabled.current) {
+      resetCardTilt();
+      return;
+    }
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+    tiltXTarget.set(y * -4);
+    tiltYTarget.set(x * 4);
+  };
 
   return (
-    <section className="lp-hero" id="uvod">
-      <div className="lp-hero-glide" aria-hidden="true">
+    <section className="lp-hero" id="uvod" ref={heroRef}>
+      <motion.div className="lp-hero-glide" aria-hidden="true" style={{ y: glideY }}>
         <GlideField className="glide-field--hero" radius={142} />
-      </div>
+      </motion.div>
       <div className="lp-hero-glow" aria-hidden="true" />
       <div className="container-page lp-hero-grid">
         <motion.div
@@ -543,11 +596,18 @@ function Hero() {
             reducedMotion ? { duration: 0 } : { duration: 0.94, delay: 0.16, ease: premiumEase }
           }
         >
-          <div className="lp-assistant-card">
-            <p>Čo má zákazník dostať hneď?</p>
-            <div className="lp-assistant-chips" role="group" aria-label="Typ webového nástroja">
-              {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
-                ([key, tool]) => (
+          <div className="lp-assistant-anchor">
+            <motion.div
+              className="lp-assistant-card"
+              style={{ rotateX: tiltX, rotateY: tiltY, transformPerspective: 1200 }}
+              onPointerMove={updateCardTilt}
+              onPointerLeave={resetCardTilt}
+            >
+              <p>Čo má zákazník dostať hneď?</p>
+              <div className="lp-assistant-chips" role="group" aria-label="Typ webového nástroja">
+                {(
+                  Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]
+                ).map(([key, tool]) => (
                   <motion.button
                     type="button"
                     key={key}
@@ -565,34 +625,36 @@ function Hero() {
                     ) : null}
                     <span className="lp-control-label">{tool.label}</span>
                   </motion.button>
-                ),
-              )}
-            </div>
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.div
-                className="lp-assistant-answer"
-                key={activeTool}
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-                initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
-                transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
+                ))}
+              </div>
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div
+                  className="lp-assistant-answer"
+                  key={activeTool}
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
+                  initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
+                  transition={
+                    reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }
+                  }
+                >
+                  <Check />
+                  <span>{heroTools[activeTool].text}</span>
+                </motion.div>
+              </AnimatePresence>
+              <button
+                type="button"
+                className="lp-assistant-cta"
+                onClick={() => openSiteAssistant({ source: "hero-card" })}
               >
-                <Check />
-                <span>{heroTools[activeTool].text}</span>
-              </motion.div>
-            </AnimatePresence>
-            <button
-              type="button"
-              className="lp-assistant-cta"
-              onClick={() => openSiteAssistant({ source: "hero-card" })}
-            >
-              <span className="lp-button-content">
-                Vyskúšať môjho chatbota <ArrowUpRight />
-              </span>
-            </button>
+                <span className="lp-button-content">
+                  Vyskúšať môjho chatbota <ArrowUpRight />
+                </span>
+              </button>
+            </motion.div>
           </div>
         </motion.div>
       </div>
