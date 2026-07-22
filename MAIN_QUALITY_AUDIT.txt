@@ -1,11 +1,20 @@
-run_id=29907712287
+run_id=29908122413
 install=success
-lint=success
+lint=failure
 test=success
 build=success
 
 ===== lint =====
 $ eslint .
+
+/home/runner/work/vne-n/vne-n/src/lib/assistant-flow.ts
+  233:4  error  Replace `·id:·"crm",·label:·"Zapisovať·do·CRM·/·tabuľky",·description:·"Každý·dopyt·na·správnom·mieste."` with `⏎····id:·"crm",⏎····label:·"Zapisovať·do·CRM·/·tabuľky",⏎····description:·"Každý·dopyt·na·správnom·mieste.",⏎·`      prettier/prettier
+  265:4  error  Replace `·id:·"v500plus",·label:·"Viac·než·500",·description:·"Veľký·objem·—·automatizácia·je·nevyhnutná."` with `⏎····id:·"v500plus",⏎····label:·"Viac·než·500",⏎····description:·"Veľký·objem·—·automatizácia·je·nevyhnutná.",⏎·`  prettier/prettier
+
+✖ 2 problems (2 errors, 0 warnings)
+  2 errors and 0 warnings potentially fixable with the `--fix` option.
+
+error: script "lint" exited with code 1
 
 ===== test =====
 $ node --test tests/home-contract.test.mjs
@@ -13,61 +22,61 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 5.638961
+  duration_ms: 9.665498
   type: 'test'
   ...
 # Subtest: final design layers load in the authoritative order and contain no bronze palette
 ok 2 - final design layers load in the authoritative order and contain no bronze palette
   ---
-  duration_ms: 2.279304
+  duration_ms: 3.817563
   type: 'test'
   ...
 # Subtest: all homepage surfaces are covered by the final design system
 ok 3 - all homepage surfaces are covered by the final design system
   ---
-  duration_ms: 0.686428
+  duration_ms: 1.388543
   type: 'test'
   ...
 # Subtest: services, projects, process, contact and cookies have final route styling
 ok 4 - services, projects, process, contact and cookies have final route styling
   ---
-  duration_ms: 0.600486
+  duration_ms: 1.262285
   type: 'test'
   ...
 # Subtest: three solution cards are complete and use bounded pointer interaction
 ok 5 - three solution cards are complete and use bounded pointer interaction
   ---
-  duration_ms: 1.063035
+  duration_ms: 2.095904
   type: 'test'
   ...
 # Subtest: navigation keeps only the compact brand name and no side-slide drawer animation
 ok 6 - navigation keeps only the compact brand name and no side-slide drawer animation
   ---
-  duration_ms: 1.402284
+  duration_ms: 1.963435
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 0.738711
+  duration_ms: 1.066126
   type: 'test'
   ...
 # Subtest: static export covers cookies, clean URLs, SPA fallback and immutable build metadata
 ok 8 - static export covers cookies, clean URLs, SPA fallback and immutable build metadata
   ---
-  duration_ms: 0.512049
+  duration_ms: 0.70158
   type: 'test'
   ...
 # Subtest: Pages workflow validates security, artifacts and the real live deployment
 ok 9 - Pages workflow validates security, artifacts and the real live deployment
   ---
-  duration_ms: 0.715995
+  duration_ms: 1.02058
   type: 'test'
   ...
 # Subtest: site metadata presents Daniel Vendžúr as a chatbot specialist
 ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
   ---
-  duration_ms: 0.72578
+  duration_ms: 1.022685
   type: 'test'
   ...
 1..10
@@ -78,7 +87,7 @@ ok 10 - site metadata presents Daniel Vendžúr as a chatbot specialist
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 54.986144
+# duration_ms 83.425529
 
 ===== build =====
 $ vite build
@@ -108,7 +117,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-BDwzfGL1.js               209.85 kB │ gzip: 68.65 kB
 
-[32m✓ built in 1.01s[39m
+[32m✓ built in 1.56s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 123 modules transformed.
 rendering chunks...
@@ -143,7 +152,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-Be4wAtuQ.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-DkEqhb5d.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BS6hLe_z.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 429ms[39m
+[32m✓ built in 585ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-22`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -157,11 +166,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            80.05 kB │ gzip:  21.25 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            251.01 kB │ gzip:  57.65 kB
+.output/server/_ssr/vendor.mjs            251.01 kB │ gzip:  57.66 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 424ms[39m
+[32m✓ built in 625ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
