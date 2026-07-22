@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Mail } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
+import { ArrowRight, ArrowUpRight, Bot, Calculator, Mail, SlidersHorizontal } from "lucide-react";
 import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
 import { Symbol } from "@/components/Symbol";
 import { siteConfig } from "@/config/site";
@@ -9,13 +9,35 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./Nav.css";
+import "./BrandMenuV2.css";
 
 const drawerItems: LineSidebarItem[] = [
-  { label: "Domov", to: "/" },
-  { label: "Služby", to: "/sluzby" },
-  { label: "Projekty", to: "/projekty" },
-  { label: "Postup", to: "/postup" },
-  { label: "Kontakt", to: "/kontakt" },
+  { label: "Domov", href: "/" },
+  { label: "Chatboty a riešenia", href: "/sluzby" },
+  { label: "Ukážky", href: "/projekty" },
+  { label: "Spolupráca", href: "/postup" },
+  { label: "Kontakt", href: "/kontakt" },
+];
+
+const menuSolutions = [
+  {
+    icon: Bot,
+    title: "AI chatbot na mieru",
+    copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",
+    mode: "assistant" as const,
+  },
+  {
+    icon: Calculator,
+    title: "Chatbot s kalkulačkou",
+    copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",
+    mode: "calculator" as const,
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Chatbot s konfigurátorom",
+    copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",
+    mode: "calculator" as const,
+  },
 ];
 
 const liquidSpring = { type: "spring", stiffness: 290, damping: 29, mass: 0.78 } as const;
@@ -48,6 +70,19 @@ export function Nav() {
     };
   }, [open]);
 
+  const openMenuAssistant = (mode: "assistant" | "calculator", category?: string) => {
+    closeMenu();
+    window.setTimeout(
+      () =>
+        openSiteAssistant({
+          source: "sidebar-solution",
+          entry: mode === "calculator" ? "builder" : undefined,
+          category,
+        }),
+      360,
+    );
+  };
+
   return (
     <header
       className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
@@ -70,10 +105,13 @@ export function Nav() {
           <Link
             to="/"
             className="site-brand-lockup flex items-center gap-2"
-            aria-label="Daniel Vendzúr — domov"
+            aria-label="Daniel Vendžúr — domov"
           >
-            <Symbol size={34} />
-            <span className="site-brand-name">Daniel Vendzúr</span>
+            <Symbol size={38} />
+            <span className="site-brand-copy">
+              <span className="site-brand-name">Daniel Vendžúr</span>
+              <small>chatboty na mieru</small>
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
@@ -81,6 +119,7 @@ export function Nav() {
               <Link
                 key={item.to}
                 to={item.to}
+                aria-label={item.to === "/sluzby" ? "Služby" : undefined}
                 className="site-nav-link text-[13.5px] tracking-tight transition-colors"
                 activeProps={{ style: { color: "var(--primary)" } }}
                 inactiveProps={{ style: { color: "var(--text-secondary)" } }}
@@ -93,14 +132,13 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <Link
               to="/kontakt"
-              className="hidden lg:inline-flex items-center rounded-[10px] px-3.5 py-2 text-[13.5px] font-medium transition-colors"
-              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+              className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
             >
-              Nezáväzná konzultácia
+              Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
             <button
               onClick={() => setOpen((value) => !value)}
-              aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
+              aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}
               aria-expanded={open}
               aria-controls="site-navigation-drawer"
               className="site-menu-toggle"
@@ -112,81 +150,116 @@ export function Nav() {
         </div>
       </div>
 
-      <AnimatePresence initial={false}>
-        {open ? (
-          <motion.div
-            className="site-menu-layer pointer-events-auto"
-            initial={reducedMotion ? false : "closed"}
-            animate="open"
-            exit="closed"
-          >
-            <motion.div
-              className="site-menu-backdrop"
+      <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
+        <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
+        <motion.aside
+          id="site-navigation-drawer"
+          ref={drawerRef}
+          className="site-menu-drawer"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigácia"
+          tabIndex={-1}
+          initial={false}
+          animate={{
+            opacity: open ? 1 : 0,
+            y: open ? 0 : 14,
+            scale: open ? 1 : 0.985,
+          }}
+          transition={
+            reducedMotion
+              ? { duration: 0 }
+              : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
+          }
+          style={{
+            transition: "none",
+            willChange: reducedMotion ? undefined : "transform, opacity",
+          }}
+        >
+          <div className="site-menu-head">
+            <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
+              <Symbol size={44} />
+              <span>
+                Daniel Vendžúr
+                <small>chatboty a konverzné nástroje na mieru</small>
+              </span>
+            </Link>
+            <button
+              className="site-menu-close"
+              type="button"
+              aria-label="Zavrieť menu"
               onClick={closeMenu}
-              aria-hidden="true"
-              variants={{
-                closed: reducedMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, backdropFilter: "blur(0px)" },
-                open: reducedMotion ? { opacity: 1 } : { opacity: 1, backdropFilter: "blur(8px)" },
-              }}
-              transition={reducedMotion ? { duration: 0 } : { duration: 0.26, ease: premiumEase }}
-            />
-            <motion.aside
-              id="site-navigation-drawer"
-              ref={drawerRef}
-              className="site-menu-drawer"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Navigácia"
-              tabIndex={-1}
-              variants={{
-                closed: { x: reducedMotion ? 0 : "102%" },
-                open: { x: 0 },
-              }}
-              transition={reducedMotion ? { duration: 0 } : liquidSpring}
             >
-              <div className="site-menu-head">
-                <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
-                  <Symbol size={38} />
-                  <span>
-                    Daniel Vendzúr
-                    <small>weby a nástroje na mieru</small>
-                  </span>
-                </Link>
-                <button className="site-menu-close" type="button" onClick={closeMenu}>
-                  Zavrieť <MenuIcon open />
-                </button>
-              </div>
+              Zavrieť <MenuIcon open />
+            </button>
+          </div>
 
-              <div className="site-menu-content">
+          <div className="site-menu-content">
+            <div className="site-menu-grid">
+              <div className="site-menu-nav-column">
                 <p className="site-menu-eyebrow">Navigácia</p>
-                <LineSidebar items={drawerItems} onItemClick={closeMenu} />
+                <LineSidebar
+                  items={drawerItems}
+                  onItemClick={closeMenu}
+                  accentColor="#72d3ea"
+                  textColor="#f3f8fa"
+                  markerColor="rgba(210, 237, 243, 0.2)"
+                  markerLength={48}
+                  maxShift={20}
+                  itemGap={18}
+                  fontSize={1.24}
+                />
               </div>
 
-              <div className="site-menu-footer">
-                <button
-                  className="site-menu-cta"
-                  type="button"
-                  onClick={() => {
-                    closeMenu();
-                    window.setTimeout(() => openSiteAssistant({ source: "sidebar" }), 120);
-                  }}
-                >
-                  <span>
-                    <small>Máte nápad?</small>
-                    Prejdime si ho spolu
-                  </span>
-                  <ArrowUpRight size={20} />
-                </button>
-                <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>
-                  <Mail size={14} /> {siteConfig.contact.email}
-                </a>
-              </div>
-            </motion.aside>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+              <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
+                <p className="site-menu-eyebrow">Chatboty</p>
+                <p className="site-menu-services-intro">
+                  Vyberte najbližší typ. Asistent pripraví krátke zadanie bez zbytočného formulára.
+                </p>
+                <div className="site-menu-solution-list">
+                  {menuSolutions.map(({ icon: Icon, title, copy, mode }) => (
+                    <button
+                      type="button"
+                      className="site-menu-solution"
+                      key={title}
+                      onClick={() => openMenuAssistant(mode, title)}
+                    >
+                      <span className="site-menu-solution-icon">
+                        <Icon size={17} aria-hidden="true" />
+                      </span>
+                      <span>
+                        <b>{title}</b>
+                        <small>{copy}</small>
+                      </span>
+                      <ArrowUpRight size={16} aria-hidden="true" />
+                    </button>
+                  ))}
+                </div>
+                <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
+                  Pozrieť hotové realizácie <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              </aside>
+            </div>
+          </div>
+
+          <div className="site-menu-footer">
+            <button
+              className="site-menu-cta"
+              type="button"
+              onClick={() => openMenuAssistant("assistant")}
+            >
+              <span>
+                <small>Máte konkrétny nápad?</small>
+                Prejdime si ho spolu
+              </span>
+              <ArrowUpRight size={20} />
+            </button>
+            <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>
+              <Mail size={14} /> {siteConfig.contact.email}
+            </a>
+          </div>
+        </motion.aside>
+      </div>
     </header>
   );
 }

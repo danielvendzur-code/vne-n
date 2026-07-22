@@ -13,6 +13,7 @@ import { Route as SluzbyRouteImport } from './routes/sluzby'
 import { Route as PostupRouteImport } from './routes/postup'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as FarbyRouteImport } from './routes/farby'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
 import { Route as ProjektySlugRouteImport } from './routes/projekty.$slug'
@@ -37,6 +38,11 @@ const FarbyRoute = FarbyRouteImport.update({
   path: '/farby',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +61,7 @@ const ProjektySlugRoute = ProjektySlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
   '/postup': typeof PostupRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
   '/postup': typeof PostupRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
   '/postup': typeof PostupRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cookies'
     | '/farby'
     | '/kontakt'
     | '/postup'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cookies'
     | '/farby'
     | '/kontakt'
     | '/postup'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cookies'
     | '/farby'
     | '/kontakt'
     | '/postup'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CookiesRoute: typeof CookiesRoute
   FarbyRoute: typeof FarbyRoute
   KontaktRoute: typeof KontaktRoute
   PostupRoute: typeof PostupRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FarbyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CookiesRoute: CookiesRoute,
   FarbyRoute: FarbyRoute,
   KontaktRoute: KontaktRoute,
   PostupRoute: PostupRoute,

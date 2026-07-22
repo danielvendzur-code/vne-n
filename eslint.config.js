@@ -32,8 +32,20 @@ export default tseslint.config(
           ],
         },
       ],
-      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "react-refresh/only-export-components": ["error", { allowConstantExport: true }],
       "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
+    files: [
+      "src/components/ui/**/*.{ts,tsx}",
+      "src/components/site/motion-primitives.tsx",
+      "src/components/DemoViewer.tsx",
+    ],
+    rules: {
+      // These are intentionally shared primitive modules. They export a component
+      // together with its variants, hooks or motion constants by design.
+      "react-refresh/only-export-components": "off",
     },
   },
   eslintPluginPrettier,

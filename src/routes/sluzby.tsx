@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { PointerEvent } from "react";
 import { ArrowRight, Bot, Calculator, MessageCircle, SlidersHorizontal } from "lucide-react";
-import { SiteLayout } from "@/components/site/Layout";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { seo } from "@/lib/seo";
@@ -63,108 +62,102 @@ function trackServiceSpotlight(event: PointerEvent<HTMLElement>) {
 
 function ServicesPage() {
   return (
-    <SiteLayout>
-      <div className="sp-page">
-        <PageIntro
-          eyebrow="Čo tvorím"
-          title={
-            <>
-              Chatbot, kalkulačka, konfigurátor. <em>Samostatne aj spolu.</em>
-            </>
-          }
-          lead="Každý nástroj skladám podľa služieb, cien a procesu konkrétnej firmy. Kalkulačku či konfigurátor viem nasadiť samostatne — alebo ich vložiť priamo do plynulého rozhovoru s chatbotom."
-        >
-          <div className="sp-hero-chips">
-            <span className="chip" data-tone="coral">
-              <Bot /> Chatboty
-            </span>
-            <span className="chip" data-tone="gold">
-              <Calculator /> Kalkulačky
-            </span>
-            <span className="chip">
-              <SlidersHorizontal /> Konfigurátory
-            </span>
+    <div className="sp-page">
+      <PageIntro
+        eyebrow="Čo tvorím"
+        title={
+          <>
+            Chatbot, kalkulačka, konfigurátor. <em>Samostatne aj spolu.</em>
+          </>
+        }
+        lead="Každý nástroj skladám podľa služieb, cien a procesu konkrétnej firmy. Kalkulačku či konfigurátor viem nasadiť samostatne — alebo ich vložiť priamo do plynulého rozhovoru s chatbotom."
+      >
+        <div className="sp-hero-chips">
+          <span className="chip" data-tone="coral">
+            <Bot /> Chatboty
+          </span>
+          <span className="chip" data-tone="gold">
+            <Calculator /> Kalkulačky
+          </span>
+          <span className="chip">
+            <SlidersHorizontal /> Konfigurátory
+          </span>
+        </div>
+      </PageIntro>
+
+      <section className="sp-section">
+        <div className="container-page">
+          <div className="sp-service-list">
+            {services.map((service, index) => (
+              <Reveal key={service.id} delay={index * 0.05} amount={0.22}>
+                <article className="sp-service" id={service.id}>
+                  <span className="sp-service-index">0{index + 1}</span>
+                  <div className="sp-service-head">
+                    <service.icon aria-hidden="true" />
+                    <h2>{service.name}</h2>
+                    <p>{service.intro}</p>
+                  </div>
+                  <div className="sp-service-rows">
+                    <div className="sp-service-row">
+                      <span>Kedy dáva zmysel</span>
+                      <p>{service.when}</p>
+                    </div>
+                    <div className="sp-service-row">
+                      <span>Vstup od zákazníka</span>
+                      <div className="sp-chip-row">
+                        {service.inputChips.map((chip) => (
+                          <span className="chip" key={chip}>
+                            {chip}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="sp-service-row">
+                      <span>Výstup pre firmu</span>
+                      <p>{service.output}</p>
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
           </div>
-        </PageIntro>
 
-        <section className="sp-section">
-          <div className="container-page">
-            <div className="sp-service-list">
-              {services.map((service, index) => (
-                <Reveal key={service.id} delay={index * 0.05} amount={0.22}>
-                  <article
-                    className="sp-service"
-                    id={service.id}
-                    onPointerMove={trackServiceSpotlight}
-                  >
-                    <span className="sp-service-index">0{index + 1}</span>
-                    <div className="sp-service-head">
-                      <service.icon aria-hidden="true" />
-                      <h2>{service.name}</h2>
-                      <p>{service.intro}</p>
-                    </div>
-                    <div className="sp-service-rows">
-                      <div className="sp-service-row">
-                        <span>Kedy dáva zmysel</span>
-                        <p>{service.when}</p>
-                      </div>
-                      <div className="sp-service-row">
-                        <span>Vstup od zákazníka</span>
-                        <div className="sp-chip-row">
-                          {service.inputChips.map((chip) => (
-                            <span className="chip" key={chip}>
-                              {chip}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="sp-service-row">
-                        <span>Výstup pre firmu</span>
-                        <p>{service.output}</p>
-                      </div>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal delay={0.08} amount={0.3}>
-              <div className="sp-combine">
-                <div>
-                  <h3>Najsilnejšie je to dokopy.</h3>
-                  <p>
-                    Kalkulačku aj konfigurátor viem vložiť priamo do rozhovoru s chatbotom. Zákazník
-                    prejde od otázky k výpočtu bez toho, aby opustil jedno okno — a vám príde jeden
-                    kompletný dopyt.
-                  </p>
-                </div>
-                <Link to="/projekty" className="sp-button sp-button--ghost">
-                  Pozrieť ukážky <ArrowRight aria-hidden="true" />
-                </Link>
+          <Reveal delay={0.08} amount={0.3}>
+            <div className="sp-combine">
+              <div>
+                <h3>Najsilnejšie je to dokopy.</h3>
+                <p>
+                  Kalkulačku aj konfigurátor viem vložiť priamo do rozhovoru s chatbotom. Zákazník
+                  prejde od otázky k výpočtu bez toho, aby opustil jedno okno — a vám príde jeden
+                  kompletný dopyt.
+                </p>
               </div>
-            </Reveal>
-          </div>
-        </section>
+              <Link to="/projekty" className="sp-button sp-button--ghost">
+                Pozrieť ukážky <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-        <section className="sp-section">
-          <CtaBand
-            kicker="Neviete, čo je pre vás vhodné?"
-            title="Opíšte situáciu. Poradím konkrétny typ nástroja."
-            lead="Stačí pár viet o tom, čo dnes vysvetľujete alebo počítate ručne. Odpoviem s konkrétnym odporúčaním a rozsahom prvej verzie."
+      <section className="sp-section">
+        <CtaBand
+          kicker="Neviete, čo je pre vás vhodné?"
+          title="Opíšte situáciu. Poradím konkrétny typ nástroja."
+          lead="Stačí pár viet o tom, čo dnes vysvetľujete alebo počítate ručne. Odpoviem s konkrétnym odporúčaním a rozsahom prvej verzie."
+        >
+          <button
+            type="button"
+            className="sp-button sp-button--primary"
+            onClick={() => openSiteAssistant({ source: "services-cta" })}
           >
-            <button
-              type="button"
-              className="sp-button sp-button--primary"
-              onClick={() => openSiteAssistant({ source: "services-cta" })}
-            >
-              <MessageCircle aria-hidden="true" /> Nájsť riešenie
-            </button>
-            <Link to="/kontakt" className="sp-button sp-button--ghost">
-              Radšej napíšem e-mail <ArrowRight aria-hidden="true" />
-            </Link>
-          </CtaBand>
-        </section>
-      </div>
-    </SiteLayout>
+            <MessageCircle aria-hidden="true" /> Nájsť riešenie
+          </button>
+          <Link to="/kontakt" className="sp-button sp-button--ghost">
+            Radšej napíšem e-mail <ArrowRight aria-hidden="true" />
+          </Link>
+        </CtaBand>
+      </section>
+    </div>
   );
 }

@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
+    "test": "node --test tests/home-contract.test.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -86,5 +87,8 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.0.16"
+  },
+  "overrides": {
+    "js-yaml": "4.3.0"
   }
 }

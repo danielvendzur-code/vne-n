@@ -1,7 +1,7 @@
 export const siteConfig = {
-  title: "Daniel Vendzúr — weby a digitálne nástroje na mieru",
+  title: "Daniel Vendžúr — chatboty na mieru",
   description:
-    "Tvorím chatboty, všetky typy kalkulačiek a konfigurátorov — samostatne aj prepojené do jedného riešenia.",
+    "Navrhujem chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom a rezerváciami.",
   contact: {
     email: "daniel.vendzur@gmail.com",
     phoneLabel: "+421 948 699 433",

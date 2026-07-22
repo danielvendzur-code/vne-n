@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import "./DeratScrollStory.css";
+import "./DeratScrollStoryMobile.css";
 
 const frames = [
   {
@@ -52,27 +54,12 @@ const chapters = [
 
 export function DeratScrollStory() {
   const rootRef = useRef<HTMLElement>(null);
-  const mobileTrackRef = useRef<HTMLDivElement>(null);
-  const mobileSlideRefs = useRef<Array<HTMLElement | null>>([]);
-  const [activeMobileFrame, setActiveMobileFrame] = useState(0);
-  const progressTarget = useMotionValue(0);
-  const progressSpring = useSpring(progressTarget, {
-    stiffness: 290,
-    damping: 29,
-    mass: 0.78,
+  const progressValue = useMotionValue(0);
+  const springProgress = useSpring(progressValue, {
+    stiffness: 190,
+    damping: 31,
+    mass: 0.6,
   });
-
-  const scrollToMobileFrame = useCallback((index: number) => {
-    const track = mobileTrackRef.current;
-    const slide = mobileSlideRefs.current[index];
-    if (!track || !slide) return;
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    track.scrollTo({
-      left: slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2,
-      behavior: reduceMotion ? "auto" : "smooth",
-    });
-  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -162,7 +149,6 @@ export function DeratScrollStory() {
       const story = root.querySelector<HTMLElement>("[data-derat-story]");
       const frameElements = gsap.utils.toArray<HTMLElement>("[data-derat-frame]", root);
       const copySteps = gsap.utils.toArray<HTMLElement>("[data-derat-copy]", root);
-      const progress = root.querySelector<HTMLElement>("[data-derat-progress]");
       if (
         !story ||
         frameElements.length !== chapters.length ||
@@ -172,10 +158,9 @@ export function DeratScrollStory() {
       }
 
       const context = gsap.context(() => {
-        progressTarget.set(0);
-        gsap.set(frameElements, { autoAlpha: 0 });
-        gsap.set(frameElements[0], { autoAlpha: 1 });
-        gsap.set(copySteps, { opacity: 0.62, y: 16 });
+        gsap.set(frameElements, { autoAlpha: 0, scale: 1.008 });
+        gsap.set(frameElements[0], { autoAlpha: 1, scale: 1 });
+        gsap.set(copySteps, { opacity: 0.62, y: 18 });
         gsap.set(copySteps[0], { opacity: 1, y: 0 });
 
         const timeline = gsap.timeline({
@@ -186,6 +171,7 @@ export function DeratScrollStory() {
             end: "bottom bottom-=64",
             scrub: 0.72,
             invalidateOnRefresh: true,
+            onUpdate: (self) => progressValue.set(self.progress),
           },
         });
 
@@ -193,50 +179,43 @@ export function DeratScrollStory() {
 
         frameElements.slice(1).forEach((frame, index) => {
           const nextIndex = index + 1;
-          const transitionAt = nextIndex - 0.34;
+          const transitionAt = nextIndex - 0.28;
 
           timeline
-            .to(frameElements[index], { autoAlpha: 0, duration: 0.68, ease: "none" }, transitionAt)
+            .to(
+              frameElements[index],
+              { autoAlpha: 0, scale: 0.994, duration: 0.72, ease: "power1.inOut" },
+              transitionAt,
+            )
             .fromTo(
               frame,
-              { autoAlpha: 0 },
-              { autoAlpha: 1, duration: 0.68, ease: "none" },
+              { autoAlpha: 0, scale: 1.008 },
+              { autoAlpha: 1, scale: 1, duration: 0.72, ease: "power1.inOut" },
               transitionAt,
             )
             .to(
               copySteps[index],
-              { opacity: 0.62, y: -14, duration: 0.58, ease: "power2.inOut" },
+              { opacity: 0.56, y: -18, duration: 0.58, ease: "power2.inOut" },
               transitionAt,
             )
             .fromTo(
               copySteps[nextIndex],
-              { opacity: 0.62, y: 16 },
-              { opacity: 1, y: 0, duration: 0.62, ease: "power2.out" },
-              transitionAt + 0.06,
+              { opacity: 0.56, y: 18 },
+              { opacity: 1, y: 0, duration: 0.64, ease: "power2.out" },
+              transitionAt + 0.05,
             );
         });
-
-        if (progress) {
-          ScrollTrigger.create({
-            trigger: story,
-            start: "top top+=104",
-            end: "bottom bottom-=64",
-            invalidateOnRefresh: true,
-            onUpdate: (self) => progressTarget.set(self.progress),
-            onLeave: () => progressTarget.set(1),
-            onLeaveBack: () => progressTarget.set(0),
-          });
-        }
       }, root);
 
       return () => {
+        progressValue.set(0);
         context.revert();
         progressTarget.set(0);
       };
     });
 
     return () => media.revert();
-  }, [progressTarget]);
+  }, [progressValue]);
 
   return (
     <section
@@ -262,7 +241,7 @@ export function DeratScrollStory() {
         <div className="derat-story__visual">
           <div className="derat-story__visual-stick">
             <div className="derat-story__stage">
-              {frames.map((frame, index) => (
+              {frames.map((frame) => (
                 <figure data-derat-frame className="derat-story__frame" key={frame.src}>
                   <img
                     src={frame.src}
@@ -278,7 +257,7 @@ export function DeratScrollStory() {
               ))}
             </div>
             <div className="derat-story__progress" aria-hidden="true">
-              <motion.span data-derat-progress style={{ scaleX: progressSpring }} />
+              <motion.span style={{ scaleX: springProgress }} />
             </div>
           </div>
         </div>
@@ -294,11 +273,7 @@ export function DeratScrollStory() {
         </ol>
       </div>
 
-      <div
-        ref={mobileTrackRef}
-        className="derat-story__mobile"
-        aria-label="Obrazovky kalkulačky DERAT"
-      >
+      <div className="derat-story__mobile" aria-label="Kroky kalkulačky DERAT">
         {frames.map((frame, index) => (
           <article
             ref={(element) => {

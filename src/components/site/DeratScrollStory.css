@@ -113,9 +113,10 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
-  border-radius: clamp(0.65rem, 1.2vw, 1rem);
-  background: var(--surface, #0e1118);
+  border: 1px solid rgba(244, 251, 248, 0.14);
+  border-radius: clamp(1.5rem, 3vw, 2.35rem);
+  background: #10282a;
+  box-shadow: 0 3rem 7rem rgba(0, 0, 0, 0.42);
   isolation: isolate;
 }
 
@@ -162,7 +163,6 @@
   height: 100%;
   background: var(--derat-mint);
   transform-origin: left center;
-  will-change: transform;
 }
 
 .derat-story__copy-list {
@@ -207,7 +207,8 @@
   line-height: 1.65;
 }
 
-.derat-story__mobile {
+.derat-story__mobile,
+.derat-story__dots {
   display: none;
 }
 
@@ -242,13 +243,16 @@
     grid-auto-flow: column;
     grid-auto-columns: var(--derat-slide-size);
     gap: 1.1rem;
+    width: 100%;
+    max-width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-inline: contain;
     scroll-padding-inline: var(--derat-track-edge);
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     margin-top: 3.25rem;
-    padding: 0 var(--derat-track-edge) 1rem;
+    padding: 0 max(1.25rem, calc((100vw - min(84vw, 28rem)) / 2)) 1rem;
     touch-action: pan-x;
     -webkit-overflow-scrolling: touch;
   }
@@ -267,9 +271,10 @@
     overflow: hidden;
     aspect-ratio: 3 / 4;
     margin: 0;
-    border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
-    border-radius: 0.85rem;
-    background: var(--surface, #0e1118);
+    border: 1px solid rgba(244, 251, 248, 0.14);
+    border-radius: 1.55rem;
+    background: #10282a;
+    box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.3);
   }
 
   .derat-story__mobile-slide img {
@@ -287,53 +292,44 @@
     font-size: clamp(1.7rem, 7.5vw, 2.45rem);
   }
 
-  .derat-story__mobile-dots {
+  .derat-story__dots {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 0.1rem;
-    margin-top: 0.4rem;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
   }
 
-  .derat-story__mobile-dots button {
-    display: grid;
-    width: 2.75rem;
-    height: 2.75rem;
+  .derat-story__dots button {
+    width: 0.48rem;
+    height: 0.48rem;
+    border: 1px solid rgba(244, 251, 248, 0.42);
+    border-radius: 999px;
     padding: 0;
-    border: 0;
-    place-items: center;
-    color: inherit;
-    background: transparent;
-    cursor: pointer;
-  }
-
-  .derat-story__mobile-dots button span {
-    width: 0.38rem;
-    height: 0.38rem;
-    border: 1px solid var(--text-light, #8d9c92);
-    border-radius: 50%;
     background: transparent;
     transition:
-      transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
-      background-color 240ms cubic-bezier(0.16, 1, 0.3, 1);
+      width 320ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 220ms ease,
+      background-color 220ms ease;
   }
 
-  .derat-story__mobile-dots button.is-active span {
-    transform: scale(1.55);
+  .derat-story__dots button[data-active="true"] {
+    width: 1.8rem;
     border-color: var(--derat-mint);
     background: var(--derat-mint);
   }
 
-  .derat-story__mobile-dots button:focus-visible {
-    outline: 2px solid var(--highlight, #3478f6);
-    outline-offset: -0.35rem;
+  .derat-story__dots button:focus-visible {
+    outline: 2px solid var(--derat-paper);
+    outline-offset: 4px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .derat-story__intro a {
+  .derat-story__intro a,
+  .derat-story__dots button {
     transition: none;
   }
 
@@ -366,9 +362,9 @@
     overflow: hidden;
     aspect-ratio: 3 / 4;
     margin: 0;
-    border: 1px solid var(--border-strong, rgba(244, 241, 232, 0.22));
-    border-radius: 0.85rem;
-    background: var(--surface, #0e1118);
+    border: 1px solid rgba(244, 251, 248, 0.14);
+    border-radius: 1.55rem;
+    background: #10282a;
   }
 
   .derat-story__mobile-slide img {
@@ -380,6 +376,10 @@
 
   .derat-story__mobile-copy {
     padding-top: 1.5rem;
+  }
+
+  .derat-story__dots {
+    display: none;
   }
 }
 

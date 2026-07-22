@@ -191,13 +191,13 @@ export function LineSidebar({
             ref={(element) => {
               itemRefs.current[index] = element;
             }}
-            key={`${item.to}-${item.label}`}
-            variants={menuItemVariants}
+            style={{ "--line-item-index": index } as CSSProperties}
+            key={`${item.href}-${item.label}`}
           >
             {showMarker ? <span className="rb-line-sidebar__marker" aria-hidden="true" /> : null}
             <Link
               className="rb-line-sidebar__label"
-              to={item.to}
+              to={item.href as never}
               aria-current={activeIndex === index ? "location" : undefined}
               onFocus={() => {
                 targetsRef.current[index] = 1;
@@ -217,7 +217,7 @@ export function LineSidebar({
               ) : null}
               <span className="rb-line-sidebar__text">{item.label}</span>
             </Link>
-          </motion.li>
+          </li>
         ))}
       </motion.ul>
     </nav>

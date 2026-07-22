@@ -1,11 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import {
-  useEffect,
-  useRef,
-  useState,
-  type PointerEvent as ReactPointerEvent,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -50,8 +44,7 @@ type RevealDirection = "up" | "left" | "right";
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
-const liquidControlSelector =
-  ".lp-button, .lp-assistant-cta, .lp-assistant-chips button, .lp-switch button, .lp-faq-ask";
+const liquidControlSelector = ".lp-button, .lp-assistant-cta, .lp-faq-ask";
 
 const heroSequence: Variants = {
   hidden: {},
@@ -79,15 +72,15 @@ const sequenceItem: Variants = {
 const heroTools = {
   chatbot: {
     label: "Chatbot",
-    text: "Odpovie, kvalifikuje dopyt a odovzdá vám kontakt aj s celým kontextom.",
+    text: "Odpovie 24/7, zistí potrebu zákazníka a pripraví dopyt, na ktorý môžete rovno reagovať.",
   },
   calculator: {
-    label: "Kalkulačka",
-    text: "Vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
+    label: "S kalkulačkou",
+    text: "Vedie prirodzený rozhovor a počas neho vypočíta cenu alebo rozsah zákazky podľa vašich pravidiel.",
   },
   configurator: {
-    label: "Konfigurátor",
-    text: "Prevedie zákazníka ľubovoľným výberom a odošle hotovú špecifikáciu.",
+    label: "S konfigurátorom",
+    text: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
   },
 } satisfies Record<HeroToolKey, { label: string; text: string }>;
 
@@ -108,17 +101,17 @@ const solutions = [
   {
     icon: Bot,
     title: "Chatbot na mieru",
-    copy: "Konverzácia navrhnutá podľa vašich služieb a reálnych otázok zákazníkov.",
+    copy: "Odpovedá na otázky, poradí návštevníkovi a odovzdá vám kontakt spolu s celým kontextom.",
   },
   {
     icon: Calculator,
-    title: "Kalkulačky a konfigurátory",
-    copy: "Od ceny po zložitý produktový výber — logika sa prispôsobí vášmu procesu.",
+    title: "Chatbot s kalkulačkou",
+    copy: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
   },
   {
     icon: Workflow,
-    title: "Všetko v jednom chatbote",
-    copy: "Kalkulačku aj konfigurátor viem prepojiť s rozhovorom do jedného plynulého zážitku.",
+    title: "Chatbot s konfigurátorom",
+    copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle hotovú špecifikáciu.",
   },
 ];
 
@@ -493,52 +486,7 @@ function Heading({
 function Hero() {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
   const reducedMotion = useReducedMotion();
-  const magneticCta = useMagnetic<HTMLAnchorElement>(0.14);
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const glideOffset = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [0, 30]);
-  const glideY = useSpring(glideOffset, { stiffness: 170, damping: 28, mass: 0.74 });
-  const tiltXTarget = useMotionValue(0);
-  const tiltYTarget = useMotionValue(0);
-  const tiltX = useSpring(tiltXTarget, liquidSpring);
-  const tiltY = useSpring(tiltYTarget, liquidSpring);
-  const tiltEnabled = useRef(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const syncTiltCapability = () => {
-      tiltEnabled.current = query.matches && !reducedMotion;
-      if (!tiltEnabled.current) {
-        tiltXTarget.set(0);
-        tiltYTarget.set(0);
-      }
-    };
-
-    syncTiltCapability();
-    query.addEventListener("change", syncTiltCapability);
-    return () => query.removeEventListener("change", syncTiltCapability);
-  }, [reducedMotion, tiltXTarget, tiltYTarget]);
-
-  const resetCardTilt = () => {
-    tiltXTarget.set(0);
-    tiltYTarget.set(0);
-  };
-
-  const updateCardTilt = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (reducedMotion || event.pointerType === "touch" || !tiltEnabled.current) {
-      resetCardTilt();
-      return;
-    }
-
-    const bounds = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
-    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
-    tiltXTarget.set(y * -4);
-    tiltYTarget.set(x * 4);
-  };
+  const magneticCta = useMagnetic<HTMLAnchorElement>(0.055);
 
   return (
     <section className="lp-hero" id="uvod" ref={heroRef}>
@@ -553,25 +501,25 @@ function Hero() {
           initial={reducedMotion ? false : "hidden"}
           animate="visible"
         >
-          <h1 aria-label="Webové nástroje, ktoré odovzdajú hotový dopyt.">
+          <h1 aria-label="Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.">
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>Webové nástroje,</motion.span>
+              <motion.span variants={heroLine}>Chatboty, ktoré</motion.span>
             </span>
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>ktoré odovzdajú</motion.span>
+              <motion.span variants={heroLine}>zvyšujú konverzie</motion.span>
             </span>
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.em variants={heroLine}>hotový dopyt.</motion.em>
+              <motion.em variants={heroLine}>a pripravujú dopyty.</motion.em>
             </span>
           </h1>
           <motion.p className="lp-hero-lead" variants={sequenceItem}>
-            Kalkulačky, konfigurátory a chatboty na mieru. Zákazník dostane odpoveď alebo cenu hneď
-            — vy kontakt aj celý kontext, pripravený na ponuku.
+            Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou,
+            konfigurátorom alebo rezerváciami. Zákazník dostane odpoveď hneď a vy pripravený dopyt.
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
             <Link to="/kontakt" className="lp-button lp-button-primary" ref={magneticCta}>
               <span className="lp-button-content">
-                Chcem riešenie na mieru <ArrowRight size={17} />
+                Chcem chatbot na mieru <ArrowRight size={17} />
               </span>
             </Link>
             <a href="#projekty" className="lp-button lp-button-quiet">
@@ -596,18 +544,11 @@ function Hero() {
             reducedMotion ? { duration: 0 } : { duration: 0.94, delay: 0.16, ease: premiumEase }
           }
         >
-          <div className="lp-assistant-anchor">
-            <motion.div
-              className="lp-assistant-card"
-              style={{ rotateX: tiltX, rotateY: tiltY, transformPerspective: 1200 }}
-              onPointerMove={updateCardTilt}
-              onPointerLeave={resetCardTilt}
-            >
-              <p>Čo má zákazník dostať hneď?</p>
-              <div className="lp-assistant-chips" role="group" aria-label="Typ webového nástroja">
-                {(
-                  Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]
-                ).map(([key, tool]) => (
+          <div className="lp-assistant-card">
+            <p>Čo má váš chatbot zvládnuť?</p>
+            <div className="lp-assistant-chips" role="group" aria-label="Typ chatbota">
+              {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
+                ([key, tool]) => (
                   <motion.button
                     type="button"
                     key={key}
@@ -662,6 +603,63 @@ function Hero() {
   );
 }
 
+function SolutionCard({
+  solution,
+  index,
+}: {
+  solution: (typeof solutions)[number];
+  index: number;
+}) {
+  const reducedMotion = useReducedMotion();
+  const cardRef = useRef<HTMLElement>(null);
+  const Icon = solution.icon;
+
+  return (
+    <motion.article
+      ref={cardRef}
+      className="lp-solution-pill"
+      initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.28 }}
+      transition={
+        reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
+      }
+      onPointerMove={(event) => {
+        if (reducedMotion || event.pointerType === "touch") return;
+        const card = event.currentTarget;
+        const bounds = card.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / Math.max(bounds.width, 1) - 0.5;
+        const y = (event.clientY - bounds.top) / Math.max(bounds.height, 1) - 0.5;
+        card.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
+        card.style.setProperty("--tilt-y", `${(x * 6).toFixed(2)}deg`);
+      }}
+      onPointerLeave={(event) => {
+        event.currentTarget.style.setProperty("--tilt-x", "0deg");
+        event.currentTarget.style.setProperty("--tilt-y", "0deg");
+      }}
+    >
+      <Icon aria-hidden="true" />
+      <div>
+        <h3>{solution.title}</h3>
+        <p>{solution.copy}</p>
+        <button
+          type="button"
+          className="lp-solution-cta"
+          onClick={() =>
+            openSiteAssistant({
+              source: "solution-card",
+              entry: "builder",
+              category: solution.title,
+            })
+          }
+        >
+          Navrhnúť tento chatbot <ArrowUpRight aria-hidden="true" />
+        </button>
+      </div>
+    </motion.article>
+  );
+}
+
 function ValueSection() {
   const [mode, setMode] = useState<ComparisonMode>("with");
   const active = comparisons[mode];
@@ -671,14 +669,14 @@ function ValueSection() {
     <section className="lp-value" id="nastroje">
       <div className="container-page">
         <Heading
-          eyebrow="Čo sa zmení"
-          copy="Nástroj má zákazníkovi zjednodušiť rozhodnutie a vám ušetriť opakované otázky."
+          eyebrow="Rozdiel v praxi"
+          copy="Chatbot odpovie okamžite, zozbiera správne vstupy a odovzdá vám dopyt pripravený na ďalší krok."
         >
           Menej zisťovania. <em>Viac pripravených dopytov.</em>
         </Heading>
 
         <Reveal className="lp-comparison" direction="right" distance={46}>
-          <div className="lp-switch" role="group" aria-label="Porovnanie webu bez a s nástrojom">
+          <div className="lp-switch" role="group" aria-label="Porovnanie webu bez a s chatbotom">
             <motion.button
               type="button"
               data-active={mode === "without"}
@@ -693,7 +691,7 @@ function ValueSection() {
                   aria-hidden="true"
                 />
               ) : null}
-              <span className="lp-control-label">Bez nástroja</span>
+              <span className="lp-control-label">Bez chatbota</span>
             </motion.button>
             <motion.button
               type="button"
@@ -709,7 +707,7 @@ function ValueSection() {
                   aria-hidden="true"
                 />
               ) : null}
-              <span className="lp-control-label">S nástrojom</span>
+              <span className="lp-control-label">S chatbotom</span>
             </motion.button>
           </div>
           <AnimatePresence mode="popLayout" initial={false}>
@@ -741,14 +739,8 @@ function ValueSection() {
         </Reveal>
 
         <div className="lp-solution-strip">
-          {solutions.map(({ icon: Icon, title, copy }, index) => (
-            <Reveal className="lp-solution-pill" key={title} delay={index * 0.08}>
-              <Icon />
-              <div>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </div>
-            </Reveal>
+          {solutions.map((solution, index) => (
+            <SolutionCard key={solution.title} solution={solution} index={index} />
           ))}
         </div>
       </div>
