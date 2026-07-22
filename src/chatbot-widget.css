@@ -7,13 +7,6 @@
    (pružinový stagger, kreslená fajka).
    ============================================================ */
 
-/* uhol pre „obkreslenie" borderu pri výbere (od stredu hore aj dole k bokom) */
-@property --cw-bd {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
 .cw-widget {
   color: var(--cw-ink);
   background: transparent;
@@ -201,23 +194,20 @@
     clip-path: circle(75% at 50% 50%);
   }
 }
-/* border sa obkreslí od stredu hore aj dole, obe čiary sa stretnú na bokoch,
-   a na konci sa mäkko upokojí (stlmí) */
+/* mätový border sa odkryje od stredu bokov nahor aj nadol, stretne sa hore
+   aj dole a na konci sa lesk mäkko upokojí (border ostáva ako stav výberu) */
 @keyframes cw-border-draw {
   0% {
-    --cw-bd: 0deg;
-    opacity: 0.85;
-    filter: drop-shadow(0 0 6px rgba(101, 230, 193, 0.55));
+    clip-path: inset(46% 0 46% 0);
+    filter: drop-shadow(0 0 5px rgba(101, 230, 193, 0.5));
   }
-  62% {
-    --cw-bd: 90deg;
-    opacity: 1;
-    filter: drop-shadow(0 0 8px rgba(101, 230, 193, 0.7));
+  70% {
+    clip-path: inset(0 0 0 0);
+    filter: drop-shadow(0 0 8px rgba(101, 230, 193, 0.6));
   }
   100% {
-    --cw-bd: 90deg;
-    opacity: 0.42;
-    filter: drop-shadow(0 0 3px rgba(101, 230, 193, 0.25));
+    clip-path: inset(0 0 0 0);
+    filter: drop-shadow(0 0 0 rgba(101, 230, 193, 0));
   }
 }
 @keyframes cw-step-box {
@@ -1360,7 +1350,14 @@
   animation: cw-sel-pop 0.34s var(--cw-spring);
 }
 
-/* výber „obkreslí" border od stredu hore aj dole k bokom, potom sa upokojí */
+/* výber „obkreslí" mätový border od stredu bokov (nahor aj nadol) */
+.cw-rowcard[data-selected="true"],
+.cw-scard[data-selected="true"],
+.cw-opt[data-selected="true"],
+.cw-vcard[data-selected="true"] {
+  border-color: transparent;
+}
+
 .cw-rowcard[data-selected="true"]::before,
 .cw-scard[data-selected="true"]::before,
 .cw-opt[data-selected="true"]::before,
@@ -1368,31 +1365,11 @@
   content: "";
   position: absolute;
   inset: 0;
+  transform: none; /* zruší posun zdedený z chevron ::before na rowcard */
   border-radius: inherit;
-  padding: 1.6px;
-  background: conic-gradient(
-    from -90deg,
-    var(--cw-mint-hi) 0deg,
-    var(--cw-mint-hi) var(--cw-bd),
-    transparent var(--cw-bd),
-    transparent calc(180deg - var(--cw-bd)),
-    var(--cw-mint-hi) calc(180deg - var(--cw-bd)),
-    var(--cw-mint-hi) calc(180deg + var(--cw-bd)),
-    transparent calc(180deg + var(--cw-bd)),
-    transparent calc(360deg - var(--cw-bd)),
-    var(--cw-mint-hi) calc(360deg - var(--cw-bd)),
-    var(--cw-mint-hi) 360deg
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
+  border: 1.5px solid var(--cw-mint-hi);
   pointer-events: none;
-  animation: cw-border-draw 0.78s var(--cw-ease-out) both;
+  animation: cw-border-draw 0.66s var(--cw-ease-out) both;
 }
 
 .cw-rowcard[data-selected="true"]::after {
@@ -2331,7 +2308,7 @@
   .cw-opt[data-selected="true"]::before,
   .cw-vcard[data-selected="true"]::before {
     animation: none !important;
-    --cw-bd: 90deg;
-    opacity: 0.6;
+    clip-path: inset(0 0 0 0);
+    filter: none;
   }
 }
