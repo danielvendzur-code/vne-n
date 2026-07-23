@@ -13,30 +13,28 @@ import { SiteLayout } from "../components/site/Layout";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+const errorPanelStyle = {
+  border: "1px solid #26364c",
+  borderRadius: "1.35rem",
+  padding: "clamp(1.7rem, 5vw, 3rem)",
+  background: "#0a0f17",
+  boxShadow: "0 30px 90px rgba(0,0,0,.58)",
+} as const;
+
 function NotFoundComponent() {
   return (
     <div
       className="flex min-h-screen items-center justify-center px-4"
       style={{
-        backgroundColor: "var(--background)",
+        backgroundColor: "#05070b",
         backgroundImage:
-          "radial-gradient(circle at 82% 12%, rgba(114, 199, 255, 0.1), transparent 30rem), radial-gradient(circle at 8% 90%, rgba(101, 230, 193, 0.07), transparent 26rem)",
+          "radial-gradient(circle at 82% 12%, rgba(78,140,255,.12), transparent 30rem)",
       }}
     >
-      <div
-        className="max-w-lg text-center"
-        style={{
-          border: "1px solid var(--border)",
-          borderRadius: "1.35rem",
-          padding: "clamp(1.7rem, 5vw, 3rem)",
-          background: "rgba(13, 34, 41, 0.86)",
-          boxShadow: "0 30px 90px rgba(0,0,0,.42)",
-          backdropFilter: "blur(22px)",
-        }}
-      >
+      <div className="max-w-lg text-center" style={errorPanelStyle}>
         <p
           style={{
-            color: "var(--accent)",
+            color: "#86aff6",
             fontSize: "0.73rem",
             fontWeight: 800,
             letterSpacing: "0.14em",
@@ -48,31 +46,31 @@ function NotFoundComponent() {
         <h1
           className="mt-4"
           style={{
-            color: "var(--text-primary)",
+            color: "#f6f8fb",
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2.35rem, 7vw, 4rem)",
-            fontWeight: 520,
+            fontWeight: 560,
             letterSpacing: "-0.06em",
             lineHeight: 0.98,
           }}
         >
           Odkaz sa nenašiel.
         </h1>
-        <p className="mt-5 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.65 }}>
-          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez overenú navigáciu.
+        <p className="mt-5 text-sm" style={{ color: "#9eabbc", lineHeight: 1.65 }}>
+          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez hlavnú navigáciu.
         </p>
         <a
           href={import.meta.env.BASE_URL}
           className="mt-8 inline-flex min-h-13 items-center justify-center"
           style={{
-            backgroundColor: "var(--primary)",
-            color: "var(--primary-foreground)",
-            border: "1px solid rgba(255,255,255,.24)",
+            backgroundColor: "#3979ec",
+            color: "#ffffff",
+            border: "1px solid #6ba4ff",
             borderRadius: "0.9rem",
             padding: "0.9rem 1.45rem",
             fontSize: "0.9rem",
             fontWeight: 800,
-            boxShadow: "0 18px 42px rgba(101,230,193,.22)",
+            boxShadow: "0 18px 42px -30px rgba(78,140,255,.9)",
           }}
         >
           Späť na úvod
@@ -93,13 +91,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div
       className="flex min-h-screen items-center justify-center px-4"
-      style={{ backgroundColor: "var(--background)" }}
+      style={{ backgroundColor: "#05070b" }}
     >
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>
+      <div className="max-w-md text-center" style={errorPanelStyle}>
+        <p style={{ color: "#86aff6", fontSize: ".72rem", fontWeight: 800 }}>MÔJ CHATBOT</p>
+        <h1 className="mt-3 text-xl font-semibold" style={{ color: "#f6f8fb" }}>
           Stránka sa nenačítala
         </h1>
-        <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+        <p className="mt-2 text-sm" style={{ color: "#9eabbc" }}>
           Niečo sa pokazilo. Skúste obnoviť obsah alebo sa vráťte na úvod.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -110,14 +109,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               reset();
             }}
             className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
-            style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+            style={{ backgroundColor: "#3979ec", color: "#ffffff", border: "1px solid #6ba4ff" }}
           >
             Skúsiť znova
           </button>
           <a
             href={import.meta.env.BASE_URL}
             className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
-            style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}
+            style={{ border: "1px solid #33445c", color: "#f6f8fb", background: "#0d141e" }}
           >
             Späť na úvod
           </a>
@@ -127,13 +126,39 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const personJsonLd = JSON.stringify({
+const structuredData = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Daniel Vendžúr",
-  email: "mailto:daniel@vendzur.sk",
-  url: "https://danielvendzur-code.github.io/vne-n/",
-  jobTitle: "Tvorca chatbotov, kalkulačiek a produktových konfigurátorov na mieru",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://danielvendzur-code.github.io/vne-n/#business",
+      name: "Môj Chatbot",
+      url: "https://danielvendzur-code.github.io/vne-n/",
+      email: "mailto:daniel@vendzur.sk",
+      telephone: "+421948699433",
+      description:
+        "Chatboty, kalkulačky a konfigurátory na mieru pre firmy. Jednoduchý chatbot začína od 350 €.",
+      founder: { "@id": "https://danielvendzur-code.github.io/vne-n/#daniel" },
+      areaServed: "Slovakia",
+      priceRange: "€€",
+    },
+    {
+      "@type": "Person",
+      "@id": "https://danielvendzur-code.github.io/vne-n/#daniel",
+      name: "Daniel Vendžúr",
+      email: "mailto:daniel@vendzur.sk",
+      url: "https://danielvendzur-code.github.io/vne-n/",
+      jobTitle: "Zakladateľ Môj Chatbot",
+      worksFor: { "@id": "https://danielvendzur-code.github.io/vne-n/#business" },
+    },
+    {
+      "@type": "WebSite",
+      name: "Môj Chatbot",
+      url: "https://danielvendzur-code.github.io/vne-n/",
+      inLanguage: "sk",
+      publisher: { "@id": "https://danielvendzur-code.github.io/vne-n/#business" },
+    },
+  ],
 });
 
 const interTightLatinExt =
@@ -152,7 +177,7 @@ const contentSecurityPolicy = [
   "font-src 'self' data: https://fonts.gstatic.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://danielvendzur-code.github.io https://*.vercel.app",
   "script-src 'self' 'unsafe-inline' https://danielvendzur-code.github.io https://*.vercel.app",
-  "connect-src 'self' https://*.vercel.app",
+  "connect-src 'self' https://moj-chatbot-backend.vercel.app https://*.vercel.app",
   "manifest-src 'self'",
   "worker-src 'self' blob:",
   "upgrade-insecure-requests",
@@ -166,24 +191,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { httpEquiv: "Content-Security-Policy", content: contentSecurityPolicy },
       { name: "referrer", content: "strict-origin-when-cross-origin" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
-      { title: "Daniel Vendžúr — chatboty na mieru, ktoré pripravujú dopyty" },
+      { title: "Môj Chatbot — chatboty na mieru od 350 €" },
       {
         name: "description",
         content:
-          "Navrhujem chatboty na mieru — od jednoduchého asistenta po chatbot s kalkulačkou, konfigurátorom alebo rezerváciami.",
+          "Chatboty, kalkulačky a konfigurátory na mieru od 350 €, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
       },
       { name: "author", content: "Daniel Vendžúr" },
-      { name: "theme-color", content: "#050609" },
-      { property: "og:site_name", content: "Daniel Vendžúr" },
+      { name: "theme-color", content: "#05070b" },
+      { property: "og:site_name", content: "Môj Chatbot" },
       { property: "og:locale", content: "sk_SK" },
-      {
-        property: "og:title",
-        content: "Chatboty na mieru, ktoré odpovedajú a pripravujú použiteľné dopyty",
-      },
+      { property: "og:title", content: "Môj Chatbot — pripravené dopyty priamo z webu" },
       {
         property: "og:description",
         content:
-          "Chatboty, kalkulačky, konfigurátory a rezervácie prepojené do jedného plynulého riešenia.",
+          "AI chatboty, kalkulačky a konfigurátory na mieru. Jednoduché riešenie začína od 350 €.",
       },
       { property: "og:type", content: "website" },
       {
@@ -193,6 +215,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Môj Chatbot — chatboty na mieru od 350 €" },
+      {
+        name: "twitter:description",
+        content: "Chatboty, kalkulačky a konfigurátory, ktoré pripravia použiteľný dopyt.",
+      },
       {
         name: "twitter:image",
         content: "https://danielvendzur-code.github.io/vne-n/og/og-home.jpg",
@@ -230,7 +257,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&display=swap",
       },
     ],
-    scripts: [{ type: "application/ld+json", children: personJsonLd }],
+    scripts: [{ type: "application/ld+json", children: structuredData }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -239,8 +266,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const basePath =
-    import.meta.env.BASE_URL === "/" ? "/" : import.meta.env.BASE_URL.replace(/\/$/, "");
+  const basePath = import.meta.env.BASE_URL === "/" ? "/" : import.meta.env.BASE_URL.replace(/\/$/, "");
 
   return (
     <html lang="sk" data-base-path={basePath} suppressHydrationWarning>
