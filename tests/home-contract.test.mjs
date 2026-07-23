@@ -38,11 +38,17 @@ test("flashlight is compact and reserved for deliberate CTAs", async () => {
 test("website chips are borderless stable and do not animate behind the label", async () => {
   const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
   assert.match(ownerCss, /\.lp-hero-pick,[\s\S]*\.lp-chip,[\s\S]*\.sp-hero-chips \.chip/);
-  assert.match(ownerCss, /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/);
+  assert.match(
+    ownerCss,
+    /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/,
+  );
   assert.match(ownerCss, /border: 0 !important/);
   assert.match(ownerCss, /\.lp-hero-pick-fill,[\s\S]*content: none !important/);
   assert.match(ownerCss, /\.lp-assistant-answer[\s\S]*animation: none !important/);
-  assert.match(ownerCss, /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*transform: none !important/);
+  assert.match(
+    ownerCss,
+    /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*transform: none !important/,
+  );
   assert.doesNotMatch(ownerCss, /inset 3px 0 0/);
 });
 
@@ -85,7 +91,7 @@ test("pricing and client preparation cover the sales essentials", async () => {
   assert.match(faq, /začína od 350 €/);
   assert.match(faq, /GDPR/);
   assert.match(faq, /čo ak si niečo vymyslí/);
-  assert.match(config, /competition-winner-20260723-v5/);
+  assert.match(config, /owner-friendly-20260723-v6/);
 });
 
 test("contact form submits directly and keeps a resilient fallback", async () => {
@@ -129,17 +135,17 @@ test("metadata security and fresh assistant loading remain present", async () =>
   assert.match(root, /Môj Chatbot — chatboty na mieru od 350 €/);
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
-  assert.match(loader, /competition-winner-v5/);
+  assert.match(loader, /owner-friendly-v6/);
   assert.match(loader, /Môj Chatbot/);
   assert.match(loader, /od 350 €/);
 });
 
-test("Pages workflow validates the live competition build", async () => {
+test("Pages workflow validates the live owner-friendly build", async () => {
   const workflow = await read(".github/workflows/pages.yml");
   assert.match(workflow, /Audit production dependencies/);
   assert.match(workflow, /Run source and deployment security audit/);
   assert.match(workflow, /Run UX and deployment contracts/);
   assert.match(workflow, /Verify live deployment and all public routes/);
-  assert.match(workflow, /competition-winner-v5/);
+  assert.match(workflow, /owner-friendly-v6/);
   assert.match(workflow, /live_smoke=success/);
 });
