@@ -138,7 +138,7 @@ for (const token of [
   ".lp-solution-cta",
   ".lp-hero-pick",
   "--spot-x",
-  "data.spotlight",
+  "dataset.spotlight",
   "requestAnimationFrame",
 ]) {
   if (!pointer.includes(token)) fail(`Pointer spotlight is missing ${token}`);
