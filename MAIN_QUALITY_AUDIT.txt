@@ -1,7 +1,7 @@
-run_id=30019217401
+run_id=30019323048
 install=success
 lint=success
-test=success
+test=failure
 build=success
 
 ===== lint =====
@@ -13,78 +13,375 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.684669
+  duration_ms: 7.016466
   type: 'test'
   ...
 # Subtest: the restrained correction layer loads last
 ok 2 - the restrained correction layer loads last
   ---
-  duration_ms: 2.900203
+  duration_ms: 2.494028
   type: 'test'
   ...
 # Subtest: ordinary controls no longer use liquid centre fills
 ok 3 - ordinary controls no longer use liquid centre fills
   ---
-  duration_ms: 1.145119
+  duration_ms: 0.773323
   type: 'test'
   ...
 # Subtest: flashlight follows a fine pointer only on solution CTAs
 ok 4 - flashlight follows a fine pointer only on solution CTAs
   ---
-  duration_ms: 1.780792
+  duration_ms: 1.654516
   type: 'test'
   ...
 # Subtest: hero and capability chips have stable matte selection states
 ok 5 - hero and capability chips have stable matte selection states
   ---
-  duration_ms: 1.953737
+  duration_ms: 1.624852
   type: 'test'
   ...
 # Subtest: comparison switch remains draggable and liquid
 ok 6 - comparison switch remains draggable and liquid
   ---
-  duration_ms: 2.590241
+  duration_ms: 2.160838
   type: 'test'
   ...
 # Subtest: capability details and mobile layout stay ordered
 ok 7 - capability details and mobile layout stay ordered
   ---
-  duration_ms: 1.330397
+  duration_ms: 0.959221
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 8 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 1.218156
+  duration_ms: 0.924109
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient latest widget loading are present
-ok 9 - metadata, CSP and resilient latest widget loading are present
+not ok 9 - metadata, CSP and resilient latest widget loading are present
   ---
-  duration_ms: 1.586327
+  duration_ms: 2.404554
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:136:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /complete-liquid-system-v1/. Input:
+    
+    '(() => {\n' +
+      '  "use strict";\n' +
+      '\n' +
+      '  if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;\n' +
+      '  window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;\n' +
+      '\n' +
+      '  const SOURCES = [\n' +
+      '    "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",\n' +
+      '    "https://moj-chatbot-backend.vercel.app/widget.js",\n' +
+      '  ];\n' +
+      '  const ROOT_ID = "dv-assistant-root";\n' +
+      '  const FALLBACK_ID = "dv-assistant-fallback";\n' +
+      '  const MOUNT_TIMEOUT = 9000;\n' +
+      '\n' +
+      '  let sourceIndex = 0;\n' +
+      '  let settled = false;\n' +
+      '\n' +
+      '  const hasMountedWidget = () => {\n' +
+      '    const root = document.getElementById(ROOT_ID);\n' +
+      '    return Boolean(root && root.childElementCount > 0);\n' +
+      '  };\n' +
+      '\n' +
+      '  const removeFallback = () => {\n' +
+      '    document.getElementById(FALLBACK_ID)?.remove();\n' +
+      '  };\n' +
+      '\n' +
+      '  const showFallback = () => {\n' +
+      '    if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;\n' +
+      '    settled = true;\n' +
+      '\n' +
+      '    const anchor = document.createElement("a");\n' +
+      '    anchor.id = FALLBACK_ID;\n' +
+      '    anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;\n' +
+      '    anchor.setAttribute("aria-label", "Otvoriť krátky dopyt");\n' +
+      '    anchor.innerHTML = `\n' +
+      '      <span aria-hidden="true">✦</span>\n' +
+      '      <span><strong>AI Assistant</strong><small>Otvoriť krátky dopyt</small></span>\n' +
+      '    `;\n' +
+      '    Object.assign(anchor.style, {\n' +
+      '      position: "fixed",\n' +
+      '      right: "max(16px, env(safe-area-inset-right))",\n' +
+      '      bottom: "max(16px, env(safe-area-inset-bottom))",\n' +
+      '      zIndex: "2147483000",\n' +
+      '      display: "inline-flex",\n' +
+      '      alignItems: "center",\n' +
+      '      gap: "10px",\n' +
+      '      minHeight: "58px",\n' +
+      '      padding: "10px 14px",\n' +
+      '      border: "1px solid #33445c",\n' +
+      '      borderRadius: "18px",\n' +
+      '      color: "#f5f7fb",\n' +
+      '      background: "#0b1018",\n' +
+      '      boxShadow: "0 24px 58px -34px rgba(0,0,0,.92)",\n' +
+      '      fontFamily: "inherit",\n' +
+      '      textDecoration: "none",\n' +
+      '    });\n' +
+      '\n' +
+      '    const icon = anchor.firstElementChild;\n' +
+      '    if (icon instanceof HTMLElement) {\n' +
+      '      Object.assign(icon.style, {\n' +
+      '        display: "grid",\n' +
+      '        width: "36px",\n' +
+      '        height: "36px",\n' +
+      '        placeItems: "center",\n' +
+      '        border: "1px solid #45658f",\n' +
+      '        borderRadius: "12px",\n' +
+      '        color: "#ffffff",\n' +
+      '        background: "#17325d",\n' +
+      '        fontSize: "16px",\n' +
+      '        fontWeight: "900",\n' +
+      '      });\n' +
+      '    }\n' +
+      '\n' +
+      '    const copy = anchor.lastElementChild;\n' +
+      '    if (copy instanceof HTMLElement) {\n' +
+      '      Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });\n' +
+      '      const strong = copy.querySelector("strong");\n' +
+      '      const small = copy.querySelector("small");\n' +
+      '      if (strong instanceof HTMLElement) {\n' +
+      '        Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });\n' +
+      '      }\n' +
+      '      if (small instanceof HTMLElement) {\n' +
+      '        Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });\n' +
+      '      }\n' +
+      '    }\n' +
+      '\n' +
+      '    document.body.appendChild(anchor);\n' +
+      '  };\n' +
+      '\n' +
+      '  const confirmMount = (script) => {\n' +
+      '    const startedAt = Date.now();\n' +
+      '    const check = () => {\n' +
+      '      if (hasMountedWidget()) {\n' +
+      '        settled = true;\n' +
+      '        removeFallback();\n' +
+      '        return;\n' +
+      '      }\n' +
+      '      if (Date.now() - startedAt >= MOUNT_TIMEOUT) {\n' +
+      '        script.remove();\n' +
+      '        loadNext();\n' +
+      '        return;\n' +
+      '      }\n' +
+      '      window.setTimeout(check, 250);\n' +
+      '    };\n' +
+      '    check();\n' +
+      '  };\n' +
+      '\n' +
+      '  const loadNext = () => {\n' +
+      '    if (settled || hasMountedWidget()) return;\n' +
+      '    const source = SOURCES[sourceIndex++];\n' +
+      '    if (!source) {\n' +
+      '      showFallback();\n' +
+      '      return;\n' +
+      '    }\n' +
+      '\n' +
+      '    const script = document.createElement("script");\n' +
+      '    script.src = `${source}?v=20260723-restrained-assistant-v2`;\n' +
+      '    script.async = true;\n' +
+      '    script.referrerPolicy = "strict-origin-when-cross-origin";\n' +
+      '    script.dataset.dvAssistantSource = source;\n' +
+      '    script.onload = () => confirmMount(script);\n' +
+      '    script.onerror = () => {\n' +
+      '      script.remove();\n' +
+      '      loadNext();\n' +
+      '    };\n' +
+      '    document.head.appendChild(script);\n' +
+      '  };\n' +
+      '\n' +
+      '  const start = () => {\n' +
+      '    document.documentElement.dataset.basePath =\n' +
+      '      document.documentElement.dataset.basePath || "/vne-n";\n' +
+      '    loadNext();\n' +
+      '  };\n' +
+      '\n' +
+      '  if (document.readyState === "loading") {\n' +
+      '    document.addEventListener("DOMContentLoaded", start, { once: true });\n' +
+      '  } else {\n' +
+      '    start();\n' +
+      '  }\n' +
+      '})();\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    (() => {
+      "use strict";
+    
+      if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;
+      window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;
+    
+      const SOURCES = [
+        "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
+        "https://moj-chatbot-backend.vercel.app/widget.js",
+      ];
+      const ROOT_ID = "dv-assistant-root";
+      const FALLBACK_ID = "dv-assistant-fallback";
+      const MOUNT_TIMEOUT = 9000;
+    
+      let sourceIndex = 0;
+      let settled = false;
+    
+      const hasMountedWidget = () => {
+        const root = document.getElementById(ROOT_ID);
+        return Boolean(root && root.childElementCount > 0);
+      };
+    
+      const removeFallback = () => {
+        document.getElementById(FALLBACK_ID)?.remove();
+      };
+    
+      const showFallback = () => {
+        if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;
+        settled = true;
+    
+        const anchor = document.createElement("a");
+        anchor.id = FALLBACK_ID;
+        anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;
+        anchor.setAttribute("aria-label", "Otvoriť krátky dopyt");
+        anchor.innerHTML = `
+          <span aria-hidden="true">✦</span>
+          <span><strong>AI Assistant</strong><small>Otvoriť krátky dopyt</small></span>
+        `;
+        Object.assign(anchor.style, {
+          position: "fixed",
+          right: "max(16px, env(safe-area-inset-right))",
+          bottom: "max(16px, env(safe-area-inset-bottom))",
+          zIndex: "2147483000",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "10px",
+          minHeight: "58px",
+          padding: "10px 14px",
+          border: "1px solid #33445c",
+          borderRadius: "18px",
+          color: "#f5f7fb",
+          background: "#0b1018",
+          boxShadow: "0 24px 58px -34px rgba(0,0,0,.92)",
+          fontFamily: "inherit",
+          textDecoration: "none",
+        });
+    
+        const icon = anchor.firstElementChild;
+        if (icon instanceof HTMLElement) {
+          Object.assign(icon.style, {
+            display: "grid",
+            width: "36px",
+            height: "36px",
+            placeItems: "center",
+            border: "1px solid #45658f",
+            borderRadius: "12px",
+            color: "#ffffff",
+            background: "#17325d",
+            fontSize: "16px",
+            fontWeight: "900",
+          });
+        }
+    
+        const copy = anchor.lastElementChild;
+        if (copy instanceof HTMLElement) {
+          Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });
+          const strong = copy.querySelector("strong");
+          const small = copy.querySelector("small");
+          if (strong instanceof HTMLElement) {
+            Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
+          }
+          if (small instanceof HTMLElement) {
+            Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });
+          }
+        }
+    
+        document.body.appendChild(anchor);
+      };
+    
+      const confirmMount = (script) => {
+        const startedAt = Date.now();
+        const check = () => {
+          if (hasMountedWidget()) {
+            settled = true;
+            removeFallback();
+            return;
+          }
+          if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
+            script.remove();
+            loadNext();
+            return;
+          }
+          window.setTimeout(check, 250);
+        };
+        check();
+      };
+    
+      const loadNext = () => {
+        if (settled || hasMountedWidget()) return;
+        const source = SOURCES[sourceIndex++];
+        if (!source) {
+          showFallback();
+          return;
+        }
+    
+        const script = document.createElement("script");
+        script.src = `${source}?v=20260723-restrained-assistant-v2`;
+        script.async = true;
+        script.referrerPolicy = "strict-origin-when-cross-origin";
+        script.dataset.dvAssistantSource = source;
+        script.onload = () => confirmMount(script);
+        script.onerror = () => {
+          script.remove();
+          loadNext();
+        };
+        document.head.appendChild(script);
+      };
+    
+      const start = () => {
+        document.documentElement.dataset.basePath =
+          document.documentElement.dataset.basePath || "/vne-n";
+        loadNext();
+      };
+    
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start, { once: true });
+      } else {
+        start();
+      }
+    })();
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:145:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 10 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 1.31602
+  duration_ms: 1.908218
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 11 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.011318
+  duration_ms: 0.833292
   type: 'test'
   ...
 1..11
 # tests 11
 # suites 0
-# pass 11
-# fail 0
+# pass 10
+# fail 1
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 82.711564
+# duration_ms 78.242307
+error: script "test" exited with code 1
 
 ===== build =====
 $ vite build
@@ -114,7 +411,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-DEbdYYGT.js               213.35 kB │ gzip: 69.76 kB
 
-[32m✓ built in 1.51s[39m
+[32m✓ built in 1.43s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 132 modules transformed.
 rendering chunks...
@@ -149,7 +446,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-FtxruNwk.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-Dtavpa2Y.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 584ms[39m
+[32m✓ built in 564ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -163,11 +460,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            80.15 kB │ gzip:  21.28 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            258.34 kB │ gzip:  59.20 kB
+.output/server/_ssr/vendor.mjs            258.34 kB │ gzip:  59.17 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 621ms[39m
+[32m✓ built in 637ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
