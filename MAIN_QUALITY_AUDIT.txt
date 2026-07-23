@@ -1,11 +1,23 @@
-run_id=30018214040
+run_id=30018406927
 install=success
-lint=success
-test=success
+lint=failure
+test=failure
 build=success
 
 ===== lint =====
 $ eslint .
+
+/home/runner/work/vne-n/vne-n/scripts/security-audit.mjs
+  117:36  error  Insert `⏎·`                                                                                                       prettier/prettier
+  118:31  error  Insert `⏎·`                                                                                                       prettier/prettier
+  119:30  error  Insert `⏎·`                                                                                                       prettier/prettier
+  152:3   error  Replace `".lp-solution-cta[data-liquid-pointer=\"true\"]"` with `'.lp-solution-cta[data-liquid-pointer="true"]'`  prettier/prettier
+  153:3   error  Replace `".lp-hero-pick[data-active=\"true\"]"` with `'.lp-hero-pick[data-active="true"]'`                        prettier/prettier
+
+✖ 5 problems (5 errors, 0 warnings)
+  5 errors and 0 warnings potentially fixable with the `--fix` option.
+
+error: script "lint" exited with code 1
 
 ===== test =====
 $ node --test tests/home-contract.test.mjs
@@ -13,119 +25,304 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 6.076536
+  duration_ms: 8.241815
   type: 'test'
   ...
 # Subtest: one final liquid layer owns the complete website
-ok 2 - one final liquid layer owns the complete website
+not ok 2 - one final liquid layer owns the complete website
   ---
-  duration_ms: 2.088546
+  duration_ms: 3.074483
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:23:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1217 !== 1178
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1178
+  actual: 1217
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:30:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: all major CTAs use the same centre-fill liquid interaction
 ok 3 - all major CTAs use the same centre-fill liquid interaction
   ---
-  duration_ms: 0.740654
+  duration_ms: 1.697778
   type: 'test'
   ...
 # Subtest: liquid surface lighting follows a fine pointer and respects reduced motion
 ok 4 - liquid surface lighting follows a fine pointer and respects reduced motion
   ---
-  duration_ms: 0.770602
+  duration_ms: 1.428122
   type: 'test'
   ...
 # Subtest: chip click feedback completes the border before the centre fill
-ok 5 - chip click feedback completes the border before the centre fill
+not ok 5 - chip click feedback completes the border before the centre fill
   ---
-  duration_ms: 1.061085
+  duration_ms: 2.067252
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:89:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /is-border-tracing/. Input:
+    
+    'import { useEffect } from "react";\n' +
+      'import { useReducedMotion } from "@/hooks/useReducedMotion";\n' +
+      '\n' +
+      'const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));\n' +
+      '\n' +
+      'export function SiteMotionEnhancements() {\n' +
+      '  const reducedMotion = useReducedMotion();\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const images = Array.from(document.querySelectorAll<HTMLImageElement>(".lp-project-media img"));\n' +
+      '    if (!images.length) return;\n' +
+      '\n' +
+      '    const cleanup = images.map((image, index) => {\n' +
+      '      const media = image.closest<HTMLElement>(".lp-project-media");\n' +
+      '      const markLoaded = () => {\n' +
+      '        if (image.naturalWidth > 0) media?.setAttribute("data-loaded", "true");\n' +
+      '      };\n' +
+      '      const markFailed = () => media?.setAttribute("data-load-error", "true");\n' +
+      '\n' +
+      '      image.loading = "eager";\n' +
+      '      image.fetchPriority = index === 0 ? "high" : "auto";\n' +
+      '      image.addEventListener("load", markLoaded, { once: true });\n' +
+      '      image.addEventListener("error", markFailed, { once: true });\n' +
+      '\n' +
+      '      if (image.complete) {\n' +
+      '        markLoaded();\n' +
+      '      } else {\n' +
+      '        void image\n' +
+      '          .decode()\n' +
+      '          .then(markLoaded)\n' +
+      '          .catch(() => undefined);\n' +
+      '      }\n' +
+      '\n' +
+      '      return () => {\n' +
+      '        image.removeEventListener("load", markLoaded);\n' +
+      '        image.removeEventListener("error", markFailed);\n' +
+      '      };\n' +
+      '    });\n' +
+      '\n' +
+      '    return () => cleanup.forEach((remove) => remove());\n' +
+      '  }, []);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    if (reducedMotion) return;\n' +
+      '\n' +
+      '    const hero = document.querySelector<HTMLElement>(".lp-hero");\n' +
+      '    const glide = hero?.querySelector<HTMLElement>(".lp-hero-glide") ?? null;\n' +
+      '    if (!hero || !glide) return;\n' +
+      '\n' +
+      '    let frame = 0;\n' +
+      '    const paint = () => {\n' +
+      '      frame = 0;\n' +
+      '      const rect = hero.getBoundingClientRect();\n' +
+      '      const progress = clamp(-rect.top / Math.max(rect.height, 1), 0, 1);\n' +
+      '      glide.style.transform = `translate3d(0, ${progress * 18}px, 0)`;\n' +
+      '    };\n' +
+      '    const onScroll = () => {\n' +
+      '      if (!frame) frame = window.requestAnimationFrame(paint);\n' +
+      '    };\n' +
+      '\n' +
+      '    glide.style.willChange = "transform";\n' +
+      '    paint();\n' +
+      '    window.addEventListener("scroll", onScroll, { passive: true });\n' +
+      '    window.addEventListener("resize", onScroll, { passive: true });\n' +
+      '\n' +
+      '    return () => {\n' +
+      '      window.removeEventListener("scroll", onScroll);\n' +
+      '      window.removeEventListener("resize", onScroll);\n' +
+      '      if (frame) window.cancelAnimationFrame(frame);\n' +
+      '      glide.style.removeProperty("transform");\n' +
+      '      glide.style.removeProperty("will-change");\n' +
+      '    };\n' +
+      '  }, [reducedMotion]);\n' +
+      '\n' +
+      '  return null;\n' +
+      '}\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    import { useEffect } from "react";
+    import { useReducedMotion } from "@/hooks/useReducedMotion";
+    
+    const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+    
+    export function SiteMotionEnhancements() {
+      const reducedMotion = useReducedMotion();
+    
+      useEffect(() => {
+        const images = Array.from(document.querySelectorAll<HTMLImageElement>(".lp-project-media img"));
+        if (!images.length) return;
+    
+        const cleanup = images.map((image, index) => {
+          const media = image.closest<HTMLElement>(".lp-project-media");
+          const markLoaded = () => {
+            if (image.naturalWidth > 0) media?.setAttribute("data-loaded", "true");
+          };
+          const markFailed = () => media?.setAttribute("data-load-error", "true");
+    
+          image.loading = "eager";
+          image.fetchPriority = index === 0 ? "high" : "auto";
+          image.addEventListener("load", markLoaded, { once: true });
+          image.addEventListener("error", markFailed, { once: true });
+    
+          if (image.complete) {
+            markLoaded();
+          } else {
+            void image
+              .decode()
+              .then(markLoaded)
+              .catch(() => undefined);
+          }
+    
+          return () => {
+            image.removeEventListener("load", markLoaded);
+            image.removeEventListener("error", markFailed);
+          };
+        });
+    
+        return () => cleanup.forEach((remove) => remove());
+      }, []);
+    
+      useEffect(() => {
+        if (reducedMotion) return;
+    
+        const hero = document.querySelector<HTMLElement>(".lp-hero");
+        const glide = hero?.querySelector<HTMLElement>(".lp-hero-glide") ?? null;
+        if (!hero || !glide) return;
+    
+        let frame = 0;
+        const paint = () => {
+          frame = 0;
+          const rect = hero.getBoundingClientRect();
+          const progress = clamp(-rect.top / Math.max(rect.height, 1), 0, 1);
+          glide.style.transform = `translate3d(0, ${progress * 18}px, 0)`;
+        };
+        const onScroll = () => {
+          if (!frame) frame = window.requestAnimationFrame(paint);
+        };
+    
+        glide.style.willChange = "transform";
+        paint();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+    
+        return () => {
+          window.removeEventListener("scroll", onScroll);
+          window.removeEventListener("resize", onScroll);
+          if (frame) window.cancelAnimationFrame(frame);
+          glide.style.removeProperty("transform");
+          glide.style.removeProperty("will-change");
+        };
+      }, [reducedMotion]);
+    
+      return null;
+    }
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:92:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: comparison switch is draggable and settles elastically
 ok 6 - comparison switch is draggable and settles elastically
   ---
-  duration_ms: 1.235612
+  duration_ms: 2.828581
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 7 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 2.556161
+  duration_ms: 1.074397
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient latest widget loading are present
 ok 8 - metadata, CSP and resilient latest widget loading are present
   ---
-  duration_ms: 1.213887
+  duration_ms: 1.016008
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 9 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 0.968157
+  duration_ms: 1.072524
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 10 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.048952
+  duration_ms: 1.129832
   type: 'test'
   ...
 1..10
 # tests 10
 # suites 0
-# pass 10
-# fail 0
+# pass 8
+# fail 2
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 71.306002
+# duration_ms 80.707387
+error: script "test" exited with code 1
 
 ===== build =====
 $ vite build
 [33mThe plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the [1mresolve.tsconfigPaths[22m option. You can remove the plugin and set [1mresolve.tsconfigPaths: true[22m in your Vite config instead.[39m
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
-[2Ktransforming...✓ 2365 modules transformed.
+[2Ktransforming...✓ 2366 modules transformed.
 rendering chunks...
 computing gzip size...
 .output/public/assets/motion-primitives-BSyIAIjQ.css   13.51 kB │ gzip:  3.20 kB
 .output/public/assets/routes-BQo8BSvi.css              41.68 kB │ gzip:  8.47 kB
 .output/public/assets/styles-CUMH_Z9c.css              81.10 kB │ gzip: 14.30 kB
-.output/public/assets/index-DgSi_cGd.css              246.19 kB │ gzip: 43.85 kB
-.output/public/assets/projekty._slug-Dxm8Riq2.js        0.72 kB │ gzip:  0.44 kB
+.output/public/assets/index-4OJW5OXM.css              264.74 kB │ gzip: 46.27 kB
+.output/public/assets/projekty._slug-B6nsuxNP.js        0.72 kB │ gzip:  0.44 kB
 .output/public/assets/rolldown-runtime-Cyuzqnbw.js      0.82 kB │ gzip:  0.47 kB
-.output/public/assets/motion-primitives-DP1754a9.js     1.65 kB │ gzip:  0.76 kB
-.output/public/assets/cookies-DMYM4R00.js               3.90 kB │ gzip:  1.50 kB
-.output/public/assets/postup-iCAW6GbS.js                4.30 kB │ gzip:  2.04 kB
-.output/public/assets/sluzby-W5dWfG9m.js                4.65 kB │ gzip:  1.88 kB
-.output/public/assets/kontakt-BiQLYZco.js               4.98 kB │ gzip:  2.02 kB
-.output/public/assets/farby-CYNJ9DhS.js                 7.97 kB │ gzip:  2.90 kB
-.output/public/assets/projekty.index-3P1ui-vo.js        8.25 kB │ gzip:  2.66 kB
-.output/public/assets/projekty._slug-CfbQrknr.js        8.36 kB │ gzip:  2.83 kB
-.output/public/assets/routes-CrGyVAf7.js               42.21 kB │ gzip: 14.49 kB
+.output/public/assets/motion-primitives-4tTT2IJ8.js     1.65 kB │ gzip:  0.76 kB
+.output/public/assets/cookies-Cz_mrkxV.js               3.90 kB │ gzip:  1.50 kB
+.output/public/assets/postup-Bm7UwZJN.js                4.30 kB │ gzip:  2.04 kB
+.output/public/assets/sluzby-Cm5xviYu.js                4.65 kB │ gzip:  1.88 kB
+.output/public/assets/kontakt-BJg3l_31.js               4.98 kB │ gzip:  2.02 kB
+.output/public/assets/farby-DSnFEH0N.js                 7.97 kB │ gzip:  2.90 kB
+.output/public/assets/projekty.index-B0hTDVst.js        8.25 kB │ gzip:  2.67 kB
+.output/public/assets/projekty._slug-sNp6r7sb.js        8.36 kB │ gzip:  2.84 kB
+.output/public/assets/routes-C7_tIkb1.js               42.21 kB │ gzip: 14.49 kB
 .output/public/assets/vendor-Sz_lmkba.js               51.67 kB │ gzip: 20.33 kB
 .output/public/assets/vendor-BJXVHgCM.js               62.55 kB │ gzip: 25.74 kB
 .output/public/assets/motion-Bke7a2kg.js              145.66 kB │ gzip: 49.05 kB
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
-.output/public/assets/index-DMG0b491.js               215.98 kB │ gzip: 70.43 kB
+.output/public/assets/index-DEbdYYGT.js               213.35 kB │ gzip: 69.76 kB
 
-[32m✓ built in 1.22s[39m
+[32m✓ built in 1.63s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
-[2Ktransforming...✓ 131 modules transformed.
+[2Ktransforming...✓ 132 modules transformed.
 rendering chunks...
 computing gzip size...
 node_modules/.nitro/vite/services/ssr/assets/cookies-By_i-lus.css                      4.59 kB │ gzip:  1.52 kB
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-BSyIAIjQ.css           13.51 kB │ gzip:  3.20 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BQo8BSvi.css                      41.68 kB │ gzip:  8.47 kB
 node_modules/.nitro/vite/services/ssr/assets/styles-CUMH_Z9c.css                      81.10 kB │ gzip: 14.30 kB
-node_modules/.nitro/vite/services/ssr/assets/router-DqguNfj3.css                     241.60 kB │ gzip: 42.90 kB
+node_modules/.nitro/vite/services/ssr/assets/router-DqzBQfV5.css                     260.15 kB │ gzip: 45.31 kB
 node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-0GVloK9P.js              0.44 kB │ gzip:  0.29 kB
 node_modules/.nitro/vite/services/ssr/assets/useReducedMotion-BRrsaBMY.js              0.75 kB │ gzip:  0.37 kB
-node_modules/.nitro/vite/services/ssr/assets/start-CQNFFTNc.js                         0.84 kB │ gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/start-ntX9GwDB.js                         0.84 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/site-8qlN0Jsl.js                          0.85 kB │ gzip:  0.52 kB
 node_modules/.nitro/vite/services/ssr/assets/site-assistant-nRt5KrGt.js                0.93 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-CWE7mHKW.js                1.15 kB │ gzip:  0.56 kB
 node_modules/.nitro/vite/services/ssr/assets/faq-ClMoF7tn.js                           1.61 kB │ gzip:  0.99 kB
-node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-df56bdBN.js    2.77 kB │ gzip:  0.74 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BnpVYdYF.js    2.77 kB │ gzip:  0.74 kB
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-B5RwApV3.js             3.22 kB │ gzip:  1.11 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-Dbj4sOtI.js                       3.58 kB │ gzip:  1.36 kB
 node_modules/.nitro/vite/services/ssr/assets/projects-D81UYxuu.js                      3.81 kB │ gzip:  1.50 kB
@@ -133,17 +330,17 @@ node_modules/.nitro/vite/services/ssr/assets/projekty._slug-14ClTU0X.js         
 node_modules/.nitro/vite/services/ssr/index.js                                         4.55 kB │ gzip:  1.99 kB
 node_modules/.nitro/vite/services/ssr/assets/Symbol-BP8uTcEf.js                        4.83 kB │ gzip:  1.47 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-ycMFnma2.js                       5.96 kB │ gzip:  1.79 kB
-node_modules/.nitro/vite/services/ssr/assets/postup-CsTMksxa.js                        6.26 kB │ gzip:  2.44 kB
+node_modules/.nitro/vite/services/ssr/assets/postup-f1P6Xq-Z.js                        6.26 kB │ gzip:  2.44 kB
 node_modules/.nitro/vite/services/ssr/assets/sluzby-BebRiFmT.js                        6.97 kB │ gzip:  2.30 kB
-node_modules/.nitro/vite/services/ssr/assets/kontakt-B9N8Uq5B.js                       8.45 kB │ gzip:  2.54 kB
-node_modules/.nitro/vite/services/ssr/assets/farby-C9FefSTf.js                        12.27 kB │ gzip:  3.52 kB
+node_modules/.nitro/vite/services/ssr/assets/kontakt-kBvEKZ58.js                       8.45 kB │ gzip:  2.54 kB
+node_modules/.nitro/vite/services/ssr/assets/farby-EkRVq3S7.js                        12.27 kB │ gzip:  3.52 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty.index-CPMHUcJ_.js               12.48 kB │ gzip:  3.41 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-kp6O6WoE.js               13.84 kB │ gzip:  3.68 kB
-node_modules/.nitro/vite/services/ssr/assets/tanstack-Bkygmpfq.js                     64.34 kB │ gzip: 15.93 kB
-node_modules/.nitro/vite/services/ssr/assets/router-Bcx7dcEP.js                       65.30 kB │ gzip: 16.10 kB
+node_modules/.nitro/vite/services/ssr/assets/router-FtxruNwk.js                       61.15 kB │ gzip: 15.21 kB
+node_modules/.nitro/vite/services/ssr/assets/tanstack-Dtavpa2Y.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 493ms[39m
+[32m✓ built in 681ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -157,11 +354,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            80.15 kB │ gzip:  21.28 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            262.58 kB │ gzip:  60.12 kB
+.output/server/_ssr/vendor.mjs            258.34 kB │ gzip:  59.18 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 510ms[39m
+[32m✓ built in 555ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
