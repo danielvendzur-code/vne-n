@@ -142,7 +142,7 @@ test("metadata, CSP and resilient latest widget loading are present", async () =
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
   assert.match(loader, /showFallback/);
-  assert.match(loader, /complete-liquid-system-v1/);
+  assert.match(loader, /restrained-assistant-v2/);
   assert.match(loader, /moj-chatbot-backend\.vercel\.app/);
 });
 
