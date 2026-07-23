@@ -25,7 +25,10 @@ export function SiteMotionEnhancements() {
       if (image.complete) {
         markLoaded();
       } else {
-        void image.decode().then(markLoaded).catch(() => undefined);
+        void image
+          .decode()
+          .then(markLoaded)
+          .catch(() => undefined);
       }
 
       return () => {
@@ -47,15 +50,21 @@ export function SiteMotionEnhancements() {
       element.classList.add("is-border-tracing");
       timers.set(
         element,
-        window.setTimeout(() => {
-          element.classList.remove("is-border-tracing");
-          timers.delete(element);
-        }, reducedMotion ? 260 : 980),
+        window.setTimeout(
+          () => {
+            element.classList.remove("is-border-tracing");
+            timers.delete(element);
+          },
+          reducedMotion ? 260 : 980,
+        ),
       );
     };
 
     const handleClick = (event: MouseEvent) => {
-      const target = event.target instanceof Element ? event.target.closest(".lp-hero-pick, .lp-chip") : null;
+      const target =
+        event.target instanceof Element
+          ? event.target.closest(".lp-hero-pick, .lp-chip")
+          : null;
       if (target instanceof HTMLElement) replayTrace(target);
     };
 
