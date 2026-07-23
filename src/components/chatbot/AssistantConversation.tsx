@@ -18,7 +18,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: 1,
     from: "bot",
-    text: "Dobrý deň! Som váš webový asistent. Pomôžem vám vybrať chatbota alebo kalkulačku, ktorá dáva pre váš web zmysel.",
+    text: "Dobrý deň, tu Môj Chatbot. Pomôžem vám vybrať chatbota alebo kalkulačku, ktorá dáva pre váš web zmysel.",
   },
   {
     id: 2,

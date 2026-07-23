@@ -64,3 +64,47 @@
       linear-gradient(135deg, #83f1d0, #65e6c1 52%, #72c7ff) border-box !important;
   }
 }
+
+/* One consistent, perfectly centred confirmation tick on every selected card
+   (row/industry/volume). Sits above the travelling border and gives the same
+   clear "selected" signal on each step — the SVG glyph centres on every OS,
+   unlike the "✓" character. The channel/feature radios keep their own marks. */
+.cw-widget .cw-rowcard[data-selected="true"],
+.cw-widget .cw-scard[data-selected="true"],
+.cw-widget .cw-vcard[data-selected="true"] {
+  position: relative !important;
+}
+
+.cw-widget .cw-rowcard[data-selected="true"]::after,
+.cw-widget .cw-scard[data-selected="true"]::after,
+.cw-widget .cw-vcard[data-selected="true"]::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 3 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2304140f' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round' d='M5 12.6l4.4 4.4L19 7.1'/%3E%3C/svg%3E")
+      center / 12px 12px no-repeat,
+    linear-gradient(140deg, #83f1d0 0%, #65e6c1 52%, #4bccaa 100%) !important;
+  box-shadow: 0 6px 14px -6px rgba(101, 230, 193, 0.6) !important;
+  animation: cw-pop 0.3s ease both !important;
+}
+
+.cw-widget .cw-rowcard[data-selected="true"]::after {
+  right: 14px !important;
+  top: 50% !important;
+  width: 22px !important;
+  height: 22px !important;
+  transform: translateY(-50%) !important;
+}
+
+.cw-widget .cw-scard[data-selected="true"]::after,
+.cw-widget .cw-vcard[data-selected="true"]::after {
+  right: 8px !important;
+  top: 8px !important;
+  width: 20px !important;
+  height: 20px !important;
+  transform: none !important;
+}

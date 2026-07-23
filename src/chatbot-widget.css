@@ -55,6 +55,8 @@
   --cw-glass-hi: linear-gradient(155deg, rgba(243, 248, 250, 0.1), rgba(243, 248, 250, 0.03));
   --cw-mint-fill: linear-gradient(140deg, #83f1d0 0%, #65e6c1 52%, #4bccaa 100%);
   --cw-mint-gloss: radial-gradient(circle at 26% 12%, rgba(255, 255, 255, 0.46), transparent 44%);
+  /* fajka centrovaná v symetrickom viewBoxe — sadne do stredu bubliny na každej platforme */
+  --cw-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2304140f' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round' d='M5 12.6l4.4 4.4L19 7.1'/%3E%3C/svg%3E");
 
   /* tiene + lesk */
   --cw-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -1373,7 +1375,7 @@
 }
 
 .cw-rowcard[data-selected="true"]::after {
-  content: "✓";
+  content: "";
   position: absolute;
   right: 14px;
   top: 50%;
@@ -1381,12 +1383,9 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--cw-mint-fill);
-  color: var(--cw-on-mint);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font: 800 12px var(--cw-font);
+  background:
+    var(--cw-check) center / 13px 13px no-repeat,
+    var(--cw-mint-fill);
   box-shadow: 0 6px 14px -6px rgba(101, 230, 193, 0.6);
   animation: cw-pop 0.3s ease;
 }
@@ -1528,19 +1527,16 @@
 }
 
 .cw-scard[data-selected="true"]::after {
-  content: "✓";
+  content: "";
   position: absolute;
   right: 6px;
   top: 6px;
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background: var(--cw-mint-fill);
-  color: var(--cw-on-mint);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font: 800 11px var(--cw-font);
+  background:
+    var(--cw-check) center / 11px 11px no-repeat,
+    var(--cw-mint-fill);
   box-shadow: 0 5px 12px -6px rgba(101, 230, 193, 0.6);
   animation: cw-pop 0.3s ease;
 }
@@ -1764,19 +1760,16 @@
 }
 
 .cw-vcard[data-selected="true"]::after {
-  content: "✓";
+  content: "";
   position: absolute;
   right: 7px;
   top: 7px;
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background: var(--cw-mint-fill);
-  color: var(--cw-on-mint);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font: 800 11px var(--cw-font);
+  background:
+    var(--cw-check) center / 11px 11px no-repeat,
+    var(--cw-mint-fill);
   box-shadow: 0 5px 12px -6px rgba(101, 230, 193, 0.6);
   animation: cw-pop 0.3s ease;
 }
