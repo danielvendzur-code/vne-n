@@ -1,5 +1,6 @@
 export const siteConfig = {
   brand: "Môj Chatbot",
+  visualVersion: "liquid-ai-assistant-20260723",
   title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
   description:
     "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
