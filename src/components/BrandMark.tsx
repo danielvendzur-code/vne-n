@@ -16,16 +16,37 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       focusable="false"
     >
       <defs>
-        <linearGradient id="brand-shell" x1="7" y1="5" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="brand-shell"
+          x1="7"
+          y1="5"
+          x2="42"
+          y2="44"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#1B2433" />
           <stop offset="1" stopColor="#070A10" />
         </linearGradient>
-        <linearGradient id="brand-face" x1="14" y1="14" x2="35" y2="34" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="brand-face"
+          x1="14"
+          y1="14"
+          x2="35"
+          y2="34"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#15376D" />
           <stop offset="0.52" stopColor="#0B1628" />
           <stop offset="1" stopColor="#080B12" />
         </linearGradient>
-        <linearGradient id="brand-blue" x1="12" y1="11" x2="38" y2="37" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="brand-blue"
+          x1="12"
+          y1="11"
+          x2="38"
+          y2="37"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#75B8FF" />
           <stop offset="0.5" stopColor="#3478F6" />
           <stop offset="1" stopColor="#1F55C9" />
@@ -73,7 +94,13 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
         strokeLinecap="round"
       />
       <path d="M24 6.7V4.2" stroke="#3478F6" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="24" cy="2.9" r="2.15" fill="url(#brand-blue)" filter="url(#brand-glow)" />
+      <circle
+        cx="24"
+        cy="2.9"
+        r="2.15"
+        fill="url(#brand-blue)"
+        filter="url(#brand-glow)"
+      />
       <circle cx="7.2" cy="22.35" r="1.45" fill="#3478F6" />
       <circle cx="40.8" cy="22.35" r="1.45" fill="#3478F6" />
     </svg>
