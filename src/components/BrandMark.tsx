@@ -94,13 +94,7 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
         strokeLinecap="round"
       />
       <path d="M24 6.7V4.2" stroke="#3478F6" strokeWidth="2" strokeLinecap="round" />
-      <circle
-        cx="24"
-        cy="2.9"
-        r="2.15"
-        fill="url(#brand-blue)"
-        filter="url(#brand-glow)"
-      />
+      <circle cx="24" cy="2.9" r="2.15" fill="url(#brand-blue)" filter="url(#brand-glow)" />
       <circle cx="7.2" cy="22.35" r="1.45" fill="#3478F6" />
       <circle cx="40.8" cy="22.35" r="1.45" fill="#3478F6" />
     </svg>
