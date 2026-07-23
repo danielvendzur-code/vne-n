@@ -1,7 +1,21 @@
 import { useEffect } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-const surfaceSelector = ".lp-solution-cta";
+const surfaceSelector = [
+  ".spotlight-surface",
+  ".lp-solution-cta",
+  ".lp-hero-pick",
+  ".lp-chip",
+  ".lp-button-quiet",
+  ".lp-assistant-cta",
+  ".lp-faq-ask",
+  ".lp-project > a",
+  ".sp-project-card > a",
+  ".sp-button--ghost",
+  ".contact-assistant",
+  ".site-menu-solution",
+  ".site-menu-project-link",
+].join(",");
 
 export function LiquidSurfacePointer() {
   const reducedMotion = useReducedMotion();
@@ -27,9 +41,9 @@ export function LiquidSurfacePointer() {
 
     const clear = () => {
       if (!active) return;
-      active.removeAttribute("data-liquid-pointer");
-      active.style.removeProperty("--liquid-x");
-      active.style.removeProperty("--liquid-y");
+      active.removeAttribute("data-spotlight");
+      active.style.removeProperty("--spot-x");
+      active.style.removeProperty("--spot-y");
       active = null;
     };
 
@@ -39,9 +53,9 @@ export function LiquidSurfacePointer() {
       const rect = active.getBoundingClientRect();
       const x = Math.min(100, Math.max(0, ((clientX - rect.left) / Math.max(rect.width, 1)) * 100));
       const y = Math.min(100, Math.max(0, ((clientY - rect.top) / Math.max(rect.height, 1)) * 100));
-      active.style.setProperty("--liquid-x", `${x}%`);
-      active.style.setProperty("--liquid-y", `${y}%`);
-      active.dataset.liquidPointer = "true";
+      active.style.setProperty("--spot-x", `${x}%`);
+      active.style.setProperty("--spot-y", `${y}%`);
+      active.dataset.spotlight = "true";
     };
 
     const onPointerMove = (event: PointerEvent) => {
