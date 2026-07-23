@@ -101,7 +101,9 @@ const lastStyleImport = layout.lastIndexOf('import "./');
 if (ownerIndex === -1) fail("OwnerFriendlyPolish.css is not imported");
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
 if (previousIndex >= ownerIndex || ownerIndex >= winnerIndex) {
-  fail("Owner-friendly corrections must load after historical layers and before the final contract layer");
+  fail(
+    "Owner-friendly corrections must load after historical layers and before the final contract layer",
+  );
 }
 if (winnerIndex !== lastStyleImport) {
   fail("CompetitionWinnerFinal.css must be the final component style import");
