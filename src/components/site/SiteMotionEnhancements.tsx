@@ -55,7 +55,7 @@ export function SiteMotionEnhancements() {
             element.classList.remove("is-border-tracing");
             timers.delete(element);
           },
-          reducedMotion ? 260 : 980,
+          reducedMotion ? 260 : 1260,
         ),
       );
     };
