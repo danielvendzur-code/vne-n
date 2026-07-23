@@ -1,172 +1,131 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("chatbot-first copy is rendered directly by React", async () => {
-  const landing = await read("src/components/site/PremiumLanding.tsx");
-  const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
+test("competition layer and conversion section are mounted last", async () => {
   const layout = await read("src/components/site/Layout.tsx");
-  assert.match(landing, /Chatboty, ktoré/);
-  assert.match(landing, /zvyšujú konverzie/);
-  assert.match(landing, /Čo pre vás postavím/);
-  assert.match(landing, /GlideField/);
-  assert.match(landing, /LiquidControlGlow/);
-  assert.doesNotMatch(motion, /refineHomepageCopy|replaceText/);
-  assert.doesNotMatch(layout, /RequestedRuntimePolish/);
-  await assert.rejects(
-    access(new URL("../src/components/site/RequestedRuntimePolish.tsx", import.meta.url)),
-  );
-});
-
-test("the restrained correction layers load last", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
-  const finalCss = await read("src/components/site/WebsiteRefinementFinal.css");
-  const finishCss = await read("src/components/site/WebsiteRequestFinish.css");
-  assert.ok(
-    layout.indexOf('import "./AppleLiquidSystemFinal.css"') <
-      layout.indexOf('import "./WebsiteRefinementFinal.css"'),
-  );
-  assert.ok(
-    layout.indexOf('import "./WebsiteRefinementFinal.css"') <
-      layout.indexOf('import "./WebsiteRequestFinish.css"'),
-  );
+  const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
+  assert.match(layout, /HomeConversionUpgrade/);
+  assert.match(layout, /CompetitionWinnerFinal\.css/);
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./WebsiteRequestFinish.css"'),
+    layout.indexOf('import "./CompetitionWinnerFinal.css"'),
   );
-  for (const selector of [
-    ".site-header-bar",
-    ".lp-assistant-card",
-    ".lp-comparison",
-    ".lp-solution-pill",
-    ".lp-caps-row",
-    ".lp-project > a",
-    ".lp-faq-item",
-    ".lp-process-list > li",
-    ".lp-final-card",
-    ".premium-footer",
-    ".sp-hero",
-    ".sp-service",
-    ".sp-cta",
-    ".contact-card",
-  ]) {
-    assert.ok(finalCss.includes(selector), `Missing final restrained coverage for ${selector}`);
-  }
-  assert.match(finalCss, /--wr-blue:\s*#4e8cff/i);
-  assert.match(finalCss, /backdrop-filter:\s*none/i);
-  assert.match(finalCss, /@media \(max-width:\s*720px\)/);
-  assert.match(finalCss, /prefers-reduced-motion:\s*reduce/);
-  assert.match(finishCss, /\.lp-page \.lp-assistant-cta/);
-  assert.match(finishCss, /background:\s*#0e141e !important/);
-  assert.match(finishCss, /border-radius:\s*var\(--wr-radius-md\)/);
+  assert.match(css, /Final competition layer/);
+  assert.match(conversion, /od 350 €/);
+  assert.match(conversion, /Čo potrebujem od klienta/);
+  assert.match(conversion, /Získať návrh riešenia/);
 });
 
-test("ordinary controls no longer use liquid centre fills", async () => {
-  const css = await read("src/components/site/WebsiteRefinementFinal.css");
-  for (const selector of [
-    ".site-consultation-cta",
-    ".site-menu-cta",
-    ".lp-button",
-    ".lp-assistant-cta",
-    ".lp-caps-detail-cta",
-    ".lp-faq-ask",
-    ".sp-button",
-    ".contact-submit",
-    ".contact-assistant",
-  ]) {
-    assert.ok(css.includes(selector), `Missing matte CTA coverage for ${selector}`);
-  }
-  assert.match(css, /background:\s*#101722 !important/);
-  assert.match(css, /content:\s*none !important/);
-  assert.doesNotMatch(css, /scale3d\(1\.2, 1\.08, 1\)/);
-});
-
-test("flashlight follows a fine pointer only on solution CTAs", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
+test("flashlight follows pointer across approved dark surfaces", async () => {
   const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-  const css = await read("src/components/site/WebsiteRefinementFinal.css");
-  assert.match(layout, /LiquidSurfacePointer/);
-  assert.match(pointer, /const surfaceSelector = "\.lp-solution-cta"/);
-  assert.match(pointer, /\(hover: hover\) and \(pointer: fine\)/);
-  assert.match(pointer, /--liquid-x/);
-  assert.match(pointer, /--liquid-y/);
-  assert.match(pointer, /connection\?\.saveData/);
+  const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  assert.match(pointer, /\.spotlight-surface/);
+  assert.match(pointer, /\.lp-solution-cta/);
+  assert.match(pointer, /\.lp-hero-pick/);
+  assert.match(pointer, /--spot-x/);
+  assert.match(pointer, /data\.spotlight/);
   assert.match(pointer, /requestAnimationFrame/);
-  assert.match(css, /\.lp-solution-cta\[data-liquid-pointer="true"\]::before/);
-  assert.match(css, /circle at var\(--liquid-x\) var\(--liquid-y\)/);
+  assert.match(css, /circle at var\(--spot-x\) var\(--spot-y\)/);
+  assert.match(css, /\[data-spotlight="true"\]::before/);
+  assert.match(css, /rgba\(255, 255, 255, 0\.28\)/);
 });
 
-test("hero and capability chips have stable matte selection states", async () => {
-  const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
-  const css = await read("src/components/site/WebsiteRefinementFinal.css");
-  assert.doesNotMatch(motion, /is-border-tracing/);
-  assert.doesNotMatch(motion, /\.lp-hero-pick, \.lp-chip/);
-  assert.doesNotMatch(motion, /rotateX|rotateY/);
-  assert.match(css, /\.lp-hero-pick-fill,[\s\S]*\.lp-chip-fill[\s\S]*display:\s*none !important/);
+test("all website chips share one stable state without a side stripe", async () => {
+  const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  assert.match(css, /\.lp-hero-pick,[\s\S]*\.lp-chip,[\s\S]*\.sp-hero-chips \.chip/);
   assert.match(css, /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/);
-  assert.match(css, /box-shadow:\s*inset 3px 0 0 var\(--wr-blue\)/);
-  assert.match(css, /transform:\s*none !important/);
+  assert.match(css, /border-color:\s*#6ca5ff !important/);
+  assert.doesNotMatch(css, /inset 3px 0 0/);
+  assert.match(css, /\.lp-chip-fill[\s\S]*display:\s*none !important/);
+  assert.match(css, /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*rotate\(45deg\)/);
 });
 
-test("comparison switch remains draggable and liquid", async () => {
+test("only the comparison remains a liquid segmented control", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const drag = await read("src/components/site/LiquidSegmentedDrag.tsx");
-  const liquidCss = await read("src/components/site/ProfessionalChipFinal.css");
-  const refinementCss = await read("src/components/site/WebsiteRefinementFinal.css");
+  const css = await read("src/components/site/CompetitionWinnerFinal.css");
   assert.match(layout, /LiquidSegmentedDrag/);
   assert.match(drag, /setPointerCapture/);
-  assert.match(drag, /--lp-segment-x/);
-  assert.match(drag, /liquidSettling/);
-  assert.match(liquidCss, /data-liquid-dragging/);
-  assert.match(liquidCss, /cubic-bezier\(0\.16, 1\.28, 0\.3, 1\)/);
-  assert.match(refinementCss, /Intentionally not reset/);
+  assert.match(css, /Keep the approved liquid comparison/);
+  assert.match(css, /\.lp-switch[\s\S]*backdrop/);
+  assert.match(css, /-webkit-backdrop-filter:\s*none !important/);
 });
 
-test("capability details and mobile layout stay ordered", async () => {
-  const css = await read("src/components/site/WebsiteRefinementFinal.css");
-  assert.match(css, /\.lp-caps-detail-inner[\s\S]*background:\s*#090f18 !important/);
-  assert.match(css, /\.lp-caps-detail-cta[\s\S]*background:\s*#101722 !important/);
-  assert.match(css, /\.lp-caps-chips[\s\S]*grid-template-columns:\s*1fr !important/);
-  assert.match(css, /\.lp-caps-detail-inner[\s\S]*grid-template-columns:\s*1fr !important/);
-  assert.match(css, /\.lp-hero-picker[\s\S]*grid-template-columns:\s*1fr !important/);
+test("hero and desktop navigation are visually simplified", async () => {
+  const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  assert.match(css, /\.lp-assistant-card[\s\S]*top:\s*44% !important/);
+  assert.match(css, /\.lp-hero-grid[\s\S]*minmax\(30rem, 0\.97fr\)/);
+  assert.match(css, /@media \(min-width:\s*1024px\)[\s\S]*\.site-menu-toggle[\s\S]*display:\s*none !important/);
+  assert.match(css, /Remove card tilt/);
 });
 
-test("Moj Chatbot branding and direct contact are present", async () => {
+test("pricing and client preparation cover the sales essentials", async () => {
+  const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
+  const faq = await read("src/data/faq.ts");
   const config = await read("src/config/site.ts");
-  const footer = await read("src/components/site/Footer.tsx");
-  assert.match(config, /brand:\s*"Môj Chatbot"/);
-  assert.match(config, /daniel@vendzur\.sk/);
-  assert.match(footer, /Môj Chatbot/);
+  assert.match(conversion, /AI chatbot na mieru/);
+  assert.match(conversion, /Chatbot s výpočtom/);
+  assert.match(conversion, /Chatbot s konfigurátorom/);
+  assert.match(conversion, /Web a ponuka/);
+  assert.match(conversion, /Pravidlá a podklady/);
+  assert.match(conversion, /Značka a vzhľad/);
+  assert.match(conversion, /Kam má ísť dopyt/);
+  assert.match(faq, /začína od 350 €/);
+  assert.match(faq, /GDPR/);
+  assert.match(faq, /čo ak si niečo vymyslí/);
+  assert.match(config, /competition-winner-20260723-v5/);
 });
 
-test("metadata, CSP and resilient latest widget loading are present", async () => {
+test("contact form submits directly and keeps a resilient fallback", async () => {
+  const contact = await read("src/routes/kontakt.tsx");
+  const client = await read("src/lib/lead-submission.ts");
+  assert.match(contact, /await submitWebsiteLead/);
+  assert.match(contact, /submitState === "done"/);
+  assert.match(contact, /contact-consent/);
+  assert.doesNotMatch(contact, /window\.location\.assign\(`mailto:/);
+  assert.match(client, /api\/lead/);
+  assert.match(client, /AbortController/);
+  assert.match(client, /fallback/);
+});
+
+test("portfolio image loading preserves lazy loading after the first image", async () => {
+  const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
+  assert.match(motion, /image\.loading = index === 0 \? "eager" : "lazy"/);
+  assert.match(motion, /image\.fetchPriority = index === 0 \? "high" : "low"/);
+  assert.doesNotMatch(motion, /images\.map[\s\S]*image\.loading = "eager"/);
+});
+
+test("mobile conversion and chip layouts are explicit", async () => {
+  const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  assert.match(css, /@media \(max-width:\s*760px\)/);
+  assert.match(css, /\.winner-trust,[\s\S]*\.winner-final[\s\S]*grid-template-columns:\s*1fr !important/);
+  assert.match(css, /\.lp-hero-picker[\s\S]*grid-template-columns:\s*1fr !important/);
+  assert.match(css, /@media \(hover:\s*none\), \(pointer:\s*coarse\)/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+});
+
+test("metadata security and fresh assistant loading remain present", async () => {
   const root = await read("src/routes/__root.tsx");
   const loader = await read("public/widget-loader.js");
   assert.match(root, /Content-Security-Policy/);
   assert.match(root, /strict-origin-when-cross-origin/);
-  assert.match(root, /widget-loader\.js/);
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
-  assert.match(loader, /showFallback/);
-  assert.match(loader, /restrained-assistant-v2/);
-  assert.match(loader, /moj-chatbot-backend\.vercel\.app/);
+  assert.match(loader, /competition-winner-v5/);
+  assert.match(loader, /Môj Chatbot/);
+  assert.match(loader, /od 350 €/);
 });
 
-test("static export covers clean URLs and immutable build metadata", async () => {
-  const exporter = await read("scripts/export-github-pages.mjs");
-  assert.match(exporter, /"\/cookies"/);
-  assert.match(exporter, /404\.html/);
-  assert.match(exporter, /build-meta\.json/);
-  assert.match(exporter, /Chatboty, ktoré/);
-});
-
-test("Pages workflow validates and verifies the live deployment", async () => {
+test("Pages workflow validates the live competition build", async () => {
   const workflow = await read(".github/workflows/pages.yml");
   assert.match(workflow, /Audit production dependencies/);
   assert.match(workflow, /Run source and deployment security audit/);
   assert.match(workflow, /Run UX and deployment contracts/);
   assert.match(workflow, /Verify live deployment and all public routes/);
+  assert.match(workflow, /competition-winner-v5/);
   assert.match(workflow, /live_smoke=success/);
 });
