@@ -34,6 +34,7 @@ import "./WebsiteRequestFinish.css";
 import "./HomeConversionUpgrade.css";
 import "./OwnerFriendlyPolish.css";
 import "./CompetitionWinnerFinal.css";
+import "./TasteSystemFinal.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
