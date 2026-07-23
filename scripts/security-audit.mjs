@@ -87,7 +87,7 @@ for (const token of [
   "MOUNT_TIMEOUT",
   "showFallback",
   "https://danielvendzur-code.github.io",
-  "competition-winner-v5",
+  "owner-friendly-v6",
   "Môj Chatbot",
 ]) {
   if (!loader.includes(token)) fail(`Resilient assistant loader is missing ${token}`);
@@ -95,11 +95,13 @@ for (const token of [
 
 const layout = await read("src/components/site/Layout.tsx");
 const previousIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
+const ownerIndex = layout.indexOf('import "./OwnerFriendlyPolish.css"');
 const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
+if (ownerIndex === -1) fail("OwnerFriendlyPolish.css is not imported");
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
-if (previousIndex >= winnerIndex) {
-  fail("CompetitionWinnerFinal.css must load after historical correction layers");
+if (previousIndex >= ownerIndex || ownerIndex >= winnerIndex) {
+  fail("Owner-friendly corrections must load after historical layers and before the final contract layer");
 }
 if (winnerIndex !== lastStyleImport) {
   fail("CompetitionWinnerFinal.css must be the final component style import");
@@ -130,6 +132,18 @@ if (/inset 3px 0 0/.test(winnerCss)) {
 }
 if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(winnerCss)) {
   fail("Bronze, copper or gold remains in the final competition layer");
+}
+
+const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
+for (const token of [
+  "Remove the old large oval hover blob",
+  "circle 92px at var(--spot-x) var(--spot-y)",
+  '.lp-hero-pick[data-active="true"]',
+  ".lp-assistant-answer",
+  ".lp-comparison-body",
+  "border: 0 !important",
+]) {
+  if (!ownerCss.includes(token)) fail(`Owner-friendly visual system is missing ${token}`);
 }
 
 const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
@@ -183,7 +197,7 @@ for (const token of [
   "Run source and deployment security audit",
   "Validate exported artifact",
   "Verify live deployment",
-  "competition-winner-v5",
+  "owner-friendly-v6",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
@@ -211,5 +225,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, final spotlight and chip system, pricing and client preparation, real lead submission, mobile coverage, static export and live deployment contracts.",
+  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, owner-friendly spotlight and chip system, pricing and client preparation, real lead submission, mobile coverage, static export and live deployment contracts.",
 );
