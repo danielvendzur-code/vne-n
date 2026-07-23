@@ -1,0 +1,37 @@
+/* Final request-specific correction: the short brief action is a normal matte control, not a primary glass CTA. */
+.lp-page .lp-assistant-cta {
+  min-height: 50px !important;
+  width: 100% !important;
+  padding-inline: 1rem !important;
+  border: 1px solid var(--wr-line-strong) !important;
+  border-radius: var(--wr-radius-md) !important;
+  color: #dbe4ef !important;
+  background: #0e141e !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+}
+
+.lp-page .lp-assistant-cta::before,
+.lp-page .lp-assistant-cta::after {
+  content: none !important;
+  display: none !important;
+}
+
+.lp-page .lp-assistant-cta:hover,
+.lp-page .lp-assistant-cta:focus-visible {
+  border-color: #405573 !important;
+  color: #ffffff !important;
+  background: #101824 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 720px) {
+  .lp-page .lp-assistant-cta {
+    min-height: 48px !important;
+    border-radius: 13px !important;
+  }
+}
