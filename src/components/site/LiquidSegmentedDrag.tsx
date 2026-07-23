@@ -52,10 +52,7 @@ export function LiquidSegmentedDrag() {
 
     const onPointerDown = (event: PointerEvent) => {
       if (event.button !== 0 || event.pointerType === "touch") return;
-      const root =
-        event.target instanceof Element
-          ? event.target.closest<HTMLElement>(".lp-switch")
-          : null;
+      const root = event.target instanceof Element ? event.target.closest<HTMLElement>(".lp-switch") : null;
       if (!root) return;
 
       const { travel } = geometry(root);
