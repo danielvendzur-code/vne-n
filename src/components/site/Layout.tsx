@@ -6,6 +6,7 @@ import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
+import { LiquidSegmentedDrag } from "./LiquidSegmentedDrag";
 import "./SitePolish.css";
 import "./MineralTheme.css";
 import "./MineralThemePolish.css";
@@ -36,6 +37,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
         <SiteMotionEnhancements key={`motion-${pathname}`} />
+        <LiquidSegmentedDrag />
         <CookieConsent />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
