@@ -1,0 +1,395 @@
+/* Taste-system final layer.
+   This file is intentionally last: it removes the accumulated border, glow and
+   pseudo-element treatments and gives the public site one coherent language. */
+
+:root {
+  --taste-font: "Segoe UI Variable", "Aptos", "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --taste-bg: #05080d;
+  --taste-surface: #0d141e;
+  --taste-surface-hover: #131d2a;
+  --taste-surface-active: #172b4b;
+  --taste-text: #f5f7fb;
+  --taste-muted: #98a5b6;
+  --taste-blue: #4f86e8;
+  --taste-blue-soft: #86adf1;
+}
+
+html body {
+  font-family: var(--taste-font) !important;
+  font-feature-settings: "ss01", "cv02", "cv03", "cv04" !important;
+}
+
+html body button,
+html body input,
+html body textarea,
+html body select,
+html body .lp-button,
+html body .lp-chip,
+html body .lp-hero-pick {
+  font-family: var(--taste-font) !important;
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body .lp-hero-pick-label,
+html body .winner-package__title,
+html body .winner-final__title {
+  font-family: var(--taste-font) !important;
+  text-wrap: balance;
+}
+
+/* Remove the decorative light/blob layer from buttons, chips, cards and links. */
+html body .lp-button-quiet::before,
+html body .lp-button-quiet::after,
+html body .lp-hero-pick::before,
+html body .lp-hero-pick::after,
+html body .lp-chip::before,
+html body .lp-chip::after,
+html body .lp-solution-cta::before,
+html body .lp-solution-cta::after,
+html body .lp-assistant-cta::before,
+html body .lp-assistant-cta::after,
+html body .lp-project > a::before,
+html body .lp-project > a::after,
+html body .sp-project-card > a::before,
+html body .sp-project-card > a::after,
+html body .spotlight-surface::before,
+html body .spotlight-surface::after,
+html body .winner-package__cta::before,
+html body .winner-package__cta::after,
+html body .winner-final__secondary::before,
+html body .winner-final__secondary::after {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* Hero actions: one solid action and one quiet text action. */
+html body .lp-button,
+html body .lp-button-primary,
+html body .lp-button-quiet {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease !important;
+}
+
+html body .lp-button-primary {
+  color: #ffffff !important;
+  background: #3979e6 !important;
+}
+
+html body .lp-button-primary:hover,
+html body .lp-button-primary:focus-visible {
+  color: #ffffff !important;
+  background: #4b87ee !important;
+}
+
+html body .lp-button-quiet {
+  padding-inline: 0.35rem !important;
+  color: #a9b5c5 !important;
+  background: transparent !important;
+}
+
+html body .lp-button-quiet:hover,
+html body .lp-button-quiet:focus-visible {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+html body .lp-button:active,
+html body .lp-button-primary:active,
+html body .lp-button-quiet:active {
+  transform: none !important;
+}
+
+/* Website chips: no coloured border, no glass outline, no moving layer. */
+html body .lp-hero-pick,
+html body .lp-chip,
+html body .sp-hero-chips .chip,
+html body .sp-chip-row .chip {
+  min-height: 48px !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  color: #c5cfdb !important;
+  background: #0e1621 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  overflow: hidden !important;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease !important;
+}
+
+html body .lp-hero-pick:hover,
+html body .lp-hero-pick:focus-visible,
+html body .lp-chip:hover,
+html body .lp-chip:focus-visible,
+html body .sp-hero-chips .chip:hover,
+html body .sp-hero-chips .chip:focus-visible,
+html body .sp-chip-row .chip:hover,
+html body .sp-chip-row .chip:focus-visible {
+  border: 0 !important;
+  color: #ffffff !important;
+  background: #151f2d !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-hero-pick[data-active="true"],
+html body .lp-chip[data-active="true"],
+html body .sp-hero-chips .chip[aria-pressed="true"],
+html body .sp-chip-row .chip[aria-pressed="true"] {
+  border: 0 !important;
+  color: #ffffff !important;
+  background: #19345d !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-hero-pick-fill,
+html body .lp-chip-fill {
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+html body .lp-hero-pick-icon,
+html body .lp-chip-icon {
+  width: 22px !important;
+  height: 22px !important;
+  flex: 0 0 22px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #8fb5f6 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .lp-hero-pick-icon svg,
+html body .lp-chip-icon svg,
+html body .lp-solution-pill > svg,
+html body .winner-package__icon svg,
+html body .lp-hero-proof svg,
+html body .lp-comparison-body svg {
+  width: 19px !important;
+  height: 19px !important;
+  stroke-width: 1.65 !important;
+}
+
+html body .lp-hero-pick-label,
+html body .lp-chip-label {
+  font-size: 0.88rem !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.015em !important;
+}
+
+html body .lp-hero-pick-plus {
+  border: 0 !important;
+  color: #8fa1b6 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .lp-assistant-answer {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+html body .lp-assistant-answer > svg {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #89b0f2 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Remove square icon tiles from the marketing cards. */
+html body .winner-package__icon,
+html body .winner-trust__icon,
+html body .winner-prep__icon,
+html body .lp-solution-pill > svg,
+html body .lp-solution-icon,
+html body .lp-capability-icon {
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #8fb5f6 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Cards are separated by tone and spacing, never by a coloured outline. */
+html body .lp-assistant-card,
+html body .lp-solution-pill,
+html body .lp-project,
+html body .sp-project-card,
+html body .winner-trust__item,
+html body .winner-prep__item,
+html body .winner-package,
+html body .winner-final,
+html body .lp-faq-item {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .lp-solution-pill:hover,
+html body .lp-project:hover,
+html body .sp-project-card:hover,
+html body .winner-trust__item:hover,
+html body .winner-prep__item:hover,
+html body .winner-package:hover {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-solution-cta,
+html body .lp-assistant-cta,
+html body .winner-package__cta,
+html body .winner-final__secondary {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-solution-cta:hover,
+html body .lp-assistant-cta:hover,
+html body .winner-package__cta:hover,
+html body .winner-final__secondary:hover {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* One comparison card. No panel-inside-panel appearance. */
+html body .lp-comparison {
+  display: grid !important;
+  gap: 1rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+html body .lp-switch {
+  width: min(100%, 620px) !important;
+  margin: 0 !important;
+  padding: 5px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #0d141e !important;
+  box-shadow: none !important;
+}
+
+html body .lp-switch button {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-switch-liquid {
+  border: 0 !important;
+  background: #254b86 !important;
+  box-shadow: none !important;
+}
+
+html body .lp-comparison-body {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(17rem, 0.92fr) !important;
+  align-items: center !important;
+  gap: clamp(2rem, 5vw, 4.5rem) !important;
+  padding: clamp(2rem, 4vw, 3.4rem) !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  background: #080d14 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+html body .lp-comparison-copy,
+html body .lp-comparison-body > ul,
+html body .lp-comparison-body li {
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .lp-comparison-copy,
+html body .lp-comparison-body > ul {
+  padding: 0 !important;
+}
+
+html body .lp-comparison-body li {
+  padding: 0 !important;
+}
+
+/* Keyboard focus remains visible without becoming a permanent coloured border. */
+html body .lp-button:focus-visible,
+html body .lp-hero-pick:focus-visible,
+html body .lp-chip:focus-visible,
+html body .lp-switch button:focus-visible,
+html body .lp-solution-cta:focus-visible,
+html body .lp-assistant-cta:focus-visible {
+  outline: 2px solid rgba(126, 171, 245, 0.85) !important;
+  outline-offset: 3px !important;
+}
+
+@media (max-width: 760px) {
+  html body .lp-hero-pick,
+  html body .lp-chip {
+    min-height: 50px !important;
+    border-radius: 15px !important;
+  }
+
+  html body .lp-comparison-body {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    padding: 1.35rem !important;
+    border-radius: 20px !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html body .lp-button::before,
+  html body .lp-button::after,
+  html body .lp-hero-pick::before,
+  html body .lp-hero-pick::after,
+  html body .lp-chip::before,
+  html body .lp-chip::after {
+    content: none !important;
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body .lp-button,
+  html body .lp-hero-pick,
+  html body .lp-chip,
+  html body .lp-switch button {
+    animation: none !important;
+    transition: none !important;
+  }
+}
