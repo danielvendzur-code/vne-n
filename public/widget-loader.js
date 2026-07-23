@@ -31,10 +31,10 @@
     const anchor = document.createElement("a");
     anchor.id = FALLBACK_ID;
     anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;
-    anchor.setAttribute("aria-label", "Otvoriť krátky dopyt");
+    anchor.setAttribute("aria-label", "Získať návrh riešenia");
     anchor.innerHTML = `
       <span aria-hidden="true">✦</span>
-      <span><strong>AI Assistant</strong><small>Otvoriť krátky dopyt</small></span>
+      <span><strong>Môj Chatbot</strong><small>Získať návrh od 350 €</small></span>
     `;
     Object.assign(anchor.style, {
       position: "fixed",
@@ -46,11 +46,11 @@
       gap: "10px",
       minHeight: "58px",
       padding: "10px 14px",
-      border: "1px solid #33445c",
+      border: "1px solid #3a5272",
       borderRadius: "18px",
-      color: "#f5f7fb",
-      background: "#0b1018",
-      boxShadow: "0 24px 58px -34px rgba(0,0,0,.92)",
+      color: "#f6f8fb",
+      background: "#0a0f17",
+      boxShadow: "0 24px 58px -34px rgba(0,0,0,.96)",
       fontFamily: "inherit",
       textDecoration: "none",
     });
@@ -62,7 +62,7 @@
         width: "36px",
         height: "36px",
         placeItems: "center",
-        border: "1px solid #45658f",
+        border: "1px solid #5183c9",
         borderRadius: "12px",
         color: "#ffffff",
         background: "#17325d",
@@ -114,7 +114,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260723-restrained-assistant-v2-derat-layout-v3`;
+    script.src = `${source}?v=20260723-competition-winner-v5`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
