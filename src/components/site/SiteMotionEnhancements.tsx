@@ -25,10 +25,7 @@ export function SiteMotionEnhancements() {
       if (image.complete) {
         markLoaded();
       } else {
-        void image
-          .decode()
-          .then(markLoaded)
-          .catch(() => undefined);
+        void image.decode().then(markLoaded).catch(() => undefined);
       }
 
       return () => {
@@ -41,49 +38,36 @@ export function SiteMotionEnhancements() {
   }, []);
 
   useEffect(() => {
-    const body = document.body;
-    let activeTeaser: HTMLElement | null = null;
-
-    const syncTeaser = () => {
-      const teaser = document.querySelector<HTMLElement>(".cw-teaser");
-      if (!teaser) {
-        activeTeaser = null;
-        return;
-      }
-
-      activeTeaser = teaser;
-      const obstructed =
-        body.dataset.siteMenuOpen === "true" ||
-        body.dataset.cookieBanner === "visible" ||
-        body.dataset.cookieSettings === "open";
-      teaser.style.setProperty("display", "block", "important");
-      teaser.style.setProperty("opacity", obstructed ? "0" : "1", "important");
-      teaser.style.setProperty("visibility", obstructed ? "hidden" : "visible", "important");
-      teaser.style.setProperty("pointer-events", obstructed ? "none" : "auto", "important");
-      teaser.style.setProperty(
-        "transform",
-        obstructed ? "translateY(7px) scale(0.985)" : "translateY(0) scale(1)",
-        "important",
+    const timers = new Map<HTMLElement, number>();
+    const replayTrace = (element: HTMLElement) => {
+      const timer = timers.get(element);
+      if (timer) window.clearTimeout(timer);
+      element.classList.remove("is-border-tracing");
+      void element.offsetWidth;
+      element.classList.add("is-border-tracing");
+      timers.set(
+        element,
+        window.setTimeout(() => {
+          element.classList.remove("is-border-tracing");
+          timers.delete(element);
+        }, reducedMotion ? 260 : 980),
       );
     };
 
-    syncTeaser();
-    const observer = new MutationObserver(syncTeaser);
-    observer.observe(body, {
-      attributes: true,
-      attributeFilter: ["data-site-menu-open", "data-cookie-banner", "data-cookie-settings"],
-      childList: true,
-      subtree: true,
-    });
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target.closest(".lp-hero-pick, .lp-chip") : null;
+      if (target instanceof HTMLElement) replayTrace(target);
+    };
 
+    document.addEventListener("click", handleClick, true);
     return () => {
-      observer.disconnect();
-      if (!activeTeaser) return;
-      ["display", "opacity", "visibility", "pointer-events", "transform"].forEach((property) =>
-        activeTeaser?.style.removeProperty(property),
-      );
+      document.removeEventListener("click", handleClick, true);
+      timers.forEach((timer, element) => {
+        window.clearTimeout(timer);
+        element.classList.remove("is-border-tracing");
+      });
     };
-  }, []);
+  }, [reducedMotion]);
 
   useEffect(() => {
     if (reducedMotion) return;
@@ -116,12 +100,10 @@ export function SiteMotionEnhancements() {
       pointerFrame = 0;
       if (!finePointer.matches || !card) return;
       const rect = card.getBoundingClientRect();
-      const normalizedX = clamp((pointerX - rect.left) / rect.width, 0, 1) * 2 - 1;
-      const normalizedY = clamp((pointerY - rect.top) / rect.height, 0, 1) * 2 - 1;
-      const rotateY = normalizedX * 2.4;
-      const rotateX = normalizedY * -2.4;
-      card.style.transition = "transform 130ms linear";
-      card.style.transform = `translateY(-50%) perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const normalizedX = clamp((pointerX - rect.left) / Math.max(rect.width, 1), 0, 1) * 2 - 1;
+      const normalizedY = clamp((pointerY - rect.top) / Math.max(rect.height, 1), 0, 1) * 2 - 1;
+      card.style.transition = "transform 150ms linear";
+      card.style.transform = `translateY(-50%) perspective(1100px) rotateX(${normalizedY * -2.4}deg) rotateY(${normalizedX * 2.4}deg)`;
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -133,11 +115,9 @@ export function SiteMotionEnhancements() {
 
     const resetCard = () => {
       if (!card) return;
-      if (pointerFrame) {
-        window.cancelAnimationFrame(pointerFrame);
-        pointerFrame = 0;
-      }
-      card.style.transition = "transform 440ms cubic-bezier(0.16, 1, 0.3, 1)";
+      if (pointerFrame) window.cancelAnimationFrame(pointerFrame);
+      pointerFrame = 0;
+      card.style.transition = "transform 480ms cubic-bezier(0.16, 1, 0.3, 1)";
       card.style.transform = "translateY(-50%) perspective(1100px) rotateX(0deg) rotateY(0deg)";
     };
 
@@ -152,10 +132,6 @@ export function SiteMotionEnhancements() {
       return { service, handleServicePointer };
     });
 
-    const handlePointerChange = () => {
-      if (!finePointer.matches) resetCard();
-    };
-
     if (glide) glide.style.willChange = "transform";
     if (card) {
       card.style.willChange = "transform";
@@ -167,14 +143,12 @@ export function SiteMotionEnhancements() {
       window.addEventListener("scroll", handleScroll, { passive: true });
       window.addEventListener("resize", handleScroll, { passive: true });
     }
-    finePointer.addEventListener("change", handlePointerChange);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
       card?.removeEventListener("pointermove", handlePointerMove);
       card?.removeEventListener("pointerleave", resetCard);
-      finePointer.removeEventListener("change", handlePointerChange);
       serviceHandlers.forEach(({ service, handleServicePointer }) => {
         service.removeEventListener("pointermove", handleServicePointer);
         service.style.removeProperty("--spot-x");
