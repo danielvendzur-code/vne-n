@@ -9,6 +9,7 @@ test("competition layer and conversion section are mounted last", async () => {
   const css = await read("src/components/site/CompetitionWinnerFinal.css");
   const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
   assert.match(layout, /HomeConversionUpgrade/);
+  assert.match(layout, /OwnerFriendlyPolish\.css/);
   assert.match(layout, /CompetitionWinnerFinal\.css/);
   assert.equal(
     layout.lastIndexOf('import "./'),
@@ -20,39 +21,43 @@ test("competition layer and conversion section are mounted last", async () => {
   assert.match(conversion, /Získať návrh riešenia/);
 });
 
-test("flashlight follows pointer across approved dark surfaces", async () => {
+test("flashlight is compact and reserved for deliberate CTAs", async () => {
   const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-  const css = await read("src/components/site/CompetitionWinnerFinal.css");
-  assert.match(pointer, /\.spotlight-surface/);
+  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
   assert.match(pointer, /\.lp-solution-cta/);
-  assert.match(pointer, /\.lp-hero-pick/);
+  assert.match(pointer, /\.lp-button-quiet/);
   assert.match(pointer, /--spot-x/);
   assert.match(pointer, /dataset\.spotlight/);
   assert.match(pointer, /requestAnimationFrame/);
-  assert.match(css, /circle at var\(--spot-x\) var\(--spot-y\)/);
-  assert.match(css, /\[data-spotlight="true"\]::before/);
-  assert.match(css, /rgba\(255, 255, 255, 0\.28\)/);
+  assert.match(ownerCss, /circle 92px at var\(--spot-x\) var\(--spot-y\)/);
+  assert.match(ownerCss, /Remove the old large oval hover blob/);
+  assert.match(ownerCss, /\.lp-solution-cta::before[\s\S]*content: none !important/);
+  assert.match(ownerCss, /\.lp-solution-cta::after/);
 });
 
-test("all website chips share one stable state without a side stripe", async () => {
-  const css = await read("src/components/site/CompetitionWinnerFinal.css");
-  assert.match(css, /\.lp-hero-pick,[\s\S]*\.lp-chip,[\s\S]*\.sp-hero-chips \.chip/);
-  assert.match(css, /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/);
-  assert.match(css, /border-color:\s*#6ca5ff !important/);
-  assert.doesNotMatch(css, /inset 3px 0 0/);
-  assert.match(css, /\.lp-chip-fill[\s\S]*display:\s*none !important/);
-  assert.match(css, /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*rotate\(45deg\)/);
+test("website chips are borderless stable and do not animate behind the label", async () => {
+  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
+  assert.match(ownerCss, /\.lp-hero-pick,[\s\S]*\.lp-chip,[\s\S]*\.sp-hero-chips \.chip/);
+  assert.match(ownerCss, /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/);
+  assert.match(ownerCss, /border: 0 !important/);
+  assert.match(ownerCss, /\.lp-hero-pick-fill,[\s\S]*content: none !important/);
+  assert.match(ownerCss, /\.lp-assistant-answer[\s\S]*animation: none !important/);
+  assert.match(ownerCss, /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*transform: none !important/);
+  assert.doesNotMatch(ownerCss, /inset 3px 0 0/);
 });
 
-test("only the comparison remains a liquid segmented control", async () => {
+test("comparison keeps the liquid switch but uses one clean content surface", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const drag = await read("src/components/site/LiquidSegmentedDrag.tsx");
   const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
   assert.match(layout, /LiquidSegmentedDrag/);
   assert.match(drag, /setPointerCapture/);
   assert.match(css, /Keep the approved liquid comparison/);
-  assert.match(css, /\.lp-switch[\s\S]*linear-gradient/);
-  assert.match(css, /\.lp-hero-pick[\s\S]*backdrop-filter:\s*none !important/);
+  assert.match(ownerCss, /\.lp-switch[\s\S]*border: 0 !important/);
+  assert.match(ownerCss, /\.lp-comparison[\s\S]*background: transparent !important/);
+  assert.match(ownerCss, /\.lp-comparison-body[\s\S]*border-radius: 24px !important/);
+  assert.match(ownerCss, /\.lp-comparison-copy,[\s\S]*background: transparent !important/);
 });
 
 test("hero and desktop navigation are visually simplified", async () => {
@@ -104,14 +109,15 @@ test("portfolio image loading preserves lazy loading after the first image", asy
 
 test("mobile conversion and chip layouts are explicit", async () => {
   const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
   assert.match(css, /@media \(max-width:\s*760px\)/);
   assert.match(
     css,
     /\.winner-trust,[\s\S]*\.winner-final[\s\S]*grid-template-columns:\s*1fr !important/,
   );
   assert.match(css, /\.lp-hero-picker[\s\S]*grid-template-columns:\s*1fr !important/);
-  assert.match(css, /@media \(hover:\s*none\), \(pointer:\s*coarse\)/);
-  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(ownerCss, /@media \(max-width: 760px\)/);
+  assert.match(ownerCss, /@media \(hover: none\), \(pointer: coarse\)/);
 });
 
 test("metadata security and fresh assistant loading remain present", async () => {
