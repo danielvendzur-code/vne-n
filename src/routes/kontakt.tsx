@@ -9,6 +9,7 @@ import { submitWebsiteLead } from "@/lib/lead-submission";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { seo } from "@/lib/seo";
 import "./kontakt.css";
+import "./kontakt-final.css";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
