@@ -1,6 +1,6 @@
 export const siteConfig = {
   brand: "Môj Chatbot",
-  visualVersion: "competition-winner-20260723-v5",
+  visualVersion: "owner-friendly-20260723-v6",
   title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
   description:
     "Chatboty, kalkulačky a konfigurátory na mieru od 350 €, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
