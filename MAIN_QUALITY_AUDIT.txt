@@ -1,4 +1,4 @@
-run_id=29999172891
+run_id=29999307424
 install=success
 lint=failure
 test=success
@@ -8,7 +8,7 @@ build=success
 $ eslint .
 
 /home/runner/work/vne-n/vne-n/src/components/site/SiteMotionEnhancements.tsx
-  65:40  error  Replace `⏎··········?·event.target.closest(".lp-hero-pick,·.lp-chip")⏎·········` with `·?·event.target.closest(".lp-hero-pick,·.lp-chip")`  prettier/prettier
+  64:21  error  Insert `⏎·······`  prettier/prettier
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.
@@ -21,55 +21,55 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.902931
+  duration_ms: 6.784571
   type: 'test'
   ...
 # Subtest: black-blue palette is followed by the recovered interaction layer
 ok 2 - black-blue palette is followed by the recovered interaction layer
   ---
-  duration_ms: 3.459313
+  duration_ms: 2.364214
   type: 'test'
   ...
 # Subtest: homepage and route surfaces remain covered
 ok 3 - homepage and route surfaces remain covered
   ---
-  duration_ms: 1.815637
+  duration_ms: 1.183514
   type: 'test'
   ...
 # Subtest: premium pointer depth is bounded and touch-safe
 ok 4 - premium pointer depth is bounded and touch-safe
   ---
-  duration_ms: 1.773519
+  duration_ms: 1.162042
   type: 'test'
   ...
 # Subtest: click feedback traces only the selected border
 ok 5 - click feedback traces only the selected border
   ---
-  duration_ms: 1.877213
+  duration_ms: 1.386266
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 6 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 3.155354
+  duration_ms: 1.940151
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 1.315963
+  duration_ms: 0.954392
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 8 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 0.965457
+  duration_ms: 0.619523
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 9 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.390823
+  duration_ms: 1.025628
   type: 'test'
   ...
 1..9
@@ -80,7 +80,7 @@ ok 9 - Pages workflow validates and verifies the live deployment
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 80.01564
+# duration_ms 72.075205
 
 ===== build =====
 $ vite build
@@ -110,7 +110,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-CwtBdw0z.js               209.41 kB │ gzip: 68.45 kB
 
-[32m✓ built in 1.70s[39m
+[32m✓ built in 1.36s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 127 modules transformed.
 rendering chunks...
@@ -145,7 +145,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-_00fXJLT.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-D-XrtkNL.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-DnBKH9Aa.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 621ms[39m
+[32m✓ built in 606ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -164,6 +164,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 586ms[39m
+[32m✓ built in 541ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
