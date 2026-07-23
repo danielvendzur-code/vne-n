@@ -20,16 +20,16 @@ test("chatbot-first copy is rendered directly by React", async () => {
   );
 });
 
-test("one final liquid layer owns the complete website", async () => {
+test("the restrained correction layer loads last", async () => {
   const layout = await read("src/components/site/Layout.tsx");
-  const finalCss = await read("src/components/site/AppleLiquidSystemFinal.css");
+  const finalCss = await read("src/components/site/WebsiteRefinementFinal.css");
   assert.ok(
-    layout.indexOf('import "./ProfessionalChipFinal.css"') <
-      layout.indexOf('import "./AppleLiquidSystemFinal.css"'),
+    layout.indexOf('import "./AppleLiquidSystemFinal.css"') <
+      layout.indexOf('import "./WebsiteRefinementFinal.css"'),
   );
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./AppleLiquidSystemFinal.css"'),
+    layout.indexOf('import "./WebsiteRefinementFinal.css"'),
   );
   for (const selector of [
     ".site-header-bar",
@@ -47,68 +47,82 @@ test("one final liquid layer owns the complete website", async () => {
     ".sp-cta",
     ".contact-card",
   ]) {
-    assert.ok(finalCss.includes(selector), `Missing final liquid coverage for ${selector}`);
+    assert.ok(finalCss.includes(selector), `Missing final restrained coverage for ${selector}`);
   }
-  assert.match(finalCss, /--al-blue:\s*#3478f6/i);
-  assert.match(finalCss, /backdrop-filter:\s*blur\(26px\)/i);
+  assert.match(finalCss, /--wr-blue:\s*#4e8cff/i);
+  assert.match(finalCss, /backdrop-filter:\s*none/i);
+  assert.match(finalCss, /@media \(max-width:\s*720px\)/);
   assert.match(finalCss, /prefers-reduced-motion:\s*reduce/);
 });
 
-test("all major CTAs use the same centre-fill liquid interaction", async () => {
-  const css = await read("src/components/site/AppleLiquidSystemFinal.css");
+test("ordinary controls no longer use liquid centre fills", async () => {
+  const css = await read("src/components/site/WebsiteRefinementFinal.css");
   for (const selector of [
     ".site-consultation-cta",
     ".site-menu-cta",
     ".lp-button",
     ".lp-assistant-cta",
-    ".lp-solution-cta",
     ".lp-caps-detail-cta",
     ".lp-faq-ask",
     ".sp-button",
     ".contact-submit",
     ".contact-assistant",
   ]) {
-    assert.ok(css.includes(selector), `Missing CTA coverage for ${selector}`);
+    assert.ok(css.includes(selector), `Missing matte CTA coverage for ${selector}`);
   }
-  assert.match(css, /transform:\s*scale3d\(0\.05, 0\.24, 1\)/);
-  assert.match(css, /transform 760ms var\(--al-ease\)/);
-  assert.match(css, /transform:\s*scale3d\(1\.2, 1\.08, 1\)/);
+  assert.match(css, /background:\s*#101722 !important/);
+  assert.match(css, /content:\s*none !important/);
+  assert.doesNotMatch(css, /scale3d\(1\.2, 1\.08, 1\)/);
 });
 
-test("liquid surface lighting follows a fine pointer and respects reduced motion", async () => {
+test("flashlight follows a fine pointer only on solution CTAs", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
+  const css = await read("src/components/site/WebsiteRefinementFinal.css");
   assert.match(layout, /LiquidSurfacePointer/);
+  assert.match(pointer, /const surfaceSelector = "\.lp-solution-cta"/);
   assert.match(pointer, /\(hover: hover\) and \(pointer: fine\)/);
   assert.match(pointer, /--liquid-x/);
   assert.match(pointer, /--liquid-y/);
   assert.match(pointer, /connection\?\.saveData/);
   assert.match(pointer, /requestAnimationFrame/);
+  assert.match(css, /\.lp-solution-cta\[data-liquid-pointer="true"\]::before/);
+  assert.match(css, /circle at var\(--liquid-x\) var\(--liquid-y\)/);
 });
 
-test("chip click feedback completes the border before the centre fill", async () => {
+test("hero and capability chips have stable matte selection states", async () => {
   const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
-  const css = await read("src/components/site/ProfessionalChipFinal.css");
-  assert.match(motion, /is-border-tracing/);
-  assert.match(motion, /lp-hero-pick, \.lp-chip/);
-  assert.match(motion, /1420/);
-  assert.match(css, /mask-composite:\s*exclude/);
-  assert.match(css, /lp-professional-border-trace 690ms/);
-  assert.match(css, /0%,[\s\S]*58%[\s\S]*background-size:\s*0% 0%/);
-  assert.match(css, /lp-professional-centre-fill 1160ms/);
-  assert.match(css, /lp-hero-pick-fill[\s\S]*display:\s*none !important/);
+  const css = await read("src/components/site/WebsiteRefinementFinal.css");
+  assert.doesNotMatch(motion, /is-border-tracing/);
+  assert.doesNotMatch(motion, /\.lp-hero-pick, \.lp-chip/);
+  assert.doesNotMatch(motion, /rotateX|rotateY/);
+  assert.match(css, /\.lp-hero-pick-fill,[\s\S]*\.lp-chip-fill[\s\S]*display:\s*none !important/);
+  assert.match(css, /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/);
+  assert.match(css, /box-shadow:\s*inset 3px 0 0 var\(--wr-blue\)/);
+  assert.match(css, /transform:\s*none !important/);
 });
 
-test("comparison switch is draggable and settles elastically", async () => {
+test("comparison switch remains draggable and liquid", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const drag = await read("src/components/site/LiquidSegmentedDrag.tsx");
-  const css = await read("src/components/site/ProfessionalChipFinal.css");
+  const liquidCss = await read("src/components/site/ProfessionalChipFinal.css");
+  const refinementCss = await read("src/components/site/WebsiteRefinementFinal.css");
   assert.match(layout, /LiquidSegmentedDrag/);
   assert.match(drag, /setPointerCapture/);
   assert.match(drag, /--lp-segment-x/);
   assert.match(drag, /liquidSettling/);
-  assert.match(css, /data-liquid-dragging/);
-  assert.match(css, /cubic-bezier\(0\.16, 1\.28, 0\.3, 1\)/);
+  assert.match(liquidCss, /data-liquid-dragging/);
+  assert.match(liquidCss, /cubic-bezier\(0\.16, 1\.28, 0\.3, 1\)/);
+  assert.match(refinementCss, /Intentionally not reset/);
+});
+
+test("capability details and mobile layout stay ordered", async () => {
+  const css = await read("src/components/site/WebsiteRefinementFinal.css");
+  assert.match(css, /\.lp-caps-detail-inner[\s\S]*background:\s*#090f18 !important/);
+  assert.match(css, /\.lp-caps-detail-cta[\s\S]*background:\s*#101722 !important/);
+  assert.match(css, /\.lp-caps-chips[\s\S]*grid-template-columns:\s*1fr !important/);
+  assert.match(css, /\.lp-caps-detail-inner[\s\S]*grid-template-columns:\s*1fr !important/);
+  assert.match(css, /\.lp-hero-picker[\s\S]*grid-template-columns:\s*1fr !important/);
 });
 
 test("Moj Chatbot branding and direct contact are present", async () => {
