@@ -1,11 +1,19 @@
-run_id=30010960003
+run_id=30012093983
 install=success
-lint=success
+lint=failure
 test=success
 build=success
 
 ===== lint =====
 $ eslint .
+
+/home/runner/work/vne-n/vne-n/src/components/site/LiquidSurfacePointer.tsx
+  35:90  error  Insert `⏎······`  prettier/prettier
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+error: script "lint" exited with code 1
 
 ===== test =====
 $ node --test tests/home-contract.test.mjs
@@ -13,61 +21,61 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 10.207022
+  duration_ms: 5.373446
   type: 'test'
   ...
 # Subtest: black-blue palette is followed by premium motion and final chip refinement
 ok 2 - black-blue palette is followed by premium motion and final chip refinement
   ---
-  duration_ms: 4.158001
+  duration_ms: 2.159438
   type: 'test'
   ...
 # Subtest: homepage and route surfaces remain covered
 ok 3 - homepage and route surfaces remain covered
   ---
-  duration_ms: 2.014984
+  duration_ms: 0.957443
   type: 'test'
   ...
 # Subtest: premium pointer depth is bounded and touch-safe
 ok 4 - premium pointer depth is bounded and touch-safe
   ---
-  duration_ms: 2.305989
+  duration_ms: 0.958498
   type: 'test'
   ...
 # Subtest: chip click feedback completes the border before the centre fill
 ok 5 - chip click feedback completes the border before the centre fill
   ---
-  duration_ms: 3.330547
+  duration_ms: 1.191276
   type: 'test'
   ...
 # Subtest: comparison switch is draggable and settles elastically
 ok 6 - comparison switch is draggable and settles elastically
   ---
-  duration_ms: 4.415004
+  duration_ms: 1.500533
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 7 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 2.225429
+  duration_ms: 0.975044
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 8 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 1.290945
+  duration_ms: 0.702081
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 9 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 1.356744
+  duration_ms: 0.717699
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 10 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.361691
+  duration_ms: 0.751816
   type: 'test'
   ...
 1..10
@@ -78,7 +86,7 @@ ok 10 - Pages workflow validates and verifies the live deployment
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 101.990903
+# duration_ms 51.418755
 
 ===== build =====
 $ vite build
@@ -108,7 +116,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-D3_lSg-f.js               214.25 kB │ gzip: 70.00 kB
 
-[32m✓ built in 1.59s[39m
+[32m✓ built in 985ms[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 129 modules transformed.
 rendering chunks...
@@ -143,7 +151,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-w8DtPaqb.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-BcMsMQj0.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 562ms[39m
+[32m✓ built in 408ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -163,6 +171,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 547ms[39m
+[32m✓ built in 459ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
