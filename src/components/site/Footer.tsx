@@ -8,7 +8,7 @@ import { openSiteAssistant } from "@/lib/site-assistant";
 const liveTools = [
   ["DERAT kalkulačka", "https://derat-chatbot-backend.vercel.app/"],
   ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],
-  ["Webový asistent", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
+  ["Môj Chatbot", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
 ] as const;
 
 export function Footer() {
@@ -17,7 +17,7 @@ export function Footer() {
       <div className="container-page premium-footer-main">
         <div className="premium-footer-brand">
           <Symbol size={36} />
-          <p>Daniel Vendžúr · chatboty, kalkulačky a konfigurátory navrhnuté na mieru.</p>
+          <p>Môj Chatbot · chatboty, kalkulačky a konfigurátory navrhnuté na mieru.</p>
         </div>
 
         <div>
@@ -57,7 +57,7 @@ export function Footer() {
         </div>
       </div>
       <div className="container-page premium-footer-bottom">
-        <span>© {new Date().getFullYear()} · Daniel Vendžúr</span>
+        <span>© {new Date().getFullYear()} · Môj Chatbot · Daniel Vendžúr</span>
         <span className="premium-footer-privacy">
           <Link to="/cookies">Používanie cookies</Link>
           <button type="button" onClick={openCookieSettings}>

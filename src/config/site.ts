@@ -1,7 +1,8 @@
 export const siteConfig = {
-  title: "Daniel Vendžúr — chatboty na mieru",
+  brand: "Môj Chatbot",
+  title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
   description:
-    "Navrhujem chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom a rezerváciami.",
+    "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
   contact: {
     email: "daniel@vendzur.sk",
     phoneLabel: "+421 948 699 433",
