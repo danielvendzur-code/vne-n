@@ -104,6 +104,7 @@ const premiumIndex = layout.indexOf('import "./RecoveredMotionFinal.css"');
 const chipIndex = layout.indexOf('import "./ProfessionalChipFinal.css"');
 const liquidIndex = layout.indexOf('import "./AppleLiquidSystemFinal.css"');
 const refinementIndex = layout.indexOf('import "./WebsiteRefinementFinal.css"');
+const finishIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (systemIndex === -1) fail("CompetitionSystem.css is not imported");
 if (routesIndex === -1) fail("CompetitionRoutes.css is not imported");
@@ -112,6 +113,7 @@ if (premiumIndex === -1) fail("RecoveredMotionFinal.css is not imported");
 if (chipIndex === -1) fail("ProfessionalChipFinal.css is not imported");
 if (liquidIndex === -1) fail("AppleLiquidSystemFinal.css is not imported");
 if (refinementIndex === -1) fail("WebsiteRefinementFinal.css is not imported");
+if (finishIndex === -1) fail("WebsiteRequestFinish.css is not imported");
 if (systemIndex >= routesIndex) {
   fail("CompetitionRoutes.css must load after CompetitionSystem.css");
 }
@@ -130,8 +132,11 @@ if (chipIndex >= liquidIndex) {
 if (liquidIndex >= refinementIndex) {
   fail("WebsiteRefinementFinal.css must load after AppleLiquidSystemFinal.css");
 }
-if (refinementIndex !== lastStyleImport) {
-  fail("WebsiteRefinementFinal.css must be the final component style import");
+if (refinementIndex >= finishIndex) {
+  fail("WebsiteRequestFinish.css must load after WebsiteRefinementFinal.css");
+}
+if (finishIndex !== lastStyleImport) {
+  fail("WebsiteRequestFinish.css must be the final component style import");
 }
 
 const competitionCss = await read("src/components/site/CompetitionSystem.css");
@@ -178,6 +183,17 @@ if (!refinementCss.includes("Intentionally not reset")) {
 }
 if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(refinementCss)) {
   fail("Bronze, copper or gold remains in the restrained final design layer");
+}
+
+const finishCss = await read("src/components/site/WebsiteRequestFinish.css");
+for (const token of [
+  ".lp-page .lp-assistant-cta",
+  "background: #0e141e",
+  "border-radius: var(--wr-radius-md)",
+  "backdrop-filter: none",
+  "@media (max-width: 720px)",
+]) {
+  if (!finishCss.includes(token)) fail(`Short brief correction is missing ${token}`);
 }
 
 const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
@@ -246,5 +262,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, resilient widget loading, restrained matte website coverage, retained liquid comparison control, focused CTA flashlight, mobile layout, route export, dependency audit and live smoke contracts.",
+  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, resilient widget loading, restrained matte website coverage, final short brief control, retained liquid comparison control, focused CTA flashlight, mobile layout, route export, dependency audit and live smoke contracts.",
 );
