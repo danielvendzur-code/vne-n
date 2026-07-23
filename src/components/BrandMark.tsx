@@ -3,38 +3,79 @@ interface BrandMarkProps {
   className?: string;
 }
 
-/**
- * Placeholder značka pre „Môj Chatbot" — moderný chat-bubble monogram.
- * Farbu preberá z --primary, takže sa drží aktuálnej palety.
- */
+/** Compact vector mascot shared with the AI Assistant widget. */
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 40 40"
+      viewBox="0 0 48 48"
       fill="none"
-      className={`brand-mark${className ? ` ${className}` : ""}`}
+      className={`brand-mark ai-mascot${className ? ` ${className}` : ""}`}
       aria-hidden="true"
       focusable="false"
     >
-      <rect x="2" y="2" width="36" height="36" rx="11" fill="var(--primary, #3478f6)" />
-      <rect
-        x="2.75"
-        y="2.75"
-        width="34.5"
-        height="34.5"
-        rx="10.25"
-        fill="none"
-        stroke="#ffffff"
-        strokeOpacity="0.22"
-        strokeWidth="1.5"
+      <defs>
+        <linearGradient id="brand-shell" x1="7" y1="5" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#1B2433" />
+          <stop offset="1" stopColor="#070A10" />
+        </linearGradient>
+        <linearGradient id="brand-face" x1="14" y1="14" x2="35" y2="34" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#15376D" />
+          <stop offset="0.52" stopColor="#0B1628" />
+          <stop offset="1" stopColor="#080B12" />
+        </linearGradient>
+        <linearGradient id="brand-blue" x1="12" y1="11" x2="38" y2="37" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#75B8FF" />
+          <stop offset="0.5" stopColor="#3478F6" />
+          <stop offset="1" stopColor="#1F55C9" />
+        </linearGradient>
+        <filter id="brand-glow" x="-35%" y="-35%" width="170%" height="170%">
+          <feGaussianBlur stdDeviation="1.8" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <path
+        d="M12.8 6.7h22.4c5.4 0 8.7 3.25 8.7 8.65v12.1c0 5.4-3.3 8.65-8.7 8.65H25.1l-9.25 6.15v-6.4C9.1 35.4 5.1 31.85 5.1 26.6V15.35c0-5.4 3.3-8.65 7.7-8.65Z"
+        fill="url(#brand-shell)"
+        stroke="rgba(247,249,252,.72)"
+        strokeWidth="1.35"
       />
-      <rect x="8" y="11" width="24" height="13" rx="5" fill="#ffffff" />
-      <path d="M13 22 13 28.6 19.6 22 Z" fill="#ffffff" />
-      <circle cx="15" cy="17.4" r="1.75" fill="var(--primary, #3478f6)" />
-      <circle cx="20" cy="17.4" r="1.75" fill="var(--primary, #3478f6)" />
-      <circle cx="25" cy="17.4" r="1.75" fill="var(--primary, #3478f6)" />
+      <path
+        d="M14.1 11.4h19.8c4.75 0 7.45 2.75 7.45 7.45v7.1c0 4.7-2.7 7.45-7.45 7.45H14.1c-4.75 0-7.45-2.75-7.45-7.45v-7.1c0-4.7 2.7-7.45 7.45-7.45Z"
+        fill="url(#brand-face)"
+        stroke="url(#brand-blue)"
+        strokeWidth="1.8"
+      />
+      <path
+        d="M12.2 15.25c2.5-1.45 5.15-2.05 8.1-2.05h7.7"
+        stroke="#FFFFFF"
+        strokeOpacity=".3"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+      <g className="ai-mascot__eyes" fill="#75B8FF" filter="url(#brand-glow)">
+        <rect x="14" y="20" width="6.3" height="4.6" rx="2.3" />
+        <rect x="27.7" y="20" width="6.3" height="4.6" rx="2.3" />
+      </g>
+      <g className="ai-mascot__eyelids" fill="#0A101B">
+        <rect x="13.65" y="19.65" width="7" height="5.3" rx="2.6" />
+        <rect x="27.35" y="19.65" width="7" height="5.3" rx="2.6" />
+      </g>
+      <path
+        d="M18.1 27.85c1.55 1.25 3.52 1.88 5.9 1.88 2.38 0 4.35-.63 5.9-1.88"
+        stroke="#F7F9FC"
+        strokeWidth="1.55"
+        strokeLinecap="round"
+      />
+      <path d="M24 6.7V4.2" stroke="#3478F6" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="24" cy="2.9" r="2.15" fill="url(#brand-blue)" filter="url(#brand-glow)" />
+      <circle cx="7.2" cy="22.35" r="1.45" fill="#3478F6" />
+      <circle cx="40.8" cy="22.35" r="1.45" fill="#3478F6" />
     </svg>
   );
 }
