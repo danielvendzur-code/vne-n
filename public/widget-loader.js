@@ -118,7 +118,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260723-apple-liquid-controls-v1`;
+    script.src = `${source}?v=20260723-complete-liquid-system-v1`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
