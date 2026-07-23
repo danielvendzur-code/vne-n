@@ -17,8 +17,8 @@ export function SiteMotionEnhancements() {
       };
       const markFailed = () => media?.setAttribute("data-load-error", "true");
 
-      image.loading = "eager";
-      image.fetchPriority = index === 0 ? "high" : "auto";
+      image.loading = index === 0 ? "eager" : "lazy";
+      image.fetchPriority = index === 0 ? "high" : "low";
       image.addEventListener("load", markLoaded, { once: true });
       image.addEventListener("error", markFailed, { once: true });
 
@@ -52,7 +52,7 @@ export function SiteMotionEnhancements() {
       frame = 0;
       const rect = hero.getBoundingClientRect();
       const progress = clamp(-rect.top / Math.max(rect.height, 1), 0, 1);
-      glide.style.transform = `translate3d(0, ${progress * 18}px, 0)`;
+      glide.style.transform = `translate3d(0, ${progress * 12}px, 0)`;
     };
     const onScroll = () => {
       if (!frame) frame = window.requestAnimationFrame(paint);
