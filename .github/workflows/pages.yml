@@ -91,11 +91,14 @@ jobs:
           test -f pages-dist/widget-loader.js
           test -f pages-dist/build-meta.json
           grep -Fq "Chatboty, ktoré" pages-dist/index.html
+          grep -Fq "od 350 €" pages-dist/index.html
+          grep -Fq "Čo potrebujem od klienta" pages-dist/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
-          grep -Fq "restrained-assistant-v2" pages-dist/widget-loader.js
-          grep -Fq "WebsiteRefinementFinal.css" src/components/site/Layout.tsx
+          grep -Fq "competition-winner-v5" pages-dist/widget-loader.js
+          grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx
+          grep -Fq "submitWebsiteLead" src/routes/kontakt.tsx
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
 
           for route in sluzby projekty postup kontakt cookies farby; do
@@ -152,15 +155,15 @@ jobs:
             return 1
           }
 
-          fetch_with_retry "/" "Chatboty, ktoré"
+          fetch_with_retry "/" "od 350 €"
           fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
           fetch_with_retry "/sluzby" ""
           fetch_with_retry "/sluzby/" ""
           fetch_with_retry "/projekty/" ""
           fetch_with_retry "/postup/" ""
-          fetch_with_retry "/kontakt/" ""
+          fetch_with_retry "/kontakt/" "Získať návrh riešenia"
           fetch_with_retry "/cookies/" ""
-          fetch_with_retry "/widget-loader.js" "restrained-assistant-v2"
+          fetch_with_retry "/widget-loader.js" "competition-winner-v5"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
 
