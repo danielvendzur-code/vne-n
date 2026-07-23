@@ -15,16 +15,27 @@ test("chatbot-first copy is rendered directly by React", async () => {
   assert.match(landing, /LiquidControlGlow/);
   assert.doesNotMatch(motion, /refineHomepageCopy|replaceText/);
   assert.doesNotMatch(layout, /RequestedRuntimePolish/);
-  await assert.rejects(access(new URL("../src/components/site/RequestedRuntimePolish.tsx", import.meta.url)));
+  await assert.rejects(
+    access(new URL("../src/components/site/RequestedRuntimePolish.tsx", import.meta.url)),
+  );
 });
 
 test("black-blue palette is followed by the recovered interaction layer", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const finalCss = await read("src/components/site/BlackBlueFinal.css");
   const recoveredCss = await read("src/components/site/RecoveredMotionFinal.css");
-  assert.ok(layout.indexOf('import "./CompetitionRoutes.css"') < layout.indexOf('import "./BlackBlueFinal.css"'));
-  assert.ok(layout.indexOf('import "./BlackBlueFinal.css"') < layout.indexOf('import "./RecoveredMotionFinal.css"'));
-  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./RecoveredMotionFinal.css"'));
+  assert.ok(
+    layout.indexOf('import "./CompetitionRoutes.css"') <
+      layout.indexOf('import "./BlackBlueFinal.css"'),
+  );
+  assert.ok(
+    layout.indexOf('import "./BlackBlueFinal.css"') <
+      layout.indexOf('import "./RecoveredMotionFinal.css"'),
+  );
+  assert.equal(
+    layout.lastIndexOf('import "./'),
+    layout.indexOf('import "./RecoveredMotionFinal.css"'),
+  );
   assert.match(finalCss, /--primary:\s*#3478f6/i);
   assert.match(finalCss, /--background:\s*#050609/i);
   assert.match(recoveredCss, /@keyframes recovered-border-trace/);
@@ -34,7 +45,14 @@ test("black-blue palette is followed by the recovered interaction layer", async 
 test("homepage and route surfaces remain covered", async () => {
   const systemCss = await read("src/components/site/CompetitionSystem.css");
   const routeCss = await read("src/components/site/CompetitionRoutes.css");
-  for (const selector of [".site-header-bar", ".lp-hero", ".lp-assistant-card", ".lp-solution-pill", ".lp-chip", ".premium-footer"]) {
+  for (const selector of [
+    ".site-header-bar",
+    ".lp-hero",
+    ".lp-assistant-card",
+    ".lp-solution-pill",
+    ".lp-chip",
+    ".premium-footer",
+  ]) {
     assert.ok(systemCss.includes(selector), `Missing homepage style for ${selector}`);
   }
   for (const selector of [".sp-hero", ".sp-service", ".contact-page", ".cookies-page"]) {
