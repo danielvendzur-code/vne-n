@@ -1,7 +1,7 @@
-run_id=30014004644
+run_id=30014229982
 install=success
 lint=success
-test=success
+test=failure
 build=success
 
 ===== lint =====
@@ -13,72 +13,377 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 7.079115
+  duration_ms: 5.84153
   type: 'test'
   ...
 # Subtest: one final liquid layer owns the complete website
 ok 2 - one final liquid layer owns the complete website
   ---
-  duration_ms: 2.282747
+  duration_ms: 2.007265
   type: 'test'
   ...
 # Subtest: all major CTAs use the same centre-fill liquid interaction
 ok 3 - all major CTAs use the same centre-fill liquid interaction
   ---
-  duration_ms: 0.844786
+  duration_ms: 0.767297
   type: 'test'
   ...
 # Subtest: liquid surface lighting follows a fine pointer and respects reduced motion
 ok 4 - liquid surface lighting follows a fine pointer and respects reduced motion
   ---
-  duration_ms: 0.900389
+  duration_ms: 0.785059
   type: 'test'
   ...
 # Subtest: chip click feedback completes the border before the centre fill
 ok 5 - chip click feedback completes the border before the centre fill
   ---
-  duration_ms: 1.325262
+  duration_ms: 1.041327
   type: 'test'
   ...
 # Subtest: comparison switch is draggable and settles elastically
 ok 6 - comparison switch is draggable and settles elastically
   ---
-  duration_ms: 1.740126
+  duration_ms: 1.575491
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 7 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 1.513557
+  duration_ms: 1.360598
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient latest widget loading are present
-ok 8 - metadata, CSP and resilient latest widget loading are present
+not ok 8 - metadata, CSP and resilient latest widget loading are present
   ---
-  duration_ms: 0.887167
+  duration_ms: 1.578586
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:122:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /apple-liquid-controls-v1/. Input:
+    
+    '(() => {\n' +
+      '  "use strict";\n' +
+      '\n' +
+      '  if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;\n' +
+      '  window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;\n' +
+      '\n' +
+      '  const SOURCES = [\n' +
+      '    "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",\n' +
+      '    "https://moj-chatbot-backend.vercel.app/widget.js",\n' +
+      '  ];\n' +
+      '  const ROOT_ID = "dv-assistant-root";\n' +
+      '  const FALLBACK_ID = "dv-assistant-fallback";\n' +
+      '  const MOUNT_TIMEOUT = 9000;\n' +
+      '\n' +
+      '  let sourceIndex = 0;\n' +
+      '  let settled = false;\n' +
+      '\n' +
+      '  const hasMountedWidget = () => {\n' +
+      '    const root = document.getElementById(ROOT_ID);\n' +
+      '    return Boolean(root && root.childElementCount > 0);\n' +
+      '  };\n' +
+      '\n' +
+      '  const removeFallback = () => {\n' +
+      '    document.getElementById(FALLBACK_ID)?.remove();\n' +
+      '  };\n' +
+      '\n' +
+      '  const showFallback = () => {\n' +
+      '    if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;\n' +
+      '    settled = true;\n' +
+      '\n' +
+      '    const anchor = document.createElement("a");\n' +
+      '    anchor.id = FALLBACK_ID;\n' +
+      '    anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;\n' +
+      '    anchor.setAttribute("aria-label", "Otvoriť krátky dopyt");\n' +
+      '    anchor.innerHTML = `\n' +
+      '      <span aria-hidden="true">✦</span>\n' +
+      '      <span><strong>AI Assistant</strong><small>Otvoriť krátky dopyt</small></span>\n' +
+      '    `;\n' +
+      '    Object.assign(anchor.style, {\n' +
+      '      position: "fixed",\n' +
+      '      right: "max(16px, env(safe-area-inset-right))",\n' +
+      '      bottom: "max(16px, env(safe-area-inset-bottom))",\n' +
+      '      zIndex: "2147483000",\n' +
+      '      display: "inline-flex",\n' +
+      '      alignItems: "center",\n' +
+      '      gap: "10px",\n' +
+      '      minHeight: "58px",\n' +
+      '      padding: "10px 14px",\n' +
+      '      border: "1px solid rgba(185,214,255,.4)",\n' +
+      '      borderRadius: "20px",\n' +
+      '      color: "#f7f9fc",\n' +
+      '      background:\n' +
+      '        "linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.018)),rgba(8,13,23,.9)",\n' +
+      '      boxShadow:\n' +
+      '        "0 24px 58px rgba(0,0,0,.48),0 18px 44px -28px rgba(52,120,246,.82),inset 0 1px rgba(255,255,255,.13)",\n' +
+      '      backdropFilter: "blur(22px) saturate(150%)",\n' +
+      '      fontFamily: "inherit",\n' +
+      '      textDecoration: "none",\n' +
+      '    });\n' +
+      '\n' +
+      '    const icon = anchor.firstElementChild;\n' +
+      '    if (icon instanceof HTMLElement) {\n' +
+      '      Object.assign(icon.style, {\n' +
+      '        display: "grid",\n' +
+      '        width: "36px",\n' +
+      '        height: "36px",\n' +
+      '        placeItems: "center",\n' +
+      '        border: "1px solid rgba(166,211,255,.42)",\n' +
+      '        borderRadius: "13px",\n' +
+      '        color: "#dcecff",\n' +
+      '        background: "linear-gradient(145deg,rgba(52,120,246,.46),rgba(20,54,120,.55))",\n' +
+      '        boxShadow: "inset 0 1px rgba(255,255,255,.18)",\n' +
+      '        fontSize: "16px",\n' +
+      '        fontWeight: "900",\n' +
+      '      });\n' +
+      '    }\n' +
+      '\n' +
+      '    const copy = anchor.lastElementChild;\n' +
+      '    if (copy instanceof HTMLElement) {\n' +
+      '      Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });\n' +
+      '      const strong = copy.querySelector("strong");\n' +
+      '      const small = copy.querySelector("small");\n' +
+      '      if (strong instanceof HTMLElement) {\n' +
+      '        Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });\n' +
+      '      }\n' +
+      '      if (small instanceof HTMLElement) {\n' +
+      '        Object.assign(small.style, { color: "#aebbd0", fontSize: "11px" });\n' +
+      '      }\n' +
+      '    }\n' +
+      '\n' +
+      '    document.body.appendChild(anchor);\n' +
+      '  };\n' +
+      '\n' +
+      '  const confirmMount = (script) => {\n' +
+      '    const startedAt = Date.now();\n' +
+      '    const check = () => {\n' +
+      '      if (hasMountedWidget()) {\n' +
+      '        settled = true;\n' +
+      '        removeFallback();\n' +
+      '        return;\n' +
+      '      }\n' +
+      '      if (Date.now() - startedAt >= MOUNT_TIMEOUT) {\n' +
+      '        script.remove();\n' +
+      '        loadNext();\n' +
+      '        return;\n' +
+      '      }\n' +
+      '      window.setTimeout(check, 250);\n' +
+      '    };\n' +
+      '    check();\n' +
+      '  };\n' +
+      '\n' +
+      '  const loadNext = () => {\n' +
+      '    if (settled || hasMountedWidget()) return;\n' +
+      '    const source = SOURCES[sourceIndex++];\n' +
+      '    if (!source) {\n' +
+      '      showFallback();\n' +
+      '      return;\n' +
+      '    }\n' +
+      '\n' +
+      '    const script = document.createElement("script");\n' +
+      '    script.src = `${source}?v=20260723-complete-liquid-system-v1`;\n' +
+      '    script.async = true;\n' +
+      '    script.referrerPolicy = "strict-origin-when-cross-origin";\n' +
+      '    script.dataset.dvAssistantSource = source;\n' +
+      '    script.onload = () => confirmMount(script);\n' +
+      '    script.onerror = () => {\n' +
+      '      script.remove();\n' +
+      '      loadNext();\n' +
+      '    };\n' +
+      '    document.head.appendChild(script);\n' +
+      '  };\n' +
+      '\n' +
+      '  const start = () => {\n' +
+      '    document.documentElement.dataset.basePath =\n' +
+      '      document.documentElement.dataset.basePath || "/vne-n";\n' +
+      '    loadNext();\n' +
+      '  };\n' +
+      '\n' +
+      '  if (document.readyState === "loading") {\n' +
+      '    document.addEventListener("DOMContentLoaded", start, { once: true });\n' +
+      '  } else {\n' +
+      '    start();\n' +
+      '  }\n' +
+      '})();\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    (() => {
+      "use strict";
+    
+      if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;
+      window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;
+    
+      const SOURCES = [
+        "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
+        "https://moj-chatbot-backend.vercel.app/widget.js",
+      ];
+      const ROOT_ID = "dv-assistant-root";
+      const FALLBACK_ID = "dv-assistant-fallback";
+      const MOUNT_TIMEOUT = 9000;
+    
+      let sourceIndex = 0;
+      let settled = false;
+    
+      const hasMountedWidget = () => {
+        const root = document.getElementById(ROOT_ID);
+        return Boolean(root && root.childElementCount > 0);
+      };
+    
+      const removeFallback = () => {
+        document.getElementById(FALLBACK_ID)?.remove();
+      };
+    
+      const showFallback = () => {
+        if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;
+        settled = true;
+    
+        const anchor = document.createElement("a");
+        anchor.id = FALLBACK_ID;
+        anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;
+        anchor.setAttribute("aria-label", "Otvoriť krátky dopyt");
+        anchor.innerHTML = `
+          <span aria-hidden="true">✦</span>
+          <span><strong>AI Assistant</strong><small>Otvoriť krátky dopyt</small></span>
+        `;
+        Object.assign(anchor.style, {
+          position: "fixed",
+          right: "max(16px, env(safe-area-inset-right))",
+          bottom: "max(16px, env(safe-area-inset-bottom))",
+          zIndex: "2147483000",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "10px",
+          minHeight: "58px",
+          padding: "10px 14px",
+          border: "1px solid rgba(185,214,255,.4)",
+          borderRadius: "20px",
+          color: "#f7f9fc",
+          background:
+            "linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.018)),rgba(8,13,23,.9)",
+          boxShadow:
+            "0 24px 58px rgba(0,0,0,.48),0 18px 44px -28px rgba(52,120,246,.82),inset 0 1px rgba(255,255,255,.13)",
+          backdropFilter: "blur(22px) saturate(150%)",
+          fontFamily: "inherit",
+          textDecoration: "none",
+        });
+    
+        const icon = anchor.firstElementChild;
+        if (icon instanceof HTMLElement) {
+          Object.assign(icon.style, {
+            display: "grid",
+            width: "36px",
+            height: "36px",
+            placeItems: "center",
+            border: "1px solid rgba(166,211,255,.42)",
+            borderRadius: "13px",
+            color: "#dcecff",
+            background: "linear-gradient(145deg,rgba(52,120,246,.46),rgba(20,54,120,.55))",
+            boxShadow: "inset 0 1px rgba(255,255,255,.18)",
+            fontSize: "16px",
+            fontWeight: "900",
+          });
+        }
+    
+        const copy = anchor.lastElementChild;
+        if (copy instanceof HTMLElement) {
+          Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });
+          const strong = copy.querySelector("strong");
+          const small = copy.querySelector("small");
+          if (strong instanceof HTMLElement) {
+            Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
+          }
+          if (small instanceof HTMLElement) {
+            Object.assign(small.style, { color: "#aebbd0", fontSize: "11px" });
+          }
+        }
+    
+        document.body.appendChild(anchor);
+      };
+    
+      const confirmMount = (script) => {
+        const startedAt = Date.now();
+        const check = () => {
+          if (hasMountedWidget()) {
+            settled = true;
+            removeFallback();
+            return;
+          }
+          if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
+            script.remove();
+            loadNext();
+            return;
+          }
+          window.setTimeout(check, 250);
+        };
+        check();
+      };
+    
+      const loadNext = () => {
+        if (settled || hasMountedWidget()) return;
+        const source = SOURCES[sourceIndex++];
+        if (!source) {
+          showFallback();
+          return;
+        }
+    
+        const script = document.createElement("script");
+        script.src = `${source}?v=20260723-complete-liquid-system-v1`;
+        script.async = true;
+        script.referrerPolicy = "strict-origin-when-cross-origin";
+        script.dataset.dvAssistantSource = source;
+        script.onload = () => confirmMount(script);
+        script.onerror = () => {
+          script.remove();
+          loadNext();
+        };
+        document.head.appendChild(script);
+      };
+    
+      const start = () => {
+        document.documentElement.dataset.basePath =
+          document.documentElement.dataset.basePath || "/vne-n";
+        loadNext();
+      };
+    
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start, { once: true });
+      } else {
+        start();
+      }
+    })();
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:131:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 9 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 0.91326
+  duration_ms: 1.544244
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 10 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.025288
+  duration_ms: 0.794959
   type: 'test'
   ...
 1..10
 # tests 10
 # suites 0
-# pass 10
-# fail 0
+# pass 9
+# fail 1
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 74.752311
+# duration_ms 61.259978
+error: script "test" exited with code 1
 
 ===== build =====
 $ vite build
@@ -108,7 +413,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-DMG0b491.js               215.98 kB │ gzip: 70.43 kB
 
-[32m✓ built in 1.42s[39m
+[32m✓ built in 1.14s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 131 modules transformed.
 rendering chunks...
@@ -143,7 +448,7 @@ node_modules/.nitro/vite/services/ssr/assets/tanstack-Bkygmpfq.js               
 node_modules/.nitro/vite/services/ssr/assets/router-Bcx7dcEP.js                       65.30 kB │ gzip: 16.10 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 556ms[39m
+[32m✓ built in 475ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -157,11 +462,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            80.15 kB │ gzip:  21.28 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            262.58 kB │ gzip:  60.11 kB
+.output/server/_ssr/vendor.mjs            262.58 kB │ gzip:  60.09 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 608ms[39m
+[32m✓ built in 460ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
