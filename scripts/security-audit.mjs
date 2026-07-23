@@ -98,19 +98,24 @@ if (!loader.includes("https://danielvendzur-code.github.io")) {
 const layout = await read("src/components/site/Layout.tsx");
 const systemIndex = layout.indexOf('import "./CompetitionSystem.css"');
 const routesIndex = layout.indexOf('import "./CompetitionRoutes.css"');
-const finalIndex = layout.indexOf('import "./BlackBlueFinal.css"');
+const blackBlueIndex = layout.indexOf('import "./BlackBlueFinal.css"');
+const premiumIndex = layout.indexOf('import "./RecoveredMotionFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (systemIndex === -1) fail("CompetitionSystem.css is not imported");
 if (routesIndex === -1) fail("CompetitionRoutes.css is not imported");
-if (finalIndex === -1) fail("BlackBlueFinal.css is not imported");
+if (blackBlueIndex === -1) fail("BlackBlueFinal.css is not imported");
+if (premiumIndex === -1) fail("RecoveredMotionFinal.css is not imported");
 if (systemIndex >= routesIndex) {
   fail("CompetitionRoutes.css must load after CompetitionSystem.css");
 }
-if (routesIndex >= finalIndex) {
+if (routesIndex >= blackBlueIndex) {
   fail("BlackBlueFinal.css must load after CompetitionRoutes.css");
 }
-if (finalIndex !== lastStyleImport) {
-  fail("BlackBlueFinal.css must be the final component style import");
+if (blackBlueIndex >= premiumIndex) {
+  fail("RecoveredMotionFinal.css must load after BlackBlueFinal.css");
+}
+if (premiumIndex !== lastStyleImport) {
+  fail("RecoveredMotionFinal.css must be the final component style import");
 }
 
 const competitionCss = await read("src/components/site/CompetitionSystem.css");
@@ -121,6 +126,17 @@ for (const token of ["#65e6c1", "#72c7ff", "prefers-reduced-motion", "focus-visi
 }
 if (/#c9aa70|#c47c5e|#bc7352/i.test(competitionCss)) {
   fail("Bronze, copper or old primary colours remain in the final design layer");
+}
+
+const premiumCss = await read("src/components/site/RecoveredMotionFinal.css");
+for (const token of [
+  "--premium-blue",
+  "backdrop-filter",
+  "site-mascot-blink",
+  ".lp-switch-liquid",
+  "prefers-reduced-motion",
+]) {
+  if (!premiumCss.includes(token)) fail(`Premium interaction layer is missing ${token}`);
 }
 
 const routeCss = await read("src/components/site/CompetitionRoutes.css");
