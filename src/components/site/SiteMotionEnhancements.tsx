@@ -61,7 +61,8 @@ export function SiteMotionEnhancements() {
     };
 
     const handleClick = (event: MouseEvent) => {
-      const target = event.target instanceof Element ? event.target.closest(".lp-hero-pick, .lp-chip") : null;
+      const target =
+        event.target instanceof Element ? event.target.closest(".lp-hero-pick, .lp-chip") : null;
       if (target instanceof HTMLElement) replayTrace(target);
     };
 
