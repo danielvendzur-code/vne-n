@@ -52,7 +52,10 @@ export function LiquidSegmentedDrag() {
 
     const onPointerDown = (event: PointerEvent) => {
       if (event.button !== 0 || event.pointerType === "touch") return;
-      const root = event.target instanceof Element ? event.target.closest<HTMLElement>(".lp-switch") : null;
+      const root =
+        event.target instanceof Element
+          ? event.target.closest<HTMLElement>(".lp-switch")
+          : null;
       if (!root) return;
 
       const { travel } = geometry(root);
@@ -96,7 +99,12 @@ export function LiquidSegmentedDrag() {
       const { rect } = geometry(current.root);
       const nextIndex = event.clientX >= rect.left + rect.width / 2 ? 1 : 0;
       const previousIndex = activeIndex(current.root);
-      const direction = nextIndex === previousIndex ? Math.sign(current.velocity) : nextIndex > previousIndex ? 1 : -1;
+      const direction =
+        nextIndex === previousIndex
+          ? Math.sign(current.velocity)
+          : nextIndex > previousIndex
+            ? 1
+            : -1;
       const buttons = buttonsFor(current.root);
 
       if (current.moved && buttons[nextIndex] && nextIndex !== previousIndex) {
@@ -106,11 +114,16 @@ export function LiquidSegmentedDrag() {
     };
 
     const onClick = (event: MouseEvent) => {
-      const button = event.target instanceof Element ? event.target.closest<HTMLButtonElement>(".lp-switch > button") : null;
+      const button =
+        event.target instanceof Element
+          ? event.target.closest<HTMLButtonElement>(".lp-switch > button")
+          : null;
       const root = button?.parentElement;
       if (!button || !(root instanceof HTMLElement)) return;
       const index = buttonsFor(root).indexOf(button);
-      window.requestAnimationFrame(() => settle(root, Math.max(0, index), index > activeIndex(root) ? 1 : -1));
+      window.requestAnimationFrame(() =>
+        settle(root, Math.max(0, index), index > activeIndex(root) ? 1 : -1),
+      );
     };
 
     const onResize = () => {
