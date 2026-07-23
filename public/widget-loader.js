@@ -114,7 +114,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260723-competition-winner-v5`;
+    script.src = `${source}?v=20260723-owner-friendly-v6`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
