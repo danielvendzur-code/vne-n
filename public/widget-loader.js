@@ -114,7 +114,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260722-brand-interactions-v3`;
+    script.src = `${source}?v=20260723-professional-chips-v1`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
