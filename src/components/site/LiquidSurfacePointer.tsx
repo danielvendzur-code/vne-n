@@ -32,7 +32,9 @@ export function LiquidSurfacePointer() {
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const connection = (
+      navigator as Navigator & { connection?: { saveData?: boolean } }
+    ).connection;
     if (
       reducedMotion ||
       connection?.saveData ||
@@ -58,8 +60,14 @@ export function LiquidSurfacePointer() {
       frame = 0;
       if (!active) return;
       const rect = active.getBoundingClientRect();
-      const x = Math.min(100, Math.max(0, ((clientX - rect.left) / Math.max(rect.width, 1)) * 100));
-      const y = Math.min(100, Math.max(0, ((clientY - rect.top) / Math.max(rect.height, 1)) * 100));
+      const x = Math.min(
+        100,
+        Math.max(0, ((clientX - rect.left) / Math.max(rect.width, 1)) * 100),
+      );
+      const y = Math.min(
+        100,
+        Math.max(0, ((clientY - rect.top) / Math.max(rect.height, 1)) * 100),
+      );
       active.style.setProperty("--liquid-x", `${x}%`);
       active.style.setProperty("--liquid-y", `${y}%`);
       active.dataset.liquidPointer = "true";
