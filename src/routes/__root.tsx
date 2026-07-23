@@ -131,7 +131,7 @@ const personJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Daniel Vendžúr",
-  email: "mailto:daniel.vendzur@gmail.com",
+  email: "mailto:daniel@vendzur.sk",
   url: "https://danielvendzur-code.github.io/vne-n/",
   jobTitle: "Tvorca chatbotov, kalkulačiek a produktových konfigurátorov na mieru",
 });

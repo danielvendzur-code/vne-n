@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -28,7 +28,6 @@ import {
   Workflow,
   X,
 } from "lucide-react";
-import { GlideField } from "@/components/effects/GlideField";
 import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
@@ -44,7 +43,23 @@ type RevealDirection = "up" | "left" | "right";
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
-const liquidControlSelector = ".lp-button, .lp-assistant-cta, .lp-faq-ask";
+
+const borderTraceTimers = new WeakMap<HTMLElement, number>();
+
+function replayBorderTrace(element: HTMLElement) {
+  const previousTimer = borderTraceTimers.get(element);
+  if (previousTimer) window.clearTimeout(previousTimer);
+  element.classList.remove("is-border-tracing");
+  void element.offsetWidth;
+  element.classList.add("is-border-tracing");
+  borderTraceTimers.set(
+    element,
+    window.setTimeout(() => {
+      element.classList.remove("is-border-tracing");
+      borderTraceTimers.delete(element);
+    }, 920),
+  );
+}
 
 const heroSequence: Variants = {
   hidden: {},
@@ -353,76 +368,6 @@ function PageProgress() {
   return reducedMotion ? null : <AnimatedPageProgress />;
 }
 
-function LiquidControlGlow() {
-  const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
-      .connection;
-    if (
-      reducedMotion ||
-      connection?.saveData ||
-      !window.matchMedia("(any-pointer: fine)").matches
-    ) {
-      return;
-    }
-
-    let frame = 0;
-    let activeControl: HTMLElement | null = null;
-    let clientX = 0;
-    let clientY = 0;
-
-    const clearActiveControl = () => {
-      if (!activeControl) return;
-      activeControl.style.removeProperty("--liquid-x");
-      activeControl.style.removeProperty("--liquid-y");
-      activeControl = null;
-    };
-
-    const paint = () => {
-      frame = 0;
-      if (!activeControl) return;
-      const bounds = activeControl.getBoundingClientRect();
-      const x = Math.min(100, Math.max(0, ((clientX - bounds.left) / bounds.width) * 100));
-      const y = Math.min(100, Math.max(0, ((clientY - bounds.top) / bounds.height) * 100));
-      activeControl.style.setProperty("--liquid-x", `${x}%`);
-      activeControl.style.setProperty("--liquid-y", `${y}%`);
-    };
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (event.pointerType === "touch") return;
-      const match =
-        event.target instanceof Element ? event.target.closest(liquidControlSelector) : null;
-      const nextControl = match instanceof HTMLElement ? match : null;
-      if (nextControl !== activeControl) {
-        clearActiveControl();
-        activeControl = nextControl;
-      }
-      if (!activeControl) return;
-      clientX = event.clientX;
-      clientY = event.clientY;
-      if (!frame) frame = window.requestAnimationFrame(paint);
-    };
-
-    const handleWindowLeave = (event: MouseEvent) => {
-      if (!event.relatedTarget) clearActiveControl();
-    };
-
-    window.addEventListener("pointermove", handlePointerMove, { passive: true, capture: true });
-    window.addEventListener("mouseout", handleWindowLeave, { passive: true });
-    window.addEventListener("blur", clearActiveControl);
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove, true);
-      window.removeEventListener("mouseout", handleWindowLeave);
-      window.removeEventListener("blur", clearActiveControl);
-      if (frame) window.cancelAnimationFrame(frame);
-      clearActiveControl();
-    };
-  }, [reducedMotion]);
-
-  return null;
-}
-
 function Reveal({
   children,
   className = "",
@@ -500,9 +445,6 @@ function Hero() {
 
   return (
     <section className="lp-hero" id="uvod">
-      <div className="lp-hero-glide" aria-hidden="true">
-        <GlideField className="glide-field--hero" radius={142} />
-      </div>
       <div className="lp-hero-glow" aria-hidden="true" />
       <div className="container-page lp-hero-grid">
         <motion.div
@@ -567,11 +509,11 @@ function Hero() {
                       className="lp-hero-pick"
                       data-active={activeTool === key}
                       aria-pressed={activeTool === key}
-                      onClick={() => setActiveTool(key)}
+                      onClick={(event) => {
+                        replayBorderTrace(event.currentTarget);
+                        setActiveTool(key);
+                      }}
                     >
-                      {activeTool === key ? (
-                        <span className="lp-hero-pick-fill" aria-hidden="true" />
-                      ) : null}
                       <span className="lp-hero-pick-icon" aria-hidden="true">
                         <Icon size={16} />
                       </span>
@@ -582,22 +524,15 @@ function Hero() {
                 },
               )}
             </div>
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.div
-                className="lp-assistant-answer"
-                key={activeTool}
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-                initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
-                transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
-              >
-                <Check />
-                <span>{heroTools[activeTool].text}</span>
-              </motion.div>
-            </AnimatePresence>
+            <div
+              className="lp-assistant-answer"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <Check />
+              <span>{heroTools[activeTool].text}</span>
+            </div>
             <button
               type="button"
               className="lp-assistant-cta"
@@ -622,12 +557,10 @@ function SolutionCard({
   index: number;
 }) {
   const reducedMotion = useReducedMotion();
-  const cardRef = useRef<HTMLElement>(null);
   const Icon = solution.icon;
 
   return (
     <motion.article
-      ref={cardRef}
       className="lp-solution-pill"
       initial={reducedMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -635,19 +568,6 @@ function SolutionCard({
       transition={
         reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
       }
-      onPointerMove={(event) => {
-        if (reducedMotion || event.pointerType === "touch") return;
-        const card = event.currentTarget;
-        const bounds = card.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / Math.max(bounds.width, 1) - 0.5;
-        const y = (event.clientY - bounds.top) / Math.max(bounds.height, 1) - 0.5;
-        card.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
-        card.style.setProperty("--tilt-y", `${(x * 6).toFixed(2)}deg`);
-      }}
-      onPointerLeave={(event) => {
-        event.currentTarget.style.setProperty("--tilt-x", "0deg");
-        event.currentTarget.style.setProperty("--tilt-y", "0deg");
-      }}
     >
       <Icon aria-hidden="true" />
       <div>
@@ -792,17 +712,11 @@ function CapabilityGroup({
                 data-tone={tone}
                 data-active={isActive}
                 aria-expanded={isActive}
-                onClick={() => setActive(isActive ? null : item.label)}
-                whileTap={reducedMotion ? undefined : { scale: 0.965 }}
+                onClick={(event) => {
+                  replayBorderTrace(event.currentTarget);
+                  setActive(isActive ? null : item.label);
+                }}
               >
-                {isActive ? (
-                  <motion.span
-                    className="lp-chip-fill"
-                    layoutId={`caps-fill-${title}`}
-                    transition={liquidSpring}
-                    aria-hidden="true"
-                  />
-                ) : null}
                 <span className="lp-chip-label">{item.label}</span>
                 <span className="lp-chip-icon" aria-hidden="true">
                   <Plus />
@@ -982,9 +896,9 @@ function Portfolio() {
       <div className="container-page">
         <Heading
           eyebrow="Vybrané realizácie"
-          copy="Každý náhľad je reálny projekt. Kliknite a pozrite si ho priamo na živom webe."
+          copy="Ukážky vedú na verejne dostupné stránky. Po otvorení pokračujete na externý web klienta."
         >
-          Reálne weby. <em>Žiadne generické makety.</em>
+          Pozrite si weby. <em>Priamo v praxi.</em>
         </Heading>
 
         <div className="lp-project-grid">
@@ -1032,7 +946,6 @@ function ProcessAndCta() {
 
   return (
     <section className="lp-process" id="spolupraca">
-      <GlideField className="glide-field--ambient" radius={110} intensity={0.5} />
       <div className="container-page lp-process-grid">
         <div>
           <Heading
@@ -1087,7 +1000,6 @@ export function PremiumLanding() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="lp-page">
-        <LiquidControlGlow />
         <PageProgress />
         <Hero />
         <ValueSection />

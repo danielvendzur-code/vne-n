@@ -18,7 +18,7 @@ const serviceJsonLd = JSON.stringify({
   "@type": "ProfessionalService",
   name: "Daniel Vendžúr — chatboty na mieru, ktoré zvyšujú konverzie",
   url: `${SITE_URL}/`,
-  email: "daniel.vendzur@gmail.com",
+  email: "daniel@vendzur.sk",
   telephone: "+421948699433",
   areaServed: "SK",
   description:

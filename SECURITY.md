@@ -2,7 +2,7 @@
 
 ## Nahlásenie zraniteľnosti
 
-Bezpečnostný problém neposielajte ako verejný GitHub issue. Pošlite ho súkromne na **daniel.vendzur@gmail.com** s predmetom `SECURITY — vne-n`.
+Bezpečnostný problém neposielajte ako verejný GitHub issue. Pošlite ho súkromne na **daniel@vendzur.sk** s predmetom `SECURITY — vne-n`.
 
 Uveďte:
 

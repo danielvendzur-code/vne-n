@@ -3,7 +3,7 @@ export const siteConfig = {
   description:
     "Navrhujem chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom a rezerváciami.",
   contact: {
-    email: "daniel.vendzur@gmail.com",
+    email: "daniel@vendzur.sk",
     phoneLabel: "+421 948 699 433",
     phoneHref: "+421948699433",
   },

@@ -1022,3 +1022,146 @@ body {
     transform: none !important;
   }
 }
+
+/* Final interaction pass: calm surfaces, click-only border trace and no cursor-follow effects. */
+@property --lp-border-progress {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+@keyframes lp-border-trace {
+  from {
+    --lp-border-progress: 0%;
+  }
+  to {
+    --lp-border-progress: 100%;
+  }
+}
+
+:root .lp-page .lp-hero-glide,
+:root .lp-page .glide-field--ambient,
+:root .lp-page .lp-hero-pick-fill,
+:root .lp-page .lp-chip-fill {
+  display: none !important;
+}
+
+:root .lp-page .lp-assistant-card,
+:root .lp-page .lp-solution-pill {
+  transform: none !important;
+}
+
+:root .lp-page .lp-hero-pick,
+:root .lp-page .lp-chip {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(247, 249, 252, 0.15) !important;
+  color: #b9c1cf !important;
+  background: #0e1118 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease !important;
+}
+
+:root .lp-page .lp-hero-pick:hover,
+:root .lp-page .lp-hero-pick:focus-visible,
+:root .lp-page .lp-chip:hover,
+:root .lp-page .lp-chip:focus-visible {
+  border-color: #1f55c9 !important;
+  color: #ffffff !important;
+  background: #0e1118 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+:root .lp-page .lp-hero-pick[data-active="true"],
+:root .lp-page .lp-chip[data-active="true"] {
+  border-color: #3478f6 !important;
+  color: #ffffff !important;
+  background: #0e1118 !important;
+  box-shadow: none !important;
+  transition-delay: 0ms !important;
+}
+
+:root .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon,
+:root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
+  border-color: rgba(52, 120, 246, 0.62) !important;
+  color: #ffffff !important;
+  background: rgba(52, 120, 246, 0.16) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition-delay: 0ms !important;
+}
+
+:root .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
+  color: #8fb6ff !important;
+  transition-delay: 0ms !important;
+}
+
+:root .lp-page .lp-hero-pick::after,
+:root .lp-page .lp-chip::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 5 !important;
+  inset: -1px !important;
+  padding: 2px !important;
+  border-radius: inherit !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  background: conic-gradient(
+    from 270deg,
+    #3478f6 var(--lp-border-progress),
+    transparent 0
+  ) !important;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+:root .lp-page .lp-hero-pick.is-border-tracing::after,
+:root .lp-page .lp-chip.is-border-tracing::after {
+  opacity: 1 !important;
+  animation: lp-border-trace 880ms linear forwards !important;
+}
+
+:root .lp-page .lp-chip::before {
+  animation: none !important;
+}
+
+:root .lp-page .lp-assistant-answer {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+:root .brand-symbol {
+  --brand-symbol-shell: #090c12;
+  --brand-symbol-face: #3478f6;
+  --brand-symbol-signal: #3478f6;
+  --brand-symbol-accent: #3478f6;
+}
+
+:root .brand-symbol__shell {
+  fill: #090c12 !important;
+}
+
+:root .brand-symbol__face {
+  fill: #0d1119 !important;
+  stroke: #3478f6 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root .lp-page .lp-hero-pick.is-border-tracing::after,
+  :root .lp-page .lp-chip.is-border-tracing::after {
+    --lp-border-progress: 100%;
+    animation: none !important;
+  }
+}
