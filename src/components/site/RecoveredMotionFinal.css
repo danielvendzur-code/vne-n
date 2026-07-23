@@ -1,4 +1,4 @@
-/* Recovered premium interaction layer: motion stays subtle, click feedback stays explicit. */
+/* Final premium interaction layer shared with the AI Assistant widget. */
 @property --lp-border-progress {
   syntax: "<percentage>";
   inherits: false;
@@ -6,8 +6,51 @@
 }
 
 @keyframes recovered-border-trace {
-  from { --lp-border-progress: 0%; }
-  to { --lp-border-progress: 100%; }
+  from {
+    --lp-border-progress: 0%;
+  }
+  to {
+    --lp-border-progress: 100%;
+  }
+}
+
+@keyframes site-mascot-blink {
+  0%,
+  43%,
+  47%,
+  100% {
+    transform: scaleY(0);
+  }
+  44.2%,
+  45.8% {
+    transform: scaleY(1);
+  }
+}
+
+:root {
+  --premium-glass: rgba(15, 20, 31, 0.72);
+  --premium-glass-strong: rgba(17, 23, 36, 0.9);
+  --premium-line: rgba(143, 182, 255, 0.24);
+  --premium-line-strong: rgba(143, 182, 255, 0.48);
+  --premium-highlight: rgba(255, 255, 255, 0.13);
+  --premium-blue: #3478f6;
+  --premium-blue-hover: #1f55c9;
+}
+
+.ai-mascot {
+  overflow: visible;
+  filter: drop-shadow(0 12px 24px rgba(31, 85, 201, 0.3));
+}
+
+.ai-mascot__eyelids {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scaleY(0);
+  animation: site-mascot-blink 6.2s ease-in-out infinite;
+}
+
+.site-menu-brand .ai-mascot__eyelids {
+  animation-delay: -1.7s;
 }
 
 :root .lp-page .lp-hero-glide,
@@ -16,11 +59,117 @@
 }
 
 :root .lp-page .lp-hero-glide {
-  opacity: 0.54;
+  opacity: 0.62 !important;
+  filter: saturate(118%);
 }
 
 :root .lp-page .lp-assistant-card {
-  top: 46% !important;
+  top: 41.5% !important;
+  border: 1px solid var(--premium-line-strong) !important;
+  border-top-color: rgba(174, 205, 255, 0.72) !important;
+  border-radius: 26px !important;
+  background:
+    radial-gradient(circle at 15% -10%, rgba(117, 184, 255, 0.22), transparent 42%),
+    linear-gradient(145deg, rgba(21, 28, 43, 0.91), rgba(6, 9, 15, 0.84)) !important;
+  box-shadow:
+    0 42px 110px -42px rgba(0, 0, 0, 0.95),
+    0 18px 52px -34px rgba(52, 120, 246, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(52, 120, 246, 0.08) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(165%) !important;
+  backdrop-filter: blur(30px) saturate(165%) !important;
+}
+
+:root .lp-page .lp-assistant-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 32%);
+  opacity: 0.9;
+}
+
+:root .lp-page .lp-assistant-answer,
+:root .lp-page .lp-comparison-copy,
+:root .lp-page .lp-comparison-body > ul,
+:root .lp-page .lp-caps-detail,
+:root .lp-page .lp-faq-item,
+:root .lp-page .lp-final-card,
+:root .lp-page .lp-solution-pill {
+  border-color: var(--premium-line) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 20px 55px -42px rgba(52, 120, 246, 0.7) !important;
+}
+
+:root .lp-page .lp-comparison {
+  border: 1px solid var(--premium-line-strong) !important;
+  background:
+    radial-gradient(circle at 90% -12%, rgba(52, 120, 246, 0.2), transparent 46%),
+    linear-gradient(145deg, rgba(19, 26, 40, 0.9), rgba(6, 9, 15, 0.92)) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(150%);
+  backdrop-filter: blur(25px) saturate(150%);
+}
+
+:root .lp-page .lp-switch {
+  position: relative;
+  isolation: isolate;
+  gap: 6px !important;
+  padding: 6px !important;
+  border: 1px solid var(--premium-line-strong) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)),
+    rgba(5, 8, 14, 0.72) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 18px 44px -32px rgba(52, 120, 246, 0.78) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+}
+
+:root .lp-page .lp-switch button {
+  position: relative;
+  z-index: 1;
+  min-height: 46px !important;
+  padding-inline: clamp(1rem, 2.3vw, 1.45rem) !important;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  color: #aeb8c8 !important;
+  background: transparent !important;
+  transition:
+    color 190ms ease,
+    border-color 190ms ease,
+    transform 190ms ease !important;
+}
+
+:root .lp-page .lp-switch button:hover,
+:root .lp-page .lp-switch button:focus-visible {
+  border-color: rgba(143, 182, 255, 0.32) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+:root .lp-page .lp-switch button[data-active="true"] {
+  color: #ffffff !important;
+}
+
+:root .lp-page .lp-switch-liquid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1px solid rgba(174, 205, 255, 0.6) !important;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 22% -20%, rgba(255, 255, 255, 0.42), transparent 48%),
+    linear-gradient(135deg, rgba(71, 137, 255, 0.92), rgba(31, 85, 201, 0.76)) !important;
+  box-shadow:
+    0 12px 30px -14px rgba(52, 120, 246, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -10px 24px rgba(8, 24, 58, 0.22) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(175%);
+  backdrop-filter: blur(16px) saturate(175%);
 }
 
 :root .lp-page .lp-hero-pick,
@@ -28,6 +177,46 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  border: 1px solid var(--premium-line) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.018)),
+    rgba(11, 15, 24, 0.7) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.075) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(145%);
+  backdrop-filter: blur(16px) saturate(145%);
+  transition:
+    border-color 190ms ease,
+    background-color 190ms ease,
+    color 190ms ease,
+    transform 190ms ease,
+    box-shadow 190ms ease !important;
+}
+
+:root .lp-page .lp-hero-pick:hover,
+:root .lp-page .lp-hero-pick:focus-visible,
+:root .lp-page .lp-chip:hover,
+:root .lp-page .lp-chip:focus-visible {
+  border-color: var(--premium-line-strong) !important;
+  color: #ffffff !important;
+  background:
+    linear-gradient(145deg, rgba(117, 184, 255, 0.16), rgba(52, 120, 246, 0.07)),
+    rgba(12, 17, 28, 0.82) !important;
+  box-shadow:
+    0 16px 34px -24px rgba(52, 120, 246, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.11) !important;
+  transform: translateY(-2px) !important;
+}
+
+:root .lp-page .lp-hero-pick[data-active="true"],
+:root .lp-page .lp-chip[data-active="true"] {
+  border-color: rgba(117, 184, 255, 0.78) !important;
+  color: #ffffff !important;
+  background:
+    radial-gradient(circle at 16% -15%, rgba(255, 255, 255, 0.2), transparent 45%),
+    linear-gradient(145deg, rgba(52, 120, 246, 0.28), rgba(18, 41, 88, 0.48)) !important;
+  box-shadow:
+    0 16px 38px -25px rgba(52, 120, 246, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
 }
 
 :root .lp-page .lp-hero-pick::after,
@@ -44,16 +233,18 @@
     from 0deg,
     transparent 0,
     transparent calc(25% - var(--lp-border-progress) / 4),
-    #3478f6 calc(25% - var(--lp-border-progress) / 4),
+    #75b8ff calc(25% - var(--lp-border-progress) / 4),
     #3478f6 calc(25% + var(--lp-border-progress) / 4),
     transparent calc(25% + var(--lp-border-progress) / 4),
     transparent calc(75% - var(--lp-border-progress) / 4),
-    #3478f6 calc(75% - var(--lp-border-progress) / 4),
+    #75b8ff calc(75% - var(--lp-border-progress) / 4),
     #3478f6 calc(75% + var(--lp-border-progress) / 4),
     transparent calc(75% + var(--lp-border-progress) / 4),
     transparent 100%
   );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   transition: opacity 220ms ease;
@@ -62,24 +253,141 @@
 :root .lp-page .lp-hero-pick.is-border-tracing::after,
 :root .lp-page .lp-chip.is-border-tracing::after {
   opacity: 1;
-  filter: drop-shadow(0 0 4px rgba(52, 120, 246, 0.7))
-    drop-shadow(0 0 9px rgba(52, 120, 246, 0.34));
+  filter: drop-shadow(0 0 4px rgba(117, 184, 255, 0.76))
+    drop-shadow(0 0 10px rgba(52, 120, 246, 0.4));
   animation: recovered-border-trace 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+.site-consultation-cta,
+.site-menu-cta,
+.lp-page .lp-button,
+.lp-page .lp-assistant-cta,
+.lp-page .lp-solution-cta,
+.lp-page .lp-caps-detail-cta,
+.lp-page .lp-faq-ask,
+.lp-page .lp-final-card .lp-button {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 48px;
+  border: 1px solid rgba(174, 205, 255, 0.5) !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  background:
+    radial-gradient(circle at 20% -25%, rgba(255, 255, 255, 0.34), transparent 42%),
+    linear-gradient(135deg, #4789ff 0%, #3478f6 54%, #1f55c9 100%) !important;
+  box-shadow:
+    0 18px 40px -20px rgba(52, 120, 246, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -12px 24px rgba(7, 23, 58, 0.2) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(165%);
+  backdrop-filter: blur(14px) saturate(165%);
+  transition:
+    transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    filter 200ms ease !important;
+}
+
 .site-consultation-cta::before,
-.site-consultation-cta::after {
-  content: none !important;
-  animation: none !important;
-  background: none !important;
+.site-menu-cta::before,
+.lp-page .lp-button::before,
+.lp-page .lp-assistant-cta::before,
+.lp-page .lp-solution-cta::before,
+.lp-page .lp-caps-detail-cta::before,
+.lp-page .lp-faq-ask::before,
+.lp-page .lp-final-card .lp-button::before {
+  content: "";
+  position: absolute;
+  inset: 1px 10% auto;
+  z-index: -1;
+  height: 45%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.site-consultation-cta::after,
+.site-menu-cta::after,
+.lp-page .lp-button::after,
+.lp-page .lp-assistant-cta::after,
+.lp-page .lp-solution-cta::after,
+.lp-page .lp-caps-detail-cta::after,
+.lp-page .lp-faq-ask::after,
+.lp-page .lp-final-card .lp-button::after {
+  content: "";
+  position: absolute;
+  inset: -35% auto -35% -65%;
+  width: 48%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: skewX(-18deg);
+  transition: left 520ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .site-consultation-cta:hover,
-.site-consultation-cta:focus-visible {
-  transform: translateY(-1px);
+.site-consultation-cta:focus-visible,
+.site-menu-cta:hover,
+.site-menu-cta:focus-visible,
+.lp-page .lp-button:hover,
+.lp-page .lp-button:focus-visible,
+.lp-page .lp-assistant-cta:hover,
+.lp-page .lp-assistant-cta:focus-visible,
+.lp-page .lp-solution-cta:hover,
+.lp-page .lp-solution-cta:focus-visible,
+.lp-page .lp-caps-detail-cta:hover,
+.lp-page .lp-caps-detail-cta:focus-visible,
+.lp-page .lp-faq-ask:hover,
+.lp-page .lp-faq-ask:focus-visible,
+.lp-page .lp-final-card .lp-button:hover,
+.lp-page .lp-final-card .lp-button:focus-visible {
+  border-color: rgba(204, 225, 255, 0.82) !important;
+  color: #ffffff !important;
+  filter: saturate(112%) brightness(1.06);
+  transform: translateY(-3px) scale(1.012) !important;
+  box-shadow:
+    0 26px 55px -22px rgba(52, 120, 246, 1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    inset 0 -12px 24px rgba(7, 23, 58, 0.16) !important;
 }
 
-/* Keep the brand text consistent even when older cached navigation markup is mounted. */
+.site-consultation-cta:hover::after,
+.site-consultation-cta:focus-visible::after,
+.site-menu-cta:hover::after,
+.site-menu-cta:focus-visible::after,
+.lp-page .lp-button:hover::after,
+.lp-page .lp-button:focus-visible::after,
+.lp-page .lp-assistant-cta:hover::after,
+.lp-page .lp-assistant-cta:focus-visible::after,
+.lp-page .lp-solution-cta:hover::after,
+.lp-page .lp-solution-cta:focus-visible::after,
+.lp-page .lp-caps-detail-cta:hover::after,
+.lp-page .lp-caps-detail-cta:focus-visible::after,
+.lp-page .lp-faq-ask:hover::after,
+.lp-page .lp-faq-ask:focus-visible::after,
+.lp-page .lp-final-card .lp-button:hover::after,
+.lp-page .lp-final-card .lp-button:focus-visible::after {
+  left: 118%;
+}
+
+.lp-page .lp-button-quiet {
+  border-color: var(--premium-line-strong) !important;
+  color: #d9e7ff !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.02)),
+    rgba(12, 17, 27, 0.72) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 16px 38px -30px rgba(52, 120, 246, 0.82) !important;
+}
+
+.site-consultation-cta,
+.site-consultation-cta::before,
+.site-consultation-cta::after {
+  animation: none !important;
+}
+
 .site-brand-name {
   font-size: 0 !important;
 }
@@ -114,12 +422,37 @@
   :root .lp-page .lp-assistant-card {
     top: auto !important;
   }
+
+  :root .lp-page .lp-switch {
+    width: 100%;
+  }
+
+  :root .lp-page .lp-switch button {
+    flex: 1 1 50%;
+    padding-inline: 0.75rem !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ai-mascot__eyelids {
+    animation: none !important;
+    transform: scaleY(0) !important;
+  }
+
   :root .lp-page .lp-hero-pick.is-border-tracing::after,
   :root .lp-page .lp-chip.is-border-tracing::after {
     --lp-border-progress: 100%;
-    animation: none;
+    animation: none !important;
+  }
+
+  .site-consultation-cta::after,
+  .site-menu-cta::after,
+  .lp-page .lp-button::after,
+  .lp-page .lp-assistant-cta::after,
+  .lp-page .lp-solution-cta::after,
+  .lp-page .lp-caps-detail-cta::after,
+  .lp-page .lp-faq-ask::after,
+  .lp-page .lp-final-card .lp-button::after {
+    display: none !important;
   }
 }
