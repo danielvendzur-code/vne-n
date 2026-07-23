@@ -1,4 +1,4 @@
-run_id=30004388291
+run_id=30004878909
 install=success
 lint=failure
 test=success
@@ -8,12 +8,10 @@ build=success
 $ eslint .
 
 /home/runner/work/vne-n/vne-n/src/components/BrandMark.tsx
-  19:24  error  Replace `·id="brand-shell"·x1="7"·y1="5"·x2="42"·y2="44"·gradientUnits="userSpaceOnUse"` with `⏎··········id="brand-shell"⏎··········x1="7"⏎··········y1="5"⏎··········x2="42"⏎··········y2="44"⏎··········gradientUnits="userSpaceOnUse"⏎········`    prettier/prettier
-  23:24  error  Replace `·id="brand-face"·x1="14"·y1="14"·x2="35"·y2="34"·gradientUnits="userSpaceOnUse"` with `⏎··········id="brand-face"⏎··········x1="14"⏎··········y1="14"⏎··········x2="35"⏎··········y2="34"⏎··········gradientUnits="userSpaceOnUse"⏎········`  prettier/prettier
-  28:24  error  Replace `·id="brand-blue"·x1="12"·y1="11"·x2="38"·y2="37"·gradientUnits="userSpaceOnUse"` with `⏎··········id="brand-blue"⏎··········x1="12"⏎··········y1="11"⏎··········x2="38"⏎··········y2="37"⏎··········gradientUnits="userSpaceOnUse"⏎········`  prettier/prettier
+  97:14  error  Replace `⏎········cx="24"⏎········cy="2.9"⏎········r="2.15"⏎········fill="url(#brand-blue)"⏎········filter="url(#brand-glow)"⏎·····` with `·cx="24"·cy="2.9"·r="2.15"·fill="url(#brand-blue)"·filter="url(#brand-glow)"`  prettier/prettier
 
-✖ 3 problems (3 errors, 0 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 error: script "lint" exited with code 1
 
@@ -23,55 +21,55 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 7.918338
+  duration_ms: 8.359035
   type: 'test'
   ...
 # Subtest: black-blue palette is followed by the recovered interaction layer
 ok 2 - black-blue palette is followed by the recovered interaction layer
   ---
-  duration_ms: 2.388957
+  duration_ms: 3.314302
   type: 'test'
   ...
 # Subtest: homepage and route surfaces remain covered
 ok 3 - homepage and route surfaces remain covered
   ---
-  duration_ms: 1.272469
+  duration_ms: 2.573368
   type: 'test'
   ...
 # Subtest: premium pointer depth is bounded and touch-safe
 ok 4 - premium pointer depth is bounded and touch-safe
   ---
-  duration_ms: 1.245239
+  duration_ms: 2.221413
   type: 'test'
   ...
 # Subtest: click feedback traces only the selected border
 ok 5 - click feedback traces only the selected border
   ---
-  duration_ms: 1.489495
+  duration_ms: 2.636209
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 6 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 2.087122
+  duration_ms: 2.978595
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 1.043452
+  duration_ms: 1.364279
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 8 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 0.666627
+  duration_ms: 1.02048
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 9 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.0051
+  duration_ms: 1.341975
   type: 'test'
   ...
 1..9
@@ -82,7 +80,7 @@ ok 9 - Pages workflow validates and verifies the live deployment
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 71.439913
+# duration_ms 82.464931
 
 ===== build =====
 $ vite build
@@ -112,7 +110,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-Cb1DN4wu.js               211.40 kB │ gzip: 69.10 kB
 
-[32m✓ built in 1.44s[39m
+[32m✓ built in 1.38s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 127 modules transformed.
 rendering chunks...
@@ -147,7 +145,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-zi2jnwpq.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-DYyBuxZo.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-DH5myqTW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 598ms[39m
+[32m✓ built in 533ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -166,6 +164,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 526ms[39m
+[32m✓ built in 557ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
