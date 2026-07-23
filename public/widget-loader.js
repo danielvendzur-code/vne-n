@@ -45,13 +45,13 @@
       alignItems: "center",
       gap: "10px",
       minHeight: "58px",
-      padding: "10px 14px",
-      border: "1px solid #3a5272",
+      padding: "10px 15px",
+      border: "0",
       borderRadius: "18px",
       color: "#f6f8fb",
-      background: "#0a0f17",
-      boxShadow: "0 24px 58px -34px rgba(0,0,0,.96)",
-      fontFamily: "inherit",
+      background: "#101822",
+      boxShadow: "0 24px 58px -38px rgba(0,0,0,.98)",
+      fontFamily: '"Segoe UI Variable", "Aptos", system-ui, sans-serif',
       textDecoration: "none",
     });
 
@@ -59,15 +59,15 @@
     if (icon instanceof HTMLElement) {
       Object.assign(icon.style, {
         display: "grid",
-        width: "36px",
-        height: "36px",
+        width: "24px",
+        height: "24px",
         placeItems: "center",
-        border: "1px solid #5183c9",
-        borderRadius: "12px",
-        color: "#ffffff",
-        background: "#17325d",
+        border: "0",
+        borderRadius: "0",
+        color: "#8eb5f6",
+        background: "transparent",
         fontSize: "16px",
-        fontWeight: "900",
+        fontWeight: "700",
       });
     }
 
@@ -77,7 +77,7 @@
       const strong = copy.querySelector("strong");
       const small = copy.querySelector("small");
       if (strong instanceof HTMLElement) {
-        Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
+        Object.assign(strong.style, { fontSize: "13px", fontWeight: "680" });
       }
       if (small instanceof HTMLElement) {
         Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });
@@ -114,7 +114,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260723-owner-friendly-v6`;
+    script.src = `${source}?v=20260723-taste-system-v7`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
