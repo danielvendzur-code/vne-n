@@ -41,133 +41,34 @@ export function SiteMotionEnhancements() {
   }, []);
 
   useEffect(() => {
-    const timers = new Map<HTMLElement, number>();
-    const replayTrace = (element: HTMLElement) => {
-      const timer = timers.get(element);
-      if (timer) window.clearTimeout(timer);
-      element.classList.remove("is-border-tracing");
-      void element.offsetWidth;
-      element.classList.add("is-border-tracing");
-      timers.set(
-        element,
-        window.setTimeout(
-          () => {
-            element.classList.remove("is-border-tracing");
-            timers.delete(element);
-          },
-          reducedMotion ? 260 : 1420,
-        ),
-      );
-    };
-
-    const handleClick = (event: MouseEvent) => {
-      const target =
-        event.target instanceof Element ? event.target.closest(".lp-hero-pick, .lp-chip") : null;
-      if (target instanceof HTMLElement) replayTrace(target);
-    };
-
-    document.addEventListener("click", handleClick, true);
-    return () => {
-      document.removeEventListener("click", handleClick, true);
-      timers.forEach((timer, element) => {
-        window.clearTimeout(timer);
-        element.classList.remove("is-border-tracing");
-      });
-    };
-  }, [reducedMotion]);
-
-  useEffect(() => {
     if (reducedMotion) return;
 
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
     const hero = document.querySelector<HTMLElement>(".lp-hero");
     const glide = hero?.querySelector<HTMLElement>(".lp-hero-glide") ?? null;
-    const card = hero?.querySelector<HTMLElement>(".lp-assistant-card") ?? null;
-    const serviceCards = Array.from(document.querySelectorAll<HTMLElement>(".sp-service"));
-    if ((!hero || !glide || !card) && !serviceCards.length) return;
+    if (!hero || !glide) return;
 
-    let scrollFrame = 0;
-    let pointerFrame = 0;
-    let pointerX = 0;
-    let pointerY = 0;
-
-    const paintScroll = () => {
-      scrollFrame = 0;
-      if (!hero || !glide) return;
+    let frame = 0;
+    const paint = () => {
+      frame = 0;
       const rect = hero.getBoundingClientRect();
       const progress = clamp(-rect.top / Math.max(rect.height, 1), 0, 1);
-      glide.style.transform = `translate3d(0, ${progress * 30}px, 0)`;
+      glide.style.transform = `translate3d(0, ${progress * 18}px, 0)`;
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(paint);
     };
 
-    const handleScroll = () => {
-      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(paintScroll);
-    };
-
-    const paintPointer = () => {
-      pointerFrame = 0;
-      if (!finePointer.matches || !card) return;
-      const rect = card.getBoundingClientRect();
-      const normalizedX = clamp((pointerX - rect.left) / Math.max(rect.width, 1), 0, 1) * 2 - 1;
-      const normalizedY = clamp((pointerY - rect.top) / Math.max(rect.height, 1), 0, 1) * 2 - 1;
-      card.style.transition = "transform 150ms linear";
-      card.style.transform = `translateY(-50%) perspective(1100px) rotateX(${normalizedY * -2.4}deg) rotateY(${normalizedX * 2.4}deg)`;
-    };
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (!finePointer.matches || event.pointerType === "touch") return;
-      pointerX = event.clientX;
-      pointerY = event.clientY;
-      if (!pointerFrame) pointerFrame = window.requestAnimationFrame(paintPointer);
-    };
-
-    const resetCard = () => {
-      if (!card) return;
-      if (pointerFrame) window.cancelAnimationFrame(pointerFrame);
-      pointerFrame = 0;
-      card.style.transition = "transform 480ms cubic-bezier(0.16, 1, 0.3, 1)";
-      card.style.transform = "translateY(-50%) perspective(1100px) rotateX(0deg) rotateY(0deg)";
-    };
-
-    const serviceHandlers = serviceCards.map((service) => {
-      const handleServicePointer = (event: PointerEvent) => {
-        if (!finePointer.matches || event.pointerType === "touch") return;
-        const rect = service.getBoundingClientRect();
-        service.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
-        service.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
-      };
-      service.addEventListener("pointermove", handleServicePointer, { passive: true });
-      return { service, handleServicePointer };
-    });
-
-    if (glide) glide.style.willChange = "transform";
-    if (card) {
-      card.style.willChange = "transform";
-      card.addEventListener("pointermove", handlePointerMove, { passive: true });
-      card.addEventListener("pointerleave", resetCard);
-    }
-    if (hero && glide) {
-      paintScroll();
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      window.addEventListener("resize", handleScroll, { passive: true });
-    }
+    glide.style.willChange = "transform";
+    paint();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-      card?.removeEventListener("pointermove", handlePointerMove);
-      card?.removeEventListener("pointerleave", resetCard);
-      serviceHandlers.forEach(({ service, handleServicePointer }) => {
-        service.removeEventListener("pointermove", handleServicePointer);
-        service.style.removeProperty("--spot-x");
-        service.style.removeProperty("--spot-y");
-      });
-      if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
-      if (pointerFrame) window.cancelAnimationFrame(pointerFrame);
-      glide?.style.removeProperty("transform");
-      glide?.style.removeProperty("will-change");
-      card?.style.removeProperty("transform");
-      card?.style.removeProperty("transition");
-      card?.style.removeProperty("will-change");
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+      glide.style.removeProperty("transform");
+      glide.style.removeProperty("will-change");
     };
   }, [reducedMotion]);
 
