@@ -81,13 +81,25 @@ test("chip click feedback completes the border before the centre fill", async ()
   const css = await read("src/components/site/ProfessionalChipFinal.css");
   assert.match(motion, /is-border-tracing/);
   assert.match(motion, /lp-hero-pick, \.lp-chip/);
-  assert.match(motion, /1260/);
+  assert.match(motion, /1420/);
   assert.match(css, /mask-composite:\s*exclude/);
-  assert.match(css, /lp-professional-border-trace 720ms/);
-  assert.match(css, /0%,[\s\S]*62%[\s\S]*background-size:\s*0% 0%/);
-  assert.match(css, /lp-professional-centre-fill 1180ms/);
+  assert.match(css, /lp-professional-border-trace 690ms/);
+  assert.match(css, /0%,[\s\S]*58%[\s\S]*background-size:\s*0% 0%/);
+  assert.match(css, /lp-professional-centre-fill 1160ms/);
   assert.match(css, /lp-hero-pick-fill[\s\S]*display:\s*none !important/);
   assert.match(css, /lp-hero-pick-icon[\s\S]*background:\s*transparent !important/);
+});
+
+test("comparison switch is draggable and settles elastically", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const drag = await read("src/components/site/LiquidSegmentedDrag.tsx");
+  const css = await read("src/components/site/ProfessionalChipFinal.css");
+  assert.match(layout, /LiquidSegmentedDrag/);
+  assert.match(drag, /setPointerCapture/);
+  assert.match(drag, /--lp-segment-x/);
+  assert.match(drag, /liquidSettling/);
+  assert.match(css, /data-liquid-dragging/);
+  assert.match(css, /cubic-bezier\(0\.16, 1\.28, 0\.3, 1\)/);
 });
 
 test("Moj Chatbot branding and direct contact are present", async () => {
