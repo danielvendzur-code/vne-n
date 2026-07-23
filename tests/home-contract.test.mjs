@@ -37,17 +37,11 @@ test("flashlight follows pointer across approved dark surfaces", async () => {
 test("all website chips share one stable state without a side stripe", async () => {
   const css = await read("src/components/site/CompetitionWinnerFinal.css");
   assert.match(css, /\.lp-hero-pick,[\s\S]*\.lp-chip,[\s\S]*\.sp-hero-chips \.chip/);
-  assert.match(
-    css,
-    /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/,
-  );
+  assert.match(css, /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/);
   assert.match(css, /border-color:\s*#6ca5ff !important/);
   assert.doesNotMatch(css, /inset 3px 0 0/);
   assert.match(css, /\.lp-chip-fill[\s\S]*display:\s*none !important/);
-  assert.match(
-    css,
-    /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*rotate\(45deg\)/,
-  );
+  assert.match(css, /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*rotate\(45deg\)/);
 });
 
 test("only the comparison remains a liquid segmented control", async () => {
