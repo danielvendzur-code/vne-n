@@ -1,4 +1,4 @@
-run_id=30010231811
+run_id=30010576611
 install=success
 lint=failure
 test=success
@@ -8,13 +8,10 @@ build=success
 $ eslint .
 
 /home/runner/work/vne-n/vne-n/src/components/site/LiquidSegmentedDrag.tsx
-   55:19  error  Insert `⏎·······`                                                                                                                                                                                                                                           prettier/prettier
-   99:24  error  Replace `·nextIndex·===·previousIndex·?·Math.sign(current.velocity)·:·nextIndex·>·previousIndex·?·1` with `⏎········nextIndex·===·previousIndex⏎··········?·Math.sign(current.velocity)⏎··········:·nextIndex·>·previousIndex⏎············?·1⏎···········`  prettier/prettier
-  109:21  error  Replace `·event.target·instanceof·Element·?·event.target.closest<HTMLButtonElement>(".lp-switch·>·button")` with `⏎········event.target·instanceof·Element⏎··········?·event.target.closest<HTMLButtonElement>(".lp-switch·>·button")⏎·········`            prettier/prettier
-  113:41  error  Replace `·settle(root,·Math.max(0,·index),·index·>·activeIndex(root)·?·1·:·-1)` with `⏎········settle(root,·Math.max(0,·index),·index·>·activeIndex(root)·?·1·:·-1),⏎······`                                                                                prettier/prettier
+  56:40  error  Replace `⏎··········?·event.target.closest<HTMLElement>(".lp-switch")⏎·········` with `·?·event.target.closest<HTMLElement>(".lp-switch")`  prettier/prettier
 
-✖ 4 problems (4 errors, 0 warnings)
-  4 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 error: script "lint" exited with code 1
 
@@ -24,61 +21,61 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 6.205399
+  duration_ms: 9.055902
   type: 'test'
   ...
 # Subtest: black-blue palette is followed by premium motion and final chip refinement
 ok 2 - black-blue palette is followed by premium motion and final chip refinement
   ---
-  duration_ms: 2.626275
+  duration_ms: 3.740102
   type: 'test'
   ...
 # Subtest: homepage and route surfaces remain covered
 ok 3 - homepage and route surfaces remain covered
   ---
-  duration_ms: 1.111355
+  duration_ms: 1.808455
   type: 'test'
   ...
 # Subtest: premium pointer depth is bounded and touch-safe
 ok 4 - premium pointer depth is bounded and touch-safe
   ---
-  duration_ms: 1.024465
+  duration_ms: 1.885489
   type: 'test'
   ...
 # Subtest: chip click feedback completes the border before the centre fill
 ok 5 - chip click feedback completes the border before the centre fill
   ---
-  duration_ms: 2.039497
+  duration_ms: 2.576128
   type: 'test'
   ...
 # Subtest: comparison switch is draggable and settles elastically
 ok 6 - comparison switch is draggable and settles elastically
   ---
-  duration_ms: 1.566592
+  duration_ms: 2.674966
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 7 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 1.167783
+  duration_ms: 1.781254
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 8 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 0.802912
+  duration_ms: 1.290673
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 9 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 0.878635
+  duration_ms: 1.314158
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 10 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 0.883033
+  duration_ms: 1.42294
   type: 'test'
   ...
 1..10
@@ -89,7 +86,7 @@ ok 10 - Pages workflow validates and verifies the live deployment
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 68.847706
+# duration_ms 88.742596
 
 ===== build =====
 $ vite build
@@ -119,7 +116,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-D3_lSg-f.js               214.25 kB │ gzip: 70.00 kB
 
-[32m✓ built in 1.30s[39m
+[32m✓ built in 1.51s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 129 modules transformed.
 rendering chunks...
@@ -154,7 +151,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-w8DtPaqb.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-BcMsMQj0.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 514ms[39m
+[32m✓ built in 576ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -174,6 +171,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 587ms[39m
+[32m✓ built in 578ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
