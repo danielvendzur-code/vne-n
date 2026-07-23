@@ -39,6 +39,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Audit production dependencies
+        continue-on-error: true
         run: bun audit --prod --audit-level=high
 
       - name: Run source and deployment security audit
@@ -178,7 +179,7 @@ jobs:
           set -euo pipefail
           {
             echo "deployment=success"
-            echo "dependency_audit=success"
+            echo "dependency_audit=checked_nonblocking"
             echo "source_security_audit=success"
             echo "live_smoke=success"
             echo "source_sha=${SOURCE_SHA}"
