@@ -1,32 +1,7 @@
 import { useEffect } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-const surfaceSelector = [
-  ".site-header-bar",
-  ".site-menu-drawer",
-  ".site-menu-solution",
-  ".site-menu-project-link",
-  ".lp-assistant-card",
-  ".lp-comparison",
-  ".lp-comparison-body",
-  ".lp-solution-pill",
-  ".lp-caps-row",
-  ".lp-caps-detail-inner",
-  ".lp-project > a",
-  ".lp-faq-item",
-  ".lp-process-list > li",
-  ".lp-final-card",
-  ".premium-footer",
-  ".sp-hero",
-  ".sp-service",
-  ".sp-combine",
-  ".sp-step",
-  ".sp-project-card > a",
-  ".sp-cta",
-  ".contact-card",
-  ".contact-expect",
-  ".cookies-card",
-].join(", ");
+const surfaceSelector = ".lp-solution-cta";
 
 export function LiquidSurfacePointer() {
   const reducedMotion = useReducedMotion();
