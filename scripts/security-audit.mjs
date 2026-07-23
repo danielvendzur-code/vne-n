@@ -100,11 +100,13 @@ const systemIndex = layout.indexOf('import "./CompetitionSystem.css"');
 const routesIndex = layout.indexOf('import "./CompetitionRoutes.css"');
 const blackBlueIndex = layout.indexOf('import "./BlackBlueFinal.css"');
 const premiumIndex = layout.indexOf('import "./RecoveredMotionFinal.css"');
+const chipIndex = layout.indexOf('import "./ProfessionalChipFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (systemIndex === -1) fail("CompetitionSystem.css is not imported");
 if (routesIndex === -1) fail("CompetitionRoutes.css is not imported");
 if (blackBlueIndex === -1) fail("BlackBlueFinal.css is not imported");
 if (premiumIndex === -1) fail("RecoveredMotionFinal.css is not imported");
+if (chipIndex === -1) fail("ProfessionalChipFinal.css is not imported");
 if (systemIndex >= routesIndex) {
   fail("CompetitionRoutes.css must load after CompetitionSystem.css");
 }
@@ -114,8 +116,11 @@ if (routesIndex >= blackBlueIndex) {
 if (blackBlueIndex >= premiumIndex) {
   fail("RecoveredMotionFinal.css must load after BlackBlueFinal.css");
 }
-if (premiumIndex !== lastStyleImport) {
-  fail("RecoveredMotionFinal.css must be the final component style import");
+if (premiumIndex >= chipIndex) {
+  fail("ProfessionalChipFinal.css must load after RecoveredMotionFinal.css");
+}
+if (chipIndex !== lastStyleImport) {
+  fail("ProfessionalChipFinal.css must be the final component style import");
 }
 
 const competitionCss = await read("src/components/site/CompetitionSystem.css");
@@ -137,6 +142,18 @@ for (const token of [
   "prefers-reduced-motion",
 ]) {
   if (!premiumCss.includes(token)) fail(`Premium interaction layer is missing ${token}`);
+}
+
+const chipCss = await read("src/components/site/ProfessionalChipFinal.css");
+for (const token of [
+  "lp-professional-border-trace",
+  "lp-professional-centre-fill",
+  ".lp-hero-pick-icon",
+  ".lp-chip-icon",
+  "mask-composite: exclude",
+  "prefers-reduced-motion",
+]) {
+  if (!chipCss.includes(token)) fail(`Professional chip layer is missing ${token}`);
 }
 
 const routeCss = await read("src/components/site/CompetitionRoutes.css");
