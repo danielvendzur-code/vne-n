@@ -1,19 +1,11 @@
-run_id=30033620132
+run_id=30033834320
 install=success
-lint=failure
+lint=success
 test=success
 build=success
 
 ===== lint =====
 $ eslint .
-
-/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs
-  14:16  error  Replace `⏎····layout.lastIndexOf('import·"./'),⏎····layout.indexOf('import·"./TasteSystemFinal.css"'),⏎··` with `layout.lastIndexOf('import·"./'),·layout.indexOf('import·"./TasteSystemFinal.css"')`  prettier/prettier
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-error: script "lint" exited with code 1
 
 ===== test =====
 $ node --test tests/home-contract.test.mjs
@@ -21,73 +13,73 @@ TAP version 13
 # Subtest: Taste system and conversion section are mounted
 ok 1 - Taste system and conversion section are mounted
   ---
-  duration_ms: 6.670123
+  duration_ms: 7.105211
   type: 'test'
   ...
 # Subtest: decorative hover blobs are removed from quiet actions and chips
 ok 2 - decorative hover blobs are removed from quiet actions and chips
   ---
-  duration_ms: 2.264348
+  duration_ms: 2.044163
   type: 'test'
   ...
 # Subtest: website chips are rounded borderless and use a clean selected state
 ok 3 - website chips are rounded borderless and use a clean selected state
   ---
-  duration_ms: 0.944072
+  duration_ms: 0.92199
   type: 'test'
   ...
 # Subtest: comparison uses one clean content surface
 ok 4 - comparison uses one clean content surface
   ---
-  duration_ms: 1.53288
+  duration_ms: 1.438539
   type: 'test'
   ...
 # Subtest: typography and icons share one visual language
 ok 5 - typography and icons share one visual language
   ---
-  duration_ms: 1.81111
+  duration_ms: 1.130557
   type: 'test'
   ...
 # Subtest: hero and desktop navigation remain visually simplified
 ok 6 - hero and desktop navigation remain visually simplified
   ---
-  duration_ms: 1.380556
+  duration_ms: 1.0244
   type: 'test'
   ...
 # Subtest: pricing and client preparation cover the sales essentials
 ok 7 - pricing and client preparation cover the sales essentials
   ---
-  duration_ms: 1.208913
+  duration_ms: 1.379369
   type: 'test'
   ...
 # Subtest: contact form submits directly and keeps a resilient fallback
 ok 8 - contact form submits directly and keeps a resilient fallback
   ---
-  duration_ms: 1.471549
+  duration_ms: 1.707979
   type: 'test'
   ...
 # Subtest: portfolio image loading preserves lazy loading after the first image
 ok 9 - portfolio image loading preserves lazy loading after the first image
   ---
-  duration_ms: 0.948268
+  duration_ms: 1.043817
   type: 'test'
   ...
 # Subtest: mobile layouts and reduced motion remain explicit
 ok 10 - mobile layouts and reduced motion remain explicit
   ---
-  duration_ms: 1.293407
+  duration_ms: 1.423311
   type: 'test'
   ...
 # Subtest: metadata security and fresh assistant loading remain present
 ok 11 - metadata security and fresh assistant loading remain present
   ---
-  duration_ms: 1.24808
+  duration_ms: 1.133603
   type: 'test'
   ...
 # Subtest: Pages workflow validates the live Taste build
 ok 12 - Pages workflow validates the live Taste build
   ---
-  duration_ms: 0.81356
+  duration_ms: 0.761663
   type: 'test'
   ...
 1..12
@@ -98,7 +90,7 @@ ok 12 - Pages workflow validates the live Taste build
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 67.165261
+# duration_ms 77.083926
 
 ===== build =====
 $ vite build
@@ -128,7 +120,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-D0LB3jBA.js               221.85 kB │ gzip: 72.20 kB
 
-[32m✓ built in 1.12s[39m
+[32m✓ built in 1.57s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 140 modules transformed.
 rendering chunks...
@@ -163,7 +155,7 @@ node_modules/.nitro/vite/services/ssr/assets/tanstack-CPaXONJd.js               
 node_modules/.nitro/vite/services/ssr/assets/router-C52ow1Bf.js                       71.19 kB │ gzip: 17.49 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Y-jscSE8.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 504ms[39m
+[32m✓ built in 649ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -175,7 +167,7 @@ computing gzip size...
 .output/server/_libs/h3+h3-v2+srvx.mjs     33.49 kB │ gzip:   6.73 kB
 .output/server/index.mjs                   37.87 kB │ gzip:  10.49 kB
 .output/server/_ssr/vendor3.mjs            78.24 kB │ gzip:  20.70 kB
-.output/server/_ssr/vendor.mjs             80.64 kB │ gzip:  20.22 kB
+.output/server/_ssr/vendor.mjs             80.64 kB │ gzip:  20.21 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
 .output/server/_ssr/vendor2.mjs           198.09 kB │ gzip:  45.32 kB
@@ -183,6 +175,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 400ms[39m
+[32m✓ built in 549ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
