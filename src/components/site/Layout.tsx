@@ -23,6 +23,7 @@ import "./WidgetSelectionFix.css";
 import "./CompetitionSystem.css";
 import "./CompetitionRoutes.css";
 import "./BlackBlueFinal.css";
+import "./RecoveredMotionFinal.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
