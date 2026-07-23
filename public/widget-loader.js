@@ -34,7 +34,7 @@
     anchor.setAttribute("aria-label", "Otvoriť krátky dopyt");
     anchor.innerHTML = `
       <span aria-hidden="true">✦</span>
-      <span><strong>Webový asistent</strong><small>Otvoriť krátky dopyt</small></span>
+      <span><strong>AI Assistant</strong><small>Otvoriť krátky dopyt</small></span>
     `;
     Object.assign(anchor.style, {
       position: "fixed",
@@ -46,12 +46,14 @@
       gap: "10px",
       minHeight: "58px",
       padding: "10px 14px",
-      border: "1px solid rgba(114,199,255,.3)",
-      borderRadius: "18px",
-      color: "#f4f8f8",
-      background: "rgba(8,29,35,.94)",
-      boxShadow: "0 24px 58px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.08)",
-      backdropFilter: "blur(20px) saturate(140%)",
+      border: "1px solid rgba(185,214,255,.4)",
+      borderRadius: "20px",
+      color: "#f7f9fc",
+      background:
+        "linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.018)),rgba(8,13,23,.9)",
+      boxShadow:
+        "0 24px 58px rgba(0,0,0,.48),0 18px 44px -28px rgba(52,120,246,.82),inset 0 1px rgba(255,255,255,.13)",
+      backdropFilter: "blur(22px) saturate(150%)",
       fontFamily: "inherit",
       textDecoration: "none",
     });
@@ -63,9 +65,12 @@
         width: "36px",
         height: "36px",
         placeItems: "center",
-        borderRadius: "12px",
-        color: "#041b17",
-        background: "#65e6c1",
+        border: "1px solid rgba(166,211,255,.42)",
+        borderRadius: "13px",
+        color: "#dcecff",
+        background:
+          "linear-gradient(145deg,rgba(52,120,246,.46),rgba(20,54,120,.55))",
+        boxShadow: "inset 0 1px rgba(255,255,255,.18)",
         fontSize: "16px",
         fontWeight: "900",
       });
@@ -80,7 +85,7 @@
         Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
       }
       if (small instanceof HTMLElement) {
-        Object.assign(small.style, { color: "#a9bec3", fontSize: "11px" });
+        Object.assign(small.style, { color: "#aebbd0", fontSize: "11px" });
       }
     }
 
@@ -114,7 +119,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260723-professional-chips-v1`;
+    script.src = `${source}?v=20260723-apple-liquid-controls-v1`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
