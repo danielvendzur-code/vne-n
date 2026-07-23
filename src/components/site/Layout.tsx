@@ -32,6 +32,7 @@ import "./AppleLiquidSystemFinal.css";
 import "./WebsiteRefinementFinal.css";
 import "./WebsiteRequestFinish.css";
 import "./HomeConversionUpgrade.css";
+import "./OwnerFriendlyPolish.css";
 import "./CompetitionWinnerFinal.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
