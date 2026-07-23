@@ -1,0 +1,3 @@
+release=liquid-ai-assistant-final-20260723
+website=ready
+chatbot=ready

@@ -1,0 +1,5 @@
+- [x] Website lint, tests and build
+- [x] Widget type check, tests and build
+- [x] Shared liquid-glass visual system
+- [x] Shared vector mascot and blink animation
+- [x] Mobile and reduced-motion fallbacks
