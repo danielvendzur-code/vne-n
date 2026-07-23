@@ -1,7 +1,7 @@
-run_id=30033552252
+run_id=30033620132
 install=success
 lint=failure
-test=failure
+test=success
 build=success
 
 ===== lint =====
@@ -21,573 +21,84 @@ TAP version 13
 # Subtest: Taste system and conversion section are mounted
 ok 1 - Taste system and conversion section are mounted
   ---
-  duration_ms: 8.008274
+  duration_ms: 6.670123
   type: 'test'
   ...
 # Subtest: decorative hover blobs are removed from quiet actions and chips
 ok 2 - decorative hover blobs are removed from quiet actions and chips
   ---
-  duration_ms: 1.877872
+  duration_ms: 2.264348
   type: 'test'
   ...
 # Subtest: website chips are rounded borderless and use a clean selected state
 ok 3 - website chips are rounded borderless and use a clean selected state
   ---
-  duration_ms: 0.877447
+  duration_ms: 0.944072
   type: 'test'
   ...
 # Subtest: comparison uses one clean content surface
 ok 4 - comparison uses one clean content surface
   ---
-  duration_ms: 1.302909
+  duration_ms: 1.53288
   type: 'test'
   ...
 # Subtest: typography and icons share one visual language
 ok 5 - typography and icons share one visual language
   ---
-  duration_ms: 1.19016
+  duration_ms: 1.81111
   type: 'test'
   ...
 # Subtest: hero and desktop navigation remain visually simplified
 ok 6 - hero and desktop navigation remain visually simplified
   ---
-  duration_ms: 1.212381
+  duration_ms: 1.380556
   type: 'test'
   ...
 # Subtest: pricing and client preparation cover the sales essentials
 ok 7 - pricing and client preparation cover the sales essentials
   ---
-  duration_ms: 1.722572
+  duration_ms: 1.208913
   type: 'test'
   ...
 # Subtest: contact form submits directly and keeps a resilient fallback
 ok 8 - contact form submits directly and keeps a resilient fallback
   ---
-  duration_ms: 0.867889
+  duration_ms: 1.471549
   type: 'test'
   ...
 # Subtest: portfolio image loading preserves lazy loading after the first image
 ok 9 - portfolio image loading preserves lazy loading after the first image
   ---
-  duration_ms: 0.95966
+  duration_ms: 0.948268
   type: 'test'
   ...
 # Subtest: mobile layouts and reduced motion remain explicit
 ok 10 - mobile layouts and reduced motion remain explicit
   ---
-  duration_ms: 1.236797
+  duration_ms: 1.293407
   type: 'test'
   ...
 # Subtest: metadata security and fresh assistant loading remain present
 ok 11 - metadata security and fresh assistant loading remain present
   ---
-  duration_ms: 0.946786
+  duration_ms: 1.24808
   type: 'test'
   ...
 # Subtest: Pages workflow validates the live Taste build
-not ok 12 - Pages workflow validates the live Taste build
+ok 12 - Pages workflow validates the live Taste build
   ---
-  duration_ms: 27.456899
+  duration_ms: 0.81356
   type: 'test'
-  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:149:1'
-  failureType: 'testCodeFailure'
-  error: |-
-    The input did not match the regular expression /taste-system-v7/. Input:
-    
-    'name: Deploy and verify GitHub Pages\n' +
-      '\n' +
-      'on:\n' +
-      '  push:\n' +
-      '    branches: [main]\n' +
-      '    paths-ignore:\n' +
-      '      - "MAIN_QUALITY_AUDIT.txt"\n' +
-      '      - "PAGES_DEPLOY_AUDIT.txt"\n' +
-      '      - "PAGES_WORKFLOW_STATUS.txt"\n' +
-      '  workflow_dispatch:\n' +
-      '\n' +
-      'permissions:\n' +
-      '  contents: write\n' +
-      '  pages: write\n' +
-      '  id-token: write\n' +
-      '\n' +
-      'concurrency:\n' +
-      '  group: pages-current-main\n' +
-      '  cancel-in-progress: true\n' +
-      '\n' +
-      'jobs:\n' +
-      '  build:\n' +
-      "    if: ${{ github.actor != 'github-actions[bot]' }}\n" +
-      '    runs-on: ubuntu-latest\n' +
-      '    steps:\n' +
-      '      - name: Checkout current main\n' +
-      '        uses: actions/checkout@v4\n' +
-      '        with:\n' +
-      '          ref: main\n' +
-      '          fetch-depth: 0\n' +
-      '\n' +
-      '      - name: Configure Pages\n' +
-      '        uses: actions/configure-pages@v5\n' +
-      '\n' +
-      '      - name: Setup Bun\n' +
-      '        uses: oven-sh/setup-bun@v2\n' +
-      '\n' +
-      '      - name: Install dependencies\n' +
-      '        run: bun install --frozen-lockfile\n' +
-      '\n' +
-      '      - name: Audit production dependencies\n' +
-      '        continue-on-error: true\n' +
-      '        run: bun audit --prod --audit-level=high\n' +
-      '\n' +
-      '      - name: Run source and deployment security audit\n' +
-      '        run: node scripts/security-audit.mjs\n' +
-      '\n' +
-      '      - name: Lint source\n' +
-      '        run: bun run lint\n' +
-      '\n' +
-      '      - name: Run UX and deployment contracts\n' +
-      '        run: bun run test\n' +
-      '\n' +
-      '      - name: Build production server\n' +
-      '        run: bun run build\n' +
-      '        env:\n' +
-      '          NITRO_PRESET: node-server\n' +
-      '          VITE_BASE_PATH: /vne-n/\n' +
-      '\n' +
-      '      - name: Export static Pages artifact\n' +
-      '        shell: bash\n' +
-      '        run: |\n' +
-      '          set -euo pipefail\n' +
-      '          PORT=4173 node .output/server/index.mjs > /tmp/vne-n-preview.log 2>&1 &\n' +
-      '          SERVER_PID=$!\n' +
-      "          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT\n" +
-      '\n' +
-      '          ready=false\n' +
-      '          for attempt in {1..40}; do\n' +
-      '            if curl --fail --silent "http://127.0.0.1:4173/vne-n/" > /dev/null; then\n' +
-      '              ready=true\n' +
-      '              break\n' +
-      '            fi\n' +
-      '            sleep 1\n' +
-      '          done\n' +
-      '\n' +
-      '          if [ "$ready" != true ]; then\n' +
-      '            cat /tmp/vne-n-preview.log\n' +
-      '            exit 1\n' +
-      '          fi\n' +
-      '\n' +
-      '          PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs\n' +
-      '\n' +
-      '      - name: Validate exported artifact\n' +
-      '        shell: bash\n' +
-      '        run: |\n' +
-      '          set -euo pipefail\n' +
-      '          test -f pages-dist/index.html\n' +
-      '          test -f pages-dist/404.html\n' +
-      '          test -f pages-dist/preview.html\n' +
-      '          test -f pages-dist/widget-loader.js\n' +
-      '          test -f pages-dist/build-meta.json\n' +
-      '          grep -Fq "Chatboty, ktoré" pages-dist/index.html\n' +
-      '          grep -Fq "od 350 €" pages-dist/index.html\n' +
-      '          grep -Fq "Čo potrebujem od klienta" pages-dist/index.html\n' +
-      '          grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html\n' +
-      '          grep -Fq "Content-Security-Policy" pages-dist/index.html\n' +
-      '          grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js\n' +
-      '          grep -Fq "owner-friendly-v6" pages-dist/widget-loader.js\n' +
-      '          grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx\n' +
-      '          grep -Fq "OwnerFriendlyPolish.css" src/components/site/Layout.tsx\n' +
-      '          grep -Fq "submitWebsiteLead" src/routes/kontakt.tsx\n' +
-      '          ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html\n' +
-      '\n' +
-      '          for route in sluzby projekty postup kontakt cookies farby; do\n' +
-      '            test -f "pages-dist/${route}/index.html"\n' +
-      '            test -f "pages-dist/${route}.html"\n' +
-      '          done\n' +
-      '\n' +
-      '          grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json\n' +
-      '\n' +
-      '      - name: Upload Pages artifact\n' +
-      '        uses: actions/upload-pages-artifact@v3\n' +
-      '        with:\n' +
-      '          path: pages-dist\n' +
-      '\n' +
-      '  deploy:\n' +
-      '    environment:\n' +
-      '      name: github-pages\n' +
-      '      url: ${{ steps.deployment.outputs.page_url }}\n' +
-      '    runs-on: ubuntu-latest\n' +
-      '    needs: build\n' +
-      '    steps:\n' +
-      '      - name: Deploy\n' +
-      '        id: deployment\n' +
-      '        uses: actions/deploy-pages@v5\n' +
-      '\n' +
-      '      - name: Verify live deployment and all public routes\n' +
-      '        shell: bash\n' +
-      '        env:\n' +
-      '          PAGE_URL: ${{ steps.deployment.outputs.page_url }}\n' +
-      '          SOURCE_SHA: ${{ github.sha }}\n' +
-      '        run: |\n' +
-      '          set -euo pipefail\n' +
-      '          BASE="${PAGE_URL%/}"\n' +
-      '\n' +
-      '          fetch_with_retry() {\n' +
-      '            local path="$1"\n' +
-      '            local expected="$2"\n' +
-      `            local body="/tmp/live-$(echo "$path" | tr '/.' '__').txt"\n` +
-      '\n' +
-      '            for attempt in {1..30}; do\n' +
-      '              if curl --location --fail --silent --show-error \\\n' +
-      '                --header "Cache-Control: no-cache" \\\n' +
-      '                "${BASE}${path}?verify=${SOURCE_SHA}-${attempt}" > "$body"; then\n' +
-      '                if [ -z "$expected" ] || grep -Fq "$expected" "$body"; then\n' +
-      '                  echo "verified ${path}"\n' +
-      '                  return 0\n' +
-      '                fi\n' +
-      '              fi\n' +
-      '              sleep 5\n' +
-      '            done\n' +
-      '\n' +
-      '            echo "Live verification failed for ${path}"\n' +
-      '            cat "$body" 2>/dev/null || true\n' +
-      '            return 1\n' +
-      '          }\n' +
-      '\n' +
-      '          fetch_with_retry "/" "od 350 €"\n' +
-      '          fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"\n' +
-      '          fetch_with_retry "/sluzby" ""\n' +
-      '          fetch_with_retry "/sluzby/" ""\n' +
-      '          fetch_with_retry "/projekty/" ""\n' +
-      '          fetch_with_retry "/postup/" ""\n' +
-      '          fetch_with_retry "/kontakt/" "Získať návrh riešenia"\n' +
-      '          fetch_with_retry "/cookies/" ""\n' +
-      '          fetch_with_retry "/widget-loader.js" "owner-friendly-v6"\n' +
-      '          fetch_with_retry "/build-meta.json" "$SOURCE_SHA"\n' +
-      '          echo "live_smoke=success"\n' +
-      '\n' +
-      '      - name: Checkout latest main for deployment record\n' +
-      '        uses: actions/checkout@v4\n' +
-      '        with:\n' +
-      '          ref: main\n' +
-      '          fetch-depth: 0\n' +
-      '\n' +
-      '      - name: Record verified live deployment\n' +
-      '        shell: bash\n' +
-      '        env:\n' +
-      '          PAGE_URL: ${{ steps.deployment.outputs.page_url }}\n' +
-      '          SOURCE_SHA: ${{ github.sha }}\n' +
-      '        run: |\n' +
-      '          set -euo pipefail\n' +
-      '          {\n' +
-      '            echo "deployment=success"\n' +
-      '            echo "dependency_audit=checked_nonblocking"\n' +
-      '            echo "source_security_audit=success"\n' +
-      '            echo "live_smoke=success"\n' +
-      '            echo "source_sha=${SOURCE_SHA}"\n' +
-      '            echo "page_url=${PAGE_URL}"\n' +
-      '            echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"\n' +
-      '          } > PAGES_DEPLOY_AUDIT.txt\n' +
-      '\n' +
-      '          git config user.name "github-actions[bot]"\n' +
-      '          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"\n' +
-      '          git add PAGES_DEPLOY_AUDIT.txt\n' +
-      '          git diff --cached --quiet && exit 0\n' +
-      '          git commit -m "chore: record verified Pages deployment [skip main-quality]"\n' +
-      '          git pull --rebase origin main\n' +
-      '          git push origin HEAD:main\n' +
-      '\n' +
-      '  diagnostics:\n' +
-      "    if: ${{ always() && github.actor != 'github-actions[bot]' }}\n" +
-      '    needs: [build, deploy]\n' +
-      '    runs-on: ubuntu-latest\n' +
-      '    steps:\n' +
-      '      - name: Checkout latest main for workflow status\n' +
-      '        uses: actions/checkout@v4\n' +
-      '        with:\n' +
-      '          ref: main\n' +
-      '          fetch-depth: 0\n' +
-      '\n' +
-      '      - name: Record workflow outcome\n' +
-      '        shell: bash\n' +
-      '        env:\n' +
-      '          SOURCE_SHA: ${{ github.sha }}\n' +
-      '          RUN_ID: ${{ github.run_id }}\n' +
-      '          BUILD_RESULT: ${{ needs.build.result }}\n' +
-      '          DEPLOY_RESULT: ${{ needs.deploy.result }}\n' +
-      '        run: |\n' +
-      '          set -euo pipefail\n' +
-      '          {\n' +
-      '            echo "source_sha=${SOURCE_SHA}"\n' +
-      '            echo "run_id=${RUN_ID}"\n' +
-      '            echo "build_result=${BUILD_RESULT}"\n' +
-      '            echo "deploy_result=${DEPLOY_RESULT}"\n' +
-      '            echo "recorded_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"\n' +
-      '          } > PAGES_WORKFLOW_STATUS.txt\n' +
-      '\n' +
-      '          git config user.name "github-actions[bot]"\n' +
-      '          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"\n' +
-      '          git add PAGES_WORKFLOW_STATUS.txt\n' +
-      '          git diff --cached --quiet && exit 0\n' +
-      '          git commit -m "chore: record Pages workflow outcome [skip main-quality]"\n' +
-      '          git pull --rebase origin main\n' +
-      '          git push origin HEAD:main\n'
-    
-  code: 'ERR_ASSERTION'
-  name: 'AssertionError'
-  expected:
-  actual: |-
-    name: Deploy and verify GitHub Pages
-    
-    on:
-      push:
-        branches: [main]
-        paths-ignore:
-          - "MAIN_QUALITY_AUDIT.txt"
-          - "PAGES_DEPLOY_AUDIT.txt"
-          - "PAGES_WORKFLOW_STATUS.txt"
-      workflow_dispatch:
-    
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-    
-    concurrency:
-      group: pages-current-main
-      cancel-in-progress: true
-    
-    jobs:
-      build:
-        if: ${{ github.actor != 'github-actions[bot]' }}
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout current main
-            uses: actions/checkout@v4
-            with:
-              ref: main
-              fetch-depth: 0
-    
-          - name: Configure Pages
-            uses: actions/configure-pages@v5
-    
-          - name: Setup Bun
-            uses: oven-sh/setup-bun@v2
-    
-          - name: Install dependencies
-            run: bun install --frozen-lockfile
-    
-          - name: Audit production dependencies
-            continue-on-error: true
-            run: bun audit --prod --audit-level=high
-    
-          - name: Run source and deployment security audit
-            run: node scripts/security-audit.mjs
-    
-          - name: Lint source
-            run: bun run lint
-    
-          - name: Run UX and deployment contracts
-            run: bun run test
-    
-          - name: Build production server
-            run: bun run build
-            env:
-              NITRO_PRESET: node-server
-              VITE_BASE_PATH: /vne-n/
-    
-          - name: Export static Pages artifact
-            shell: bash
-            run: |
-              set -euo pipefail
-              PORT=4173 node .output/server/index.mjs > /tmp/vne-n-preview.log 2>&1 &
-              SERVER_PID=$!
-              trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
-    
-              ready=false
-              for attempt in {1..40}; do
-                if curl --fail --silent "http://127.0.0.1:4173/vne-n/" > /dev/null; then
-                  ready=true
-                  break
-                fi
-                sleep 1
-              done
-    
-              if [ "$ready" != true ]; then
-                cat /tmp/vne-n-preview.log
-                exit 1
-              fi
-    
-              PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs
-    
-          - name: Validate exported artifact
-            shell: bash
-            run: |
-              set -euo pipefail
-              test -f pages-dist/index.html
-              test -f pages-dist/404.html
-              test -f pages-dist/preview.html
-              test -f pages-dist/widget-loader.js
-              test -f pages-dist/build-meta.json
-              grep -Fq "Chatboty, ktoré" pages-dist/index.html
-              grep -Fq "od 350 €" pages-dist/index.html
-              grep -Fq "Čo potrebujem od klienta" pages-dist/index.html
-              grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
-              grep -Fq "Content-Security-Policy" pages-dist/index.html
-              grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
-              grep -Fq "owner-friendly-v6" pages-dist/widget-loader.js
-              grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx
-              grep -Fq "OwnerFriendlyPolish.css" src/components/site/Layout.tsx
-              grep -Fq "submitWebsiteLead" src/routes/kontakt.tsx
-              ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
-    
-              for route in sluzby projekty postup kontakt cookies farby; do
-                test -f "pages-dist/${route}/index.html"
-                test -f "pages-dist/${route}.html"
-              done
-    
-              grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json
-    
-          - name: Upload Pages artifact
-            uses: actions/upload-pages-artifact@v3
-            with:
-              path: pages-dist
-    
-      deploy:
-        environment:
-          name: github-pages
-          url: ${{ steps.deployment.outputs.page_url }}
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-          - name: Deploy
-            id: deployment
-            uses: actions/deploy-pages@v5
-    
-          - name: Verify live deployment and all public routes
-            shell: bash
-            env:
-              PAGE_URL: ${{ steps.deployment.outputs.page_url }}
-              SOURCE_SHA: ${{ github.sha }}
-            run: |
-              set -euo pipefail
-              BASE="${PAGE_URL%/}"
-    
-              fetch_with_retry() {
-                local path="$1"
-                local expected="$2"
-                local body="/tmp/live-$(echo "$path" | tr '/.' '__').txt"
-    
-                for attempt in {1..30}; do
-                  if curl --location --fail --silent --show-error \
-                    --header "Cache-Control: no-cache" \
-                    "${BASE}${path}?verify=${SOURCE_SHA}-${attempt}" > "$body"; then
-                    if [ -z "$expected" ] || grep -Fq "$expected" "$body"; then
-                      echo "verified ${path}"
-                      return 0
-                    fi
-                  fi
-                  sleep 5
-                done
-    
-                echo "Live verification failed for ${path}"
-                cat "$body" 2>/dev/null || true
-                return 1
-              }
-    
-              fetch_with_retry "/" "od 350 €"
-              fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
-              fetch_with_retry "/sluzby" ""
-              fetch_with_retry "/sluzby/" ""
-              fetch_with_retry "/projekty/" ""
-              fetch_with_retry "/postup/" ""
-              fetch_with_retry "/kontakt/" "Získať návrh riešenia"
-              fetch_with_retry "/cookies/" ""
-              fetch_with_retry "/widget-loader.js" "owner-friendly-v6"
-              fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
-              echo "live_smoke=success"
-    
-          - name: Checkout latest main for deployment record
-            uses: actions/checkout@v4
-            with:
-              ref: main
-              fetch-depth: 0
-    
-          - name: Record verified live deployment
-            shell: bash
-            env:
-              PAGE_URL: ${{ steps.deployment.outputs.page_url }}
-              SOURCE_SHA: ${{ github.sha }}
-            run: |
-              set -euo pipefail
-              {
-                echo "deployment=success"
-                echo "dependency_audit=checked_nonblocking"
-                echo "source_security_audit=success"
-                echo "live_smoke=success"
-                echo "source_sha=${SOURCE_SHA}"
-                echo "page_url=${PAGE_URL}"
-                echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-              } > PAGES_DEPLOY_AUDIT.txt
-    
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git add PAGES_DEPLOY_AUDIT.txt
-              git diff --cached --quiet && exit 0
-              git commit -m "chore: record verified Pages deployment [skip main-quality]"
-              git pull --rebase origin main
-              git push origin HEAD:main
-    
-      diagnostics:
-        if: ${{ always() && github.actor != 'github-actions[bot]' }}
-        needs: [build, deploy]
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout latest main for workflow status
-            uses: actions/checkout@v4
-            with:
-              ref: main
-              fetch-depth: 0
-    
-          - name: Record workflow outcome
-            shell: bash
-            env:
-              SOURCE_SHA: ${{ github.sha }}
-              RUN_ID: ${{ github.run_id }}
-              BUILD_RESULT: ${{ needs.build.result }}
-              DEPLOY_RESULT: ${{ needs.deploy.result }}
-            run: |
-              set -euo pipefail
-              {
-                echo "source_sha=${SOURCE_SHA}"
-                echo "run_id=${RUN_ID}"
-                echo "build_result=${BUILD_RESULT}"
-                echo "deploy_result=${DEPLOY_RESULT}"
-                echo "recorded_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-              } > PAGES_WORKFLOW_STATUS.txt
-    
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git add PAGES_WORKFLOW_STATUS.txt
-              git diff --cached --quiet && exit 0
-              git commit -m "chore: record Pages workflow outcome [skip main-quality]"
-              git pull --rebase origin main
-              git push origin HEAD:main
-    
-  operator: 'match'
-  stack: |-
-    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:155:10)
-    async Test.run (node:internal/test_runner/test:1054:7)
-    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 1..12
 # tests 12
 # suites 0
-# pass 11
-# fail 1
+# pass 12
+# fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 123.603676
-error: script "test" exited with code 1
+# duration_ms 67.165261
 
 ===== build =====
 $ vite build
@@ -617,7 +128,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-D0LB3jBA.js               221.85 kB │ gzip: 72.20 kB
 
-[32m✓ built in 1.58s[39m
+[32m✓ built in 1.12s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 140 modules transformed.
 rendering chunks...
@@ -652,7 +163,7 @@ node_modules/.nitro/vite/services/ssr/assets/tanstack-CPaXONJd.js               
 node_modules/.nitro/vite/services/ssr/assets/router-C52ow1Bf.js                       71.19 kB │ gzip: 17.49 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Y-jscSE8.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 684ms[39m
+[32m✓ built in 504ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -664,7 +175,7 @@ computing gzip size...
 .output/server/_libs/h3+h3-v2+srvx.mjs     33.49 kB │ gzip:   6.73 kB
 .output/server/index.mjs                   37.87 kB │ gzip:  10.49 kB
 .output/server/_ssr/vendor3.mjs            78.24 kB │ gzip:  20.70 kB
-.output/server/_ssr/vendor.mjs             80.64 kB │ gzip:  20.20 kB
+.output/server/_ssr/vendor.mjs             80.64 kB │ gzip:  20.22 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
 .output/server/_ssr/vendor2.mjs           198.09 kB │ gzip:  45.32 kB
@@ -672,6 +183,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 561ms[39m
+[32m✓ built in 400ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
