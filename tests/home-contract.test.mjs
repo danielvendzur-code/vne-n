@@ -95,17 +95,28 @@ test("services, projects, process, contact and cookies have final route styling"
   }
 });
 
-test("three solution cards are complete and use bounded pointer interaction", async () => {
+test("three solution cards are complete and stay calm under pointer movement", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
-  const css = await read("src/components/site/CompetitionSystem.css");
+  const css = await read("src/components/site/BlackBlueFinal.css");
   assert.match(landing, /Chatbot na mieru/);
   assert.match(landing, /Chatbot s kalkulačkou/);
   assert.match(landing, /Chatbot s konfigurátorom/);
   assert.match(landing, /Chcem takéto riešenie/);
-  assert.match(landing, /onPointerMove/);
-  assert.match(landing, /event\.pointerType === "touch"/);
-  assert.match(landing, /--tilt-x/);
-  assert.match(css, /rotateX\(var\(--tilt-x\)\)/);
+  assert.doesNotMatch(landing, /onPointerMove/);
+  assert.doesNotMatch(landing, /--tilt-x/);
+  assert.match(css, /\.lp-solution-pill[\s\S]*?transform:\s*none !important/);
+});
+
+test("solution chips trace only their border on click and teaser copy stays hidden", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const finalCss = await read("src/components/site/BlackBlueFinal.css");
+  const previewCss = await read("src/components/site/NativeWidgetPreview.css");
+  assert.match(landing, /replayBorderTrace\(event\.currentTarget\)/);
+  assert.doesNotMatch(landing, /lp-hero-pick-fill/);
+  assert.doesNotMatch(landing, /lp-chip-fill/);
+  assert.match(finalCss, /@keyframes lp-border-trace/);
+  assert.match(finalCss, /\.lp-chip\[data-active="true"\][\s\S]*?background:\s*#0e1118/i);
+  assert.match(previewCss, /\.cw-teaser[\s\S]*?display:\s*none !important/i);
 });
 
 test("navigation keeps only the compact brand name and no side-slide drawer animation", async () => {

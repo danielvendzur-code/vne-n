@@ -19,7 +19,6 @@ import "./MobileVerticalFinal.css";
 import "./MobileStoryBrandFix.css";
 import "./RequestedPolish.css";
 import "./RequestedPolishFinal.css";
-import "./WidgetSelectionFix.css";
 import "./CompetitionSystem.css";
 import "./CompetitionRoutes.css";
 import "./BlackBlueFinal.css";
