@@ -20,60 +20,70 @@ test("chatbot-first copy is rendered directly by React", async () => {
   );
 });
 
-test("black-blue palette is followed by premium motion and final chip refinement", async () => {
+test("one final liquid layer owns the complete website", async () => {
   const layout = await read("src/components/site/Layout.tsx");
-  const finalCss = await read("src/components/site/BlackBlueFinal.css");
-  const recoveredCss = await read("src/components/site/RecoveredMotionFinal.css");
-  const chipCss = await read("src/components/site/ProfessionalChipFinal.css");
+  const finalCss = await read("src/components/site/AppleLiquidSystemFinal.css");
   assert.ok(
-    layout.indexOf('import "./CompetitionRoutes.css"') <
-      layout.indexOf('import "./BlackBlueFinal.css"'),
-  );
-  assert.ok(
-    layout.indexOf('import "./BlackBlueFinal.css"') <
-      layout.indexOf('import "./RecoveredMotionFinal.css"'),
-  );
-  assert.ok(
-    layout.indexOf('import "./RecoveredMotionFinal.css"') <
-      layout.indexOf('import "./ProfessionalChipFinal.css"'),
+    layout.indexOf('import "./ProfessionalChipFinal.css"') <
+      layout.indexOf('import "./AppleLiquidSystemFinal.css"'),
   );
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./ProfessionalChipFinal.css"'),
+    layout.indexOf('import "./AppleLiquidSystemFinal.css"'),
   );
-  assert.match(finalCss, /--primary:\s*#3478f6/i);
-  assert.match(finalCss, /--background:\s*#050609/i);
-  assert.match(recoveredCss, /@keyframes recovered-border-trace/);
-  assert.match(chipCss, /@keyframes lp-professional-centre-fill/);
-  assert.match(chipCss, /prefers-reduced-motion:\s*reduce/);
-});
-
-test("homepage and route surfaces remain covered", async () => {
-  const systemCss = await read("src/components/site/CompetitionSystem.css");
-  const routeCss = await read("src/components/site/CompetitionRoutes.css");
   for (const selector of [
     ".site-header-bar",
-    ".lp-hero",
     ".lp-assistant-card",
+    ".lp-comparison",
     ".lp-solution-pill",
-    ".lp-chip",
+    ".lp-caps-row",
+    ".lp-project > a",
+    ".lp-faq-item",
+    ".lp-process-list > li",
+    ".lp-final-card",
     ".premium-footer",
+    ".sp-hero",
+    ".sp-service",
+    ".sp-cta",
+    ".contact-card",
   ]) {
-    assert.ok(systemCss.includes(selector), `Missing homepage style for ${selector}`);
+    assert.ok(finalCss.includes(selector), `Missing final liquid coverage for ${selector}`);
   }
-  for (const selector of [".sp-hero", ".sp-service", ".contact-page", ".cookies-page"]) {
-    assert.ok(routeCss.includes(selector), `Missing route style for ${selector}`);
-  }
+  assert.match(finalCss, /--al-blue:\s*#3478f6/i);
+  assert.match(finalCss, /backdrop-filter:\s*blur\(26px\)/i);
+  assert.match(finalCss, /prefers-reduced-motion:\s*reduce/);
 });
 
-test("premium pointer depth is bounded and touch-safe", async () => {
-  const landing = await read("src/components/site/PremiumLanding.tsx");
-  const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
-  assert.match(landing, /onPointerMove/);
-  assert.match(landing, /event\.pointerType === "touch"/);
-  assert.match(landing, /--tilt-x/);
-  assert.match(motion, /perspective\(1100px\)/);
-  assert.match(motion, /finePointer/);
+test("all major CTAs use the same centre-fill liquid interaction", async () => {
+  const css = await read("src/components/site/AppleLiquidSystemFinal.css");
+  for (const selector of [
+    ".site-consultation-cta",
+    ".site-menu-cta",
+    ".lp-button",
+    ".lp-assistant-cta",
+    ".lp-solution-cta",
+    ".lp-caps-detail-cta",
+    ".lp-faq-ask",
+    ".sp-button",
+    ".contact-submit",
+    ".contact-assistant",
+  ]) {
+    assert.ok(css.includes(selector), `Missing CTA coverage for ${selector}`);
+  }
+  assert.match(css, /transform:\s*scale3d\(0\.05, 0\.24, 1\)/);
+  assert.match(css, /transform 760ms var\(--al-ease\)/);
+  assert.match(css, /transform:\s*scale3d\(1\.2, 1\.08, 1\)/);
+});
+
+test("liquid surface lighting follows a fine pointer and respects reduced motion", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
+  assert.match(layout, /LiquidSurfacePointer/);
+  assert.match(pointer, /\(hover: hover\) and \(pointer: fine\)/);
+  assert.match(pointer, /--liquid-x/);
+  assert.match(pointer, /--liquid-y/);
+  assert.match(pointer, /connection\?\.saveData/);
+  assert.match(pointer, /requestAnimationFrame/);
 });
 
 test("chip click feedback completes the border before the centre fill", async () => {
@@ -87,7 +97,6 @@ test("chip click feedback completes the border before the centre fill", async ()
   assert.match(css, /0%,[\s\S]*58%[\s\S]*background-size:\s*0% 0%/);
   assert.match(css, /lp-professional-centre-fill 1160ms/);
   assert.match(css, /lp-hero-pick-fill[\s\S]*display:\s*none !important/);
-  assert.match(css, /lp-hero-pick-icon[\s\S]*background:\s*transparent !important/);
 });
 
 test("comparison switch is draggable and settles elastically", async () => {
@@ -105,14 +114,12 @@ test("comparison switch is draggable and settles elastically", async () => {
 test("Moj Chatbot branding and direct contact are present", async () => {
   const config = await read("src/config/site.ts");
   const footer = await read("src/components/site/Footer.tsx");
-  const css = await read("src/components/site/RecoveredMotionFinal.css");
   assert.match(config, /brand:\s*"Môj Chatbot"/);
   assert.match(config, /daniel@vendzur\.sk/);
   assert.match(footer, /Môj Chatbot/);
-  assert.match(css, /content:\s*"Môj Chatbot"/);
 });
 
-test("metadata, CSP and resilient local widget loading are present", async () => {
+test("metadata, CSP and resilient latest widget loading are present", async () => {
   const root = await read("src/routes/__root.tsx");
   const loader = await read("public/widget-loader.js");
   assert.match(root, /Content-Security-Policy/);
@@ -121,6 +128,7 @@ test("metadata, CSP and resilient local widget loading are present", async () =>
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
   assert.match(loader, /showFallback/);
+  assert.match(loader, /apple-liquid-controls-v1/);
   assert.match(loader, /moj-chatbot-backend\.vercel\.app/);
 });
 
