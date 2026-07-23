@@ -46,14 +46,11 @@
       gap: "10px",
       minHeight: "58px",
       padding: "10px 14px",
-      border: "1px solid rgba(185,214,255,.4)",
-      borderRadius: "20px",
-      color: "#f7f9fc",
-      background:
-        "linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.018)),rgba(8,13,23,.9)",
-      boxShadow:
-        "0 24px 58px rgba(0,0,0,.48),0 18px 44px -28px rgba(52,120,246,.82),inset 0 1px rgba(255,255,255,.13)",
-      backdropFilter: "blur(22px) saturate(150%)",
+      border: "1px solid #33445c",
+      borderRadius: "18px",
+      color: "#f5f7fb",
+      background: "#0b1018",
+      boxShadow: "0 24px 58px -34px rgba(0,0,0,.92)",
       fontFamily: "inherit",
       textDecoration: "none",
     });
@@ -65,11 +62,10 @@
         width: "36px",
         height: "36px",
         placeItems: "center",
-        border: "1px solid rgba(166,211,255,.42)",
-        borderRadius: "13px",
-        color: "#dcecff",
-        background: "linear-gradient(145deg,rgba(52,120,246,.46),rgba(20,54,120,.55))",
-        boxShadow: "inset 0 1px rgba(255,255,255,.18)",
+        border: "1px solid #45658f",
+        borderRadius: "12px",
+        color: "#ffffff",
+        background: "#17325d",
         fontSize: "16px",
         fontWeight: "900",
       });
@@ -84,7 +80,7 @@
         Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
       }
       if (small instanceof HTMLElement) {
-        Object.assign(small.style, { color: "#aebbd0", fontSize: "11px" });
+        Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });
       }
     }
 
@@ -118,7 +114,7 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260723-complete-liquid-system-v1`;
+    script.src = `${source}?v=20260723-restrained-assistant-v2`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
