@@ -4,69 +4,74 @@ import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("competition layer and conversion section are mounted last", async () => {
+test("Taste system and conversion section are mounted", async () => {
   const layout = await read("src/components/site/Layout.tsx");
-  const css = await read("src/components/site/CompetitionWinnerFinal.css");
+  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
   const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
   assert.match(layout, /HomeConversionUpgrade/);
-  assert.match(layout, /OwnerFriendlyPolish\.css/);
   assert.match(layout, /CompetitionWinnerFinal\.css/);
+  assert.match(layout, /TasteSystemFinal\.css/);
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./CompetitionWinnerFinal.css"'),
+    layout.indexOf('import "./TasteSystemFinal.css"'),
   );
-  assert.match(css, /Final competition layer/);
+  assert.match(tasteCss, /Taste-system final layer/);
   assert.match(conversion, /od 350 €/);
   assert.match(conversion, /Čo potrebujem od klienta/);
   assert.match(conversion, /Získať návrh riešenia/);
 });
 
-test("flashlight is compact and reserved for deliberate CTAs", async () => {
+test("decorative hover blobs are removed from quiet actions and chips", async () => {
   const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
-  assert.match(pointer, /\.lp-solution-cta/);
-  assert.match(pointer, /\.lp-button-quiet/);
+  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
   assert.match(pointer, /--spot-x/);
   assert.match(pointer, /dataset\.spotlight/);
   assert.match(pointer, /requestAnimationFrame/);
-  assert.match(ownerCss, /circle 92px at var\(--spot-x\) var\(--spot-y\)/);
-  assert.match(ownerCss, /Remove the old large oval hover blob/);
-  assert.match(ownerCss, /\.lp-solution-cta::before[\s\S]*content: none !important/);
-  assert.match(ownerCss, /\.lp-solution-cta::after/);
+  assert.match(tasteCss, /\.lp-button-quiet::before/);
+  assert.match(tasteCss, /\.lp-button-quiet::after/);
+  assert.match(tasteCss, /\.lp-hero-pick::before/);
+  assert.match(tasteCss, /\.lp-chip::after/);
+  assert.match(tasteCss, /content: none !important/);
+  assert.match(tasteCss, /background: none !important/);
 });
 
-test("website chips are borderless stable and do not animate behind the label", async () => {
-  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
-  assert.match(ownerCss, /\.lp-hero-pick,[\s\S]*\.lp-chip,[\s\S]*\.sp-hero-chips \.chip/);
+test("website chips are rounded borderless and use a clean selected state", async () => {
+  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
+  assert.match(tasteCss, /\.lp-hero-pick,[\s\S]*\.lp-chip/);
+  assert.match(tasteCss, /border: 0 !important/);
+  assert.match(tasteCss, /border-radius: 16px !important/);
   assert.match(
-    ownerCss,
-    /\.lp-hero-pick\[data-active="true"\],[\s\S]*\.lp-chip\[data-active="true"\]/,
+    tasteCss,
+    /\.lp-hero-pick\[data-active="true"\],[\s\S]*background: #19345d !important/,
   );
-  assert.match(ownerCss, /border: 0 !important/);
-  assert.match(ownerCss, /\.lp-hero-pick-fill,[\s\S]*content: none !important/);
-  assert.match(ownerCss, /\.lp-assistant-answer[\s\S]*animation: none !important/);
-  assert.match(
-    ownerCss,
-    /\.lp-chip\[data-active="true"\] \.lp-chip-icon svg[\s\S]*transform: none !important/,
-  );
-  assert.doesNotMatch(ownerCss, /inset 3px 0 0/);
+  assert.match(tasteCss, /\.lp-hero-pick-fill,[\s\S]*display: none !important/);
+  assert.match(tasteCss, /\.lp-hero-pick-icon,[\s\S]*background: transparent !important/);
+  assert.doesNotMatch(tasteCss, /inset 3px 0 0/);
 });
 
-test("comparison keeps the liquid switch but uses one clean content surface", async () => {
+test("comparison uses one clean content surface", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const drag = await read("src/components/site/LiquidSegmentedDrag.tsx");
-  const css = await read("src/components/site/CompetitionWinnerFinal.css");
-  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
+  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
   assert.match(layout, /LiquidSegmentedDrag/);
   assert.match(drag, /setPointerCapture/);
-  assert.match(css, /Keep the approved liquid comparison/);
-  assert.match(ownerCss, /\.lp-switch[\s\S]*border: 0 !important/);
-  assert.match(ownerCss, /\.lp-comparison[\s\S]*background: transparent !important/);
-  assert.match(ownerCss, /\.lp-comparison-body[\s\S]*border-radius: 24px !important/);
-  assert.match(ownerCss, /\.lp-comparison-copy,[\s\S]*background: transparent !important/);
+  assert.match(tasteCss, /One comparison card/);
+  assert.match(tasteCss, /\.lp-switch[\s\S]*border: 0 !important/);
+  assert.match(tasteCss, /\.lp-comparison[\s\S]*background: transparent !important/);
+  assert.match(tasteCss, /\.lp-comparison-body[\s\S]*border-radius: 24px !important/);
+  assert.match(tasteCss, /\.lp-comparison-copy,[\s\S]*background: transparent !important/);
 });
 
-test("hero and desktop navigation are visually simplified", async () => {
+test("typography and icons share one visual language", async () => {
+  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
+  assert.match(tasteCss, /--taste-font/);
+  assert.match(tasteCss, /Segoe UI Variable/);
+  assert.match(tasteCss, /\.lp-hero-pick-label,[\s\S]*font-weight: 650 !important/);
+  assert.match(tasteCss, /stroke-width: 1\.65 !important/);
+  assert.match(tasteCss, /Remove square icon tiles/);
+});
+
+test("hero and desktop navigation remain visually simplified", async () => {
   const css = await read("src/components/site/CompetitionWinnerFinal.css");
   assert.match(css, /\.lp-assistant-card[\s\S]*top:\s*44% !important/);
   assert.match(css, /\.lp-hero-grid[\s\S]*minmax\(30rem, 0\.97fr\)/);
@@ -91,7 +96,7 @@ test("pricing and client preparation cover the sales essentials", async () => {
   assert.match(faq, /začína od 350 €/);
   assert.match(faq, /GDPR/);
   assert.match(faq, /čo ak si niečo vymyslí/);
-  assert.match(config, /owner-friendly-20260723-v6/);
+  assert.match(config, /taste-system-20260723-v7/);
 });
 
 test("contact form submits directly and keeps a resilient fallback", async () => {
@@ -113,17 +118,18 @@ test("portfolio image loading preserves lazy loading after the first image", asy
   assert.doesNotMatch(motion, /images\.map[\s\S]*image\.loading = "eager"/);
 });
 
-test("mobile conversion and chip layouts are explicit", async () => {
+test("mobile layouts and reduced motion remain explicit", async () => {
   const css = await read("src/components/site/CompetitionWinnerFinal.css");
-  const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
+  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
   assert.match(css, /@media \(max-width:\s*760px\)/);
   assert.match(
     css,
     /\.winner-trust,[\s\S]*\.winner-final[\s\S]*grid-template-columns:\s*1fr !important/,
   );
   assert.match(css, /\.lp-hero-picker[\s\S]*grid-template-columns:\s*1fr !important/);
-  assert.match(ownerCss, /@media \(max-width: 760px\)/);
-  assert.match(ownerCss, /@media \(hover: none\), \(pointer: coarse\)/);
+  assert.match(tasteCss, /@media \(max-width: 760px\)/);
+  assert.match(tasteCss, /@media \(hover: none\), \(pointer: coarse\)/);
+  assert.match(tasteCss, /prefers-reduced-motion/);
 });
 
 test("metadata security and fresh assistant loading remain present", async () => {
@@ -135,17 +141,18 @@ test("metadata security and fresh assistant loading remain present", async () =>
   assert.match(root, /Môj Chatbot — chatboty na mieru od 350 €/);
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
-  assert.match(loader, /owner-friendly-v6/);
+  assert.match(loader, /taste-system-v7/);
   assert.match(loader, /Môj Chatbot/);
   assert.match(loader, /od 350 €/);
 });
 
-test("Pages workflow validates the live owner-friendly build", async () => {
+test("Pages workflow validates the live Taste build", async () => {
   const workflow = await read(".github/workflows/pages.yml");
   assert.match(workflow, /Audit production dependencies/);
   assert.match(workflow, /Run source and deployment security audit/);
   assert.match(workflow, /Run UX and deployment contracts/);
   assert.match(workflow, /Verify live deployment and all public routes/);
-  assert.match(workflow, /owner-friendly-v6/);
+  assert.match(workflow, /taste-system-v7/);
+  assert.match(workflow, /TasteSystemFinal\.css/);
   assert.match(workflow, /live_smoke=success/);
 });
