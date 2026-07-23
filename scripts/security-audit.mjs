@@ -87,7 +87,7 @@ for (const token of [
   "MOUNT_TIMEOUT",
   "showFallback",
   "https://danielvendzur-code.github.io",
-  "owner-friendly-v6",
+  "taste-system-v7",
   "Môj Chatbot",
 ]) {
   if (!loader.includes(token)) fail(`Resilient assistant loader is missing ${token}`);
@@ -95,18 +95,16 @@ for (const token of [
 
 const layout = await read("src/components/site/Layout.tsx");
 const previousIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
-const ownerIndex = layout.indexOf('import "./OwnerFriendlyPolish.css"');
 const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
+const tasteIndex = layout.indexOf('import "./TasteSystemFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
-if (ownerIndex === -1) fail("OwnerFriendlyPolish.css is not imported");
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
-if (previousIndex >= ownerIndex || ownerIndex >= winnerIndex) {
-  fail(
-    "Owner-friendly corrections must load after historical layers and before the final contract layer",
-  );
+if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
+if (previousIndex >= winnerIndex || winnerIndex >= tasteIndex) {
+  fail("TasteSystemFinal.css must load after every historical visual layer");
 }
-if (winnerIndex !== lastStyleImport) {
-  fail("CompetitionWinnerFinal.css must be the final component style import");
+if (tasteIndex !== lastStyleImport) {
+  fail("TasteSystemFinal.css must be the final component style import");
 }
 for (const token of ["HomeConversionUpgrade", "LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
   if (!layout.includes(token)) fail(`Layout is missing ${token}`);
@@ -116,10 +114,7 @@ const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");
 for (const token of [
   "--wf-blue: #4e8cff",
   ".spotlight-surface",
-  '[data-spotlight="true"]::before',
-  "circle at var(--spot-x) var(--spot-y)",
   '.lp-hero-pick[data-active="true"]',
-  '.lp-chip[data-active="true"]',
   ".lp-switch",
   ".winner-packages",
   ".winner-prep",
@@ -129,35 +124,32 @@ for (const token of [
 ]) {
   if (!winnerCss.includes(token)) fail(`Competition visual system is missing ${token}`);
 }
-if (/inset 3px 0 0/.test(winnerCss)) {
-  fail("Selected chip side stripe remains in the final layer");
-}
 if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(winnerCss)) {
   fail("Bronze, copper or gold remains in the final competition layer");
 }
 
-const ownerCss = await read("src/components/site/OwnerFriendlyPolish.css");
+const tasteCss = await read("src/components/site/TasteSystemFinal.css");
 for (const token of [
-  "Remove the old large oval hover blob",
-  "circle 92px at var(--spot-x) var(--spot-y)",
+  "Taste-system final layer",
+  "--taste-font",
+  ".lp-button-quiet::before",
+  ".lp-hero-pick::after",
   '.lp-hero-pick[data-active="true"]',
-  ".lp-assistant-answer",
+  ".lp-hero-pick-icon",
   ".lp-comparison-body",
   "border: 0 !important",
+  "content: none !important",
+  "Remove square icon tiles",
 ]) {
-  if (!ownerCss.includes(token)) fail(`Owner-friendly visual system is missing ${token}`);
+  if (!tasteCss.includes(token)) fail(`Taste visual system is missing ${token}`);
+}
+if (/inset 3px 0 0/.test(tasteCss)) {
+  fail("Selected chip side stripe remains in the Taste visual layer");
 }
 
 const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-for (const token of [
-  ".spotlight-surface",
-  ".lp-solution-cta",
-  ".lp-hero-pick",
-  "--spot-x",
-  "dataset.spotlight",
-  "requestAnimationFrame",
-]) {
-  if (!pointer.includes(token)) fail(`Pointer spotlight is missing ${token}`);
+for (const token of ["--spot-x", "dataset.spotlight", "requestAnimationFrame"]) {
+  if (!pointer.includes(token)) fail(`Pointer tracker is missing ${token}`);
 }
 
 const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
@@ -199,7 +191,8 @@ for (const token of [
   "Run source and deployment security audit",
   "Validate exported artifact",
   "Verify live deployment",
-  "owner-friendly-v6",
+  "taste-system-v7",
+  "TasteSystemFinal.css",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
@@ -227,5 +220,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, owner-friendly spotlight and chip system, pricing and client preparation, real lead submission, mobile coverage, static export and live deployment contracts.",
+  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, final Taste typography, borderless chip and icon system, real lead submission, mobile coverage, static export and live deployment contracts.",
 );
