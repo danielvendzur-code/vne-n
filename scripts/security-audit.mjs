@@ -92,7 +92,7 @@ if (!loader.includes("showFallback")) fail("Widget loader fallback is missing");
 if (!loader.includes("https://danielvendzur-code.github.io")) {
   fail("Primary HTTPS widget source is missing");
 }
-if (!loader.includes("complete-liquid-system-v1")) {
+if (!loader.includes("restrained-assistant-v2")) {
   fail("Latest assistant cache version is missing");
 }
 
@@ -221,7 +221,7 @@ for (const token of [
   "Verify live deployment",
   "/cookies/",
   "/build-meta.json",
-  "complete-liquid-system-v1",
+  "restrained-assistant-v2",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
