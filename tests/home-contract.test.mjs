@@ -20,10 +20,11 @@ test("chatbot-first copy is rendered directly by React", async () => {
   );
 });
 
-test("black-blue palette is followed by the recovered interaction layer", async () => {
+test("black-blue palette is followed by premium motion and final chip refinement", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const finalCss = await read("src/components/site/BlackBlueFinal.css");
   const recoveredCss = await read("src/components/site/RecoveredMotionFinal.css");
+  const chipCss = await read("src/components/site/ProfessionalChipFinal.css");
   assert.ok(
     layout.indexOf('import "./CompetitionRoutes.css"') <
       layout.indexOf('import "./BlackBlueFinal.css"'),
@@ -32,14 +33,19 @@ test("black-blue palette is followed by the recovered interaction layer", async 
     layout.indexOf('import "./BlackBlueFinal.css"') <
       layout.indexOf('import "./RecoveredMotionFinal.css"'),
   );
+  assert.ok(
+    layout.indexOf('import "./RecoveredMotionFinal.css"') <
+      layout.indexOf('import "./ProfessionalChipFinal.css"'),
+  );
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./RecoveredMotionFinal.css"'),
+    layout.indexOf('import "./ProfessionalChipFinal.css"'),
   );
   assert.match(finalCss, /--primary:\s*#3478f6/i);
   assert.match(finalCss, /--background:\s*#050609/i);
   assert.match(recoveredCss, /@keyframes recovered-border-trace/);
-  assert.match(recoveredCss, /prefers-reduced-motion:\s*reduce/);
+  assert.match(chipCss, /@keyframes lp-professional-centre-fill/);
+  assert.match(chipCss, /prefers-reduced-motion:\s*reduce/);
 });
 
 test("homepage and route surfaces remain covered", async () => {
@@ -70,14 +76,18 @@ test("premium pointer depth is bounded and touch-safe", async () => {
   assert.match(motion, /finePointer/);
 });
 
-test("click feedback traces only the selected border", async () => {
+test("chip click feedback completes the border before the centre fill", async () => {
   const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
-  const css = await read("src/components/site/RecoveredMotionFinal.css");
+  const css = await read("src/components/site/ProfessionalChipFinal.css");
   assert.match(motion, /is-border-tracing/);
   assert.match(motion, /lp-hero-pick, \.lp-chip/);
+  assert.match(motion, /1260/);
   assert.match(css, /mask-composite:\s*exclude/);
-  assert.match(css, /animation:\s*recovered-border-trace/);
-  assert.match(css, /site-consultation-cta[\s\S]*animation:\s*none !important/);
+  assert.match(css, /lp-professional-border-trace 720ms/);
+  assert.match(css, /0%,[\s\S]*62%[\s\S]*background-size:\s*0% 0%/);
+  assert.match(css, /lp-professional-centre-fill 1180ms/);
+  assert.match(css, /lp-hero-pick-fill[\s\S]*display:\s*none !important/);
+  assert.match(css, /lp-hero-pick-icon[\s\S]*background:\s*transparent !important/);
 });
 
 test("Moj Chatbot branding and direct contact are present", async () => {
