@@ -1,19 +1,11 @@
-run_id=30031376089
+run_id=30031584866
 install=success
-lint=failure
+lint=success
 test=success
 build=success
 
 ===== lint =====
 $ eslint .
-
-/home/runner/work/vne-n/vne-n/scripts/security-audit.mjs
-  104:8  error  Replace `"Owner-friendly·corrections·must·load·after·historical·layers·and·before·the·final·contract·layer"` with `⏎····"Owner-friendly·corrections·must·load·after·historical·layers·and·before·the·final·contract·layer",⏎··`  prettier/prettier
-
-✖ 1 problem (1 error, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-error: script "lint" exited with code 1
 
 ===== test =====
 $ node --test tests/home-contract.test.mjs
@@ -21,67 +13,67 @@ TAP version 13
 # Subtest: competition layer and conversion section are mounted last
 ok 1 - competition layer and conversion section are mounted last
   ---
-  duration_ms: 8.835902
+  duration_ms: 8.86146
   type: 'test'
   ...
 # Subtest: flashlight is compact and reserved for deliberate CTAs
 ok 2 - flashlight is compact and reserved for deliberate CTAs
   ---
-  duration_ms: 2.6475
+  duration_ms: 3.104084
   type: 'test'
   ...
 # Subtest: website chips are borderless stable and do not animate behind the label
 ok 3 - website chips are borderless stable and do not animate behind the label
   ---
-  duration_ms: 1.400814
+  duration_ms: 1.437548
   type: 'test'
   ...
 # Subtest: comparison keeps the liquid switch but uses one clean content surface
 ok 4 - comparison keeps the liquid switch but uses one clean content surface
   ---
-  duration_ms: 2.122076
+  duration_ms: 2.325449
   type: 'test'
   ...
 # Subtest: hero and desktop navigation are visually simplified
 ok 5 - hero and desktop navigation are visually simplified
   ---
-  duration_ms: 1.793629
+  duration_ms: 2.421117
   type: 'test'
   ...
 # Subtest: pricing and client preparation cover the sales essentials
 ok 6 - pricing and client preparation cover the sales essentials
   ---
-  duration_ms: 1.541027
+  duration_ms: 1.618326
   type: 'test'
   ...
 # Subtest: contact form submits directly and keeps a resilient fallback
 ok 7 - contact form submits directly and keeps a resilient fallback
   ---
-  duration_ms: 1.94792
+  duration_ms: 1.765341
   type: 'test'
   ...
 # Subtest: portfolio image loading preserves lazy loading after the first image
 ok 8 - portfolio image loading preserves lazy loading after the first image
   ---
-  duration_ms: 1.018959
+  duration_ms: 0.773727
   type: 'test'
   ...
 # Subtest: mobile conversion and chip layouts are explicit
 ok 9 - mobile conversion and chip layouts are explicit
   ---
-  duration_ms: 1.714952
+  duration_ms: 1.418953
   type: 'test'
   ...
 # Subtest: metadata security and fresh assistant loading remain present
 ok 10 - metadata security and fresh assistant loading remain present
   ---
-  duration_ms: 1.607642
+  duration_ms: 1.275355
   type: 'test'
   ...
 # Subtest: Pages workflow validates the live owner-friendly build
 ok 11 - Pages workflow validates the live owner-friendly build
   ---
-  duration_ms: 1.038356
+  duration_ms: 0.800186
   type: 'test'
   ...
 1..11
@@ -92,7 +84,7 @@ ok 11 - Pages workflow validates the live owner-friendly build
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 85.222733
+# duration_ms 81.843521
 
 ===== build =====
 $ vite build
@@ -122,7 +114,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-XtwWeGwV.js               221.83 kB │ gzip: 72.16 kB
 
-[32m✓ built in 1.78s[39m
+[32m✓ built in 1.69s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 139 modules transformed.
 rendering chunks...
@@ -157,7 +149,7 @@ node_modules/.nitro/vite/services/ssr/assets/tanstack-DLNsBbWc.js               
 node_modules/.nitro/vite/services/ssr/assets/router-B77m7Zvk.js                       71.05 kB │ gzip: 17.47 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BlgVrD5N.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 697ms[39m
+[32m✓ built in 760ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -168,7 +160,7 @@ computing gzip size...
 .output/server/_libs/lucide-react.mjs      32.62 kB │ gzip:   6.02 kB
 .output/server/_libs/h3+h3-v2+srvx.mjs     33.49 kB │ gzip:   6.73 kB
 .output/server/index.mjs                   37.87 kB │ gzip:  10.49 kB
-.output/server/_ssr/vendor.mjs             55.30 kB │ gzip:  14.10 kB
+.output/server/_ssr/vendor.mjs             55.30 kB │ gzip:  14.11 kB
 .output/server/_ssr/vendor3.mjs            69.71 kB │ gzip:  18.40 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
@@ -177,6 +169,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 571ms[39m
+[32m✓ built in 511ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
