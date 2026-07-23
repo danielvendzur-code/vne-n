@@ -20,16 +20,21 @@ test("chatbot-first copy is rendered directly by React", async () => {
   );
 });
 
-test("the restrained correction layer loads last", async () => {
+test("the restrained correction layers load last", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const finalCss = await read("src/components/site/WebsiteRefinementFinal.css");
+  const finishCss = await read("src/components/site/WebsiteRequestFinish.css");
   assert.ok(
     layout.indexOf('import "./AppleLiquidSystemFinal.css"') <
       layout.indexOf('import "./WebsiteRefinementFinal.css"'),
   );
+  assert.ok(
+    layout.indexOf('import "./WebsiteRefinementFinal.css"') <
+      layout.indexOf('import "./WebsiteRequestFinish.css"'),
+  );
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./WebsiteRefinementFinal.css"'),
+    layout.indexOf('import "./WebsiteRequestFinish.css"'),
   );
   for (const selector of [
     ".site-header-bar",
@@ -53,6 +58,9 @@ test("the restrained correction layer loads last", async () => {
   assert.match(finalCss, /backdrop-filter:\s*none/i);
   assert.match(finalCss, /@media \(max-width:\s*720px\)/);
   assert.match(finalCss, /prefers-reduced-motion:\s*reduce/);
+  assert.match(finishCss, /\.lp-page \.lp-assistant-cta/);
+  assert.match(finishCss, /background:\s*#0e141e !important/);
+  assert.match(finishCss, /border-radius:\s*var\(--wr-radius-md\)/);
 });
 
 test("ordinary controls no longer use liquid centre fills", async () => {
