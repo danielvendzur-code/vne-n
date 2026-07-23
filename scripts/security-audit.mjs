@@ -94,6 +94,9 @@ if (!loader.includes("showFallback")) fail("Widget loader fallback is missing");
 if (!loader.includes("https://danielvendzur-code.github.io")) {
   fail("Primary HTTPS widget source is missing");
 }
+if (!loader.includes("complete-liquid-system-v1")) {
+  fail("Latest complete liquid widget cache version is missing");
+}
 
 const layout = await read("src/components/site/Layout.tsx");
 const systemIndex = layout.indexOf('import "./CompetitionSystem.css"');
@@ -101,12 +104,14 @@ const routesIndex = layout.indexOf('import "./CompetitionRoutes.css"');
 const blackBlueIndex = layout.indexOf('import "./BlackBlueFinal.css"');
 const premiumIndex = layout.indexOf('import "./RecoveredMotionFinal.css"');
 const chipIndex = layout.indexOf('import "./ProfessionalChipFinal.css"');
+const completeIndex = layout.indexOf('import "./AppleLiquidSystemFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (systemIndex === -1) fail("CompetitionSystem.css is not imported");
 if (routesIndex === -1) fail("CompetitionRoutes.css is not imported");
 if (blackBlueIndex === -1) fail("BlackBlueFinal.css is not imported");
 if (premiumIndex === -1) fail("RecoveredMotionFinal.css is not imported");
 if (chipIndex === -1) fail("ProfessionalChipFinal.css is not imported");
+if (completeIndex === -1) fail("AppleLiquidSystemFinal.css is not imported");
 if (systemIndex >= routesIndex) {
   fail("CompetitionRoutes.css must load after CompetitionSystem.css");
 }
@@ -119,8 +124,11 @@ if (blackBlueIndex >= premiumIndex) {
 if (premiumIndex >= chipIndex) {
   fail("ProfessionalChipFinal.css must load after RecoveredMotionFinal.css");
 }
-if (chipIndex !== lastStyleImport) {
-  fail("ProfessionalChipFinal.css must be the final component style import");
+if (chipIndex >= completeIndex) {
+  fail("AppleLiquidSystemFinal.css must load after ProfessionalChipFinal.css");
+}
+if (completeIndex !== lastStyleImport) {
+  fail("AppleLiquidSystemFinal.css must be the final component style import");
 }
 
 const competitionCss = await read("src/components/site/CompetitionSystem.css");
@@ -156,6 +164,30 @@ for (const token of [
   if (!chipCss.includes(token)) fail(`Professional chip layer is missing ${token}`);
 }
 
+const completeCss = await read("src/components/site/AppleLiquidSystemFinal.css");
+for (const token of [
+  "--al-blue: #3478f6",
+  "--liquid-x",
+  ".site-header-bar",
+  ".lp-assistant-card",
+  ".lp-comparison",
+  ".lp-solution-pill",
+  ".lp-caps-row",
+  ".lp-project > a",
+  ".lp-faq-item",
+  ".lp-final-card",
+  ".premium-footer",
+  ".sp-service",
+  ".contact-card",
+  "backdrop-filter",
+  "prefers-reduced-motion",
+]) {
+  if (!completeCss.includes(token)) fail(`Complete liquid design layer is missing ${token}`);
+}
+if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(completeCss)) {
+  fail("Bronze, copper or gold remains in the complete liquid design layer");
+}
+
 const routeCss = await read("src/components/site/CompetitionRoutes.css");
 for (const selector of [
   ".sp-hero",
@@ -184,6 +216,7 @@ for (const token of [
   "Verify live deployment",
   "/cookies/",
   "/build-meta.json",
+  "complete-liquid-system-v1",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
@@ -208,5 +241,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, widget fallback, all final design layers, route export, dependency audit and live smoke contracts.",
+  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, resilient current widget loading, complete liquid design coverage, route export, dependency audit and live smoke contracts.",
 );
