@@ -1,6 +1,5 @@
 const LEAD_ENDPOINT =
-  import.meta.env.VITE_LEAD_API_URL?.trim() ||
-  "https://moj-chatbot-backend.vercel.app/api/lead";
+  import.meta.env.VITE_LEAD_API_URL?.trim() || "https://moj-chatbot-backend.vercel.app/api/lead";
 
 export type WebsiteLead = {
   source: string;
