@@ -68,8 +68,7 @@
         border: "1px solid rgba(166,211,255,.42)",
         borderRadius: "13px",
         color: "#dcecff",
-        background:
-          "linear-gradient(145deg,rgba(52,120,246,.46),rgba(20,54,120,.55))",
+        background: "linear-gradient(145deg,rgba(52,120,246,.46),rgba(20,54,120,.55))",
         boxShadow: "inset 0 1px rgba(255,255,255,.18)",
         fontSize: "16px",
         fontWeight: "900",
