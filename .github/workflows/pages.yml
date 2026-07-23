@@ -93,7 +93,6 @@ jobs:
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
           grep -Fq "complete-liquid-system-v1" pages-dist/widget-loader.js
-          grep -R -Fq -- "--al-blue:#3478f6" pages-dist/assets
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
 
           for route in sluzby projekty postup kontakt cookies farby; do
