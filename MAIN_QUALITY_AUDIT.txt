@@ -1,7 +1,7 @@
-run_id=30009615586
+run_id=30009803644
 install=success
 lint=failure
-test=success
+test=failure
 build=success
 
 ===== lint =====
@@ -24,66 +24,863 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 5.234122
+  duration_ms: 7.603759
   type: 'test'
   ...
 # Subtest: black-blue palette is followed by premium motion and final chip refinement
 ok 2 - black-blue palette is followed by premium motion and final chip refinement
   ---
-  duration_ms: 2.038369
+  duration_ms: 2.698179
   type: 'test'
   ...
 # Subtest: homepage and route surfaces remain covered
 ok 3 - homepage and route surfaces remain covered
   ---
-  duration_ms: 0.957692
+  duration_ms: 1.269705
   type: 'test'
   ...
 # Subtest: premium pointer depth is bounded and touch-safe
 ok 4 - premium pointer depth is bounded and touch-safe
   ---
-  duration_ms: 0.908137
+  duration_ms: 1.250771
   type: 'test'
   ...
 # Subtest: chip click feedback completes the border before the centre fill
-ok 5 - chip click feedback completes the border before the centre fill
+not ok 5 - chip click feedback completes the border before the centre fill
   ---
-  duration_ms: 1.013576
+  duration_ms: 49.72563
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:79:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /lp-professional-border-trace 720ms/. Input:
+    
+    '/* Final Apple-inspired liquid control layer: restrained glass, continuous edge trace and centre-out fill. */\n' +
+      '@property --lp-professional-trace {\n' +
+      '  syntax: "<percentage>";\n' +
+      '  inherits: false;\n' +
+      '  initial-value: 0%;\n' +
+      '}\n' +
+      '\n' +
+      '@keyframes lp-professional-border-trace {\n' +
+      '  from {\n' +
+      '    --lp-professional-trace: 0%;\n' +
+      '  }\n' +
+      '  to {\n' +
+      '    --lp-professional-trace: 100%;\n' +
+      '  }\n' +
+      '}\n' +
+      '\n' +
+      '@keyframes lp-professional-centre-fill {\n' +
+      '  0%,\n' +
+      '  58% {\n' +
+      '    background-size: 0% 0%, 100% 100%, 100% 100%;\n' +
+      '  }\n' +
+      '  100% {\n' +
+      '    background-size: 230% 230%, 100% 100%, 100% 100%;\n' +
+      '  }\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page {\n' +
+      '  --lp-liquid-line: rgba(189, 216, 255, 0.3);\n' +
+      '  --lp-liquid-line-strong: rgba(205, 228, 255, 0.68);\n' +
+      '  --lp-liquid-blue: #3478f6;\n' +
+      '  --lp-liquid-blue-light: #82c2ff;\n' +
+      '  --lp-liquid-surface: rgba(10, 15, 25, 0.72);\n' +
+      '  --lp-liquid-surface-strong: rgba(10, 17, 31, 0.9);\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-picker {\n' +
+      '  gap: 10px !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick,\n' +
+      ':root .lp-page .lp-chip {\n' +
+      '  position: relative !important;\n' +
+      '  isolation: isolate !important;\n' +
+      '  overflow: hidden !important;\n' +
+      '  border: 1px solid var(--lp-liquid-line) !important;\n' +
+      '  color: #dbe7f8 !important;\n' +
+      '  background-color: var(--lp-liquid-surface) !important;\n' +
+      '  background-image:\n' +
+      '    radial-gradient(\n' +
+      '      circle at 50% 52%,\n' +
+      '      rgba(72, 141, 255, 0.34) 0 48%,\n' +
+      '      rgba(52, 120, 246, 0.12) 68%,\n' +
+      '      transparent 100%\n' +
+      '    ),\n' +
+      '    linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.022) 48%),\n' +
+      '    linear-gradient(135deg, rgba(17, 24, 38, 0.84), rgba(7, 11, 19, 0.82)) !important;\n' +
+      '  background-position: center !important;\n' +
+      '  background-repeat: no-repeat !important;\n' +
+      '  background-size: 0% 0%, 100% 100%, 100% 100% !important;\n' +
+      '  box-shadow:\n' +
+      '    inset 0 1px 0 rgba(255, 255, 255, 0.14),\n' +
+      '    inset 0 -1px 0 rgba(117, 184, 255, 0.045),\n' +
+      '    0 18px 42px -34px rgba(52, 120, 246, 0.72) !important;\n' +
+      '  -webkit-backdrop-filter: blur(22px) saturate(145%) !important;\n' +
+      '  backdrop-filter: blur(22px) saturate(145%) !important;\n' +
+      '  transform: translateY(0) translateZ(0) !important;\n' +
+      '  transition:\n' +
+      '    border-color 260ms ease,\n' +
+      '    color 260ms ease,\n' +
+      '    background-size 620ms cubic-bezier(0.16, 1, 0.3, 1),\n' +
+      '    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),\n' +
+      '    box-shadow 340ms ease,\n' +
+      '    filter 260ms ease !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick {\n' +
+      '  min-height: 64px !important;\n' +
+      '  padding: 13px 15px !important;\n' +
+      '  border-radius: 18px !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-chip {\n' +
+      '  min-height: 46px !important;\n' +
+      '  padding: 10px 15px !important;\n' +
+      '  border-radius: 999px !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick > *,\n' +
+      ':root .lp-page .lp-chip > * {\n' +
+      '  position: relative;\n' +
+      '  z-index: 2;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick:hover,\n' +
+      ':root .lp-page .lp-hero-pick:focus-visible,\n' +
+      ':root .lp-page .lp-chip:hover,\n' +
+      ':root .lp-page .lp-chip:focus-visible {\n' +
+      '  border-color: rgba(201, 226, 255, 0.58) !important;\n' +
+      '  color: #ffffff !important;\n' +
+      '  background-size: 185% 185%, 100% 100%, 100% 100% !important;\n' +
+      '  box-shadow:\n' +
+      '    inset 0 1px 0 rgba(255, 255, 255, 0.18),\n' +
+      '    inset 0 -1px 0 rgba(117, 184, 255, 0.08),\n' +
+      '    0 20px 46px -31px rgba(52, 120, 246, 0.84) !important;\n' +
+      '  transform: translateY(-2px) translateZ(0) !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick[data-active="true"],\n' +
+      ':root .lp-page .lp-chip[data-active="true"] {\n' +
+      '  border-color: rgba(133, 190, 255, 0.82) !important;\n' +
+      '  color: #ffffff !important;\n' +
+      '  background-color: var(--lp-liquid-surface-strong) !important;\n' +
+      '  background-size: 230% 230%, 100% 100%, 100% 100% !important;\n' +
+      '  box-shadow:\n' +
+      '    inset 0 1px 0 rgba(255, 255, 255, 0.2),\n' +
+      '    inset 0 -1px 0 rgba(52, 120, 246, 0.12),\n' +
+      '    0 22px 48px -31px rgba(52, 120, 246, 0.95) !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick[data-active="true"].is-border-tracing,\n' +
+      ':root .lp-page .lp-chip[data-active="true"].is-border-tracing {\n' +
+      '  border-color: var(--lp-liquid-line) !important;\n' +
+      '  background-size: 0% 0%, 100% 100%, 100% 100% !important;\n' +
+      '  animation: lp-professional-centre-fill 1160ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick::after,\n' +
+      ':root .lp-page .lp-chip::after {\n' +
+      '  content: "" !important;\n' +
+      '  position: absolute !important;\n' +
+      '  z-index: 6 !important;\n' +
+      '  inset: -1px !important;\n' +
+      '  display: block !important;\n' +
+      '  padding: 2.4px !important;\n' +
+      '  border-radius: inherit !important;\n' +
+      '  pointer-events: none !important;\n' +
+      '  opacity: 0 !important;\n' +
+      '  background: conic-gradient(\n' +
+      '    from -90deg,\n' +
+      '    #e2f1ff 0 var(--lp-professional-trace),\n' +
+      '    transparent var(--lp-professional-trace) 100%\n' +
+      '  ) !important;\n' +
+      '  -webkit-mask:\n' +
+      '    linear-gradient(#000 0 0) content-box,\n' +
+      '    linear-gradient(#000 0 0) !important;\n' +
+      '  -webkit-mask-composite: xor !important;\n' +
+      '  mask-composite: exclude !important;\n' +
+      '  transition: opacity 140ms ease !important;\n' +
+      '  animation: none !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick.is-border-tracing::after,\n' +
+      ':root .lp-page .lp-chip.is-border-tracing::after {\n' +
+      '  opacity: 1 !important;\n' +
+      '  filter: drop-shadow(0 0 4px rgba(214, 235, 255, 0.82))\n' +
+      '    drop-shadow(0 0 11px rgba(52, 120, 246, 0.42));\n' +
+      '  animation: lp-professional-border-trace 690ms linear forwards !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick-fill,\n' +
+      ':root .lp-page .lp-chip-fill {\n' +
+      '  display: none !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick-icon,\n' +
+      ':root .lp-page .lp-chip-icon {\n' +
+      '  display: grid !important;\n' +
+      '  place-items: center !important;\n' +
+      '  flex: 0 0 auto !important;\n' +
+      '  width: 21px !important;\n' +
+      '  height: 21px !important;\n' +
+      '  padding: 0 !important;\n' +
+      '  border: 0 !important;\n' +
+      '  border-radius: 0 !important;\n' +
+      '  color: #8fc8ff !important;\n' +
+      '  background: transparent !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick-icon svg,\n' +
+      ':root .lp-page .lp-chip-icon svg {\n' +
+      '  width: 18px !important;\n' +
+      '  height: 18px !important;\n' +
+      '  stroke-width: 1.9 !important;\n' +
+      '  shape-rendering: geometricPrecision;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick[data-active="true"]::before {\n' +
+      '  content: "" !important;\n' +
+      '  position: absolute !important;\n' +
+      '  z-index: 7 !important;\n' +
+      '  top: 12px !important;\n' +
+      '  right: 12px !important;\n' +
+      '  width: 18px !important;\n' +
+      '  height: 18px !important;\n' +
+      '  border: 0 !important;\n' +
+      '  border-radius: 0 !important;\n' +
+      `  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23e9f5ff' stroke-width='2.7' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.2 4.2L19 7.2'/%3E%3C/svg%3E") center / 17px 17px no-repeat !important;\n` +
+      '  box-shadow: none !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {\n' +
+      '  color: #ffffff !important;\n' +
+      '  transform: rotate(45deg);\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-hero-pick-plus {\n' +
+      '  margin-left: auto !important;\n' +
+      '  padding: 0 !important;\n' +
+      '  border: 0 !important;\n' +
+      '  border-radius: 0 !important;\n' +
+      '  color: #91a6c0 !important;\n' +
+      '  background: transparent !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '  font-size: 0.69rem !important;\n' +
+      '  font-weight: 680 !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-caps-chips {\n' +
+      '  gap: 10px !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-caps-input {\n' +
+      '  border: 1px solid rgba(189, 216, 255, 0.22) !important;\n' +
+      '  border-radius: 999px !important;\n' +
+      '  color: #cbd9ed !important;\n' +
+      '  background:\n' +
+      '    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.014)),\n' +
+      '    rgba(9, 14, 23, 0.74) !important;\n' +
+      '  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;\n' +
+      '  -webkit-backdrop-filter: blur(16px) saturate(140%);\n' +
+      '  backdrop-filter: blur(16px) saturate(140%);\n' +
+      '}\n' +
+      '\n' +
+      '/* Draggable segmented control. The indicator follows the pointer and settles with a soft overshoot. */\n' +
+      ':root .lp-page .lp-switch {\n' +
+      '  position: relative !important;\n' +
+      '  isolation: isolate !important;\n' +
+      '  overflow: hidden !important;\n' +
+      '  gap: 6px !important;\n' +
+      '  padding: 6px !important;\n' +
+      '  border: 1px solid rgba(189, 216, 255, 0.28) !important;\n' +
+      '  border-radius: 999px !important;\n' +
+      '  background:\n' +
+      '    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.014)),\n' +
+      '    rgba(6, 10, 17, 0.78) !important;\n' +
+      '  box-shadow:\n' +
+      '    inset 0 1px 0 rgba(255, 255, 255, 0.11),\n' +
+      '    0 18px 40px -34px rgba(52, 120, 246, 0.78) !important;\n' +
+      '  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;\n' +
+      '  backdrop-filter: blur(24px) saturate(150%) !important;\n' +
+      '  touch-action: pan-y;\n' +
+      '  --lp-segment-x: 0px;\n' +
+      '  --lp-segment-stretch: 1;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-switch:has(> button:nth-of-type(2)[data-active="true"]) {\n' +
+      '  --lp-segment-x: calc(100% + 6px);\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-switch::before {\n' +
+      '  content: "" !important;\n' +
+      '  position: absolute !important;\n' +
+      '  z-index: 0 !important;\n' +
+      '  top: 6px !important;\n' +
+      '  left: 6px !important;\n' +
+      '  width: calc((100% - 18px) / 2) !important;\n' +
+      '  height: calc(100% - 12px) !important;\n' +
+      '  border: 1px solid rgba(177, 215, 255, 0.68) !important;\n' +
+      '  border-radius: 999px !important;\n' +
+      '  background:\n' +
+      '    radial-gradient(circle at 48% -35%, rgba(255, 255, 255, 0.38), transparent 48%),\n' +
+      '    linear-gradient(145deg, rgba(52, 120, 246, 0.52), rgba(19, 58, 132, 0.48)) !important;\n' +
+      '  box-shadow:\n' +
+      '    inset 0 1px 0 rgba(255, 255, 255, 0.28),\n' +
+      '    inset 0 -10px 24px rgba(4, 18, 49, 0.24),\n' +
+      '    0 14px 32px -20px rgba(52, 120, 246, 0.82) !important;\n' +
+      '  transform: translate3d(var(--lp-segment-x), 0, 0) scaleX(var(--lp-segment-stretch));\n' +
+      '  transform-origin: center;\n' +
+      '  transition: transform 680ms cubic-bezier(0.16, 1.28, 0.3, 1) !important;\n' +
+      '  will-change: transform;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-switch[data-liquid-dragging="true"]::before {\n' +
+      '  transition: none !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-switch-liquid {\n' +
+      '  display: none !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-switch > button {\n' +
+      '  z-index: 1 !important;\n' +
+      '  min-height: 46px !important;\n' +
+      '  border: 0 !important;\n' +
+      '  background: transparent !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '  color: #aebbd0 !important;\n' +
+      '  transition: color 260ms ease, transform 260ms ease !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-switch > button:hover,\n' +
+      ':root .lp-page .lp-switch > button:focus-visible {\n' +
+      '  color: #ffffff !important;\n' +
+      '  transform: translateY(-1px) !important;\n' +
+      '}\n' +
+      '\n' +
+      ':root .lp-page .lp-switch > button[data-active="true"] {\n' +
+      '  color: #ffffff !important;\n' +
+      '}\n' +
+      '\n' +
+      '/* CTA family: the same glass language, with a slow centre fill instead of a flat rectangle. */\n' +
+      ':root .lp-page .lp-button,\n' +
+      ':root .lp-page .lp-assistant-cta,\n' +
+      ':root .lp-pa'... 4966 more characters
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    /* Final Apple-inspired liquid control layer: restrained glass, continuous edge trace and centre-out fill. */
+    @property --lp-professional-trace {
+      syntax: "<percentage>";
+      inherits: false;
+      initial-value: 0%;
+    }
+    
+    @keyframes lp-professional-border-trace {
+      from {
+        --lp-professional-trace: 0%;
+      }
+      to {
+        --lp-professional-trace: 100%;
+      }
+    }
+    
+    @keyframes lp-professional-centre-fill {
+      0%,
+      58% {
+        background-size: 0% 0%, 100% 100%, 100% 100%;
+      }
+      100% {
+        background-size: 230% 230%, 100% 100%, 100% 100%;
+      }
+    }
+    
+    :root .lp-page {
+      --lp-liquid-line: rgba(189, 216, 255, 0.3);
+      --lp-liquid-line-strong: rgba(205, 228, 255, 0.68);
+      --lp-liquid-blue: #3478f6;
+      --lp-liquid-blue-light: #82c2ff;
+      --lp-liquid-surface: rgba(10, 15, 25, 0.72);
+      --lp-liquid-surface-strong: rgba(10, 17, 31, 0.9);
+    }
+    
+    :root .lp-page .lp-hero-picker {
+      gap: 10px !important;
+    }
+    
+    :root .lp-page .lp-hero-pick,
+    :root .lp-page .lp-chip {
+      position: relative !important;
+      isolation: isolate !important;
+      overflow: hidden !important;
+      border: 1px solid var(--lp-liquid-line) !important;
+      color: #dbe7f8 !important;
+      background-color: var(--lp-liquid-surface) !important;
+      background-image:
+        radial-gradient(
+          circle at 50% 52%,
+          rgba(72, 141, 255, 0.34) 0 48%,
+          rgba(52, 120, 246, 0.12) 68%,
+          transparent 100%
+        ),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.022) 48%),
+        linear-gradient(135deg, rgba(17, 24, 38, 0.84), rgba(7, 11, 19, 0.82)) !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      background-size: 0% 0%, 100% 100%, 100% 100% !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        inset 0 -1px 0 rgba(117, 184, 255, 0.045),
+        0 18px 42px -34px rgba(52, 120, 246, 0.72) !important;
+      -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
+      backdrop-filter: blur(22px) saturate(145%) !important;
+      transform: translateY(0) translateZ(0) !important;
+      transition:
+        border-color 260ms ease,
+        color 260ms ease,
+        background-size 620ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 340ms ease,
+        filter 260ms ease !important;
+    }
+    
+    :root .lp-page .lp-hero-pick {
+      min-height: 64px !important;
+      padding: 13px 15px !important;
+      border-radius: 18px !important;
+    }
+    
+    :root .lp-page .lp-chip {
+      min-height: 46px !important;
+      padding: 10px 15px !important;
+      border-radius: 999px !important;
+    }
+    
+    :root .lp-page .lp-hero-pick > *,
+    :root .lp-page .lp-chip > * {
+      position: relative;
+      z-index: 2;
+    }
+    
+    :root .lp-page .lp-hero-pick:hover,
+    :root .lp-page .lp-hero-pick:focus-visible,
+    :root .lp-page .lp-chip:hover,
+    :root .lp-page .lp-chip:focus-visible {
+      border-color: rgba(201, 226, 255, 0.58) !important;
+      color: #ffffff !important;
+      background-size: 185% 185%, 100% 100%, 100% 100% !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 0 rgba(117, 184, 255, 0.08),
+        0 20px 46px -31px rgba(52, 120, 246, 0.84) !important;
+      transform: translateY(-2px) translateZ(0) !important;
+    }
+    
+    :root .lp-page .lp-hero-pick[data-active="true"],
+    :root .lp-page .lp-chip[data-active="true"] {
+      border-color: rgba(133, 190, 255, 0.82) !important;
+      color: #ffffff !important;
+      background-color: var(--lp-liquid-surface-strong) !important;
+      background-size: 230% 230%, 100% 100%, 100% 100% !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(52, 120, 246, 0.12),
+        0 22px 48px -31px rgba(52, 120, 246, 0.95) !important;
+    }
+    
+    :root .lp-page .lp-hero-pick[data-active="true"].is-border-tracing,
+    :root .lp-page .lp-chip[data-active="true"].is-border-tracing {
+      border-color: var(--lp-liquid-line) !important;
+      background-size: 0% 0%, 100% 100%, 100% 100% !important;
+      animation: lp-professional-centre-fill 1160ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    :root .lp-page .lp-hero-pick::after,
+    :root .lp-page .lp-chip::after {
+      content: "" !important;
+      position: absolute !important;
+      z-index: 6 !important;
+      inset: -1px !important;
+      display: block !important;
+      padding: 2.4px !important;
+      border-radius: inherit !important;
+      pointer-events: none !important;
+      opacity: 0 !important;
+      background: conic-gradient(
+        from -90deg,
+        #e2f1ff 0 var(--lp-professional-trace),
+        transparent var(--lp-professional-trace) 100%
+      ) !important;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0) !important;
+      -webkit-mask-composite: xor !important;
+      mask-composite: exclude !important;
+      transition: opacity 140ms ease !important;
+      animation: none !important;
+    }
+    
+    :root .lp-page .lp-hero-pick.is-border-tracing::after,
+    :root .lp-page .lp-chip.is-border-tracing::after {
+      opacity: 1 !important;
+      filter: drop-shadow(0 0 4px rgba(214, 235, 255, 0.82))
+        drop-shadow(0 0 11px rgba(52, 120, 246, 0.42));
+      animation: lp-professional-border-trace 690ms linear forwards !important;
+    }
+    
+    :root .lp-page .lp-hero-pick-fill,
+    :root .lp-page .lp-chip-fill {
+      display: none !important;
+    }
+    
+    :root .lp-page .lp-hero-pick-icon,
+    :root .lp-page .lp-chip-icon {
+      display: grid !important;
+      place-items: center !important;
+      flex: 0 0 auto !important;
+      width: 21px !important;
+      height: 21px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      color: #8fc8ff !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+    
+    :root .lp-page .lp-hero-pick-icon svg,
+    :root .lp-page .lp-chip-icon svg {
+      width: 18px !important;
+      height: 18px !important;
+      stroke-width: 1.9 !important;
+      shape-rendering: geometricPrecision;
+    }
+    
+    :root .lp-page .lp-hero-pick[data-active="true"]::before {
+      content: "" !important;
+      position: absolute !important;
+      z-index: 7 !important;
+      top: 12px !important;
+      right: 12px !important;
+      width: 18px !important;
+      height: 18px !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23e9f5ff' stroke-width='2.7' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.2 4.2L19 7.2'/%3E%3C/svg%3E") center / 17px 17px no-repeat !important;
+      box-shadow: none !important;
+    }
+    
+    :root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
+      color: #ffffff !important;
+      transform: rotate(45deg);
+    }
+    
+    :root .lp-page .lp-hero-pick-plus {
+      margin-left: auto !important;
+      padding: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      color: #91a6c0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      font-size: 0.69rem !important;
+      font-weight: 680 !important;
+    }
+    
+    :root .lp-page .lp-caps-chips {
+      gap: 10px !important;
+    }
+    
+    :root .lp-page .lp-caps-input {
+      border: 1px solid rgba(189, 216, 255, 0.22) !important;
+      border-radius: 999px !important;
+      color: #cbd9ed !important;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.014)),
+        rgba(9, 14, 23, 0.74) !important;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      backdrop-filter: blur(16px) saturate(140%);
+    }
+    
+    /* Draggable segmented control. The indicator follows the pointer and settles with a soft overshoot. */
+    :root .lp-page .lp-switch {
+      position: relative !important;
+      isolation: isolate !important;
+      overflow: hidden !important;
+      gap: 6px !important;
+      padding: 6px !important;
+      border: 1px solid rgba(189, 216, 255, 0.28) !important;
+      border-radius: 999px !important;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.014)),
+        rgba(6, 10, 17, 0.78) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.11),
+        0 18px 40px -34px rgba(52, 120, 246, 0.78) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+      backdrop-filter: blur(24px) saturate(150%) !important;
+      touch-action: pan-y;
+      --lp-segment-x: 0px;
+      --lp-segment-stretch: 1;
+    }
+    
+    :root .lp-page .lp-switch:has(> button:nth-of-type(2)[data-active="true"]) {
+      --lp-segment-x: calc(100% + 6px);
+    }
+    
+    :root .lp-page .lp-switch::before {
+      content: "" !important;
+      position: absolute !important;
+      z-index: 0 !important;
+      top: 6px !important;
+      left: 6px !important;
+      width: calc((100% - 18px) / 2) !important;
+      height: calc(100% - 12px) !important;
+      border: 1px solid rgba(177, 215, 255, 0.68) !important;
+      border-radius: 999px !important;
+      background:
+        radial-gradient(circle at 48% -35%, rgba(255, 255, 255, 0.38), transparent 48%),
+        linear-gradient(145deg, rgba(52, 120, 246, 0.52), rgba(19, 58, 132, 0.48)) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -10px 24px rgba(4, 18, 49, 0.24),
+        0 14px 32px -20px rgba(52, 120, 246, 0.82) !important;
+      transform: translate3d(var(--lp-segment-x), 0, 0) scaleX(var(--lp-segment-stretch));
+      transform-origin: center;
+      transition: transform 680ms cubic-bezier(0.16, 1.28, 0.3, 1) !important;
+      will-change: transform;
+    }
+    
+    :root .lp-page .lp-switch[data-liquid-dragging="true"]::before {
+      transition: none !important;
+    }
+    
+    :root .lp-page .lp-switch-liquid {
+      display: none !important;
+    }
+    
+    :root .lp-page .lp-switch > button {
+      z-index: 1 !important;
+      min-height: 46px !important;
+      border: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      color: #aebbd0 !important;
+      transition: color 260ms ease, transform 260ms ease !important;
+    }
+    
+    :root .lp-page .lp-switch > button:hover,
+    :root .lp-page .lp-switch > button:focus-visible {
+      color: #ffffff !important;
+      transform: translateY(-1px) !important;
+    }
+    
+    :root .lp-page .lp-switch > button[data-active="true"] {
+      color: #ffffff !important;
+    }
+    
+    /* CTA family: the same glass language, with a slow centre fill instead of a flat rectangle. */
+    :root .lp-page .lp-button,
+    :root .lp-page .lp-assistant-cta,
+    :root .lp-page .lp-solution-cta,
+    :root .lp-page .lp-caps-detail-cta,
+    :root .lp-page .lp-faq-ask {
+      position: relative !important;
+      isolation: isolate !important;
+      overflow: hidden !important;
+      min-height: 50px !important;
+      padding-inline: 1.2rem !important;
+      border: 1px solid rgba(190, 219, 255, 0.42) !important;
+      border-radius: 999px !important;
+      color: #f6faff !important;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.018)),
+        rgba(9, 14, 24, 0.78) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 18px 42px -31px rgba(52, 120, 246, 0.82) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+      backdrop-filter: blur(20px) saturate(150%) !important;
+      transform: translateY(0) translateZ(0) !important;
+      transition:
+        border-color 280ms ease,
+        transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 340ms ease,
+        color 280ms ease !important;
+    }
+    
+    :root .lp-page .lp-button::before,
+    :root .lp-page .lp-assistant-cta::before,
+    :root .lp-page .lp-solution-cta::before,
+    :root .lp-page .lp-caps-detail-cta::before,
+    :root .lp-page .lp-faq-ask::before {
+      content: "" !important;
+      position: absolute !important;
+      z-index: -1 !important;
+      inset: -45% -10% !important;
+      border-radius: inherit !important;
+      background:
+        radial-gradient(circle at center, rgba(72, 141, 255, 0.78) 0 32%, rgba(52, 120, 246, 0.48) 54%, transparent 76%) !important;
+      transform: scale3d(0.06, 0.28, 1);
+      opacity: 0;
+      transition:
+        transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 260ms ease !important;
+      pointer-events: none;
+    }
+    
+    :root .lp-page .lp-button::after,
+    :root .lp-page .lp-assistant-cta::after,
+    :root .lp-page .lp-solution-cta::after,
+    :root .lp-page .lp-caps-detail-cta::after,
+    :root .lp-page .lp-faq-ask::after {
+      content: "" !important;
+      position: absolute !important;
+      z-index: 1 !important;
+      inset: 1px 12% auto !important;
+      height: 38% !important;
+      border-radius: 999px !important;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent) !important;
+      opacity: 0.65 !important;
+      pointer-events: none !important;
+    }
+    
+    :root .lp-page .lp-button > *,
+    :root .lp-page .lp-assistant-cta > *,
+    :root .lp-page .lp-solution-cta > *,
+    :root .lp-page .lp-caps-detail-cta > *,
+    :root .lp-page .lp-faq-ask > * {
+      position: relative;
+      z-index: 2;
+    }
+    
+    :root .lp-page .lp-button:hover,
+    :root .lp-page .lp-button:focus-visible,
+    :root .lp-page .lp-assistant-cta:hover,
+    :root .lp-page .lp-assistant-cta:focus-visible,
+    :root .lp-page .lp-solution-cta:hover,
+    :root .lp-page .lp-solution-cta:focus-visible,
+    :root .lp-page .lp-caps-detail-cta:hover,
+    :root .lp-page .lp-caps-detail-cta:focus-visible,
+    :root .lp-page .lp-faq-ask:hover,
+    :root .lp-page .lp-faq-ask:focus-visible {
+      border-color: rgba(210, 232, 255, 0.78) !important;
+      color: #ffffff !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 24px 52px -29px rgba(52, 120, 246, 0.96) !important;
+      transform: translateY(-3px) translateZ(0) !important;
+    }
+    
+    :root .lp-page .lp-button:hover::before,
+    :root .lp-page .lp-button:focus-visible::before,
+    :root .lp-page .lp-assistant-cta:hover::before,
+    :root .lp-page .lp-assistant-cta:focus-visible::before,
+    :root .lp-page .lp-solution-cta:hover::before,
+    :root .lp-page .lp-solution-cta:focus-visible::before,
+    :root .lp-page .lp-caps-detail-cta:hover::before,
+    :root .lp-page .lp-caps-detail-cta:focus-visible::before,
+    :root .lp-page .lp-faq-ask:hover::before,
+    :root .lp-page .lp-faq-ask:focus-visible::before {
+      transform: scale3d(1.18, 1.05, 1);
+      opacity: 1;
+    }
+    
+    :root .lp-page .lp-button-primary,
+    :root .lp-page .lp-assistant-cta {
+      border-color: rgba(176, 213, 255, 0.68) !important;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.025)),
+        linear-gradient(145deg, rgba(52, 120, 246, 0.72), rgba(22, 67, 157, 0.74)) !important;
+    }
+    
+    @media (max-width: 700px) {
+      :root .lp-page .lp-hero-pick {
+        min-height: 58px !important;
+        padding: 11px 13px !important;
+      }
+    
+      :root .lp-page .lp-chip {
+        min-height: 44px !important;
+      }
+    
+      :root .lp-page .lp-switch {
+        width: 100% !important;
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      :root .lp-page .lp-hero-pick,
+      :root .lp-page .lp-chip,
+      :root .lp-page .lp-button,
+      :root .lp-page .lp-assistant-cta,
+      :root .lp-page .lp-solution-cta,
+      :root .lp-page .lp-caps-detail-cta,
+      :root .lp-page .lp-faq-ask,
+      :root .lp-page .lp-switch::before {
+        transition-duration: 0.01ms !important;
+      }
+    
+      :root .lp-page .lp-hero-pick[data-active="true"].is-border-tracing,
+      :root .lp-page .lp-chip[data-active="true"].is-border-tracing {
+        animation: none !important;
+        background-size: 230% 230%, 100% 100%, 100% 100% !important;
+      }
+    
+      :root .lp-page .lp-hero-pick.is-border-tracing::after,
+      :root .lp-page .lp-chip.is-border-tracing::after {
+        --lp-professional-trace: 100%;
+        animation: none !important;
+      }
+    }
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:86:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 6 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 1.45428
+  duration_ms: 2.941044
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 7 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 0.774066
+  duration_ms: 0.856142
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 8 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 0.554174
+  duration_ms: 0.638184
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 9 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 0.738322
+  duration_ms: 0.95615
   type: 'test'
   ...
 1..9
 # tests 9
 # suites 0
-# pass 9
-# fail 0
+# pass 8
+# fail 1
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 57.696286
+# duration_ms 171.011685
+error: script "test" exited with code 1
 
 ===== build =====
 $ vite build
@@ -95,25 +892,25 @@ computing gzip size...
 .output/public/assets/motion-primitives-BSyIAIjQ.css   13.51 kB │ gzip:  3.20 kB
 .output/public/assets/routes-BQo8BSvi.css              41.68 kB │ gzip:  8.47 kB
 .output/public/assets/styles-CUMH_Z9c.css              81.10 kB │ gzip: 14.30 kB
-.output/public/assets/index-C26ozBzY.css              211.56 kB │ gzip: 37.95 kB
-.output/public/assets/projekty._slug-BYmc1nKb.js        0.72 kB │ gzip:  0.44 kB
+.output/public/assets/index-C3xFaJG5.css              217.98 kB │ gzip: 39.00 kB
+.output/public/assets/projekty._slug-B1tdKHJY.js        0.72 kB │ gzip:  0.44 kB
 .output/public/assets/rolldown-runtime-Cyuzqnbw.js      0.82 kB │ gzip:  0.47 kB
-.output/public/assets/motion-primitives-CheyrTBh.js     1.65 kB │ gzip:  0.75 kB
-.output/public/assets/cookies-BeQFX4zy.js               3.90 kB │ gzip:  1.49 kB
-.output/public/assets/postup-B0sHlZZs.js                4.30 kB │ gzip:  2.03 kB
-.output/public/assets/sluzby-zY3LbLyY.js                4.65 kB │ gzip:  1.88 kB
-.output/public/assets/kontakt-Bdvj-Vac.js               4.98 kB │ gzip:  2.02 kB
-.output/public/assets/farby-CFq_wFDb.js                 7.97 kB │ gzip:  2.90 kB
-.output/public/assets/projekty.index-B6fgJ-uE.js        8.25 kB │ gzip:  2.66 kB
-.output/public/assets/projekty._slug-BcEpqYOy.js        8.36 kB │ gzip:  2.83 kB
-.output/public/assets/routes-CFbJxOjD.js               42.21 kB │ gzip: 14.49 kB
+.output/public/assets/motion-primitives-DPGi7Qvf.js     1.65 kB │ gzip:  0.75 kB
+.output/public/assets/cookies-BUvMAI_A.js               3.90 kB │ gzip:  1.50 kB
+.output/public/assets/postup-IvAVdZb5.js                4.30 kB │ gzip:  2.03 kB
+.output/public/assets/sluzby-T4mwjuSz.js                4.65 kB │ gzip:  1.88 kB
+.output/public/assets/kontakt-PCnS9_72.js               4.98 kB │ gzip:  2.02 kB
+.output/public/assets/farby-BjBhT6oM.js                 7.97 kB │ gzip:  2.90 kB
+.output/public/assets/projekty.index-TY3c0CtW.js        8.25 kB │ gzip:  2.66 kB
+.output/public/assets/projekty._slug-Cq0Y6nes.js        8.36 kB │ gzip:  2.83 kB
+.output/public/assets/routes-CWfuuuLM.js               42.21 kB │ gzip: 14.49 kB
 .output/public/assets/vendor-Sz_lmkba.js               51.67 kB │ gzip: 20.33 kB
 .output/public/assets/vendor-BJXVHgCM.js               62.55 kB │ gzip: 25.74 kB
 .output/public/assets/motion-Bke7a2kg.js              145.66 kB │ gzip: 49.05 kB
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
-.output/public/assets/index-CsKgcnvG.js               214.25 kB │ gzip: 70.00 kB
+.output/public/assets/index-C5EMrBBf.js               214.25 kB │ gzip: 70.00 kB
 
-[32m✓ built in 1.07s[39m
+[32m✓ built in 1.56s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 129 modules transformed.
 rendering chunks...
@@ -122,15 +919,15 @@ node_modules/.nitro/vite/services/ssr/assets/cookies-By_i-lus.css               
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-BSyIAIjQ.css           13.51 kB │ gzip:  3.20 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-BQo8BSvi.css                      41.68 kB │ gzip:  8.47 kB
 node_modules/.nitro/vite/services/ssr/assets/styles-CUMH_Z9c.css                      81.10 kB │ gzip: 14.30 kB
-node_modules/.nitro/vite/services/ssr/assets/router-D-I6lxO-.css                     206.97 kB │ gzip: 36.99 kB
+node_modules/.nitro/vite/services/ssr/assets/router-ZC0Ay9R2.css                     213.38 kB │ gzip: 38.03 kB
 node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-0GVloK9P.js              0.44 kB │ gzip:  0.29 kB
 node_modules/.nitro/vite/services/ssr/assets/useReducedMotion-BRrsaBMY.js              0.75 kB │ gzip:  0.37 kB
-node_modules/.nitro/vite/services/ssr/assets/start-DtCT0OjI.js                         0.84 kB │ gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/start-CD9IMei6.js                         0.84 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/site-8qlN0Jsl.js                          0.85 kB │ gzip:  0.52 kB
 node_modules/.nitro/vite/services/ssr/assets/site-assistant-nRt5KrGt.js                0.93 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-CWE7mHKW.js                1.15 kB │ gzip:  0.56 kB
 node_modules/.nitro/vite/services/ssr/assets/faq-ClMoF7tn.js                           1.61 kB │ gzip:  0.99 kB
-node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CJ7zGyXS.js    2.77 kB │ gzip:  0.74 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Bv6vMvWN.js    2.77 kB │ gzip:  0.74 kB
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-B5RwApV3.js             3.22 kB │ gzip:  1.11 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-Dbj4sOtI.js                       3.58 kB │ gzip:  1.36 kB
 node_modules/.nitro/vite/services/ssr/assets/projects-D81UYxuu.js                      3.81 kB │ gzip:  1.50 kB
@@ -138,17 +935,17 @@ node_modules/.nitro/vite/services/ssr/assets/projekty._slug-14ClTU0X.js         
 node_modules/.nitro/vite/services/ssr/index.js                                         4.55 kB │ gzip:  1.99 kB
 node_modules/.nitro/vite/services/ssr/assets/Symbol-BP8uTcEf.js                        4.83 kB │ gzip:  1.47 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-ycMFnma2.js                       5.96 kB │ gzip:  1.79 kB
-node_modules/.nitro/vite/services/ssr/assets/postup-BKHDO8wa.js                        6.26 kB │ gzip:  2.43 kB
+node_modules/.nitro/vite/services/ssr/assets/postup-DMMIqq0R.js                        6.26 kB │ gzip:  2.44 kB
 node_modules/.nitro/vite/services/ssr/assets/sluzby-BebRiFmT.js                        6.97 kB │ gzip:  2.30 kB
-node_modules/.nitro/vite/services/ssr/assets/kontakt-B2GAMmPo.js                       8.45 kB │ gzip:  2.54 kB
-node_modules/.nitro/vite/services/ssr/assets/farby-1GU8U0fN.js                        12.27 kB │ gzip:  3.52 kB
+node_modules/.nitro/vite/services/ssr/assets/kontakt-b6LPYDAy.js                       8.45 kB │ gzip:  2.54 kB
+node_modules/.nitro/vite/services/ssr/assets/farby-CnJFF1I5.js                        12.27 kB │ gzip:  3.52 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty.index-CPMHUcJ_.js               12.48 kB │ gzip:  3.41 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-kp6O6WoE.js               13.84 kB │ gzip:  3.68 kB
-node_modules/.nitro/vite/services/ssr/assets/router-8p5Zas6Y.js                       62.34 kB │ gzip: 15.54 kB
-node_modules/.nitro/vite/services/ssr/assets/tanstack-BSb5qIq1.js                     64.34 kB │ gzip: 15.93 kB
+node_modules/.nitro/vite/services/ssr/assets/router-CPBKWc3O.js                       62.34 kB │ gzip: 15.54 kB
+node_modules/.nitro/vite/services/ssr/assets/tanstack-DC4vct1v.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 437ms[39m
+[32m✓ built in 678ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -158,15 +955,15 @@ computing gzip size...
 .output/server/_runtime.mjs                 1.79 kB │ gzip:   0.81 kB
 .output/server/_libs/lucide-react.mjs      29.56 kB │ gzip:   5.55 kB
 .output/server/_libs/h3+h3-v2+srvx.mjs     33.49 kB │ gzip:   6.73 kB
-.output/server/index.mjs                   37.87 kB │ gzip:  10.48 kB
-.output/server/_ssr/vendor2.mjs            69.71 kB │ gzip:  18.40 kB
+.output/server/index.mjs                   37.87 kB │ gzip:  10.49 kB
+.output/server/_ssr/vendor2.mjs            80.15 kB │ gzip:  21.28 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            269.79 kB │ gzip:  61.42 kB
+.output/server/_ssr/vendor.mjs            259.63 kB │ gzip:  59.55 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 464ms[39m
+[32m✓ built in 575ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
