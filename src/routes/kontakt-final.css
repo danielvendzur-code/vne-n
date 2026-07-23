@@ -1,0 +1,151 @@
+/* Route-specific finish for the real lead form. */
+.contact-page {
+  background:
+    radial-gradient(circle at 86% 15%, rgba(78, 140, 255, 0.1), transparent 30rem),
+    #05070b !important;
+}
+
+.contact-card {
+  border-color: #26364c !important;
+  background: linear-gradient(160deg, #0d151f, #080d14) !important;
+  box-shadow: 0 34px 82px -58px rgba(78, 140, 255, 0.84) !important;
+}
+
+.contact-card::before {
+  background: linear-gradient(to right, transparent, rgba(78, 140, 255, 0.72), transparent) !important;
+}
+
+.contact-card input,
+.contact-card textarea,
+.contact-card select {
+  min-height: 49px;
+  border-color: #29394f !important;
+  color: #f5f7fb !important;
+  background: #0b121b !important;
+  font-size: 16px !important;
+}
+
+.contact-card textarea {
+  min-height: 8rem;
+}
+
+.contact-card input:focus,
+.contact-card textarea:focus,
+.contact-card select:focus {
+  border-color: #5d98ff !important;
+  background: #0d151f !important;
+  box-shadow: 0 0 0 3px rgba(78, 140, 255, 0.12) !important;
+}
+
+.contact-consent {
+  display: grid !important;
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 0.65rem !important;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid #202d40;
+  border-radius: 12px;
+  color: #93a1b3;
+  background: #080e16;
+  cursor: pointer;
+}
+
+.contact-consent input {
+  width: 17px !important;
+  height: 17px !important;
+  min-height: 0 !important;
+  margin: 1px 0 0 !important;
+  padding: 0 !important;
+  accent-color: #4e8cff;
+}
+
+.contact-consent > span {
+  color: #93a1b3 !important;
+  font-size: 0.75rem !important;
+  font-weight: 560 !important;
+  line-height: 1.45;
+}
+
+.contact-error {
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(239, 111, 126, 0.38);
+  border-radius: 12px;
+  color: #ffb8c1;
+  background: rgba(85, 22, 34, 0.28);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.contact-submit:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.contact-success {
+  min-height: 32rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.contact-success > svg {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 1.2rem;
+  color: #ffffff;
+  fill: #3979ec;
+  stroke-width: 1.7;
+  filter: drop-shadow(0 16px 28px rgba(78, 140, 255, 0.34));
+}
+
+.contact-success > span {
+  color: #86aff6;
+  font-size: 0.7rem;
+  font-weight: 820;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.contact-success h2 {
+  margin: 0.65rem 0 0;
+  color: #ffffff;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
+  font-weight: 590;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.contact-success p {
+  max-width: 30rem;
+  margin: 1rem auto 1.5rem;
+  color: #9eabbc;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.contact-success p b {
+  color: #e8eef7;
+}
+
+.contact-success .contact-assistant {
+  width: min(100%, 22rem) !important;
+}
+
+.contact-or span {
+  color: #758397 !important;
+  background: #0a1018 !important;
+}
+
+@media (max-width: 640px) {
+  .contact-success {
+    min-height: 25rem;
+  }
+
+  .contact-consent {
+    padding: 0.7rem;
+  }
+}
