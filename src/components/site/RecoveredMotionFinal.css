@@ -63,6 +63,37 @@
   transform: translateY(-1px);
 }
 
+/* Visible brand lockup. The personal contact remains in the contact section. */
+.site-brand-name {
+  font-size: 0 !important;
+}
+
+.site-brand-name::after {
+  content: "Môj Chatbot";
+  font-size: 0.94rem;
+  font-weight: 760;
+  letter-spacing: -0.025em;
+  color: #f7f9fc;
+}
+
+.site-menu-brand > span {
+  font-size: 0 !important;
+}
+
+.site-menu-brand > span::before {
+  content: "Môj Chatbot";
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 790;
+  letter-spacing: -0.02em;
+  color: #f7f9fc;
+}
+
+.site-menu-brand small {
+  display: block;
+  font-size: 0.7rem !important;
+}
+
 @media (max-width: 700px) {
   :root .lp-page .lp-assistant-card {
     top: auto !important;
