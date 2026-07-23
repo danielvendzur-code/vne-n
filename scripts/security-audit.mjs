@@ -5,14 +5,7 @@ const root = new URL("../", import.meta.url);
 const failures = [];
 const checkedFiles = [];
 const sourceExtensions = new Set([".js", ".mjs", ".cjs", ".ts", ".tsx", ".json", ".yml", ".yaml"]);
-const excludedDirectories = new Set([
-  "node_modules",
-  ".git",
-  ".output",
-  "dist",
-  "pages-dist",
-  "coverage",
-]);
+const excludedDirectories = new Set(["node_modules", ".git", ".output", "dist", "pages-dist", "coverage"]);
 const scannerPath = "scripts/security-audit.mjs";
 
 function fail(message) {
@@ -24,9 +17,7 @@ async function read(path) {
 }
 
 async function walk(directory) {
-  const absolute = new URL(`${directory}/`, root);
-  const entries = await readdir(absolute, { withFileTypes: true });
-
+  const entries = await readdir(new URL(`${directory}/`, root), { withFileTypes: true });
   for (const entry of entries) {
     if (entry.name.startsWith(".") && entry.name !== ".github") continue;
     if (excludedDirectories.has(entry.name)) continue;
@@ -35,8 +26,7 @@ async function walk(directory) {
       await walk(path);
       continue;
     }
-    if (!sourceExtensions.has(extname(entry.name))) continue;
-    checkedFiles.push(path);
+    if (sourceExtensions.has(extname(entry.name))) checkedFiles.push(path);
   }
 }
 
@@ -61,7 +51,6 @@ for (const path of checkedFiles) {
   for (const [pattern, label] of secretPatterns) {
     if (pattern.test(content)) fail(`${label} pattern detected in ${path}`);
   }
-
   if (path !== scannerPath) {
     if (/\beval\s*\(/.test(content)) fail(`eval() detected in ${path}`);
     if (/\bnew\s+Function\s*\(/.test(content)) fail(`new Function() detected in ${path}`);
@@ -70,164 +59,82 @@ for (const path of checkedFiles) {
 }
 
 const rootRoute = await read("src/routes/__root.tsx");
-if (!rootRoute.includes("Content-Security-Policy")) fail("Content Security Policy is missing");
-if (!rootRoute.includes("strict-origin-when-cross-origin")) {
-  fail("Strict referrer policy is missing");
+for (const token of ["Content-Security-Policy", "strict-origin-when-cross-origin", "widget-loader.js"]) {
+  if (!rootRoute.includes(token)) fail(`Root security metadata is missing ${token}`);
 }
-if (!rootRoute.includes("widget-loader.js")) fail("Local resilient widget loader is not used");
-if (
-  rootRoute.includes(
-    '<script src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js"',
-  )
-) {
-  fail("Brittle direct external widget script is still present");
+if (rootRoute.includes('<script src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js"')) {
+  fail("Brittle direct external widget script is present");
 }
 
 const loader = await read("public/widget-loader.js");
-if (!loader.includes("__DV_ASSISTANT_LOADER_ACTIVE__")) {
-  fail("Widget loader duplicate guard is missing");
-}
-if (!loader.includes("MOUNT_TIMEOUT")) fail("Widget loader mount timeout is missing");
-if (!loader.includes("showFallback")) fail("Widget loader fallback is missing");
-if (!loader.includes("https://danielvendzur-code.github.io")) {
-  fail("Primary HTTPS widget source is missing");
-}
-if (!loader.includes("restrained-assistant-v2")) {
-  fail("Latest assistant cache version is missing");
+for (const token of [
+  "__DV_ASSISTANT_LOADER_ACTIVE__",
+  "MOUNT_TIMEOUT",
+  "showFallback",
+  "https://danielvendzur-code.github.io",
+  "competition-winner-v5",
+  "Môj Chatbot",
+]) {
+  if (!loader.includes(token)) fail(`Resilient assistant loader is missing ${token}`);
 }
 
 const layout = await read("src/components/site/Layout.tsx");
-const systemIndex = layout.indexOf('import "./CompetitionSystem.css"');
-const routesIndex = layout.indexOf('import "./CompetitionRoutes.css"');
-const blackBlueIndex = layout.indexOf('import "./BlackBlueFinal.css"');
-const premiumIndex = layout.indexOf('import "./RecoveredMotionFinal.css"');
-const chipIndex = layout.indexOf('import "./ProfessionalChipFinal.css"');
-const liquidIndex = layout.indexOf('import "./AppleLiquidSystemFinal.css"');
-const refinementIndex = layout.indexOf('import "./WebsiteRefinementFinal.css"');
-const finishIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
+const previousIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
+const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
-if (systemIndex === -1) fail("CompetitionSystem.css is not imported");
-if (routesIndex === -1) fail("CompetitionRoutes.css is not imported");
-if (blackBlueIndex === -1) fail("BlackBlueFinal.css is not imported");
-if (premiumIndex === -1) fail("RecoveredMotionFinal.css is not imported");
-if (chipIndex === -1) fail("ProfessionalChipFinal.css is not imported");
-if (liquidIndex === -1) fail("AppleLiquidSystemFinal.css is not imported");
-if (refinementIndex === -1) fail("WebsiteRefinementFinal.css is not imported");
-if (finishIndex === -1) fail("WebsiteRequestFinish.css is not imported");
-if (systemIndex >= routesIndex) {
-  fail("CompetitionRoutes.css must load after CompetitionSystem.css");
-}
-if (routesIndex >= blackBlueIndex) {
-  fail("BlackBlueFinal.css must load after CompetitionRoutes.css");
-}
-if (blackBlueIndex >= premiumIndex) {
-  fail("RecoveredMotionFinal.css must load after BlackBlueFinal.css");
-}
-if (premiumIndex >= chipIndex) {
-  fail("ProfessionalChipFinal.css must load after RecoveredMotionFinal.css");
-}
-if (chipIndex >= liquidIndex) {
-  fail("AppleLiquidSystemFinal.css must load after ProfessionalChipFinal.css");
-}
-if (liquidIndex >= refinementIndex) {
-  fail("WebsiteRefinementFinal.css must load after AppleLiquidSystemFinal.css");
-}
-if (refinementIndex >= finishIndex) {
-  fail("WebsiteRequestFinish.css must load after WebsiteRefinementFinal.css");
-}
-if (finishIndex !== lastStyleImport) {
-  fail("WebsiteRequestFinish.css must be the final component style import");
+if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
+if (previousIndex >= winnerIndex) fail("CompetitionWinnerFinal.css must load after historical correction layers");
+if (winnerIndex !== lastStyleImport) fail("CompetitionWinnerFinal.css must be the final component style import");
+for (const token of ["HomeConversionUpgrade", "LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
+  if (!layout.includes(token)) fail(`Layout is missing ${token}`);
 }
 
-const competitionCss = await read("src/components/site/CompetitionSystem.css");
-for (const token of ["#65e6c1", "#72c7ff", "prefers-reduced-motion", "focus-visible"]) {
-  if (!competitionCss.toLowerCase().includes(token.toLowerCase())) {
-    fail(`Final design system is missing ${token}`);
-  }
-}
-if (/#c9aa70|#c47c5e|#bc7352/i.test(competitionCss)) {
-  fail("Bronze, copper or old primary colours remain in the final design layer");
-}
-
-const premiumCss = await read("src/components/site/RecoveredMotionFinal.css");
+const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");
 for (const token of [
-  "--premium-blue",
-  "backdrop-filter",
-  "site-mascot-blink",
-  ".lp-switch-liquid",
-  "prefers-reduced-motion",
-]) {
-  if (!premiumCss.includes(token)) fail(`Premium interaction layer is missing ${token}`);
-}
-
-const refinementCss = await read("src/components/site/WebsiteRefinementFinal.css");
-for (const token of [
-  "--wr-blue: #4e8cff",
-  ".lp-switch",
-  '.lp-solution-cta[data-liquid-pointer="true"]',
+  "--wf-blue: #4e8cff",
+  ".spotlight-surface",
+  '[data-spotlight="true"]::before',
+  "circle at var(--spot-x) var(--spot-y)",
   '.lp-hero-pick[data-active="true"]',
-  ".lp-caps-row",
-  ".lp-caps-detail-inner",
-  ".lp-project > a",
-  ".lp-faq-item",
-  ".lp-final-card",
-  ".premium-footer",
-  "backdrop-filter: none",
-  "@media (max-width: 720px)",
+  '.lp-chip[data-active="true"]',
+  ".lp-switch",
+  ".winner-packages",
+  ".winner-prep",
+  ".winner-final",
+  "@media (max-width: 760px)",
   "prefers-reduced-motion",
 ]) {
-  if (!refinementCss.includes(token)) fail(`Restrained final design layer is missing ${token}`);
+  if (!winnerCss.includes(token)) fail(`Competition visual system is missing ${token}`);
 }
-if (!refinementCss.includes("Intentionally not reset")) {
-  fail("The retained liquid segmented control is not documented");
-}
-if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(refinementCss)) {
-  fail("Bronze, copper or gold remains in the restrained final design layer");
-}
-
-const finishCss = await read("src/components/site/WebsiteRequestFinish.css");
-for (const token of [
-  ".lp-page .lp-assistant-cta",
-  "background: #0e141e",
-  "border-radius: var(--wr-radius-md)",
-  "backdrop-filter: none",
-  "@media (max-width: 720px)",
-]) {
-  if (!finishCss.includes(token)) fail(`Short brief correction is missing ${token}`);
+if (/inset 3px 0 0/.test(winnerCss)) fail("Selected chip side stripe remains in the final layer");
+if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(winnerCss)) {
+  fail("Bronze, copper or gold remains in the final competition layer");
 }
 
 const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-if (!pointer.includes('const surfaceSelector = ".lp-solution-cta"')) {
-  fail("Pointer flashlight must be restricted to the solution CTA");
+for (const token of [".spotlight-surface", ".lp-solution-cta", ".lp-hero-pick", "--spot-x", "data.spotlight", "requestAnimationFrame"]) {
+  if (!pointer.includes(token)) fail(`Pointer spotlight is missing ${token}`);
+}
+
+const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
+for (const token of ["od 350 €", "Čo potrebujem od klienta", "Web a ponuka", "Pravidlá a podklady", "Získať návrh riešenia"]) {
+  if (!conversion.includes(token)) fail(`Conversion section is missing ${token}`);
+}
+
+const contact = await read("src/routes/kontakt.tsx");
+const leadClient = await read("src/lib/lead-submission.ts");
+for (const token of ["submitWebsiteLead", 'submitState === "done"', "contact-consent", "Získať návrh riešenia"]) {
+  if (!contact.includes(token)) fail(`Real contact flow is missing ${token}`);
+}
+for (const token of ["api/lead", "AbortController", "credentials: \"omit\"", "fallback"]) {
+  if (!leadClient.includes(token)) fail(`Lead client is missing ${token}`);
 }
 
 const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
-if (/is-border-tracing|\.lp-hero-pick, \.lp-chip/.test(motion)) {
-  fail("Noisy chip click tracing remains enabled");
+if (!motion.includes('image.loading = index === 0 ? "eager" : "lazy"')) {
+  fail("Portfolio images do not preserve lazy loading after the first image");
 }
-if (/rotateX|rotateY/.test(motion)) {
-  fail("Hero card tilt remains enabled");
-}
-
-const routeCss = await read("src/components/site/CompetitionRoutes.css");
-for (const selector of [
-  ".sp-hero",
-  ".sp-service",
-  ".sp-project-card > a",
-  ".sp-timeline-progress",
-  ".contact-card",
-  ".cookies-card",
-]) {
-  if (!routeCss.includes(selector)) fail(`Route design layer is missing ${selector}`);
-}
-if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(routeCss)) {
-  fail("Bronze, copper or gold remains in the final route design layer");
-}
-
-const exporter = await read("scripts/export-github-pages.mjs");
-for (const token of ["/cookies", "404.html", "build-meta.json", "Chatboty, ktoré"]) {
-  if (!exporter.includes(token)) fail(`Static exporter is missing ${token}`);
-}
+if (/rotateX|rotateY|is-border-tracing/.test(motion)) fail("Noisy legacy motion remains active");
 
 const pagesWorkflow = await read(".github/workflows/pages.yml");
 for (const token of [
@@ -235,23 +142,24 @@ for (const token of [
   "Run source and deployment security audit",
   "Validate exported artifact",
   "Verify live deployment",
-  "/cookies/",
-  "/build-meta.json",
-  "restrained-assistant-v2",
+  "competition-winner-v5",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
 }
 
-const packageJson = JSON.parse(await read("package.json"));
-if (packageJson.private !== true) {
-  fail("package.json must remain private to prevent accidental publishing");
+const exporter = await read("scripts/export-github-pages.mjs");
+for (const token of ["/cookies", "404.html", "build-meta.json", "Chatboty, ktoré"]) {
+  if (!exporter.includes(token)) fail(`Static exporter is missing ${token}`);
 }
+
+const packageJson = JSON.parse(await read("package.json"));
+if (packageJson.private !== true) fail("package.json must remain private");
 
 try {
   await access(new URL("bun.lock", root));
 } catch {
-  fail("bun.lock is missing; reproducible dependency installation is not guaranteed");
+  fail("bun.lock is missing");
 }
 
 if (failures.length) {
@@ -262,5 +170,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe runtime primitives, CSP, referrer policy, resilient widget loading, restrained matte website coverage, final short brief control, retained liquid comparison control, focused CTA flashlight, mobile layout, route export, dependency audit and live smoke contracts.",
+  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, final spotlight and chip system, pricing and client preparation, real lead submission, mobile coverage, static export and live deployment contracts.",
 );
