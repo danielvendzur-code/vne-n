@@ -7,6 +7,7 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
 import { LiquidSegmentedDrag } from "./LiquidSegmentedDrag";
+import { LiquidSurfacePointer } from "./LiquidSurfacePointer";
 import "./SitePolish.css";
 import "./MineralTheme.css";
 import "./MineralThemePolish.css";
@@ -26,6 +27,7 @@ import "./CompetitionRoutes.css";
 import "./BlackBlueFinal.css";
 import "./RecoveredMotionFinal.css";
 import "./ProfessionalChipFinal.css";
+import "./AppleLiquidSystemFinal.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -38,6 +40,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
         <SiteMotionEnhancements key={`motion-${pathname}`} />
         <LiquidSegmentedDrag />
+        <LiquidSurfacePointer />
         <CookieConsent />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
