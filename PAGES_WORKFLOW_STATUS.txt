@@ -1,0 +1,5 @@
+source_sha=830ec3fe66292304a7d17b7b96f9426dad632d18
+run_id=30015780699
+build_result=failure
+deploy_result=skipped
+recorded_at=2026-07-23T14:26:18Z
