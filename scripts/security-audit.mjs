@@ -112,11 +112,21 @@ if (premiumIndex === -1) fail("RecoveredMotionFinal.css is not imported");
 if (chipIndex === -1) fail("ProfessionalChipFinal.css is not imported");
 if (liquidIndex === -1) fail("AppleLiquidSystemFinal.css is not imported");
 if (refinementIndex === -1) fail("WebsiteRefinementFinal.css is not imported");
-if (systemIndex >= routesIndex) fail("CompetitionRoutes.css must load after CompetitionSystem.css");
-if (routesIndex >= blackBlueIndex) fail("BlackBlueFinal.css must load after CompetitionRoutes.css");
-if (blackBlueIndex >= premiumIndex) fail("RecoveredMotionFinal.css must load after BlackBlueFinal.css");
-if (premiumIndex >= chipIndex) fail("ProfessionalChipFinal.css must load after RecoveredMotionFinal.css");
-if (chipIndex >= liquidIndex) fail("AppleLiquidSystemFinal.css must load after ProfessionalChipFinal.css");
+if (systemIndex >= routesIndex) {
+  fail("CompetitionRoutes.css must load after CompetitionSystem.css");
+}
+if (routesIndex >= blackBlueIndex) {
+  fail("BlackBlueFinal.css must load after CompetitionRoutes.css");
+}
+if (blackBlueIndex >= premiumIndex) {
+  fail("RecoveredMotionFinal.css must load after BlackBlueFinal.css");
+}
+if (premiumIndex >= chipIndex) {
+  fail("ProfessionalChipFinal.css must load after RecoveredMotionFinal.css");
+}
+if (chipIndex >= liquidIndex) {
+  fail("AppleLiquidSystemFinal.css must load after ProfessionalChipFinal.css");
+}
 if (liquidIndex >= refinementIndex) {
   fail("WebsiteRefinementFinal.css must load after AppleLiquidSystemFinal.css");
 }
@@ -149,8 +159,8 @@ const refinementCss = await read("src/components/site/WebsiteRefinementFinal.css
 for (const token of [
   "--wr-blue: #4e8cff",
   ".lp-switch",
-  ".lp-solution-cta[data-liquid-pointer=\"true\"]",
-  ".lp-hero-pick[data-active=\"true\"]",
+  '.lp-solution-cta[data-liquid-pointer="true"]',
+  '.lp-hero-pick[data-active="true"]',
   ".lp-caps-row",
   ".lp-caps-detail-inner",
   ".lp-project > a",
