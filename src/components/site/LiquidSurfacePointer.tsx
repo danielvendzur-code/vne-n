@@ -32,9 +32,11 @@ export function LiquidSurfacePointer() {
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    const connection = (navigator as Navigator & {
-      connection?: { saveData?: boolean };
-    }).connection;
+    const connection = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean };
+      }
+    ).connection;
     if (
       reducedMotion ||
       connection?.saveData ||
