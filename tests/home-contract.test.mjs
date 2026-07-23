@@ -11,10 +11,7 @@ test("Taste system and conversion section are mounted", async () => {
   assert.match(layout, /HomeConversionUpgrade/);
   assert.match(layout, /CompetitionWinnerFinal\.css/);
   assert.match(layout, /TasteSystemFinal\.css/);
-  assert.equal(
-    layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./TasteSystemFinal.css"'),
-  );
+  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./TasteSystemFinal.css"'));
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(conversion, /od 350 €/);
   assert.match(conversion, /Čo potrebujem od klienta/);
