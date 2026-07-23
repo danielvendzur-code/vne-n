@@ -1,11 +1,25 @@
-run_id=30022379075
+run_id=30025188960
 install=success
-lint=success
+lint=failure
 test=success
 build=success
 
 ===== lint =====
 $ eslint .
+
+/home/runner/work/vne-n/vne-n/src/components/site/HomeConversionUpgrade.tsx
+   25:16  error  Replace `"Vlastný·scenár·rozhovoru",·"Dizajn·prispôsobený·webu",·"Dopyty·na·e-mail",·"Nasadenie·na·existujúci·web"` with `⏎······"Vlastný·scenár·rozhovoru",⏎······"Dizajn·prispôsobený·webu",⏎······"Dopyty·na·e-mail",⏎······"Nasadenie·na·existujúci·web",⏎····`            prettier/prettier
+   32:16  error  Replace `"Vaše·vzorce·a·pravidlá",·"Orientačný·výsledok·ihneď",·"Zhrnutie·pre·zákazníka",·"Kompletné·zadanie·pre·firmu"` with `⏎······"Vaše·vzorce·a·pravidlá",⏎······"Orientačný·výsledok·ihneď",⏎······"Zhrnutie·pre·zákazníka",⏎······"Kompletné·zadanie·pre·firmu",⏎····`  prettier/prettier
+   39:16  error  Replace `"Krokový·výber·produktu",·"Podmienené·možnosti",·"Súhrn·konfigurácie",·"Prepojenia·podľa·potreby"` with `⏎······"Krokový·výber·produktu",⏎······"Podmienené·možnosti",⏎······"Súhrn·konfigurácie",⏎······"Prepojenia·podľa·potreby",⏎····`                            prettier/prettier
+   67:4   error  Replace `·icon:·BadgeCheck,·title:·"Reálne·živé·ukážky",·copy:·"Nie·iba·obrázky·alebo·generické·makety."` with `⏎····icon:·BadgeCheck,⏎····title:·"Reálne·živé·ukážky",⏎····copy:·"Nie·iba·obrázky·alebo·generické·makety.",⏎·`                                                prettier/prettier
+   68:4   error  Replace `·icon:·Layers3,·title:·"Najprv·logika",·copy:·"Otázky·a·rozhodovanie·sa·navrhnú·pred·vizuálom."` with `⏎····icon:·Layers3,⏎····title:·"Najprv·logika",⏎····copy:·"Otázky·a·rozhodovanie·sa·navrhnú·pred·vizuálom.",⏎·`                                                prettier/prettier
+   69:4   error  Replace `·icon:·ShieldCheck,·title:·"Bez·skrytého·rozsahu",·copy:·"Pred·vývojom·dostanete·jasný·návrh·prvej·verzie."` with `⏎····icon:·ShieldCheck,⏎····title:·"Bez·skrytého·rozsahu",⏎····copy:·"Pred·vývojom·dostanete·jasný·návrh·prvej·verzie.",⏎·`                        prettier/prettier
+  101:21  error  Replace `·className="winner-package·spotlight-surface"·key={title}·data-featured={index·===·0}` with `⏎··············className="winner-package·spotlight-surface"⏎··············key={title}⏎··············data-featured={index·===·0}⏎············`                            prettier/prettier
+
+✖ 7 problems (7 errors, 0 warnings)
+  7 errors and 0 warnings potentially fixable with the `--fix` option.
+
+error: script "lint" exited with code 1
 
 ===== test =====
 $ node --test tests/home-contract.test.mjs
@@ -13,67 +27,67 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.751904
+  duration_ms: 5.737274
   type: 'test'
   ...
 # Subtest: the restrained correction layers load last
 ok 2 - the restrained correction layers load last
   ---
-  duration_ms: 3.449126
+  duration_ms: 2.153471
   type: 'test'
   ...
 # Subtest: ordinary controls no longer use liquid centre fills
 ok 3 - ordinary controls no longer use liquid centre fills
   ---
-  duration_ms: 1.45678
+  duration_ms: 0.674045
   type: 'test'
   ...
 # Subtest: flashlight follows a fine pointer only on solution CTAs
 ok 4 - flashlight follows a fine pointer only on solution CTAs
   ---
-  duration_ms: 1.997815
+  duration_ms: 1.053821
   type: 'test'
   ...
 # Subtest: hero and capability chips have stable matte selection states
 ok 5 - hero and capability chips have stable matte selection states
   ---
-  duration_ms: 1.922223
+  duration_ms: 1.432896
   type: 'test'
   ...
 # Subtest: comparison switch remains draggable and liquid
 ok 6 - comparison switch remains draggable and liquid
   ---
-  duration_ms: 3.10233
+  duration_ms: 1.642073
   type: 'test'
   ...
 # Subtest: capability details and mobile layout stay ordered
 ok 7 - capability details and mobile layout stay ordered
   ---
-  duration_ms: 1.22237
+  duration_ms: 0.745301
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 8 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 1.185336
+  duration_ms: 0.691511
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient latest widget loading are present
 ok 9 - metadata, CSP and resilient latest widget loading are present
   ---
-  duration_ms: 1.45722
+  duration_ms: 0.907153
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 10 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 1.193908
+  duration_ms: 0.734084
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 11 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 0.930997
+  duration_ms: 0.565673
   type: 'test'
   ...
 1..11
@@ -84,7 +98,7 @@ ok 11 - Pages workflow validates and verifies the live deployment
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 83.980015
+# duration_ms 60.493488
 
 ===== build =====
 $ vite build
@@ -114,7 +128,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-DB9G7dhp.js               213.37 kB │ gzip: 69.78 kB
 
-[32m✓ built in 1.62s[39m
+[32m✓ built in 1.14s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 133 modules transformed.
 rendering chunks...
@@ -149,7 +163,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-4qGmqa1N.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-xYsggx-q.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 644ms[39m
+[32m✓ built in 464ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -168,6 +182,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 566ms[39m
+[32m✓ built in 447ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
