@@ -1,4 +1,4 @@
-/* Chip-only refinement: clean professional glass, no nested bubbles, border first and centre fill second. */
+/* Final Apple-inspired liquid control layer: restrained glass, continuous edge trace and centre-out fill. */
 @property --lp-professional-trace {
   syntax: "<percentage>";
   inherits: false;
@@ -16,12 +16,25 @@
 
 @keyframes lp-professional-centre-fill {
   0%,
-  62% {
-    background-size: 0% 0%, 100% 100%;
+  58% {
+    background-size: 0% 0%, 100% 100%, 100% 100%;
   }
   100% {
-    background-size: 240% 240%, 100% 100%;
+    background-size: 230% 230%, 100% 100%, 100% 100%;
   }
+}
+
+:root .lp-page {
+  --lp-liquid-line: rgba(189, 216, 255, 0.3);
+  --lp-liquid-line-strong: rgba(205, 228, 255, 0.68);
+  --lp-liquid-blue: #3478f6;
+  --lp-liquid-blue-light: #82c2ff;
+  --lp-liquid-surface: rgba(10, 15, 25, 0.72);
+  --lp-liquid-surface-strong: rgba(10, 17, 31, 0.9);
+}
+
+:root .lp-page .lp-hero-picker {
+  gap: 10px !important;
 }
 
 :root .lp-page .lp-hero-pick,
@@ -29,37 +42,47 @@
   position: relative !important;
   isolation: isolate !important;
   overflow: hidden !important;
-  border: 1px solid rgba(178, 207, 255, 0.25) !important;
-  color: #dce7f8 !important;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.018) 48%),
-    rgba(8, 12, 20, 0.74) !important;
+  border: 1px solid var(--lp-liquid-line) !important;
+  color: #dbe7f8 !important;
+  background-color: var(--lp-liquid-surface) !important;
+  background-image:
+    radial-gradient(
+      circle at 50% 52%,
+      rgba(72, 141, 255, 0.34) 0 48%,
+      rgba(52, 120, 246, 0.12) 68%,
+      transparent 100%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.022) 48%),
+    linear-gradient(135deg, rgba(17, 24, 38, 0.84), rgba(7, 11, 19, 0.82)) !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
-  background-size: 100% 100% !important;
+  background-size: 0% 0%, 100% 100%, 100% 100% !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.13),
-    inset 0 -1px 0 rgba(117, 184, 255, 0.035),
-    0 14px 32px -28px rgba(52, 120, 246, 0.78) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(148%) !important;
-  backdrop-filter: blur(20px) saturate(148%) !important;
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(117, 184, 255, 0.045),
+    0 18px 42px -34px rgba(52, 120, 246, 0.72) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
+  backdrop-filter: blur(22px) saturate(145%) !important;
+  transform: translateY(0) translateZ(0) !important;
   transition:
-    border-color 190ms ease,
-    color 190ms ease,
-    transform 190ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 190ms ease,
-    filter 190ms ease !important;
+    border-color 260ms ease,
+    color 260ms ease,
+    background-size 620ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 340ms ease,
+    filter 260ms ease !important;
 }
 
 :root .lp-page .lp-hero-pick {
-  min-height: 58px !important;
-  border-radius: 17px !important;
+  min-height: 64px !important;
+  padding: 13px 15px !important;
+  border-radius: 18px !important;
 }
 
 :root .lp-page .lp-chip {
-  min-height: 44px !important;
+  min-height: 46px !important;
+  padding: 10px 15px !important;
   border-radius: 999px !important;
-  padding-inline: 1rem !important;
 }
 
 :root .lp-page .lp-hero-pick > *,
@@ -72,60 +95,49 @@
 :root .lp-page .lp-hero-pick:focus-visible,
 :root .lp-page .lp-chip:hover,
 :root .lp-page .lp-chip:focus-visible {
-  border-color: rgba(190, 216, 255, 0.55) !important;
+  border-color: rgba(201, 226, 255, 0.58) !important;
   color: #ffffff !important;
-  background:
-    radial-gradient(circle at 22% -25%, rgba(255, 255, 255, 0.15), transparent 46%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.025) 50%),
-    rgba(10, 15, 25, 0.82) !important;
+  background-size: 185% 185%, 100% 100%, 100% 100% !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 17px 36px -28px rgba(52, 120, 246, 0.9) !important;
-  transform: translateY(-1px) !important;
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(117, 184, 255, 0.08),
+    0 20px 46px -31px rgba(52, 120, 246, 0.84) !important;
+  transform: translateY(-2px) translateZ(0) !important;
 }
 
 :root .lp-page .lp-hero-pick[data-active="true"],
 :root .lp-page .lp-chip[data-active="true"] {
-  border-color: rgba(137, 190, 255, 0.7) !important;
+  border-color: rgba(133, 190, 255, 0.82) !important;
   color: #ffffff !important;
-  background-image:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(71, 137, 255, 0.3) 0 52%,
-      rgba(52, 120, 246, 0.16) 70%,
-      transparent 100%
-    ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.018) 52%) !important;
-  background-color: rgba(8, 13, 23, 0.84) !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-size: 240% 240%, 100% 100% !important;
+  background-color: var(--lp-liquid-surface-strong) !important;
+  background-size: 230% 230%, 100% 100%, 100% 100% !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 16px 36px -27px rgba(52, 120, 246, 0.92) !important;
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(52, 120, 246, 0.12),
+    0 22px 48px -31px rgba(52, 120, 246, 0.95) !important;
 }
 
 :root .lp-page .lp-hero-pick[data-active="true"].is-border-tracing,
 :root .lp-page .lp-chip[data-active="true"].is-border-tracing {
-  border-color: rgba(178, 207, 255, 0.25) !important;
-  background-size: 0% 0%, 100% 100% !important;
-  animation: lp-professional-centre-fill 1180ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  border-color: var(--lp-liquid-line) !important;
+  background-size: 0% 0%, 100% 100%, 100% 100% !important;
+  animation: lp-professional-centre-fill 1160ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
 :root .lp-page .lp-hero-pick::after,
 :root .lp-page .lp-chip::after {
   content: "" !important;
   position: absolute !important;
-  z-index: 5 !important;
+  z-index: 6 !important;
   inset: -1px !important;
   display: block !important;
-  padding: 2px !important;
+  padding: 2.4px !important;
   border-radius: inherit !important;
   pointer-events: none !important;
   opacity: 0 !important;
   background: conic-gradient(
     from -90deg,
-    #c6e1ff 0 var(--lp-professional-trace),
+    #e2f1ff 0 var(--lp-professional-trace),
     transparent var(--lp-professional-trace) 100%
   ) !important;
   -webkit-mask:
@@ -133,19 +145,18 @@
     linear-gradient(#000 0 0) !important;
   -webkit-mask-composite: xor !important;
   mask-composite: exclude !important;
-  transition: opacity 150ms ease !important;
+  transition: opacity 140ms ease !important;
   animation: none !important;
 }
 
 :root .lp-page .lp-hero-pick.is-border-tracing::after,
 :root .lp-page .lp-chip.is-border-tracing::after {
   opacity: 1 !important;
-  filter: drop-shadow(0 0 4px rgba(198, 225, 255, 0.72))
-    drop-shadow(0 0 9px rgba(52, 120, 246, 0.38));
-  animation: lp-professional-border-trace 720ms linear forwards !important;
+  filter: drop-shadow(0 0 4px rgba(214, 235, 255, 0.82))
+    drop-shadow(0 0 11px rgba(52, 120, 246, 0.42));
+  animation: lp-professional-border-trace 690ms linear forwards !important;
 }
 
-/* Remove the old nested capsules and icon bubbles. */
 :root .lp-page .lp-hero-pick-fill,
 :root .lp-page .lp-chip-fill {
   display: none !important;
@@ -156,22 +167,36 @@
   display: grid !important;
   place-items: center !important;
   flex: 0 0 auto !important;
-  width: 20px !important;
-  height: 20px !important;
+  width: 21px !important;
+  height: 21px !important;
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #8fc6ff !important;
+  color: #8fc8ff !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
 :root .lp-page .lp-hero-pick-icon svg,
 :root .lp-page .lp-chip-icon svg {
-  width: 17px !important;
-  height: 17px !important;
-  stroke-width: 1.85 !important;
+  width: 18px !important;
+  height: 18px !important;
+  stroke-width: 1.9 !important;
   shape-rendering: geometricPrecision;
+}
+
+:root .lp-page .lp-hero-pick[data-active="true"]::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 7 !important;
+  top: 12px !important;
+  right: 12px !important;
+  width: 18px !important;
+  height: 18px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23e9f5ff' stroke-width='2.7' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.2 4.2L19 7.2'/%3E%3C/svg%3E") center / 17px 17px no-repeat !important;
+  box-shadow: none !important;
 }
 
 :root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
@@ -184,7 +209,7 @@
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #8fa5bf !important;
+  color: #91a6c0 !important;
   background: transparent !important;
   box-shadow: none !important;
   font-size: 0.69rem !important;
@@ -192,26 +217,244 @@
 }
 
 :root .lp-page .lp-caps-chips {
-  gap: 9px !important;
+  gap: 10px !important;
 }
 
 :root .lp-page .lp-caps-input {
-  border: 1px solid rgba(178, 207, 255, 0.2) !important;
+  border: 1px solid rgba(189, 216, 255, 0.22) !important;
   border-radius: 999px !important;
   color: #cbd9ed !important;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015)),
-    rgba(10, 15, 24, 0.72) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.014)),
+    rgba(9, 14, 23, 0.74) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* Draggable segmented control. The indicator follows the pointer and settles with a soft overshoot. */
+:root .lp-page .lp-switch {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  gap: 6px !important;
+  padding: 6px !important;
+  border: 1px solid rgba(189, 216, 255, 0.28) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.014)),
+    rgba(6, 10, 17, 0.78) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    0 18px 40px -34px rgba(52, 120, 246, 0.78) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  touch-action: pan-y;
+  --lp-segment-x: 0px;
+  --lp-segment-stretch: 1;
+}
+
+:root .lp-page .lp-switch:has(> button:nth-of-type(2)[data-active="true"]) {
+  --lp-segment-x: calc(100% + 6px);
+}
+
+:root .lp-page .lp-switch::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  top: 6px !important;
+  left: 6px !important;
+  width: calc((100% - 18px) / 2) !important;
+  height: calc(100% - 12px) !important;
+  border: 1px solid rgba(177, 215, 255, 0.68) !important;
+  border-radius: 999px !important;
+  background:
+    radial-gradient(circle at 48% -35%, rgba(255, 255, 255, 0.38), transparent 48%),
+    linear-gradient(145deg, rgba(52, 120, 246, 0.52), rgba(19, 58, 132, 0.48)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -10px 24px rgba(4, 18, 49, 0.24),
+    0 14px 32px -20px rgba(52, 120, 246, 0.82) !important;
+  transform: translate3d(var(--lp-segment-x), 0, 0) scaleX(var(--lp-segment-stretch));
+  transform-origin: center;
+  transition: transform 680ms cubic-bezier(0.16, 1.28, 0.3, 1) !important;
+  will-change: transform;
+}
+
+:root .lp-page .lp-switch[data-liquid-dragging="true"]::before {
+  transition: none !important;
+}
+
+:root .lp-page .lp-switch-liquid {
+  display: none !important;
+}
+
+:root .lp-page .lp-switch > button {
+  z-index: 1 !important;
+  min-height: 46px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #aebbd0 !important;
+  transition: color 260ms ease, transform 260ms ease !important;
+}
+
+:root .lp-page .lp-switch > button:hover,
+:root .lp-page .lp-switch > button:focus-visible {
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+:root .lp-page .lp-switch > button[data-active="true"] {
+  color: #ffffff !important;
+}
+
+/* CTA family: the same glass language, with a slow centre fill instead of a flat rectangle. */
+:root .lp-page .lp-button,
+:root .lp-page .lp-assistant-cta,
+:root .lp-page .lp-solution-cta,
+:root .lp-page .lp-caps-detail-cta,
+:root .lp-page .lp-faq-ask {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  min-height: 50px !important;
+  padding-inline: 1.2rem !important;
+  border: 1px solid rgba(190, 219, 255, 0.42) !important;
+  border-radius: 999px !important;
+  color: #f6faff !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.018)),
+    rgba(9, 14, 24, 0.78) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 18px 42px -31px rgba(52, 120, 246, 0.82) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  transform: translateY(0) translateZ(0) !important;
+  transition:
+    border-color 280ms ease,
+    transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 340ms ease,
+    color 280ms ease !important;
+}
+
+:root .lp-page .lp-button::before,
+:root .lp-page .lp-assistant-cta::before,
+:root .lp-page .lp-solution-cta::before,
+:root .lp-page .lp-caps-detail-cta::before,
+:root .lp-page .lp-faq-ask::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: -1 !important;
+  inset: -45% -10% !important;
+  border-radius: inherit !important;
+  background:
+    radial-gradient(circle at center, rgba(72, 141, 255, 0.78) 0 32%, rgba(52, 120, 246, 0.48) 54%, transparent 76%) !important;
+  transform: scale3d(0.06, 0.28, 1);
+  opacity: 0;
+  transition:
+    transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 260ms ease !important;
+  pointer-events: none;
+}
+
+:root .lp-page .lp-button::after,
+:root .lp-page .lp-assistant-cta::after,
+:root .lp-page .lp-solution-cta::after,
+:root .lp-page .lp-caps-detail-cta::after,
+:root .lp-page .lp-faq-ask::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 1 !important;
+  inset: 1px 12% auto !important;
+  height: 38% !important;
+  border-radius: 999px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent) !important;
+  opacity: 0.65 !important;
+  pointer-events: none !important;
+}
+
+:root .lp-page .lp-button > *,
+:root .lp-page .lp-assistant-cta > *,
+:root .lp-page .lp-solution-cta > *,
+:root .lp-page .lp-caps-detail-cta > *,
+:root .lp-page .lp-faq-ask > * {
+  position: relative;
+  z-index: 2;
+}
+
+:root .lp-page .lp-button:hover,
+:root .lp-page .lp-button:focus-visible,
+:root .lp-page .lp-assistant-cta:hover,
+:root .lp-page .lp-assistant-cta:focus-visible,
+:root .lp-page .lp-solution-cta:hover,
+:root .lp-page .lp-solution-cta:focus-visible,
+:root .lp-page .lp-caps-detail-cta:hover,
+:root .lp-page .lp-caps-detail-cta:focus-visible,
+:root .lp-page .lp-faq-ask:hover,
+:root .lp-page .lp-faq-ask:focus-visible {
+  border-color: rgba(210, 232, 255, 0.78) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 24px 52px -29px rgba(52, 120, 246, 0.96) !important;
+  transform: translateY(-3px) translateZ(0) !important;
+}
+
+:root .lp-page .lp-button:hover::before,
+:root .lp-page .lp-button:focus-visible::before,
+:root .lp-page .lp-assistant-cta:hover::before,
+:root .lp-page .lp-assistant-cta:focus-visible::before,
+:root .lp-page .lp-solution-cta:hover::before,
+:root .lp-page .lp-solution-cta:focus-visible::before,
+:root .lp-page .lp-caps-detail-cta:hover::before,
+:root .lp-page .lp-caps-detail-cta:focus-visible::before,
+:root .lp-page .lp-faq-ask:hover::before,
+:root .lp-page .lp-faq-ask:focus-visible::before {
+  transform: scale3d(1.18, 1.05, 1);
+  opacity: 1;
+}
+
+:root .lp-page .lp-button-primary,
+:root .lp-page .lp-assistant-cta {
+  border-color: rgba(176, 213, 255, 0.68) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.025)),
+    linear-gradient(145deg, rgba(52, 120, 246, 0.72), rgba(22, 67, 157, 0.74)) !important;
+}
+
+@media (max-width: 700px) {
+  :root .lp-page .lp-hero-pick {
+    min-height: 58px !important;
+    padding: 11px 13px !important;
+  }
+
+  :root .lp-page .lp-chip {
+    min-height: 44px !important;
+  }
+
+  :root .lp-page .lp-switch {
+    width: 100% !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root .lp-page .lp-hero-pick,
+  :root .lp-page .lp-chip,
+  :root .lp-page .lp-button,
+  :root .lp-page .lp-assistant-cta,
+  :root .lp-page .lp-solution-cta,
+  :root .lp-page .lp-caps-detail-cta,
+  :root .lp-page .lp-faq-ask,
+  :root .lp-page .lp-switch::before {
+    transition-duration: 0.01ms !important;
+  }
+
   :root .lp-page .lp-hero-pick[data-active="true"].is-border-tracing,
   :root .lp-page .lp-chip[data-active="true"].is-border-tracing {
     animation: none !important;
-    background-size: 240% 240%, 100% 100% !important;
+    background-size: 230% 230%, 100% 100%, 100% 100% !important;
   }
 
   :root .lp-page .lp-hero-pick.is-border-tracing::after,
