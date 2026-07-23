@@ -5,7 +5,14 @@ const root = new URL("../", import.meta.url);
 const failures = [];
 const checkedFiles = [];
 const sourceExtensions = new Set([".js", ".mjs", ".cjs", ".ts", ".tsx", ".json", ".yml", ".yaml"]);
-const excludedDirectories = new Set(["node_modules", ".git", ".output", "dist", "pages-dist", "coverage"]);
+const excludedDirectories = new Set([
+  "node_modules",
+  ".git",
+  ".output",
+  "dist",
+  "pages-dist",
+  "coverage",
+]);
 const scannerPath = "scripts/security-audit.mjs";
 
 function fail(message) {
@@ -59,10 +66,18 @@ for (const path of checkedFiles) {
 }
 
 const rootRoute = await read("src/routes/__root.tsx");
-for (const token of ["Content-Security-Policy", "strict-origin-when-cross-origin", "widget-loader.js"]) {
+for (const token of [
+  "Content-Security-Policy",
+  "strict-origin-when-cross-origin",
+  "widget-loader.js",
+]) {
   if (!rootRoute.includes(token)) fail(`Root security metadata is missing ${token}`);
 }
-if (rootRoute.includes('<script src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js"')) {
+if (
+  rootRoute.includes(
+    '<script src="https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js"',
+  )
+) {
   fail("Brittle direct external widget script is present");
 }
 
@@ -83,8 +98,12 @@ const previousIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
 const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
-if (previousIndex >= winnerIndex) fail("CompetitionWinnerFinal.css must load after historical correction layers");
-if (winnerIndex !== lastStyleImport) fail("CompetitionWinnerFinal.css must be the final component style import");
+if (previousIndex >= winnerIndex) {
+  fail("CompetitionWinnerFinal.css must load after historical correction layers");
+}
+if (winnerIndex !== lastStyleImport) {
+  fail("CompetitionWinnerFinal.css must be the final component style import");
+}
 for (const token of ["HomeConversionUpgrade", "LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
   if (!layout.includes(token)) fail(`Layout is missing ${token}`);
 }
@@ -106,27 +125,47 @@ for (const token of [
 ]) {
   if (!winnerCss.includes(token)) fail(`Competition visual system is missing ${token}`);
 }
-if (/inset 3px 0 0/.test(winnerCss)) fail("Selected chip side stripe remains in the final layer");
+if (/inset 3px 0 0/.test(winnerCss)) {
+  fail("Selected chip side stripe remains in the final layer");
+}
 if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(winnerCss)) {
   fail("Bronze, copper or gold remains in the final competition layer");
 }
 
 const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-for (const token of [".spotlight-surface", ".lp-solution-cta", ".lp-hero-pick", "--spot-x", "data.spotlight", "requestAnimationFrame"]) {
+for (const token of [
+  ".spotlight-surface",
+  ".lp-solution-cta",
+  ".lp-hero-pick",
+  "--spot-x",
+  "data.spotlight",
+  "requestAnimationFrame",
+]) {
   if (!pointer.includes(token)) fail(`Pointer spotlight is missing ${token}`);
 }
 
 const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
-for (const token of ["od 350 €", "Čo potrebujem od klienta", "Web a ponuka", "Pravidlá a podklady", "Získať návrh riešenia"]) {
+for (const token of [
+  "od 350 €",
+  "Čo potrebujem od klienta",
+  "Web a ponuka",
+  "Pravidlá a podklady",
+  "Získať návrh riešenia",
+]) {
   if (!conversion.includes(token)) fail(`Conversion section is missing ${token}`);
 }
 
 const contact = await read("src/routes/kontakt.tsx");
 const leadClient = await read("src/lib/lead-submission.ts");
-for (const token of ["submitWebsiteLead", 'submitState === "done"', "contact-consent", "Získať návrh riešenia"]) {
+for (const token of [
+  "submitWebsiteLead",
+  'submitState === "done"',
+  "contact-consent",
+  "Získať návrh riešenia",
+]) {
   if (!contact.includes(token)) fail(`Real contact flow is missing ${token}`);
 }
-for (const token of ["api/lead", "AbortController", "credentials: \"omit\"", "fallback"]) {
+for (const token of ["api/lead", "AbortController", 'credentials: "omit"', "fallback"]) {
   if (!leadClient.includes(token)) fail(`Lead client is missing ${token}`);
 }
 
@@ -134,7 +173,9 @@ const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
 if (!motion.includes('image.loading = index === 0 ? "eager" : "lazy"')) {
   fail("Portfolio images do not preserve lazy loading after the first image");
 }
-if (/rotateX|rotateY|is-border-tracing/.test(motion)) fail("Noisy legacy motion remains active");
+if (/rotateX|rotateY|is-border-tracing/.test(motion)) {
+  fail("Noisy legacy motion remains active");
+}
 
 const pagesWorkflow = await read(".github/workflows/pages.yml");
 for (const token of [
