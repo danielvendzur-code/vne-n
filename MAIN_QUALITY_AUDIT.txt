@@ -1,4 +1,4 @@
-run_id=30010781581
+run_id=30010870944
 install=success
 lint=failure
 test=success
@@ -10,11 +10,8 @@ $ eslint .
 /home/runner/work/vne-n/vne-n/public/widget-loader.js
   71:20  error  Delete `⏎·········`  prettier/prettier
 
-/home/runner/work/vne-n/vne-n/src/components/site/LiquidSegmentedDrag.tsx
-  55:19  error  Insert `⏎·······`  prettier/prettier
-
-✖ 2 problems (2 errors, 0 warnings)
-  2 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 error: script "lint" exited with code 1
 
@@ -24,61 +21,61 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.622109
+  duration_ms: 10.096261
   type: 'test'
   ...
 # Subtest: black-blue palette is followed by premium motion and final chip refinement
 ok 2 - black-blue palette is followed by premium motion and final chip refinement
   ---
-  duration_ms: 3.105003
+  duration_ms: 3.29314
   type: 'test'
   ...
 # Subtest: homepage and route surfaces remain covered
 ok 3 - homepage and route surfaces remain covered
   ---
-  duration_ms: 1.281128
+  duration_ms: 1.654359
   type: 'test'
   ...
 # Subtest: premium pointer depth is bounded and touch-safe
 ok 4 - premium pointer depth is bounded and touch-safe
   ---
-  duration_ms: 1.269244
+  duration_ms: 1.725815
   type: 'test'
   ...
 # Subtest: chip click feedback completes the border before the centre fill
 ok 5 - chip click feedback completes the border before the centre fill
   ---
-  duration_ms: 1.712512
+  duration_ms: 2.849391
   type: 'test'
   ...
 # Subtest: comparison switch is draggable and settles elastically
 ok 6 - comparison switch is draggable and settles elastically
   ---
-  duration_ms: 1.856781
+  duration_ms: 1.555262
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 7 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 1.324544
+  duration_ms: 1.732808
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient local widget loading are present
 ok 8 - metadata, CSP and resilient local widget loading are present
   ---
-  duration_ms: 0.877178
+  duration_ms: 1.286975
   type: 'test'
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 9 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 0.953351
+  duration_ms: 0.994632
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 10 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.00272
+  duration_ms: 0.990765
   type: 'test'
   ...
 1..10
@@ -89,7 +86,7 @@ ok 10 - Pages workflow validates and verifies the live deployment
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 79.978637
+# duration_ms 81.205021
 
 ===== build =====
 $ vite build
@@ -119,7 +116,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-D3_lSg-f.js               214.25 kB │ gzip: 70.00 kB
 
-[32m✓ built in 1.53s[39m
+[32m✓ built in 1.59s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 129 modules transformed.
 rendering chunks...
@@ -154,7 +151,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-w8DtPaqb.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-BcMsMQj0.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-Bro-nXxW.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 594ms[39m
+[32m✓ built in 570ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -174,6 +171,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 577ms[39m
+[32m✓ built in 569ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
