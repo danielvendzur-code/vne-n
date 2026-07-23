@@ -1,4 +1,4 @@
-run_id=30026424856
+run_id=30026507449
 install=success
 lint=failure
 test=failure
@@ -38,13 +38,13 @@ TAP version 13
 # Subtest: chatbot-first copy is rendered directly by React
 ok 1 - chatbot-first copy is rendered directly by React
   ---
-  duration_ms: 8.792392
+  duration_ms: 7.610101
   type: 'test'
   ...
 # Subtest: the restrained correction layers load last
 not ok 2 - the restrained correction layers load last
   ---
-  duration_ms: 4.154181
+  duration_ms: 4.230416
   type: 'test'
   location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:23:1'
   failureType: 'testCodeFailure'
@@ -66,13 +66,13 @@ not ok 2 - the restrained correction layers load last
 # Subtest: ordinary controls no longer use liquid centre fills
 ok 3 - ordinary controls no longer use liquid centre fills
   ---
-  duration_ms: 1.967657
+  duration_ms: 1.934967
   type: 'test'
   ...
 # Subtest: flashlight follows a fine pointer only on solution CTAs
 not ok 4 - flashlight follows a fine pointer only on solution CTAs
   ---
-  duration_ms: 2.495869
+  duration_ms: 2.381102
   type: 'test'
   location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:86:1'
   failureType: 'testCodeFailure'
@@ -280,54 +280,350 @@ not ok 4 - flashlight follows a fine pointer only on solution CTAs
 # Subtest: hero and capability chips have stable matte selection states
 ok 5 - hero and capability chips have stable matte selection states
   ---
-  duration_ms: 3.823867
+  duration_ms: 2.813443
   type: 'test'
   ...
 # Subtest: comparison switch remains draggable and liquid
 ok 6 - comparison switch remains draggable and liquid
   ---
-  duration_ms: 1.590326
+  duration_ms: 2.186027
   type: 'test'
   ...
 # Subtest: capability details and mobile layout stay ordered
 ok 7 - capability details and mobile layout stay ordered
   ---
-  duration_ms: 1.348817
+  duration_ms: 1.314563
   type: 'test'
   ...
 # Subtest: Moj Chatbot branding and direct contact are present
 ok 8 - Moj Chatbot branding and direct contact are present
   ---
-  duration_ms: 1.293264
+  duration_ms: 1.260612
   type: 'test'
   ...
 # Subtest: metadata, CSP and resilient latest widget loading are present
-ok 9 - metadata, CSP and resilient latest widget loading are present
+not ok 9 - metadata, CSP and resilient latest widget loading are present
   ---
-  duration_ms: 1.621514
+  duration_ms: 2.008674
   type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:144:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /restrained-assistant-v2/. Input:
+    
+    '(() => {\n' +
+      '  "use strict";\n' +
+      '\n' +
+      '  if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;\n' +
+      '  window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;\n' +
+      '\n' +
+      '  const SOURCES = [\n' +
+      '    "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",\n' +
+      '    "https://moj-chatbot-backend.vercel.app/widget.js",\n' +
+      '  ];\n' +
+      '  const ROOT_ID = "dv-assistant-root";\n' +
+      '  const FALLBACK_ID = "dv-assistant-fallback";\n' +
+      '  const MOUNT_TIMEOUT = 9000;\n' +
+      '\n' +
+      '  let sourceIndex = 0;\n' +
+      '  let settled = false;\n' +
+      '\n' +
+      '  const hasMountedWidget = () => {\n' +
+      '    const root = document.getElementById(ROOT_ID);\n' +
+      '    return Boolean(root && root.childElementCount > 0);\n' +
+      '  };\n' +
+      '\n' +
+      '  const removeFallback = () => {\n' +
+      '    document.getElementById(FALLBACK_ID)?.remove();\n' +
+      '  };\n' +
+      '\n' +
+      '  const showFallback = () => {\n' +
+      '    if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;\n' +
+      '    settled = true;\n' +
+      '\n' +
+      '    const anchor = document.createElement("a");\n' +
+      '    anchor.id = FALLBACK_ID;\n' +
+      '    anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;\n' +
+      '    anchor.setAttribute("aria-label", "Získať návrh riešenia");\n' +
+      '    anchor.innerHTML = `\n' +
+      '      <span aria-hidden="true">✦</span>\n' +
+      '      <span><strong>Môj Chatbot</strong><small>Získať návrh od 350 €</small></span>\n' +
+      '    `;\n' +
+      '    Object.assign(anchor.style, {\n' +
+      '      position: "fixed",\n' +
+      '      right: "max(16px, env(safe-area-inset-right))",\n' +
+      '      bottom: "max(16px, env(safe-area-inset-bottom))",\n' +
+      '      zIndex: "2147483000",\n' +
+      '      display: "inline-flex",\n' +
+      '      alignItems: "center",\n' +
+      '      gap: "10px",\n' +
+      '      minHeight: "58px",\n' +
+      '      padding: "10px 14px",\n' +
+      '      border: "1px solid #3a5272",\n' +
+      '      borderRadius: "18px",\n' +
+      '      color: "#f6f8fb",\n' +
+      '      background: "#0a0f17",\n' +
+      '      boxShadow: "0 24px 58px -34px rgba(0,0,0,.96)",\n' +
+      '      fontFamily: "inherit",\n' +
+      '      textDecoration: "none",\n' +
+      '    });\n' +
+      '\n' +
+      '    const icon = anchor.firstElementChild;\n' +
+      '    if (icon instanceof HTMLElement) {\n' +
+      '      Object.assign(icon.style, {\n' +
+      '        display: "grid",\n' +
+      '        width: "36px",\n' +
+      '        height: "36px",\n' +
+      '        placeItems: "center",\n' +
+      '        border: "1px solid #5183c9",\n' +
+      '        borderRadius: "12px",\n' +
+      '        color: "#ffffff",\n' +
+      '        background: "#17325d",\n' +
+      '        fontSize: "16px",\n' +
+      '        fontWeight: "900",\n' +
+      '      });\n' +
+      '    }\n' +
+      '\n' +
+      '    const copy = anchor.lastElementChild;\n' +
+      '    if (copy instanceof HTMLElement) {\n' +
+      '      Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });\n' +
+      '      const strong = copy.querySelector("strong");\n' +
+      '      const small = copy.querySelector("small");\n' +
+      '      if (strong instanceof HTMLElement) {\n' +
+      '        Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });\n' +
+      '      }\n' +
+      '      if (small instanceof HTMLElement) {\n' +
+      '        Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });\n' +
+      '      }\n' +
+      '    }\n' +
+      '\n' +
+      '    document.body.appendChild(anchor);\n' +
+      '  };\n' +
+      '\n' +
+      '  const confirmMount = (script) => {\n' +
+      '    const startedAt = Date.now();\n' +
+      '    const check = () => {\n' +
+      '      if (hasMountedWidget()) {\n' +
+      '        settled = true;\n' +
+      '        removeFallback();\n' +
+      '        return;\n' +
+      '      }\n' +
+      '      if (Date.now() - startedAt >= MOUNT_TIMEOUT) {\n' +
+      '        script.remove();\n' +
+      '        loadNext();\n' +
+      '        return;\n' +
+      '      }\n' +
+      '      window.setTimeout(check, 250);\n' +
+      '    };\n' +
+      '    check();\n' +
+      '  };\n' +
+      '\n' +
+      '  const loadNext = () => {\n' +
+      '    if (settled || hasMountedWidget()) return;\n' +
+      '    const source = SOURCES[sourceIndex++];\n' +
+      '    if (!source) {\n' +
+      '      showFallback();\n' +
+      '      return;\n' +
+      '    }\n' +
+      '\n' +
+      '    const script = document.createElement("script");\n' +
+      '    script.src = `${source}?v=20260723-competition-winner-v5`;\n' +
+      '    script.async = true;\n' +
+      '    script.referrerPolicy = "strict-origin-when-cross-origin";\n' +
+      '    script.dataset.dvAssistantSource = source;\n' +
+      '    script.onload = () => confirmMount(script);\n' +
+      '    script.onerror = () => {\n' +
+      '      script.remove();\n' +
+      '      loadNext();\n' +
+      '    };\n' +
+      '    document.head.appendChild(script);\n' +
+      '  };\n' +
+      '\n' +
+      '  const start = () => {\n' +
+      '    document.documentElement.dataset.basePath =\n' +
+      '      document.documentElement.dataset.basePath || "/vne-n";\n' +
+      '    loadNext();\n' +
+      '  };\n' +
+      '\n' +
+      '  if (document.readyState === "loading") {\n' +
+      '    document.addEventListener("DOMContentLoaded", start, { once: true });\n' +
+      '  } else {\n' +
+      '    start();\n' +
+      '  }\n' +
+      '})();\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    (() => {
+      "use strict";
+    
+      if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;
+      window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;
+    
+      const SOURCES = [
+        "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
+        "https://moj-chatbot-backend.vercel.app/widget.js",
+      ];
+      const ROOT_ID = "dv-assistant-root";
+      const FALLBACK_ID = "dv-assistant-fallback";
+      const MOUNT_TIMEOUT = 9000;
+    
+      let sourceIndex = 0;
+      let settled = false;
+    
+      const hasMountedWidget = () => {
+        const root = document.getElementById(ROOT_ID);
+        return Boolean(root && root.childElementCount > 0);
+      };
+    
+      const removeFallback = () => {
+        document.getElementById(FALLBACK_ID)?.remove();
+      };
+    
+      const showFallback = () => {
+        if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;
+        settled = true;
+    
+        const anchor = document.createElement("a");
+        anchor.id = FALLBACK_ID;
+        anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;
+        anchor.setAttribute("aria-label", "Získať návrh riešenia");
+        anchor.innerHTML = `
+          <span aria-hidden="true">✦</span>
+          <span><strong>Môj Chatbot</strong><small>Získať návrh od 350 €</small></span>
+        `;
+        Object.assign(anchor.style, {
+          position: "fixed",
+          right: "max(16px, env(safe-area-inset-right))",
+          bottom: "max(16px, env(safe-area-inset-bottom))",
+          zIndex: "2147483000",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "10px",
+          minHeight: "58px",
+          padding: "10px 14px",
+          border: "1px solid #3a5272",
+          borderRadius: "18px",
+          color: "#f6f8fb",
+          background: "#0a0f17",
+          boxShadow: "0 24px 58px -34px rgba(0,0,0,.96)",
+          fontFamily: "inherit",
+          textDecoration: "none",
+        });
+    
+        const icon = anchor.firstElementChild;
+        if (icon instanceof HTMLElement) {
+          Object.assign(icon.style, {
+            display: "grid",
+            width: "36px",
+            height: "36px",
+            placeItems: "center",
+            border: "1px solid #5183c9",
+            borderRadius: "12px",
+            color: "#ffffff",
+            background: "#17325d",
+            fontSize: "16px",
+            fontWeight: "900",
+          });
+        }
+    
+        const copy = anchor.lastElementChild;
+        if (copy instanceof HTMLElement) {
+          Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });
+          const strong = copy.querySelector("strong");
+          const small = copy.querySelector("small");
+          if (strong instanceof HTMLElement) {
+            Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
+          }
+          if (small instanceof HTMLElement) {
+            Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });
+          }
+        }
+    
+        document.body.appendChild(anchor);
+      };
+    
+      const confirmMount = (script) => {
+        const startedAt = Date.now();
+        const check = () => {
+          if (hasMountedWidget()) {
+            settled = true;
+            removeFallback();
+            return;
+          }
+          if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
+            script.remove();
+            loadNext();
+            return;
+          }
+          window.setTimeout(check, 250);
+        };
+        check();
+      };
+    
+      const loadNext = () => {
+        if (settled || hasMountedWidget()) return;
+        const source = SOURCES[sourceIndex++];
+        if (!source) {
+          showFallback();
+          return;
+        }
+    
+        const script = document.createElement("script");
+        script.src = `${source}?v=20260723-competition-winner-v5`;
+        script.async = true;
+        script.referrerPolicy = "strict-origin-when-cross-origin";
+        script.dataset.dvAssistantSource = source;
+        script.onload = () => confirmMount(script);
+        script.onerror = () => {
+          script.remove();
+          loadNext();
+        };
+        document.head.appendChild(script);
+      };
+    
+      const start = () => {
+        document.documentElement.dataset.basePath =
+          document.documentElement.dataset.basePath || "/vne-n";
+        loadNext();
+      };
+    
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start, { once: true });
+      } else {
+        start();
+      }
+    })();
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:153:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 # Subtest: static export covers clean URLs and immutable build metadata
 ok 10 - static export covers clean URLs and immutable build metadata
   ---
-  duration_ms: 1.324201
+  duration_ms: 1.991673
   type: 'test'
   ...
 # Subtest: Pages workflow validates and verifies the live deployment
 ok 11 - Pages workflow validates and verifies the live deployment
   ---
-  duration_ms: 1.116205
+  duration_ms: 1.234233
   type: 'test'
   ...
 1..11
 # tests 11
 # suites 0
-# pass 9
-# fail 2
+# pass 8
+# fail 3
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 85.808577
+# duration_ms 84.955824
 error: script "test" exited with code 1
 
 ===== build =====
@@ -358,7 +654,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-CCQDMiWt.js               220.97 kB │ gzip: 72.05 kB
 
-[32m✓ built in 1.62s[39m
+[32m✓ built in 1.70s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 136 modules transformed.
 rendering chunks...
@@ -393,7 +689,7 @@ node_modules/.nitro/vite/services/ssr/assets/tanstack-BZyY3ZMa.js               
 node_modules/.nitro/vite/services/ssr/assets/router-PgawdOl7.js                       69.47 kB │ gzip: 17.24 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CCdNGzJN.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 721ms[39m
+[32m✓ built in 687ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -412,6 +708,6 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 580ms[39m
+[32m✓ built in 540ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
