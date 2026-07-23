@@ -1,4 +1,4 @@
-run_id=30026507449
+run_id=30026712982
 install=success
 lint=failure
 test=failure
@@ -27,57 +27,33 @@ $ eslint .
   262:24  error  Replace `·type="submit"·className="contact-submit"·disabled={submitState·===·"sending"}` with `⏎··················type="submit"⏎··················className="contact-submit"⏎··················disabled={submitState·===·"sending"}⏎················`  prettier/prettier
   263:87  error  Insert `{"·"}⏎·················`                                                                                                                                                                                                                       prettier/prettier
 
-✖ 14 problems (14 errors, 0 warnings)
-  14 errors and 0 warnings potentially fixable with the `--fix` option.
+/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs
+   62:16  error  Replace `css,·/@media·\(min-width:\s*1024px\)[\s\S]*\.site-menu-toggle[\s\S]*display:\s*none·!important/` with `⏎····css,⏎····/@media·\(min-width:\s*1024px\)[\s\S]*\.site-menu-toggle[\s\S]*display:\s*none·!important/,⏎··`  prettier/prettier
+  105:16  error  Replace `css,·/\.winner-trust,[\s\S]*\.winner-final[\s\S]*grid-template-columns:\s*1fr·!important/` with `⏎····css,⏎····/\.winner-trust,[\s\S]*\.winner-final[\s\S]*grid-template-columns:\s*1fr·!important/,⏎··`              prettier/prettier
+
+✖ 16 problems (16 errors, 0 warnings)
+  16 errors and 0 warnings potentially fixable with the `--fix` option.
 
 error: script "lint" exited with code 1
 
 ===== test =====
 $ node --test tests/home-contract.test.mjs
 TAP version 13
-# Subtest: chatbot-first copy is rendered directly by React
-ok 1 - chatbot-first copy is rendered directly by React
+# Subtest: competition layer and conversion section are mounted last
+ok 1 - competition layer and conversion section are mounted last
   ---
-  duration_ms: 7.610101
+  duration_ms: 7.154931
   type: 'test'
   ...
-# Subtest: the restrained correction layers load last
-not ok 2 - the restrained correction layers load last
+# Subtest: flashlight follows pointer across approved dark surfaces
+not ok 2 - flashlight follows pointer across approved dark surfaces
   ---
-  duration_ms: 4.230416
+  duration_ms: 3.149284
   type: 'test'
   location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:23:1'
   failureType: 'testCodeFailure'
   error: |-
-    Expected values to be strictly equal:
-    
-    1358 !== 1321
-    
-  code: 'ERR_ASSERTION'
-  name: 'AssertionError'
-  expected: 1321
-  actual: 1358
-  operator: 'strictEqual'
-  stack: |-
-    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:35:10)
-    async Test.run (node:internal/test_runner/test:1054:7)
-    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
-  ...
-# Subtest: ordinary controls no longer use liquid centre fills
-ok 3 - ordinary controls no longer use liquid centre fills
-  ---
-  duration_ms: 1.934967
-  type: 'test'
-  ...
-# Subtest: flashlight follows a fine pointer only on solution CTAs
-not ok 4 - flashlight follows a fine pointer only on solution CTAs
-  ---
-  duration_ms: 2.381102
-  type: 'test'
-  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:86:1'
-  failureType: 'testCodeFailure'
-  error: |-
-    The input did not match the regular expression /const surfaceSelector = "\.lp-solution-cta"/. Input:
+    The input did not match the regular expression /data\.spotlight/. Input:
     
     'import { useEffect } from "react";\n' +
       'import { useReducedMotion } from "@/hooks/useReducedMotion";\n' +
@@ -273,347 +249,1763 @@ not ok 4 - flashlight follows a fine pointer only on solution CTAs
     
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:91:10)
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:30:10)
     async Test.run (node:internal/test_runner/test:1054:7)
     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
-# Subtest: hero and capability chips have stable matte selection states
-ok 5 - hero and capability chips have stable matte selection states
+# Subtest: all website chips share one stable state without a side stripe
+ok 3 - all website chips share one stable state without a side stripe
   ---
-  duration_ms: 2.813443
+  duration_ms: 1.831457
   type: 'test'
   ...
-# Subtest: comparison switch remains draggable and liquid
-ok 6 - comparison switch remains draggable and liquid
+# Subtest: only the comparison remains a liquid segmented control
+not ok 4 - only the comparison remains a liquid segmented control
   ---
-  duration_ms: 2.186027
+  duration_ms: 2.813325
   type: 'test'
-  ...
-# Subtest: capability details and mobile layout stay ordered
-ok 7 - capability details and mobile layout stay ordered
-  ---
-  duration_ms: 1.314563
-  type: 'test'
-  ...
-# Subtest: Moj Chatbot branding and direct contact are present
-ok 8 - Moj Chatbot branding and direct contact are present
-  ---
-  duration_ms: 1.260612
-  type: 'test'
-  ...
-# Subtest: metadata, CSP and resilient latest widget loading are present
-not ok 9 - metadata, CSP and resilient latest widget loading are present
-  ---
-  duration_ms: 2.008674
-  type: 'test'
-  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:144:1'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:47:1'
   failureType: 'testCodeFailure'
   error: |-
-    The input did not match the regular expression /restrained-assistant-v2/. Input:
+    The input did not match the regular expression /\.lp-switch[\s\S]*backdrop/. Input:
     
-    '(() => {\n' +
-      '  "use strict";\n' +
+    '/*\n' +
+      ' * Final competition layer.\n' +
+      ' * One black/blue visual language, consistent chips and a restrained pointer flashlight.\n' +
+      ' */\n' +
+      ':root {\n' +
+      '  --wf-bg: #05070b;\n' +
+      '  --wf-panel: #0a0f17;\n' +
+      '  --wf-panel-2: #0d141f;\n' +
+      '  --wf-panel-hover: #111b2a;\n' +
+      '  --wf-border: #202b3b;\n' +
+      '  --wf-border-hover: #3a5272;\n' +
+      '  --wf-blue: #4e8cff;\n' +
+      '  --wf-blue-strong: #3478f6;\n' +
+      '  --wf-blue-soft: rgba(78, 140, 255, 0.14);\n' +
+      '  --wf-text: #f6f8fb;\n' +
+      '  --wf-muted: #9eabbc;\n' +
+      '  --wf-faint: #6f7d8f;\n' +
+      '  --wf-radius: 16px;\n' +
+      '  --wf-radius-lg: 24px;\n' +
+      '  --wf-ease: cubic-bezier(0.16, 1, 0.3, 1);\n' +
+      '}\n' +
       '\n' +
-      '  if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;\n' +
-      '  window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;\n' +
+      '/* Keep the page calm and remove leftover multicolour identity. */\n' +
+      '.lp-page,\n' +
+      '.sp-page,\n' +
+      '.contact-page,\n' +
+      '.cookies-page,\n' +
+      '.winner-upgrade {\n' +
+      '  color: var(--wf-text) !important;\n' +
+      '  background-color: var(--wf-bg) !important;\n' +
+      '}\n' +
       '\n' +
-      '  const SOURCES = [\n' +
-      '    "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",\n' +
-      '    "https://moj-chatbot-backend.vercel.app/widget.js",\n' +
-      '  ];\n' +
-      '  const ROOT_ID = "dv-assistant-root";\n' +
-      '  const FALLBACK_ID = "dv-assistant-fallback";\n' +
-      '  const MOUNT_TIMEOUT = 9000;\n' +
+      '[data-tone="gold"],\n' +
+      '[data-tone="mint"],\n' +
+      '[data-tone="coral"],\n' +
+      '[data-tone="sand"],\n' +
+      '[data-tone="blue"],\n' +
+      '[data-tone="ink"] {\n' +
+      '  --tone: var(--wf-blue) !important;\n' +
+      '  --tone-soft: var(--wf-blue-soft) !important;\n' +
+      '}\n' +
       '\n' +
-      '  let sourceIndex = 0;\n' +
-      '  let settled = false;\n' +
+      '/* A single subtle spotlight implementation for black interactive surfaces. */\n' +
+      '.spotlight-surface,\n' +
+      '.lp-solution-cta,\n' +
+      '.lp-hero-pick,\n' +
+      '.lp-chip,\n' +
+      '.lp-button-quiet,\n' +
+      '.lp-assistant-cta,\n' +
+      '.lp-faq-ask,\n' +
+      '.lp-project > a,\n' +
+      '.sp-project-card > a,\n' +
+      '.sp-button--ghost,\n' +
+      '.contact-assistant,\n' +
+      '.site-menu-solution,\n' +
+      '.site-menu-project-link {\n' +
+      '  --spot-x: 50%;\n' +
+      '  --spot-y: 50%;\n' +
+      '  position: relative !important;\n' +
+      '  isolation: isolate !important;\n' +
+      '  overflow: hidden !important;\n' +
+      '}\n' +
       '\n' +
-      '  const hasMountedWidget = () => {\n' +
-      '    const root = document.getElementById(ROOT_ID);\n' +
-      '    return Boolean(root && root.childElementCount > 0);\n' +
-      '  };\n' +
+      '.spotlight-surface::before,\n' +
+      '.lp-solution-cta::before,\n' +
+      '.lp-hero-pick::before,\n' +
+      '.lp-chip::before,\n' +
+      '.lp-button-quiet::before,\n' +
+      '.lp-assistant-cta::before,\n' +
+      '.lp-faq-ask::before,\n' +
+      '.lp-project > a::before,\n' +
+      '.sp-project-card > a::before,\n' +
+      '.sp-button--ghost::before,\n' +
+      '.contact-assistant::before,\n' +
+      '.site-menu-solution::before,\n' +
+      '.site-menu-project-link::before {\n' +
+      '  content: "" !important;\n' +
+      '  position: absolute !important;\n' +
+      '  z-index: 0 !important;\n' +
+      '  inset: -70% -35% !important;\n' +
+      '  display: block !important;\n' +
+      '  pointer-events: none !important;\n' +
+      '  opacity: 0 !important;\n' +
+      '  border-radius: 50% !important;\n' +
+      '  background: radial-gradient(\n' +
+      '    circle at var(--spot-x) var(--spot-y),\n' +
+      '    rgba(255, 255, 255, 0.28) 0,\n' +
+      '    rgba(112, 173, 255, 0.2) 13%,\n' +
+      '    rgba(78, 140, 255, 0.095) 28%,\n' +
+      '    transparent 57%\n' +
+      '  ) !important;\n' +
+      '  transform: scale(0.72) !important;\n' +
+      '  transition: opacity 170ms ease, transform 420ms var(--wf-ease) !important;\n' +
+      '}\n' +
       '\n' +
-      '  const removeFallback = () => {\n' +
-      '    document.getElementById(FALLBACK_ID)?.remove();\n' +
-      '  };\n' +
+      '.spotlight-surface[data-spotlight="true"]::before,\n' +
+      '.lp-solution-cta[data-spotlight="true"]::before,\n' +
+      '.lp-hero-pick[data-spotlight="true"]::before,\n' +
+      '.lp-chip[data-spotlight="true"]::before,\n' +
+      '.lp-button-quiet[data-spotlight="true"]::before,\n' +
+      '.lp-assistant-cta[data-spotlight="true"]::before,\n' +
+      '.lp-faq-ask[data-spotlight="true"]::before,\n' +
+      '.lp-project > a[data-spotlight="true"]::before,\n' +
+      '.sp-project-card > a[data-spotlight="true"]::before,\n' +
+      '.sp-button--ghost[data-spotlight="true"]::before,\n' +
+      '.contact-assistant[data-spotlight="true"]::before,\n' +
+      '.site-menu-solution[data-spotlight="true"]::before,\n' +
+      '.site-menu-project-link[data-spotlight="true"]::before,\n' +
+      '.spotlight-surface:hover::before,\n' +
+      '.lp-solution-cta:hover::before,\n' +
+      '.lp-hero-pick:hover::before,\n' +
+      '.lp-chip:hover::before,\n' +
+      '.lp-button-quiet:hover::before,\n' +
+      '.lp-assistant-cta:hover::before,\n' +
+      '.lp-faq-ask:hover::before,\n' +
+      '.lp-project > a:hover::before,\n' +
+      '.sp-project-card > a:hover::before,\n' +
+      '.sp-button--ghost:hover::before,\n' +
+      '.contact-assistant:hover::before,\n' +
+      '.site-menu-solution:hover::before,\n' +
+      '.site-menu-project-link:hover::before {\n' +
+      '  opacity: 1 !important;\n' +
+      '  transform: scale(1) !important;\n' +
+      '}\n' +
       '\n' +
-      '  const showFallback = () => {\n' +
-      '    if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;\n' +
-      '    settled = true;\n' +
+      '.spotlight-surface > *,\n' +
+      '.lp-solution-cta > *,\n' +
+      '.lp-hero-pick > *,\n' +
+      '.lp-chip > *,\n' +
+      '.lp-button-quiet > *,\n' +
+      '.lp-assistant-cta > *,\n' +
+      '.lp-faq-ask > *,\n' +
+      '.lp-project > a > *,\n' +
+      '.sp-project-card > a > *,\n' +
+      '.sp-button--ghost > *,\n' +
+      '.contact-assistant > *,\n' +
+      '.site-menu-solution > *,\n' +
+      '.site-menu-project-link > * {\n' +
+      '  position: relative;\n' +
+      '  z-index: 1;\n' +
+      '}\n' +
       '\n' +
-      '    const anchor = document.createElement("a");\n' +
-      '    anchor.id = FALLBACK_ID;\n' +
-      '    anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;\n' +
-      '    anchor.setAttribute("aria-label", "Získať návrh riešenia");\n' +
-      '    anchor.innerHTML = `\n' +
-      '      <span aria-hidden="true">✦</span>\n' +
-      '      <span><strong>Môj Chatbot</strong><small>Získať návrh od 350 €</small></span>\n' +
-      '    `;\n' +
-      '    Object.assign(anchor.style, {\n' +
-      '      position: "fixed",\n' +
-      '      right: "max(16px, env(safe-area-inset-right))",\n' +
-      '      bottom: "max(16px, env(safe-area-inset-bottom))",\n' +
-      '      zIndex: "2147483000",\n' +
-      '      display: "inline-flex",\n' +
-      '      alignItems: "center",\n' +
-      '      gap: "10px",\n' +
-      '      minHeight: "58px",\n' +
-      '      padding: "10px 14px",\n' +
-      '      border: "1px solid #3a5272",\n' +
-      '      borderRadius: "18px",\n' +
-      '      color: "#f6f8fb",\n' +
-      '      background: "#0a0f17",\n' +
-      '      boxShadow: "0 24px 58px -34px rgba(0,0,0,.96)",\n' +
-      '      fontFamily: "inherit",\n' +
-      '      textDecoration: "none",\n' +
-      '    });\n' +
+      '/* Hero composition: less empty space, stronger alignment and clearer proof. */\n' +
+      '.lp-hero {\n' +
+      '  background:\n' +
+      '    radial-gradient(circle at 80% 20%, rgba(52, 120, 246, 0.11), transparent 34rem),\n' +
+      '    linear-gradient(180deg, #05070b 0%, #060910 100%) !important;\n' +
+      '}\n' +
       '\n' +
-      '    const icon = anchor.firstElementChild;\n' +
-      '    if (icon instanceof HTMLElement) {\n' +
-      '      Object.assign(icon.style, {\n' +
-      '        display: "grid",\n' +
-      '        width: "36px",\n' +
-      '        height: "36px",\n' +
-      '        placeItems: "center",\n' +
-      '        border: "1px solid #5183c9",\n' +
-      '        borderRadius: "12px",\n' +
-      '        color: "#ffffff",\n' +
-      '        background: "#17325d",\n' +
-      '        fontSize: "16px",\n' +
-      '        fontWeight: "900",\n' +
-      '      });\n' +
-      '    }\n' +
+      '.lp-hero-grid {\n' +
+      '  align-items: center !important;\n' +
+      '  grid-template-columns: minmax(0, 1.03fr) minmax(30rem, 0.97fr) !important;\n' +
+      '  gap: clamp(2.5rem, 5vw, 5rem) !important;\n' +
+      '}\n' +
       '\n' +
-      '    const copy = anchor.lastElementChild;\n' +
-      '    if (copy instanceof HTMLElement) {\n' +
-      '      Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });\n' +
-      '      const strong = copy.querySelector("strong");\n' +
-      '      const small = copy.querySelector("small");\n' +
-      '      if (strong instanceof HTMLElement) {\n' +
-      '        Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });\n' +
-      '      }\n' +
-      '      if (small instanceof HTMLElement) {\n' +
-      '        Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });\n' +
-      '      }\n' +
-      '    }\n' +
+      '.lp-hero-stage {\n' +
+      '  min-height: 34rem !important;\n' +
+      '}\n' +
       '\n' +
-      '    document.body.appendChild(anchor);\n' +
-      '  };\n' +
+      '.lp-assistant-card {\n' +
+      '  top: 44% !important;\n' +
+      '  width: min(100%, 35rem) !important;\n' +
+      '  border: 1px solid #27354a !important;\n' +
+      '  border-radius: 25px !important;\n' +
+      '  background: linear-gradient(180deg, #0c121c, #080d14) !important;\n' +
+      '  box-shadow:\n' +
+      '    0 38px 95px -55px rgba(0, 0, 0, 0.98),\n' +
+      '    0 24px 60px -48px rgba(52, 120, 246, 0.72) !important;\n' +
+      '}\n' +
       '\n' +
-      '  const confirmMount = (script) => {\n' +
-      '    const startedAt = Date.now();\n' +
-      '    const check = () => {\n' +
-      '      if (hasMountedWidget()) {\n' +
-      '        settled = true;\n' +
-      '        removeFallback();\n' +
-      '        return;\n' +
-      '      }\n' +
-      '      if (Date.now() - startedAt >= MOUNT_TIMEOUT) {\n' +
-      '        script.remove();\n' +
-      '        loadNext();\n' +
-      '        return;\n' +
-      '      }\n' +
-      '      window.setTimeout(check, 250);\n' +
-      '    };\n' +
-      '    check();\n' +
-      '  };\n' +
+      '.lp-assistant-card > p {\n' +
+      '  max-width: 12ch !important;\n' +
+      '  color: #ffffff !important;\n' +
+      '  font-weight: 680 !important;\n' +
+      '}\n' +
       '\n' +
-      '  const loadNext = () => {\n' +
-      '    if (settled || hasMountedWidget()) return;\n' +
-      '    const source = SOURCES[sourceIndex++];\n' +
-      '    if (!source) {\n' +
-      '      showFallback();\n' +
-      '      return;\n' +
-      '    }\n' +
+      '.lp-hero-proof {\n' +
+      '  gap: 12px !important;\n' +
+      '}\n' +
       '\n' +
-      '    const script = document.createElement("script");\n' +
-      '    script.src = `${source}?v=20260723-competition-winner-v5`;\n' +
-      '    script.async = true;\n' +
-      '    script.referrerPolicy = "strict-origin-when-cross-origin";\n' +
-      '    script.dataset.dvAssistantSource = source;\n' +
-      '    script.onload = () => confirmMount(script);\n' +
-      '    script.onerror = () => {\n' +
-      '      script.remove();\n' +
-      '      loadNext();\n' +
-      '    };\n' +
-      '    document.head.appendChild(script);\n' +
-      '  };\n' +
+      '.lp-hero-proof li {\n' +
+      '  color: #aab6c6 !important;\n' +
+      '}\n' +
       '\n' +
-      '  const start = () => {\n' +
-      '    document.documentElement.dataset.basePath =\n' +
-      '      document.documentElement.dataset.basePath || "/vne-n";\n' +
-      '    loadNext();\n' +
-      '  };\n' +
+      '.lp-hero-proof svg {\n' +
+      '  color: #7ba8f7 !important;\n' +
+      '}\n' +
       '\n' +
-      '  if (document.readyState === "loading") {\n' +
-      '    document.addEventListener("DOMContentLoaded", start, { once: true });\n' +
-      '  } else {\n' +
-      '    start();\n' +
+      '/* All chips share one shape and one selected state. No left stripe. */\n' +
+      '.lp-hero-picker {\n' +
+      '  gap: 9px !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-hero-pick,\n' +
+      '.lp-chip,\n' +
+      '.sp-hero-chips .chip,\n' +
+      '.sp-chip-row .chip {\n' +
+      '  border: 1px solid #28364a !important;\n' +
+      '  color: #c8d2df !important;\n' +
+      '  background: #0c131d !important;\n' +
+      '  background-image: none !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '  -webkit-backdrop-filter: none !important;\n' +
+      '  backdrop-filter: none !important;\n' +
+      '  transform: none !important;\n' +
+      '  filter: none !important;\n' +
+      '  animation: none !important;\n' +
+      '  transition:\n' +
+      '    border-color 190ms ease,\n' +
+      '    background-color 190ms ease,\n' +
+      '    color 190ms ease,\n' +
+      '    box-shadow 240ms ease !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-hero-pick {\n' +
+      '  min-height: 62px !important;\n' +
+      '  border-radius: 15px !important;\n' +
+      '  padding: 12px 14px !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-chip {\n' +
+      '  min-height: 44px !important;\n' +
+      '  border-radius: 13px !important;\n' +
+      '  padding: 9px 12px !important;\n' +
+      '}\n' +
+      '\n' +
+      '.sp-hero-chips .chip,\n' +
+      '.sp-chip-row .chip {\n' +
+      '  min-height: 38px !important;\n' +
+      '  border-radius: 12px !important;\n' +
+      '  padding: 8px 11px !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-hero-pick-fill,\n' +
+      '.lp-chip-fill,\n' +
+      '.lp-hero-pick::after,\n' +
+      '.lp-chip::after {\n' +
+      '  content: none !important;\n' +
+      '  display: none !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-hero-pick:hover,\n' +
+      '.lp-hero-pick:focus-visible,\n' +
+      '.lp-chip:hover,\n' +
+      '.lp-chip:focus-visible,\n' +
+      '.sp-hero-chips .chip:hover,\n' +
+      '.sp-chip-row .chip:hover {\n' +
+      '  border-color: #466184 !important;\n' +
+      '  color: #ffffff !important;\n' +
+      '  background: #101a28 !important;\n' +
+      '  box-shadow: 0 15px 34px -30px rgba(78, 140, 255, 0.88) !important;\n' +
+      '  transform: none !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-hero-pick[data-active="true"],\n' +
+      '.lp-chip[data-active="true"] {\n' +
+      '  border-color: #6ca5ff !important;\n' +
+      '  color: #ffffff !important;\n' +
+      '  background: #13213a !important;\n' +
+      '  background-image: none !important;\n' +
+      '  box-shadow:\n' +
+      '    0 0 0 1px rgba(78, 140, 255, 0.12),\n' +
+      '    0 17px 36px -31px rgba(78, 140, 255, 0.95) !important;\n' +
+      '  transform: none !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-hero-pick-icon,\n' +
+      '.lp-chip-icon {\n' +
+      '  color: #88b2f8 !important;\n' +
+      '  background: transparent !important;\n' +
+      '  border: 0 !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-chip-icon svg {\n' +
+      '  transition: transform 240ms var(--wf-ease) !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-chip[data-active="true"] .lp-chip-icon svg {\n' +
+      '  transform: rotate(45deg) !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-hero-pick-plus {\n' +
+      '  border: 0 !important;\n' +
+      '  color: #7d8da3 !important;\n' +
+      '  background: transparent !important;\n' +
+      '}\n' +
+      '\n' +
+      '/* Remove card tilt as a visual language; preserve only spotlight and border. */\n' +
+      '.lp-solution-pill {\n' +
+      '  transform: none !important;\n' +
+      '  border-color: #202c3d !important;\n' +
+      '  background: #090f17 !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-solution-pill:hover {\n' +
+      '  transform: none !important;\n' +
+      '  border-color: #344a67 !important;\n' +
+      '  background: #0d151f !important;\n' +
+      '  box-shadow: 0 22px 52px -44px rgba(78, 140, 255, 0.82) !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-solution-cta,\n' +
+      '.lp-caps-detail-cta,\n' +
+      '.lp-assistant-cta,\n' +
+      '.lp-faq-ask,\n' +
+      '.lp-button-quiet,\n' +
+      '.sp-button--ghost,\n' +
+      '.contact-assistant {\n' +
+      '  border: 1px solid #30425b !important;\n' +
+      '  color: #e2eaf4 !important;\n' +
+      '  background: #0d151f !important;\n' +
+      '  background-image: none !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '  -webkit-backdrop-filter: none !important;\n' +
+      '  backdrop-filter: none !important;\n' +
+      '  transform: none !important;\n' +
+      '}\n' +
+      '\n' +
+      '.lp-solution-cta:hover,\n' +
+      '.lp-caps-detail-cta:hover,\n' +
+      '.lp-assistant-cta:hover,\n' +
+      '.lp-faq-ask:hover,\n' +
+      '.lp-button-quiet:hover,\n' +
+      '.sp-button--ghost:hover,\n' +
+      '.contact-assistant:hover {\n' +
+      '  border-color: #6198e9 !important;\n' +
+      '  color: #ffffff !important;\n' +
+      '  background: #111c2a !important;\n' +
+      '  box-shadow: 0 17px 38px -31px rgba(78, 140, 255, 0.92) !important;\n' +
+      '  transform: none !important;\n' +
+      '}\n' +
+      '\n' +
+      '/* Keep the approved liquid comparison as the only glass control. */\n' +
+      '.lp-switch {\n' +
+      '  border-color: rgba(184, 213, 255, 0.3) !important;\n' +
+      '  background:\n' +
+      '    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.012)),\n' +
+      '    rgba(6, 10, 17, 0.88) !important;\n' +
+      '  box-shadow:\n' +
+      '    inset 0 1px 0 rgba(255, 255, 255, 0.1),\n' +
+      '    0 18px 44px -36px rgba(52, 120, 246, 0.85) !important;\n' +
+      '}\n' +
+      '\n' +
+      '/* Desktop navigation: avoid a duplicate full menu next to visible navigation. */\n' +
+      '@media (min-width: 1024px) {\n' +
+      '  .site-menu-toggle {\n' +
+      '    display: none !important;\n' +
       '  }\n' +
-      '})();\n'
+      '}\n' +
+      '\n' +
+      '/* Pricing and conversion upgrade. */\n' +
+      '.winner-upgrade {\n' +
+      '  position: relative;\n' +
+      '  overflow: hidden;\n' +
+      '  padding: clamp(5rem, 9vw, 8.5rem) 0;\n' +
+      '  border-top: 1px solid #111a26;\n' +
+      '  background:\n' +
+      '    radial-gradient(circle at 85% 18%, rgba(52, 120, 246, 0.1), transparent 31rem),\n' +
+      '    #05070b !important;\n' +
+      '}\n' +
+      '\n' +
+      '.winner-upgrade__inner {\n' +
+      '  display: grid;\n' +
+      '  gap: clamp(2.25rem, 5vw, 4.5rem);\n' +
+      '}\n' +
+      '\n' +
+      '.winner-upgrade__head,\n' +
+      '.winner-prep__intro {\n' +
+      '  max-width: 54rem;\n' +
+      '}\n' +
+      '\n' +
+      '.winner-upgrade__eyebrow {\n' +
+      '  margin: 0 0 0.85rem;\n' +
+      '  color: #86aff6;\n' +
+      '  font-size: 0.72rem;\n' +
+      '  font-weight: 820;\n' +
+      '  letter-spacing: 0.13em;\n' +
+      '  text-transform: uppercase;\n' +
+      '}\n' +
+      '\n' +
+      '.winner-upgrade h2 {\n' +
+      '  margin: 0;\n' +
+      '  max-width: 16ch;\n' +
+      '  color: #ffffff;\n' +
+      '  font-size: clamp(2.45rem, 5.4vw, 5.35rem);\n' +
+      '  font-weight: 560;\n' +
+      '  letter-spacing: -0.067em;\n' +
+      '  line-height: 0.96;\n' +
+      '}\n' +
+      '\n' +
+      '.winner-upgrade h2 em {\n' +
+      '  color: var(--wf-blue);\n' +
+      '  font-style: normal;\n' +
+      '}\n' +
+      '\n' +
+      '.winner-upgrade__head > p:last-child,\n' +
+      '.winner-prep__intro > p:last-child {\n' +
+      '  max-width: 45rem;\n' +
+      '  margin: 1.35rem 0 0;\n' +
+      '  color: var(--wf-muted);\n' +
+      '  font-size: clamp(1rem, '... 7686 more characters
     
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:
   actual: |-
-    (() => {
-      "use strict";
+    /*
+     * Final competition layer.
+     * One black/blue visual language, consistent chips and a restrained pointer flashlight.
+     */
+    :root {
+      --wf-bg: #05070b;
+      --wf-panel: #0a0f17;
+      --wf-panel-2: #0d141f;
+      --wf-panel-hover: #111b2a;
+      --wf-border: #202b3b;
+      --wf-border-hover: #3a5272;
+      --wf-blue: #4e8cff;
+      --wf-blue-strong: #3478f6;
+      --wf-blue-soft: rgba(78, 140, 255, 0.14);
+      --wf-text: #f6f8fb;
+      --wf-muted: #9eabbc;
+      --wf-faint: #6f7d8f;
+      --wf-radius: 16px;
+      --wf-radius-lg: 24px;
+      --wf-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
     
-      if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;
-      window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;
+    /* Keep the page calm and remove leftover multicolour identity. */
+    .lp-page,
+    .sp-page,
+    .contact-page,
+    .cookies-page,
+    .winner-upgrade {
+      color: var(--wf-text) !important;
+      background-color: var(--wf-bg) !important;
+    }
     
-      const SOURCES = [
-        "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
-        "https://moj-chatbot-backend.vercel.app/widget.js",
-      ];
-      const ROOT_ID = "dv-assistant-root";
-      const FALLBACK_ID = "dv-assistant-fallback";
-      const MOUNT_TIMEOUT = 9000;
+    [data-tone="gold"],
+    [data-tone="mint"],
+    [data-tone="coral"],
+    [data-tone="sand"],
+    [data-tone="blue"],
+    [data-tone="ink"] {
+      --tone: var(--wf-blue) !important;
+      --tone-soft: var(--wf-blue-soft) !important;
+    }
     
-      let sourceIndex = 0;
-      let settled = false;
+    /* A single subtle spotlight implementation for black interactive surfaces. */
+    .spotlight-surface,
+    .lp-solution-cta,
+    .lp-hero-pick,
+    .lp-chip,
+    .lp-button-quiet,
+    .lp-assistant-cta,
+    .lp-faq-ask,
+    .lp-project > a,
+    .sp-project-card > a,
+    .sp-button--ghost,
+    .contact-assistant,
+    .site-menu-solution,
+    .site-menu-project-link {
+      --spot-x: 50%;
+      --spot-y: 50%;
+      position: relative !important;
+      isolation: isolate !important;
+      overflow: hidden !important;
+    }
     
-      const hasMountedWidget = () => {
-        const root = document.getElementById(ROOT_ID);
-        return Boolean(root && root.childElementCount > 0);
-      };
+    .spotlight-surface::before,
+    .lp-solution-cta::before,
+    .lp-hero-pick::before,
+    .lp-chip::before,
+    .lp-button-quiet::before,
+    .lp-assistant-cta::before,
+    .lp-faq-ask::before,
+    .lp-project > a::before,
+    .sp-project-card > a::before,
+    .sp-button--ghost::before,
+    .contact-assistant::before,
+    .site-menu-solution::before,
+    .site-menu-project-link::before {
+      content: "" !important;
+      position: absolute !important;
+      z-index: 0 !important;
+      inset: -70% -35% !important;
+      display: block !important;
+      pointer-events: none !important;
+      opacity: 0 !important;
+      border-radius: 50% !important;
+      background: radial-gradient(
+        circle at var(--spot-x) var(--spot-y),
+        rgba(255, 255, 255, 0.28) 0,
+        rgba(112, 173, 255, 0.2) 13%,
+        rgba(78, 140, 255, 0.095) 28%,
+        transparent 57%
+      ) !important;
+      transform: scale(0.72) !important;
+      transition: opacity 170ms ease, transform 420ms var(--wf-ease) !important;
+    }
     
-      const removeFallback = () => {
-        document.getElementById(FALLBACK_ID)?.remove();
-      };
+    .spotlight-surface[data-spotlight="true"]::before,
+    .lp-solution-cta[data-spotlight="true"]::before,
+    .lp-hero-pick[data-spotlight="true"]::before,
+    .lp-chip[data-spotlight="true"]::before,
+    .lp-button-quiet[data-spotlight="true"]::before,
+    .lp-assistant-cta[data-spotlight="true"]::before,
+    .lp-faq-ask[data-spotlight="true"]::before,
+    .lp-project > a[data-spotlight="true"]::before,
+    .sp-project-card > a[data-spotlight="true"]::before,
+    .sp-button--ghost[data-spotlight="true"]::before,
+    .contact-assistant[data-spotlight="true"]::before,
+    .site-menu-solution[data-spotlight="true"]::before,
+    .site-menu-project-link[data-spotlight="true"]::before,
+    .spotlight-surface:hover::before,
+    .lp-solution-cta:hover::before,
+    .lp-hero-pick:hover::before,
+    .lp-chip:hover::before,
+    .lp-button-quiet:hover::before,
+    .lp-assistant-cta:hover::before,
+    .lp-faq-ask:hover::before,
+    .lp-project > a:hover::before,
+    .sp-project-card > a:hover::before,
+    .sp-button--ghost:hover::before,
+    .contact-assistant:hover::before,
+    .site-menu-solution:hover::before,
+    .site-menu-project-link:hover::before {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
     
-      const showFallback = () => {
-        if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;
-        settled = true;
+    .spotlight-surface > *,
+    .lp-solution-cta > *,
+    .lp-hero-pick > *,
+    .lp-chip > *,
+    .lp-button-quiet > *,
+    .lp-assistant-cta > *,
+    .lp-faq-ask > *,
+    .lp-project > a > *,
+    .sp-project-card > a > *,
+    .sp-button--ghost > *,
+    .contact-assistant > *,
+    .site-menu-solution > *,
+    .site-menu-project-link > * {
+      position: relative;
+      z-index: 1;
+    }
     
-        const anchor = document.createElement("a");
-        anchor.id = FALLBACK_ID;
-        anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;
-        anchor.setAttribute("aria-label", "Získať návrh riešenia");
-        anchor.innerHTML = `
-          <span aria-hidden="true">✦</span>
-          <span><strong>Môj Chatbot</strong><small>Získať návrh od 350 €</small></span>
-        `;
-        Object.assign(anchor.style, {
-          position: "fixed",
-          right: "max(16px, env(safe-area-inset-right))",
-          bottom: "max(16px, env(safe-area-inset-bottom))",
-          zIndex: "2147483000",
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "10px",
-          minHeight: "58px",
-          padding: "10px 14px",
-          border: "1px solid #3a5272",
-          borderRadius: "18px",
-          color: "#f6f8fb",
-          background: "#0a0f17",
-          boxShadow: "0 24px 58px -34px rgba(0,0,0,.96)",
-          fontFamily: "inherit",
-          textDecoration: "none",
-        });
+    /* Hero composition: less empty space, stronger alignment and clearer proof. */
+    .lp-hero {
+      background:
+        radial-gradient(circle at 80% 20%, rgba(52, 120, 246, 0.11), transparent 34rem),
+        linear-gradient(180deg, #05070b 0%, #060910 100%) !important;
+    }
     
-        const icon = anchor.firstElementChild;
-        if (icon instanceof HTMLElement) {
-          Object.assign(icon.style, {
-            display: "grid",
-            width: "36px",
-            height: "36px",
-            placeItems: "center",
-            border: "1px solid #5183c9",
-            borderRadius: "12px",
-            color: "#ffffff",
-            background: "#17325d",
-            fontSize: "16px",
-            fontWeight: "900",
-          });
-        }
+    .lp-hero-grid {
+      align-items: center !important;
+      grid-template-columns: minmax(0, 1.03fr) minmax(30rem, 0.97fr) !important;
+      gap: clamp(2.5rem, 5vw, 5rem) !important;
+    }
     
-        const copy = anchor.lastElementChild;
-        if (copy instanceof HTMLElement) {
-          Object.assign(copy.style, { display: "grid", gap: "2px", lineHeight: "1.1" });
-          const strong = copy.querySelector("strong");
-          const small = copy.querySelector("small");
-          if (strong instanceof HTMLElement) {
-            Object.assign(strong.style, { fontSize: "13px", fontWeight: "800" });
-          }
-          if (small instanceof HTMLElement) {
-            Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });
-          }
-        }
+    .lp-hero-stage {
+      min-height: 34rem !important;
+    }
     
-        document.body.appendChild(anchor);
-      };
+    .lp-assistant-card {
+      top: 44% !important;
+      width: min(100%, 35rem) !important;
+      border: 1px solid #27354a !important;
+      border-radius: 25px !important;
+      background: linear-gradient(180deg, #0c121c, #080d14) !important;
+      box-shadow:
+        0 38px 95px -55px rgba(0, 0, 0, 0.98),
+        0 24px 60px -48px rgba(52, 120, 246, 0.72) !important;
+    }
     
-      const confirmMount = (script) => {
-        const startedAt = Date.now();
-        const check = () => {
-          if (hasMountedWidget()) {
-            settled = true;
-            removeFallback();
-            return;
-          }
-          if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
-            script.remove();
-            loadNext();
-            return;
-          }
-          window.setTimeout(check, 250);
-        };
-        check();
-      };
+    .lp-assistant-card > p {
+      max-width: 12ch !important;
+      color: #ffffff !important;
+      font-weight: 680 !important;
+    }
     
-      const loadNext = () => {
-        if (settled || hasMountedWidget()) return;
-        const source = SOURCES[sourceIndex++];
-        if (!source) {
-          showFallback();
-          return;
-        }
+    .lp-hero-proof {
+      gap: 12px !important;
+    }
     
-        const script = document.createElement("script");
-        script.src = `${source}?v=20260723-competition-winner-v5`;
-        script.async = true;
-        script.referrerPolicy = "strict-origin-when-cross-origin";
-        script.dataset.dvAssistantSource = source;
-        script.onload = () => confirmMount(script);
-        script.onerror = () => {
-          script.remove();
-          loadNext();
-        };
-        document.head.appendChild(script);
-      };
+    .lp-hero-proof li {
+      color: #aab6c6 !important;
+    }
     
-      const start = () => {
-        document.documentElement.dataset.basePath =
-          document.documentElement.dataset.basePath || "/vne-n";
-        loadNext();
-      };
+    .lp-hero-proof svg {
+      color: #7ba8f7 !important;
+    }
     
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", start, { once: true });
-      } else {
-        start();
+    /* All chips share one shape and one selected state. No left stripe. */
+    .lp-hero-picker {
+      gap: 9px !important;
+    }
+    
+    .lp-hero-pick,
+    .lp-chip,
+    .sp-hero-chips .chip,
+    .sp-chip-row .chip {
+      border: 1px solid #28364a !important;
+      color: #c8d2df !important;
+      background: #0c131d !important;
+      background-image: none !important;
+      box-shadow: none !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+      transform: none !important;
+      filter: none !important;
+      animation: none !important;
+      transition:
+        border-color 190ms ease,
+        background-color 190ms ease,
+        color 190ms ease,
+        box-shadow 240ms ease !important;
+    }
+    
+    .lp-hero-pick {
+      min-height: 62px !important;
+      border-radius: 15px !important;
+      padding: 12px 14px !important;
+    }
+    
+    .lp-chip {
+      min-height: 44px !important;
+      border-radius: 13px !important;
+      padding: 9px 12px !important;
+    }
+    
+    .sp-hero-chips .chip,
+    .sp-chip-row .chip {
+      min-height: 38px !important;
+      border-radius: 12px !important;
+      padding: 8px 11px !important;
+    }
+    
+    .lp-hero-pick-fill,
+    .lp-chip-fill,
+    .lp-hero-pick::after,
+    .lp-chip::after {
+      content: none !important;
+      display: none !important;
+    }
+    
+    .lp-hero-pick:hover,
+    .lp-hero-pick:focus-visible,
+    .lp-chip:hover,
+    .lp-chip:focus-visible,
+    .sp-hero-chips .chip:hover,
+    .sp-chip-row .chip:hover {
+      border-color: #466184 !important;
+      color: #ffffff !important;
+      background: #101a28 !important;
+      box-shadow: 0 15px 34px -30px rgba(78, 140, 255, 0.88) !important;
+      transform: none !important;
+    }
+    
+    .lp-hero-pick[data-active="true"],
+    .lp-chip[data-active="true"] {
+      border-color: #6ca5ff !important;
+      color: #ffffff !important;
+      background: #13213a !important;
+      background-image: none !important;
+      box-shadow:
+        0 0 0 1px rgba(78, 140, 255, 0.12),
+        0 17px 36px -31px rgba(78, 140, 255, 0.95) !important;
+      transform: none !important;
+    }
+    
+    .lp-hero-pick-icon,
+    .lp-chip-icon {
+      color: #88b2f8 !important;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    
+    .lp-chip-icon svg {
+      transition: transform 240ms var(--wf-ease) !important;
+    }
+    
+    .lp-chip[data-active="true"] .lp-chip-icon svg {
+      transform: rotate(45deg) !important;
+    }
+    
+    .lp-hero-pick-plus {
+      border: 0 !important;
+      color: #7d8da3 !important;
+      background: transparent !important;
+    }
+    
+    /* Remove card tilt as a visual language; preserve only spotlight and border. */
+    .lp-solution-pill {
+      transform: none !important;
+      border-color: #202c3d !important;
+      background: #090f17 !important;
+      box-shadow: none !important;
+    }
+    
+    .lp-solution-pill:hover {
+      transform: none !important;
+      border-color: #344a67 !important;
+      background: #0d151f !important;
+      box-shadow: 0 22px 52px -44px rgba(78, 140, 255, 0.82) !important;
+    }
+    
+    .lp-solution-cta,
+    .lp-caps-detail-cta,
+    .lp-assistant-cta,
+    .lp-faq-ask,
+    .lp-button-quiet,
+    .sp-button--ghost,
+    .contact-assistant {
+      border: 1px solid #30425b !important;
+      color: #e2eaf4 !important;
+      background: #0d151f !important;
+      background-image: none !important;
+      box-shadow: none !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+      transform: none !important;
+    }
+    
+    .lp-solution-cta:hover,
+    .lp-caps-detail-cta:hover,
+    .lp-assistant-cta:hover,
+    .lp-faq-ask:hover,
+    .lp-button-quiet:hover,
+    .sp-button--ghost:hover,
+    .contact-assistant:hover {
+      border-color: #6198e9 !important;
+      color: #ffffff !important;
+      background: #111c2a !important;
+      box-shadow: 0 17px 38px -31px rgba(78, 140, 255, 0.92) !important;
+      transform: none !important;
+    }
+    
+    /* Keep the approved liquid comparison as the only glass control. */
+    .lp-switch {
+      border-color: rgba(184, 213, 255, 0.3) !important;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.012)),
+        rgba(6, 10, 17, 0.88) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 18px 44px -36px rgba(52, 120, 246, 0.85) !important;
+    }
+    
+    /* Desktop navigation: avoid a duplicate full menu next to visible navigation. */
+    @media (min-width: 1024px) {
+      .site-menu-toggle {
+        display: none !important;
       }
-    })();
+    }
+    
+    /* Pricing and conversion upgrade. */
+    .winner-upgrade {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(5rem, 9vw, 8.5rem) 0;
+      border-top: 1px solid #111a26;
+      background:
+        radial-gradient(circle at 85% 18%, rgba(52, 120, 246, 0.1), transparent 31rem),
+        #05070b !important;
+    }
+    
+    .winner-upgrade__inner {
+      display: grid;
+      gap: clamp(2.25rem, 5vw, 4.5rem);
+    }
+    
+    .winner-upgrade__head,
+    .winner-prep__intro {
+      max-width: 54rem;
+    }
+    
+    .winner-upgrade__eyebrow {
+      margin: 0 0 0.85rem;
+      color: #86aff6;
+      font-size: 0.72rem;
+      font-weight: 820;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    
+    .winner-upgrade h2 {
+      margin: 0;
+      max-width: 16ch;
+      color: #ffffff;
+      font-size: clamp(2.45rem, 5.4vw, 5.35rem);
+      font-weight: 560;
+      letter-spacing: -0.067em;
+      line-height: 0.96;
+    }
+    
+    .winner-upgrade h2 em {
+      color: var(--wf-blue);
+      font-style: normal;
+    }
+    
+    .winner-upgrade__head > p:last-child,
+    .winner-prep__intro > p:last-child {
+      max-width: 45rem;
+      margin: 1.35rem 0 0;
+      color: var(--wf-muted);
+      font-size: clamp(1rem, 1.7vw, 1.15rem);
+      line-height: 1.65;
+    }
+    
+    .winner-trust {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 11px;
+    }
+    
+    .winner-trust__item,
+    .winner-prep__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: 108px;
+      padding: 1rem;
+      border: 1px solid var(--wf-border);
+      border-radius: var(--wf-radius);
+      background: #090f17;
+      transition: border-color 200ms ease, background-color 200ms ease, box-shadow 240ms ease;
+    }
+    
+    .winner-trust__item:hover,
+    .winner-prep__item:hover {
+      border-color: var(--wf-border-hover);
+      background: #0d151f;
+      box-shadow: 0 20px 46px -40px rgba(78, 140, 255, 0.82);
+    }
+    
+    .winner-trust__item > svg,
+    .winner-prep__item > svg {
+      width: 21px;
+      height: 21px;
+      flex: 0 0 auto;
+      margin-top: 2px;
+      color: #86b1fb;
+    }
+    
+    .winner-trust h3,
+    .winner-prep__item h3,
+    .winner-package h3 {
+      margin: 0;
+      color: #ffffff;
+      font-weight: 730;
+      letter-spacing: -0.025em;
+    }
+    
+    .winner-trust p,
+    .winner-prep__item p {
+      margin: 0.35rem 0 0;
+      color: var(--wf-muted);
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+    
+    .winner-packages {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    
+    .winner-package {
+      display: flex;
+      flex-direction: column;
+      min-height: 31rem;
+      padding: clamp(1.25rem, 2.4vw, 1.65rem);
+      border: 1px solid var(--wf-border);
+      border-radius: var(--wf-radius-lg);
+      background: linear-gradient(180deg, #0b111a, #080d14);
+      transition: border-color 220ms ease, background-color 220ms ease, box-shadow 260ms ease;
+    }
+    
+    .winner-package[data-featured="true"] {
+      border-color: #3f6598;
+      background: linear-gradient(180deg, #101b2d, #090f18);
+      box-shadow: 0 28px 70px -54px rgba(78, 140, 255, 0.95);
+    }
+    
+    .winner-package:hover {
+      border-color: #426087;
+      box-shadow: 0 28px 64px -52px rgba(78, 140, 255, 0.9);
+    }
+    
+    .winner-package__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 1.35rem;
+    }
+    
+    .winner-package__icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #38577f;
+      border-radius: 14px;
+      color: #ffffff;
+      background: #17325d;
+    }
+    
+    .winner-package__icon svg {
+      width: 21px;
+      height: 21px;
+    }
+    
+    .winner-package__price {
+      padding: 0.45rem 0.68rem;
+      border: 1px solid #30425b;
+      border-radius: 999px;
+      color: #dce7f5;
+      background: #0d151f;
+      font-size: 0.78rem;
+      font-weight: 790;
+    }
+    
+    .winner-package h3 {
+      font-size: clamp(1.3rem, 2.2vw, 1.65rem);
+    }
+    
+    .winner-package > p {
+      min-height: 5.2rem;
+      margin: 0.7rem 0 1.15rem;
+      color: var(--wf-muted);
+      line-height: 1.55;
+    }
+    
+    .winner-package ul {
+      display: grid;
+      gap: 0.7rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    
+    .winner-package li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      color: #c8d2df;
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+    
+    .winner-package li svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+      margin-top: 2px;
+      color: #7faefb;
+    }
+    
+    .winner-package__cta {
+      width: 100%;
+      min-height: 49px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      padding: 0 1rem;
+      border: 1px solid #3d5980;
+      border-radius: 14px;
+      color: #ffffff;
+      background: #101d30;
+      font-weight: 760;
+      cursor: pointer;
+      transition: border-color 200ms ease, background-color 200ms ease, box-shadow 240ms ease;
+    }
+    
+    .winner-package__cta:hover,
+    .winner-package__cta:focus-visible {
+      border-color: #72aaff;
+      background: #17325d;
+      box-shadow: 0 18px 38px -31px rgba(78, 140, 255, 0.95);
+    }
+    
+    .winner-package__cta svg,
+    .winner-final__actions svg {
+      width: 17px;
+      height: 17px;
+      transition: transform 220ms var(--wf-ease);
+    }
+    
+    .winner-package__cta:hover svg,
+    .winner-final__actions a:hover svg,
+    .winner-final__actions button:hover svg {
+      transform: translateX(3px);
+    }
+    
+    .winner-prep {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: start;
+      padding-top: 1rem;
+    }
+    
+    .winner-prep__intro h2 {
+      max-width: 13ch;
+      font-size: clamp(2.2rem, 4.3vw, 4.1rem);
+    }
+    
+    .winner-prep__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    
+    .winner-prep__item {
+      min-height: 142px;
+    }
+    
+    .winner-final {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 2rem;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      border: 1px solid #2b3b52;
+      border-radius: 26px;
+      background: linear-gradient(140deg, #101b2c, #080e16 68%);
+      box-shadow: 0 34px 82px -58px rgba(78, 140, 255, 0.9);
+    }
+    
+    .winner-final h2 {
+      max-width: 17ch;
+      font-size: clamp(2rem, 4.2vw, 4rem);
+    }
+    
+    .winner-final > div > p:last-child {
+      max-width: 42rem;
+      margin: 1rem 0 0;
+      color: var(--wf-muted);
+      line-height: 1.55;
+    }
+    
+    .winner-final__actions {
+      display: grid;
+      gap: 9px;
+      min-width: 15rem;
+    }
+    
+    .winner-final__primary,
+    .winner-final__secondary {
+      min-height: 51px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 1.15rem;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 780;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    .winner-final__primary {
+      border: 1px solid #6ba4ff;
+      color: #ffffff;
+      background: #3979ec;
+      box-shadow: 0 18px 42px -30px rgba(78, 140, 255, 0.9);
+    }
+    
+    .winner-final__primary:hover,
+    .winner-final__primary:focus-visible {
+      background: #4a88f4;
+    }
+    
+    .winner-final__secondary {
+      border: 1px solid #30425b;
+      color: #e2eaf4;
+      background: #0d151f;
+    }
+    
+    /* Error and legacy states should not switch to the old mint design. */
+    [data-error-boundary],
+    .not-found-page {
+      --accent: var(--wf-blue) !important;
+    }
+    
+    @media (max-width: 1040px) {
+      .lp-hero-grid {
+        grid-template-columns: 1fr !important;
+      }
+    
+      .lp-hero-stage {
+        min-height: 0 !important;
+      }
+    
+      .lp-assistant-card {
+        top: auto !important;
+        width: min(100%, 40rem) !important;
+        margin-inline: auto !important;
+        transform: none !important;
+      }
+    
+      .winner-packages {
+        grid-template-columns: 1fr !important;
+      }
+    
+      .winner-package {
+        min-height: 0;
+      }
+    
+      .winner-package > p {
+        min-height: 0;
+      }
+    
+      .winner-prep {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    
+    @media (max-width: 760px) {
+      .winner-upgrade {
+        padding: 4.5rem 0;
+      }
+    
+      .winner-upgrade__inner {
+        gap: 2.4rem;
+      }
+    
+      .winner-trust,
+      .winner-prep__grid,
+      .winner-final {
+        grid-template-columns: 1fr !important;
+      }
+    
+      .winner-trust__item,
+      .winner-prep__item {
+        min-height: 0;
+      }
+    
+      .winner-final {
+        border-radius: 20px;
+        padding: 1.25rem;
+      }
+    
+      .winner-final__actions {
+        min-width: 0;
+        width: 100%;
+      }
+    
+      .winner-final__primary,
+      .winner-final__secondary,
+      .winner-package__cta {
+        width: 100%;
+      }
+    
+      .lp-hero-picker {
+        grid-template-columns: 1fr !important;
+      }
+    
+      .lp-hero-pick {
+        min-height: 55px !important;
+      }
+    
+      .lp-caps-chips {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+      }
+    
+      .lp-chip {
+        width: 100% !important;
+        justify-content: space-between !important;
+      }
+    }
+    
+    @media (hover: none), (pointer: coarse) {
+      .spotlight-surface::before,
+      .lp-solution-cta::before,
+      .lp-hero-pick::before,
+      .lp-chip::before,
+      .lp-button-quiet::before,
+      .lp-assistant-cta::before,
+      .lp-faq-ask::before,
+      .lp-project > a::before,
+      .sp-project-card > a::before,
+      .sp-button--ghost::before,
+      .contact-assistant::before,
+      .site-menu-solution::before,
+      .site-menu-project-link::before {
+        display: none !important;
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      .spotlight-surface,
+      .spotlight-surface::before,
+      .winner-package__cta svg,
+      .winner-final__actions svg {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
     
   operator: 'match'
   stack: |-
-    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:153:10)
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:54:10)
     async Test.run (node:internal/test_runner/test:1054:7)
     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
-# Subtest: static export covers clean URLs and immutable build metadata
-ok 10 - static export covers clean URLs and immutable build metadata
+# Subtest: hero and desktop navigation are visually simplified
+ok 5 - hero and desktop navigation are visually simplified
   ---
-  duration_ms: 1.991673
+  duration_ms: 2.564709
   type: 'test'
   ...
-# Subtest: Pages workflow validates and verifies the live deployment
-ok 11 - Pages workflow validates and verifies the live deployment
+# Subtest: pricing and client preparation cover the sales essentials
+ok 6 - pricing and client preparation cover the sales essentials
   ---
-  duration_ms: 1.234233
+  duration_ms: 1.304442
   type: 'test'
+  ...
+# Subtest: contact form submits directly and keeps a resilient fallback
+ok 7 - contact form submits directly and keeps a resilient fallback
+  ---
+  duration_ms: 0.990564
+  type: 'test'
+  ...
+# Subtest: portfolio image loading preserves lazy loading after the first image
+ok 8 - portfolio image loading preserves lazy loading after the first image
+  ---
+  duration_ms: 0.722743
+  type: 'test'
+  ...
+# Subtest: mobile conversion and chip layouts are explicit
+ok 9 - mobile conversion and chip layouts are explicit
+  ---
+  duration_ms: 1.132449
+  type: 'test'
+  ...
+# Subtest: metadata security and fresh assistant loading remain present
+ok 10 - metadata security and fresh assistant loading remain present
+  ---
+  duration_ms: 1.301536
+  type: 'test'
+  ...
+# Subtest: Pages workflow validates the live competition build
+not ok 11 - Pages workflow validates the live competition build
+  ---
+  duration_ms: 1.638617
+  type: 'test'
+  location: '/home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:123:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /competition-winner-v5/. Input:
+    
+    'name: Deploy and verify GitHub Pages\n' +
+      '\n' +
+      'on:\n' +
+      '  push:\n' +
+      '    branches: [main]\n' +
+      '    paths-ignore:\n' +
+      '      - "MAIN_QUALITY_AUDIT.txt"\n' +
+      '      - "PAGES_DEPLOY_AUDIT.txt"\n' +
+      '      - "PAGES_WORKFLOW_STATUS.txt"\n' +
+      '  workflow_dispatch:\n' +
+      '\n' +
+      'permissions:\n' +
+      '  contents: write\n' +
+      '  pages: write\n' +
+      '  id-token: write\n' +
+      '\n' +
+      'concurrency:\n' +
+      '  group: pages-current-main\n' +
+      '  cancel-in-progress: true\n' +
+      '\n' +
+      'jobs:\n' +
+      '  build:\n' +
+      "    if: ${{ github.actor != 'github-actions[bot]' }}\n" +
+      '    runs-on: ubuntu-latest\n' +
+      '    steps:\n' +
+      '      - name: Checkout current main\n' +
+      '        uses: actions/checkout@v4\n' +
+      '        with:\n' +
+      '          ref: main\n' +
+      '          fetch-depth: 0\n' +
+      '\n' +
+      '      - name: Configure Pages\n' +
+      '        uses: actions/configure-pages@v5\n' +
+      '\n' +
+      '      - name: Setup Bun\n' +
+      '        uses: oven-sh/setup-bun@v2\n' +
+      '\n' +
+      '      - name: Install dependencies\n' +
+      '        run: bun install --frozen-lockfile\n' +
+      '\n' +
+      '      - name: Audit production dependencies\n' +
+      '        continue-on-error: true\n' +
+      '        run: bun audit --prod --audit-level=high\n' +
+      '\n' +
+      '      - name: Run source and deployment security audit\n' +
+      '        run: node scripts/security-audit.mjs\n' +
+      '\n' +
+      '      - name: Lint source\n' +
+      '        run: bun run lint\n' +
+      '\n' +
+      '      - name: Run UX and deployment contracts\n' +
+      '        run: bun run test\n' +
+      '\n' +
+      '      - name: Build production server\n' +
+      '        run: bun run build\n' +
+      '        env:\n' +
+      '          NITRO_PRESET: node-server\n' +
+      '          VITE_BASE_PATH: /vne-n/\n' +
+      '\n' +
+      '      - name: Export static Pages artifact\n' +
+      '        shell: bash\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          PORT=4173 node .output/server/index.mjs > /tmp/vne-n-preview.log 2>&1 &\n' +
+      '          SERVER_PID=$!\n' +
+      "          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT\n" +
+      '\n' +
+      '          ready=false\n' +
+      '          for attempt in {1..40}; do\n' +
+      '            if curl --fail --silent "http://127.0.0.1:4173/vne-n/" > /dev/null; then\n' +
+      '              ready=true\n' +
+      '              break\n' +
+      '            fi\n' +
+      '            sleep 1\n' +
+      '          done\n' +
+      '\n' +
+      '          if [ "$ready" != true ]; then\n' +
+      '            cat /tmp/vne-n-preview.log\n' +
+      '            exit 1\n' +
+      '          fi\n' +
+      '\n' +
+      '          PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs\n' +
+      '\n' +
+      '      - name: Validate exported artifact\n' +
+      '        shell: bash\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          test -f pages-dist/index.html\n' +
+      '          test -f pages-dist/404.html\n' +
+      '          test -f pages-dist/preview.html\n' +
+      '          test -f pages-dist/widget-loader.js\n' +
+      '          test -f pages-dist/build-meta.json\n' +
+      '          grep -Fq "Chatboty, ktoré" pages-dist/index.html\n' +
+      '          grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html\n' +
+      '          grep -Fq "Content-Security-Policy" pages-dist/index.html\n' +
+      '          grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js\n' +
+      '          grep -Fq "restrained-assistant-v2" pages-dist/widget-loader.js\n' +
+      '          grep -Fq "WebsiteRefinementFinal.css" src/components/site/Layout.tsx\n' +
+      '          ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html\n' +
+      '\n' +
+      '          for route in sluzby projekty postup kontakt cookies farby; do\n' +
+      '            test -f "pages-dist/${route}/index.html"\n' +
+      '            test -f "pages-dist/${route}.html"\n' +
+      '          done\n' +
+      '\n' +
+      '          grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json\n' +
+      '\n' +
+      '      - name: Upload Pages artifact\n' +
+      '        uses: actions/upload-pages-artifact@v3\n' +
+      '        with:\n' +
+      '          path: pages-dist\n' +
+      '\n' +
+      '  deploy:\n' +
+      '    environment:\n' +
+      '      name: github-pages\n' +
+      '      url: ${{ steps.deployment.outputs.page_url }}\n' +
+      '    runs-on: ubuntu-latest\n' +
+      '    needs: build\n' +
+      '    steps:\n' +
+      '      - name: Deploy\n' +
+      '        id: deployment\n' +
+      '        uses: actions/deploy-pages@v5\n' +
+      '\n' +
+      '      - name: Verify live deployment and all public routes\n' +
+      '        shell: bash\n' +
+      '        env:\n' +
+      '          PAGE_URL: ${{ steps.deployment.outputs.page_url }}\n' +
+      '          SOURCE_SHA: ${{ github.sha }}\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          BASE="${PAGE_URL%/}"\n' +
+      '\n' +
+      '          fetch_with_retry() {\n' +
+      '            local path="$1"\n' +
+      '            local expected="$2"\n' +
+      `            local body="/tmp/live-$(echo "$path" | tr '/.' '__').txt"\n` +
+      '\n' +
+      '            for attempt in {1..30}; do\n' +
+      '              if curl --location --fail --silent --show-error \\\n' +
+      '                --header "Cache-Control: no-cache" \\\n' +
+      '                "${BASE}${path}?verify=${SOURCE_SHA}-${attempt}" > "$body"; then\n' +
+      '                if [ -z "$expected" ] || grep -Fq "$expected" "$body"; then\n' +
+      '                  echo "verified ${path}"\n' +
+      '                  return 0\n' +
+      '                fi\n' +
+      '              fi\n' +
+      '              sleep 5\n' +
+      '            done\n' +
+      '\n' +
+      '            echo "Live verification failed for ${path}"\n' +
+      '            cat "$body" 2>/dev/null || true\n' +
+      '            return 1\n' +
+      '          }\n' +
+      '\n' +
+      '          fetch_with_retry "/" "Chatboty, ktoré"\n' +
+      '          fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"\n' +
+      '          fetch_with_retry "/sluzby" ""\n' +
+      '          fetch_with_retry "/sluzby/" ""\n' +
+      '          fetch_with_retry "/projekty/" ""\n' +
+      '          fetch_with_retry "/postup/" ""\n' +
+      '          fetch_with_retry "/kontakt/" ""\n' +
+      '          fetch_with_retry "/cookies/" ""\n' +
+      '          fetch_with_retry "/widget-loader.js" "restrained-assistant-v2"\n' +
+      '          fetch_with_retry "/build-meta.json" "$SOURCE_SHA"\n' +
+      '          echo "live_smoke=success"\n' +
+      '\n' +
+      '      - name: Checkout latest main for deployment record\n' +
+      '        uses: actions/checkout@v4\n' +
+      '        with:\n' +
+      '          ref: main\n' +
+      '          fetch-depth: 0\n' +
+      '\n' +
+      '      - name: Record verified live deployment\n' +
+      '        shell: bash\n' +
+      '        env:\n' +
+      '          PAGE_URL: ${{ steps.deployment.outputs.page_url }}\n' +
+      '          SOURCE_SHA: ${{ github.sha }}\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          {\n' +
+      '            echo "deployment=success"\n' +
+      '            echo "dependency_audit=checked_nonblocking"\n' +
+      '            echo "source_security_audit=success"\n' +
+      '            echo "live_smoke=success"\n' +
+      '            echo "source_sha=${SOURCE_SHA}"\n' +
+      '            echo "page_url=${PAGE_URL}"\n' +
+      '            echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"\n' +
+      '          } > PAGES_DEPLOY_AUDIT.txt\n' +
+      '\n' +
+      '          git config user.name "github-actions[bot]"\n' +
+      '          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"\n' +
+      '          git add PAGES_DEPLOY_AUDIT.txt\n' +
+      '          git diff --cached --quiet && exit 0\n' +
+      '          git commit -m "chore: record verified Pages deployment [skip main-quality]"\n' +
+      '          git pull --rebase origin main\n' +
+      '          git push origin HEAD:main\n' +
+      '\n' +
+      '  diagnostics:\n' +
+      "    if: ${{ always() && github.actor != 'github-actions[bot]' }}\n" +
+      '    needs: [build, deploy]\n' +
+      '    runs-on: ubuntu-latest\n' +
+      '    steps:\n' +
+      '      - name: Checkout latest main for workflow status\n' +
+      '        uses: actions/checkout@v4\n' +
+      '        with:\n' +
+      '          ref: main\n' +
+      '          fetch-depth: 0\n' +
+      '\n' +
+      '      - name: Record workflow outcome\n' +
+      '        shell: bash\n' +
+      '        env:\n' +
+      '          SOURCE_SHA: ${{ github.sha }}\n' +
+      '          RUN_ID: ${{ github.run_id }}\n' +
+      '          BUILD_RESULT: ${{ needs.build.result }}\n' +
+      '          DEPLOY_RESULT: ${{ needs.deploy.result }}\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          {\n' +
+      '            echo "source_sha=${SOURCE_SHA}"\n' +
+      '            echo "run_id=${RUN_ID}"\n' +
+      '            echo "build_result=${BUILD_RESULT}"\n' +
+      '            echo "deploy_result=${DEPLOY_RESULT}"\n' +
+      '            echo "recorded_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"\n' +
+      '          } > PAGES_WORKFLOW_STATUS.txt\n' +
+      '\n' +
+      '          git config user.name "github-actions[bot]"\n' +
+      '          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"\n' +
+      '          git add PAGES_WORKFLOW_STATUS.txt\n' +
+      '          git diff --cached --quiet && exit 0\n' +
+      '          git commit -m "chore: record Pages workflow outcome [skip main-quality]"\n' +
+      '          git pull --rebase origin main\n' +
+      '          git push origin HEAD:main\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    name: Deploy and verify GitHub Pages
+    
+    on:
+      push:
+        branches: [main]
+        paths-ignore:
+          - "MAIN_QUALITY_AUDIT.txt"
+          - "PAGES_DEPLOY_AUDIT.txt"
+          - "PAGES_WORKFLOW_STATUS.txt"
+      workflow_dispatch:
+    
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    concurrency:
+      group: pages-current-main
+      cancel-in-progress: true
+    
+    jobs:
+      build:
+        if: ${{ github.actor != 'github-actions[bot]' }}
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout current main
+            uses: actions/checkout@v4
+            with:
+              ref: main
+              fetch-depth: 0
+    
+          - name: Configure Pages
+            uses: actions/configure-pages@v5
+    
+          - name: Setup Bun
+            uses: oven-sh/setup-bun@v2
+    
+          - name: Install dependencies
+            run: bun install --frozen-lockfile
+    
+          - name: Audit production dependencies
+            continue-on-error: true
+            run: bun audit --prod --audit-level=high
+    
+          - name: Run source and deployment security audit
+            run: node scripts/security-audit.mjs
+    
+          - name: Lint source
+            run: bun run lint
+    
+          - name: Run UX and deployment contracts
+            run: bun run test
+    
+          - name: Build production server
+            run: bun run build
+            env:
+              NITRO_PRESET: node-server
+              VITE_BASE_PATH: /vne-n/
+    
+          - name: Export static Pages artifact
+            shell: bash
+            run: |
+              set -euo pipefail
+              PORT=4173 node .output/server/index.mjs > /tmp/vne-n-preview.log 2>&1 &
+              SERVER_PID=$!
+              trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+    
+              ready=false
+              for attempt in {1..40}; do
+                if curl --fail --silent "http://127.0.0.1:4173/vne-n/" > /dev/null; then
+                  ready=true
+                  break
+                fi
+                sleep 1
+              done
+    
+              if [ "$ready" != true ]; then
+                cat /tmp/vne-n-preview.log
+                exit 1
+              fi
+    
+              PAGES_BASE="vne-n" GITHUB_SHA="${GITHUB_SHA}" node scripts/export-github-pages.mjs
+    
+          - name: Validate exported artifact
+            shell: bash
+            run: |
+              set -euo pipefail
+              test -f pages-dist/index.html
+              test -f pages-dist/404.html
+              test -f pages-dist/preview.html
+              test -f pages-dist/widget-loader.js
+              test -f pages-dist/build-meta.json
+              grep -Fq "Chatboty, ktoré" pages-dist/index.html
+              grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
+              grep -Fq "Content-Security-Policy" pages-dist/index.html
+              grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
+              grep -Fq "restrained-assistant-v2" pages-dist/widget-loader.js
+              grep -Fq "WebsiteRefinementFinal.css" src/components/site/Layout.tsx
+              ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
+    
+              for route in sluzby projekty postup kontakt cookies farby; do
+                test -f "pages-dist/${route}/index.html"
+                test -f "pages-dist/${route}.html"
+              done
+    
+              grep -Fq "${GITHUB_SHA}" pages-dist/build-meta.json
+    
+          - name: Upload Pages artifact
+            uses: actions/upload-pages-artifact@v3
+            with:
+              path: pages-dist
+    
+      deploy:
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          - name: Deploy
+            id: deployment
+            uses: actions/deploy-pages@v5
+    
+          - name: Verify live deployment and all public routes
+            shell: bash
+            env:
+              PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+              SOURCE_SHA: ${{ github.sha }}
+            run: |
+              set -euo pipefail
+              BASE="${PAGE_URL%/}"
+    
+              fetch_with_retry() {
+                local path="$1"
+                local expected="$2"
+                local body="/tmp/live-$(echo "$path" | tr '/.' '__').txt"
+    
+                for attempt in {1..30}; do
+                  if curl --location --fail --silent --show-error \
+                    --header "Cache-Control: no-cache" \
+                    "${BASE}${path}?verify=${SOURCE_SHA}-${attempt}" > "$body"; then
+                    if [ -z "$expected" ] || grep -Fq "$expected" "$body"; then
+                      echo "verified ${path}"
+                      return 0
+                    fi
+                  fi
+                  sleep 5
+                done
+    
+                echo "Live verification failed for ${path}"
+                cat "$body" 2>/dev/null || true
+                return 1
+              }
+    
+              fetch_with_retry "/" "Chatboty, ktoré"
+              fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
+              fetch_with_retry "/sluzby" ""
+              fetch_with_retry "/sluzby/" ""
+              fetch_with_retry "/projekty/" ""
+              fetch_with_retry "/postup/" ""
+              fetch_with_retry "/kontakt/" ""
+              fetch_with_retry "/cookies/" ""
+              fetch_with_retry "/widget-loader.js" "restrained-assistant-v2"
+              fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
+              echo "live_smoke=success"
+    
+          - name: Checkout latest main for deployment record
+            uses: actions/checkout@v4
+            with:
+              ref: main
+              fetch-depth: 0
+    
+          - name: Record verified live deployment
+            shell: bash
+            env:
+              PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+              SOURCE_SHA: ${{ github.sha }}
+            run: |
+              set -euo pipefail
+              {
+                echo "deployment=success"
+                echo "dependency_audit=checked_nonblocking"
+                echo "source_security_audit=success"
+                echo "live_smoke=success"
+                echo "source_sha=${SOURCE_SHA}"
+                echo "page_url=${PAGE_URL}"
+                echo "deployed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+              } > PAGES_DEPLOY_AUDIT.txt
+    
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add PAGES_DEPLOY_AUDIT.txt
+              git diff --cached --quiet && exit 0
+              git commit -m "chore: record verified Pages deployment [skip main-quality]"
+              git pull --rebase origin main
+              git push origin HEAD:main
+    
+      diagnostics:
+        if: ${{ always() && github.actor != 'github-actions[bot]' }}
+        needs: [build, deploy]
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout latest main for workflow status
+            uses: actions/checkout@v4
+            with:
+              ref: main
+              fetch-depth: 0
+    
+          - name: Record workflow outcome
+            shell: bash
+            env:
+              SOURCE_SHA: ${{ github.sha }}
+              RUN_ID: ${{ github.run_id }}
+              BUILD_RESULT: ${{ needs.build.result }}
+              DEPLOY_RESULT: ${{ needs.deploy.result }}
+            run: |
+              set -euo pipefail
+              {
+                echo "source_sha=${SOURCE_SHA}"
+                echo "run_id=${RUN_ID}"
+                echo "build_result=${BUILD_RESULT}"
+                echo "deploy_result=${DEPLOY_RESULT}"
+                echo "recorded_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+              } > PAGES_WORKFLOW_STATUS.txt
+    
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add PAGES_WORKFLOW_STATUS.txt
+              git diff --cached --quiet && exit 0
+              git commit -m "chore: record Pages workflow outcome [skip main-quality]"
+              git pull --rebase origin main
+              git push origin HEAD:main
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/runner/work/vne-n/vne-n/tests/home-contract.test.mjs:129:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
   ...
 1..11
 # tests 11
@@ -623,7 +2015,7 @@ ok 11 - Pages workflow validates and verifies the live deployment
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 84.955824
+# duration_ms 80.580169
 error: script "test" exited with code 1
 
 ===== build =====
@@ -654,7 +2046,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-CCQDMiWt.js               220.97 kB │ gzip: 72.05 kB
 
-[32m✓ built in 1.70s[39m
+[32m✓ built in 1.57s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 136 modules transformed.
 rendering chunks...
@@ -689,7 +2081,7 @@ node_modules/.nitro/vite/services/ssr/assets/tanstack-BZyY3ZMa.js               
 node_modules/.nitro/vite/services/ssr/assets/router-PgawdOl7.js                       69.47 kB │ gzip: 17.24 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CCdNGzJN.js                       73.23 kB │ gzip: 18.51 kB
 
-[32m✓ built in 687ms[39m
+[32m✓ built in 686ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-23`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -703,11 +2095,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            80.16 kB │ gzip:  21.31 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            272.30 kB │ gzip:  62.57 kB
+.output/server/_ssr/vendor.mjs            272.30 kB │ gzip:  62.58 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 540ms[39m
+[32m✓ built in 593ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
