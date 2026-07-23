@@ -1,15 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
-import {
-  ArrowRight,
-  Check,
-  CheckCircle2,
-  Clock3,
-  Mail,
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+import { ArrowRight, Check, CheckCircle2, Clock3, Mail, MessageCircle, Phone } from "lucide-react";
 import { premiumEase } from "@/components/site/motion-primitives";
 import { siteConfig } from "@/config/site";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -169,8 +161,8 @@ function ContactPage() {
               <span>Ďakujem za zadanie</span>
               <h2>Dopyt je pripravený.</h2>
               <p>
-                Ozvem sa na <b>{email.trim()}</b> s odporúčaným riešením a ďalším krokom zvyčajne
-                do jedného pracovného dňa.
+                Ozvem sa na <b>{email.trim()}</b> s odporúčaným riešením a ďalším krokom zvyčajne do
+                jedného pracovného dňa.
               </p>
               <button
                 type="button"
@@ -185,9 +177,7 @@ function ContactPage() {
               <div className="contact-card-head">
                 <span>01 / krátke zadanie</span>
                 <h2 id="contact-form-title">Povedzte mi základ.</h2>
-                <p>
-                  Formulár odošle zadanie priamo. Povinné sú iba meno, e-mail a stručný popis.
-                </p>
+                <p>Formulár odošle zadanie priamo. Povinné sú iba meno, e-mail a stručný popis.</p>
               </div>
               <form onSubmit={(event) => void submit(event)}>
                 <div className="contact-fields-two">
@@ -259,8 +249,13 @@ function ContactPage() {
                     {error}
                   </p>
                 ) : null}
-                <button type="submit" className="contact-submit" disabled={submitState === "sending"}>
-                  {submitState === "sending" ? "Odosielam…" : "Získať návrh riešenia"} <ArrowRight />
+                <button
+                  type="submit"
+                  className="contact-submit"
+                  disabled={submitState === "sending"}
+                >
+                  {submitState === "sending" ? "Odosielam…" : "Získať návrh riešenia"}{" "}
+                  <ArrowRight />
                 </button>
               </form>
               <div className="contact-or">
