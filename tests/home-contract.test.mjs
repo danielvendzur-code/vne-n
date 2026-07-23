@@ -122,7 +122,7 @@ test("solution chips trace only their border on click and teaser copy stays hidd
 test("navigation keeps only the compact brand name and no side-slide drawer animation", async () => {
   const nav = await read("src/components/site/Nav.tsx");
   assert.match(nav, /site-brand-name/);
-  assert.match(nav, /Daniel Vendžúr/);
+  assert.match(nav, /Môj Chatbot/);
   assert.match(nav, /Chatboty a riešenia/);
   assert.match(nav, /opacity: open \? 1 : 0/);
   assert.doesNotMatch(nav, /site-brand-copy/);

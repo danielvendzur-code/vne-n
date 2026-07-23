@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, ArrowUpRight, Bot, Calculator, Mail, SlidersHorizontal } from "lucide-react";
 import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
-import { Symbol } from "@/components/Symbol";
+import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -102,10 +102,10 @@ export function Nav() {
           <Link
             to="/"
             className="site-brand-lockup flex items-center gap-2.5"
-            aria-label="Daniel Vendžúr — domov"
+            aria-label="Môj Chatbot — domov"
           >
-            <Symbol size={34} />
-            <span className="site-brand-name">Daniel Vendžúr</span>
+            <BrandMark size={34} />
+            <span className="site-brand-name">Môj Chatbot</span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
@@ -172,9 +172,9 @@ export function Nav() {
         >
           <div className="site-menu-head">
             <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
-              <Symbol size={44} />
+              <BrandMark size={44} />
               <span>
-                Daniel Vendžúr
+                Môj Chatbot
                 <small>chatboty a konverzné nástroje na mieru</small>
               </span>
             </Link>
