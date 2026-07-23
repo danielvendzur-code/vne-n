@@ -36,26 +36,42 @@
   position: absolute;
   z-index: 8;
   inset: -1px;
-  padding: 2px;
+  padding: 2.5px;
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  background: conic-gradient(from 270deg, #3478f6 var(--lp-border-progress), transparent 0);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0,
+    transparent calc(25% - var(--lp-border-progress) / 4),
+    #3478f6 calc(25% - var(--lp-border-progress) / 4),
+    #3478f6 calc(25% + var(--lp-border-progress) / 4),
+    transparent calc(25% + var(--lp-border-progress) / 4),
+    transparent calc(75% - var(--lp-border-progress) / 4),
+    #3478f6 calc(75% - var(--lp-border-progress) / 4),
+    #3478f6 calc(75% + var(--lp-border-progress) / 4),
+    transparent calc(75% + var(--lp-border-progress) / 4),
+    transparent 100%
+  );
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+  transition: opacity 220ms ease;
 }
 
 :root .lp-page .lp-hero-pick.is-border-tracing::after,
 :root .lp-page .lp-chip.is-border-tracing::after {
   opacity: 1;
-  animation: recovered-border-trace 920ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  filter: drop-shadow(0 0 4px rgba(52, 120, 246, 0.7))
+    drop-shadow(0 0 9px rgba(52, 120, 246, 0.34));
+  animation: recovered-border-trace 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.site-consultation-cta,
 .site-consultation-cta::before,
 .site-consultation-cta::after {
+  content: none !important;
   animation: none !important;
+  background: none !important;
 }
 
 .site-consultation-cta:hover,
@@ -63,7 +79,7 @@
   transform: translateY(-1px);
 }
 
-/* Visible brand lockup. The personal contact remains in the contact section. */
+/* Keep the brand text consistent even when older cached navigation markup is mounted. */
 .site-brand-name {
   font-size: 0 !important;
 }
