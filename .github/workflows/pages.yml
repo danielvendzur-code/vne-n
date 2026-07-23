@@ -92,6 +92,8 @@ jobs:
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
+          grep -Fq "complete-liquid-system-v1" pages-dist/widget-loader.js
+          grep -R -Fq -- "--al-blue:#3478f6" pages-dist/assets
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
 
           for route in sluzby projekty postup kontakt cookies farby; do
@@ -156,7 +158,7 @@ jobs:
           fetch_with_retry "/postup/" ""
           fetch_with_retry "/kontakt/" ""
           fetch_with_retry "/cookies/" ""
-          fetch_with_retry "/widget-loader.js" "DV_ASSISTANT_LOADER_ACTIVE"
+          fetch_with_retry "/widget-loader.js" "complete-liquid-system-v1"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
 
