@@ -1,0 +1,297 @@
+/* Owner-friendly visual correction.
+   Loaded before the historic final layer, therefore every rule intentionally carries
+   higher specificity so the calm borderless system remains authoritative. */
+
+html body .lp-hero-pick,
+html body .lp-chip,
+html body .sp-hero-chips .chip,
+html body .sp-chip-row .chip {
+  border: 0 !important;
+  color: #cbd5e2 !important;
+  background: #0c131d !important;
+  background-image: none !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+  transform: none !important;
+  filter: none !important;
+  animation: none !important;
+  transition:
+    color 170ms ease,
+    background-color 170ms ease !important;
+}
+
+html body .lp-hero-pick:hover,
+html body .lp-hero-pick:focus-visible,
+html body .lp-chip:hover,
+html body .lp-chip:focus-visible,
+html body .sp-hero-chips .chip:hover,
+html body .sp-chip-row .chip:hover,
+html body .sp-hero-chips .chip:focus-visible,
+html body .sp-chip-row .chip:focus-visible {
+  border: 0 !important;
+  color: #ffffff !important;
+  background: #111b29 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  transform: none !important;
+}
+
+html body .lp-hero-pick[data-active="true"],
+html body .lp-chip[data-active="true"] {
+  border: 0 !important;
+  color: #ffffff !important;
+  background: linear-gradient(145deg, #17315a, #101d32) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 0 0 1px rgba(111, 169, 255, 0.08) !important;
+  transform: none !important;
+}
+
+html body .lp-hero-pick:active,
+html body .lp-chip:active,
+html body .sp-hero-chips .chip:active,
+html body .sp-chip-row .chip:active,
+html body .lp-solution-cta:active,
+html body .lp-assistant-cta:active,
+html body .lp-button-quiet:active,
+html body .winner-package__cta:active {
+  transform: none !important;
+}
+
+html body .lp-hero-pick-fill,
+html body .lp-chip-fill,
+html body .lp-hero-pick::before,
+html body .lp-hero-pick::after,
+html body .lp-chip::before,
+html body .lp-chip::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+
+html body .lp-hero-pick-icon,
+html body .lp-chip-icon {
+  border: 0 !important;
+  color: #8db8ff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .lp-chip-icon svg,
+html body .lp-chip[data-active="true"] .lp-chip-icon svg {
+  transform: none !important;
+  transition: none !important;
+}
+
+html body .lp-assistant-answer {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Remove the old large oval hover blob from every surface. */
+html body .spotlight-surface::before,
+html body .lp-solution-cta::before,
+html body .lp-hero-pick::before,
+html body .lp-chip::before,
+html body .lp-button-quiet::before,
+html body .lp-assistant-cta::before,
+html body .lp-faq-ask::before,
+html body .lp-project > a::before,
+html body .sp-project-card > a::before,
+html body .sp-button--ghost::before,
+html body .contact-assistant::before,
+html body .site-menu-solution::before,
+html body .site-menu-project-link::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* A compact cursor light, used only on deliberate CTAs. It has no oval shadow below the control. */
+html body .lp-button-quiet,
+html body .lp-solution-cta,
+html body .lp-assistant-cta,
+html body .winner-package__cta,
+html body .winner-final__secondary {
+  --spot-x: 50%;
+  --spot-y: 50%;
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+}
+
+html body .lp-button-quiet::after,
+html body .lp-solution-cta::after,
+html body .lp-assistant-cta::after,
+html body .winner-package__cta::after,
+html body .winner-final__secondary::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 0 !important;
+  display: block !important;
+  border-radius: inherit !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  background: radial-gradient(
+    circle 92px at var(--spot-x) var(--spot-y),
+    rgba(255, 255, 255, 0.2) 0,
+    rgba(104, 163, 255, 0.13) 32%,
+    rgba(78, 140, 255, 0.045) 54%,
+    transparent 72%
+  ) !important;
+  transform: none !important;
+  transition: opacity 150ms ease !important;
+}
+
+html body .lp-button-quiet[data-spotlight="true"]::after,
+html body .lp-solution-cta[data-spotlight="true"]::after,
+html body .lp-assistant-cta[data-spotlight="true"]::after,
+html body .winner-package__cta[data-spotlight="true"]::after,
+html body .winner-final__secondary[data-spotlight="true"]::after,
+html body .lp-button-quiet:hover::after,
+html body .lp-solution-cta:hover::after,
+html body .lp-assistant-cta:hover::after,
+html body .winner-package__cta:hover::after,
+html body .winner-final__secondary:hover::after {
+  opacity: 1 !important;
+}
+
+html body .lp-button-quiet > *,
+html body .lp-solution-cta > *,
+html body .lp-assistant-cta > *,
+html body .winner-package__cta > *,
+html body .winner-final__secondary > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Cards are separated by tone and spacing, not by bright outlines. */
+html body .lp-solution-pill,
+html body .winner-trust__item,
+html body .winner-prep__item,
+html body .winner-package,
+html body .winner-final {
+  border-color: transparent !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+}
+
+html body .lp-solution-pill:hover,
+html body .winner-trust__item:hover,
+html body .winner-prep__item:hover,
+html body .winner-package:hover {
+  border-color: transparent !important;
+  background-color: #0d151f !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  transform: none !important;
+}
+
+html body .winner-package[data-featured="true"] {
+  border-color: transparent !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 30px 70px -58px rgba(78, 140, 255, 0.7) !important;
+}
+
+html body .winner-package__price,
+html body .winner-package__icon,
+html body .lp-solution-cta,
+html body .lp-assistant-cta,
+html body .lp-button-quiet,
+html body .winner-package__cta,
+html body .winner-final__secondary {
+  border-color: transparent !important;
+}
+
+/* One clean comparison surface instead of an outer card containing two more cards. */
+html body .lp-comparison {
+  display: grid !important;
+  gap: 1.15rem !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .lp-switch {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+    #0a1019 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+}
+
+html body .lp-switch button {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-comparison-body {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.92fr) !important;
+  align-items: center !important;
+  gap: clamp(2rem, 5vw, 5rem) !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  padding: clamp(2rem, 4vw, 3.5rem) !important;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(52, 120, 246, 0.1), transparent 25rem),
+    #080d14 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 34px 80px -62px rgba(0, 0, 0, 0.95) !important;
+}
+
+html body .lp-comparison-copy,
+html body .lp-comparison-body > ul {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body .lp-comparison-copy h3 {
+  max-width: 15ch !important;
+}
+
+html body .lp-comparison-body > ul {
+  align-content: center !important;
+  gap: 1.05rem !important;
+}
+
+html body .lp-comparison-body li {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+@media (max-width: 760px) {
+  html body .lp-comparison-body {
+    grid-template-columns: 1fr !important;
+    gap: 1.6rem !important;
+    padding: 1.35rem !important;
+    border-radius: 19px !important;
+  }
+
+  html body .lp-switch {
+    width: 100% !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html body .lp-button-quiet::after,
+  html body .lp-solution-cta::after,
+  html body .lp-assistant-cta::after,
+  html body .winner-package__cta::after,
+  html body .winner-final__secondary::after {
+    content: none !important;
+    display: none !important;
+  }
+}
