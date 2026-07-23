@@ -6,26 +6,38 @@ export interface FaqEntry {
 export const faqs: FaqEntry[] = [
   {
     q: "Koľko stojí chatbot alebo kalkulačka na mieru?",
-    a: "Cena závisí od zložitosti logiky a prepojení. Po krátkom zadaní dostanete konkrétny rozsah prvej verzie aj s cenou — vopred a bez záväzku, žiadne skryté paušály.",
+    a: "Jednoduchý chatbot na mieru začína od 350 €. Kalkulačka alebo konfigurátor sa nacení podľa počtu pravidiel, krokov a prepojení. Po krátkom zadaní dostanete konkrétny rozsah prvej verzie aj cenu vopred — bez skrytých položiek.",
+  },
+  {
+    q: "Čo odo mňa potrebujete na začiatku?",
+    a: "Stačí odkaz na web alebo popis ponuky, najčastejšie otázky, cenník či pravidlá výpočtu a informácia, kam majú chodiť dopyty. Z toho pripravím logiku, texty, rozloženie aj prvý prototyp.",
   },
   {
     q: "Ako rýchlo viem mať nástroj na webe?",
-    a: "Návrh otázok a výpočtu pripravím v priebehu dní. Termín nasadenia závisí od rozsahu — presný harmonogram poviem hneď po prvej konzultácii, aby ste vedeli, s čím počítať.",
+    a: "Návrh otázok a logiky pripravím v priebehu dní. Presný termín nasadenia závisí od rozsahu a prepojení; harmonogram dostanete spolu s cenou ešte pred začiatkom vývoja.",
   },
   {
     q: "Musím kvôli tomu prerábať celý web?",
-    a: "Nie. Nástroj sa vkladá ako widget do existujúcej stránky a dizajn prispôsobím farbám aj štýlu vášho webu. Vo väčšine prípadov stačí vložiť jeden riadok kódu.",
+    a: "Nie. Nástroj sa vloží do existujúcej stránky ako samostatný widget a dizajn sa prispôsobí vašim farbám, typografii a rozloženiu. Vo väčšine prípadov stačí vložiť krátky kód.",
+  },
+  {
+    q: "Z čoho chatbot odpovedá a čo ak si niečo vymyslí?",
+    a: "Obsah a hranice odpovedí sa nastavia z vašich overených podkladov. Pri citlivej alebo neznámej otázke chatbot nemá hádať — požiada o kontakt alebo odovzdá konverzáciu človeku aj s kontextom.",
   },
   {
     q: "Kam budú chodiť dopyty?",
-    a: "Štandardne na váš e-mail aj s celým kontextom odpovedí. Podľa potreby ich prepojím s kalendárom, tabuľkou alebo interným systémom, s ktorým už pracujete.",
+    a: "Štandardne na e-mail aj s odpoveďami zákazníka, výpočtom a kontaktom. Podľa potreby sa môžu zapisovať do kalendára, Google tabuľky, CRM alebo interného systému.",
   },
   {
     q: "Čo keď sa zmení cenník alebo ponuka?",
-    a: "Logiku navrhujem tak, aby sa pravidlá dali meniť. Nové ceny, možnosti či služby vieme premietnuť bez prerábania celého nástroja.",
+    a: "Logiku navrhujem tak, aby sa pravidlá dali upravovať bez prerábania celého nástroja. Rozsah následnej údržby a spôsob aktualizácií si dohodneme vopred podľa toho, ako často sa vaša ponuka mení.",
   },
   {
-    q: "Viem si niečo vyskúšať ešte pred spoluprácou?",
-    a: "Áno. Priamo na webe sú živé nástroje aj interaktívne ukážky. Vyskúšate si ich za pár sekúnd a uvidíte presne to, čo uvidí váš zákazník.",
+    q: "Ako sa riešia osobné údaje a GDPR?",
+    a: "Zbierajú sa iba údaje potrebné na vybavenie dopytu. Súhlas, informačné texty, miesto uloženia a odosielanie údajov sa nastavia podľa konkrétneho procesu a webu klienta.",
+  },
+  {
+    q: "Viem si riešenie vyskúšať ešte pred spoluprácou?",
+    a: "Áno. Na webe sú živé nástroje aj interaktívne demá. Pri konkrétnom projekte najprv pripravím logiku a prvý návrh rozhrania, aby bol rozsah jasný ešte pred finálnym nasadením.",
   },
 ];
