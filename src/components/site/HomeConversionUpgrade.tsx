@@ -22,21 +22,36 @@ const packages = [
     title: "AI chatbot na mieru",
     price: "od 350 €",
     copy: "Odpovede podľa podkladov firmy, zber kontaktu a odovzdanie dopytu s celým kontextom.",
-    features: ["Vlastný scenár rozhovoru", "Dizajn prispôsobený webu", "Dopyty na e-mail", "Nasadenie na existujúci web"],
+    features: [
+      "Vlastný scenár rozhovoru",
+      "Dizajn prispôsobený webu",
+      "Dopyty na e-mail",
+      "Nasadenie na existujúci web",
+    ],
   },
   {
     icon: Calculator,
     title: "Chatbot s výpočtom",
     price: "podľa logiky",
     copy: "Cena, spotreba, návratnosť alebo rozsah služby vypočítaný z reálnych vstupov zákazníka.",
-    features: ["Vaše vzorce a pravidlá", "Orientačný výsledok ihneď", "Zhrnutie pre zákazníka", "Kompletné zadanie pre firmu"],
+    features: [
+      "Vaše vzorce a pravidlá",
+      "Orientačný výsledok ihneď",
+      "Zhrnutie pre zákazníka",
+      "Kompletné zadanie pre firmu",
+    ],
   },
   {
     icon: SlidersHorizontal,
     title: "Chatbot s konfigurátorom",
     price: "podľa rozsahu",
     copy: "Výber modelu, rozmerov, variantov a doplnkov v jednom plynulom rozhraní bez chaotického formulára.",
-    features: ["Krokový výber produktu", "Podmienené možnosti", "Súhrn konfigurácie", "Prepojenia podľa potreby"],
+    features: [
+      "Krokový výber produktu",
+      "Podmienené možnosti",
+      "Súhrn konfigurácie",
+      "Prepojenia podľa potreby",
+    ],
   },
 ] as const;
 
@@ -64,9 +79,21 @@ const clientInputs = [
 ] as const;
 
 const trustPoints = [
-  { icon: BadgeCheck, title: "Reálne živé ukážky", copy: "Nie iba obrázky alebo generické makety." },
-  { icon: Layers3, title: "Najprv logika", copy: "Otázky a rozhodovanie sa navrhnú pred vizuálom." },
-  { icon: ShieldCheck, title: "Bez skrytého rozsahu", copy: "Pred vývojom dostanete jasný návrh prvej verzie." },
+  {
+    icon: BadgeCheck,
+    title: "Reálne živé ukážky",
+    copy: "Nie iba obrázky alebo generické makety.",
+  },
+  {
+    icon: Layers3,
+    title: "Najprv logika",
+    copy: "Otázky a rozhodovanie sa navrhnú pred vizuálom.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Bez skrytého rozsahu",
+    copy: "Pred vývojom dostanete jasný návrh prvej verzie.",
+  },
 ] as const;
 
 export function HomeConversionUpgrade() {
@@ -98,7 +125,11 @@ export function HomeConversionUpgrade() {
 
         <div className="winner-packages">
           {packages.map(({ icon: Icon, title, price, copy, features }, index) => (
-            <article className="winner-package spotlight-surface" key={title} data-featured={index === 0}>
+            <article
+              className="winner-package spotlight-surface"
+              key={title}
+              data-featured={index === 0}
+            >
               <div className="winner-package__top">
                 <span className="winner-package__icon" aria-hidden="true">
                   <Icon />
