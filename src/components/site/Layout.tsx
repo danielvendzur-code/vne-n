@@ -29,6 +29,7 @@ import "./RecoveredMotionFinal.css";
 import "./ProfessionalChipFinal.css";
 import "./AppleLiquidSystemFinal.css";
 import "./WebsiteRefinementFinal.css";
+import "./WebsiteRequestFinish.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
