@@ -95,7 +95,7 @@ export function ChameleonWidget(): JSX.Element {
         data-testid="widget-launcher"
         className="cw-launcher"
         type="button"
-        aria-label="Otvoriť webového asistenta"
+        aria-label="Otvoriť Môj Chatbot"
         aria-expanded={isOpen}
         aria-controls="chameleon-widget-panel"
         onClick={() => open("assistant")}
@@ -119,11 +119,9 @@ export function ChameleonWidget(): JSX.Element {
               <BubbleLogo size="header" />
             </span>
             <div className="cw-panel-head__title">
-              <b id="chameleon-widget-title">
-                {mode === "assistant" ? "AI asistent" : "Návrh riešenia"}
-              </b>
+              <b id="chameleon-widget-title">Môj Chatbot</b>
               <span className="cw-panel-head__meta">
-                <i /> Online · lokálna ukážka
+                <i /> {mode === "assistant" ? "AI asistent" : "Konfigurátor"} · online
               </span>
             </div>
             <div className="cw-panel-head__actions">
