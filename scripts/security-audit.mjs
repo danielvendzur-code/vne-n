@@ -144,7 +144,8 @@ for (const section of [
   "<Faq />",
   "<FinalOffer />",
 ]) {
-  if (!competitionHome.includes(section)) fail(`Competition homepage is missing section ${section}`);
+  if (!competitionHome.includes(section))
+    fail(`Competition homepage is missing section ${section}`);
 }
 
 const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");

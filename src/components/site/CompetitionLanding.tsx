@@ -204,7 +204,9 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={reducedMotion ? { duration: 0 } : { duration: 0.8, ease }}
         >
-          <p className="cx-kicker"><Sparkles aria-hidden="true" /> Chatboty a webové nástroje na mieru</p>
+          <p className="cx-kicker">
+            <Sparkles aria-hidden="true" /> Chatboty a webové nástroje na mieru
+          </p>
           <h1>
             Web, ktorý odpovedá, počíta <em>a pripraví dopyt.</em>
           </h1>
@@ -213,7 +215,9 @@ function Hero() {
             dostane jasný ďalší krok a vám príde kontakt s celým kontextom.
           </p>
           <div className="cx-hero__actions">
-            <MetalButton onClick={() => openSiteAssistant({ source: "competition-hero", entry: "builder" })}>
+            <MetalButton
+              onClick={() => openSiteAssistant({ source: "competition-hero", entry: "builder" })}
+            >
               Získať návrh riešenia
             </MetalButton>
             <a className="cx-text-link" href="#realizacie">
@@ -221,9 +225,15 @@ function Hero() {
             </a>
           </div>
           <ul className="cx-hero__proof">
-            <li><Check aria-hidden="true" /> Na existujúci web</li>
-            <li><Check aria-hidden="true" /> Vlastný dizajn a logika</li>
-            <li><Check aria-hidden="true" /> Mobil aj počítač</li>
+            <li>
+              <Check aria-hidden="true" /> Na existujúci web
+            </li>
+            <li>
+              <Check aria-hidden="true" /> Vlastný dizajn a logika
+            </li>
+            <li>
+              <Check aria-hidden="true" /> Mobil aj počítač
+            </li>
           </ul>
         </motion.div>
 
@@ -237,15 +247,24 @@ function Hero() {
           <div className="cx-product__window">
             <header className="cx-product__topbar">
               <div className="cx-product__brand">
-                <span className="cx-product__mark"><Bot aria-hidden="true" /></span>
-                <span><b>Môj Chatbot</b><small>živá ukážka</small></span>
+                <span className="cx-product__mark">
+                  <Bot aria-hidden="true" />
+                </span>
+                <span>
+                  <b>Môj Chatbot</b>
+                  <small>živá ukážka</small>
+                </span>
               </div>
-              <span className="cx-product__status"><i /> online</span>
+              <span className="cx-product__status">
+                <i /> online
+              </span>
             </header>
 
             <div className="cx-product__body">
               <div className="cx-message cx-message--assistant">
-                <span className="cx-message__avatar"><Bot aria-hidden="true" /></span>
+                <span className="cx-message__avatar">
+                  <Bot aria-hidden="true" />
+                </span>
                 <div>
                   <small>AI asistent</small>
                   <p>Čo chcete na vašom webe automatizovať?</p>
@@ -253,24 +272,28 @@ function Hero() {
               </div>
 
               <div className="cx-tool-switch" role="group" aria-label="Typ nástroja">
-                {(Object.entries(tools) as [ToolKey, (typeof tools)[ToolKey]][]).map(([key, tool]) => {
-                  const Icon = tool.icon;
-                  const selected = active === key;
-                  return (
-                    <button
-                      type="button"
-                      className="cx-choice-chip"
-                      data-active={selected}
-                      aria-pressed={selected}
-                      key={key}
-                      onClick={() => setActive(key)}
-                    >
-                      <Icon aria-hidden="true" />
-                      <span>{tool.shortLabel}</span>
-                      <i>{selected ? <Check aria-hidden="true" /> : <Plus aria-hidden="true" />}</i>
-                    </button>
-                  );
-                })}
+                {(Object.entries(tools) as [ToolKey, (typeof tools)[ToolKey]][]).map(
+                  ([key, tool]) => {
+                    const Icon = tool.icon;
+                    const selected = active === key;
+                    return (
+                      <button
+                        type="button"
+                        className="cx-choice-chip"
+                        data-active={selected}
+                        aria-pressed={selected}
+                        key={key}
+                        onClick={() => setActive(key)}
+                      >
+                        <Icon aria-hidden="true" />
+                        <span>{tool.shortLabel}</span>
+                        <i>
+                          {selected ? <Check aria-hidden="true" /> : <Plus aria-hidden="true" />}
+                        </i>
+                      </button>
+                    );
+                  },
+                )}
               </div>
 
               <AnimatePresence mode="wait" initial={false}>
@@ -283,7 +306,9 @@ function Hero() {
                   transition={reducedMotion ? { duration: 0 } : { duration: 0.3, ease }}
                 >
                   <div className="cx-flow__intro">
-                    <span><ActiveIcon aria-hidden="true" /></span>
+                    <span>
+                      <ActiveIcon aria-hidden="true" />
+                    </span>
                     <div>
                       <small>{current.label}</small>
                       <h3>{current.title}</h3>
@@ -291,10 +316,14 @@ function Hero() {
                   </div>
                   <p>{current.copy}</p>
                   <div className="cx-flow__fields">
-                    {current.fields.map((field) => <span key={field}>{field}</span>)}
+                    {current.fields.map((field) => (
+                      <span key={field}>{field}</span>
+                    ))}
                   </div>
                   <div className="cx-result">
-                    <span><ShieldCheck aria-hidden="true" /> Výstup pre firmu</span>
+                    <span>
+                      <ShieldCheck aria-hidden="true" /> Výstup pre firmu
+                    </span>
                     <strong>{current.result}</strong>
                     <small>Kontakt a všetky odpovede v jednom prehľade</small>
                   </div>
@@ -304,13 +333,21 @@ function Hero() {
 
             <footer className="cx-product__footer">
               <span>Napíšte, čo potrebujete…</span>
-              <button type="button" aria-label="Otvoriť chatbota" onClick={() => openSiteAssistant({ source: "competition-demo" })}>
+              <button
+                type="button"
+                aria-label="Otvoriť chatbota"
+                onClick={() => openSiteAssistant({ source: "competition-demo" })}
+              >
                 <ArrowUpRight aria-hidden="true" />
               </button>
             </footer>
           </div>
-          <div className="cx-product__badge cx-product__badge--top"><Sparkles /> Navrhnuté na mieru</div>
-          <div className="cx-product__badge cx-product__badge--bottom"><Check /> Hotový dopyt</div>
+          <div className="cx-product__badge cx-product__badge--top">
+            <Sparkles /> Navrhnuté na mieru
+          </div>
+          <div className="cx-product__badge cx-product__badge--bottom">
+            <Check /> Hotový dopyt
+          </div>
         </motion.div>
       </div>
     </section>
@@ -324,7 +361,10 @@ function ProofBar() {
         {proofItems.map(({ icon: Icon, title, copy }) => (
           <article key={title}>
             <Icon aria-hidden="true" />
-            <div><h2>{title}</h2><p>{copy}</p></div>
+            <div>
+              <h2>{title}</h2>
+              <p>{copy}</p>
+            </div>
           </article>
         ))}
       </div>
@@ -339,7 +379,11 @@ function Solutions() {
       <div className="container-page">
         <SectionHeading
           kicker="Tri typy riešení"
-          title={<>Presne toľko technológie, <em>koľko vaša služba potrebuje.</em></>}
+          title={
+            <>
+              Presne toľko technológie, <em>koľko vaša služba potrebuje.</em>
+            </>
+          }
           copy="Každý nástroj vzniká z konkrétneho predajného procesu. Bez zbytočných funkcií a bez univerzálnej šablóny."
         />
         <div className="cx-solution-grid">
@@ -352,21 +396,35 @@ function Solutions() {
                 initial={reducedMotion ? false : { opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.25 }}
-                transition={reducedMotion ? { duration: 0 } : { duration: 0.58, delay: index * 0.08, ease }}
+                transition={
+                  reducedMotion ? { duration: 0 } : { duration: 0.58, delay: index * 0.08, ease }
+                }
               >
                 <div className="cx-solution-card__top">
-                  <span className="cx-solution-card__icon"><Icon aria-hidden="true" /></span>
+                  <span className="cx-solution-card__icon">
+                    <Icon aria-hidden="true" />
+                  </span>
                   <span className="cx-solution-card__number">{solution.number}</span>
                 </div>
                 <h3>{solution.title}</h3>
                 <p>{solution.copy}</p>
                 <div className="cx-tag-row">
-                  {solution.tags.map((tag) => <span className="cx-static-tag" key={tag}>{tag}</span>)}
+                  {solution.tags.map((tag) => (
+                    <span className="cx-static-tag" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
                 </div>
                 <button
                   type="button"
                   className="cx-card-link"
-                  onClick={() => openSiteAssistant({ source: "competition-solution", entry: "builder", category: solution.title })}
+                  onClick={() =>
+                    openSiteAssistant({
+                      source: "competition-solution",
+                      entry: "builder",
+                      category: solution.title,
+                    })
+                  }
                 >
                   Navrhnúť podobné riešenie <ArrowUpRight aria-hidden="true" />
                 </button>
@@ -385,7 +443,11 @@ function Portfolio() {
       <div className="container-page">
         <SectionHeading
           kicker="Vybrané realizácie"
-          title={<>Reálne rozhrania. <em>Nie generické makety.</em></>}
+          title={
+            <>
+              Reálne rozhrania. <em>Nie generické makety.</em>
+            </>
+          }
           copy="Každý projekt rieši inú zákaznícku cestu. Ukážky môžete otvoriť a vyskúšať priamo v prehliadači."
         />
         <div className="cx-project-grid">
@@ -405,14 +467,18 @@ function Portfolio() {
                 <span>{project.type}</span>
                 <h3>{project.name}</h3>
                 <p>{project.copy}</p>
-                <b>Otvoriť živý projekt <ExternalLink aria-hidden="true" /></b>
+                <b>
+                  Otvoriť živý projekt <ExternalLink aria-hidden="true" />
+                </b>
               </div>
             </a>
           ))}
         </div>
         <div className="cx-portfolio__footer">
           <span>Ďalšie interaktívne ukážky sú pripravené na samostatnej stránke.</span>
-          <Link to="/projekty" className="cx-text-link">Všetky ukážky <ArrowRight aria-hidden="true" /></Link>
+          <Link to="/projekty" className="cx-text-link">
+            Všetky ukážky <ArrowRight aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </section>
@@ -425,15 +491,24 @@ function Process() {
       <div className="container-page cx-process__layout">
         <SectionHeading
           kicker="Ako spolupráca prebieha"
-          title={<>Od nápadu k funkčnému nástroju <em>bez chaosu.</em></>}
+          title={
+            <>
+              Od nápadu k funkčnému nástroju <em>bez chaosu.</em>
+            </>
+          }
           copy="Najprv sa vyrieši logika a obsah. Až potom vizuál, animácie a nasadenie."
         />
         <ol className="cx-process__list">
           {process.map(({ icon: Icon, title, copy }, index) => (
             <li key={title}>
               <span className="cx-process__number">0{index + 1}</span>
-              <span className="cx-process__icon"><Icon aria-hidden="true" /></span>
-              <div><h3>{title}</h3><p>{copy}</p></div>
+              <span className="cx-process__icon">
+                <Icon aria-hidden="true" />
+              </span>
+              <div>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </div>
             </li>
           ))}
         </ol>
@@ -448,7 +523,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
     <article className="cx-faq-item" data-open={open}>
       <h3>
         <button type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
-          <span>{question}</span><ChevronDown aria-hidden="true" />
+          <span>{question}</span>
+          <ChevronDown aria-hidden="true" />
         </button>
       </h3>
       <AnimatePresence initial={false}>
@@ -474,11 +550,17 @@ function Faq() {
       <div className="container-page cx-faq__layout">
         <SectionHeading
           kicker="Časté otázky"
-          title={<>Dôležité veci <em>pred prvým krokom.</em></>}
+          title={
+            <>
+              Dôležité veci <em>pred prvým krokom.</em>
+            </>
+          }
           copy="Bez skrytého rozsahu a bez zbytočne komplikovaného zadania."
         />
         <div className="cx-faq__list">
-          {faqs.slice(0, 6).map((faq) => <FaqItem key={faq.q} question={faq.q} answer={faq.a} />)}
+          {faqs.slice(0, 6).map((faq) => (
+            <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
+          ))}
         </div>
       </div>
     </section>
@@ -498,7 +580,9 @@ function FinalOffer() {
               pravidiel, krokov a prepojení. Rozsah dostanete ešte pred vývojom.
             </p>
             <div className="cx-offer__actions">
-              <MetalButton onClick={() => openSiteAssistant({ source: "competition-final", entry: "builder" })}>
+              <MetalButton
+                onClick={() => openSiteAssistant({ source: "competition-final", entry: "builder" })}
+              >
                 Získať návrh riešenia
               </MetalButton>
               <a className="cx-text-link" href={`mailto:${siteConfig.contact.email}`}>
@@ -509,10 +593,18 @@ function FinalOffer() {
           <aside className="cx-offer__summary" aria-label="Čo dostanete">
             <span>Prvá verzia zahŕňa</span>
             <ul>
-              <li><Check /> Návrh otázok a logiky</li>
-              <li><Check /> Dizajn prispôsobený webu</li>
-              <li><Check /> Funkčnú ukážku na kontrolu</li>
-              <li><Check /> Nasadenie a mobilné testovanie</li>
+              <li>
+                <Check /> Návrh otázok a logiky
+              </li>
+              <li>
+                <Check /> Dizajn prispôsobený webu
+              </li>
+              <li>
+                <Check /> Funkčnú ukážku na kontrolu
+              </li>
+              <li>
+                <Check /> Nasadenie a mobilné testovanie
+              </li>
             </ul>
             <small>Odpoveď zvyčajne do 1 pracovného dňa.</small>
           </aside>
