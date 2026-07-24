@@ -25,6 +25,26 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Format changed source canonically
+        run: |
+          bunx prettier --write \
+            src/components/site/CompetitionLanding.tsx \
+            src/components/site/Layout.tsx \
+            scripts/security-audit.mjs \
+            tests/home-contract.test.mjs
+
+      - name: Upload canonical formatted source
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatted-source
+          path: |
+            src/components/site/CompetitionLanding.tsx
+            src/components/site/Layout.tsx
+            scripts/security-audit.mjs
+            tests/home-contract.test.mjs
+          if-no-files-found: error
+          retention-days: 3
+
       - name: Run source and deployment security audit
         id: security_audit
         continue-on-error: true
