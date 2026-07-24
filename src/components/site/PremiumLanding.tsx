@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -43,7 +43,6 @@ type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
 type RevealDirection = "up" | "left" | "right";
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };
 const liquidControlSelector = ".lp-button, .lp-assistant-cta, .lp-faq-ask";
 
 const heroSequence: Variants = {
@@ -496,7 +495,6 @@ function Heading({
 function Hero() {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
   const reducedMotion = useReducedMotion();
-  const magneticCta = useMagnetic<HTMLAnchorElement>(0.055);
 
   return (
     <section className="lp-hero" id="uvod">
@@ -527,20 +525,12 @@ function Hero() {
             pripravený dopyt.
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
-            <Link
-              to="/kontakt"
-              className="lp-button lp-button-primary lp-button-sweep"
-              ref={magneticCta}
-            >
+            <Link to="/kontakt" className="lp-button lp-hero-cta lp-hero-cta--primary">
               <span className="lp-button-content">
                 Chcem chatbot na mieru <ArrowRight size={17} />
               </span>
             </Link>
-            <a href="#projekty" className="lp-button lp-button-bloom">
-              <span className="lp-bloom-dot lp-bloom-dot--one" aria-hidden="true" />
-              <span className="lp-bloom-dot lp-bloom-dot--two" aria-hidden="true" />
-              <span className="lp-bloom-dot lp-bloom-dot--three" aria-hidden="true" />
-              <span className="lp-bloom-dot lp-bloom-dot--four" aria-hidden="true" />
+            <a href="#projekty" className="lp-button lp-hero-cta lp-hero-cta--secondary">
               <span className="lp-button-content">
                 Pozrieť realizácie <ArrowUpRight size={17} />
               </span>
@@ -638,12 +628,10 @@ function SolutionCard({
   index: number;
 }) {
   const reducedMotion = useReducedMotion();
-  const cardRef = useRef<HTMLElement>(null);
   const Icon = solution.icon;
 
   return (
     <motion.article
-      ref={cardRef}
       className="lp-solution-pill"
       initial={reducedMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -651,19 +639,6 @@ function SolutionCard({
       transition={
         reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
       }
-      onPointerMove={(event) => {
-        if (reducedMotion || event.pointerType === "touch") return;
-        const card = event.currentTarget;
-        const bounds = card.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / Math.max(bounds.width, 1) - 0.5;
-        const y = (event.clientY - bounds.top) / Math.max(bounds.height, 1) - 0.5;
-        card.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
-        card.style.setProperty("--tilt-y", `${(x * 6).toFixed(2)}deg`);
-      }}
-      onPointerLeave={(event) => {
-        event.currentTarget.style.setProperty("--tilt-x", "0deg");
-        event.currentTarget.style.setProperty("--tilt-y", "0deg");
-      }}
     >
       <Icon aria-hidden="true" />
       <div>
@@ -671,7 +646,7 @@ function SolutionCard({
         <p>{solution.copy}</p>
         <button
           type="button"
-          className="lp-solution-cta"
+          className="lp-solution-cta lp-solution-cta--clean"
           onClick={() =>
             openSiteAssistant({
               source: "solution-card",
@@ -703,39 +678,27 @@ function ValueSection() {
         </Heading>
 
         <Reveal className="lp-comparison" direction="right" distance={46}>
-          <div className="lp-switch" role="group" aria-label="Porovnanie webu bez a s chatbotom">
-            <motion.button
+          <div
+            className="lp-switch lp-switch--clean"
+            role="group"
+            aria-label="Porovnanie webu bez a s chatbotom"
+          >
+            <button
               type="button"
               data-active={mode === "without"}
               aria-pressed={mode === "without"}
               onClick={() => setMode("without")}
             >
-              {mode === "without" ? (
-                <motion.span
-                  className="lp-switch-liquid"
-                  layoutId="comparison-liquid"
-                  transition={liquidSpring}
-                  aria-hidden="true"
-                />
-              ) : null}
               <span className="lp-control-label">Bez chatbota</span>
-            </motion.button>
-            <motion.button
+            </button>
+            <button
               type="button"
               data-active={mode === "with"}
               aria-pressed={mode === "with"}
               onClick={() => setMode("with")}
             >
-              {mode === "with" ? (
-                <motion.span
-                  className="lp-switch-liquid"
-                  layoutId="comparison-liquid"
-                  transition={liquidSpring}
-                  aria-hidden="true"
-                />
-              ) : null}
               <span className="lp-control-label">S chatbotom</span>
-            </motion.button>
+            </button>
           </div>
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div
@@ -744,9 +707,9 @@ function ValueSection() {
               role="status"
               aria-live="polite"
               aria-atomic="true"
-              initial={reducedMotion ? false : { opacity: 0, x: mode === "with" ? 18 : -18 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: mode === "with" ? 12 : -12 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
               transition={reducedMotion ? { duration: 0 } : { duration: 0.38, ease: premiumEase }}
             >
               <div className="lp-comparison-copy">

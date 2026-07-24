@@ -28,7 +28,10 @@ html body .lp-page .lp-hero-cta {
   border-radius: 15px !important;
   font-weight: 720 !important;
   letter-spacing: -0.018em !important;
-  transition: background-color 170ms ease, color 170ms ease, box-shadow 170ms ease !important;
+  transition:
+    background-color 170ms ease,
+    color 170ms ease,
+    box-shadow 170ms ease !important;
 }
 
 html body .lp-page .lp-hero-cta--primary {
@@ -82,7 +85,9 @@ html body .lp-page :is(.lp-hero-pick, .lp-chip) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   transform: none !important;
-  transition: background-color 150ms ease, color 150ms ease !important;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease !important;
 }
 
 html body .lp-page .lp-chip {
@@ -96,7 +101,10 @@ html body .lp-page .lp-hero-pick {
   border-radius: 16px !important;
 }
 
-html body .lp-page :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-active="true"]) {
+html
+  body
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-active="true"]) {
   border: 0 !important;
   color: #fff !important;
   background: #182638 !important;
@@ -166,7 +174,11 @@ html body .lp-page .lp-hero-pick-check {
   transform: none !important;
 }
 
-html body .lp-page :is(.lp-hero-pick, .lp-chip)[data-active="true"] :is(.lp-hero-pick-icon, .lp-chip-icon) {
+html
+  body
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip)[data-active="true"]
+  :is(.lp-hero-pick-icon, .lp-chip-icon) {
   color: #fff !important;
   background: transparent !important;
 }
@@ -190,7 +202,9 @@ html body .lp-page .lp-caps-detail-inner {
   border: 0 !important;
   border-radius: 22px !important;
   background: #0b131e !important;
-  box-shadow: inset 0 0 0 1px rgba(89, 139, 215, 0.12), 0 28px 70px -52px rgba(0, 0, 0, 0.96) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(89, 139, 215, 0.12),
+    0 28px 70px -52px rgba(0, 0, 0, 0.96) !important;
 }
 
 html body .lp-page .lp-caps-detail-copy {
@@ -375,7 +389,9 @@ html body .lp-page .lp-switch--clean button {
   filter: none !important;
   transform: none !important;
   -webkit-tap-highlight-color: transparent !important;
-  transition: background-color 150ms ease, color 150ms ease !important;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease !important;
 }
 
 html body .lp-page .lp-switch--clean button::before,
@@ -408,7 +424,9 @@ html body .lp-page .lp-comparison-body {
   border-radius: 24px !important;
   background: #0b131e !important;
   background-image: none !important;
-  box-shadow: inset 0 0 0 1px rgba(89, 139, 215, 0.11), 0 32px 80px -58px rgba(0, 0, 0, 0.96) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(89, 139, 215, 0.11),
+    0 32px 80px -58px rgba(0, 0, 0, 0.96) !important;
 }
 
 html body .lp-page .lp-comparison-copy,
@@ -519,7 +537,9 @@ html body .lp-page .lp-solution-cta--clean {
   color: #dce9ff !important;
   background: #172943 !important;
   font-weight: 680 !important;
-  transition: background-color 150ms ease, color 150ms ease !important;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease !important;
 }
 
 html body .lp-page .lp-solution-cta--clean:is(:hover, :focus-visible) {
@@ -575,7 +595,10 @@ html body .lp-page .lp-solution-cta--clean:is(:hover, :focus-visible) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html body .lp-page :is(.lp-hero-cta, .lp-hero-pick, .lp-chip, .lp-switch--clean button, .lp-solution-cta--clean) {
+  html
+    body
+    .lp-page
+    :is(.lp-hero-cta, .lp-hero-pick, .lp-chip, .lp-switch--clean button, .lp-solution-cta--clean) {
     animation: none !important;
     transition: none !important;
   }

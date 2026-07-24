@@ -7,8 +7,6 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { HomeConversionUpgrade } from "./HomeConversionUpgrade";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
-import { LiquidSegmentedDrag } from "./LiquidSegmentedDrag";
-import { LiquidSurfacePointer } from "./LiquidSurfacePointer";
 import "./SitePolish.css";
 import "./MineralTheme.css";
 import "./MineralThemePolish.css";
@@ -36,6 +34,7 @@ import "./OwnerFriendlyPolish.css";
 import "./CompetitionWinnerFinal.css";
 import "./TasteSystemFinal.css";
 import "./ApprovedInteractionsFinal.css";
+import "./MatteUiFinal.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -48,8 +47,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
         <SiteMotionEnhancements key={`motion-${pathname}`} />
-        <LiquidSegmentedDrag />
-        <LiquidSurfacePointer />
         <CookieConsent />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah

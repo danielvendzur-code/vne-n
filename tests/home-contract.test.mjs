@@ -13,14 +13,16 @@ test("Taste system and conversion section are mounted", async () => {
   assert.match(layout, /CompetitionWinnerFinal\.css/);
   assert.match(layout, /TasteSystemFinal\.css/);
   assert.match(layout, /ApprovedInteractionsFinal\.css/);
+  assert.match(layout, /MatteUiFinal\.css/);
   assert.ok(
     layout.indexOf('import "./TasteSystemFinal.css"') <
       layout.indexOf('import "./ApprovedInteractionsFinal.css"'),
   );
-  assert.equal(
-    layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./ApprovedInteractionsFinal.css"'),
+  assert.ok(
+    layout.indexOf('import "./ApprovedInteractionsFinal.css"') <
+      layout.indexOf('import "./MatteUiFinal.css"'),
   );
+  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./MatteUiFinal.css"'));
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);
   assert.match(approvedCss, /Reversed Blue Bloom/);
@@ -57,17 +59,17 @@ test("website chips are rounded borderless and use a clean selected state", asyn
   assert.doesNotMatch(tasteCss, /inset 3px 0 0/);
 });
 
-test("comparison uses one clean content surface", async () => {
+test("comparison uses one clean content surface without liquid runtime", async () => {
   const layout = await read("src/components/site/Layout.tsx");
-  const drag = await read("src/components/site/LiquidSegmentedDrag.tsx");
-  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
-  assert.match(layout, /LiquidSegmentedDrag/);
-  assert.match(drag, /setPointerCapture/);
-  assert.match(tasteCss, /One comparison card/);
-  assert.match(tasteCss, /\.lp-switch[\s\S]*border: 0 !important/);
-  assert.match(tasteCss, /\.lp-comparison[\s\S]*background: transparent !important/);
-  assert.match(tasteCss, /\.lp-comparison-body[\s\S]*border-radius: 24px !important/);
-  assert.match(tasteCss, /\.lp-comparison-copy,[\s\S]*background: transparent !important/);
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const matteCss = await read("src/components/site/MatteUiFinal.css");
+  assert.doesNotMatch(layout, /LiquidSegmentedDrag/);
+  assert.doesNotMatch(layout, /LiquidSurfacePointer/);
+  assert.doesNotMatch(landing, /lp-switch-liquid/);
+  assert.match(landing, /lp-switch--clean/);
+  assert.match(matteCss, /Final matte interaction system/);
+  assert.match(matteCss, /\.lp-comparison-body[\s\S]*border-radius: 24px !important/);
+  assert.match(matteCss, /\.lp-switch--clean[\s\S]*backdrop-filter: none !important/);
 });
 
 test("typography and icons share one visual language", async () => {
@@ -146,9 +148,10 @@ test("approved buttons and one-layer details remain mounted", async () => {
   const contact = await read("src/routes/kontakt.tsx");
   const css = await read("src/components/site/ApprovedInteractionsFinal.css");
 
-  assert.match(landing, /lp-button-sweep/);
-  assert.match(landing, /lp-button-bloom/);
-  assert.match(landing, /lp-sweep-action/);
+  assert.match(landing, /lp-hero-cta--primary/);
+  assert.match(landing, /lp-hero-cta--secondary/);
+  assert.doesNotMatch(landing, /lp-button-bloom/);
+  assert.doesNotMatch(landing, /lp-bloom-dot/);
   assert.doesNotMatch(landing, /<p>\{copy\}<\/p>\s*<p>\{copy\}<\/p>/);
   assert.match(conversion, /approved-bloom-action/);
   assert.match(contact, /contact-submit__content/);
