@@ -19,32 +19,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-
-      - name: Apply final user correction
-        id: transform
-        continue-on-error: true
-        run: python .github/apply-final-user-correction.py > /tmp/transform.log 2>&1
 
       - name: Install
         id: install
         continue-on-error: true
         run: bun install --frozen-lockfile > /tmp/install.log 2>&1
-
-      - name: Format corrected source
-        id: format
-        if: steps.transform.outcome == 'success' && steps.install.outcome == 'success'
-        continue-on-error: true
-        run: bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/FinalUserCorrection.css scripts/security-audit.mjs tests/home-contract.test.mjs > /tmp/format.log 2>&1
-
-      - name: Security audit
-        id: security
-        continue-on-error: true
-        run: node scripts/security-audit.mjs > /tmp/security.log 2>&1
 
       - name: Lint
         id: lint
@@ -61,28 +43,7 @@ jobs:
         continue-on-error: true
         env:
           NITRO_PRESET: node-server
-          VITE_BASE_PATH: /vne-n/
         run: bun run build > /tmp/build.log 2>&1
-
-      - name: Commit validated product source
-        if: >-
-          steps.transform.outcome == 'success' &&
-          steps.install.outcome == 'success' &&
-          steps.format.outcome == 'success' &&
-          steps.security.outcome == 'success' &&
-          steps.lint.outcome == 'success' &&
-          steps.test.outcome == 'success' &&
-          steps.build.outcome == 'success'
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/FinalUserCorrection.css scripts/security-audit.mjs tests/home-contract.test.mjs
-          if ! git diff --cached --quiet; then
-            git commit -m "Restore comparison and remove website chip ornaments [skip main-quality]"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
 
       - name: Save result
         if: always()
@@ -90,23 +51,22 @@ jobs:
         run: |
           {
             echo "run_id=${{ github.run_id }}"
-            echo "transform=${{ steps.transform.outcome }}"
             echo "install=${{ steps.install.outcome }}"
-            echo "format=${{ steps.format.outcome }}"
-            echo "security=${{ steps.security.outcome }}"
             echo "lint=${{ steps.lint.outcome }}"
             echo "test=${{ steps.test.outcome }}"
             echo "build=${{ steps.build.outcome }}"
             echo
-            cat /tmp/transform.log 2>/dev/null || true
-            cat /tmp/security.log 2>/dev/null || true
+            echo "===== lint ====="
             cat /tmp/lint.log 2>/dev/null || true
+            echo
+            echo "===== test ====="
             cat /tmp/test.log 2>/dev/null || true
+            echo
+            echo "===== build ====="
             cat /tmp/build.log 2>/dev/null || true
           } > MAIN_QUALITY_AUDIT.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add MAIN_QUALITY_AUDIT.txt
           git commit -m "chore: save main quality audit [skip main-quality]" || exit 0
-          git pull --rebase origin main
           git push origin HEAD:main
