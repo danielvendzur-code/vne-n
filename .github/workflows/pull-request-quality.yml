@@ -19,11 +19,17 @@ jobs:
       - name: Checkout proposed changes
         uses: actions/checkout@v4
 
+      - name: Apply final user correction
+        run: python .github/apply-final-user-correction.py
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
+
+      - name: Format corrected source
+        run: bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/FinalUserCorrection.css scripts/security-audit.mjs tests/home-contract.test.mjs
 
       - name: Run source and deployment security audit
         run: node scripts/security-audit.mjs
