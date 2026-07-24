@@ -19,27 +19,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-
-      - name: Apply final matte component rebuild
-        id: transform
-        continue-on-error: true
-        run: python .github/apply-final-matte-ui.py > /tmp/transform.log 2>&1
 
       - name: Install
         id: install
         continue-on-error: true
         run: bun install --frozen-lockfile > /tmp/install.log 2>&1
-
-      - name: Format rebuilt source
-        id: format
-        if: steps.transform.outcome == 'success' && steps.install.outcome == 'success'
-        continue-on-error: true
-        run: bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/MatteUiFinal.css tests/home-contract.test.mjs > /tmp/format.log 2>&1
 
       - name: Lint
         id: lint
@@ -56,27 +43,7 @@ jobs:
         continue-on-error: true
         env:
           NITRO_PRESET: node-server
-          VITE_BASE_PATH: /vne-n/
         run: bun run build > /tmp/build.log 2>&1
-
-      - name: Commit validated matte UI source
-        if: >-
-          steps.transform.outcome == 'success' &&
-          steps.install.outcome == 'success' &&
-          steps.format.outcome == 'success' &&
-          steps.lint.outcome == 'success' &&
-          steps.test.outcome == 'success' &&
-          steps.build.outcome == 'success'
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/MatteUiFinal.css tests/home-contract.test.mjs
-          if ! git diff --cached --quiet; then
-            git commit -m "Rebuild chips and calculator section with matte UI [skip main-quality]"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
 
       - name: Save result
         if: always()
@@ -84,15 +51,10 @@ jobs:
         run: |
           {
             echo "run_id=${{ github.run_id }}"
-            echo "transform=${{ steps.transform.outcome }}"
             echo "install=${{ steps.install.outcome }}"
-            echo "format=${{ steps.format.outcome }}"
             echo "lint=${{ steps.lint.outcome }}"
             echo "test=${{ steps.test.outcome }}"
             echo "build=${{ steps.build.outcome }}"
-            echo
-            echo "===== transform ====="
-            cat /tmp/transform.log 2>/dev/null || true
             echo
             echo "===== lint ====="
             cat /tmp/lint.log 2>/dev/null || true
@@ -107,5 +69,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add MAIN_QUALITY_AUDIT.txt
           git commit -m "chore: save main quality audit [skip main-quality]" || exit 0
-          git pull --rebase origin main
           git push origin HEAD:main
