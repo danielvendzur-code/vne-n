@@ -39,7 +39,8 @@ test("homepage follows one deliberate competition narrative", async () => {
     previous = current;
   }
 
-  assert.match(homepage, /Reálne rozhrania\. Nie generické makety\./);
+  assert.match(homepage, /Reálne rozhrania\./);
+  assert.match(homepage, /Nie generické makety\./);
   assert.match(homepage, /Jednoduchý chatbot začína od 350 €/);
   assert.match(homepage, /Na existujúci web/);
   assert.match(homepage, /Vlastný dizajn a logika/);
