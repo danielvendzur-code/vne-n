@@ -1,0 +1,172 @@
+/* Final mobile controls — stable blue CTA, compact switch and balanced last chip. */
+html body .lp-page .lp-hero-cta--primary {
+  border: 0 !important;
+  color: #fff !important;
+  background: #3478f6 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color 170ms ease, color 170ms ease !important;
+}
+
+html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
+  color: #fff !important;
+  background: #285fbd !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-page .lp-assistant-cta {
+  border: 0 !important;
+  color: #fff !important;
+  background: #3478f6 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
+  color: #fff !important;
+  background: #285fbd !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+@media (min-width: 621px) and (max-width: 940px) {
+  html body .lp-page .lp-caps-chips > .lp-chip:last-child:nth-child(odd) {
+    grid-column: 1 / -1 !important;
+    width: calc(50% - 5px) !important;
+    margin: 0 !important;
+    justify-self: center !important;
+  }
+}
+
+@media (max-width: 620px) {
+  html body .lp-page .lp-comparison {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+
+  html body .lp-page .lp-comparison > .lp-switch.lp-switch--clean {
+    position: relative !important;
+    inset: auto !important;
+    order: 0 !important;
+    z-index: 3 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    margin: 0 0 11px !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    background: #0f1a28 !important;
+    box-shadow: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  html body .lp-page .lp-switch--clean button {
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 0 9px !important;
+    overflow: hidden !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    font-size: 12.5px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  html body .lp-page .lp-switch--clean button[data-active="true"] {
+    color: #fff !important;
+    background: #3478f6 !important;
+  }
+
+  html body .lp-page .lp-switch--clean button:not([data-active="true"]):is(:hover, :focus-visible) {
+    color: #f3f6fa !important;
+    background: #1b2a3e !important;
+  }
+
+  html body .lp-page .lp-comparison-body {
+    order: 1 !important;
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    min-height: 0 !important;
+    padding: 21px 18px !important;
+    overflow: visible !important;
+    border-radius: 18px !important;
+  }
+
+  html body .lp-page .lp-comparison-copy h3 {
+    max-width: 14ch !important;
+    font-size: clamp(1.78rem, 10vw, 2.35rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  html body .lp-page .lp-comparison-copy > span {
+    margin-top: 12px !important;
+    font-size: 0.92rem !important;
+    line-height: 1.5 !important;
+  }
+
+  html body .lp-page .lp-comparison-body li {
+    min-height: 48px !important;
+    padding: 9px 11px !important;
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+  }
+
+  html body .lp-page .lp-caps-chips {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  html body .lp-page .lp-chip,
+  html body .lp-page .lp-caps-chips > .lp-chip:last-child:nth-child(odd) {
+    grid-column: auto !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    padding: 0 14px !important;
+    border-radius: 14px !important;
+    margin: 0 !important;
+    justify-self: stretch !important;
+  }
+
+  html body .lp-page .lp-chip[data-active="true"] {
+    color: #fff !important;
+    background: #285fbd !important;
+    background-image: none !important;
+  }
+
+  html body .lp-page .lp-hero-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  html body .lp-page .lp-hero-pick {
+    min-height: 58px !important;
+    grid-template-columns: 20px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    padding: 10px 11px !important;
+    border-radius: 14px !important;
+  }
+
+  html body .lp-page .lp-hero-pick-icon,
+  html body .lp-page .lp-hero-pick-icon svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  html body .lp-page .lp-hero-pick-label {
+    font-size: 0.82rem !important;
+    line-height: 1.15 !important;
+  }
+}
