@@ -26,7 +26,21 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Run source and deployment security audit
-        run: node scripts/security-audit.mjs
+        id: security_audit
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/security-audit.mjs 2>&1 | tee security-audit.log
+
+      - name: Upload security audit diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-log
+          path: security-audit.log
+          if-no-files-found: error
+          retention-days: 3
 
       - name: Lint source
         run: bun run lint
@@ -39,3 +53,7 @@ jobs:
         env:
           NITRO_PRESET: node-server
           VITE_BASE_PATH: /vne-n/
+
+      - name: Enforce security audit result
+        if: steps.security_audit.outcome == 'failure'
+        run: exit 1
