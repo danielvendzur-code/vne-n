@@ -1,14 +1,16 @@
 name: Revert competition redesign
 
 on:
-  push:
-    branches: [agent/revert-competition-redesign]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   revert:
+    if: github.head_ref == 'agent/revert-competition-redesign'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout revert branch
