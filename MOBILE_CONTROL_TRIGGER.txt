@@ -1,1 +1,1 @@
-trigger=mobile-switch-cta-v1
+trigger=mobile-switch-cta-v2
