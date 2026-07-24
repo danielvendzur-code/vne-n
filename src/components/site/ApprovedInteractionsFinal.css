@@ -376,3 +376,143 @@ html body .winner-prep {
     transition: none !important;
   }
 }
+
+/* =============================================================
+   Unified chip system — one shape language, no glass, no white edge,
+   no liquid fill and no pointer effect leaking outside the control.
+   ============================================================= */
+html body :is(.lp-hero-pick, .lp-chip) {
+  position: relative !important;
+  isolation: isolate !important;
+  contain: paint !important;
+  overflow: hidden !important;
+  min-height: 48px !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  color: #c8d2df !important;
+  background: #0f1722 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  transition:
+    background-color 170ms ease,
+    color 170ms ease !important;
+}
+
+html body :is(.lp-hero-pick, .lp-chip)::before,
+html body :is(.lp-hero-pick, .lp-chip)::after,
+html body :is(.lp-hero-pick-fill, .lp-chip-fill) {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+html body :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-active="true"]) {
+  color: #ffffff !important;
+  background: #151f2d !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html body :is(.lp-hero-pick, .lp-chip)[data-active="true"] {
+  color: #ffffff !important;
+  background: #17365f !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html body :is(.lp-hero-pick-icon, .lp-chip-icon) {
+  flex: 0 0 22px !important;
+  width: 22px !important;
+  height: 22px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #79a9ff !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html body :is(.lp-hero-pick-icon, .lp-chip-icon) svg {
+  width: 18px !important;
+  height: 18px !important;
+  stroke-width: 1.8 !important;
+  shape-rendering: geometricPrecision;
+}
+
+html body :is(.lp-hero-pick, .lp-chip)[data-active="true"] :is(.lp-hero-pick-icon, .lp-chip-icon) {
+  color: #a9c8ff !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+html body :is(.lp-hero-pick-label, .lp-chip-label, .lp-hero-pick-plus) {
+  position: relative !important;
+  z-index: 2 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  text-shadow: none !important;
+}
+
+html body .lp-hero-pick-check {
+  position: relative !important;
+  z-index: 2 !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin-left: auto !important;
+  color: #b8d2ff !important;
+  stroke-width: 2.15 !important;
+}
+
+html body :is(.lp-hero-pick, .lp-chip):active {
+  transform: none !important;
+}
+
+html body :is(.lp-hero-pick, .lp-chip):focus-visible {
+  outline: 2px solid rgba(111, 164, 255, 0.86) !important;
+  outline-offset: 3px !important;
+}
+
+/* Static chips across subpages share the same quiet material, while keeping
+   their existing geometry. */
+html body :is(.sp-hero-chips .chip, .sp-chip-row .chip) {
+  border-color: transparent !important;
+  color: #bcc8d7 !important;
+  background: #0f1722 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+  html body :is(.lp-hero-pick, .lp-chip):hover {
+    color: #c8d2df !important;
+    background: #0f1722 !important;
+  }
+  html body :is(.lp-hero-pick, .lp-chip)[data-active="true"]:hover {
+    color: #ffffff !important;
+    background: #17365f !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body :is(.lp-hero-pick, .lp-chip, .lp-hero-pick-check) {
+    animation: none !important;
+    transition: none !important;
+  }
+}
