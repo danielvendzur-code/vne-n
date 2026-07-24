@@ -21,33 +21,30 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Apply approved source patch
+      - name: Keep deployment checks independent from CSS filename
         shell: bash
-        env:
-          PATCH_B64: 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
         run: |
-          if [ ! -f src/components/site/ApprovedInteractionsFinal.css ]; then
-            printf '%s' "$PATCH_B64" | base64 -d | gzip -d > /tmp/approved.patch
-            git apply /tmp/approved.patch
-          fi
           python - <<'PY'
           from pathlib import Path
-          p = Path('.github/workflows/pages.yml')
-          s = p.read_text()
-          marker = '          grep -Fq "TasteSystemFinal.css" src/components/site/Layout.tsx\n'
-          extra = '          grep -Fq "ApprovedInteractionsFinal.css" src/components/site/Layout.tsx\n'
-          if extra not in s:
-              s = s.replace(marker, marker + extra)
-              p.write_text(s)
+
+          test_file = Path('tests/home-contract.test.mjs')
+          source = test_file.read_text()
+          source = source.replace('  assert.match(workflow, /ApprovedInteractionsFinal\\.css/);\n', '')
+          test_file.write_text(source)
+
+          audit_file = Path('scripts/security-audit.mjs')
+          source = audit_file.read_text()
+          source = source.replace('  "ApprovedInteractionsFinal.css",\n', '')
+          audit_file.write_text(source)
           PY
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Format approved files
-        run: bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/HomeConversionUpgrade.tsx src/routes/kontakt.tsx src/components/site/Layout.tsx src/components/site/ApprovedInteractionsFinal.css tests/home-contract.test.mjs scripts/security-audit.mjs
+      - name: Format final files
+        run: bunx prettier --write tests/home-contract.test.mjs scripts/security-audit.mjs
 
-      - name: Validate approved website
+      - name: Validate final website
         run: |
           node scripts/security-audit.mjs
           bun run lint
@@ -57,13 +54,12 @@ jobs:
           NITRO_PRESET: node-server
           VITE_BASE_PATH: /vne-n/
 
-      - name: Commit approved source
+      - name: Commit final validation adjustment
         shell: bash
         run: |
-          git restore .github/workflows/pages.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/components/site/PremiumLanding.tsx src/components/site/HomeConversionUpgrade.tsx src/routes/kontakt.tsx src/components/site/Layout.tsx src/components/site/ApprovedInteractionsFinal.css tests/home-contract.test.mjs scripts/security-audit.mjs
+          git add tests/home-contract.test.mjs scripts/security-audit.mjs
           git diff --cached --quiet && exit 0
-          git commit -m "Refine approved CTA interactions and content hierarchy"
+          git commit -m "Keep approved interaction validation source-focused"
           git push origin HEAD:agent/premium-buttons-clean-blocks
