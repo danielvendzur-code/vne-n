@@ -97,14 +97,16 @@ const layout = await read("src/components/site/Layout.tsx");
 const previousIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
 const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
 const tasteIndex = layout.indexOf('import "./TasteSystemFinal.css"');
+const approvedIndex = layout.indexOf('import "./ApprovedInteractionsFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
 if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
-if (previousIndex >= winnerIndex || winnerIndex >= tasteIndex) {
-  fail("TasteSystemFinal.css must load after every historical visual layer");
+if (approvedIndex === -1) fail("ApprovedInteractionsFinal.css is not imported");
+if (previousIndex >= winnerIndex || winnerIndex >= tasteIndex || tasteIndex >= approvedIndex) {
+  fail("Approved interactions must load after the historical visual layers");
 }
-if (tasteIndex !== lastStyleImport) {
-  fail("TasteSystemFinal.css must be the final component style import");
+if (approvedIndex !== lastStyleImport) {
+  fail("ApprovedInteractionsFinal.css must be the final component style import");
 }
 for (const token of ["HomeConversionUpgrade", "LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
   if (!layout.includes(token)) fail(`Layout is missing ${token}`);
@@ -145,6 +147,22 @@ for (const token of [
 }
 if (/inset 3px 0 0/.test(tasteCss)) {
   fail("Selected chip side stripe remains in the Taste visual layer");
+}
+
+const approvedCss = await read("src/components/site/ApprovedInteractionsFinal.css");
+for (const token of [
+  "Difference Sweep",
+  "Reversed Blue Bloom",
+  ".lp-button-sweep",
+  ".lp-button-bloom",
+  ".lp-caps-detail-inner",
+  ".winner-prep__item",
+  "prefers-reduced-motion",
+]) {
+  if (!approvedCss.includes(token)) fail(`Approved interaction layer is missing ${token}`);
+}
+if (/#2aa|#1fa|teal|turquoise|bronze|gold|green/i.test(approvedCss)) {
+  fail("Forbidden colour remains in the approved interaction layer");
 }
 
 const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
@@ -193,6 +211,7 @@ for (const token of [
   "Verify live deployment",
   "taste-system-v7",
   "TasteSystemFinal.css",
+  "ApprovedInteractionsFinal.css",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
