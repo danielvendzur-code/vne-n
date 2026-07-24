@@ -26,7 +26,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git revert --no-commit 649fe58e560d1a3a0879dd7cd1fff07b06125c65
-          rm -f .github/workflows/revert-competition-redesign.yml
+          rm -f .github/workflows/revert-competition-redesign.yml REVERT_PENDING.txt
           git add -A
           git commit -m "Revert competition homepage redesign"
           git push origin HEAD:agent/revert-competition-redesign
