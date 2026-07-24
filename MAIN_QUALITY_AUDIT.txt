@@ -1,4 +1,4 @@
-run_id=30101440379
+run_id=30101503945
 install=success
 lint=success
 test=success
@@ -13,91 +13,91 @@ TAP version 13
 # Subtest: Taste system and conversion section are mounted
 ok 1 - Taste system and conversion section are mounted
   ---
-  duration_ms: 5.68597
+  duration_ms: 9.281751
   type: 'test'
   ...
 # Subtest: decorative hover blobs are removed from quiet actions and chips
 ok 2 - decorative hover blobs are removed from quiet actions and chips
   ---
-  duration_ms: 0.748885
+  duration_ms: 1.164608
   type: 'test'
   ...
 # Subtest: website chips are rounded borderless and use a clean selected state
 ok 3 - website chips are rounded borderless and use a clean selected state
   ---
-  duration_ms: 0.560457
+  duration_ms: 0.992729
   type: 'test'
   ...
 # Subtest: comparison uses one clean content surface without liquid runtime
 ok 4 - comparison uses one clean content surface without liquid runtime
   ---
-  duration_ms: 1.314111
+  duration_ms: 2.074843
   type: 'test'
   ...
 # Subtest: typography and icons share one visual language
 ok 5 - typography and icons share one visual language
   ---
-  duration_ms: 0.782031
+  duration_ms: 0.984052
   type: 'test'
   ...
 # Subtest: hero and desktop navigation remain visually simplified
 ok 6 - hero and desktop navigation remain visually simplified
   ---
-  duration_ms: 1.361581
+  duration_ms: 1.734229
   type: 'test'
   ...
 # Subtest: pricing and client preparation cover the sales essentials
 ok 7 - pricing and client preparation cover the sales essentials
   ---
-  duration_ms: 0.899815
+  duration_ms: 1.303337
   type: 'test'
   ...
 # Subtest: contact form submits directly and keeps a resilient fallback
 ok 8 - contact form submits directly and keeps a resilient fallback
   ---
-  duration_ms: 0.710169
+  duration_ms: 1.024869
   type: 'test'
   ...
 # Subtest: portfolio image loading preserves lazy loading after the first image
 ok 9 - portfolio image loading preserves lazy loading after the first image
   ---
-  duration_ms: 0.786217
+  duration_ms: 1.102734
   type: 'test'
   ...
 # Subtest: mobile layouts and reduced motion remain explicit
 ok 10 - mobile layouts and reduced motion remain explicit
   ---
-  duration_ms: 0.988419
+  duration_ms: 1.503069
   type: 'test'
   ...
 # Subtest: approved buttons and one-layer details remain mounted
 ok 11 - approved buttons and one-layer details remain mounted
   ---
-  duration_ms: 1.332794
+  duration_ms: 2.047282
   type: 'test'
   ...
 # Subtest: metadata security and fresh assistant loading remain present
 ok 12 - metadata security and fresh assistant loading remain present
   ---
-  duration_ms: 0.794458
+  duration_ms: 1.203361
   type: 'test'
   ...
 # Subtest: Pages workflow validates the live Taste build
 ok 13 - Pages workflow validates the live Taste build
   ---
-  duration_ms: 0.916828
+  duration_ms: 0.818764
   type: 'test'
   ...
 # Subtest: website chips use one crisp non-liquid interaction system
 ok 14 - website chips use one crisp non-liquid interaction system
   ---
-  duration_ms: 1.208995
+  duration_ms: 1.824126
   type: 'test'
   ...
 # Subtest: final correction restores the comparison and removes chip ornaments
 ok 15 - final correction restores the comparison and removes chip ornaments
   ---
-  duration_ms: 1.547212
+  duration_ms: 2.174529
   type: 'test'
   ...
 1..15
@@ -108,7 +108,7 @@ ok 15 - final correction restores the comparison and removes chip ornaments
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 60.369082
+# duration_ms 88.760576
 
 ===== build =====
 $ vite build
@@ -138,7 +138,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js          189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-B8doOpK7.js               218.05 kB │ gzip: 70.96 kB
 
-[32m✓ built in 1.03s[39m
+[32m✓ built in 1.67s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 142 modules transformed.
 rendering chunks...
@@ -173,7 +173,7 @@ node_modules/.nitro/vite/services/ssr/assets/tanstack-s0DLJlTx.js               
 node_modules/.nitro/vite/services/ssr/assets/router-D6_kGoQC.js                       65.11 kB │ gzip: 15.92 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-SAPFO_ju.js                       69.25 kB │ gzip: 17.77 kB
 
-[32m✓ built in 499ms[39m
+[32m✓ built in 734ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-24`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -187,11 +187,11 @@ computing gzip size...
 .output/server/_ssr/vendor2.mjs            80.16 kB │ gzip:  21.30 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor.mjs            264.62 kB │ gzip:  60.82 kB
+.output/server/_ssr/vendor.mjs            264.62 kB │ gzip:  60.83 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         415.72 kB │ gzip: 104.25 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 371ms[39m
+[32m✓ built in 570ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
