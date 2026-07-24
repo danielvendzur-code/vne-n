@@ -1,5 +1,5 @@
-source_sha=3ec666aab1cdeb4332502db794068e076f85c386
-run_id=30091756701
-build_result=failure
-deploy_result=skipped
-recorded_at=2026-07-24T12:04:41Z
+source_sha=0c7d83ecd1eb123f15d0a33726a63a9554031f69
+run_id=30091786531
+build_result=cancelled
+deploy_result=cancelled
+recorded_at=2026-07-24T12:05:06Z
