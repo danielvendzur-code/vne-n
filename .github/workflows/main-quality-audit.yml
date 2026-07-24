@@ -23,16 +23,6 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Export current source for visual audit
-        uses: actions/upload-artifact@v4
-        with:
-          name: vne-n-current-source
-          path: |
-            .
-            !.git
-          include-hidden-files: true
-          retention-days: 1
-
       - name: Install
         id: install
         continue-on-error: true
