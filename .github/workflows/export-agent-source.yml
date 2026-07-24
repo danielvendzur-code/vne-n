@@ -1,0 +1,25 @@
+name: Export agent source
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    if: github.head_ref == 'agent/premium-buttons-clean-blocks'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Upload source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: vne-n-source
+          path: |
+            .
+            !.git
+          include-hidden-files: true
+          retention-days: 1
