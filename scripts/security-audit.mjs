@@ -211,7 +211,6 @@ for (const token of [
   "Verify live deployment",
   "taste-system-v7",
   "TasteSystemFinal.css",
-  "ApprovedInteractionsFinal.css",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);

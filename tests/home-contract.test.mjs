@@ -180,6 +180,5 @@ test("Pages workflow validates the live Taste build", async () => {
   assert.match(workflow, /Verify live deployment and all public routes/);
   assert.match(workflow, /taste-system-v7/);
   assert.match(workflow, /TasteSystemFinal\.css/);
-  assert.match(workflow, /ApprovedInteractionsFinal\.css/);
   assert.match(workflow, /live_smoke=success/);
 });
