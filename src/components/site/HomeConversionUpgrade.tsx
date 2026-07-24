@@ -193,13 +193,21 @@ export function HomeConversionUpgrade() {
           <div className="winner-final__actions">
             <button
               type="button"
-              className="winner-final__primary"
+              className="winner-final__primary approved-sweep-action"
               onClick={() => openSiteAssistant({ source: "winner-final", entry: "builder" })}
             >
-              <MessageCircle aria-hidden="true" /> Získať návrh
+              <span className="approved-action__content">
+                <MessageCircle aria-hidden="true" /> Získať návrh
+              </span>
             </button>
-            <Link to="/projekty" className="winner-final__secondary spotlight-surface">
-              Pozrieť realizácie <ArrowRight aria-hidden="true" />
+            <Link to="/projekty" className="winner-final__secondary approved-bloom-action">
+              <span className="approved-bloom-dot approved-bloom-dot--one" aria-hidden="true" />
+              <span className="approved-bloom-dot approved-bloom-dot--two" aria-hidden="true" />
+              <span className="approved-bloom-dot approved-bloom-dot--three" aria-hidden="true" />
+              <span className="approved-bloom-dot approved-bloom-dot--four" aria-hidden="true" />
+              <span className="approved-action__content">
+                Pozrieť realizácie <ArrowRight aria-hidden="true" />
+              </span>
             </Link>
           </div>
         </div>

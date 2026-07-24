@@ -527,13 +527,23 @@ function Hero() {
             pripravený dopyt.
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
-            <Link to="/kontakt" className="lp-button lp-button-primary" ref={magneticCta}>
+            <Link
+              to="/kontakt"
+              className="lp-button lp-button-primary lp-button-sweep"
+              ref={magneticCta}
+            >
               <span className="lp-button-content">
                 Chcem chatbot na mieru <ArrowRight size={17} />
               </span>
             </Link>
-            <a href="#projekty" className="lp-button lp-button-quiet">
-              <span className="lp-button-content">Pozrieť realizácie</span>
+            <a href="#projekty" className="lp-button lp-button-bloom">
+              <span className="lp-bloom-dot lp-bloom-dot--one" aria-hidden="true" />
+              <span className="lp-bloom-dot lp-bloom-dot--two" aria-hidden="true" />
+              <span className="lp-bloom-dot lp-bloom-dot--three" aria-hidden="true" />
+              <span className="lp-bloom-dot lp-bloom-dot--four" aria-hidden="true" />
+              <span className="lp-button-content">
+                Pozrieť realizácie <ArrowUpRight size={17} />
+              </span>
             </a>
           </motion.div>
           <motion.ul className="lp-hero-proof" variants={sequenceItem}>
@@ -600,7 +610,7 @@ function Hero() {
             </AnimatePresence>
             <button
               type="button"
-              className="lp-assistant-cta"
+              className="lp-assistant-cta lp-sweep-action"
               onClick={() => openSiteAssistant({ source: "hero-card" })}
             >
               <span className="lp-button-content">

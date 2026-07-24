@@ -7,12 +7,23 @@ const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 test("Taste system and conversion section are mounted", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const tasteCss = await read("src/components/site/TasteSystemFinal.css");
+  const approvedCss = await read("src/components/site/ApprovedInteractionsFinal.css");
   const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
   assert.match(layout, /HomeConversionUpgrade/);
   assert.match(layout, /CompetitionWinnerFinal\.css/);
   assert.match(layout, /TasteSystemFinal\.css/);
-  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./TasteSystemFinal.css"'));
+  assert.match(layout, /ApprovedInteractionsFinal\.css/);
+  assert.ok(
+    layout.indexOf('import "./TasteSystemFinal.css"') <
+      layout.indexOf('import "./ApprovedInteractionsFinal.css"'),
+  );
+  assert.equal(
+    layout.lastIndexOf('import "./'),
+    layout.indexOf('import "./ApprovedInteractionsFinal.css"'),
+  );
   assert.match(tasteCss, /Taste-system final layer/);
+  assert.match(approvedCss, /Difference Sweep/);
+  assert.match(approvedCss, /Reversed Blue Bloom/);
   assert.match(conversion, /od 350 €/);
   assert.match(conversion, /Čo potrebujem od klienta/);
   assert.match(conversion, /Získať návrh riešenia/);
@@ -127,6 +138,24 @@ test("mobile layouts and reduced motion remain explicit", async () => {
   assert.match(tasteCss, /@media \(max-width: 760px\)/);
   assert.match(tasteCss, /@media \(hover: none\), \(pointer: coarse\)/);
   assert.match(tasteCss, /prefers-reduced-motion/);
+});
+
+test("approved buttons and one-layer details remain mounted", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
+  const contact = await read("src/routes/kontakt.tsx");
+  const css = await read("src/components/site/ApprovedInteractionsFinal.css");
+
+  assert.match(landing, /lp-button-sweep/);
+  assert.match(landing, /lp-button-bloom/);
+  assert.match(landing, /lp-sweep-action/);
+  assert.doesNotMatch(landing, /<p>\{copy\}<\/p>\s*<p>\{copy\}<\/p>/);
+  assert.match(conversion, /approved-bloom-action/);
+  assert.match(contact, /contact-submit__content/);
+  assert.match(contact, /data-state=\{submitState\}/);
+  assert.match(css, /\.lp-caps-detail-inner/);
+  assert.match(css, /\.winner-prep__item/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
 
 test("metadata security and fresh assistant loading remain present", async () => {

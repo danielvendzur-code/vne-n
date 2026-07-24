@@ -252,11 +252,14 @@ function ContactPage() {
                 ) : null}
                 <button
                   type="submit"
-                  className="contact-submit"
+                  className="contact-submit approved-sweep-action"
+                  data-state={submitState}
                   disabled={submitState === "sending"}
                 >
-                  {submitState === "sending" ? "Odosielam…" : "Získať návrh riešenia"}{" "}
-                  <ArrowRight />
+                  <span className="contact-submit__content">
+                    {submitState === "sending" ? "Odosielam…" : "Získať návrh riešenia"}{" "}
+                    <ArrowRight />
+                  </span>
                 </button>
               </form>
               <div className="contact-or">
