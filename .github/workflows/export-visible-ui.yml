@@ -1,0 +1,23 @@
+name: Export visible UI source
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    if: github.head_ref == 'agent/visible-ui-rebuild'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visible-ui-source
+          path: |
+            .
+            !.git
+          include-hidden-files: true
+          retention-days: 1
