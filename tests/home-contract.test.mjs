@@ -14,6 +14,7 @@ test("Taste system and conversion section are mounted", async () => {
   assert.match(layout, /TasteSystemFinal\.css/);
   assert.match(layout, /ApprovedInteractionsFinal\.css/);
   assert.match(layout, /MatteUiFinal\.css/);
+  assert.match(layout, /FinalUserCorrection\.css/);
   assert.ok(
     layout.indexOf('import "./TasteSystemFinal.css"') <
       layout.indexOf('import "./ApprovedInteractionsFinal.css"'),
@@ -22,7 +23,14 @@ test("Taste system and conversion section are mounted", async () => {
     layout.indexOf('import "./ApprovedInteractionsFinal.css"') <
       layout.indexOf('import "./MatteUiFinal.css"'),
   );
-  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./MatteUiFinal.css"'));
+  assert.ok(
+    layout.indexOf('import "./MatteUiFinal.css"') <
+      layout.indexOf('import "./FinalUserCorrection.css"'),
+  );
+  assert.equal(
+    layout.lastIndexOf('import "./'),
+    layout.indexOf('import "./FinalUserCorrection.css"'),
+  );
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);
   assert.match(approvedCss, /Reversed Blue Bloom/);
@@ -203,4 +211,19 @@ test("website chips use one crisp non-liquid interaction system", async () => {
   assert.match(css, /contain:\s*layout paint !important/);
   assert.match(css, /background:\s*#245fae !important/);
   assert.match(css, /\.lp-hero-pick-check/);
+});
+
+test("final correction restores the comparison and removes chip ornaments", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const css = await read("src/components/site/FinalUserCorrection.css");
+  assert.match(landing, /Bez chatbota/);
+  assert.match(landing, /S chatbotom/);
+  assert.doesNotMatch(
+    landing,
+    /LiquidControlGlow|lp-hero-pick-plus|lp-hero-pick-check|lp-chip-icon/,
+  );
+  assert.match(css, /Final user correction/);
+  assert.match(css, /\.lp-comparison > \.lp-switch\.lp-switch--clean/);
+  assert.match(css, /visibility:\s*visible !important/);
+  assert.doesNotMatch(css, /inset 3px 0 0|mix-blend-mode|lp-bloom-dot/);
 });

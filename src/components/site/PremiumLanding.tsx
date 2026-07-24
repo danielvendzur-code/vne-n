@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -21,7 +21,6 @@ import {
   Mail,
   MessageCircle,
   PenLine,
-  Plus,
   Rocket,
   SlidersHorizontal,
   Sparkles,
@@ -43,8 +42,6 @@ type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
 type RevealDirection = "up" | "left" | "right";
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const liquidControlSelector = ".lp-button, .lp-assistant-cta, .lp-faq-ask";
-
 const heroSequence: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.085, delayChildren: 0.08 } },
@@ -352,76 +349,6 @@ function PageProgress() {
   return reducedMotion ? null : <AnimatedPageProgress />;
 }
 
-function LiquidControlGlow() {
-  const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
-      .connection;
-    if (
-      reducedMotion ||
-      connection?.saveData ||
-      !window.matchMedia("(any-pointer: fine)").matches
-    ) {
-      return;
-    }
-
-    let frame = 0;
-    let activeControl: HTMLElement | null = null;
-    let clientX = 0;
-    let clientY = 0;
-
-    const clearActiveControl = () => {
-      if (!activeControl) return;
-      activeControl.style.removeProperty("--liquid-x");
-      activeControl.style.removeProperty("--liquid-y");
-      activeControl = null;
-    };
-
-    const paint = () => {
-      frame = 0;
-      if (!activeControl) return;
-      const bounds = activeControl.getBoundingClientRect();
-      const x = Math.min(100, Math.max(0, ((clientX - bounds.left) / bounds.width) * 100));
-      const y = Math.min(100, Math.max(0, ((clientY - bounds.top) / bounds.height) * 100));
-      activeControl.style.setProperty("--liquid-x", `${x}%`);
-      activeControl.style.setProperty("--liquid-y", `${y}%`);
-    };
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (event.pointerType === "touch") return;
-      const match =
-        event.target instanceof Element ? event.target.closest(liquidControlSelector) : null;
-      const nextControl = match instanceof HTMLElement ? match : null;
-      if (nextControl !== activeControl) {
-        clearActiveControl();
-        activeControl = nextControl;
-      }
-      if (!activeControl) return;
-      clientX = event.clientX;
-      clientY = event.clientY;
-      if (!frame) frame = window.requestAnimationFrame(paint);
-    };
-
-    const handleWindowLeave = (event: MouseEvent) => {
-      if (!event.relatedTarget) clearActiveControl();
-    };
-
-    window.addEventListener("pointermove", handlePointerMove, { passive: true, capture: true });
-    window.addEventListener("mouseout", handleWindowLeave, { passive: true });
-    window.addEventListener("blur", clearActiveControl);
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove, true);
-      window.removeEventListener("mouseout", handleWindowLeave);
-      window.removeEventListener("blur", clearActiveControl);
-      if (frame) window.cancelAnimationFrame(frame);
-      clearActiveControl();
-    };
-  }, [reducedMotion]);
-
-  return null;
-}
-
 function Reveal({
   children,
   className = "",
@@ -579,10 +506,6 @@ function Hero() {
                         <Icon size={16} />
                       </span>
                       <span className="lp-hero-pick-label">{tool.label}</span>
-                      {tool.combo ? <span className="lp-hero-pick-plus">+ chatbot</span> : null}
-                      {activeTool === key ? (
-                        <Check className="lp-hero-pick-check" aria-hidden="true" />
-                      ) : null}
                     </button>
                   );
                 },
@@ -780,9 +703,6 @@ function CapabilityGroup({
                 }}
               >
                 <span className="lp-chip-label">{item.label}</span>
-                <span className="lp-chip-icon" aria-hidden="true">
-                  {isActive ? <Check /> : <Plus />}
-                </span>
               </button>
             );
           })}
@@ -1063,7 +983,6 @@ export function PremiumLanding() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="lp-page">
-        <LiquidControlGlow />
         <PageProgress />
         <Hero />
         <ValueSection />

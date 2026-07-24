@@ -42,7 +42,9 @@ html body .lp-page .lp-hero-pick {
   box-shadow: none !important;
   text-align: left !important;
   transform: none !important;
-  transition: background-color 170ms ease, color 170ms ease !important;
+  transition:
+    background-color 170ms ease,
+    color 170ms ease !important;
 }
 
 html body .lp-page .lp-hero-pick::before,
@@ -227,7 +229,9 @@ html body .lp-page .lp-chip {
   box-shadow: none !important;
   text-align: center !important;
   transform: none !important;
-  transition: background-color 160ms ease, color 160ms ease !important;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease !important;
 }
 
 html body .lp-page .lp-chip::before,
@@ -247,8 +251,7 @@ html body .lp-page .lp-chip:is(:hover, :focus-visible):not([data-active="true"])
 html body .lp-page .lp-chip[data-active="true"] {
   color: #fff !important;
   background:
-    radial-gradient(circle at 50% 50%, rgba(92, 153, 255, 0.24), transparent 68%),
-    #214f8d !important;
+    radial-gradient(circle at 50% 50%, rgba(92, 153, 255, 0.24), transparent 68%), #214f8d !important;
   box-shadow: none !important;
   transform: none !important;
 }

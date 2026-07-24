@@ -35,6 +35,7 @@ import "./CompetitionWinnerFinal.css";
 import "./TasteSystemFinal.css";
 import "./ApprovedInteractionsFinal.css";
 import "./MatteUiFinal.css";
+import "./FinalUserCorrection.css";
 
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 

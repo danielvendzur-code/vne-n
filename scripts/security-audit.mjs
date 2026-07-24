@@ -99,21 +99,24 @@ const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
 const tasteIndex = layout.indexOf('import "./TasteSystemFinal.css"');
 const approvedIndex = layout.indexOf('import "./ApprovedInteractionsFinal.css"');
 const matteIndex = layout.indexOf('import "./MatteUiFinal.css"');
+const correctionIndex = layout.indexOf('import "./FinalUserCorrection.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
 if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
 if (approvedIndex === -1) fail("ApprovedInteractionsFinal.css is not imported");
 if (matteIndex === -1) fail("MatteUiFinal.css is not imported");
+if (correctionIndex === -1) fail("FinalUserCorrection.css is not imported");
 if (
   previousIndex >= winnerIndex ||
   winnerIndex >= tasteIndex ||
   tasteIndex >= approvedIndex ||
-  approvedIndex >= matteIndex
+  approvedIndex >= matteIndex ||
+  matteIndex >= correctionIndex
 ) {
   fail("Final matte interactions must load after the historical visual layers");
 }
-if (matteIndex !== lastStyleImport) {
-  fail("MatteUiFinal.css must be the final component style import");
+if (correctionIndex !== lastStyleImport) {
+  fail("FinalUserCorrection.css must be the final component style import");
 }
 if (!layout.includes("HomeConversionUpgrade")) fail("Layout is missing HomeConversionUpgrade");
 for (const token of ["LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
@@ -193,11 +196,32 @@ if (/mix-blend-mode|lp-bloom-dot|scale\(6\.2\)/i.test(matteCss)) {
   fail("Liquid or bloom decoration remains in the final matte layer");
 }
 
+const correctionCss = await read("src/components/site/FinalUserCorrection.css");
+for (const token of [
+  "Final user correction",
+  ".lp-comparison > .lp-switch.lp-switch--clean",
+  "visibility: visible !important",
+  "content: none !important",
+  "border: 0 !important",
+]) {
+  if (!correctionCss.includes(token)) fail(`Final user correction is missing ${token}`);
+}
+if (/inset 3px 0 0|mix-blend-mode|lp-bloom-dot/i.test(correctionCss))
+  fail("Ornament or liquid decoration remains in final correction");
+
 const landing = await read("src/components/site/PremiumLanding.tsx");
 for (const token of ["lp-hero-cta--primary", "lp-hero-cta--secondary", "lp-switch--clean"]) {
   if (!landing.includes(token)) fail(`Homepage rebuild is missing ${token}`);
 }
-for (const token of ["lp-button-bloom", "lp-bloom-dot", "lp-switch-liquid"]) {
+for (const token of [
+  "lp-button-bloom",
+  "lp-bloom-dot",
+  "lp-switch-liquid",
+  "lp-hero-pick-plus",
+  "lp-hero-pick-check",
+  "lp-chip-icon",
+  "LiquidControlGlow",
+]) {
   if (landing.includes(token)) fail(`Removed liquid homepage element remains: ${token}`);
 }
 
