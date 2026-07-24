@@ -1,0 +1,819 @@
+name: Apply final matte UI rebuild
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'agent/final-matte-ui-fix'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/final-matte-ui-fix
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Rebuild components and interactions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+
+          landing_path = Path('src/components/site/PremiumLanding.tsx')
+          landing = landing_path.read_text()
+
+          if 'lp-hero-cta--primary' not in landing:
+              landing = landing.replace(
+                  'import { useEffect, useRef, useState, type ReactNode } from "react";',
+                  'import { useEffect, useState, type ReactNode } from "react";',
+                  1,
+              )
+              landing = landing.replace(
+                  'const liquidSpring = { type: "spring" as const, stiffness: 290, damping: 29, mass: 0.78 };\n',
+                  '',
+                  1,
+              )
+              landing = landing.replace('  const magneticCta = useMagnetic<HTMLAnchorElement>(0.055);\n', '', 1)
+              landing = landing.replace(
+                  '''            <Link
+              to="/kontakt"
+              className="lp-button lp-button-primary lp-button-sweep"
+              ref={magneticCta}
+            >
+              <span className="lp-button-content">
+                Chcem chatbot na mieru <ArrowRight size={17} />
+              </span>
+            </Link>
+            <a href="#projekty" className="lp-button lp-button-bloom">
+              <span className="lp-bloom-dot lp-bloom-dot--one" aria-hidden="true" />
+              <span className="lp-bloom-dot lp-bloom-dot--two" aria-hidden="true" />
+              <span className="lp-bloom-dot lp-bloom-dot--three" aria-hidden="true" />
+              <span className="lp-bloom-dot lp-bloom-dot--four" aria-hidden="true" />
+              <span className="lp-button-content">
+                Pozrieť realizácie <ArrowUpRight size={17} />
+              </span>
+            </a>''',
+                  '''            <Link to="/kontakt" className="lp-button lp-hero-cta lp-hero-cta--primary">
+              <span className="lp-button-content">
+                Chcem chatbot na mieru <ArrowRight size={17} />
+              </span>
+            </Link>
+            <a href="#projekty" className="lp-button lp-hero-cta lp-hero-cta--secondary">
+              <span className="lp-button-content">
+                Pozrieť realizácie <ArrowUpRight size={17} />
+              </span>
+            </a>''',
+                  1,
+              )
+              landing = landing.replace('  const cardRef = useRef<HTMLElement>(null);\n', '', 1)
+              landing = landing.replace(
+                  '''      ref={cardRef}
+      className="lp-solution-pill"
+      initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.28 }}
+      transition={
+        reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
+      }
+      onPointerMove={(event) => {
+        if (reducedMotion || event.pointerType === "touch") return;
+        const card = event.currentTarget;
+        const bounds = card.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / Math.max(bounds.width, 1) - 0.5;
+        const y = (event.clientY - bounds.top) / Math.max(bounds.height, 1) - 0.5;
+        card.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
+        card.style.setProperty("--tilt-y", `${(x * 6).toFixed(2)}deg`);
+      }}
+      onPointerLeave={(event) => {
+        event.currentTarget.style.setProperty("--tilt-x", "0deg");
+        event.currentTarget.style.setProperty("--tilt-y", "0deg");
+      }}''',
+                  '''      className="lp-solution-pill"
+      initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.28 }}
+      transition={
+        reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
+      }''',
+                  1,
+              )
+              landing = landing.replace(
+                  'className="lp-solution-cta"',
+                  'className="lp-solution-cta lp-solution-cta--clean"',
+                  1,
+              )
+              landing = landing.replace(
+                  '''          <div className="lp-switch" role="group" aria-label="Porovnanie webu bez a s chatbotom">
+            <motion.button
+              type="button"
+              data-active={mode === "without"}
+              aria-pressed={mode === "without"}
+              onClick={() => setMode("without")}
+            >
+              {mode === "without" ? (
+                <motion.span
+                  className="lp-switch-liquid"
+                  layoutId="comparison-liquid"
+                  transition={liquidSpring}
+                  aria-hidden="true"
+                />
+              ) : null}
+              <span className="lp-control-label">Bez chatbota</span>
+            </motion.button>
+            <motion.button
+              type="button"
+              data-active={mode === "with"}
+              aria-pressed={mode === "with"}
+              onClick={() => setMode("with")}
+            >
+              {mode === "with" ? (
+                <motion.span
+                  className="lp-switch-liquid"
+                  layoutId="comparison-liquid"
+                  transition={liquidSpring}
+                  aria-hidden="true"
+                />
+              ) : null}
+              <span className="lp-control-label">S chatbotom</span>
+            </motion.button>
+          </div>''',
+                  '''          <div className="lp-switch lp-switch--clean" role="group" aria-label="Porovnanie webu bez a s chatbotom">
+            <button
+              type="button"
+              data-active={mode === "without"}
+              aria-pressed={mode === "without"}
+              onClick={() => setMode("without")}
+            >
+              <span className="lp-control-label">Bez chatbota</span>
+            </button>
+            <button
+              type="button"
+              data-active={mode === "with"}
+              aria-pressed={mode === "with"}
+              onClick={() => setMode("with")}
+            >
+              <span className="lp-control-label">S chatbotom</span>
+            </button>
+          </div>''',
+                  1,
+              )
+              landing = landing.replace(
+                  '''              initial={reducedMotion ? false : { opacity: 0, x: mode === "with" ? 18 : -18 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: mode === "with" ? 12 : -12 }}''',
+                  '''              initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}''',
+                  1,
+              )
+              landing_path.write_text(landing)
+
+          layout_path = Path('src/components/site/Layout.tsx')
+          layout = layout_path.read_text()
+          layout = layout.replace('import { LiquidSegmentedDrag } from "./LiquidSegmentedDrag";\n', '')
+          layout = layout.replace('import { LiquidSurfacePointer } from "./LiquidSurfacePointer";\n', '')
+          layout = layout.replace('        <LiquidSegmentedDrag />\n', '')
+          layout = layout.replace('        <LiquidSurfacePointer />\n', '')
+          if 'import "./MatteUiFinal.css";' not in layout:
+              layout = layout.replace(
+                  'import "./ApprovedInteractionsFinal.css";\n',
+                  'import "./ApprovedInteractionsFinal.css";\nimport "./MatteUiFinal.css";\n',
+                  1,
+              )
+          layout_path.write_text(layout)
+
+          test_path = Path('tests/home-contract.test.mjs')
+          tests = test_path.read_text()
+          tests = tests.replace(
+              '  assert.match(layout, /ApprovedInteractionsFinal\\.css/);\n',
+              '  assert.match(layout, /ApprovedInteractionsFinal\\.css/);\n  assert.match(layout, /MatteUiFinal\\.css/);\n',
+              1,
+          )
+          tests = tests.replace(
+              '''  assert.equal(
+    layout.lastIndexOf('import "./'),
+    layout.indexOf('import "./ApprovedInteractionsFinal.css"'),
+  );''',
+              '''  assert.ok(
+    layout.indexOf('import "./ApprovedInteractionsFinal.css"') <
+      layout.indexOf('import "./MatteUiFinal.css"'),
+  );
+  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./MatteUiFinal.css"'));''',
+              1,
+          )
+          old_comparison = '''test("comparison uses one clean content surface", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const drag = await read("src/components/site/LiquidSegmentedDrag.tsx");
+  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
+  assert.match(layout, /LiquidSegmentedDrag/);
+  assert.match(drag, /setPointerCapture/);
+  assert.match(tasteCss, /One comparison card/);
+  assert.match(tasteCss, /\\.lp-switch[\\s\\S]*border: 0 !important/);
+  assert.match(tasteCss, /\\.lp-comparison[\\s\\S]*background: transparent !important/);
+  assert.match(tasteCss, /\\.lp-comparison-body[\\s\\S]*border-radius: 24px !important/);
+  assert.match(tasteCss, /\\.lp-comparison-copy,[\\s\\S]*background: transparent !important/);
+});'''
+          new_comparison = '''test("comparison uses one clean content surface without liquid runtime", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const matteCss = await read("src/components/site/MatteUiFinal.css");
+  assert.doesNotMatch(layout, /LiquidSegmentedDrag/);
+  assert.doesNotMatch(layout, /LiquidSurfacePointer/);
+  assert.doesNotMatch(landing, /lp-switch-liquid/);
+  assert.match(landing, /lp-switch--clean/);
+  assert.match(matteCss, /Final matte interaction system/);
+  assert.match(matteCss, /\\.lp-comparison-body[\\s\\S]*border-radius: 24px !important/);
+  assert.match(matteCss, /\\.lp-switch--clean[\\s\\S]*backdrop-filter: none !important/);
+});'''
+          if old_comparison in tests:
+              tests = tests.replace(old_comparison, new_comparison, 1)
+          tests = tests.replace(
+              '''  assert.match(landing, /lp-button-sweep/);
+  assert.match(landing, /lp-button-bloom/);
+  assert.match(landing, /lp-sweep-action/);''',
+              '''  assert.match(landing, /lp-hero-cta--primary/);
+  assert.match(landing, /lp-hero-cta--secondary/);
+  assert.doesNotMatch(landing, /lp-button-bloom/);
+  assert.doesNotMatch(landing, /lp-bloom-dot/);''',
+              1,
+          )
+          tests = tests.replace(
+              '  assert.match(css, /Visible chip rebuild/);\n',
+              '  assert.match(css, /Visible chip rebuild/);\n  const matteCss = await read("src/components/site/MatteUiFinal.css");\n  assert.match(matteCss, /Final matte interaction system/);\n',
+              1,
+          )
+          test_path.write_text(tests)
+          PY
+
+          cat > src/components/site/MatteUiFinal.css <<'CSS'
+          /* Final matte interaction system — no liquid glass, white rings or ripple clicks. */
+          html body .lp-page :is(.lp-hero-cta, .lp-solution-cta--clean) {
+            position: relative !important;
+            isolation: isolate !important;
+            overflow: hidden !important;
+            border: 0 !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transform: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+            touch-action: manipulation !important;
+          }
+
+          html body .lp-page :is(.lp-hero-cta, .lp-solution-cta--clean)::before,
+          html body .lp-page :is(.lp-hero-cta, .lp-solution-cta--clean)::after {
+            content: none !important;
+            display: none !important;
+            animation: none !important;
+            transition: none !important;
+          }
+
+          html body .lp-page .lp-hero-cta {
+            min-height: 52px !important;
+            padding: 0 20px !important;
+            border-radius: 15px !important;
+            font-weight: 720 !important;
+            letter-spacing: -0.018em !important;
+            transition: background-color 170ms ease, color 170ms ease, box-shadow 170ms ease !important;
+          }
+
+          html body .lp-page .lp-hero-cta--primary {
+            color: #fff !important;
+            background: #3478f6 !important;
+            box-shadow: 0 16px 34px -24px rgba(52, 120, 246, 0.95) !important;
+          }
+
+          html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
+            color: #fff !important;
+            background: #4385f8 !important;
+            box-shadow: 0 18px 38px -23px rgba(52, 120, 246, 0.88) !important;
+            transform: none !important;
+          }
+
+          html body .lp-page .lp-hero-cta--secondary {
+            color: #eef5ff !important;
+            background: #111c2a !important;
+            box-shadow: inset 0 0 0 1px rgba(91, 146, 235, 0.16) !important;
+          }
+
+          html body .lp-page .lp-hero-cta--secondary:is(:hover, :focus-visible) {
+            color: #fff !important;
+            background: #172538 !important;
+            box-shadow: inset 0 0 0 1px rgba(91, 146, 235, 0.28) !important;
+            transform: none !important;
+          }
+
+          html body .lp-page .lp-hero-cta:active { transform: none !important; }
+
+          html body .lp-page .lp-hero-cta .lp-button-content {
+            position: relative !important;
+            z-index: 1 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.6rem !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick, .lp-chip) {
+            contain: layout paint !important;
+            overflow: hidden !important;
+            border: 0 !important;
+            color: #d8e1ed !important;
+            background: #111b29 !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transform: none !important;
+            transition: background-color 150ms ease, color 150ms ease !important;
+          }
+
+          html body .lp-page .lp-chip {
+            min-height: 50px !important;
+            padding: 0 15px 0 17px !important;
+            border-radius: 16px !important;
+          }
+
+          html body .lp-page .lp-hero-pick {
+            min-height: 54px !important;
+            border-radius: 16px !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-active="true"]) {
+            border: 0 !important;
+            color: #fff !important;
+            background: #182638 !important;
+            box-shadow: none !important;
+            transform: none !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick, .lp-chip)[data-active="true"] {
+            border: 0 !important;
+            color: #fff !important;
+            background: #2f6fd6 !important;
+            background-image: none !important;
+            box-shadow: 0 13px 30px -23px rgba(47, 111, 214, 0.96) !important;
+            transform: none !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick, .lp-chip):focus-visible {
+            outline: 2px solid rgba(95, 157, 255, 0.78) !important;
+            outline-offset: 3px !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick, .lp-chip):active { transform: none !important; }
+
+          html body .lp-page :is(.lp-hero-pick, .lp-chip)::before,
+          html body .lp-page :is(.lp-hero-pick, .lp-chip)::after,
+          html body .lp-page :is(.lp-hero-pick-icon, .lp-chip-icon)::before,
+          html body .lp-page :is(.lp-hero-pick-icon, .lp-chip-icon)::after,
+          html body .lp-page :is(.lp-hero-pick-fill, .lp-chip-fill, .lp-switch-liquid) {
+            content: none !important;
+            display: none !important;
+            opacity: 0 !important;
+            animation: none !important;
+            transition: none !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick-icon, .lp-chip-icon) {
+            width: 20px !important;
+            height: 20px !important;
+            flex: 0 0 20px !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            color: #69a2ff !important;
+            background: transparent !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            filter: none !important;
+            clip-path: none !important;
+            mask: none !important;
+            -webkit-mask: none !important;
+            transform: none !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick-icon, .lp-chip-icon) svg,
+          html body .lp-page .lp-hero-pick-check {
+            width: 18px !important;
+            height: 18px !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            filter: none !important;
+            clip-path: none !important;
+            transform: none !important;
+          }
+
+          html body .lp-page :is(.lp-hero-pick, .lp-chip)[data-active="true"] :is(.lp-hero-pick-icon, .lp-chip-icon) {
+            color: #fff !important;
+            background: transparent !important;
+          }
+
+          html body .lp-page .lp-caps-detail {
+            padding-top: 16px !important;
+            overflow: visible !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+
+          html body .lp-page .lp-caps-detail-inner {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1.05fr) minmax(19rem, 0.95fr) !important;
+            align-items: stretch !important;
+            gap: 0 !important;
+            min-height: 310px !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            border: 0 !important;
+            border-radius: 22px !important;
+            background: #0b131e !important;
+            box-shadow: inset 0 0 0 1px rgba(89, 139, 215, 0.12), 0 28px 70px -52px rgba(0, 0, 0, 0.96) !important;
+          }
+
+          html body .lp-page .lp-caps-detail-copy {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            min-width: 0 !important;
+            padding: clamp(28px, 4vw, 48px) !important;
+            border: 0 !important;
+            background: transparent !important;
+          }
+
+          html body .lp-page .lp-caps-detail-copy h4 {
+            margin: 0 !important;
+            color: #f7f9fc !important;
+            font-size: clamp(1.55rem, 2.3vw, 2.15rem) !important;
+            line-height: 1.08 !important;
+            letter-spacing: -0.038em !important;
+          }
+
+          html body .lp-page .lp-caps-detail-copy p {
+            max-width: 36rem !important;
+            margin: 15px 0 0 !important;
+            color: #9eacbe !important;
+            font-size: 1rem !important;
+            line-height: 1.62 !important;
+          }
+
+          html body .lp-page .lp-caps-detail-cta {
+            margin-top: 24px !important;
+            min-height: 46px !important;
+            padding: 0 17px !important;
+            border: 0 !important;
+            border-radius: 14px !important;
+            color: #fff !important;
+            background: #245fae !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transform: none !important;
+            transition: background-color 150ms ease !important;
+          }
+
+          html body .lp-page .lp-caps-detail-cta::before,
+          html body .lp-page .lp-caps-detail-cta::after { content: none !important; display: none !important; }
+
+          html body .lp-page .lp-caps-detail-cta:is(:hover, :focus-visible) {
+            color: #fff !important;
+            background: #3478f6 !important;
+            box-shadow: none !important;
+            transform: none !important;
+          }
+
+          html body .lp-page .lp-caps-detail-spec {
+            display: grid !important;
+            align-content: center !important;
+            gap: 0 !important;
+            min-width: 0 !important;
+            padding: clamp(28px, 4vw, 44px) !important;
+            border: 0 !important;
+            border-left: 1px solid rgba(114, 149, 199, 0.11) !important;
+            background: #0d1724 !important;
+            box-shadow: none !important;
+          }
+
+          html body .lp-page .lp-caps-detail-spec > div {
+            padding: 22px 0 !important;
+            border: 0 !important;
+            border-top: 1px solid rgba(114, 149, 199, 0.11) !important;
+            background: transparent !important;
+          }
+
+          html body .lp-page .lp-caps-detail-spec > div:first-child { padding-top: 0 !important; border-top: 0 !important; }
+          html body .lp-page .lp-caps-detail-spec > div:last-child { padding-bottom: 0 !important; }
+
+          html body .lp-page .lp-caps-detail-spec dt {
+            margin-bottom: 13px !important;
+            color: #7faeff !important;
+            font-size: 0.72rem !important;
+            font-weight: 780 !important;
+            letter-spacing: 0.12em !important;
+            text-transform: uppercase !important;
+          }
+
+          html body .lp-page .lp-caps-inputs {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            gap: 9px !important;
+          }
+
+          html body .lp-page .lp-caps-input {
+            position: relative !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            min-height: 34px !important;
+            padding: 0 13px 0 27px !important;
+            border: 0 !important;
+            border-radius: 999px !important;
+            color: #d7e1ef !important;
+            background: #142133 !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            font-size: 0.82rem !important;
+            font-weight: 650 !important;
+            line-height: 1 !important;
+            white-space: nowrap !important;
+          }
+
+          html body .lp-page .lp-caps-input::before {
+            content: "" !important;
+            position: absolute !important;
+            left: 13px !important;
+            top: 50% !important;
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+            background: #5b96f5 !important;
+            box-shadow: none !important;
+            transform: translateY(-50%) !important;
+          }
+
+          html body .lp-page .lp-caps-detail-spec dd {
+            margin: 0 !important;
+            color: #b4c0cf !important;
+            font-size: 0.94rem !important;
+            line-height: 1.55 !important;
+          }
+
+          html body .lp-page .lp-comparison {
+            margin-top: clamp(2.5rem, 5vw, 4rem) !important;
+            overflow: visible !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+
+          html body .lp-page .lp-switch--clean {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            width: min(100%, 360px) !important;
+            gap: 5px !important;
+            margin: 0 0 13px !important;
+            padding: 5px !important;
+            border: 0 !important;
+            border-radius: 15px !important;
+            background: #0f1926 !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+
+          html body .lp-page .lp-switch--clean button {
+            position: relative !important;
+            isolation: isolate !important;
+            overflow: hidden !important;
+            min-height: 42px !important;
+            padding: 0 16px !important;
+            border: 0 !important;
+            border-radius: 11px !important;
+            color: #8f9db0 !important;
+            background: transparent !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            filter: none !important;
+            transform: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+            transition: background-color 150ms ease, color 150ms ease !important;
+          }
+
+          html body .lp-page .lp-switch--clean button::before,
+          html body .lp-page .lp-switch--clean button::after { content: none !important; display: none !important; }
+
+          html body .lp-page .lp-switch--clean button[data-active="true"] {
+            color: #fff !important;
+            background: #2f6fd6 !important;
+            box-shadow: none !important;
+          }
+
+          html body .lp-page .lp-switch--clean button:is(:hover, :focus-visible):not([data-active="true"]) {
+            color: #eaf1fb !important;
+            background: #172538 !important;
+            transform: none !important;
+          }
+
+          html body .lp-page .lp-comparison-body {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1.15fr) minmax(17rem, 0.85fr) !important;
+            align-items: center !important;
+            gap: clamp(30px, 5vw, 64px) !important;
+            min-height: 320px !important;
+            padding: clamp(30px, 5vw, 58px) !important;
+            overflow: hidden !important;
+            border: 0 !important;
+            border-radius: 24px !important;
+            background: #0b131e !important;
+            background-image: none !important;
+            box-shadow: inset 0 0 0 1px rgba(89, 139, 215, 0.11), 0 32px 80px -58px rgba(0, 0, 0, 0.96) !important;
+          }
+
+          html body .lp-page .lp-comparison-copy,
+          html body .lp-page .lp-comparison-body > ul {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+
+          html body .lp-page .lp-comparison-copy h3 {
+            max-width: 12ch !important;
+            margin: 0 !important;
+            color: #f7f9fc !important;
+            font-size: clamp(2rem, 4vw, 3.65rem) !important;
+            line-height: 0.98 !important;
+            letter-spacing: -0.055em !important;
+          }
+
+          html body .lp-page .lp-comparison-copy > span {
+            max-width: 39rem !important;
+            margin-top: 18px !important;
+            color: #9eacbe !important;
+            font-size: 1rem !important;
+            line-height: 1.62 !important;
+          }
+
+          html body .lp-page .lp-comparison-body > ul {
+            display: grid !important;
+            align-content: center !important;
+            gap: 0 !important;
+            list-style: none !important;
+          }
+
+          html body .lp-page .lp-comparison-body li {
+            display: grid !important;
+            grid-template-columns: 34px minmax(0, 1fr) !important;
+            align-items: center !important;
+            gap: 13px !important;
+            min-height: 58px !important;
+            padding: 11px 0 !important;
+            border: 0 !important;
+            border-top: 1px solid rgba(114, 149, 199, 0.11) !important;
+            color: #dbe4ef !important;
+            background: transparent !important;
+            font-size: 0.96rem !important;
+            font-weight: 620 !important;
+          }
+
+          html body .lp-page .lp-comparison-body li:first-child { border-top: 0 !important; }
+
+          html body .lp-page .lp-comparison-body li svg {
+            width: 30px !important;
+            height: 30px !important;
+            padding: 7px !important;
+            border: 0 !important;
+            border-radius: 50% !important;
+            color: #fff !important;
+            background: #245fae !important;
+            box-shadow: none !important;
+          }
+
+          html body .lp-page .lp-solution-strip {
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 12px !important;
+            overflow: visible !important;
+            margin-top: 14px !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+
+          html body .lp-page .lp-solution-pill {
+            min-height: 100% !important;
+            border: 0 !important;
+            border-radius: 18px !important;
+            background: #0f1926 !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            transform: none !important;
+          }
+
+          html body .lp-page .lp-solution-pill::before,
+          html body .lp-page .lp-solution-pill::after { content: none !important; display: none !important; }
+
+          html body .lp-page .lp-solution-pill > svg {
+            color: #6da4ff !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+
+          html body .lp-page .lp-solution-cta--clean {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            min-height: 40px !important;
+            margin-top: 16px !important;
+            padding: 0 13px !important;
+            border-radius: 12px !important;
+            color: #dce9ff !important;
+            background: #172943 !important;
+            font-weight: 680 !important;
+            transition: background-color 150ms ease, color 150ms ease !important;
+          }
+
+          html body .lp-page .lp-solution-cta--clean:is(:hover, :focus-visible) {
+            color: #fff !important;
+            background: #245fae !important;
+            transform: none !important;
+          }
+
+          @media (max-width: 900px) {
+            html body .lp-page .lp-caps-detail-inner,
+            html body .lp-page .lp-comparison-body { grid-template-columns: 1fr !important; }
+            html body .lp-page .lp-caps-detail-spec {
+              border-left: 0 !important;
+              border-top: 1px solid rgba(114, 149, 199, 0.11) !important;
+            }
+            html body .lp-page .lp-solution-strip { grid-template-columns: 1fr !important; }
+          }
+
+          @media (max-width: 620px) {
+            html body .lp-page .lp-actions { display: grid !important; grid-template-columns: 1fr !important; }
+            html body .lp-page .lp-hero-cta { width: 100% !important; }
+            html body .lp-page .lp-caps-detail-copy,
+            html body .lp-page .lp-caps-detail-spec,
+            html body .lp-page .lp-comparison-body { padding: 24px !important; }
+            html body .lp-page .lp-caps-chips { display: grid !important; grid-template-columns: 1fr !important; }
+            html body .lp-page .lp-chip { width: 100% !important; }
+            html body .lp-page .lp-switch--clean { width: 100% !important; }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            html body .lp-page :is(.lp-hero-cta, .lp-hero-pick, .lp-chip, .lp-switch--clean button, .lp-solution-cta--clean) {
+              animation: none !important;
+              transition: none !important;
+            }
+          }
+          CSS
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format changed files
+        run: bunx prettier --write src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/MatteUiFinal.css tests/home-contract.test.mjs
+
+      - name: Validate complete website
+        env:
+          NITRO_PRESET: node-server
+          VITE_BASE_PATH: /vne-n/
+        run: |
+          node scripts/security-audit.mjs
+          bun run lint
+          bun run test
+          bun run build
+
+      - name: Commit validated product source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/MatteUiFinal.css tests/home-contract.test.mjs
+          git diff --cached --quiet && exit 0
+          git commit -m "Rebuild chips and calculator section with matte UI"
+          git push origin HEAD:agent/final-matte-ui-fix
