@@ -98,18 +98,26 @@ const previousIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
 const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
 const tasteIndex = layout.indexOf('import "./TasteSystemFinal.css"');
 const approvedIndex = layout.indexOf('import "./ApprovedInteractionsFinal.css"');
+const matteIndex = layout.indexOf('import "./MatteUiFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
 if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
 if (approvedIndex === -1) fail("ApprovedInteractionsFinal.css is not imported");
-if (previousIndex >= winnerIndex || winnerIndex >= tasteIndex || tasteIndex >= approvedIndex) {
-  fail("Approved interactions must load after the historical visual layers");
+if (matteIndex === -1) fail("MatteUiFinal.css is not imported");
+if (
+  previousIndex >= winnerIndex ||
+  winnerIndex >= tasteIndex ||
+  tasteIndex >= approvedIndex ||
+  approvedIndex >= matteIndex
+) {
+  fail("Final matte interactions must load after the historical visual layers");
 }
-if (approvedIndex !== lastStyleImport) {
-  fail("ApprovedInteractionsFinal.css must be the final component style import");
+if (matteIndex !== lastStyleImport) {
+  fail("MatteUiFinal.css must be the final component style import");
 }
-for (const token of ["HomeConversionUpgrade", "LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
-  if (!layout.includes(token)) fail(`Layout is missing ${token}`);
+if (!layout.includes("HomeConversionUpgrade")) fail("Layout is missing HomeConversionUpgrade");
+for (const token of ["LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
+  if (layout.includes(token)) fail(`Removed liquid runtime is still mounted: ${token}`);
 }
 
 const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");
@@ -165,9 +173,32 @@ if (/#2aa|#1fa|teal|turquoise|bronze|gold|green/i.test(approvedCss)) {
   fail("Forbidden colour remains in the approved interaction layer");
 }
 
-const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-for (const token of ["--spot-x", "dataset.spotlight", "requestAnimationFrame"]) {
-  if (!pointer.includes(token)) fail(`Pointer tracker is missing ${token}`);
+const matteCss = await read("src/components/site/MatteUiFinal.css");
+for (const token of [
+  "Final matte interaction system",
+  ".lp-hero-cta--primary",
+  ".lp-hero-cta--secondary",
+  '.lp-chip)[data-active="true"]',
+  ".lp-caps-detail-inner",
+  ".lp-caps-input",
+  ".lp-switch--clean",
+  ".lp-comparison-body",
+  ".lp-solution-cta--clean",
+  "backdrop-filter: none !important",
+  "border: 0 !important",
+]) {
+  if (!matteCss.includes(token)) fail(`Final matte visual system is missing ${token}`);
+}
+if (/mix-blend-mode|lp-bloom-dot|scale\(6\.2\)/i.test(matteCss)) {
+  fail("Liquid or bloom decoration remains in the final matte layer");
+}
+
+const landing = await read("src/components/site/PremiumLanding.tsx");
+for (const token of ["lp-hero-cta--primary", "lp-hero-cta--secondary", "lp-switch--clean"]) {
+  if (!landing.includes(token)) fail(`Homepage rebuild is missing ${token}`);
+}
+for (const token of ["lp-button-bloom", "lp-bloom-dot", "lp-switch-liquid"]) {
+  if (landing.includes(token)) fail(`Removed liquid homepage element remains: ${token}`);
 }
 
 const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
@@ -238,5 +269,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, final Taste typography, borderless chip and icon system, real lead submission, mobile coverage, static export and live deployment contracts.",
+  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, final matte borderless controls, removed liquid runtime, real lead submission, mobile coverage, static export and live deployment contracts.",
 );
