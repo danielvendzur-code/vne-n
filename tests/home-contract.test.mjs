@@ -182,3 +182,21 @@ test("Pages workflow validates the live Taste build", async () => {
   assert.match(workflow, /TasteSystemFinal\.css/);
   assert.match(workflow, /live_smoke=success/);
 });
+
+test("website chips use one crisp non-liquid interaction system", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
+  const css = await read("src/components/site/ApprovedInteractionsFinal.css");
+
+  assert.doesNotMatch(landing, /lp-hero-pick-fill/);
+  assert.doesNotMatch(landing, /lp-chip-fill/);
+  assert.doesNotMatch(landing, /whileTap=/);
+  assert.match(landing, /data-no-liquid="true"/);
+  assert.match(landing, /event\.stopPropagation\(\)/);
+  assert.doesNotMatch(pointer, /"\.lp-hero-pick"/);
+  assert.doesNotMatch(pointer, /"\.lp-chip"/);
+  assert.match(css, /Unified chip system/);
+  assert.match(css, /contain:\s*paint !important/);
+  assert.match(css, /background:\s*#17365f !important/);
+  assert.match(css, /\.lp-hero-pick-check/);
+});

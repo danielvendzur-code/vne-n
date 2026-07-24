@@ -4,8 +4,6 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 const surfaceSelector = [
   ".spotlight-surface",
   ".lp-solution-cta",
-  ".lp-hero-pick",
-  ".lp-chip",
   ".lp-button-quiet",
   ".lp-assistant-cta",
   ".lp-faq-ask",

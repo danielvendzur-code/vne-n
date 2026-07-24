@@ -577,16 +577,22 @@ function Hero() {
                       className="lp-hero-pick"
                       data-active={activeTool === key}
                       aria-pressed={activeTool === key}
-                      onClick={() => setActiveTool(key)}
+                      data-no-liquid="true"
+                      onPointerDown={(event) => event.stopPropagation()}
+                      onPointerUp={(event) => event.stopPropagation()}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setActiveTool(key);
+                      }}
                     >
-                      {activeTool === key ? (
-                        <span className="lp-hero-pick-fill" aria-hidden="true" />
-                      ) : null}
                       <span className="lp-hero-pick-icon" aria-hidden="true">
                         <Icon size={16} />
                       </span>
                       <span className="lp-hero-pick-label">{tool.label}</span>
                       {tool.combo ? <span className="lp-hero-pick-plus">+ chatbot</span> : null}
+                      {activeTool === key ? (
+                        <Check className="lp-hero-pick-check" aria-hidden="true" />
+                      ) : null}
                     </motion.button>
                   );
                 },
@@ -599,9 +605,9 @@ function Hero() {
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
-                initial={reducedMotion ? false : { opacity: 0, y: 8, filter: "blur(3px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: "blur(3px)" }}
+                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -4 }}
                 transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
               >
                 <Check />
@@ -802,20 +808,17 @@ function CapabilityGroup({
                 data-tone={tone}
                 data-active={isActive}
                 aria-expanded={isActive}
-                onClick={() => setActive(isActive ? null : item.label)}
-                whileTap={reducedMotion ? undefined : { scale: 0.965 }}
+                data-no-liquid="true"
+                onPointerDown={(event) => event.stopPropagation()}
+                onPointerUp={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setActive(isActive ? null : item.label);
+                }}
               >
-                {isActive ? (
-                  <motion.span
-                    className="lp-chip-fill"
-                    layoutId={`caps-fill-${title}`}
-                    transition={liquidSpring}
-                    aria-hidden="true"
-                  />
-                ) : null}
                 <span className="lp-chip-label">{item.label}</span>
                 <span className="lp-chip-icon" aria-hidden="true">
-                  <Plus />
+                  {isActive ? <Check /> : <Plus />}
                 </span>
               </motion.button>
             );
