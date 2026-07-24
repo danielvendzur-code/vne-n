@@ -106,8 +106,44 @@ if (previousIndex >= winnerIndex || winnerIndex >= tasteIndex) {
 if (tasteIndex !== lastStyleImport) {
   fail("TasteSystemFinal.css must be the final component style import");
 }
-for (const token of ["HomeConversionUpgrade", "LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
+for (const token of ["LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
   if (!layout.includes(token)) fail(`Layout is missing ${token}`);
+}
+if (layout.includes("HomeConversionUpgrade")) {
+  fail("The removed duplicate homepage ending is still mounted in Layout");
+}
+
+const indexRoute = await read("src/routes/index.tsx");
+if (!indexRoute.includes("CompetitionLanding")) {
+  fail("Homepage route is not using CompetitionLanding");
+}
+if (indexRoute.includes("PremiumLanding")) {
+  fail("Homepage route still mounts the historical PremiumLanding");
+}
+
+const competitionHome = await read("src/components/site/CompetitionLanding.tsx");
+for (const token of [
+  "Web, ktorý odpovedá, počíta",
+  "cx-metal-button",
+  "cx-choice-chip",
+  "DeratScrollStory",
+  "Reálne rozhrania. Nie generické makety.",
+  "od 350 €",
+  "FinalOffer",
+]) {
+  if (!competitionHome.includes(token)) fail(`Competition homepage is missing ${token}`);
+}
+for (const section of [
+  "<Hero />",
+  "<ProofBar />",
+  "<DeratScrollStory />",
+  "<Solutions />",
+  "<Portfolio />",
+  "<Process />",
+  "<Faq />",
+  "<FinalOffer />",
+]) {
+  if (!competitionHome.includes(section)) fail(`Competition homepage is missing section ${section}`);
 }
 
 const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");
@@ -116,22 +152,27 @@ for (const token of [
   ".spotlight-surface",
   '.lp-hero-pick[data-active="true"]',
   ".lp-switch",
-  ".winner-packages",
-  ".winner-prep",
-  ".winner-final",
   "@media (max-width: 760px)",
   "prefers-reduced-motion",
 ]) {
-  if (!winnerCss.includes(token)) fail(`Competition visual system is missing ${token}`);
+  if (!winnerCss.includes(token)) fail(`Historical competition layer is missing ${token}`);
 }
 if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(winnerCss)) {
-  fail("Bronze, copper or gold remains in the final competition layer");
+  fail("Bronze, copper or gold remains in the historical competition layer");
 }
 
 const tasteCss = await read("src/components/site/TasteSystemFinal.css");
 for (const token of [
   "Taste-system final layer",
   "--taste-font",
+  "--taste-display",
+  "Pressed-metal button adapted",
+  ".cx-metal-button__inner",
+  '.cx-choice-chip[data-active="true"]',
+  ".cx-static-tag",
+  ".cx-project-card",
+  "@media (max-width: 760px)",
+  "@media (prefers-reduced-motion: reduce)",
   ".lp-button-quiet::before",
   ".lp-hero-pick::after",
   '.lp-hero-pick[data-active="true"]',
@@ -150,17 +191,6 @@ if (/inset 3px 0 0/.test(tasteCss)) {
 const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
 for (const token of ["--spot-x", "dataset.spotlight", "requestAnimationFrame"]) {
   if (!pointer.includes(token)) fail(`Pointer tracker is missing ${token}`);
-}
-
-const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
-for (const token of [
-  "od 350 €",
-  "Čo potrebujem od klienta",
-  "Web a ponuka",
-  "Pravidlá a podklady",
-  "Získať návrh riešenia",
-]) {
-  if (!conversion.includes(token)) fail(`Conversion section is missing ${token}`);
 }
 
 const contact = await read("src/routes/kontakt.tsx");
@@ -191,6 +221,7 @@ for (const token of [
   "Run source and deployment security audit",
   "Validate exported artifact",
   "Verify live deployment",
+  "CompetitionLanding",
   "taste-system-v7",
   "TasteSystemFinal.css",
   "live_smoke=success",
@@ -199,7 +230,13 @@ for (const token of [
 }
 
 const exporter = await read("scripts/export-github-pages.mjs");
-for (const token of ["/cookies", "404.html", "build-meta.json", "Chatboty, ktoré"]) {
+for (const token of [
+  "/cookies",
+  "404.html",
+  "build-meta.json",
+  "Web, ktorý odpovedá, počíta",
+  "Získať návrh riešenia",
+]) {
   if (!exporter.includes(token)) fail(`Static exporter is missing ${token}`);
 }
 
@@ -220,5 +257,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, final Taste typography, borderless chip and icon system, real lead submission, mobile coverage, static export and live deployment contracts.",
+  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, competition homepage structure, pressed-metal CTA, compact chip system, real lead submission, responsive coverage, static export and live deployment contracts.",
 );
