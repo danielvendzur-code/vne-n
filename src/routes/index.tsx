@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PremiumLanding } from "@/components/site/PremiumLanding";
+import { CompetitionLanding } from "@/components/site/CompetitionLanding";
 import { faqs } from "@/data/faq";
 import { seo, SITE_URL } from "@/lib/seo";
 
@@ -16,13 +16,13 @@ const faqJsonLd = JSON.stringify({
 const serviceJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Daniel Vendžúr — chatboty na mieru, ktoré zvyšujú konverzie",
+  name: "Daniel Vendžúr — chatboty, kalkulačky a konfigurátory na mieru",
   url: `${SITE_URL}/`,
   email: "daniel@vendzur.sk",
   telephone: "+421948699433",
   areaServed: "SK",
   description:
-    "Chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom alebo rezerváciami, ktoré pripravujú použiteľné dopyty.",
+    "Navrhujem chatboty, cenové kalkulačky a produktové konfigurátory, ktoré odpovedajú zákazníkom a pripravujú kompletné dopyty.",
   founder: { "@type": "Person", name: "Daniel Vendžúr" },
   knowsAbout: [
     "chatboty",
@@ -36,9 +36,9 @@ const serviceJsonLd = JSON.stringify({
 export const Route = createFileRoute("/")({
   head: () => ({
     ...seo({
-      title: "Daniel Vendžúr — chatboty na mieru, ktoré zvyšujú konverzie",
+      title: "Môj Chatbot — web, ktorý odpovedá, počíta a pripraví dopyt",
       description:
-        "Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou, konfigurátorom či rezerváciami. Zákazník dostane odpoveď hneď a vy pripravený dopyt.",
+        "Chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane jasný ďalší krok a vám príde kontakt s celým kontextom.",
       path: "/",
     }),
     scripts: [
@@ -50,5 +50,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <PremiumLanding />;
+  return <CompetitionLanding />;
 }
