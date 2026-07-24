@@ -516,3 +516,193 @@ html body :is(.sp-hero-chips .chip, .sp-chip-row .chip) {
     transition: none !important;
   }
 }
+
+/* =============================================================
+   Visible chip rebuild — authoritative final layer.
+   Matte surfaces only. No white edge, glass, ripple, bloom or
+   animated fill. The active state is immediate and unmistakable.
+   ============================================================= */
+html body .lp-page :is(.lp-hero-pick, .lp-chip) {
+  position: relative !important;
+  isolation: isolate !important;
+  contain: layout paint !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(82, 139, 230, 0.24) !important;
+  color: #d5deea !important;
+  background: #101824 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease !important;
+}
+
+html body .lp-page .lp-hero-pick {
+  min-height: 54px !important;
+  display: grid !important;
+  grid-template-columns: 22px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  column-gap: 10px !important;
+  padding: 0 14px !important;
+  border-radius: 15px !important;
+  text-align: left !important;
+}
+
+html body .lp-page .lp-chip {
+  min-height: 46px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  padding: 0 13px 0 15px !important;
+  border-radius: 15px !important;
+}
+
+html body .lp-page :is(.lp-hero-pick, .lp-chip)::before,
+html body .lp-page :is(.lp-hero-pick, .lp-chip)::after,
+html body .lp-page :is(.lp-hero-pick-fill, .lp-chip-fill) {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+html
+  body
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-active="true"]) {
+  border-color: rgba(92, 153, 255, 0.48) !important;
+  color: #ffffff !important;
+  background: #162235 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html body .lp-page :is(.lp-hero-pick, .lp-chip)[data-active="true"] {
+  border-color: #5b96f5 !important;
+  color: #ffffff !important;
+  background: #245fae !important;
+  background-image: none !important;
+  box-shadow: 0 12px 28px -22px rgba(57, 121, 230, 0.92) !important;
+  transform: none !important;
+}
+
+html body .lp-page :is(.lp-hero-pick-icon, .lp-chip-icon) {
+  position: relative !important;
+  z-index: 2 !important;
+  width: 22px !important;
+  height: 22px !important;
+  flex: 0 0 22px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #79a9ff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html body .lp-page :is(.lp-hero-pick-icon, .lp-chip-icon) svg {
+  width: 18px !important;
+  height: 18px !important;
+  stroke-width: 1.9 !important;
+  shape-rendering: geometricPrecision !important;
+  transform: none !important;
+  transform-origin: center !important;
+  clip-path: none !important;
+  mask: none !important;
+  -webkit-mask: none !important;
+}
+
+html
+  body
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip)[data-active="true"]
+  :is(.lp-hero-pick-icon, .lp-chip-icon) {
+  color: #ffffff !important;
+}
+
+html body .lp-page :is(.lp-hero-pick-label, .lp-chip-label, .lp-hero-pick-plus) {
+  position: relative !important;
+  z-index: 2 !important;
+  opacity: 1 !important;
+  color: inherit !important;
+  filter: none !important;
+  transform: none !important;
+  text-shadow: none !important;
+}
+
+html body .lp-page .lp-hero-pick-label {
+  min-width: 0 !important;
+  font-weight: 680 !important;
+  letter-spacing: -0.012em !important;
+}
+
+html body .lp-page .lp-hero-pick-plus {
+  grid-column: 2 !important;
+  color: #8fa1b7 !important;
+  font-size: 10px !important;
+  font-weight: 650 !important;
+}
+
+html body .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
+  color: #d7e7ff !important;
+}
+
+html body .lp-page .lp-hero-pick-check {
+  position: relative !important;
+  z-index: 2 !important;
+  grid-column: 3 !important;
+  grid-row: 1 / span 2 !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  stroke-width: 2.35 !important;
+}
+
+html body .lp-page .lp-chip-icon {
+  margin-left: auto !important;
+}
+
+html body .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
+  color: #ffffff !important;
+}
+
+html body .lp-page :is(.lp-hero-pick, .lp-chip):active {
+  transform: none !important;
+}
+
+html body .lp-page :is(.lp-hero-pick, .lp-chip):focus-visible {
+  outline: 2px solid rgba(108, 164, 255, 0.94) !important;
+  outline-offset: 3px !important;
+}
+
+html body :is(.sp-hero-chips .chip, .sp-chip-row .chip) {
+  border-color: rgba(82, 139, 230, 0.24) !important;
+  color: #c8d2df !important;
+  background: #101824 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+  html body .lp-page :is(.lp-hero-pick, .lp-chip):hover:not([data-active="true"]) {
+    border-color: rgba(82, 139, 230, 0.24) !important;
+    color: #d5deea !important;
+    background: #101824 !important;
+  }
+}

@@ -571,15 +571,15 @@ function Hero() {
                 ([key, tool]) => {
                   const Icon = tool.icon;
                   return (
-                    <motion.button
+                    <button
                       type="button"
                       key={key}
                       className="lp-hero-pick"
                       data-active={activeTool === key}
                       aria-pressed={activeTool === key}
-                      data-no-liquid="true"
+                      data-chip-kind="hero"
+                      data-selected={activeTool === key}
                       onPointerDown={(event) => event.stopPropagation()}
-                      onPointerUp={(event) => event.stopPropagation()}
                       onClick={(event) => {
                         event.stopPropagation();
                         setActiveTool(key);
@@ -593,7 +593,7 @@ function Hero() {
                       {activeTool === key ? (
                         <Check className="lp-hero-pick-check" aria-hidden="true" />
                       ) : null}
-                    </motion.button>
+                    </button>
                   );
                 },
               )}
@@ -801,16 +801,16 @@ function CapabilityGroup({
           {items.map((item) => {
             const isActive = active === item.label;
             return (
-              <motion.button
+              <button
                 type="button"
                 key={item.label}
                 className="lp-chip"
                 data-tone={tone}
                 data-active={isActive}
                 aria-expanded={isActive}
-                data-no-liquid="true"
+                data-chip-kind="capability"
+                data-selected={isActive}
                 onPointerDown={(event) => event.stopPropagation()}
-                onPointerUp={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation();
                   setActive(isActive ? null : item.label);
@@ -820,7 +820,7 @@ function CapabilityGroup({
                 <span className="lp-chip-icon" aria-hidden="true">
                   {isActive ? <Check /> : <Plus />}
                 </span>
-              </motion.button>
+              </button>
             );
           })}
         </div>

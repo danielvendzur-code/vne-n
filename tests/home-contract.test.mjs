@@ -191,12 +191,13 @@ test("website chips use one crisp non-liquid interaction system", async () => {
   assert.doesNotMatch(landing, /lp-hero-pick-fill/);
   assert.doesNotMatch(landing, /lp-chip-fill/);
   assert.doesNotMatch(landing, /whileTap=/);
-  assert.match(landing, /data-no-liquid="true"/);
+  assert.match(landing, /data-chip-kind="hero"/);
+  assert.match(landing, /data-chip-kind="capability"/);
   assert.match(landing, /event\.stopPropagation\(\)/);
   assert.doesNotMatch(pointer, /"\.lp-hero-pick"/);
   assert.doesNotMatch(pointer, /"\.lp-chip"/);
-  assert.match(css, /Unified chip system/);
-  assert.match(css, /contain:\s*paint !important/);
-  assert.match(css, /background:\s*#17365f !important/);
+  assert.match(css, /Visible chip rebuild/);
+  assert.match(css, /contain:\s*layout paint !important/);
+  assert.match(css, /background:\s*#245fae !important/);
   assert.match(css, /\.lp-hero-pick-check/);
 });
