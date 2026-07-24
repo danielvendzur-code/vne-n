@@ -1,8 +1,8 @@
-name: Apply final matte UI on push
+name: Apply final matte UI on main
 
 on:
   push:
-    branches: [agent/final-matte-ui-fix]
+    branches: [main]
 
 permissions:
   contents: write
@@ -12,10 +12,10 @@ jobs:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: agent/final-matte-ui-fix
+          ref: main
           fetch-depth: 0
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -41,4 +41,5 @@ jobs:
           git add src/components/site/PremiumLanding.tsx src/components/site/Layout.tsx src/components/site/MatteUiFinal.css tests/home-contract.test.mjs
           git diff --cached --quiet && exit 0
           git commit -m "Rebuild chips and calculator section with matte UI"
-          git push origin HEAD:agent/final-matte-ui-fix
+          git pull --rebase origin main
+          git push origin HEAD:main
