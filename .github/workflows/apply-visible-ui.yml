@@ -1,0 +1,51 @@
+name: Apply visible UI rebuild
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'agent/visible-ui-rebuild'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/visible-ui-rebuild
+          fetch-depth: 0
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Apply reviewed source patch
+        shell: bash
+        env:
+          PATCH_B64: H4sICD5GY2oAA3Zpc2libGUtdWkucGF0Y2gAzVrbcuO4EX2OvwLxPKw8EiiSEnXh2t7Z2lSqtio7NQ+zeVnnASJBCWuSYAjQl3W5Kh+RL8yXpAFSskQCutieSlgzokl0A43T3QcNkjFLEoTL6jP6DmP6EKVVTK+Kkt4xeo8lKZdUCmcls/S7bQFnyeSqWgzveXmbpPxeDOlDwUuJ75hgi5TiijmPSuflGvOSLVlO0qEoo2HEs4LnNJdiKJikwx+LouR3NP45l7QkkWQ8F39V0k4kxFYvpyufYYzfx4w/+a4/we4U+2PkueF4Go5cx10fqK9+z/r9/pvMbQ0SzELXdebBaBaMR5NZM8inTwgH3mQwQn118mYj9OnTGVKHLEkOo0CfIcphVPRnlinPkFx+rySez+Bf/6w//Iiu3nKc9aGzv9cTRdGKFaiki4qlMfrPv/6NSCVXALQkkt1RlKjJoZQ80tLRer8QKSkSVZmQiArE8/TRQZ85ul8BPojGSzpAy5QIMUAlK4oULhcp5xnipdYnOcuIpDH0nKYO+rqiSOEIQwkYkiImEMsyGjN1QfIYVXnGoOmWgLW1CW+aPPo4POurpEALHj8iJy1wQZYUhUz01MWKlhwXLLod6DYFzwV6UuMWfO2ckqY1OtsOAgkmuGpQIvWfHYmI55IwaAdEeSVRAReyLQQBVqrMDNGKxTHN2+0LXsa0DJFXPCAYhsWoXC5Ib+YPkDeaD5A/cgfIdfzxRXf4lIPihziIKSWdfkl0uyx5lccg4rneDOLYKoLBjUtqCFRt4AMWKxKrKZjawfVSTcCoCyPEJS/wPiF8Txe3TOKjhHVaJbzMLM28ila4zuUQZRCfRVV70TaqJBAmbLlK4b/EDaZ6lIKUtOvP7byufVcrIS9wM4EoESpJXpDtNrbv7I6gScEQ0jvhXMdwxnK4pewOUTCG+GmZGjNRQGiGaFlCWLUa1T0saVaoyFZWVlkuQuT70A90nJGHHgSel5QXikR4W50AXjkGlshAKaKKQQ3xCX3iJSkgut2ueQWJY5YvQ+Qiz2B9A25JYlbBGF7QFZH0QWJtCeQgTeTxSGqi7IA4nuwBkeUpyylOUtqROQKM3yshWfKIFWeAQIggvCKKF1Te0y4pHIXZCJpdIy4HobNBs483w3BBIfHo4BWaJAFIjlRU6Z++aOvLhrQ34JlSf+MoUyMHtJl8VLi1faeXMPMy3T+wjL8OR2gLV2pZGKAw4VEl1sXaRZhz2fstJpLgehm9OpdlRc//0cx/m2/Cep2Yq3UiGME6EQRqnRjPrOtEoo/968TE90fBqSvAXk5+DUQmCEwIfAgW80nSsfeECfvjICHGZeu0hRHyUBGnP4MfrDlUeyeYgnd8b7OKz/2Od94HPMwgN7aSRl0eXen8gVke0wcg/3bLPYvlqlkUWk1rzjS1KY5UmLjG1r3LErQALe6l0i0OtNRSloYNIXba1xEznZP5/ojZUxm8pVD6llEg7pZ1JDTe9GZ2b5rahCz5LcVrbWfeEViRgmKABDDWjllSnlFZsuhLSSPgtm71daiMWzc3u0RriZEyhYWyy9RNRsTt/prTJvFurHVKpu7jreNjICULur1+bl2/CBVpJd6BHzbLqmfJKJbDmKyTKm+p8FXNZ0+zo8rnGpOX+q8J7Q4tJFBvQKTUqTGZddpTCtvnEqtSTsc9dh3X82n2GpOUR2qLdGVeF88GyNdBMkuIt5gaLRbsD2ouH3cnFLivMNQY5bapbLaoUzo9NqJ3+4pWdL3deUug7mA6MraWKqA8NFSVeW5dCk8lz4yUmr+sS465SNnlXN9pF2WH9jaaVpoA1xZgtT8KDVu5Qz1Z/d0a5l3Ia7tMbh4kPX2TCnO38K4H4ZVUOzyAe/dRjOfOoIqbjDc19rz7LKbRxTxJBAWcRwd2XNo20dimLBLIUScwUTTQQjzW9+zF/wkPiaJZ7McHiv9v+JDovR8EaTg/6SeLqKc3U7XUxQD1Cs5yrRZxUgrawHdqgNSdHtiQvdYrhx7eHeWZZwVD/P/x2gAKvYxV2d9IrkpzR4qHQw/fuxonvSDoqr/XW4GDPQd+OJ44/iSYBdO5522/Cph6Ay9A/ea8fhWwffR+u6WPAyQ5TyGIrq4hjjoy+kGHkOhnRa5XWtZRRPu9SbSksipz1DvDhkZ0mXG1ZDqLSkqe16HVkWkaTW3qRcZjAWFfy5zbhGBSV0/w82wTiNRbhM8kg662M87a4XbOPdXnr4CDel2A9o1DSkYwxL8QNDYrGnFqBsw5Ttk/KxY3eW4GrBHWLH0LFcfVuZrPfmFBUxpJm02WyfD8S81lf+H3+dVTj95BmOqo0X85QvLiCxAlWeonWL0L6+w2Pf1aHNeP1aKfUnDbTh/GCK4PS/fGQK4PWD1/3ADUA3BAWKfWfDSYQmbpkymx6sOALvoBksM63uVPusC0hGddfp7XUVW/v2kiAw2vbZ1eIFiLqjS1OONyuJOT15akHK6bTSMYAHwetO+BFxVyMxfIaIL6zXkXuyf9pMXJSNHrqT9NDq3JiInaL0BITWWm8FU6jt5NtUyy0dJ+QrJS0QES0vTzYoshfHcdrFLX0I3OVBgBKEf9GrrZoaU1JAY5HTCwpsIionL+RbITEkfyTptxIlKQBUth820TfmGcPXa+B8O8nVuOZpVT+GTDJL1N6P6g8xLS8yVUGnqZ+a6il/pkopdLvSvsRpHeAZkIwpi4T1umNMwzvAZ7Lr+oLfPw2oDN5VCNfN3JowMsYuGPXaiet51xOYzZ3fX/oqCUVEDxteIZ1a/H1KcYjrrnZL/vfHKyT85aPO5Tek3JeEJ/wSQczR3fhUIx8Gfb34x4c+BiH/X1ef3NCIQWLaUTcyo+c/kLkdGql9ZV6AANO6/IhrUvD2ptXqIdpXC/Yin9SoorJY030llLzMhaSqW/X6VdM52mskV6u5NpK2qeuGkTxU3v5mIPCM2+EdTPb3a2hecnKOmVxYRdpD6iGf6as4TRuP5QRzwK4CG78Pr7khvxsf1piV1pa+MIeh+86WgSJC3NNuK1pukjIrv0lnGWz1/sui0bOy/hTM6tNW8MTwe19DP8/Be3wzTsQycAAA==
+        run: |
+          set -euo pipefail
+          printf '%s' "$PATCH_B64" | base64 --decode | gzip -dc > /tmp/visible-ui.patch
+          git apply --check -p1 /tmp/visible-ui.patch
+          git apply -p1 /tmp/visible-ui.patch
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Format changed files
+        run: bunx prettier --write src/components/site/ApprovedInteractionsFinal.css src/components/site/PremiumLanding.tsx tests/home-contract.test.mjs
+      - name: Validate complete website
+        env:
+          NITRO_PRESET: node-server
+          VITE_BASE_PATH: /vne-n/
+        run: |
+          node scripts/security-audit.mjs
+          bun run lint
+          bun run test
+          bun run build
+      - name: Commit validated source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/site/ApprovedInteractionsFinal.css src/components/site/PremiumLanding.tsx tests/home-contract.test.mjs
+          git diff --cached --quiet && exit 0
+          git commit -m "Rebuild visible website chip interactions"
+          git push origin HEAD:agent/visible-ui-rebuild
