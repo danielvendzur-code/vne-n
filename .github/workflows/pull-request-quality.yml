@@ -33,27 +33,65 @@ jobs:
           set -o pipefail
           node scripts/security-audit.mjs 2>&1 | tee security-audit.log
 
-      - name: Upload security audit diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: security-audit-log
-          path: security-audit.log
-          if-no-files-found: error
-          retention-days: 3
-
       - name: Lint source
-        run: bun run lint
+        id: lint
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          bun run lint 2>&1 | tee lint.log
 
       - name: Run UX and deployment contracts
-        run: bun run test
+        id: tests
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          bun run test 2>&1 | tee test.log
 
       - name: Build production server
-        run: bun run build
+        id: build
+        continue-on-error: true
+        shell: bash
         env:
           NITRO_PRESET: node-server
           VITE_BASE_PATH: /vne-n/
+        run: |
+          set -o pipefail
+          bun run build 2>&1 | tee build.log
 
-      - name: Enforce security audit result
-        if: steps.security_audit.outcome == 'failure'
-        run: exit 1
+      - name: Upload quality diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-diagnostics
+          path: |
+            security-audit.log
+            lint.log
+            test.log
+            build.log
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Enforce quality results
+        if: always()
+        shell: bash
+        run: |
+          failed=0
+          if [ "${{ steps.security_audit.outcome }}" != "success" ]; then
+            echo "security audit failed"
+            failed=1
+          fi
+          if [ "${{ steps.lint.outcome }}" != "success" ]; then
+            echo "lint failed"
+            failed=1
+          fi
+          if [ "${{ steps.tests.outcome }}" != "success" ]; then
+            echo "tests failed"
+            failed=1
+          fi
+          if [ "${{ steps.build.outcome }}" != "success" ]; then
+            echo "build failed"
+            failed=1
+          fi
+          exit "$failed"
