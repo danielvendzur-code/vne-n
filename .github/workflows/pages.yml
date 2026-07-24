@@ -29,9 +29,6 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Apply mobile control polish
-        run: python .github/apply-mobile-control-polish.py
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
@@ -40,9 +37,6 @@ jobs:
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
-
-      - name: Format corrected source
-        run: bunx prettier --write src/components/site/Layout.tsx src/components/site/MobileControlPolish.css tests/home-contract.test.mjs
 
       - name: Audit production dependencies
         continue-on-error: true
@@ -62,19 +56,6 @@ jobs:
         env:
           NITRO_PRESET: node-server
           VITE_BASE_PATH: /vne-n/
-
-      - name: Commit validated mobile controls
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/components/site/Layout.tsx src/components/site/MobileControlPolish.css tests/home-contract.test.mjs
-          if ! git diff --cached --quiet; then
-            git commit -m "Polish mobile comparison and chatbot CTA [skip main-quality]"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
 
       - name: Export static Pages artifact
         shell: bash
@@ -118,7 +99,6 @@ jobs:
           grep -Fq "taste-system-v7" pages-dist/widget-loader.js
           grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx
           grep -Fq "TasteSystemFinal.css" src/components/site/Layout.tsx
-          grep -Fq "MobileControlPolish.css" src/components/site/Layout.tsx
           grep -Fq "submitWebsiteLead" src/routes/kontakt.tsx
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
 
