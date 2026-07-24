@@ -90,15 +90,16 @@ jobs:
           test -f pages-dist/preview.html
           test -f pages-dist/widget-loader.js
           test -f pages-dist/build-meta.json
-          grep -Fq "Chatboty, ktoré" pages-dist/index.html
+          grep -Fq "Web, ktorý odpovedá, počíta" pages-dist/index.html
+          grep -Fq "Získať návrh riešenia" pages-dist/index.html
           grep -Fq "od 350 €" pages-dist/index.html
-          grep -Fq "Čo potrebujem od klienta" pages-dist/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
           grep -Fq "taste-system-v7" pages-dist/widget-loader.js
           grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx
           grep -Fq "TasteSystemFinal.css" src/components/site/Layout.tsx
+          grep -Fq "CompetitionLanding" src/routes/index.tsx
           grep -Fq "submitWebsiteLead" src/routes/kontakt.tsx
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
 
@@ -156,7 +157,7 @@ jobs:
             return 1
           }
 
-          fetch_with_retry "/" "od 350 €"
+          fetch_with_retry "/" "Web, ktorý odpovedá, počíta"
           fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
           fetch_with_retry "/sluzby" ""
           fetch_with_retry "/sluzby/" ""

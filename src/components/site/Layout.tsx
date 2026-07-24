@@ -5,7 +5,6 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
-import { HomeConversionUpgrade } from "./HomeConversionUpgrade";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
 import { LiquidSegmentedDrag } from "./LiquidSegmentedDrag";
 import { LiquidSurfacePointer } from "./LiquidSurfacePointer";
@@ -31,7 +30,6 @@ import "./ProfessionalChipFinal.css";
 import "./AppleLiquidSystemFinal.css";
 import "./WebsiteRefinementFinal.css";
 import "./WebsiteRequestFinish.css";
-import "./HomeConversionUpgrade.css";
 import "./OwnerFriendlyPolish.css";
 import "./CompetitionWinnerFinal.css";
 import "./TasteSystemFinal.css";
@@ -41,7 +39,6 @@ const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const reducedMotion = useReducedMotion();
-  const isHomepage = pathname === "/" || pathname === "/vne-n/";
 
   return (
     <MotionConfig reducedMotion="user">
@@ -65,7 +62,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               style={{ width: "100%", opacity: 1 }}
             >
               {children}
-              {isHomepage ? <HomeConversionUpgrade /> : null}
             </motion.div>
           </AnimatePresence>
         </main>
