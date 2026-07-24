@@ -127,7 +127,8 @@ for (const token of [
   "cx-metal-button",
   "cx-choice-chip",
   "DeratScrollStory",
-  "Reálne rozhrania. Nie generické makety.",
+  "Reálne rozhrania.",
+  "Nie generické makety.",
   "od 350 €",
   "FinalOffer",
 ]) {
