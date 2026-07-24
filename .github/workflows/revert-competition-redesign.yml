@@ -19,14 +19,27 @@ jobs:
           ref: agent/revert-competition-redesign
           fetch-depth: 0
 
-      - name: Revert competition redesign exactly
+      - name: Restore exact pre-redesign files
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git revert --no-commit 649fe58e560d1a3a0879dd7cd1fff07b06125c65
-          rm -f .github/workflows/revert-competition-redesign.yml REVERT_PENDING.txt REVERT_TRIGGER_2.txt
+          git checkout 2030689acaa00fffd9be74f545b572784d92a827 -- \
+            .github/workflows/pages.yml \
+            scripts/export-github-pages.mjs \
+            scripts/security-audit.mjs \
+            src/components/site/Layout.tsx \
+            src/components/site/TasteSystemFinal.css \
+            src/routes/index.tsx \
+            tests/home-contract.test.mjs
+          git rm -f --ignore-unmatch \
+            .github/workflows/pr-quality.yml \
+            src/components/site/CompetitionLanding.tsx
+          rm -f \
+            .github/workflows/revert-competition-redesign.yml \
+            REVERT_PENDING.txt \
+            REVERT_TRIGGER_2.txt
           git add -A
           git commit -m "Revert competition homepage redesign"
           git push origin HEAD:agent/revert-competition-redesign
