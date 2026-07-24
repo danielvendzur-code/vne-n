@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: pr-quality-${{ github.event.pull_request.number || github.ref }}
@@ -16,8 +16,10 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout proposed changes
+      - name: Checkout proposed branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -33,17 +35,25 @@ jobs:
             scripts/security-audit.mjs \
             tests/home-contract.test.mjs
 
-      - name: Upload canonical formatted source
-        uses: actions/upload-artifact@v4
-        with:
-          name: formatted-source
-          path: |
-            src/components/site/CompetitionLanding.tsx
-            src/components/site/Layout.tsx
-            scripts/security-audit.mjs
+      - name: Commit canonical formatting
+        shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          git add \
+            src/components/site/CompetitionLanding.tsx \
+            src/components/site/Layout.tsx \
+            scripts/security-audit.mjs \
             tests/home-contract.test.mjs
-          if-no-files-found: error
-          retention-days: 3
+          if git diff --cached --quiet; then
+            echo "source already formatted"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "style: format competition redesign"
+          git push origin "HEAD:${HEAD_BRANCH}"
 
       - name: Run source and deployment security audit
         id: security_audit
