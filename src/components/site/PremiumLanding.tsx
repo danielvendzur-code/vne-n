@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -583,6 +583,7 @@ function ValueSection() {
   const [mode, setMode] = useState<ComparisonMode>("with");
   const active = comparisons[mode];
   const reducedMotion = useReducedMotion();
+  const swipeStart = useRef<number | null>(null);
 
   return (
     <section className="lp-value" id="nastroje">
@@ -599,7 +600,23 @@ function ValueSection() {
             className="lp-switch lp-switch--clean"
             role="group"
             aria-label="Porovnanie webu bez a s chatbotom"
+            data-mode={mode}
+            onPointerDown={(event) => {
+              swipeStart.current = event.clientX;
+            }}
+            onPointerUp={(event) => {
+              const start = swipeStart.current;
+              swipeStart.current = null;
+              if (start === null) return;
+              const dx = event.clientX - start;
+              if (dx > 26) setMode("with");
+              else if (dx < -26) setMode("without");
+            }}
+            onPointerCancel={() => {
+              swipeStart.current = null;
+            }}
           >
+            <span className="lp-switch-thumb" aria-hidden="true" />
             <button
               type="button"
               data-active={mode === "without"}
@@ -621,6 +638,7 @@ function ValueSection() {
             <motion.div
               className="lp-comparison-body"
               key={mode}
+              data-mode={mode}
               role="status"
               aria-live="polite"
               aria-atomic="true"

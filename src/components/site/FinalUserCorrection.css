@@ -512,3 +512,291 @@ html:root body .lp-page .lp-hero-pick[data-active="true"] {
     animation: none !important;
   }
 }
+
+/* ==============================================================
+   UI POLISH PASS
+   1. Flatten the comparison: it used to nest four boxes
+      (.lp-comparison border + .lp-comparison-body card +
+      copy/list dividers + item cards) and the outer one had square
+      corners. Now there is one rounded card.
+   2. Sliding thumb for the Bez/S chatbotom switch (drag or click).
+   3. One blue family — several near-identical blues were in use.
+   4. Sections get alternating tone + a hairline so they read apart.
+   ============================================================== */
+
+/* --- 1. One card, not four stacked boxes --- */
+html:root body .lp-page .lp-comparison {
+  border: 0 !important;
+  border-radius: 26px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+html:root body .lp-page .lp-comparison-body {
+  border: 0 !important;
+  border-radius: 26px !important;
+  background: #0b1420 !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.14) !important;
+}
+
+/* the inner copy block and the list are part of the card, not cards */
+html:root body .lp-page .lp-comparison-copy,
+html:root body .lp-page .lp-comparison-body > ul {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .lp-page .lp-comparison-body li {
+  border-radius: 14px !important;
+  background: #111d2b !important;
+  box-shadow: none !important;
+}
+
+/* --- 2. Switch: real sliding thumb, drag or click --- */
+html:root body .lp-page .lp-switch--clean {
+  position: relative !important;
+  isolation: isolate !important;
+  grid-template-columns: 1fr 1fr !important;
+  padding: 4px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #0f1a28 !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.14) !important;
+  touch-action: pan-y !important;
+  cursor: grab !important;
+}
+
+html:root body .lp-page .lp-switch--clean:active {
+  cursor: grabbing !important;
+}
+
+html:root body .lp-page .lp-switch-thumb {
+  position: absolute !important;
+  z-index: 0 !important;
+  top: 4px !important;
+  bottom: 4px !important;
+  left: 4px !important;
+  width: calc(50% - 4px) !important;
+  border-radius: 999px !important;
+  background: #3478f6 !important;
+  box-shadow: 0 10px 22px -14px rgba(52, 120, 246, 0.9) !important;
+  transform: translateX(0) !important;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  pointer-events: none !important;
+}
+
+html:root body .lp-page .lp-switch--clean[data-mode="with"] .lp-switch-thumb {
+  transform: translateX(100%) !important;
+}
+
+html:root body .lp-page .lp-switch--clean button {
+  position: relative !important;
+  z-index: 1 !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #9fb0c6 !important;
+  transition: color 240ms ease !important;
+}
+
+html:root body .lp-page .lp-switch--clean button[data-active="true"] {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+/* --- 3. One blue family everywhere --- */
+html:root body .lp-page,
+html:root body .sp-page,
+html:root body .contact-page,
+html:root body .cookies-page {
+  --blue: #3478f6;
+  --blue-strong: #1f55c9;
+  --blue-soft: #8ab4ff;
+}
+
+/* solid accents collapse onto the primary blue */
+html:root body .lp-page .lp-eyebrow,
+html:root body .lp-page .lp-hero h1 em,
+html:root body .lp-page .lp-heading h2 em,
+html:root body .lp-page .lp-comparison-body li svg,
+html:root body .sp-page .sp-eyebrow,
+html:root body .sp-page .sp-hero h1 em,
+html:root body .sp-page .sp-heading h2 em {
+  color: var(--blue) !important;
+}
+
+html:root body .lp-page .lp-comparison-body li svg {
+  color: #ffffff !important;
+  background: var(--blue) !important;
+}
+
+/* soft icon/label accents use one single light tone */
+html:root body .lp-page .lp-hero-pick-icon,
+html:root body .lp-page .lp-assistant-answer > svg,
+html:root body .lp-page .lp-hero-proof svg,
+html:root body .sp-page .sp-service-head > svg {
+  color: var(--blue-soft) !important;
+}
+
+/* --- 4. Every call to action is the same blue button --- */
+html:root body .lp-page .lp-solution-cta,
+html:root body .lp-page .lp-button-primary,
+html:root body .lp-page .lp-assistant-cta,
+html:root body .lp-page .lp-caps-detail-cta,
+html:root body .lp-page .lp-faq-ask,
+html:root body .lp-page .winner-package__cta,
+html:root body .lp-page .lp-hero-cta--primary,
+html:root body .sp-page .sp-button--primary,
+html:root body .contact-page .contact-submit {
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  background: var(--blue) !important;
+  background-image: none !important;
+  box-shadow: 0 16px 32px -20px rgba(52, 120, 246, 0.85) !important;
+  font-weight: 680 !important;
+  transition:
+    background-color 200ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:root body .lp-page .lp-solution-cta:is(:hover, :focus-visible),
+html:root body .lp-page .lp-button-primary:is(:hover, :focus-visible),
+html:root body .lp-page .lp-assistant-cta:is(:hover, :focus-visible),
+html:root body .lp-page .lp-caps-detail-cta:is(:hover, :focus-visible),
+html:root body .lp-page .lp-faq-ask:is(:hover, :focus-visible),
+html:root body .lp-page .winner-package__cta:is(:hover, :focus-visible),
+html:root body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible),
+html:root body .sp-page .sp-button--primary:is(:hover, :focus-visible),
+html:root body .contact-page .contact-submit:is(:hover, :focus-visible) {
+  background: var(--blue-strong) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 20px 38px -20px rgba(31, 85, 201, 0.95) !important;
+}
+
+/* --- 5. Sections read apart: alternating tone + hairline --- */
+html:root body .lp-page .lp-value,
+html:root body .lp-page .lp-caps,
+html:root body .lp-page .lp-portfolio,
+html:root body .lp-page .winner-upgrade {
+  position: relative !important;
+  background-color: #080b12 !important;
+}
+
+html:root body .lp-page .lp-hero,
+html:root body .lp-page .lp-faq,
+html:root body .lp-page .lp-final,
+html:root body .lp-page .derat-story {
+  position: relative !important;
+  background-color: #050609 !important;
+}
+
+html:root body .lp-page .lp-value::before,
+html:root body .lp-page .lp-caps::before,
+html:root body .lp-page .lp-portfolio::before,
+html:root body .lp-page .lp-faq::before,
+html:root body .lp-page .lp-final::before,
+html:root body .lp-page .winner-upgrade::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto auto 0 !important;
+  width: 100% !important;
+  height: 1px !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(122, 162, 220, 0.22) 22%,
+    rgba(122, 162, 220, 0.22) 78%,
+    transparent
+  ) !important;
+  pointer-events: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .lp-page .lp-switch-thumb {
+    transition: none !important;
+  }
+}
+
+/* Negative items are neutral, so blue always means "this is the good path". */
+html:root body .lp-page .lp-comparison-body[data-mode="without"] li svg {
+  color: #b6c2d3 !important;
+  background: #26303f !important;
+}
+
+/* ==============================================================
+   COLOUR CONSOLIDATION
+   Runtime audit found ten different blues on one page: icons used
+   #6DA4FF / #86AFF6 / #78BBFF, hairlines used two more tints, and the
+   pricing block (which renders outside .lp-page) kept its own set.
+   Everything below collapses onto: #3478f6 solid, #8ab4ff soft,
+   rgba(122,162,220,.18) hairline.
+   ============================================================== */
+html:root body .winner-upgrade,
+html:root body .winner-trust,
+html:root body .winner-packages {
+  --blue: #3478f6;
+  --blue-strong: #1f55c9;
+  --blue-soft: #8ab4ff;
+}
+
+/* one hairline tone on every card */
+html:root body .lp-page .lp-faq-item,
+html:root body .lp-page .lp-solution-pill,
+html:root body .lp-page .lp-assistant-answer,
+html:root body .lp-page .lp-final-card,
+html:root body .winner-trust__item,
+html:root body .winner-package {
+  border-color: rgba(122, 162, 220, 0.18) !important;
+}
+
+/* one soft tone on every decorative icon */
+html:root body .lp-page .lp-solution-pill > svg,
+html:root body .lp-page .lp-faq-item svg,
+html:root body .lp-page .lp-caps-note svg,
+html:root body .lp-page .lp-hero-proof svg,
+html:root body .winner-trust__item > svg,
+html:root body .winner-package__icon svg {
+  color: #8ab4ff !important;
+}
+
+/* eyebrows and small accents use the solid brand blue */
+html:root body .winner-upgrade__eyebrow,
+html:root body .winner-upgrade h2 em,
+html:root body .winner-package__price {
+  color: #3478f6 !important;
+}
+
+/* the pricing CTA is the same blue pill as every other action */
+html:root body .winner-package__cta {
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  background: #3478f6 !important;
+  background-image: none !important;
+  box-shadow: 0 16px 32px -20px rgba(52, 120, 246, 0.85) !important;
+  transition:
+    background-color 200ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:root body .winner-package__cta:is(:hover, :focus-visible) {
+  background: #1f55c9 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* the pricing block joins the alternating section rhythm */
+html:root body .winner-upgrade {
+  position: relative !important;
+  background-color: #080b12 !important;
+}
+
+/* The solution cards carried a collapsed icon that rendered as a stray
+   1px dot next to the title. The title carries the meaning on its own. */
+html:root body .lp-page .lp-solution-pill > svg {
+  display: none !important;
+}
