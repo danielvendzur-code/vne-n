@@ -151,12 +151,6 @@ const projects = [
   },
 ];
 
-const liveTools = [
-  ["DERAT kalkulačka", "https://derat-chatbot-backend.vercel.app/"],
-  ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],
-  ["Webový asistent", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
-] as const;
-
 const heroProof = [
   { icon: BadgeCheck, text: "Reálne nasadené weby a živé nástroje" },
   { icon: PenLine, text: "Logiku navrhujem ešte pred vývojom" },
@@ -905,16 +899,6 @@ function Portfolio() {
                 </div>
               </a>
             </Reveal>
-          ))}
-        </div>
-
-        <div className="lp-live-tools">
-          <span>Živé nástroje</span>
-          {liveTools.map(([name, href]) => (
-            <a key={name} href={href} target="_blank" rel="noreferrer">
-              {name}
-              <ArrowUpRight />
-            </a>
           ))}
         </div>
       </div>

@@ -314,3 +314,201 @@ html body .lp-page .lp-caps-input::after {
     padding: 24px !important;
   }
 }
+
+/* ==============================================================
+   ONE CHIP SYSTEM
+   Every chip on every page now shares one shape, one palette, one
+   spacing scale and one motion language. Before this block the site
+   shipped four different chip looks (pill 46px with a hairline on the
+   home page, 64px borderless tiles in the hero, 16px/48px borderless
+   tags on the subpages), which is why no two chips matched.
+   Two sizes only: "chip" (text tag) and "tile" (icon + label).
+   ============================================================== */
+@property --chip-trace {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+html body .lp-page,
+html body .sp-page,
+html body .contact-page,
+html body .cookies-page {
+  --chip-h: 46px;
+  --chip-radius: 999px;
+  --chip-pad-x: 18px;
+  --chip-bg: #111b29;
+  --chip-bg-hover: #17273d;
+  --chip-ink: #d3dded;
+  --chip-ink-strong: #ffffff;
+  --chip-line: rgba(122, 162, 220, 0.18);
+  --chip-line-hover: rgba(82, 143, 246, 0.6);
+  --chip-accent: #3478f6;
+  --chip-accent-bg: #1d4276;
+  --chip-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- Base: identical for capability chips and every subpage tag ---
+   `:root` is included so this beats the older `:root .lp-page .lp-chip`
+   rules (specificity 0,3,0) that still set a different surface colour. */
+html:root body .lp-page .lp-chip,
+html:root body .lp-page .chip,
+html:root body .sp-page .chip,
+html:root body .contact-page .chip,
+html:root body .cookies-page .chip {
+  position: relative !important;
+  isolation: isolate !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: var(--chip-h) !important;
+  padding: 0 var(--chip-pad-x) !important;
+  overflow: visible !important;
+  border: 1px solid var(--chip-line) !important;
+  border-radius: var(--chip-radius) !important;
+  color: var(--chip-ink) !important;
+  background: var(--chip-bg) !important;
+  background-color: var(--chip-bg) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  font-size: 0.875rem !important;
+  font-weight: 620 !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+  transform: translateY(0) !important;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease,
+    transform 260ms var(--chip-ease),
+    box-shadow 260ms var(--chip-ease) !important;
+}
+
+/* --- Hover: one lift, one glow, everywhere --- */
+@media (hover: hover) and (pointer: fine) {
+  html:root body .lp-page .lp-chip:is(:hover, :focus-visible):not([data-selected="true"]),
+  html:root body .lp-page .chip:is(:hover, :focus-visible),
+  html:root body .sp-page .chip:is(:hover, :focus-visible),
+  html:root body .contact-page .chip:is(:hover, :focus-visible),
+  html:root body .cookies-page .chip:is(:hover, :focus-visible) {
+    color: var(--chip-ink-strong) !important;
+    border-color: var(--chip-line-hover) !important;
+    background: var(--chip-bg-hover) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 14px 26px -18px rgba(52, 120, 246, 0.75) !important;
+  }
+}
+
+/* --- Selected: one filled state --- */
+html:root body .lp-page .lp-chip[data-selected="true"],
+html:root body .lp-page .lp-chip[data-active="true"] {
+  color: var(--chip-ink-strong) !important;
+  border-color: var(--chip-accent) !important;
+  background: #1d4276 !important;
+  box-shadow: none !important;
+  transform: translateY(0) !important;
+}
+
+/* --- Selection animation: the border grows symmetrically from the
+       middle of both sides outward, meeting at top and bottom. --- */
+html:root body .lp-page .lp-chip[data-selected="true"]::after,
+:root html:root body .lp-page .lp-hero-pick[data-selected="true"]::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  inset: -1px !important;
+  padding: 2px !important;
+  border-radius: inherit !important;
+  pointer-events: none !important;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0,
+    transparent calc(25% - var(--chip-trace) / 4),
+    var(--chip-accent) calc(25% - var(--chip-trace) / 4),
+    var(--chip-accent) calc(25% + var(--chip-trace) / 4),
+    transparent calc(25% + var(--chip-trace) / 4),
+    transparent calc(75% - var(--chip-trace) / 4),
+    var(--chip-accent) calc(75% - var(--chip-trace) / 4),
+    var(--chip-accent) calc(75% + var(--chip-trace) / 4),
+    transparent calc(75% + var(--chip-trace) / 4),
+    transparent 100%
+  ) !important;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) !important;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  filter: drop-shadow(0 0 5px rgba(52, 120, 246, 0.55)) !important;
+  animation: chip-trace-symmetric 620ms var(--chip-ease) forwards !important;
+}
+
+@keyframes chip-trace-symmetric {
+  from {
+    --chip-trace: 0%;
+  }
+  to {
+    --chip-trace: 100%;
+  }
+}
+
+/* --- Tile variant: same language, larger frame (hero picker) --- */
+html:root body .lp-page .lp-hero-pick {
+  border: 1px solid var(--chip-line) !important;
+  border-radius: 18px !important;
+  color: var(--chip-ink) !important;
+  background: var(--chip-bg) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease,
+    transform 260ms var(--chip-ease),
+    box-shadow 260ms var(--chip-ease) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .lp-page .lp-hero-pick:is(:hover, :focus-visible):not([data-selected="true"]) {
+    color: var(--chip-ink-strong) !important;
+    border-color: var(--chip-line-hover) !important;
+    background: var(--chip-bg-hover) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 16px 30px -20px rgba(52, 120, 246, 0.75) !important;
+  }
+}
+
+html:root body .lp-page .lp-hero-pick[data-selected="true"],
+html:root body .lp-page .lp-hero-pick[data-active="true"] {
+  color: var(--chip-ink-strong) !important;
+  border-color: var(--chip-accent) !important;
+  background: #1d4276 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transform: translateY(0) !important;
+}
+
+:root html:root body .lp-page .lp-hero-pick[data-selected="true"] .lp-hero-pick-icon {
+  color: #ffffff !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body .lp-page .lp-chip,
+  html body .lp-page .chip,
+  html body .sp-page .chip,
+  html:root body .lp-page .lp-hero-pick {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  html:root body .lp-page .lp-chip[data-selected="true"]::after,
+  :root html:root body .lp-page .lp-hero-pick[data-selected="true"]::after {
+    --chip-trace: 100%;
+    animation: none !important;
+  }
+}

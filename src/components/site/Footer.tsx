@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Cookie, Mail, Phone } from "lucide-react";
-import { Symbol } from "@/components/Symbol";
+import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { openCookieSettings } from "@/lib/cookie-consent";
 import { openSiteAssistant } from "@/lib/site-assistant";
@@ -16,7 +16,7 @@ export function Footer() {
     <footer className="premium-footer">
       <div className="container-page premium-footer-main">
         <div className="premium-footer-brand">
-          <Symbol size={36} />
+          <BrandMark size={36} />
           <p>Môj Chatbot · chatboty, kalkulačky a konfigurátory navrhnuté na mieru.</p>
         </div>
 
