@@ -135,7 +135,8 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
     width: 100% !important;
     min-height: 48px !important;
     padding: 0 14px !important;
-    border-radius: 14px !important;
+    /* Same pill shape as every other chip on the site. */
+    border-radius: 999px !important;
     margin: 0 !important;
     justify-self: stretch !important;
   }

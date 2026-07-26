@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./DeratScrollStory.css";
@@ -188,7 +189,7 @@ export function DeratScrollStory() {
             konkrétne zadanie s cenou aj kontaktom.
           </p>
           <a href="https://derat-chatbot-backend.vercel.app/" target="_blank" rel="noreferrer">
-            Otvoriť živý projekt <span aria-hidden="true">↗</span>
+            Otvoriť živý projekt <ArrowUpRight size={15} aria-hidden="true" />
           </a>
         </div>
       </header>
