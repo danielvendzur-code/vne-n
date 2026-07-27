@@ -11,6 +11,7 @@ export const siteConfig = {
   },
   nav: [
     { label: "Riešenia", to: "/sluzby" as const },
+    { label: "Prečo chatbot", to: "/preco-chatbot" as const },
     { label: "Realizácie", to: "/projekty" as const },
     { label: "Ako to prebieha", to: "/postup" as const },
     { label: "Kontakt", to: "/kontakt" as const },

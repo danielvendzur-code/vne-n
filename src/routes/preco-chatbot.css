@@ -1,0 +1,145 @@
+/* „Prečo chatbot" — drží sa rovnakých tokenov ako zvyšok webu:
+   #3478f6 plná modrá, #8ab4ff jemná, rgba(122,162,220,.18) linka. */
+
+.why-page .why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: clamp(28px, 4vw, 44px);
+}
+
+.why-page .why-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(22px, 2.6vw, 30px);
+  border-radius: 22px;
+  background: #0b1420;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.18);
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .why-page .why-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 0 0 1px rgba(52, 120, 246, 0.42),
+      0 22px 40px -30px rgba(52, 120, 246, 0.7);
+  }
+}
+
+.why-page .why-card__icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  color: #8ab4ff;
+  background: rgba(52, 120, 246, 0.13);
+}
+
+.why-page .why-card__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.why-page .why-card--accent .why-card__icon {
+  color: #ffffff;
+  background: #3478f6;
+}
+
+.why-page .why-card h3 {
+  font-size: 1.06rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.why-page .why-card p {
+  color: #aeb6c2;
+  line-height: 1.6;
+}
+
+/* Živá ukážka */
+.why-page .why-demo-frame {
+  position: relative;
+  margin-top: clamp(26px, 4vw, 42px);
+  padding: 10px;
+  border-radius: 26px;
+  background: #0b1420;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.18);
+}
+
+.why-page .why-demo-frame iframe {
+  display: block;
+  width: 100%;
+  height: min(74vh, 660px);
+  border: 0;
+  border-radius: 18px;
+  background: #050609;
+  /* nech sa pri načítaní neblysne biele pozadie na tmavom webe */
+  color-scheme: dark;
+}
+
+/* Komu to dáva zmysel */
+.why-page .why-fit-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: clamp(22px, 3vw, 34px);
+  padding: 0;
+  list-style: none;
+}
+
+.why-page .why-fit-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  color: #dce5ef;
+  background: #111d2b;
+  line-height: 1.4;
+}
+
+.why-page .why-fit-list svg {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  padding: 5px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #3478f6;
+}
+
+.why-page .why-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(26px, 3.4vw, 38px);
+}
+
+@media (max-width: 940px) {
+  .why-page .why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .why-page .why-fit-list {
+    grid-template-columns: 1fr;
+  }
+
+  .why-page .why-demo-frame iframe {
+    height: 70vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-page .why-card {
+    transition: none;
+  }
+}

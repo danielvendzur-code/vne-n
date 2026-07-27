@@ -800,3 +800,91 @@ html:root body .winner-upgrade {
 html:root body .lp-page .lp-solution-pill > svg {
   display: none !important;
 }
+
+/* ==============================================================
+   ZÁVEREČNÁ CTA DVOJICA
+   Hierarchia bola obrátená: hlavná akcia („Získať návrh") vyzerala
+   ako vedľajšia (tmavá) a vedľajšia („Pozrieť realizácie") bola modrá.
+   Navyše dekoratívne „bloom" bodky presvitali cez tlačidlo ako škvrna
+   a text nebol vycentrovaný.
+   ============================================================== */
+html:root body .winner-final__primary,
+html:root body .winner-final__secondary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  min-height: 54px !important;
+  padding: 0 26px !important;
+  border-radius: 999px !important;
+  text-align: center !important;
+  transition:
+    background-color 200ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* hlavná akcia je modrá */
+html:root body .winner-final__primary {
+  border: 0 !important;
+  color: #ffffff !important;
+  background: #3478f6 !important;
+  background-image: none !important;
+  box-shadow: 0 16px 32px -20px rgba(52, 120, 246, 0.85) !important;
+}
+
+html:root body .winner-final__primary:is(:hover, :focus-visible) {
+  background: #1f55c9 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* vedľajšia je tichá, s linkou v rovnakom odtieni ako zvyšok */
+html:root body .winner-final__secondary {
+  border: 0 !important;
+  color: #dce5ef !important;
+  background: #111d2b !important;
+  background-image: none !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.18) !important;
+}
+
+html:root body .winner-final__secondary:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  background: #17273d !important;
+  transform: translateY(-2px) !important;
+}
+
+/* dekoratívne bodky presvitali ako svetlá škvrna — preč */
+html:root body .winner-final__primary .approved-bloom-dot,
+html:root body .winner-final__secondary .approved-bloom-dot,
+html:root body .winner-final__primary::after,
+html:root body .winner-final__secondary::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+
+html:root body .winner-final__primary .approved-action__content,
+html:root body .winner-final__secondary .approved-action__content {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: auto !important;
+  text-align: center !important;
+}
+
+/* S pribudnutou položkou sa navigácia lámala do dvoch riadkov. */
+html:root body .site-header nav[aria-label="Rýchla navigácia"] {
+  gap: clamp(16px, 2vw, 34px) !important;
+  max-width: none !important;
+  padding-inline: clamp(12px, 1.6vw, 28px) !important;
+}
+
+html:root body .site-header .site-nav-link {
+  white-space: nowrap !important;
+}
+
+@media (max-width: 1280px) {
+  html:root body .site-header .site-nav-link {
+    font-size: 0.86rem !important;
+  }
+}

@@ -388,12 +388,9 @@
   animation: none !important;
 }
 
+/* Názov značky je priamo v markupe (Nav.tsx), takže sa tu už
+   nedopĺňa cez ::after — inak sa vypisoval dvakrát. */
 .site-brand-name {
-  font-size: 0 !important;
-}
-
-.site-brand-name::after {
-  content: "Môj Chatbot";
   font-size: 0.94rem;
   font-weight: 760;
   letter-spacing: -0.025em;
@@ -401,12 +398,6 @@
 }
 
 .site-menu-brand > span {
-  font-size: 0 !important;
-}
-
-.site-menu-brand > span::before {
-  content: "Môj Chatbot";
-  display: block;
   font-size: 0.9rem;
   font-weight: 790;
   letter-spacing: -0.02em;
