@@ -178,7 +178,8 @@ test("metadata security and fresh assistant loading remain present", async () =>
   assert.match(root, /Môj Chatbot — chatboty na mieru od 350 €/);
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
-  assert.match(loader, /taste-system-v7/);
+  assert.match(loader, /buildKey/);
+  assert.doesNotMatch(loader, /\?v=\d{8}-/);
   assert.match(loader, /Môj Chatbot/);
   assert.match(loader, /od 350 €/);
 });

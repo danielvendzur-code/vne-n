@@ -114,7 +114,17 @@
     }
 
     const script = document.createElement("script");
-    script.src = `${source}?v=20260723-taste-system-v7`;
+    /* Rotating cache key: a pinned constant meant every browser kept serving the
+       build it first downloaded, so widget updates never reached visitors.
+       This refreshes at most once an hour while still allowing caching. */
+    const now = new Date();
+    const buildKey = [
+      now.getUTCFullYear(),
+      String(now.getUTCMonth() + 1).padStart(2, "0"),
+      String(now.getUTCDate()).padStart(2, "0"),
+      String(now.getUTCHours()).padStart(2, "0"),
+    ].join("");
+    script.src = `${source}?v=${buildKey}`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = source;
