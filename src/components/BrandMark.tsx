@@ -1,41 +1,39 @@
+import { useId } from "react";
+
 interface BrandMarkProps {
   size?: number;
   className?: string;
 }
 
 /**
- * Značka „Môj Chatbot" — písané M v obryse chatovej bubliny s chvostíkom
- * vpravo dole. Kreslené ťahom, takže ostáva ostré v každej veľkosti a
- * farbu preberá z `currentColor`.
+ * Značka „Môj Chatbot" — presne podľa dodaného SVG (písané M v obryse
+ * chatovej bubliny). Gradient má unikátne id, aby sa neprekrývali
+ * inštancie v hlavičke, menu a pätičke.
  */
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
+  const gradientId = useId();
+
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 48 48"
-      fill="none"
+      viewBox="0 0 665 666"
+      role="img"
+      aria-label="Môj Chatbot logo"
       className={`brand-mark${className ? ` ${className}` : ""}`}
-      aria-hidden="true"
       focusable="false"
     >
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
+          <stop stopColor="#174a8d" />
+          <stop offset=".55" stopColor="#1e5199" />
+          <stop offset="1" stopColor="#2867b7" />
+        </linearGradient>
+      </defs>
       <path
-        d="M 11.75 35.06 A 16.5 16.5 0 1 1 35.26 34.04 C 35.0 36.9 34.2 39.2 32.8 41.0
-           C 29.4 40.6 25.6 39.9 22.0 38.9 C 18.2 37.9 14.4 36.8 11.75 35.06"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M 15.2 31.2 C 14.0 27.0 14.6 21.6 16.9 18.7 C 18.7 16.4 20.7 17.0 21.9 20.3
-           C 22.9 22.9 23.6 25.6 24.0 28.0 C 24.3 29.7 25.1 30.3 25.8 29.7
-           C 26.6 29.0 26.4 27.4 25.5 25.6 C 24.4 23.4 23.9 21.0 24.6 19.2
-           C 25.5 16.9 27.7 16.8 29.5 18.9 C 31.7 21.5 32.6 26.4 31.8 30.6"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M 125 90 L 86 129 L 69 151 L 48 185 L 33 217 L 25 240 L 18 267 L 13 296 L 12 348 L 17 378 L 23 397 L 34 420 L 47 439 L 61 454 L 79 467 L 100 476 L 122 480 L 142 479 L 158 475 L 175 467 L 189 457 L 205 439 L 217 417 L 221 406 L 227 379 L 229 338 L 227 314 L 221 279 L 212 245 L 203 219 L 203 212 L 205 210 L 209 210 L 215 213 L 244 235 L 274 265 L 309 307 L 309 310 L 296 330 L 285 353 L 280 372 L 281 391 L 286 404 L 299 419 L 311 426 L 327 430 L 344 429 L 362 421 L 373 411 L 379 401 L 382 392 L 383 370 L 380 357 L 372 338 L 355 308 L 378 279 L 411 244 L 440 219 L 451 212 L 458 210 L 460 212 L 460 220 L 443 275 L 435 324 L 434 356 L 436 378 L 440 398 L 448 421 L 457 437 L 463 445 L 481 462 L 497 471 L 504 473 L 517 472 L 524 466 L 526 462 L 526 447 L 519 439 L 503 431 L 493 421 L 482 401 L 475 377 L 473 362 L 473 333 L 475 314 L 484 271 L 498 226 L 499 206 L 496 194 L 490 184 L 479 175 L 468 171 L 453 171 L 442 174 L 425 183 L 410 194 L 389 212 L 366 235 L 333 274 L 329 272 L 311 249 L 274 210 L 254 193 L 237 181 L 221 173 L 213 171 L 197 171 L 182 177 L 173 185 L 169 191 L 164 206 L 165 227 L 181 277 L 190 324 L 190 367 L 187 384 L 181 403 L 172 419 L 162 430 L 148 438 L 136 441 L 118 441 L 98 434 L 89 428 L 80 419 L 69 404 L 60 385 L 52 355 L 50 336 L 51 304 L 54 283 L 61 254 L 75 217 L 87 194 L 102 171 L 125 143 L 150 119 L 168 105 L 196 87 L 220 75 L 237 68 L 274 57 L 317 51 L 350 51 L 371 53 L 397 58 L 432 69 L 466 85 L 493 102 L 517 121 L 542 146 L 561 170 L 582 204 L 594 230 L 604 259 L 611 291 L 614 322 L 613 353 L 608 385 L 595 427 L 580 458 L 562 487 L 556 499 L 552 512 L 551 536 L 553 547 L 562 572 L 576 600 L 575 604 L 518 577 L 502 573 L 491 572 L 478 573 L 461 578 L 440 589 L 405 602 L 363 611 L 313 612 L 279 607 L 259 602 L 223 589 L 187 570 L 169 558 L 149 542 L 123 516 L 108 497 L 88 492 L 69 483 L 41 462 L 63 502 L 90 538 L 115 564 L 131 578 L 151 593 L 178 610 L 218 629 L 247 639 L 271 645 L 295 649 L 320 651 L 346 651 L 377 648 L 409 641 L 435 633 L 480 612 L 499 611 L 525 622 L 568 644 L 589 652 L 606 653 L 616 649 L 623 642 L 626 635 L 626 616 L 593 548 L 590 537 L 590 524 L 595 509 L 611 483 L 626 453 L 642 408 L 647 386 L 651 357 L 651 304 L 647 274 L 642 252 L 626 206 L 605 166 L 584 136 L 568 117 L 546 95 L 518 72 L 490 54 L 465 41 L 419 24 L 389 17 L 358 13 L 336 12 L 291 15 L 242 26 L 213 36 L 178 53 L 158 65 Z M 331 347 L 334 348 L 345 373 L 344 386 L 340 390 L 335 392 L 324 390 L 320 386 L 318 380 L 320 369 Z"
+        fill={`url(#${gradientId})`}
+        fillRule="evenodd"
       />
     </svg>
   );

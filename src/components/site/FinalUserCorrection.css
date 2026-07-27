@@ -1233,13 +1233,10 @@ html:root body .lp-solution-cta {
 /* ==============================================================
    LOGO
    ============================================================== */
+/* Logo má vlastný gradient priamo v SVG, farbu mu teda nevnucujeme. */
 html:root body .brand-mark {
-  color: #3478f6 !important;
   overflow: visible !important;
-}
-
-html:root body .site-menu-brand .brand-mark {
-  color: #3478f6 !important;
+  flex: 0 0 auto !important;
 }
 
 /* ==============================================================
