@@ -524,12 +524,6 @@ function Hero() {
             <button
               type="button"
               className="lp-assistant-cta lp-sweep-action"
-              onPointerMove={(event) => {
-                const target = event.currentTarget;
-                const bounds = target.getBoundingClientRect();
-                target.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
-                target.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
-              }}
               onClick={() => openSiteAssistant({ source: "hero-card" })}
             >
               <span className="lp-button-content">
@@ -936,7 +930,6 @@ function ProcessAndCta() {
 
   return (
     <section className="lp-process" id="spolupraca">
-      <GlideField className="glide-field--ambient" radius={110} intensity={0.5} />
       <div className="container-page lp-process-grid">
         <div>
           <Heading

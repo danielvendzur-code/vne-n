@@ -78,7 +78,7 @@ function WhyChatbotPage() {
             Rovnaká návštevnosť. <em>Viac dopytov.</em>
           </>
         }
-        lead="Väčšina ľudí neodíde preto, že by nemali záujem. Odídu preto, že nedostali odpoveď dosť rýchlo. Toto je časť, ktorú chatbot rieši."
+        lead="Ľudia neodídu preto, že by nemali záujem. Odídu preto, že nedostali odpoveď dosť rýchlo."
       />
 
       <section className="sp-section why-problem" aria-labelledby="why-problem-title">
@@ -87,9 +87,6 @@ function WhyChatbotPage() {
             <h2 id="why-problem-title">
               Kde weby <em>strácajú dopyty.</em>
             </h2>
-            <p className="sp-heading-copy">
-              Tri miesta, ktoré vidím takmer na každom webe, kam sa pozriem.
-            </p>
           </div>
 
           <div className="why-grid">
@@ -115,10 +112,6 @@ function WhyChatbotPage() {
             <h2 id="why-outcome-title">
               Čo sa zmení, keď je na webe <em>asistent.</em>
             </h2>
-            <p className="sp-heading-copy">
-              Nie je to okno s „Ako vám môžem pomôcť?". Je to krátky rozhovor, ktorý končí
-              konkrétnym výsledkom.
-            </p>
           </div>
 
           <div className="why-grid">
@@ -132,30 +125,6 @@ function WhyChatbotPage() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="sp-section why-demo" aria-labelledby="why-demo-title">
-        <div className="container-page">
-          <div className="sp-heading">
-            <h2 id="why-demo-title">
-              Vyskúšajte si to <em>naživo.</em>
-            </h2>
-            <p className="sp-heading-copy">
-              Toto je reálny asistent, nie video ani obrázok. Napíšte mu otázku tak, ako by ju
-              napísal váš zákazník.
-            </p>
-          </div>
-
-          <Reveal className="why-demo-frame">
-            {/* Jednoriadkový iframe: obsah sa načítava priamo z repozitára chatbota,
-                takže každá zmena tam sa prejaví tu bez zásahu do kódu webu. */}
-            <iframe
-              src="https://danielvendzur-code.github.io/moj.chatbot.backend/embed-inline.html?mode=calculator"
-              title="Živá ukážka chatbota"
-              loading="lazy"
-            />
-          </Reveal>
         </div>
       </section>
 
