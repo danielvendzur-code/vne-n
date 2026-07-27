@@ -4,9 +4,9 @@ interface BrandMarkProps {
 }
 
 /**
- * Značka „Môj Chatbot" — monogram M v obryse chatovej bubliny.
- * Kreslené ťahom, takže ostáva ostré v každej veľkosti. Odtiene sú
- * z rovnakej modrej rodiny ako zvyšok webu (#3478f6 / #75b8ff).
+ * Značka „Môj Chatbot" — písané M v obryse chatovej bubliny s chvostíkom
+ * vpravo dole. Kreslené ťahom, takže ostáva ostré v každej veľkosti a
+ * farbu preberá z `currentColor`.
  */
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
   return (
@@ -19,28 +19,21 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       aria-hidden="true"
       focusable="false"
     >
-      <defs>
-        <linearGradient id="bm-stroke" x1="8" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#1F55C9" />
-          <stop offset="0.55" stopColor="#3478F6" />
-          <stop offset="1" stopColor="#7CBBFF" />
-        </linearGradient>
-      </defs>
-
-      {/* Bublina: kruhový obrys s chvostíkom vpravo dole */}
       <path
-        d="M35.8 34.9A16.4 16.4 0 1 0 27.4 40.2c2.6 2.4 5.8 3.8 9.3 4.1-2.2-2-3.2-4.6-2.9-7.6"
-        stroke="url(#bm-stroke)"
-        strokeWidth="2.6"
+        d="M 11.75 35.06 A 16.5 16.5 0 1 1 35.26 34.04 C 35.0 36.9 34.2 39.2 32.8 41.0
+           C 29.4 40.6 25.6 39.9 22.0 38.9 C 18.2 37.9 14.4 36.8 11.75 35.06"
+        stroke="currentColor"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-
-      {/* Monogram M s mäkkými ramenami */}
       <path
-        d="M16.4 31.6c0-7.4.5-11.2 2-12.2 1.3-.9 3 .7 5.6 7.4 2.6-6.7 4.3-8.3 5.6-7.4 1.5 1 2 4.8 2 12.2"
-        stroke="url(#bm-stroke)"
-        strokeWidth="2.9"
+        d="M 15.2 31.2 C 14.0 27.0 14.6 21.6 16.9 18.7 C 18.7 16.4 20.7 17.0 21.9 20.3
+           C 22.9 22.9 23.6 25.6 24.0 28.0 C 24.3 29.7 25.1 30.3 25.8 29.7
+           C 26.6 29.0 26.4 27.4 25.5 25.6 C 24.4 23.4 23.9 21.0 24.6 19.2
+           C 25.5 16.9 27.7 16.8 29.5 18.9 C 31.7 21.5 32.6 26.4 31.8 30.6"
+        stroke="currentColor"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

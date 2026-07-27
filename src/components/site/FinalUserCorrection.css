@@ -1191,3 +1191,101 @@ html:root body .site-header-bar {
 html:root body .site-header .site-consultation-cta {
   border-radius: 999px !important;
 }
+
+/* ==============================================================
+   HOVER/KLIK EFEKT LEN V HERO
+   Po celom webe bola „spotlight" škvrna: kruhový radiálny prechod
+   (border-radius 50 %, scale .72), ktorý nikdy nevyplnil celé
+   tlačidlo — preto sa „Získať návrh" vyfarbil len sčasti.
+   Ostáva iba na CTA v hero karte, všade inde je hover plná farba.
+   ============================================================== */
+html:root body .spotlight-surface::before,
+html:root body .lp-solution-cta::before,
+html:root body .lp-hero-pick::before,
+html:root body .lp-chip::before,
+html:root body .lp-button-quiet::before,
+html:root body .lp-faq-ask::before,
+html:root body .lp-project > a::before,
+html:root body .sp-project-card > a::before,
+html:root body .sp-button--ghost::before,
+html:root body .contact-assistant::before,
+html:root body .site-menu-solution::before,
+html:root body .site-menu-project-link::before,
+html:root body .winner-package__cta::before,
+html:root body .winner-final__primary::before,
+html:root body .winner-final__secondary::before,
+html:root body .approved-bloom-action::before {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  background: none !important;
+  animation: none !important;
+}
+
+/* Hover = celé tlačidlo zmení farbu, nie len jeho časť. */
+html:root body .winner-package__cta,
+html:root body .winner-final__primary,
+html:root body .lp-solution-cta {
+  overflow: visible !important;
+  isolation: auto !important;
+}
+
+/* ==============================================================
+   LOGO
+   ============================================================== */
+html:root body .brand-mark {
+  color: #3478f6 !important;
+  overflow: visible !important;
+}
+
+html:root body .site-menu-brand .brand-mark {
+  color: #3478f6 !important;
+}
+
+/* ==============================================================
+   MENU
+   Hore ostáva len tlačidlo Menu. Panel sa otvára vpravo a má
+   rozumnú šírku (predtým zaberal takmer celú obrazovku).
+   ============================================================== */
+html:root body .site-menu-drawer {
+  left: auto !important;
+  right: 0 !important;
+  width: min(560px, 94vw) !important;
+  max-width: 560px !important;
+  margin-left: auto !important;
+  border-radius: 26px 0 0 26px !important;
+}
+
+html:root body .site-menu-layer {
+  justify-content: flex-end !important;
+}
+
+html:root body .site-menu-grid {
+  grid-template-columns: 1fr !important;
+  gap: 28px !important;
+}
+
+html:root body .site-menu-content {
+  padding-inline: clamp(22px, 4vw, 40px) !important;
+}
+
+/* ==============================================================
+   „Vyskúšať môjho chatbota" — pokojné, obyčajné tlačidlo
+   ============================================================== */
+html:root body .lp-page .lp-assistant-cta {
+  gap: 8px !important;
+  background: #3478f6 !important;
+  box-shadow: none !important;
+}
+
+html:root body .lp-page .lp-assistant-cta .lp-button-content {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+html:root body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
+  background: #1f55c9 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: none !important;
+}

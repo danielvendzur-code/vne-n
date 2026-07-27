@@ -72,19 +72,19 @@ const heroTools = {
     text: "Odpovie 24/7, kvalifikuje záujem a pripraví dopyt, na ktorý môžete rovno reagovať.",
   },
   calculator: {
-    label: "Kalkulačka ceny",
+    label: "Chatbot s kalkulačkou",
     icon: Calculator,
-    text: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa vašich pravidiel.",
+    text: "Zákazník vyberie možnosti a chatbot hneď vypočíta cenu, spotrebu alebo návratnosť podľa vašich pravidiel.",
     combo: true,
   },
   configurator: {
-    label: "Konfigurátor",
+    label: "Chatbot s konfigurátorom",
     icon: SlidersHorizontal,
-    text: "Prevedie výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
+    text: "Chatbot prevedie zákazníka výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
     combo: true,
   },
   assistant: {
-    label: "Webový asistent",
+    label: "Chatbot ako sprievodca",
     icon: Sparkles,
     text: "Interaktívny sprievodca, ktorý zákazníka na webe navedie k správnemu ďalšiemu kroku.",
   },
@@ -107,17 +107,17 @@ const solutions = [
   {
     icon: Bot,
     title: "Chatbot na mieru",
-    copy: "Odpovie na otázky a odovzdá vám dopyt aj s kontextom.",
+    copy: "Chatbot odpovie na otázky a odovzdá vám dopyt aj s kontextom.",
   },
   {
     icon: Calculator,
     title: "Chatbot s kalkulačkou",
-    copy: "Počas rozhovoru vypočíta cenu podľa vašich pravidiel.",
+    copy: "Zákazník vyberie možnosti a chatbot hneď vypočíta cenu podľa vašich pravidiel.",
   },
   {
     icon: Workflow,
     title: "Chatbot s konfigurátorom",
-    copy: "Prevedie výberom produktu a odošle hotovú špecifikáciu.",
+    copy: "Chatbot prevedie zákazníka výberom a odošle hotovú špecifikáciu.",
   },
 ];
 
@@ -241,7 +241,7 @@ const capabilityGroups = [
   {
     title: "Chatboty",
     tone: "coral",
-    copy: "Rozhovor, ktorý odpovie a pripraví použiteľný dopyt.",
+    copy: "Chatbot odpovie a pripraví použiteľný dopyt.",
     items: [
       {
         label: "Dopytový asistent",
