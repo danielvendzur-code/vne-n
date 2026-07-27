@@ -13,6 +13,7 @@ const routes = [
   "/sluzby",
   "/projekty",
   "/postup",
+  "/preco-chatbot",
   "/kontakt",
   "/cookies",
   "/farby",

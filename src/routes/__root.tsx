@@ -170,8 +170,11 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  "frame-src 'none'",
-  "frame-ancestors 'none'",
+  // Živá ukážka chatbota je jednoriadkový iframe na jeho vlastný repozitár,
+  // takže sa dá meniť tam bez zásahu do kódu webu.
+  "frame-src 'self' https://danielvendzur-code.github.io https://*.vercel.app",
+  // frame-ancestors sa cez <meta> ignoruje (patrí do HTTP hlavičky),
+  // tak ho tu nedržíme — inak len zbytočne hlási chybu v konzole.
   "form-action 'self' mailto:",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: https://fonts.gstatic.com",
