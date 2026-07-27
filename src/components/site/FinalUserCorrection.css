@@ -888,3 +888,306 @@ html:root body .site-header .site-nav-link {
     font-size: 0.86rem !important;
   }
 }
+
+/* ==============================================================
+   CTA SYSTÉM — PRÁVE TRI VZHĽADY
+   Na stránke bolo deväť rôznych tlačidiel (rôzne výšky, polomery,
+   priehľadnosti). Odteraz existujú len tri:
+     1) .cta-primary   plná modrá  — hlavná akcia
+     2) .cta-secondary plná tmavá modrofialová — druhá akcia,
+        farba kryje CELÝ chip (predtým bola priehľadná na 78 %)
+     3) .cta-quiet     tichý text s ikonou — terciárna akcia
+   ============================================================== */
+html:root body .lp-page,
+html:root body .sp-page,
+html:root body .contact-page,
+html:root body .cookies-page,
+html:root body .winner-upgrade {
+  --cta-h: 52px;
+  --cta-radius: 999px;
+  --cta-blue: #3478f6;
+  --cta-blue-hover: #1f55c9;
+  --cta-alt: #2c3566;
+  --cta-alt-hover: #39448a;
+  --cta-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- 1) hlavná akcia --- */
+html:root body .lp-page .lp-button-primary,
+html:root body .lp-page .lp-hero-cta--primary,
+html:root body .lp-page .lp-assistant-cta,
+html:root body .lp-page .lp-caps-detail-cta,
+html:root body .lp-page .lp-faq-ask,
+html:root body .lp-page .lp-solution-cta,
+html:root body .winner-package__cta,
+html:root body .winner-final__primary,
+html:root body .sp-page .sp-button--primary,
+html:root body .contact-page .contact-submit,
+html:root body .site-consultation-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  min-height: var(--cta-h) !important;
+  padding: 0 26px !important;
+  border: 0 !important;
+  border-radius: var(--cta-radius) !important;
+  color: #ffffff !important;
+  background: var(--cta-blue) !important;
+  background-image: none !important;
+  box-shadow: 0 16px 32px -20px rgba(52, 120, 246, 0.85) !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  text-align: center !important;
+  transition:
+    background-color 200ms ease,
+    transform 260ms var(--cta-ease),
+    box-shadow 260ms var(--cta-ease) !important;
+}
+
+html:root body .lp-page .lp-button-primary:is(:hover, :focus-visible),
+html:root body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible),
+html:root body .lp-page .lp-assistant-cta:is(:hover, :focus-visible),
+html:root body .lp-page .lp-caps-detail-cta:is(:hover, :focus-visible),
+html:root body .lp-page .lp-faq-ask:is(:hover, :focus-visible),
+html:root body .lp-page .lp-solution-cta:is(:hover, :focus-visible),
+html:root body .winner-package__cta:is(:hover, :focus-visible),
+html:root body .winner-final__primary:is(:hover, :focus-visible),
+html:root body .sp-page .sp-button--primary:is(:hover, :focus-visible),
+html:root body .contact-page .contact-submit:is(:hover, :focus-visible),
+html:root body .site-consultation-cta:is(:hover, :focus-visible) {
+  background: var(--cta-blue-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 20px 38px -20px rgba(31, 85, 201, 0.95) !important;
+}
+
+/* --- 2) druhá akcia: plná farba cez celý chip, iný odtieň --- */
+html:root body .lp-page .lp-hero-cta--secondary,
+html:root body .lp-page .lp-button-quiet,
+html:root body .winner-final__secondary,
+html:root body .sp-page .sp-button--ghost,
+html:root body .contact-page .contact-assistant {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  min-height: var(--cta-h) !important;
+  padding: 0 26px !important;
+  border: 0 !important;
+  border-radius: var(--cta-radius) !important;
+  color: #ffffff !important;
+  /* plne krycia farba — žiadna priehľadnosť */
+  background: var(--cta-alt) !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  box-shadow: 0 16px 32px -22px rgba(44, 53, 102, 0.9) !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  text-align: center !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  transition:
+    background-color 200ms ease,
+    transform 260ms var(--cta-ease) !important;
+}
+
+html:root body .lp-page .lp-hero-cta--secondary:is(:hover, :focus-visible),
+html:root body .lp-page .lp-button-quiet:is(:hover, :focus-visible),
+html:root body .winner-final__secondary:is(:hover, :focus-visible),
+html:root body .sp-page .sp-button--ghost:is(:hover, :focus-visible),
+html:root body .contact-page .contact-assistant:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  background: var(--cta-alt-hover) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* --- 3) tichá akcia --- */
+html:root body .lp-page .lp-live-tools a,
+html:root body .lp-page .lp-caps-note button,
+html:root body .lp-page .lp-final-email {
+  color: var(--cta-blue) !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+}
+
+/* Po kliknutí sa za ikonou objavoval štvorec — ikona mala pozadie,
+   ale nulový polomer. Ikona ostáva čistá v každom stave. */
+html:root body .lp-page .lp-hero-pick .lp-hero-pick-icon,
+html:root body .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon,
+html:root body .lp-page .lp-hero-pick[data-selected="true"] .lp-hero-pick-icon {
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* ==============================================================
+   SEKCIA S RIEŠENIAMI — jednoduchšia stavba
+   Karta bola natlačená, text dlhý a CTA drobné. Teraz: ikona,
+   krátky nadpis, jedna veta a plnohodnotné tlačidlo cez celú šírku.
+   Bez hover animácie karty.
+   ============================================================== */
+html:root body .lp-page .lp-solution-strip {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+html:root body .lp-page .lp-solution-pill {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  min-height: 0 !important;
+  padding: 28px !important;
+  border: 0 !important;
+  border-radius: 22px !important;
+  background: #0b1420 !important;
+  background-image: none !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.18) !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+html:root body .lp-page .lp-solution-pill:is(:hover, :focus-within) {
+  transform: none !important;
+  border: 0 !important;
+  background: #0b1420 !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.18) !important;
+}
+
+html:root body .lp-page .lp-solution-pill::before,
+html:root body .lp-page .lp-solution-pill::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .lp-page .lp-solution-icon {
+  display: grid !important;
+  place-items: center !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  background: #3478f6 !important;
+}
+
+html:root body .lp-page .lp-solution-icon svg {
+  width: 21px !important;
+  height: 21px !important;
+}
+
+html:root body .lp-page .lp-solution-pill h3 {
+  margin: 0 !important;
+  font-size: 1.16rem !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.2 !important;
+}
+
+html:root body .lp-page .lp-solution-pill p {
+  margin: 0 !important;
+  max-width: none !important;
+  color: #aeb6c2 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
+}
+
+/* plnohodnotné tlačidlo namiesto drobného odkazu */
+html:root body .lp-page .lp-solution-cta {
+  width: 100% !important;
+  margin-top: 6px !important;
+}
+
+@media (max-width: 940px) {
+  html:root body .lp-page .lp-solution-strip {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ==============================================================
+   „Čo pre vás postavím" — CTA so škvrnou, ktorá sleduje myš
+   ============================================================== */
+html:root body .lp-page .lp-assistant-cta {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  width: 100% !important;
+}
+
+html:root body .lp-page .lp-assistant-cta::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: -1 !important;
+  inset: 0 !important;
+  background: radial-gradient(
+    140px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(255, 255, 255, 0.28),
+    transparent 60%
+  ) !important;
+  opacity: 0 !important;
+  transition: opacity 240ms ease !important;
+  pointer-events: none !important;
+}
+
+html:root body .lp-page .lp-assistant-cta:hover::before {
+  opacity: 1 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .lp-page .lp-assistant-cta::before {
+    display: none !important;
+  }
+}
+
+/* Ikona v modrom krúžku bola tiež modrá, takže nebola vidieť. */
+html:root body .lp-page .lp-solution-pill .lp-solution-icon svg,
+html:root body .lp-page .lp-solution-pill .lp-solution-icon svg * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+/* Hlavička má kompaktnú verziu hlavného CTA — rovnaká farba a tvar,
+   len menšia, aby sa vedľa zmestilo tlačidlo Menu. */
+html:root body .site-header .site-consultation-cta {
+  min-height: 42px !important;
+  padding: 0 16px !important;
+  font-size: 0.84rem !important;
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-header .site-menu-toggle {
+  flex: 0 0 auto !important;
+  min-height: 42px !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+}
+
+html:root body .site-header-bar {
+  gap: 12px !important;
+}
+
+/* Horné menu je zámerne krátke (Realizácie, Kontakt), zvyšok je
+   v rozbaľovacom Menu — takže tlačidlo Menu musí byť aj na desktope.
+   Skoršia vrstva ho skrývala, keď navigácia obsahovala všetky položky. */
+@media (min-width: 1024px) {
+  html:root body .site-header .site-menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+}
+
+html:root body .site-header .site-consultation-cta {
+  border-radius: 999px !important;
+}

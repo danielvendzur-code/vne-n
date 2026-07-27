@@ -14,8 +14,9 @@ import "./BrandMenuV2.css";
 const drawerItems: LineSidebarItem[] = [
   { label: "Domov", href: "/" },
   { label: "Chatboty a riešenia", href: "/sluzby" },
-  { label: "Ukážky", href: "/projekty" },
-  { label: "Spolupráca", href: "/postup" },
+  { label: "Čo to prinesie webu", href: "/preco-chatbot" },
+  { label: "Realizácie", href: "/projekty" },
+  { label: "Ako to prebieha", href: "/postup" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 
