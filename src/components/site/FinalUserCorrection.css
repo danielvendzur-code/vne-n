@@ -1289,3 +1289,110 @@ html:root body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
   transform: translateY(-2px) !important;
   box-shadow: none !important;
 }
+
+/* Menu sa po zatvorení „držalo" — vrstva ostávala viditeľná 560 ms.
+   Teraz zmizne hneď po dobehnutí zatváracej animácie. */
+html:root body .site-menu-layer {
+  transition: visibility 0s linear 240ms !important;
+}
+
+html:root body .site-menu-layer[data-open="true"] {
+  transition: visibility 0s linear 0s !important;
+}
+
+/* ==============================================================
+   „Ako spolupráca prebieha" — prehľadnejšie usporiadanie
+   Nadpis mal vedľa seba prázdny stĺpec a kroky sa lámali pod ním.
+   Teraz: nadpis, pod ním tri kroky vedľa seba, potom CTA karta.
+   ============================================================== */
+html:root body .lp-page .lp-process-grid {
+  display: block !important;
+}
+
+html:root body .lp-page .lp-process-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  margin-top: clamp(26px, 3.4vw, 40px) !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+html:root body .lp-page .lp-process-list li {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  margin: 0 !important;
+  padding: 26px !important;
+  border: 0 !important;
+  border-radius: 22px !important;
+  background: #0b1420 !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.18) !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+html:root body .lp-page .lp-process-list li:is(:hover, :focus-within) {
+  transform: none !important;
+  background: #0b1420 !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 162, 220, 0.18) !important;
+}
+
+html:root body .lp-page .lp-process-list li::before,
+html:root body .lp-page .lp-process-list li::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .lp-page .lp-process-list li > span {
+  color: #8ab4ff !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+}
+
+html:root body .lp-page .lp-process-list li > svg {
+  width: 22px !important;
+  height: 22px !important;
+  color: #3478f6 !important;
+}
+
+html:root body .lp-page .lp-process-list li h3 {
+  font-size: 1.06rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+html:root body .lp-page .lp-process-list li p {
+  color: #aeb6c2 !important;
+  font-size: 0.94rem !important;
+  line-height: 1.55 !important;
+}
+
+/* CTA karta pod krokmi, na celú šírku */
+html:root body .lp-page .lp-process-grid .lp-final-card {
+  margin-top: clamp(26px, 3.4vw, 40px) !important;
+  width: 100% !important;
+}
+
+@media (max-width: 940px) {
+  html:root body .lp-page .lp-process-list {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* „Vyskúšať môjho chatbota" má byť obyčajné tlačidlo — bez škvrny
+   sledujúcej myš aj bez ozdôb. */
+html:root body .lp-page .lp-assistant-cta::before,
+html:root body .lp-page .lp-assistant-cta::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  animation: none !important;
+}
+
+html:root body .lp-page .lp-assistant-cta {
+  overflow: visible !important;
+  isolation: auto !important;
+}

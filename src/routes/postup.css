@@ -109,3 +109,52 @@
     transform: scale(1);
   }
 }
+
+/* ---- Časová os: čitateľnejšia a pokojnejšia ---- */
+.sp-page--process .sp-timeline {
+  padding-left: 46px;
+}
+
+.sp-page--process .sp-timeline-item + .sp-timeline-item {
+  margin-top: 18px;
+}
+
+.sp-page--process .sp-step-node {
+  left: -46px;
+  top: 30px;
+  width: 22px;
+  height: 22px;
+}
+
+.sp-page--process .sp-step-node i {
+  width: 9px;
+  height: 9px;
+}
+
+/* Nedosiahnutý krok je stlmený, nie „rozbitý". */
+.sp-page--process .sp-timeline-item .sp-step {
+  opacity: 0.55;
+  transform: translateY(10px);
+}
+
+.sp-page--process .sp-timeline-item[data-reached="true"] .sp-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sp-page--process .sp-timeline-progress {
+  width: 2px;
+}
+
+@media (max-width: 720px) {
+  .sp-page--process .sp-timeline {
+    padding-left: 34px;
+  }
+
+  .sp-page--process .sp-step-node {
+    left: -34px;
+    top: 26px;
+    width: 18px;
+    height: 18px;
+  }
+}
