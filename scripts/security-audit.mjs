@@ -87,10 +87,16 @@ for (const token of [
   "MOUNT_TIMEOUT",
   "showFallback",
   "https://danielvendzur-code.github.io",
-  "taste-system-v7",
+  "buildKey",
   "Môj Chatbot",
 ]) {
   if (!loader.includes(token)) fail(`Resilient assistant loader is missing ${token}`);
+}
+
+// A pinned cache key froze every visitor on the build their browser downloaded
+// first, so widget updates never reached them. The key has to stay derived.
+if (/\?v=[\w-]*['"`]/.test(loader)) {
+  fail("Resilient assistant loader pins a constant cache key instead of rotating it");
 }
 
 const layout = await read("src/components/site/Layout.tsx");
@@ -264,7 +270,7 @@ for (const token of [
   "Run source and deployment security audit",
   "Validate exported artifact",
   "Verify live deployment",
-  "taste-system-v7",
+  "buildKey",
   "TasteSystemFinal.css",
   "live_smoke=success",
 ]) {
