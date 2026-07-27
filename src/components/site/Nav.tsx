@@ -30,13 +30,13 @@ const menuSolutions = [
   {
     icon: Calculator,
     title: "Chatbot s kalkulačkou",
-    copy: "Rozhovor, ktorý zároveň vypočíta cenu, spotrebu či návratnosť.",
+    copy: "Zákazník vyberie možnosti a chatbot hneď vypočíta cenu či spotrebu.",
     mode: "calculator" as const,
   },
   {
     icon: SlidersHorizontal,
     title: "Chatbot s konfigurátorom",
-    copy: "Prevedie výberom produktu a odošle kompletnú špecifikáciu.",
+    copy: "Chatbot prevedie výberom produktu a odošle kompletnú špecifikáciu.",
     mode: "calculator" as const,
   },
 ];

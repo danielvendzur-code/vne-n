@@ -26,3 +26,86 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* ==============================================================
+   Časová os: čiara rastie pri scrollovaní a keď dorazí k uzlu,
+   uzol sa vyplní a text kroku sa objaví.
+   ============================================================== */
+.sp-page--process .sp-timeline-item {
+  position: relative;
+}
+
+.sp-page--process .sp-step-node {
+  position: absolute;
+  left: -34px;
+  top: 26px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #0e1118;
+  box-shadow: inset 0 0 0 2px rgba(122, 162, 220, 0.28);
+  transition:
+    box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sp-page--process .sp-step-node i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #3478f6;
+  transform: scale(0);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sp-page--process .sp-timeline-item[data-reached="true"] .sp-step-node {
+  background: #0b1a30;
+  box-shadow:
+    inset 0 0 0 2px #3478f6,
+    0 0 0 6px rgba(52, 120, 246, 0.12);
+}
+
+.sp-page--process .sp-timeline-item[data-reached="true"] .sp-step-node i {
+  transform: scale(1);
+}
+
+/* Text sa objaví až keď čiara dorazí k uzlu. */
+.sp-page--process .sp-timeline-item .sp-step {
+  opacity: 0.28;
+  transform: translateY(14px);
+  transition:
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sp-page--process .sp-timeline-item[data-reached="true"] .sp-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 720px) {
+  .sp-page--process .sp-step-node {
+    left: -26px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-page--process .sp-timeline-item .sp-step {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .sp-page--process .sp-step-node,
+  .sp-page--process .sp-step-node i {
+    transition: none;
+  }
+
+  .sp-page--process .sp-step-node i {
+    transform: scale(1);
+  }
+}

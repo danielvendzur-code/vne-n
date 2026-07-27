@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef } from "react";
-import { motion, useScroll, useSpring } from "motion/react";
+import { useRef, useState } from "react";
+import { motion, useMotionValueEvent, useScroll, useSpring } from "motion/react";
 import {
   ArrowRight,
   CalendarCheck,
@@ -11,7 +11,7 @@ import {
   Search,
   Workflow,
 } from "lucide-react";
-import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
+import { CtaBand, PageIntro } from "@/components/site/motion-primitives";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { seo } from "@/lib/seo";
@@ -82,6 +82,14 @@ function Timeline() {
     offset: ["start 0.72", "end 0.62"],
   });
   const scaleY = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
+  // Koľko krokov už čiara pri scrollovaní dosiahla.
+  const [reached, setReached] = useState(reducedMotion ? steps.length : 0);
+
+  useMotionValueEvent(scaleY, "change", (value) => {
+    if (reducedMotion) return;
+    // Uzol sa rozsvieti, keď k nemu čiara dorastie.
+    setReached(Math.min(steps.length, Math.floor(value * steps.length + 0.55)));
+  });
 
   return (
     <div className="sp-timeline-wrap">
@@ -89,25 +97,31 @@ function Timeline() {
         <motion.span className="sp-timeline-progress" style={{ scaleY }} aria-hidden="true" />
       )}
       <ol className="sp-timeline" ref={listRef}>
-        {steps.map((step, index) => (
-          <Reveal key={step.title} as="li" delay={index * 0.03} amount={0.4}>
-            <div className="sp-step">
-              <p className="sp-step-label">
-                <step.icon aria-hidden="true" />
-                {step.label}
-              </p>
-              <h2>{step.title}</h2>
-              <p>{step.copy}</p>
-              <div className="sp-chip-row">
-                {step.chips.map((chip) => (
-                  <span className="chip" key={chip}>
-                    {chip}
-                  </span>
-                ))}
+        {steps.map((step, index) => {
+          const isReached = reducedMotion || index < reached;
+          return (
+            <li key={step.title} className="sp-timeline-item" data-reached={isReached}>
+              <span className="sp-step-node" aria-hidden="true">
+                <i />
+              </span>
+              <div className="sp-step">
+                <p className="sp-step-label">
+                  <step.icon aria-hidden="true" />
+                  {step.label}
+                </p>
+                <h2>{step.title}</h2>
+                <p>{step.copy}</p>
+                <div className="sp-chip-row">
+                  {step.chips.map((chip) => (
+                    <span className="chip" key={chip}>
+                      {chip}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </Reveal>
-        ))}
+            </li>
+          );
+        })}
       </ol>
     </div>
   );

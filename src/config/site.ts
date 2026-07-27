@@ -9,8 +9,5 @@ export const siteConfig = {
     phoneLabel: "+421 948 699 433",
     phoneHref: "+421948699433",
   },
-  nav: [
-    { label: "Realizácie", to: "/projekty" as const },
-    { label: "Kontakt", to: "/kontakt" as const },
-  ],
+  nav: [],
 };
