@@ -107,17 +107,17 @@ const solutions = [
   {
     icon: Bot,
     title: "Chatbot na mieru",
-    copy: "Odpovedá na otázky, poradí návštevníkovi a odovzdá vám kontakt spolu s celým kontextom.",
+    copy: "Odpovie na otázky a odovzdá vám dopyt aj s kontextom.",
   },
   {
     icon: Calculator,
     title: "Chatbot s kalkulačkou",
-    copy: "Počas rozhovoru vypočíta cenu, spotrebu alebo návratnosť presne podľa pravidiel vašej služby.",
+    copy: "Počas rozhovoru vypočíta cenu podľa vašich pravidiel.",
   },
   {
     icon: Workflow,
     title: "Chatbot s konfigurátorom",
-    copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov a odošle hotovú špecifikáciu.",
+    copy: "Prevedie výberom produktu a odošle hotovú špecifikáciu.",
   },
 ];
 
@@ -524,6 +524,12 @@ function Hero() {
             <button
               type="button"
               className="lp-assistant-cta lp-sweep-action"
+              onPointerMove={(event) => {
+                const target = event.currentTarget;
+                const bounds = target.getBoundingClientRect();
+                target.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
+                target.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
+              }}
               onClick={() => openSiteAssistant({ source: "hero-card" })}
             >
               <span className="lp-button-content">
@@ -557,24 +563,24 @@ function SolutionCard({
         reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
       }
     >
-      <Icon aria-hidden="true" />
-      <div>
-        <h3>{solution.title}</h3>
-        <p>{solution.copy}</p>
-        <button
-          type="button"
-          className="lp-solution-cta lp-solution-cta--clean"
-          onClick={() =>
-            openSiteAssistant({
-              source: "solution-card",
-              entry: "builder",
-              category: solution.title,
-            })
-          }
-        >
-          Chcem takéto riešenie <ArrowUpRight aria-hidden="true" />
-        </button>
-      </div>
+      <span className="lp-solution-icon" aria-hidden="true">
+        <Icon />
+      </span>
+      <h3>{solution.title}</h3>
+      <p>{solution.copy}</p>
+      <button
+        type="button"
+        className="lp-solution-cta lp-solution-cta--clean"
+        onClick={() =>
+          openSiteAssistant({
+            source: "solution-card",
+            entry: "builder",
+            category: solution.title,
+          })
+        }
+      >
+        Chcem takéto riešenie
+      </button>
     </motion.article>
   );
 }

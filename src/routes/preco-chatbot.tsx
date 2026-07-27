@@ -72,7 +72,7 @@ function WhyChatbotPage() {
   return (
     <div className="sp-page why-page">
       <PageIntro
-        eyebrow="Prečo chatbot"
+        eyebrow="Prínos pre web"
         title={
           <>
             Rovnaká návštevnosť. <em>Viac dopytov.</em>
@@ -151,7 +151,7 @@ function WhyChatbotPage() {
             {/* Jednoriadkový iframe: obsah sa načítava priamo z repozitára chatbota,
                 takže každá zmena tam sa prejaví tu bez zásahu do kódu webu. */}
             <iframe
-              src="https://danielvendzur-code.github.io/moj.chatbot.backend/"
+              src="https://danielvendzur-code.github.io/moj.chatbot.backend/embed-inline.html?mode=calculator"
               title="Živá ukážka chatbota"
               loading="lazy"
             />
