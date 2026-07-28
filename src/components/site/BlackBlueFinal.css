@@ -15,37 +15,37 @@
   --text-primary: #f7f9fc;
   --text-secondary: #aeb6c2;
   --text-light: #747e8d;
-  --primary: #3478f6;
-  --primary-hover: #1f55c9;
-  --primary-soft: rgba(52, 120, 246, 0.14);
+  --primary: #16c47f;
+  --primary-hover: #0fa568;
+  --primary-soft: rgba(22, 196, 127, 0.14);
   --primary-foreground: #ffffff;
   --primary-dark: #050609;
-  --accent: #3478f6;
-  --accent-hover: #1f55c9;
-  --accent-soft: rgba(52, 120, 246, 0.13);
+  --accent: #16c47f;
+  --accent-hover: #0fa568;
+  --accent-soft: rgba(22, 196, 127, 0.13);
   --accent-foreground: #ffffff;
-  --highlight: #3478f6;
-  --highlight-soft: rgba(52, 120, 246, 0.14);
+  --highlight: #16c47f;
+  --highlight-soft: rgba(22, 196, 127, 0.14);
   --border: rgba(247, 249, 252, 0.12);
   --border-strong: rgba(247, 249, 252, 0.22);
-  --ring: #3478f6;
-  --action: #3478f6;
-  --action-hover: #1f55c9;
+  --ring: #16c47f;
+  --action: #16c47f;
+  --action-hover: #0fa568;
   --action-ink: #ffffff;
-  --action-soft: rgba(52, 120, 246, 0.14);
-  --action-line: rgba(52, 120, 246, 0.48);
-  --interactive: #3478f6;
-  --interactive-soft: rgba(52, 120, 246, 0.13);
-  --interactive-line: rgba(52, 120, 246, 0.42);
+  --action-soft: rgba(22, 196, 127, 0.14);
+  --action-line: rgba(22, 196, 127, 0.48);
+  --interactive: #16c47f;
+  --interactive-soft: rgba(22, 196, 127, 0.13);
+  --interactive-line: rgba(22, 196, 127, 0.42);
   --brand-symbol-shell: #f7f9fc;
-  --brand-symbol-face: #3478f6;
-  --brand-symbol-signal: #3478f6;
-  --brand-symbol-accent: #3478f6;
+  --brand-symbol-face: #16c47f;
+  --brand-symbol-signal: #16c47f;
+  --brand-symbol-accent: #16c47f;
 }
 
 html {
   background: #050609;
-  scrollbar-color: rgba(52, 120, 246, 0.55) #050609;
+  scrollbar-color: rgba(22, 196, 127, 0.55) #050609;
 }
 
 body {
@@ -56,16 +56,16 @@ body {
 
 ::selection {
   color: #ffffff;
-  background: #3478f6;
+  background: #16c47f;
 }
 
 .skip-link {
   color: #ffffff !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
 }
 
 .skip-link:focus {
-  background: #1f55c9 !important;
+  background: #0fa568 !important;
 }
 
 /* Shared landing-page tokens */
@@ -76,11 +76,11 @@ body {
   --lp-primary-ink: #ffffff;
   --lp-muted: #aeb6c2;
   --lp-muted-soft: #747e8d;
-  --lp-green: #3478f6;
-  --lp-green-dark: #1f55c9;
-  --lp-mint: #3478f6;
-  --lp-coral: #3478f6;
-  --lp-blue: #3478f6;
+  --lp-green: #16c47f;
+  --lp-green-dark: #0fa568;
+  --lp-mint: #16c47f;
+  --lp-coral: #16c47f;
+  --lp-blue: #16c47f;
   --lp-line: rgba(247, 249, 252, 0.12);
   --lp-line-strong: rgba(247, 249, 252, 0.22);
   --lp-surface-soft: #0a0d13;
@@ -97,10 +97,10 @@ body {
 /* Logo and navigation */
 .brand-symbol {
   --brand-symbol-shell: #f7f9fc;
-  --brand-symbol-face: #3478f6;
-  --brand-symbol-signal: #3478f6;
-  --brand-symbol-accent: #3478f6;
-  filter: drop-shadow(0 10px 24px rgba(52, 120, 246, 0.18)) !important;
+  --brand-symbol-face: #16c47f;
+  --brand-symbol-signal: #16c47f;
+  --brand-symbol-accent: #16c47f;
+  filter: drop-shadow(0 10px 24px rgba(22, 196, 127, 0.18)) !important;
 }
 
 .brand-symbol__highlight,
@@ -119,7 +119,7 @@ body {
 .site-brand-copy small,
 .site-menu-eyebrow,
 .site-menu-brand small {
-  color: #3478f6 !important;
+  color: #16c47f !important;
 }
 
 .site-brand-lockup::after {
@@ -129,7 +129,7 @@ body {
 
 .site-nav-link::before,
 .site-nav-link::after {
-  background: #3478f6 !important;
+  background: #16c47f !important;
 }
 
 :root .site-header nav .site-nav-link[href$="/kontakt"] {
@@ -154,7 +154,7 @@ body {
   width: 0 !important;
   height: 2px !important;
   opacity: 1 !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   transform: translateX(-50%) !important;
   animation: none !important;
 }
@@ -169,8 +169,8 @@ body {
 .site-header .site-consultation-cta[href$="/kontakt"] {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #3478f6 !important;
-  box-shadow: 0 15px 34px -20px rgba(52, 120, 246, 0.8) !important;
+  background: #16c47f !important;
+  box-shadow: 0 15px 34px -20px rgba(22, 196, 127, 0.8) !important;
 }
 
 .site-consultation-cta:hover,
@@ -180,8 +180,8 @@ body {
 .site-header .site-consultation-cta[href$="/kontakt"]:hover,
 .site-header .site-consultation-cta[href$="/kontakt"]:focus-visible {
   color: #ffffff !important;
-  background: #1f55c9 !important;
-  box-shadow: 0 18px 40px -20px rgba(31, 85, 201, 0.92) !important;
+  background: #0fa568 !important;
+  box-shadow: 0 18px 40px -20px rgba(15, 165, 104, 0.92) !important;
 }
 
 .site-menu-toggle,
@@ -195,7 +195,7 @@ body {
 .site-menu-toggle:focus-visible,
 .site-menu-close:hover,
 .site-menu-close:focus-visible {
-  border-color: #3478f6 !important;
+  border-color: #16c47f !important;
   color: #ffffff !important;
   background: #151a24 !important;
 }
@@ -227,14 +227,14 @@ body {
 .site-menu-solution:focus-visible,
 .site-menu-project-link:hover,
 .site-menu-project-link:focus-visible {
-  border-color: rgba(52, 120, 246, 0.5) !important;
+  border-color: rgba(22, 196, 127, 0.5) !important;
   color: #ffffff !important;
-  background: rgba(31, 85, 201, 0.2) !important;
+  background: rgba(15, 165, 104, 0.2) !important;
 }
 
 .site-menu-solution-icon {
-  color: #3478f6 !important;
-  background: rgba(52, 120, 246, 0.14) !important;
+  color: #16c47f !important;
+  background: rgba(22, 196, 127, 0.14) !important;
 }
 
 /* Hero and primary controls */
@@ -269,11 +269,11 @@ body {
 .lp-eyebrow,
 .lp-hero-proof svg,
 .lp-assistant-answer svg {
-  color: #3478f6 !important;
+  color: #16c47f !important;
 }
 
 .lp-eyebrow i {
-  background: linear-gradient(90deg, #3478f6, transparent) !important;
+  background: linear-gradient(90deg, #16c47f, transparent) !important;
 }
 
 .lp-hero-lead,
@@ -291,9 +291,9 @@ body {
 .lp-solution-cta {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
-  box-shadow: 0 16px 36px -22px rgba(52, 120, 246, 0.82) !important;
+  box-shadow: 0 16px 36px -22px rgba(22, 196, 127, 0.82) !important;
 }
 
 .lp-button-primary:hover,
@@ -311,8 +311,8 @@ body {
 .lp-solution-cta:hover,
 .lp-solution-cta:focus-visible {
   color: #ffffff !important;
-  background: #1f55c9 !important;
-  box-shadow: 0 20px 42px -22px rgba(31, 85, 201, 0.92) !important;
+  background: #0fa568 !important;
+  box-shadow: 0 20px 42px -22px rgba(15, 165, 104, 0.92) !important;
 }
 
 .lp-button-quiet {
@@ -323,14 +323,14 @@ body {
 
 .lp-button-quiet:hover,
 .lp-button-quiet:focus-visible {
-  border-color: #1f55c9 !important;
+  border-color: #0fa568 !important;
   color: #ffffff !important;
-  background: rgba(31, 85, 201, 0.22) !important;
+  background: rgba(15, 165, 104, 0.22) !important;
 }
 
 .lp-assistant-card {
   border-color: rgba(247, 249, 252, 0.13) !important;
-  border-top-color: rgba(52, 120, 246, 0.72) !important;
+  border-top-color: rgba(22, 196, 127, 0.72) !important;
   background: #090b10 !important;
   background-image: none !important;
   box-shadow:
@@ -355,7 +355,7 @@ body {
 .lp-assistant-chips button:hover,
 .lp-switch button:hover {
   color: #ffffff !important;
-  background: rgba(31, 85, 201, 0.16) !important;
+  background: rgba(15, 165, 104, 0.16) !important;
 }
 
 .lp-assistant-chips button[data-active="true"],
@@ -366,7 +366,7 @@ body {
 .lp-chip-liquid,
 .lp-switch-liquid {
   border-color: rgba(255, 255, 255, 0.18) !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
   box-shadow: none !important;
 }
@@ -413,9 +413,9 @@ body {
 .sp-service-head > svg,
 .cookies-card__icon,
 .contact-card-head > span {
-  border-color: rgba(52, 120, 246, 0.32) !important;
-  color: #3478f6 !important;
-  background: rgba(52, 120, 246, 0.13) !important;
+  border-color: rgba(22, 196, 127, 0.32) !important;
+  color: #16c47f !important;
+  background: rgba(22, 196, 127, 0.13) !important;
 }
 
 .lp-solution-pill:hover,
@@ -424,7 +424,7 @@ body {
 .sp-project-card > a:hover,
 .sp-project-card > a:focus-visible,
 .cookies-card:hover {
-  border-color: rgba(52, 120, 246, 0.52) !important;
+  border-color: rgba(22, 196, 127, 0.52) !important;
 }
 
 .lp-chip,
@@ -445,18 +445,18 @@ body {
 .lp-caps-chips button:focus-visible,
 .chip:hover,
 .chip:focus-visible {
-  border-color: rgba(31, 85, 201, 0.72) !important;
+  border-color: rgba(15, 165, 104, 0.72) !important;
   color: #ffffff !important;
-  background: rgba(31, 85, 201, 0.2) !important;
+  background: rgba(15, 165, 104, 0.2) !important;
 }
 
 .lp-chip[data-active="true"],
 .lp-caps-chips button[data-active="true"],
 .lp-caps-chips button[aria-pressed="true"] {
-  border-color: #3478f6 !important;
+  border-color: #16c47f !important;
   color: #ffffff !important;
-  background: rgba(52, 120, 246, 0.17) !important;
-  box-shadow: inset 3px 0 0 #3478f6 !important;
+  background: rgba(22, 196, 127, 0.17) !important;
+  box-shadow: inset 3px 0 0 #16c47f !important;
 }
 
 .lp-caps-row-head h3::after,
@@ -464,7 +464,7 @@ body {
 .sp-timeline-progress,
 .lp-final-card::before,
 .sp-cta::before {
-  background: #3478f6 !important;
+  background: #16c47f !important;
   box-shadow: none !important;
 }
 
@@ -483,11 +483,11 @@ body {
 .lp-portfolio .lp-eyebrow,
 .lp-project-copy p,
 .lp-project-copy > span {
-  color: #3478f6 !important;
+  color: #16c47f !important;
 }
 
 .lp-portfolio .lp-eyebrow i {
-  background: linear-gradient(90deg, #3478f6, transparent) !important;
+  background: linear-gradient(90deg, #16c47f, transparent) !important;
 }
 
 .lp-portfolio .lp-heading-copy,
@@ -505,7 +505,7 @@ body {
 
 .lp-project > a:hover,
 .lp-project > a:focus-visible {
-  border-color: rgba(52, 120, 246, 0.55) !important;
+  border-color: rgba(22, 196, 127, 0.55) !important;
   box-shadow: 0 34px 78px -46px rgba(0, 0, 0, 1) !important;
 }
 
@@ -524,15 +524,15 @@ body {
 
 .lp-live-tools a {
   border-color: rgba(247, 249, 252, 0.13) !important;
-  color: #3478f6 !important;
+  color: #16c47f !important;
   background: #0e1118 !important;
 }
 
 .lp-live-tools a:hover,
 .lp-live-tools a:focus-visible {
-  border-color: #1f55c9 !important;
+  border-color: #0fa568 !important;
   color: #ffffff !important;
-  background: #1f55c9 !important;
+  background: #0fa568 !important;
 }
 
 /* DERAT story */
@@ -540,7 +540,7 @@ body {
   --derat-ink: #f7f9fc;
   --derat-paper: #050609;
   --derat-muted: #aeb6c2;
-  --derat-mint: #3478f6;
+  --derat-mint: #16c47f;
   color: #f7f9fc !important;
   background: #050609 !important;
   background-image: none !important;
@@ -555,12 +555,12 @@ body {
 .derat-story__kicker,
 .derat-story a,
 .derat-story__progress span {
-  color: #3478f6 !important;
+  color: #16c47f !important;
 }
 
 .derat-story__progress span,
 .derat-story__mobile-dots button.is-active span {
-  background: #3478f6 !important;
+  background: #16c47f !important;
 }
 
 /* Public subpages */
@@ -596,12 +596,12 @@ body {
 .cookies-card__kicker,
 .cookies-status b,
 .cookies-contact a {
-  color: #3478f6 !important;
+  color: #16c47f !important;
 }
 
 .sp-eyebrow i,
 .contact-kicker i {
-  background: #3478f6 !important;
+  background: #16c47f !important;
   box-shadow: none !important;
 }
 
@@ -617,9 +617,9 @@ body {
 }
 
 .sp-step::before {
-  border-color: #3478f6 !important;
+  border-color: #16c47f !important;
   background: #050609 !important;
-  box-shadow: 0 0 0 0.32rem rgba(52, 120, 246, 0.12) !important;
+  box-shadow: 0 0 0 0.32rem rgba(22, 196, 127, 0.12) !important;
 }
 
 .sp-project-visual {
@@ -636,9 +636,9 @@ body {
 .contact-submit {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
-  box-shadow: 0 16px 36px -22px rgba(52, 120, 246, 0.82) !important;
+  box-shadow: 0 16px 36px -22px rgba(22, 196, 127, 0.82) !important;
 }
 
 .sp-button--primary:hover,
@@ -648,8 +648,8 @@ body {
 .contact-submit:hover,
 .contact-submit:focus-visible {
   color: #ffffff !important;
-  background: #1f55c9 !important;
-  box-shadow: 0 20px 42px -22px rgba(31, 85, 201, 0.92) !important;
+  background: #0fa568 !important;
+  box-shadow: 0 20px 42px -22px rgba(15, 165, 104, 0.92) !important;
 }
 
 .sp-button--ghost,
@@ -663,9 +663,9 @@ body {
 .sp-button--ghost:focus-visible,
 .contact-assistant:hover,
 .contact-assistant:focus-visible {
-  border-color: #1f55c9 !important;
+  border-color: #0fa568 !important;
   color: #ffffff !important;
-  background: rgba(31, 85, 201, 0.22) !important;
+  background: rgba(15, 165, 104, 0.22) !important;
 }
 
 .contact-glow {
@@ -683,9 +683,9 @@ body {
 .contact-card input:focus,
 .contact-card textarea:focus,
 .contact-card select:focus {
-  border-color: #3478f6 !important;
+  border-color: #16c47f !important;
   background: #0e1118 !important;
-  box-shadow: 0 0 0 4px rgba(52, 120, 246, 0.13) !important;
+  box-shadow: 0 0 0 4px rgba(22, 196, 127, 0.13) !important;
 }
 
 .contact-or span,
@@ -705,8 +705,8 @@ body {
   --cookie-bg: #090b10;
   --cookie-border: rgba(247, 249, 252, 0.16);
   --cookie-soft: rgba(247, 249, 252, 0.055);
-  --cookie-accent: #3478f6;
-  --cookie-accent-strong: #3478f6;
+  --cookie-accent: #16c47f;
+  --cookie-accent-strong: #16c47f;
   border-color: var(--cookie-border) !important;
   color: #f7f9fc !important;
   background: #090b10 !important;
@@ -719,22 +719,22 @@ body {
 }
 
 .cookie-banner::after {
-  background: #3478f6 !important;
+  background: #16c47f !important;
 }
 
 .cookie-banner__icon,
 .cookie-modal__mark,
 .cookie-category__icon {
-  border-color: rgba(52, 120, 246, 0.35) !important;
-  color: #3478f6 !important;
-  background: rgba(52, 120, 246, 0.13) !important;
+  border-color: rgba(22, 196, 127, 0.35) !important;
+  color: #16c47f !important;
+  background: rgba(22, 196, 127, 0.13) !important;
   background-image: none !important;
 }
 
 .cookie-banner__head p,
 .cookie-modal__head p,
 .cookie-category__copy > div span {
-  color: #3478f6 !important;
+  color: #16c47f !important;
 }
 
 .cookie-banner__head h2,
@@ -753,7 +753,7 @@ body {
 .cookie-category__locked {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
   box-shadow: none !important;
 }
@@ -761,7 +761,7 @@ body {
 .cookie-button--primary:hover,
 .cookie-button--primary:focus-visible {
   color: #ffffff !important;
-  background: #1f55c9 !important;
+  background: #0fa568 !important;
 }
 
 .cookie-button--quiet,
@@ -778,18 +778,18 @@ body {
 .cookie-button--quiet:focus-visible,
 .cookie-modal__close:hover,
 .cookie-modal__close:focus-visible {
-  border-color: #1f55c9 !important;
+  border-color: #0fa568 !important;
   color: #ffffff !important;
-  background: rgba(31, 85, 201, 0.22) !important;
+  background: rgba(15, 165, 104, 0.22) !important;
 }
 
 .cookie-switch input:checked + span {
-  border-color: #3478f6 !important;
-  background: rgba(52, 120, 246, 0.24) !important;
+  border-color: #16c47f !important;
+  background: rgba(22, 196, 127, 0.24) !important;
 }
 
 .cookie-switch input:checked + span::after {
-  background: #3478f6 !important;
+  background: #16c47f !important;
 }
 
 /* Footer */
@@ -808,7 +808,7 @@ body {
 
 .premium-footer-links a:hover,
 .premium-footer-links button:hover {
-  color: #3478f6 !important;
+  color: #16c47f !important;
 }
 
 /* The embedded assistant must match even before its own stylesheet finishes loading. */
@@ -821,21 +821,21 @@ body {
   --cw-ink: #f7f9fc !important;
   --cw-muted: #aeb6c2 !important;
   --cw-faint: #747e8d !important;
-  --cw-brass: #3478f6 !important;
-  --cw-brass-hover: #1f55c9 !important;
-  --cw-sage: #3478f6 !important;
-  --cw-sage-hover: #1f55c9 !important;
-  --cw-copper: #3478f6 !important;
-  --cw-copper-hover: #1f55c9 !important;
+  --cw-brass: #16c47f !important;
+  --cw-brass-hover: #0fa568 !important;
+  --cw-sage: #16c47f !important;
+  --cw-sage-hover: #0fa568 !important;
+  --cw-copper: #16c47f !important;
+  --cw-copper-hover: #0fa568 !important;
   --cw-on-copper: #ffffff !important;
-  --cw-action: #3478f6 !important;
-  --cw-action-hover: #1f55c9 !important;
+  --cw-action: #16c47f !important;
+  --cw-action-hover: #0fa568 !important;
   --cw-action-ink: #ffffff !important;
-  --cw-action-soft: rgba(52, 120, 246, 0.13) !important;
-  --cw-action-line: rgba(52, 120, 246, 0.48) !important;
-  --cw-cyan: #3478f6 !important;
-  --cw-cyan-soft: rgba(52, 120, 246, 0.13) !important;
-  --cw-cyan-line: rgba(52, 120, 246, 0.48) !important;
+  --cw-action-soft: rgba(22, 196, 127, 0.13) !important;
+  --cw-action-line: rgba(22, 196, 127, 0.48) !important;
+  --cw-cyan: #16c47f !important;
+  --cw-cyan-soft: rgba(22, 196, 127, 0.13) !important;
+  --cw-cyan-line: rgba(22, 196, 127, 0.48) !important;
   --cw-line: rgba(247, 249, 252, 0.12) !important;
   --cw-line-strong: rgba(247, 249, 252, 0.22) !important;
 }
@@ -857,7 +857,7 @@ body {
 .cookie-banner button:focus-visible,
 .cookie-modal button:focus-visible,
 .cookie-modal a:focus-visible {
-  outline: 3px solid rgba(52, 120, 246, 0.86) !important;
+  outline: 3px solid rgba(22, 196, 127, 0.86) !important;
   outline-offset: 4px !important;
 }
 
@@ -873,11 +873,11 @@ body {
   --lp-primary-ink: #ffffff;
   --lp-muted: #aeb6c2;
   --lp-muted-soft: #747e8d;
-  --lp-green: #3478f6;
-  --lp-green-dark: #1f55c9;
-  --lp-mint: #3478f6;
-  --lp-coral: #3478f6;
-  --lp-blue: #3478f6;
+  --lp-green: #16c47f;
+  --lp-green-dark: #0fa568;
+  --lp-mint: #16c47f;
+  --lp-coral: #16c47f;
+  --lp-blue: #16c47f;
   --lp-line: rgba(247, 249, 252, 0.12);
   --lp-line-strong: rgba(247, 249, 252, 0.22);
   --lp-surface-soft: #0a0d13;
@@ -898,9 +898,9 @@ body {
 :root .lp-page .lp-solution-cta {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
-  box-shadow: 0 16px 36px -22px rgba(52, 120, 246, 0.82) !important;
+  box-shadow: 0 16px 36px -22px rgba(22, 196, 127, 0.82) !important;
 }
 
 :root .lp-page .lp-button-primary:hover,
@@ -917,10 +917,10 @@ body {
 :root .lp-page .lp-final-card .lp-button-light:focus-visible,
 :root .lp-page .lp-solution-cta:hover,
 :root .lp-page .lp-solution-cta:focus-visible {
-  border-color: #1f55c9 !important;
+  border-color: #0fa568 !important;
   color: #ffffff !important;
-  background: #1f55c9 !important;
-  box-shadow: 0 20px 42px -22px rgba(31, 85, 201, 0.92) !important;
+  background: #0fa568 !important;
+  box-shadow: 0 20px 42px -22px rgba(15, 165, 104, 0.92) !important;
 }
 
 :root .lp-page .lp-assistant-chips button[data-active="true"],
@@ -931,7 +931,7 @@ body {
 :root .lp-page .lp-chip-liquid,
 :root .lp-page .lp-switch-liquid {
   border-color: rgba(255, 255, 255, 0.18) !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
   box-shadow: none !important;
 }
@@ -940,9 +940,9 @@ body {
 :root .chip::before,
 :root .chip[data-tone="gold"]::before,
 :root .chip[data-tone="coral"]::before {
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
-  box-shadow: 0 0 0 0.24rem rgba(52, 120, 246, 0.1) !important;
+  box-shadow: 0 0 0 0.24rem rgba(22, 196, 127, 0.1) !important;
 }
 
 :root .lp-page .lp-chip[data-active="true"]::before {
@@ -952,9 +952,9 @@ body {
 }
 
 :root .lp-page .lp-chip-icon {
-  border-color: rgba(52, 120, 246, 0.36) !important;
-  color: #3478f6 !important;
-  background: rgba(52, 120, 246, 0.12) !important;
+  border-color: rgba(22, 196, 127, 0.36) !important;
+  color: #16c47f !important;
+  background: rgba(22, 196, 127, 0.12) !important;
 }
 
 :root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
@@ -967,7 +967,7 @@ body {
 :root .lp-page .lp-chip[data-tone="mint"] .lp-chip-fill,
 :root .lp-page .lp-chip[data-tone="coral"] .lp-chip-fill,
 :root .lp-page .lp-chip[data-tone="ink"] .lp-chip-fill {
-  background: #3478f6 !important;
+  background: #16c47f !important;
   background-image: none !important;
   box-shadow: none !important;
 }
@@ -976,7 +976,7 @@ body {
 :root .lp-page .lp-caps-row-head[data-tone="mint"] h3::after,
 :root .lp-page .lp-caps-row-head[data-tone="coral"] h3::after,
 :root .lp-page .lp-caps-row-head[data-tone="ink"] h3::after {
-  background: #3478f6 !important;
+  background: #16c47f !important;
   box-shadow: none !important;
 }
 
@@ -984,7 +984,7 @@ body {
 :root .lp-page .lp-caps-detail-inner[data-tone="mint"],
 :root .lp-page .lp-caps-detail-inner[data-tone="coral"],
 :root .lp-page .lp-caps-detail-inner[data-tone="ink"] {
-  border-left-color: #3478f6 !important;
+  border-left-color: #16c47f !important;
 }
 
 @media (max-width: 640px) {

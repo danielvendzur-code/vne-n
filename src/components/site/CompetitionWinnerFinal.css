@@ -10,8 +10,8 @@
   --wf-border: #202b3b;
   --wf-border-hover: #3a5272;
   --wf-blue: #4e8cff;
-  --wf-blue-strong: #3478f6;
-  --wf-blue-soft: rgba(78, 140, 255, 0.14);
+  --wf-blue-strong: #16c47f;
+  --wf-blue-soft: rgba(34, 207, 140, 0.14);
   --wf-text: #f6f8fb;
   --wf-muted: #9eabbc;
   --wf-faint: #6f7d8f;
@@ -85,8 +85,8 @@
   background: radial-gradient(
     circle at var(--spot-x) var(--spot-y),
     rgba(255, 255, 255, 0.28) 0,
-    rgba(112, 173, 255, 0.2) 13%,
-    rgba(78, 140, 255, 0.095) 28%,
+    rgba(90, 220, 170, 0.2) 13%,
+    rgba(34, 207, 140, 0.095) 28%,
     transparent 57%
   ) !important;
   transform: scale(0.72) !important;
@@ -143,7 +143,7 @@
 /* Hero composition: less empty space, stronger alignment and clearer proof. */
 .lp-hero {
   background:
-    radial-gradient(circle at 80% 20%, rgba(52, 120, 246, 0.11), transparent 34rem),
+    radial-gradient(circle at 80% 20%, rgba(22, 196, 127, 0.11), transparent 34rem),
     linear-gradient(180deg, #05070b 0%, #060910 100%) !important;
 }
 
@@ -165,7 +165,7 @@
   background: linear-gradient(180deg, #0c121c, #080d14) !important;
   box-shadow:
     0 38px 95px -55px rgba(0, 0, 0, 0.98),
-    0 24px 60px -48px rgba(52, 120, 246, 0.72) !important;
+    0 24px 60px -48px rgba(22, 196, 127, 0.72) !important;
 }
 
 .lp-assistant-card > p {
@@ -183,7 +183,7 @@
 }
 
 .lp-hero-proof svg {
-  color: #7ba8f7 !important;
+  color: #6fdcae !important;
 }
 
 /* All chips share one shape and one selected state. No left stripe. */
@@ -248,7 +248,7 @@
   border-color: #466184 !important;
   color: #ffffff !important;
   background: #101a28 !important;
-  box-shadow: 0 15px 34px -30px rgba(78, 140, 255, 0.88) !important;
+  box-shadow: 0 15px 34px -30px rgba(34, 207, 140, 0.88) !important;
   transform: none !important;
 }
 
@@ -259,8 +259,8 @@
   background: #13213a !important;
   background-image: none !important;
   box-shadow:
-    0 0 0 1px rgba(78, 140, 255, 0.12),
-    0 17px 36px -31px rgba(78, 140, 255, 0.95) !important;
+    0 0 0 1px rgba(34, 207, 140, 0.12),
+    0 17px 36px -31px rgba(34, 207, 140, 0.95) !important;
   transform: none !important;
 }
 
@@ -298,7 +298,7 @@
   transform: none !important;
   border-color: #344a67 !important;
   background: #0d151f !important;
-  box-shadow: 0 22px 52px -44px rgba(78, 140, 255, 0.82) !important;
+  box-shadow: 0 22px 52px -44px rgba(34, 207, 140, 0.82) !important;
 }
 
 .lp-solution-cta,
@@ -328,7 +328,7 @@
   border-color: #6198e9 !important;
   color: #ffffff !important;
   background: #111c2a !important;
-  box-shadow: 0 17px 38px -31px rgba(78, 140, 255, 0.92) !important;
+  box-shadow: 0 17px 38px -31px rgba(34, 207, 140, 0.92) !important;
   transform: none !important;
 }
 
@@ -340,7 +340,7 @@
     rgba(6, 10, 17, 0.88) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 18px 44px -36px rgba(52, 120, 246, 0.85) !important;
+    0 18px 44px -36px rgba(22, 196, 127, 0.85) !important;
 }
 
 /* Desktop navigation: avoid a duplicate full menu next to visible navigation. */
@@ -357,7 +357,7 @@
   padding: clamp(5rem, 9vw, 8.5rem) 0;
   border-top: 1px solid #111a26;
   background:
-    radial-gradient(circle at 85% 18%, rgba(52, 120, 246, 0.1), transparent 31rem),
+    radial-gradient(circle at 85% 18%, rgba(22, 196, 127, 0.1), transparent 31rem),
     #05070b !important;
 }
 
@@ -373,7 +373,7 @@
 
 .winner-upgrade__eyebrow {
   margin: 0 0 0.85rem;
-  color: #86aff6;
+  color: #6fdcae;
   font-size: 0.72rem;
   font-weight: 820;
   letter-spacing: 0.13em;
@@ -427,7 +427,7 @@
 .winner-prep__item:hover {
   border-color: var(--wf-border-hover);
   background: #0d151f;
-  box-shadow: 0 20px 46px -40px rgba(78, 140, 255, 0.82);
+  box-shadow: 0 20px 46px -40px rgba(34, 207, 140, 0.82);
 }
 
 .winner-trust__item > svg,
@@ -476,12 +476,12 @@
 .winner-package[data-featured="true"] {
   border-color: #3f6598;
   background: linear-gradient(180deg, #101b2d, #090f18);
-  box-shadow: 0 28px 70px -54px rgba(78, 140, 255, 0.95);
+  box-shadow: 0 28px 70px -54px rgba(34, 207, 140, 0.95);
 }
 
 .winner-package:hover {
   border-color: #426087;
-  box-shadow: 0 28px 64px -52px rgba(78, 140, 255, 0.9);
+  box-shadow: 0 28px 64px -52px rgba(34, 207, 140, 0.9);
 }
 
 .winner-package__top {
@@ -500,7 +500,7 @@
   border: 1px solid #38577f;
   border-radius: 14px;
   color: #ffffff;
-  background: #17325d;
+  background: #134a37;
 }
 
 .winner-package__icon svg {
@@ -575,8 +575,8 @@
 .winner-package__cta:hover,
 .winner-package__cta:focus-visible {
   border-color: #72aaff;
-  background: #17325d;
-  box-shadow: 0 18px 38px -31px rgba(78, 140, 255, 0.95);
+  background: #134a37;
+  box-shadow: 0 18px 38px -31px rgba(34, 207, 140, 0.95);
 }
 
 .winner-package__cta svg,
@@ -624,7 +624,7 @@
   border: 1px solid #2b3b52;
   border-radius: 26px;
   background: linear-gradient(140deg, #101b2c, #080e16 68%);
-  box-shadow: 0 34px 82px -58px rgba(78, 140, 255, 0.9);
+  box-shadow: 0 34px 82px -58px rgba(34, 207, 140, 0.9);
 }
 
 .winner-final h2 {
@@ -664,7 +664,7 @@
   border: 1px solid #6ba4ff;
   color: #ffffff;
   background: #3979ec;
-  box-shadow: 0 18px 42px -30px rgba(78, 140, 255, 0.9);
+  box-shadow: 0 18px 42px -30px rgba(34, 207, 140, 0.9);
 }
 
 .winner-final__primary:hover,

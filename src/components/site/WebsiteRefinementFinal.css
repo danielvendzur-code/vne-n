@@ -14,8 +14,8 @@
   --wr-text: #f5f7fb;
   --wr-muted: #a0acbc;
   --wr-faint: #6f7d90;
-  --wr-blue: #4e8cff;
-  --wr-blue-soft: rgba(78, 140, 255, 0.14);
+  --wr-blue: #22cf8c;
+  --wr-blue-soft: rgba(34, 207, 140, 0.14);
   --wr-blue-line: rgba(113, 170, 255, 0.68);
   --wr-radius-xl: 24px;
   --wr-radius-lg: 20px;
@@ -90,7 +90,7 @@ body {
 
 .lp-eyebrow,
 .lp-eyebrow i {
-  color: #8baeff !important;
+  color: #7fe0b4 !important;
 }
 
 .lp-eyebrow i {
@@ -242,7 +242,7 @@ body {
   color: #ffffff !important;
   background: #3979ec !important;
   background-image: none !important;
-  box-shadow: 0 14px 32px -24px rgba(78, 140, 255, 0.8) !important;
+  box-shadow: 0 14px 32px -24px rgba(34, 207, 140, 0.8) !important;
 }
 
 .site-consultation-cta:hover,
@@ -259,13 +259,13 @@ body {
   min-height: calc(100svh - 4rem) !important;
   border-bottom: 1px solid #121a25 !important;
   background:
-    radial-gradient(circle at 84% 22%, rgba(78, 140, 255, 0.09), transparent 31rem),
+    radial-gradient(circle at 84% 22%, rgba(34, 207, 140, 0.09), transparent 31rem),
     var(--wr-bg) !important;
 }
 
 .lp-hero-glow {
   opacity: 0.45 !important;
-  background: radial-gradient(circle, rgba(78, 140, 255, 0.1), transparent 72%) !important;
+  background: radial-gradient(circle, rgba(34, 207, 140, 0.1), transparent 72%) !important;
   filter: blur(34px) !important;
 }
 
@@ -474,7 +474,7 @@ body {
   /* Intentionally not reset: this is the one liquid-glass control kept on the site. */
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.11),
-    0 18px 40px -34px rgba(52, 120, 246, 0.78) !important;
+    0 18px 40px -34px rgba(22, 196, 127, 0.78) !important;
 }
 
 /* Solution cards are clean matte blocks. */
@@ -559,7 +559,7 @@ body {
     circle at var(--liquid-x) var(--liquid-y),
     rgba(255, 255, 255, 0.34) 0,
     rgba(93, 156, 255, 0.24) 18%,
-    rgba(78, 140, 255, 0.08) 34%,
+    rgba(34, 207, 140, 0.08) 34%,
     transparent 58%
   ) !important;
   transform: scale(0.72) !important;
@@ -603,7 +603,7 @@ body {
   color: #ffffff !important;
   background: #101a29 !important;
   transform: none !important;
-  box-shadow: 0 15px 34px -28px rgba(78, 140, 255, 0.95) !important;
+  box-shadow: 0 15px 34px -28px rgba(34, 207, 140, 0.95) !important;
 }
 
 /* Capability rows: ordered, matte and visually quiet. */

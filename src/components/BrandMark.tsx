@@ -25,9 +25,9 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
     >
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#174a8d" />
-          <stop offset=".55" stopColor="#1e5199" />
-          <stop offset="1" stopColor="#2867b7" />
+          <stop stopColor="#0e9c62" />
+          <stop offset=".55" stopColor="#14b273" />
+          <stop offset="1" stopColor="#22cf8c" />
         </linearGradient>
       </defs>
       <path
