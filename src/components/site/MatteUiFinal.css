@@ -36,14 +36,14 @@ html body .lp-page .lp-hero-cta {
 
 html body .lp-page .lp-hero-cta--primary {
   color: #fff !important;
-  background: #3478f6 !important;
-  box-shadow: 0 16px 34px -24px rgba(52, 120, 246, 0.95) !important;
+  background: #16c47f !important;
+  box-shadow: 0 16px 34px -24px rgba(22, 196, 127, 0.95) !important;
 }
 
 html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
   color: #fff !important;
   background: #4385f8 !important;
-  box-shadow: 0 18px 38px -23px rgba(52, 120, 246, 0.88) !important;
+  box-shadow: 0 18px 38px -23px rgba(22, 196, 127, 0.88) !important;
   transform: none !important;
 }
 
@@ -259,7 +259,7 @@ html body .lp-page .lp-caps-detail-cta::after {
 
 html body .lp-page .lp-caps-detail-cta:is(:hover, :focus-visible) {
   color: #fff !important;
-  background: #3478f6 !important;
+  background: #16c47f !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -521,7 +521,7 @@ html body .lp-page .lp-solution-pill::after {
 }
 
 html body .lp-page .lp-solution-pill > svg {
-  color: #6da4ff !important;
+  color: #5fd6a6 !important;
   background: transparent !important;
   box-shadow: none !important;
 }

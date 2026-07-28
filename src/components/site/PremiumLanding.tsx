@@ -4,6 +4,7 @@ import {
   AnimatePresence,
   motion,
   MotionConfig,
+  useMotionValueEvent,
   useScroll,
   useSpring,
   type Variants,
@@ -858,6 +859,53 @@ function Portfolio() {
   );
 }
 
+function ProcessTimeline() {
+  const listRef = useRef<HTMLOListElement>(null);
+  const reducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start 0.78", "end 0.66"],
+  });
+  const scaleY = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
+  const [reached, setReached] = useState(reducedMotion ? process.length : 0);
+
+  useMotionValueEvent(scaleY, "change", (value) => {
+    if (reducedMotion) return;
+    const list = listRef.current;
+    if (!list) return;
+    const lineEnd = value * list.offsetHeight;
+    const nodes = list.querySelectorAll<HTMLElement>(".lp-step-node");
+    let count = 0;
+    nodes.forEach((node) => {
+      if (node.offsetTop + node.offsetHeight / 2 <= lineEnd) count += 1;
+    });
+    setReached(count);
+  });
+
+  return (
+    <div className="lp-timeline-wrap">
+      {reducedMotion ? null : (
+        <motion.span className="lp-timeline-progress" style={{ scaleY }} aria-hidden="true" />
+      )}
+      <ol className="lp-process-list" ref={listRef}>
+        {process.map(({ icon: Icon, title, copy }, index) => (
+          <li key={title} data-reached={reducedMotion || index < reached}>
+            <span className="lp-step-node" aria-hidden="true">
+              <i />
+            </span>
+            <span>0{index + 1}</span>
+            <Icon />
+            <div>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function ProcessAndCta() {
   const reducedMotion = useReducedMotion();
   const magneticFinal = useMagnetic<HTMLAnchorElement>(0.12);
@@ -872,28 +920,7 @@ function ProcessAndCta() {
           >
             Krátko, zrozumiteľne <em>a bez chaosu.</em>
           </Heading>
-          <ol className="lp-process-list">
-            {process.map(({ icon: Icon, title, copy }, index) => (
-              <motion.li
-                key={title}
-                initial={reducedMotion ? false : { opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={
-                  reducedMotion
-                    ? { duration: 0 }
-                    : { duration: 0.64, delay: index * 0.09, ease: premiumEase }
-                }
-              >
-                <span>0{index + 1}</span>
-                <Icon />
-                <div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                </div>
-              </motion.li>
-            ))}
-          </ol>
+          <ProcessTimeline />
         </div>
 
         <Reveal className="lp-final-card" direction="right" distance={44}>
