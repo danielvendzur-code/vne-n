@@ -87,8 +87,17 @@ function Timeline() {
 
   useMotionValueEvent(scaleY, "change", (value) => {
     if (reducedMotion) return;
-    // Uzol sa rozsvieti, keď k nemu čiara dorastie.
-    setReached(Math.min(steps.length, Math.floor(value * steps.length + 0.55)));
+    const list = listRef.current;
+    if (!list) return;
+    // Porovnávame skutočnú pozíciu uzla s koncom čiary, nie odhad podľa
+    // poradia — inak sa uzol rozsvietil až kus po tom, čo cezeň čiara prešla.
+    const lineEnd = value * list.offsetHeight;
+    const nodes = list.querySelectorAll<HTMLElement>(".sp-step-node");
+    let count = 0;
+    nodes.forEach((node) => {
+      if (node.offsetTop + node.offsetHeight / 2 <= lineEnd) count += 1;
+    });
+    setReached(count);
   });
 
   return (

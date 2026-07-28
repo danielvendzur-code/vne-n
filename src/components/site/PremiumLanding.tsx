@@ -103,24 +103,6 @@ const comparisons = {
   },
 };
 
-const solutions = [
-  {
-    icon: Bot,
-    title: "Chatbot na mieru",
-    copy: "Chatbot odpovie na otázky a odovzdá vám dopyt aj s kontextom.",
-  },
-  {
-    icon: Calculator,
-    title: "Chatbot s kalkulačkou",
-    copy: "Zákazník vyberie možnosti a chatbot hneď vypočíta cenu podľa vašich pravidiel.",
-  },
-  {
-    icon: Workflow,
-    title: "Chatbot s konfigurátorom",
-    copy: "Chatbot prevedie zákazníka výberom a odošle hotovú špecifikáciu.",
-  },
-];
-
 const projects = [
   {
     name: "Môj Plot",
@@ -537,48 +519,6 @@ function Hero() {
   );
 }
 
-function SolutionCard({
-  solution,
-  index,
-}: {
-  solution: (typeof solutions)[number];
-  index: number;
-}) {
-  const reducedMotion = useReducedMotion();
-  const Icon = solution.icon;
-
-  return (
-    <motion.article
-      className="lp-solution-pill"
-      initial={reducedMotion ? false : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.28 }}
-      transition={
-        reducedMotion ? { duration: 0 } : { duration: 0.62, delay: index * 0.08, ease: premiumEase }
-      }
-    >
-      <span className="lp-solution-icon" aria-hidden="true">
-        <Icon />
-      </span>
-      <h3>{solution.title}</h3>
-      <p>{solution.copy}</p>
-      <button
-        type="button"
-        className="lp-solution-cta lp-solution-cta--clean"
-        onClick={() =>
-          openSiteAssistant({
-            source: "solution-card",
-            entry: "builder",
-            category: solution.title,
-          })
-        }
-      >
-        Chcem takéto riešenie
-      </button>
-    </motion.article>
-  );
-}
-
 function ValueSection() {
   const [mode, setMode] = useState<ComparisonMode>("with");
   const active = comparisons[mode];
@@ -662,12 +602,6 @@ function ValueSection() {
             </motion.div>
           </AnimatePresence>
         </Reveal>
-
-        <div className="lp-solution-strip">
-          {solutions.map((solution, index) => (
-            <SolutionCard key={solution.title} solution={solution} index={index} />
-          ))}
-        </div>
       </div>
     </section>
   );
