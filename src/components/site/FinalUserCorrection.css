@@ -1393,3 +1393,82 @@ html:root body .lp-page .lp-assistant-cta {
   overflow: visible !important;
   isolation: auto !important;
 }
+
+/* ==============================================================
+   MOBIL: tlačidlo Menu bolo mimo obrazovky
+   Pravidlo pre hlavné CTA nastavilo .site-consultation-cta na
+   display:inline-flex, čím prebilo Tailwind triedu `hidden lg:`.
+   Konzultačné tlačidlo sa tak zobrazovalo aj na mobile, zabralo
+   225 px a vytlačilo Menu za okraj (x=405 pri šírke 390).
+   Pod 1024 px teda ostáva skryté, presne ako pôvodne.
+   ============================================================== */
+@media (max-width: 1023px) {
+  html:root body .site-header .site-consultation-cta {
+    display: none !important;
+  }
+
+  html:root body .site-header .site-menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex: 0 0 auto !important;
+  }
+
+  html:root body .site-header-bar {
+    gap: 10px !important;
+  }
+}
+
+/* ==============================================================
+   SCROLL ANIMÁCIE
+   Riešené cez scroll-driven animations (animation-timeline: view()),
+   takže bežia na kompozitore — nezaťažujú JS a sú plynulé aj na
+   mobile. Ak ich prehliadač nepozná, obsah je jednoducho viditeľný.
+   ============================================================== */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes lp-rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    html:root body .lp-page .lp-caps-row,
+    html:root body .lp-page .lp-project,
+    html:root body .lp-page .lp-faq-item,
+    html:root body .lp-page .lp-process-list li,
+    html:root body .winner-trust__item,
+    html:root body .winner-package,
+    html:root body .sp-page .why-card,
+    html:root body .sp-page .sp-service,
+    html:root body .sp-page .sp-project-card {
+      animation: lp-rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 26%;
+    }
+
+    /* Nadpisy sekcií prídu o kúsok skôr a jemnejšie. */
+    @keyframes lp-heading-in {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    html:root body .lp-page .lp-heading,
+    html:root body .sp-page .sp-heading {
+      animation: lp-heading-in linear both;
+      animation-timeline: view();
+      animation-range: entry 4% cover 20%;
+    }
+  }
+}
