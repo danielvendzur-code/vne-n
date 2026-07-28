@@ -864,20 +864,25 @@ function ProcessTimeline() {
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: listRef,
-    offset: ["start 0.78", "end 0.66"],
+    offset: ["start 0.95", "end 0.5"],
   });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
+  const scaleY = useSpring(scrollYProgress, { stiffness: 70, damping: 26, mass: 0.5 });
   const [reached, setReached] = useState(reducedMotion ? process.length : 0);
 
   useMotionValueEvent(scaleY, "change", (value) => {
     if (reducedMotion) return;
     const list = listRef.current;
     if (!list) return;
-    const lineEnd = value * list.offsetHeight;
+    // offsetTop by sa meral voči vlastnému <li> (má position: relative),
+    // takže každý uzol hlásil rovnakú hodnotu a rozsvietili sa naraz.
+    // Meriame teda polohu voči zoznamu.
+    const listRect = list.getBoundingClientRect();
+    const lineEnd = value * listRect.height;
     const nodes = list.querySelectorAll<HTMLElement>(".lp-step-node");
     let count = 0;
     nodes.forEach((node) => {
-      if (node.offsetTop + node.offsetHeight / 2 <= lineEnd) count += 1;
+      const rect = node.getBoundingClientRect();
+      if (rect.top + rect.height / 2 - listRect.top <= lineEnd) count += 1;
     });
     setReached(count);
   });
