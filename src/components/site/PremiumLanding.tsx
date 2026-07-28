@@ -893,9 +893,11 @@ function ProcessTimeline() {
             <span className="lp-step-node" aria-hidden="true">
               <i />
             </span>
-            <span>0{index + 1}</span>
-            <Icon />
-            <div>
+            <span className="lp-step-icon" aria-hidden="true">
+              <Icon />
+            </span>
+            <div className="lp-step-body">
+              <span className="lp-step-num">Krok 0{index + 1}</span>
               <h3>{title}</h3>
               <p>{copy}</p>
             </div>

@@ -1675,3 +1675,103 @@ html:root body .lp-page .lp-process-list li > svg {
     transform: scale(1) !important;
   }
 }
+
+/* ==============================================================
+   ČASOVÁ OS — poriadna stavba karty
+   Mriežka mala tri stĺpce, ale karta štyri deti, takže text
+   pretiekol do druhého riadka a pod ním ostávalo ~120 px prázdna.
+   Karta je teraz vodorovná: ikona vľavo, text vpravo, výška podľa
+   obsahu.
+   ============================================================== */
+html:root body .lp-page .lp-process-list li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 18px !important;
+  padding: 24px 28px !important;
+  border-radius: 20px !important;
+}
+
+html:root body .lp-page .lp-step-icon {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 auto !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  background: #16c47f !important;
+}
+
+html:root body .lp-page .lp-step-icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  color: #ffffff !important;
+}
+
+html:root body .lp-page .lp-step-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+html:root body .lp-page .lp-step-num {
+  color: #7fe0b4 !important;
+  font-size: 0.74rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .lp-page .lp-process-list li h3 {
+  margin: 0 !important;
+  font-size: 1.12rem !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.022em !important;
+  line-height: 1.25 !important;
+}
+
+html:root body .lp-page .lp-process-list li p {
+  margin: 0 !important;
+  max-width: 62ch !important;
+  color: #aeb6c2 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
+}
+
+/* Uzol zarovnaný na stred ikony. */
+html:root body .lp-page .lp-step-node {
+  top: 35px !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .lp-page .lp-process-list li {
+    gap: 14px !important;
+    padding: 20px !important;
+  }
+
+  html:root body .lp-page .lp-step-icon {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  html:root body .lp-page .lp-step-node {
+    top: 30px !important;
+  }
+}
+
+/* Karta mala pevnú min-height 180 px, hoci obsah má ~76 px —
+   preto pod textom zívala prázdna plocha. Výška podľa obsahu. */
+html:root body .lp-page .lp-process-list li,
+html:root body .lp-page .lp-process-list > li {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* Karta sa skladala do stĺpca (text padal pod ikonu a robil 62 px
+   hluchého miesta). Vynútený vodorovný smer. */
+html:root body .lp-page .lp-process-list li,
+html:root body .lp-page .lp-process-list > li {
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+}
