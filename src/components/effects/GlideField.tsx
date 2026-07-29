@@ -611,7 +611,11 @@ export function GlideField({
     };
 
     const scheduleGeometry = () => {
-      if (geometryFrame) return;
+      // Bežalo to pri každom scrollovaní, aj keď je pole dávno mimo
+      // obrazovky — updateBounds() si pýta getBoundingClientRect(),
+      // takže sa v každom snímku vynucoval prepočet rozloženia.
+      // Na domovskej stránke to zrážalo celý web na 30 fps.
+      if (geometryFrame || !visible || document.hidden) return;
       geometryFrame = window.requestAnimationFrame(() => {
         geometryFrame = 0;
         updateBounds();
@@ -705,6 +709,13 @@ export function GlideField({
     const intersectionObserver = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
+        // Samotný canvas ostával v kompozitore aj hlboko pod hero,
+        // takže celá stránka bežala na 30 fps (medián snímku 33,3 ms
+        // oproti 16,7 ms bez neho). visibility: hidden nestačilo —
+        // z kompozitora ho vyradí až display: none, ktoré si berie
+        // na starosť CSS pravidlo v GlideField.css. Canvas je vnútri
+        // svojho obalu absolútne umiestnený, takže sa nič neposunie.
+        root.dataset.offscreen = visible ? "false" : "true";
         if (!visible) {
           resetDynamics();
         } else {

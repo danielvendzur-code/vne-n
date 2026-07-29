@@ -1,0 +1,100 @@
+/* Pás s aktuálnou sekciou. Sedí hneď pod hlavičkou a objaví sa až
+   po odscrollovaní hero — na úvode by len zavadzal.
+
+   Pozíciu drží fixed, nie sticky: pás pôvodne žil vnútri animovaného
+   kontajnera stránky a na mobile mu sticky nedržalo — odscrolloval
+   preč (top = -1424 px). Preto sedí v Layoute mimo neho. */
+.section-rail {
+  position: fixed;
+  top: 74px;
+  right: 0;
+  left: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-rail[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-rail[data-reduced="true"] {
+  transition: none;
+}
+
+.section-rail__inner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 34px;
+}
+
+.section-rail__index {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  color: #16c47f;
+  font-size: 0.68rem;
+  font-weight: 780;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.section-rail__index > i {
+  width: 10px;
+  height: 1px;
+  background: rgba(122, 210, 180, 0.5);
+}
+
+.section-rail__label {
+  flex: 0 1 auto;
+  overflow: hidden;
+  color: #cdd6d2;
+  font-size: 0.72rem;
+  font-weight: 640;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.section-rail__track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(122, 210, 180, 0.16);
+}
+
+.section-rail__fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #0fa568, #16c47f);
+  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-rail[data-reduced="true"] .section-rail__fill {
+  transition: none;
+}
+
+@media (max-width: 720px) {
+  .section-rail {
+    top: 68px;
+  }
+
+  .section-rail__inner {
+    gap: 10px;
+    height: 30px;
+  }
+
+  .section-rail__label {
+    font-size: 0.66rem;
+  }
+}
