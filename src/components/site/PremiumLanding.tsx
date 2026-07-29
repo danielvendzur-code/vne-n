@@ -34,7 +34,7 @@ import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { useMagnetic } from "@/hooks/useMagnetic";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useNarrowViewport, useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./PremiumLanding.css";
 
@@ -335,24 +335,43 @@ function Reveal({
   direction = "up",
   delay = 0,
   distance = 38,
+  amount = 0.18,
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
   direction?: RevealDirection;
   delay?: number;
   distance?: number;
+  /** Aká časť prvku musí byť vidieť, než sa spustí odhalenie. */
+  amount?: number;
+  "data-open"?: boolean;
 }) {
   const reducedMotion = useReducedMotion();
-  const x = direction === "left" ? -distance : direction === "right" ? distance : 0;
-  const y = direction === "up" ? Math.min(distance, 28) : 0;
+  const narrow = useNarrowViewport();
+  // Na mobile sa všetko odhaľuje nahor. Bočný posun v 390 px stĺpci
+  // vyzeral trhane a časť prvkov prišla mimo obrazovky.
+  const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
+  const y = narrow ? 22 : direction === "up" ? Math.min(distance, 28) : 0;
 
   return (
     <motion.div
       className={className}
       initial={reducedMotion ? false : { opacity: 0, x, y }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.72, delay, ease: premiumEase }}
+      // Na úzkej obrazovke sú karty vysoké, takže 18 % prvku znamenalo
+      // veľa scrollovania, kým sa vôbec začali odhaľovať.
+      viewport={{
+        once: true,
+        amount: narrow ? 0.06 : amount,
+        margin: narrow ? "0px 0px -8% 0px" : undefined,
+      }}
+      transition={{
+        duration: narrow ? 0.52 : 0.72,
+        delay: narrow ? Math.min(delay, 0.08) : delay,
+        ease: premiumEase,
+      }}
+      {...rest}
     >
       {children}
     </motion.div>
@@ -619,20 +638,45 @@ function CapabilityGroup({
   index: number;
 }) {
   const [active, setActive] = useState<string | null>(null);
+  // Celá skupina je zbalená. Zoznam možností mal na mobile 2514 px,
+  // takže návštevník scrolloval cez štyri otvorené bloky naraz.
+  const [open, setOpen] = useState(false);
   const reducedMotion = useReducedMotion();
   const { title, tone, copy, items } = group;
   const activeItem = items.find((item) => item.label === active) ?? null;
+  const panelId = `lp-caps-panel-${index}`;
 
   return (
-    <Reveal className="lp-caps-row" amount={0.2}>
-      <div className="lp-caps-row-head" data-tone={tone}>
+    <Reveal className="lp-caps-row" amount={0.2} data-open={open}>
+      <button
+        type="button"
+        className="lp-caps-row-head"
+        data-tone={tone}
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => {
+          setOpen((value) => !value);
+          if (open) setActive(null);
+        }}
+      >
         <span className="lp-caps-num">0{index + 1}</span>
         <div>
           <h3>{title}</h3>
           <p>{copy}</p>
         </div>
-      </div>
-      <div className="lp-caps-row-body">
+        <span className="lp-caps-count">
+          {items.length} možností
+          <i aria-hidden="true" />
+        </span>
+      </button>
+      <motion.div
+        className="lp-caps-row-body"
+        id={panelId}
+        initial={false}
+        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+        transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: premiumEase }}
+        style={{ overflow: "hidden" }}
+      >
         <div className="lp-caps-chips" role="group" aria-label={title}>
           {items.map((item) => {
             const isActive = active === item.label;
@@ -705,7 +749,7 @@ function CapabilityGroup({
             </motion.div>
           ) : null}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </Reveal>
   );
 }

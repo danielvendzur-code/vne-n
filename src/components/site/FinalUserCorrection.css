@@ -5,7 +5,7 @@
 html body .lp-page .lp-assistant-card {
   overflow: hidden !important;
   border: 0 !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   background-image: none !important;
   box-shadow: inset 0 0 0 1px rgba(95, 200, 160, 0.1) !important;
 }
@@ -166,7 +166,7 @@ html body .lp-page .lp-comparison-body {
   padding: clamp(32px, 5vw, 54px) !important;
   border: 0 !important;
   border-radius: 24px !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   box-shadow: inset 0 0 0 1px rgba(95, 200, 160, 0.1) !important;
 }
 
@@ -224,7 +224,7 @@ html body .lp-page .lp-chip {
   border: 0 !important;
   border-radius: 17px !important;
   color: #d8e2ee !important;
-  background: #111b29 !important;
+  background: #131c18 !important;
   background-image: none !important;
   box-shadow: none !important;
   text-align: center !important;
@@ -268,7 +268,7 @@ html body .lp-page .lp-chip-icon {
 
 html body .lp-page .lp-caps-detail-inner {
   border: 0 !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   box-shadow: inset 0 0 0 1px rgba(95, 200, 160, 0.1) !important;
 }
 
@@ -337,7 +337,7 @@ html body .cookies-page {
   --chip-h: 46px;
   --chip-radius: 999px;
   --chip-pad-x: 18px;
-  --chip-bg: #111b29;
+  --chip-bg: #131c18;
   --chip-bg-hover: #17273d;
   --chip-ink: #d3dded;
   --chip-ink-strong: #ffffff;
@@ -536,7 +536,7 @@ html:root body .lp-page .lp-comparison {
 html:root body .lp-page .lp-comparison-body {
   border: 0 !important;
   border-radius: 26px !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.14) !important;
 }
 
@@ -1049,7 +1049,7 @@ html:root body .lp-page .lp-solution-pill {
   padding: 28px !important;
   border: 0 !important;
   border-radius: 22px !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   background-image: none !important;
   box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
   transform: none !important;
@@ -1059,7 +1059,7 @@ html:root body .lp-page .lp-solution-pill {
 html:root body .lp-page .lp-solution-pill:is(:hover, :focus-within) {
   transform: none !important;
   border: 0 !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
 }
 
@@ -1324,7 +1324,7 @@ html:root body .lp-page .lp-process-list li {
   padding: 26px !important;
   border: 0 !important;
   border-radius: 22px !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
   transform: none !important;
   transition: none !important;
@@ -1332,7 +1332,7 @@ html:root body .lp-page .lp-process-list li {
 
 html:root body .lp-page .lp-process-list li:is(:hover, :focus-within) {
   transform: none !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
 }
 
@@ -1575,7 +1575,7 @@ html:root body .lp-page .lp-process-list li {
   padding: 24px 26px !important;
   border: 0 !important;
   border-radius: 20px !important;
-  background: #0b1420 !important;
+  background: #0e1512 !important;
   box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
   opacity: 0.55 !important;
   transform: translateY(10px) !important;
@@ -1853,14 +1853,14 @@ html:root body .winner-package {
 
 html:root body .winner-package[data-featured="true"] {
   border-color: rgba(22, 196, 127, 0.42) !important;
-  background: linear-gradient(180deg, rgba(22, 196, 127, 0.07), rgba(8, 11, 18, 0)) #0b111a !important;
+  background: linear-gradient(180deg, rgba(22, 196, 127, 0.07), rgba(8, 11, 18, 0)) #0c1210 !important;
   box-shadow:
     0 26px 60px -42px rgba(22, 196, 127, 0.8),
     inset 0 0 0 1px rgba(22, 196, 127, 0.14) !important;
 }
 
 html:root body .winner-package[data-featured="false"] {
-  background: #0a0e16 !important;
+  background: #0a100d !important;
 }
 
 html:root body .winner-package__badge {
@@ -2129,7 +2129,7 @@ html:root body .lp-page .lp-faq-item[data-open="true"] {
       rgba(22, 196, 127, 0.07),
       rgba(22, 196, 127, 0)
     )
-    #0b1219 !important;
+    #0c1210 !important;
 }
 
 html:root body .lp-page .lp-faq-item[data-open="true"] h3 button {
@@ -2278,4 +2278,462 @@ html:root body .sp-step p {
 
 html:root body .sp-combine p {
   color: #b0bab6 !important;
+}
+
+/* ==============================================================
+   PREPÍNAČ BEZ / S CHATBOTOM
+   Aktívny popis mal kontrast 1.0 — svetlá šeď na zelenom
+   jazdcovi, teda prakticky neviditeľný. Aktívny je odteraz tmavý
+   na zelenej, neaktívny svetlý na tmavej.
+   ============================================================== */
+html:root body .lp-page .lp-switch > button[data-active="true"] .lp-control-label,
+html:root body .lp-page .lp-switch > button[data-active="true"] {
+  color: #04140d !important;
+  font-weight: 760 !important;
+}
+
+html:root body .lp-page .lp-switch > button[data-active="false"] .lp-control-label,
+html:root body .lp-page .lp-switch > button[data-active="false"] {
+  color: #cdd6d2 !important;
+  font-weight: 620 !important;
+}
+
+html:root body .lp-page .lp-switch > button[data-active="false"]:hover .lp-control-label {
+  color: #ffffff !important;
+}
+
+/* ==============================================================
+   ROZDELENIE SEKCIÍ
+   lp-value aj lp-caps mali rovnaké pozadie rgb(8, 11, 18) bez
+   akéhokoľvek predelu, takže splývali do jedného nekonečného
+   bloku. Sekcie sa teraz striedajú a každá začína viditeľnou
+   linkou, takže je jasné, kde jedna téma končí a druhá začína.
+   ============================================================== */
+/* Poradie sekcií je value, caps, derat, portfolio, faq, process,
+   cenník — striedajú sa presne v tomto poradí, aby nikdy nestáli
+   vedľa seba dve s rovnakým pozadím. */
+html:root body .lp-page .lp-value,
+html:root body .lp-page .derat-story,
+html:root body .lp-page .lp-faq,
+html:root body .winner-upgrade {
+  background-color: #070b09 !important;
+}
+
+html:root body .lp-page .lp-caps,
+html:root body .lp-page .lp-portfolio,
+html:root body .lp-page .lp-process {
+  background-color: #0b120f !important;
+}
+
+/* Vlasová linka na začiatku každej sekcie — lacný, ale jasný
+   signál „tu začína nová téma". */
+html:root body .lp-page .lp-value,
+html:root body .lp-page .lp-caps,
+html:root body .lp-page .derat-story,
+html:root body .lp-page .lp-portfolio,
+html:root body .lp-page .lp-faq,
+html:root body .lp-page .lp-process,
+html:root body .winner-upgrade {
+  position: relative !important;
+  border-top: 1px solid rgba(122, 210, 180, 0.14) !important;
+}
+
+/* Zelený akcent na začiatku linky nadväzuje na pomlčku
+   pred nadpisom sekcie. */
+html:root body .lp-page .lp-value::after,
+html:root body .lp-page .lp-caps::after,
+html:root body .lp-page .lp-portfolio::after,
+html:root body .lp-page .lp-faq::after,
+html:root body .lp-page .lp-process::after,
+html:root body .winner-upgrade::after {
+  content: "" !important;
+  position: absolute !important;
+  top: -1px !important;
+  left: 0 !important;
+  width: clamp(80px, 16vw, 190px) !important;
+  height: 2px !important;
+  pointer-events: none !important;
+  background: linear-gradient(90deg, #16c47f, rgba(22, 196, 127, 0)) !important;
+}
+
+/* ==============================================================
+   ČO VŠETKO VIEM POSTAVIŤ — rozbaľovacie skupiny
+   Sekcia mala na mobile 2514 px, lebo všetky štyri skupiny boli
+   otvorené naraz. Teraz je vidieť len hlavičky a obsah sa
+   ukáže až po rozkliknutí.
+   ============================================================== */
+html:root body .lp-page .lp-caps-row {
+  overflow: hidden !important;
+  border: 1px solid rgba(122, 210, 180, 0.16) !important;
+  border-radius: 20px !important;
+  background: #0a1210 !important;
+  transition: border-color 260ms ease, background-color 260ms ease !important;
+}
+
+html:root body .lp-page .lp-caps-row[data-open="true"] {
+  border-color: rgba(22, 196, 127, 0.42) !important;
+  background: linear-gradient(180deg, rgba(22, 196, 127, 0.06), rgba(22, 196, 127, 0)) #0a1210 !important;
+}
+
+html:root body .lp-page .lp-caps-row-head {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 18px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 22px 24px !important;
+  border: 0 !important;
+  color: inherit !important;
+  background: none !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+
+html:root body .lp-page .lp-caps-row-head h3 {
+  margin: 0 !important;
+  color: #f4f8f6 !important;
+  font-size: 1.16rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.024em !important;
+}
+
+html:root body .lp-page .lp-caps-row-head p {
+  margin: 4px 0 0 !important;
+  max-width: 58ch !important;
+  color: #a3aeaa !important;
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+}
+
+html:root body .lp-page .lp-caps-count {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  flex: 0 0 auto !important;
+  color: #7fe0b4 !important;
+  font-size: 0.775rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  white-space: nowrap !important;
+}
+
+/* Plus, ktoré sa po otvorení otočí na mínus. */
+html:root body .lp-page .lp-caps-count > i {
+  position: relative !important;
+  width: 17px !important;
+  height: 17px !important;
+  flex: 0 0 auto !important;
+}
+
+html:root body .lp-page .lp-caps-count > i::before,
+html:root body .lp-page .lp-caps-count > i::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 1.6px !important;
+  border-radius: 2px !important;
+  background: #16c47f !important;
+  transform: translateY(-50%) !important;
+  transition: rotate 320ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html:root body .lp-page .lp-caps-count > i::after {
+  rotate: 90deg !important;
+}
+
+html:root body .lp-page .lp-caps-row[data-open="true"] .lp-caps-count > i::after {
+  rotate: 0deg !important;
+}
+
+html:root body .lp-page .lp-caps-row-body {
+  padding: 0 24px 24px !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .lp-page .lp-caps-row-head {
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    gap: 13px 15px !important;
+    padding: 18px 18px !important;
+  }
+
+  html:root body .lp-page .lp-caps-count {
+    grid-column: 2 !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  html:root body .lp-page .lp-caps-row-body {
+    padding: 0 18px 20px !important;
+  }
+}
+
+/* Riadok si niesol staré rozloženie „hlavička vedľa obsahu":
+   grid s gap 57.6px a padding 32px 0. Pri zbalenej skupine z toho
+   ostalo ~90 px prázdna pod textom. Karta je teraz jednoduchý blok
+   a odsadenie si nesie hlavička s obsahom. */
+html:root body .lp-page .lp-caps-row {
+  display: block !important;
+  gap: 0 !important;
+  padding: 0 !important;
+}
+
+/* Spodné odsadenie patrí dnu, inak sa pri height: 0 nezloží. */
+html:root body .lp-page .lp-caps-row-body {
+  padding: 0 !important;
+}
+
+html:root body .lp-page .lp-caps-row[data-open="true"] .lp-caps-chips {
+  padding: 2px 24px 24px !important;
+}
+
+html:root body .lp-page .lp-caps-row .lp-caps-detail {
+  padding: 0 24px 24px !important;
+}
+
+/* Stará dekoratívna pomlčka za názvom skupiny. */
+html:root body .lp-page .lp-caps-row-head h3::after,
+html:root body .lp-page .lp-caps-row-head h3::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Číslo skupiny zarovnané k prvému riadku názvu, nie na stred karty. */
+html:root body .lp-page .lp-caps-row-head {
+  align-items: start !important;
+}
+
+html:root body .lp-page .lp-caps-num {
+  padding-top: 3px !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-caps-chips {
+    padding: 2px 18px 18px !important;
+  }
+
+  html:root body .lp-page .lp-caps-row .lp-caps-detail {
+    padding: 0 18px 18px !important;
+  }
+}
+
+/* ==============================================================
+   NEUTRÁLNA ŠKÁLA — dokončenie prezelenenia
+   Prvá vlna riešila len sýte modré. Meranie s nižším prahom
+   ukázalo, že modrastá je celá neutrálna škála webu: 42 unikátnych
+   chladných hodnôt na domovskej stránke — povrchy kariet, pozadia
+   chipov aj všetok tlmený text. Preto web „pôsobil modro" aj po
+   tom, čo boli všetky výrazné modré preč.
+
+   Náhrady sú dopočítané tak, aby si zachovali relatívnu svetlosť
+   (odchýlka do 5 %), takže kontrast textu ostáva rovnaký.
+   Ide o prebitie tokenov, nie o desiatky jednotlivých pravidiel.
+   ============================================================== */
+html:root body,
+html:root body .lp-page,
+html:root body .sp-page,
+html:root body .winner-upgrade,
+html:root body .premium-footer,
+html:root body .site-header,
+html:root body .site-menu-layer {
+  --text-secondary: #a8bab1;
+  --lp-muted: #a8bab1;
+  --derat-muted: #a8bab1;
+  --cw-muted: #a8bab1;
+  --wr-muted: #9cb0a6;
+  --wr-panel: #0b110f;
+  --chip-ink: #d6deda;
+  --al-muted: #a8bab1;
+}
+
+/* Povrchy, ktoré nesú vlastnú hodnotu mimo tokenov. */
+html:root body .site-header-bar,
+html:root body .site-menu-drawer,
+html:root body .site-menu-solution,
+html:root body .site-menu-project-link,
+html:root body .premium-footer,
+html:root body .lp-page .lp-faq-item,
+html:root body .lp-page .lp-final-card,
+html:root body .winner-package {
+  background-color: #0b110f !important;
+}
+
+html:root body .site-menu-close {
+  background-color: rgba(9, 16, 13, 0.82) !important;
+}
+
+html:root body .lp-page .lp-switch {
+  background-color: #121c17 !important;
+}
+
+html:root body .lp-page .lp-chip,
+html:root body .lp-page .lp-comparison-body li {
+  background-color: #141e1a !important;
+}
+
+html:root body .lp-page .lp-comparison-body {
+  background-color: #0e1512 !important;
+}
+
+html:root body .winner-package__price {
+  background-color: #0f1613 !important;
+}
+
+html:root body .lp-page .lp-project-media {
+  background-color: #090d0b !important;
+}
+
+html:root body .lp-page .lp-caps-note {
+  background-color: #0a0e0c !important;
+}
+
+/* Tlmené texty, ktoré nešli cez token. */
+html:root body .cookie-banner__copy,
+html:root body .site-menu-toggle,
+html:root body .site-menu-services-intro,
+html:root body .site-menu-email,
+html:root body .lp-page .lp-hero-lead,
+html:root body .lp-page .lp-heading-copy,
+html:root body .lp-page .lp-hero-proof li,
+html:root body .lp-page .lp-assistant-answer,
+html:root body .winner-number__label {
+  color: #a8bab1 !important;
+}
+
+html:root body .lp-page .lp-chip,
+html:root body .lp-page .lp-chip-label,
+html:root body .lp-page .lp-hero-pick,
+html:root body .lp-page .lp-hero-pick-label,
+html:root body .winner-package ul li {
+  color: #d6deda !important;
+}
+
+/* Hranice a zvyšné povrchy — rovnaký prepočet so zachovaním
+   svetlosti, aby web nikde nespadol späť do studeného tónu. */
+html:root body,
+html:root body .lp-page,
+html:root body .sp-page {
+  --border: #1c2a23;
+}
+
+html:root body .site-header-bar,
+html:root body .site-menu-drawer,
+html:root body .site-menu-solution,
+html:root body .site-menu-project-link,
+html:root body .site-menu-close,
+html:root body .premium-footer,
+html:root body .lp-page .lp-caps-note,
+html:root body .lp-page .lp-project > a {
+  border-color: rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .lp-page .lp-hero-pick {
+  background-color: #131c18 !important;
+}
+
+html:root body .lp-page .lp-assistant-answer {
+  background-color: #121b16 !important;
+}
+
+html:root body .lp-page .lp-comparison-body li,
+html:root body .lp-page .lp-final-card li {
+  background-color: #0e1512 !important;
+}
+
+html:root body .lp-page .lp-project > a {
+  background-color: #0e1411 !important;
+}
+
+html:root body .lp-page .lp-caps-note p,
+html:root body .lp-page .lp-final-card p,
+html:root body .sp-page p,
+html:root body .cookie-banner p {
+  color: #a8bab1 !important;
+}
+
+html:root body .lp-page .lp-caps-note svg,
+html:root body .site-menu-solution svg {
+  color: #698377 !important;
+}
+
+/* Posledné tokeny povrchov a zdieľané triedy podstránok. */
+html:root body,
+html:root body .lp-page,
+html:root body .sp-page,
+html:root body .winner-upgrade {
+  --surface-raised: #121c17;
+  --lp-surface-raised: #121c17;
+  --cw-surface-raised: #121c17;
+  --chip-bg: #131c18;
+}
+
+html:root body .sp-page .sp-hero,
+html:root body .sp-page .sp-service,
+html:root body .sp-page .sp-combine,
+html:root body .sp-page .sp-cta,
+html:root body .sp-page .sp-project-card > a,
+html:root body .sp-page .why-card {
+  border-color: rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .chip,
+html:root body .sp-page .chip {
+  background-color: #131c18 !important;
+}
+
+html:root body .sp-page .why-card,
+html:root body .sp-page .sp-project-card > a,
+html:root body .lp-page .lp-final-card li {
+  background-color: #0e1512 !important;
+}
+
+html:root body .sp-page li,
+html:root body .lp-page li {
+  color: inherit;
+}
+
+html:root body .sp-page .why-card li {
+  color: #dfe5e3 !important;
+}
+
+html:root body .lp-page .lp-caps-note p,
+html:root body .sp-page .sp-step p,
+html:root body .lp-page .lp-final-card p {
+  color: #b4c2bc !important;
+}
+
+/* Posledné tokeny: najtlmenejší text a pozadie odkazov v pätičke. */
+html:root body,
+html:root body .lp-page,
+html:root body .sp-page,
+html:root body .winner-upgrade,
+html:root body .premium-footer {
+  --text-light: #698377;
+  --lp-muted-soft: #698377;
+  --cw-faint: #698377;
+}
+
+html:root body .premium-footer-links a,
+html:root body .premium-footer-links button,
+html:root body .sp-page .sp-button--ghost,
+html:root body .contact-details > a,
+html:root body .contact-details > span {
+  background-color: #0e1411 !important;
+}
+
+html:root body .sp-page .sp-step {
+  border-color: rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .lp-page .lp-hero-lead,
+html:root body .lp-page .lp-heading-copy,
+html:root body .lp-page .lp-caps-note p,
+html:root body .lp-page p {
+  color: #a8bab1 !important;
+}
+
+html:root body .lp-page .lp-caps-row-head p {
+  color: #a3aeaa !important;
 }
