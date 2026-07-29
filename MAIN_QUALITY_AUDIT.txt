@@ -1,4 +1,4 @@
-run_id=30486947170
+run_id=30493657683
 install=success
 lint=success
 test=success
@@ -13,91 +13,91 @@ TAP version 13
 # Subtest: Taste system and conversion section are mounted
 ok 1 - Taste system and conversion section are mounted
   ---
-  duration_ms: 9.269162
+  duration_ms: 10.189781
   type: 'test'
   ...
 # Subtest: decorative hover blobs are removed from quiet actions and chips
 ok 2 - decorative hover blobs are removed from quiet actions and chips
   ---
-  duration_ms: 1.123071
+  duration_ms: 1.198369
   type: 'test'
   ...
 # Subtest: website chips are rounded borderless and use a clean selected state
 ok 3 - website chips are rounded borderless and use a clean selected state
   ---
-  duration_ms: 1.117531
+  duration_ms: 1.046024
   type: 'test'
   ...
 # Subtest: comparison uses one clean content surface without liquid runtime
 ok 4 - comparison uses one clean content surface without liquid runtime
   ---
-  duration_ms: 1.979546
+  duration_ms: 2.261448
   type: 'test'
   ...
 # Subtest: typography and icons share one visual language
 ok 5 - typography and icons share one visual language
   ---
-  duration_ms: 0.980145
+  duration_ms: 1.86262
   type: 'test'
   ...
 # Subtest: hero and desktop navigation remain visually simplified
 ok 6 - hero and desktop navigation remain visually simplified
   ---
-  duration_ms: 1.555527
+  duration_ms: 1.130639
   type: 'test'
   ...
 # Subtest: pricing and client preparation cover the sales essentials
 ok 7 - pricing and client preparation cover the sales essentials
   ---
-  duration_ms: 1.280184
+  duration_ms: 1.376041
   type: 'test'
   ...
 # Subtest: contact form submits directly and keeps a resilient fallback
 ok 8 - contact form submits directly and keeps a resilient fallback
   ---
-  duration_ms: 1.010632
+  duration_ms: 1.045293
   type: 'test'
   ...
 # Subtest: portfolio image loading preserves lazy loading after the first image
 ok 9 - portfolio image loading preserves lazy loading after the first image
   ---
-  duration_ms: 1.018947
+  duration_ms: 1.195986
   type: 'test'
   ...
 # Subtest: mobile layouts and reduced motion remain explicit
 ok 10 - mobile layouts and reduced motion remain explicit
   ---
-  duration_ms: 1.898947
+  duration_ms: 1.603447
   type: 'test'
   ...
 # Subtest: approved buttons and one-layer details remain mounted
 ok 11 - approved buttons and one-layer details remain mounted
   ---
-  duration_ms: 3.339839
+  duration_ms: 2.204494
   type: 'test'
   ...
 # Subtest: metadata security and fresh assistant loading remain present
 ok 12 - metadata security and fresh assistant loading remain present
   ---
-  duration_ms: 1.912351
+  duration_ms: 1.550949
   type: 'test'
   ...
 # Subtest: Pages workflow validates the live Taste build
 ok 13 - Pages workflow validates the live Taste build
   ---
-  duration_ms: 1.331179
+  duration_ms: 1.104891
   type: 'test'
   ...
 # Subtest: website chips use one crisp non-liquid interaction system
 ok 14 - website chips use one crisp non-liquid interaction system
   ---
-  duration_ms: 2.038236
+  duration_ms: 2.837669
   type: 'test'
   ...
 # Subtest: final correction restores the comparison and removes chip ornaments
 ok 15 - final correction restores the comparison and removes chip ornaments
   ---
-  duration_ms: 2.725666
+  duration_ms: 2.043056
   type: 'test'
   ...
 1..15
@@ -108,7 +108,7 @@ ok 15 - final correction restores the comparison and removes chip ornaments
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 93.999493
+# duration_ms 92.22079
 
 ===== build =====
 $ vite build
@@ -120,28 +120,28 @@ computing gzip size...
 .output/public/assets/motion-primitives-BSyIAIjQ.css    13.51 kB │ gzip:  3.20 kB
 .output/public/assets/routes-CSq1RwGz.css               41.75 kB │ gzip:  8.49 kB
 .output/public/assets/styles-gyiSQDqj.css               81.14 kB │ gzip: 14.31 kB
-.output/public/assets/index-CMn33Gme.css               397.09 kB │ gzip: 63.76 kB
-.output/public/assets/Symbol-C4-wSTN4.js                 0.26 kB │ gzip:  0.20 kB
-.output/public/assets/projekty._slug-DBZE70D8.js         0.72 kB │ gzip:  0.44 kB
+.output/public/assets/index-B5gNnd8y.css               400.91 kB │ gzip: 64.25 kB
+.output/public/assets/Symbol-BVu4BmPg.js                 0.26 kB │ gzip:  0.20 kB
+.output/public/assets/projekty._slug-Ep7rV6ap.js         0.72 kB │ gzip:  0.44 kB
 .output/public/assets/rolldown-runtime-Cyuzqnbw.js       0.82 kB │ gzip:  0.47 kB
-.output/public/assets/useTimelineProgress-y_mZ5nAb.js    1.05 kB │ gzip:  0.61 kB
-.output/public/assets/motion-primitives-M318hrDO.js      1.65 kB │ gzip:  0.76 kB
-.output/public/assets/cookies-K7Y8-hRM.js                3.90 kB │ gzip:  1.50 kB
-.output/public/assets/preco-chatbot-BG0iIcmr.js          4.08 kB │ gzip:  1.64 kB
-.output/public/assets/postup-Cfa3LEH-.js                 4.46 kB │ gzip:  2.07 kB
-.output/public/assets/sluzby-DLBi9y98.js                 4.65 kB │ gzip:  1.88 kB
-.output/public/assets/kontakt-DHffgmih.js                7.44 kB │ gzip:  3.04 kB
-.output/public/assets/farby-Bh3m3x_k.js                  8.00 kB │ gzip:  2.92 kB
-.output/public/assets/projekty.index-Df7IfDse.js         8.25 kB │ gzip:  2.66 kB
-.output/public/assets/projekty._slug-BXjFQZit.js         8.36 kB │ gzip:  2.84 kB
-.output/public/assets/routes-B7-MCNv0.js                37.72 kB │ gzip: 13.44 kB
+.output/public/assets/useTimelineProgress-yo8Qhn4v.js    1.05 kB │ gzip:  0.61 kB
+.output/public/assets/motion-primitives-D0zhyssM.js      1.65 kB │ gzip:  0.76 kB
+.output/public/assets/cookies-C_EU2ihP.js                3.90 kB │ gzip:  1.50 kB
+.output/public/assets/preco-chatbot-CI377Gy7.js          4.08 kB │ gzip:  1.64 kB
+.output/public/assets/postup-mvSnbJtJ.js                 4.46 kB │ gzip:  2.06 kB
+.output/public/assets/sluzby-CxgrAilK.js                 4.62 kB │ gzip:  1.86 kB
+.output/public/assets/kontakt-cYWj9t-6.js                7.46 kB │ gzip:  3.08 kB
+.output/public/assets/farby-Dy-VG3zk.js                  8.00 kB │ gzip:  2.92 kB
+.output/public/assets/projekty.index-BWbSQehG.js         8.23 kB │ gzip:  2.65 kB
+.output/public/assets/projekty._slug-BnubGYvN.js         8.36 kB │ gzip:  2.83 kB
+.output/public/assets/routes-BCa69lTe.js                37.73 kB │ gzip: 13.40 kB
 .output/public/assets/vendor-Sz_lmkba.js                51.67 kB │ gzip: 20.33 kB
 .output/public/assets/vendor-BJXVHgCM.js                62.55 kB │ gzip: 25.74 kB
 .output/public/assets/motion-DdoYNel5.js               153.67 kB │ gzip: 51.96 kB
 .output/public/assets/react-core-CWFrONgv.js           189.80 kB │ gzip: 59.72 kB
-.output/public/assets/index-CsMgIMfP.js                225.79 kB │ gzip: 73.81 kB
+.output/public/assets/index-CyavH5-n.js                225.70 kB │ gzip: 73.83 kB
 
-[32m✓ built in 1.68s[39m
+[32m✓ built in 1.54s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 148 modules transformed.
 rendering chunks...
@@ -150,36 +150,36 @@ node_modules/.nitro/vite/services/ssr/assets/cookies-By_i-lus.css               
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-BSyIAIjQ.css           13.51 kB │ gzip:  3.20 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CSq1RwGz.css                      41.75 kB │ gzip:  8.49 kB
 node_modules/.nitro/vite/services/ssr/assets/styles-gyiSQDqj.css                      81.14 kB │ gzip: 14.31 kB
-node_modules/.nitro/vite/services/ssr/assets/router-7qOvdYbh.css                     392.50 kB │ gzip: 62.82 kB
+node_modules/.nitro/vite/services/ssr/assets/router-n4KA_vjI.css                     396.32 kB │ gzip: 63.31 kB
 node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-0GVloK9P.js              0.44 kB │ gzip:  0.29 kB
 node_modules/.nitro/vite/services/ssr/assets/Symbol-DFWSnyJs.js                        0.52 kB │ gzip:  0.34 kB
 node_modules/.nitro/vite/services/ssr/assets/site-BqTibo_9.js                          0.64 kB │ gzip:  0.44 kB
-node_modules/.nitro/vite/services/ssr/assets/start-yheTgwDx.js                         0.84 kB │ gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/start-C3aqftzr.js                         0.84 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/site-assistant-nRt5KrGt.js                0.93 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-CWE7mHKW.js                1.15 kB │ gzip:  0.56 kB
 node_modules/.nitro/vite/services/ssr/assets/useReducedMotion-DAc8Nusu.js              1.26 kB │ gzip:  0.60 kB
 node_modules/.nitro/vite/services/ssr/assets/useTimelineProgress-B7-oZfR9.js           2.57 kB │ gzip:  1.20 kB
 node_modules/.nitro/vite/services/ssr/assets/faq-D6raUvVr.js                           2.59 kB │ gzip:  1.40 kB
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-BS4PuW_K.js             3.22 kB │ gzip:  1.11 kB
-node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-ZuBdwI8A.js    3.23 kB │ gzip:  0.81 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BcDUSIgN.js    3.23 kB │ gzip:  0.81 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-Dbj4sOtI.js                       3.58 kB │ gzip:  1.36 kB
 node_modules/.nitro/vite/services/ssr/assets/BrandMark-Cl7twKDY.js                     3.80 kB │ gzip:  1.86 kB
 node_modules/.nitro/vite/services/ssr/assets/projects-D81UYxuu.js                      3.81 kB │ gzip:  1.50 kB
 node_modules/.nitro/vite/services/ssr/index.js                                         4.55 kB │ gzip:  1.99 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-BL66SXiN.js                4.93 kB │ gzip:  1.87 kB
 node_modules/.nitro/vite/services/ssr/assets/cookies-CThlUA11.js                       5.96 kB │ gzip:  1.79 kB
-node_modules/.nitro/vite/services/ssr/assets/preco-chatbot-hw6qa8dd.js                 6.13 kB │ gzip:  2.04 kB
-node_modules/.nitro/vite/services/ssr/assets/postup-BQHXLC5c.js                        6.55 kB │ gzip:  2.48 kB
-node_modules/.nitro/vite/services/ssr/assets/sluzby-CsR9-64p.js                        6.97 kB │ gzip:  2.30 kB
-node_modules/.nitro/vite/services/ssr/assets/farby-XePxLJcn.js                        12.27 kB │ gzip:  3.51 kB
-node_modules/.nitro/vite/services/ssr/assets/projekty.index-BavMM2lc.js               12.48 kB │ gzip:  3.41 kB
-node_modules/.nitro/vite/services/ssr/assets/kontakt-drU8OhMO.js                      12.59 kB │ gzip:  3.91 kB
+node_modules/.nitro/vite/services/ssr/assets/preco-chatbot-CosbPy29.js                 6.13 kB │ gzip:  2.03 kB
+node_modules/.nitro/vite/services/ssr/assets/postup-8FhAFTmx.js                        6.55 kB │ gzip:  2.48 kB
+node_modules/.nitro/vite/services/ssr/assets/sluzby-3OOsI-gK.js                        6.94 kB │ gzip:  2.28 kB
+node_modules/.nitro/vite/services/ssr/assets/farby-DUwiWCTt.js                        12.27 kB │ gzip:  3.51 kB
+node_modules/.nitro/vite/services/ssr/assets/projekty.index-_lbkmfNf.js               12.47 kB │ gzip:  3.41 kB
+node_modules/.nitro/vite/services/ssr/assets/kontakt-DeP3WMI4.js                      12.62 kB │ gzip:  3.94 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-67n5Tt7m.js               13.84 kB │ gzip:  3.69 kB
-node_modules/.nitro/vite/services/ssr/assets/tanstack-D5xWiPP5.js                     64.34 kB │ gzip: 15.93 kB
-node_modules/.nitro/vite/services/ssr/assets/routes-BlqOr8hq.js                       66.15 kB │ gzip: 17.13 kB
-node_modules/.nitro/vite/services/ssr/assets/router-B0pfyD01.js                       75.16 kB │ gzip: 18.40 kB
+node_modules/.nitro/vite/services/ssr/assets/tanstack-D9aEjyD6.js                     64.34 kB │ gzip: 15.92 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-B8Xphoc8.js                       66.17 kB │ gzip: 17.10 kB
+node_modules/.nitro/vite/services/ssr/assets/router-DmiVJsMl.js                       75.07 kB │ gzip: 18.41 kB
 
-[32m✓ built in 743ms[39m
+[32m✓ built in 678ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-07-29`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -190,15 +190,15 @@ computing gzip size...
 .output/server/_libs/h3+h3-v2+srvx.mjs     33.49 kB │ gzip:   6.73 kB
 .output/server/_libs/lucide-react.mjs      34.38 kB │ gzip:   6.38 kB
 .output/server/index.mjs                   37.87 kB │ gzip:  10.49 kB
-.output/server/_ssr/vendor.mjs             55.75 kB │ gzip:  14.98 kB
-.output/server/_ssr/vendor3.mjs            73.05 kB │ gzip:  19.66 kB
+.output/server/_ssr/vendor.mjs             81.68 kB │ gzip:  21.25 kB
+.output/server/_ssr/vendor3.mjs            83.26 kB │ gzip:  22.42 kB
 .output/server/_libs/gsap.mjs             115.21 kB │ gzip:  30.88 kB
 .output/server/_libs/gsap2.mjs            148.04 kB │ gzip:  38.16 kB
-.output/server/_ssr/vendor2.mjs           235.79 kB │ gzip:  53.39 kB
+.output/server/_ssr/vendor2.mjs           200.77 kB │ gzip:  45.99 kB
 .output/server/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .output/server/_chunks/motion.mjs         442.88 kB │ gzip: 111.04 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 565ms[39m
+[32m✓ built in 491ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
