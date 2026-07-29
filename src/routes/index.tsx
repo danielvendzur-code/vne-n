@@ -31,6 +31,49 @@ const serviceJsonLd = JSON.stringify({
     "produktové konfigurátory",
     "konverzia webu",
   ],
+  // Katalóg s cenou od 350 € — vďaka nemu vie Google ukázať rozsah
+  // ceny priamo vo výsledku, nielen holý popis.
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Chatboty a konverzné nástroje na mieru",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        priceCurrency: "EUR",
+        price: "350",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        itemOffered: {
+          "@type": "Service",
+          name: "AI chatbot na mieru",
+          description:
+            "Chatbot odpovedá podľa podkladov firmy, zbiera kontakt a odovzdá dopyt aj s kontextom.",
+        },
+      },
+      {
+        "@type": "Offer",
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
+        itemOffered: {
+          "@type": "Service",
+          name: "Chatbot s kalkulačkou",
+          description:
+            "Chatbot vypočíta cenu, spotrebu alebo návratnosť z reálnych vstupov zákazníka.",
+        },
+      },
+      {
+        "@type": "Offer",
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
+        itemOffered: {
+          "@type": "Service",
+          name: "Chatbot s konfigurátorom",
+          description:
+            "Chatbot prevedie zákazníka výberom produktu a odošle kompletnú špecifikáciu.",
+        },
+      },
+    ],
+  },
 });
 
 export const Route = createFileRoute("/")({

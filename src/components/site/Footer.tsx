@@ -18,12 +18,17 @@ export function Footer() {
         <div className="premium-footer-brand">
           <BrandMark size={36} />
           <p>Môj Chatbot · chatboty, kalkulačky a konfigurátory navrhnuté na mieru.</p>
+          <p className="premium-footer-note">
+            Napíšte, čo dnes počítate alebo vysvetľujete ručne. Odpoveď zvyčajne do jedného
+            pracovného dňa.
+          </p>
         </div>
 
         <div>
           <p className="premium-footer-label">Navigácia</p>
           <nav className="premium-footer-links" aria-label="Navigácia v pätičke">
             <Link to="/sluzby">Čo tvorím</Link>
+            <Link to="/preco-chatbot">Čo to prinesie webu</Link>
             <Link to="/projekty">Ukážky</Link>
             <Link to="/postup">Spolupráca</Link>
             <Link to="/kontakt">Kontakt</Link>

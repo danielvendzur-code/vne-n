@@ -5,7 +5,7 @@ import { AssistantMini, CalculatorMini, ConfiguratorMini } from "@/components/si
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { projects, type PreviewType } from "@/data/projects";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import { seo } from "@/lib/seo";
+import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
 const previewByType = {
   assistant: AssistantMini,
@@ -21,6 +21,12 @@ export const Route = createFileRoute("/projekty/")({
         "Interaktívne ukážky: kalkulačky pre služby, dopytoví asistenti, produktoví poradcovia a rezervačný asistent. Vyskúšajte si ich priamo v prehliadači.",
       path: "/projekty",
     }),
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: breadcrumbJsonLd([{ name: "Realizácie", path: "/projekty" }]),
+      },
+    ],
   }),
   component: ProjectsPage,
 });

@@ -27,10 +27,29 @@ export function seo({ title, description, path, noindex }: SeoOptions) {
       { property: "og:image", content: image },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Môj Chatbot — chatboty na mieru pre firemné weby" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: image },
+      { name: "twitter:image:alt", content: "Môj Chatbot — chatboty na mieru pre firemné weby" },
     ],
     links: [{ rel: "canonical", href: canonical }],
   };
+}
+
+/**
+ * BreadcrumbList pre podstránky — Google z nej v mobilných výsledkoch
+ * skladá cestu namiesto holej URL, takže výsledok pôsobí dôveryhodnejšie.
+ */
+export function breadcrumbJsonLd(trail: Array<{ name: string; path: string }>) {
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [{ name: "Domov", path: "/" }, ...trail].map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.path === "/" ? `${SITE_URL}/` : `${SITE_URL}${item.path}`,
+    })),
+  });
 }
