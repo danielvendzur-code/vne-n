@@ -146,8 +146,8 @@ export function HomeConversionUpgrade() {
             Začíname od <em>350 €.</em> Rozsah poznáte ešte pred vývojom.
           </h2>
           <p>
-            Jednoduchý chatbot môže byť nasadený rýchlo. Kalkulačka alebo konfigurátor sa nacení
-            podľa počtu pravidiel, krokov a prepojení — vždy po krátkom zadaní, bez hádania.
+            Jednoduchý chatbot viem nasadiť rýchlo. Ak má aj počítať cenu alebo skladať produkt,
+            závisí to od toho, koľko otázok a pravidiel bude mať. Cenu poviem vopred.
           </p>
         </header>
 
@@ -218,10 +218,10 @@ export function HomeConversionUpgrade() {
         <div className="winner-prep">
           <div className="winner-prep__intro">
             <p className="winner-upgrade__eyebrow">Čo potrebujem od klienta</p>
-            <h2>Stačia podklady, ktoré už pri predaji bežne používate.</h2>
+            <h2>Stačí to, čo zákazníkom hovoríte aj tak.</h2>
             <p>
-              Nemusíte pripravovať technickú dokumentáciu. Z vašich podkladov vytvorím logiku,
-              otázky, texty aj vhodné rozloženie.
+              Nič technické pripravovať nemusíte. Otázky, texty aj vzhľad urobím z toho, čo mi
+              pošlete.
             </p>
           </div>
           <div className="winner-prep__grid">
@@ -240,8 +240,8 @@ export function HomeConversionUpgrade() {
         <div className="winner-final spotlight-surface">
           <div>
             <p className="winner-upgrade__eyebrow">Konkrétny ďalší krok</p>
-            <h2>Opíšte, čo dnes počítate alebo vysvetľujete ručne.</h2>
-            <p>Do jedného pracovného dňa dostanete odporúčanie vhodného riešenia a ďalší postup.</p>
+            <h2>Napíšte, na čo sa vás zákazníci pýtajú najčastejšie.</h2>
+            <p>Do jedného pracovného dňa vám odpoviem, čo by vám pomohlo a čo to bude stáť.</p>
           </div>
           <div className="winner-final__actions">
             <button

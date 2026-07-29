@@ -136,7 +136,7 @@ function ServicesPage() {
         <CtaBand
           kicker="Neviete, čo je pre vás vhodné?"
           title="Opíšte situáciu. Poradím konkrétny typ nástroja."
-          lead="Stačí pár viet o tom, čo dnes vysvetľujete alebo počítate ručne. Odpoviem s konkrétnym odporúčaním a rozsahom prvej verzie."
+          lead="Stačí pár viet o tom, čo robíte a čo vás na tom najviac zdržuje. Odpoviem, čo by vám pomohlo."
         >
           <button
             type="button"

@@ -109,7 +109,7 @@ function ProjectsPage() {
         <CtaBand
           kicker="Predstavujete si niečo podobné?"
           title="Poviem vám, ako by to vyzeralo pre vašu službu."
-          lead="Opíšte, čo dnes počítate alebo vysvetľujete ručne — navrhnem konkrétny nástroj, jeho otázky aj výstup."
+          lead="Napíšte, čo predávate a na čo sa vás ľudia pýtajú. Navrhnem, čo presne by chatbot robil."
         >
           <button
             type="button"

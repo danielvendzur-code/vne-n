@@ -2352,6 +2352,7 @@ html:root body .winner-upgrade::after {
   left: 0 !important;
   width: clamp(80px, 16vw, 190px) !important;
   height: 2px !important;
+  transform-origin: left center !important;
   pointer-events: none !important;
   background: linear-gradient(90deg, #16c47f, rgba(22, 196, 127, 0)) !important;
 }
@@ -2820,17 +2821,18 @@ html:root body .winner-upgrade .winner-upgrade__inner {
    LEPIACA HLAVIČKA
    Na mobile mali html aj body overflow-x: hidden, čím sa z nich
    stal scroll kontajner — a to je klasická príčina, prečo prestane
-   fungovať position: sticky. Hlavička sa preto odscrollovala preč
+   fungovať position: sticky. Hlavička sa odscrollovala preč
    (na 13 700 px stránke bola nameraná na -3000 px) a menu bolo
-   väčšinu času nedostupné.
+   väčšinu času nedostupné. To isté obmedzenie na telefóne lámalo
+   aj priblíženie prstami a scroll po vyskočení klávesnice.
 
-   overflow-x: clip robí to isté proti vodorovnému presahu, ale
-   scroll kontajner nevytvára, takže sticky ostáva funkčné.
+   Pravidlo je odstránené priamo v MobileVerticalPolish.css. Tu
+   ostáva len poistka, aby ho nikto omylom nevrátil.
    ============================================================== */
 @media (max-width: 700px) {
   html,
   html body {
-    overflow-x: clip !important;
+    overflow-x: visible !important;
     overflow-y: visible !important;
   }
 }
@@ -2844,4 +2846,185 @@ html:root body .section-rail::before {
   z-index: -1 !important;
   background: linear-gradient(180deg, rgba(6, 11, 9, 0.94), rgba(6, 11, 9, 0.82) 70%, rgba(6, 11, 9, 0)) !important;
   backdrop-filter: blur(10px) !important;
+}
+
+/* ==============================================================
+   POZNÁMKA POD MOŽNOSŤAMI
+   Tlačidlo bolo vnorené vo vete a pri zalomení sa prekrývalo
+   s textom. Teraz je pod ním ako samostatný prvok.
+   ============================================================== */
+html:root body .lp-page .lp-caps-note {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 16px !important;
+  padding: 22px 24px !important;
+  border-radius: 18px !important;
+}
+
+html:root body .lp-page .lp-caps-note__body {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 14px !important;
+  min-width: 0 !important;
+}
+
+html:root body .lp-page .lp-caps-note p {
+  margin: 0 !important;
+  max-width: 62ch !important;
+  font-size: 0.96rem !important;
+  line-height: 1.55 !important;
+}
+
+html:root body .lp-page .lp-caps-note button {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
+  padding: 11px 20px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: #04140d !important;
+  background: #16c47f !important;
+  font-size: 0.875rem !important;
+  font-weight: 720 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition:
+    background-color 200ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:root body .lp-page .lp-caps-note button:is(:hover, :focus-visible) {
+  background: #22cf8c !important;
+  transform: translateY(-2px) !important;
+}
+
+html:root body .lp-page .lp-caps-note button svg {
+  width: 15px !important;
+  height: 15px !important;
+  color: currentColor !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .lp-page .lp-caps-note {
+    grid-template-columns: 1fr !important;
+    padding: 18px !important;
+  }
+}
+
+/* ==============================================================
+   VÝRAZNEJŠIE ANIMÁCIE
+   Odhaľovanie bolo miestami sotva badateľné. Kľúčové prvky
+   dostali zreteľnejší nábeh, zvyšok ostáva pokojný.
+   ============================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  /* Možnosti v rozbalenej skupine sa objavia jedna po druhej. */
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-chip {
+    animation: lp-chip-in 460ms cubic-bezier(0.16, 1, 0.3, 1) backwards !important;
+  }
+
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-chip:nth-child(1) {
+    animation-delay: 40ms !important;
+  }
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-chip:nth-child(2) {
+    animation-delay: 90ms !important;
+  }
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-chip:nth-child(3) {
+    animation-delay: 140ms !important;
+  }
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-chip:nth-child(4) {
+    animation-delay: 190ms !important;
+  }
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-chip:nth-child(5) {
+    animation-delay: 240ms !important;
+  }
+  html:root body .lp-page .lp-caps-row[data-open="true"] .lp-chip:nth-child(6) {
+    animation-delay: 290ms !important;
+  }
+
+  @keyframes lp-chip-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Odfajknutia v cenníku a v porovnaní pribúdajú postupne. */
+  html:root body .winner-package ul li,
+  html:root body .lp-page .lp-comparison-body li {
+    animation: lp-tick-in 480ms cubic-bezier(0.16, 1, 0.3, 1) backwards !important;
+  }
+
+  html:root body .winner-package ul li:nth-child(1),
+  html:root body .lp-page .lp-comparison-body li:nth-child(1) {
+    animation-delay: 60ms !important;
+  }
+  html:root body .winner-package ul li:nth-child(2),
+  html:root body .lp-page .lp-comparison-body li:nth-child(2) {
+    animation-delay: 130ms !important;
+  }
+  html:root body .winner-package ul li:nth-child(3),
+  html:root body .lp-page .lp-comparison-body li:nth-child(3) {
+    animation-delay: 200ms !important;
+  }
+  html:root body .winner-package ul li:nth-child(4),
+  html:root body .lp-page .lp-comparison-body li:nth-child(4) {
+    animation-delay: 270ms !important;
+  }
+
+  @keyframes lp-tick-in {
+    from {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Bodka na časovej osi sa pri rozsvietení jemne nafúkne,
+     aby bolo naozaj vidieť, že ju čiara práve dosiahla. */
+  html:root body .lp-page .lp-process-list li[data-reached="true"] .lp-step-node,
+  html:root body .sp-page .sp-timeline-item[data-reached="true"] .sp-step-node {
+    animation: lp-node-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  }
+
+  @keyframes lp-node-pop {
+    0% {
+      transform: scale(1);
+    }
+    38% {
+      transform: scale(1.32);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Zelený akcent na začiatku sekcie sa doťahuje zľava. */
+  html:root body .lp-page .lp-value::after,
+  html:root body .lp-page .lp-caps::after,
+  html:root body .lp-page .lp-faq::after,
+  html:root body .lp-page .lp-process::after,
+  html:root body .winner-upgrade::after {
+    animation: lp-rule-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+    animation-timeline: view() !important;
+    animation-range: entry 0% entry 42% !important;
+  }
+
+  @keyframes lp-rule-in {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
 }

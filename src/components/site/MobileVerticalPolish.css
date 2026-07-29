@@ -185,10 +185,15 @@
 }
 
 @media (max-width: 700px) {
+  /* overflow-x: hidden tu robilo z html aj body scroll kontajner.
+     Lámalo to lepiacu hlavičku a na telefóne aj priblíženie prstami
+     a scroll po vyskočení klávesnice pri kontaktnom formulári.
+     Meranie ukázalo, že na žiadnej trase nič vodorovne nepresahuje,
+     takže to obmedzenie nie je potrebné — vodorovný presah drží
+     overflow-x: clip na <main>, ktoré scroll kontajner nevytvára. */
   html,
   body {
     max-width: 100%;
-    overflow-x: hidden;
   }
 
   :root .lp-page .lp-assistant-chips,
