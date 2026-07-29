@@ -2079,3 +2079,203 @@ html:root body .winner-package[data-featured="false"] {
     grid-column: auto !important;
   }
 }
+
+/* ==============================================================
+   POSLEDNÉ MODRÉ ZVYŠKY
+   Census v prehliadači našiel tri miesta, ktoré prezelenenie
+   obišlo: ikona riešenia v menu (#83c4ff), tlačidlo Zavrieť
+   (#aebbd0 — modrastá šeď) a focus rámik kontaktného formulára
+   (#5d98ff, hoci prstenec okolo neho už bol zelený).
+   ============================================================== */
+html:root body .site-menu-solution-icon,
+html:root body .site-menu-solution-icon svg {
+  color: #7fe0b4 !important;
+}
+
+html:root body .site-menu-close,
+html:root body .site-menu-close svg {
+  color: #b3bcb8 !important;
+}
+
+html:root body .contact-card input:focus,
+html:root body .contact-card textarea:focus,
+html:root body .contact-card select:focus {
+  border-color: #16c47f !important;
+  box-shadow: 0 0 0 3px rgba(22, 196, 127, 0.18) !important;
+}
+
+/* Chyba a úspech vo formulári v rovnakej palete. */
+html:root body .contact-card input[aria-invalid="true"],
+html:root body .contact-card textarea[aria-invalid="true"] {
+  border-color: #e0705f !important;
+}
+
+html:root body .contact-card input[aria-invalid="true"]:focus,
+html:root body .contact-card textarea[aria-invalid="true"]:focus {
+  border-color: #e0705f !important;
+  box-shadow: 0 0 0 3px rgba(224, 112, 95, 0.2) !important;
+}
+
+/* ==============================================================
+   FAQ — otvorená otázka nedávala žiadnu spätnú väzbu
+   Skoršie pravidlo „jeden vlas na každej karte" prebilo aj
+   otvorený stav, takže rámik ostal rovnaký a jediným signálom
+   bolo plus, ktoré sa zmenilo na mínus.
+   ============================================================== */
+html:root body .lp-page .lp-faq-item[data-open="true"] {
+  border-color: rgba(22, 196, 127, 0.44) !important;
+  background: linear-gradient(
+      180deg,
+      rgba(22, 196, 127, 0.07),
+      rgba(22, 196, 127, 0)
+    )
+    #0b1219 !important;
+}
+
+html:root body .lp-page .lp-faq-item[data-open="true"] h3 button {
+  color: #ffffff !important;
+}
+
+/* ==============================================================
+   ZJEDNOTENIE PALETY — druhá vlna
+   Census v prehliadači našiel 19 unikátnych modrých hodnôt, ktoré
+   prezelenenie obišlo. Sýte modré idú do zelenej značky, modrasté
+   šede do neutrálnych s rovnakou svetlosťou, takže kontrast textu
+   ostáva nezmenený.
+   ============================================================== */
+
+/* --- sýta modrá → zelená značky --- */
+html:root body .site-menu-cta {
+  color: #04140d !important;
+  background: #16c47f !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+html:root body .site-menu-cta small,
+html:root body .site-menu-cta svg {
+  color: #04140d !important;
+}
+
+html:root body .premium-footer-label,
+html:root body .sp-eyebrow,
+html:root body .contact-kicker,
+html:root body .contact-card-head > span,
+html:root body .sp-service-index,
+html:root body .sp-step-label,
+html:root body .sp-service-head > svg,
+html:root body .sp-timeline-progress,
+html:root body .contact-details svg,
+html:root body .contact-expect svg,
+html:root body .winner-package__icon,
+html:root body .winner-package__icon svg,
+html:root body .winner-prep__icon,
+html:root body .lp-page .lp-solution-icon,
+html:root body .lp-page .lp-capability-icon {
+  color: #7fe0b4 !important;
+}
+
+/* --- modrasté šede → neutrálne s rovnakou svetlosťou --- */
+html:root body .lp-page .lp-comparison-copy span,
+html:root body .lp-page .lp-comparison-body li,
+html:root body .lp-page .lp-switch > button,
+html:root body .premium-footer-links a,
+html:root body .premium-footer-links button,
+html:root body .premium-footer-bottom,
+html:root body .premium-footer-privacy,
+html:root body .premium-footer-privacy a,
+html:root body .premium-footer-privacy button,
+html:root body .sp-cta-lead {
+  color: #b0bab6 !important;
+}
+
+html:root body .lp-page .lp-control-label {
+  color: #a4aeaa !important;
+}
+
+html:root body .lp-page .lp-caps-num {
+  color: #7d8a85 !important;
+}
+
+/* --- modré hranice a body --- */
+html:root body .lp-page .lp-assistant-card,
+html:root body .site-menu-close,
+html:root body .contact-card-head {
+  border-color: rgba(122, 210, 180, 0.2) !important;
+}
+
+html:root body .lp-page .lp-switch > button i,
+html:root body .lp-page .lp-comparison-body li::marker {
+  background: #3d6b58 !important;
+}
+
+/* --- posledné adresné zvyšky nájdené meraním --- */
+/* Pomlčka pred nadpisom sekcie bola modrá na každom nadpise. */
+html:root body .lp-page .lp-eyebrow > i {
+  background: #3d6b58 !important;
+}
+
+/* Text kariet realizácií. */
+html:root body .lp-page .lp-project-copy p,
+html:root body .lp-page .lp-project-copy small {
+  color: #b0bab6 !important;
+}
+
+/* Mobilná verzia DERAT príbehu mala modrasté pozadie snímky. */
+html:root body .derat-story__mobile-slide figure {
+  background: #0d1a15 !important;
+}
+
+/* Kontaktný formulár — pokojové rámiky a oddeľovače. */
+html:root body .contact-card {
+  border-color: rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .contact-card input,
+html:root body .contact-card textarea,
+html:root body .contact-card select {
+  border-color: #2c3a35 !important;
+}
+
+html:root body .contact-or {
+  color: #8b948f !important;
+}
+
+/* Odfajknutia v cenníku, riadky kontaktu, pätička a drobné texty
+   boli posledné body, kde ostala pôvodná modrá. */
+html:root body .winner-package ul li svg,
+html:root body .winner-package ul li svg path {
+  color: #7fe0b4 !important;
+}
+
+html:root body .contact-details > a,
+html:root body .contact-details > span {
+  border-color: rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .contact-card-head p,
+html:root body .premium-footer-brand p {
+  color: #b0bab6 !important;
+}
+
+html:root body .contact-or > span {
+  color: #8b948f !important;
+}
+
+/* Ikony „čo potrebujem od klienta" a bežné odstavce podstránok —
+   posledné miesta s pôvodnou modrou. */
+html:root body .winner-prep__item > svg,
+html:root body .winner-prep__item > svg path {
+  color: #7fe0b4 !important;
+}
+
+html:root body .sp-service-head p,
+html:root body .sp-service-row p,
+html:root body .sp-project-card > a p,
+html:root body .sp-step p {
+  color: #b0bab6 !important;
+}
+
+html:root body .sp-combine p {
+  color: #b0bab6 !important;
+}
