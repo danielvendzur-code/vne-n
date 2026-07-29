@@ -2737,3 +2737,111 @@ html:root body .lp-page p {
 html:root body .lp-page .lp-caps-row-head p {
   color: #a3aeaa !important;
 }
+
+/* ==============================================================
+   ODLÍŠENIE SEKCIÍ — druhá vlna
+   Striedanie pozadí samo o sebe nestačilo: každá sekcia mala
+   rovnakú stavbu (eyebrow, veľký nadpis, karty), takže sa aj tak
+   nedalo rozoznať, kde je človek. Sekcie teraz nesú poradové
+   číslo a nemajú všetky rovnaké rozloženie hlavičky.
+   ============================================================== */
+html:root body .lp-page section .lp-eyebrow::before,
+html:root body .winner-upgrade .winner-upgrade__eyebrow:first-of-type::before {
+  display: inline-block !important;
+  margin-right: 10px !important;
+  padding-right: 10px !important;
+  border-right: 1px solid rgba(122, 210, 180, 0.3) !important;
+  color: #16c47f !important;
+  font-variant-numeric: tabular-nums !important;
+  opacity: 0.9 !important;
+}
+
+html:root body .lp-page .lp-value .lp-eyebrow::before {
+  content: "01" !important;
+}
+
+html:root body .lp-page .lp-caps .lp-eyebrow::before {
+  content: "02" !important;
+}
+
+html:root body .lp-page .lp-faq .lp-eyebrow::before {
+  content: "04" !important;
+}
+
+html:root body .lp-page .lp-process .lp-eyebrow::before {
+  content: "05" !important;
+}
+
+html:root body .winner-upgrade .winner-upgrade__eyebrow:first-of-type::before {
+  content: "06" !important;
+}
+
+/* Sekcia 02 má hlavičku na stred — už na prvý pohľad iná stavba
+   než susedné sekcie zarovnané doľava. */
+html:root body .lp-page .lp-caps .lp-heading {
+  margin-inline: auto !important;
+  max-width: 780px !important;
+  text-align: center !important;
+}
+
+html:root body .lp-page .lp-caps .lp-heading .lp-eyebrow {
+  justify-content: center !important;
+}
+
+html:root body .lp-page .lp-caps .lp-heading-copy {
+  margin-inline: auto !important;
+}
+
+/* Cenník je posledná zastávka, tak dostal výraznejší panel
+   namiesto ďalšieho plochého pozadia. */
+html:root body .winner-upgrade {
+  background-image: radial-gradient(
+      ellipse at 50% 0%,
+      rgba(22, 196, 127, 0.1),
+      transparent 62%
+    ) !important;
+}
+
+html:root body .winner-upgrade .winner-upgrade__inner {
+  position: relative !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .lp-page .lp-caps .lp-heading {
+    text-align: left !important;
+  }
+
+  html:root body .lp-page .lp-caps .lp-heading .lp-eyebrow {
+    justify-content: flex-start !important;
+  }
+}
+
+/* ==============================================================
+   LEPIACA HLAVIČKA
+   Na mobile mali html aj body overflow-x: hidden, čím sa z nich
+   stal scroll kontajner — a to je klasická príčina, prečo prestane
+   fungovať position: sticky. Hlavička sa preto odscrollovala preč
+   (na 13 700 px stránke bola nameraná na -3000 px) a menu bolo
+   väčšinu času nedostupné.
+
+   overflow-x: clip robí to isté proti vodorovnému presahu, ale
+   scroll kontajner nevytvára, takže sticky ostáva funkčné.
+   ============================================================== */
+@media (max-width: 700px) {
+  html,
+  html body {
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+  }
+}
+
+/* Pás so sekciou potrebuje vlastné pozadie — bez neho sa text
+   prekrýval s obsahom pod ním a nedal sa prečítať. */
+html:root body .section-rail::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -8px 0 -6px !important;
+  z-index: -1 !important;
+  background: linear-gradient(180deg, rgba(6, 11, 9, 0.94), rgba(6, 11, 9, 0.82) 70%, rgba(6, 11, 9, 0)) !important;
+  backdrop-filter: blur(10px) !important;
+}

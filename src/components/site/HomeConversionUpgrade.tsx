@@ -138,7 +138,7 @@ function CountUp({ to, prefix, suffix }: { to: number; prefix: string; suffix: s
 
 export function HomeConversionUpgrade() {
   return (
-    <section className="winner-upgrade" aria-labelledby="winner-upgrade-title">
+    <section className="winner-upgrade" id="cena" aria-labelledby="winner-upgrade-title">
       <div className="container-page winner-upgrade__inner">
         <header className="winner-upgrade__head">
           <p className="winner-upgrade__eyebrow">Cena a príprava projektu</p>

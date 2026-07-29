@@ -6,6 +6,7 @@ import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { HomeConversionUpgrade } from "./HomeConversionUpgrade";
+import { SectionRail } from "./SectionRail";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
 import "./SitePolish.css";
 import "./MineralTheme.css";
@@ -38,6 +39,16 @@ import "./MatteUiFinal.css";
 import "./FinalUserCorrection.css";
 import "@/components/site/MobileControlPolish.css";
 
+// Poradie musí sedieť s poradím sekcií na domovskej stránke.
+const railSections = [
+  { id: "nastroje", label: "Rozdiel v praxi" },
+  { id: "moznosti", label: "Čo viem postaviť" },
+  { id: "realizacie", label: "Ukážka realizácie" },
+  { id: "otazky", label: "Časté otázky" },
+  { id: "spolupraca", label: "Ako to prebieha" },
+  { id: "cena", label: "Cena a ďalší krok" },
+];
+
 const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export function SiteLayout({ children }: { children: ReactNode }) {
@@ -54,6 +65,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           Preskočiť na obsah
         </a>
         <Nav />
+        {isHomepage ? <SectionRail sections={railSections} /> : null}
         <main id="main-content" className="relative flex-1 overflow-x-clip">
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div

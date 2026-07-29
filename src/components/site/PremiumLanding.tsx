@@ -18,7 +18,6 @@ import {
   CalendarClock,
   Check,
   Clock3,
-  ExternalLink,
   Mail,
   MessageCircle,
   PenLine,
@@ -35,6 +34,7 @@ import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { useMagnetic } from "@/hooks/useMagnetic";
 import { useNarrowViewport, useReducedMotion } from "@/hooks/useReducedMotion";
+import { useTimelineProgress } from "@/hooks/useTimelineProgress";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./PremiumLanding.css";
 
@@ -103,39 +103,6 @@ const comparisons = {
     items: ["Odpoveď ihneď", "Kompletný kontext", "Menej ručného zisťovania"],
   },
 };
-
-const projects = [
-  {
-    name: "Môj Plot",
-    type: "E-commerce · produktový web",
-    domain: "mojplot.sk",
-    result: "Prehľadný výber oplotenia, služieb a ďalšieho kroku pre zákazníka.",
-    href: "https://mojplot.sk/",
-    image: `${import.meta.env.BASE_URL}work/portfolio/mojplot.webp`,
-    alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",
-    tone: "mint",
-  },
-  {
-    name: "Koverta",
-    type: "E-commerce · dopytový asistent",
-    domain: "koverta.sk",
-    result: "Produktový web pre dom a záhradu doplnený o rýchly kontakt a asistenta.",
-    href: "https://koverta.sk/",
-    image: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,
-    alt: "Domovská stránka Koverta s modernou pergolou",
-    tone: "sand",
-  },
-  {
-    name: "WEBKO",
-    type: "Prezentačný web · lead generation",
-    domain: "webko.sk",
-    result: "Sebavedomá prezentácia služby s jasným smerovaním ku kontaktu.",
-    href: "https://www.webko.sk/",
-    image: `${import.meta.env.BASE_URL}work/portfolio/webko.webp`,
-    alt: "Tmavá domovská stránka WEBKO s ukážkou webových realizácií",
-    tone: "blue",
-  },
-];
 
 const heroProof = [
   { icon: BadgeCheck, text: "Reálne nasadené weby a živé nástroje" },
@@ -847,97 +814,13 @@ function FaqSection() {
   );
 }
 
-function ProjectImage({ src, alt }: { src: string; alt: string }) {
-  const [loaded, setLoaded] = useState(false);
-
-  return (
-    <div className="lp-project-media" data-loaded={loaded}>
-      <img
-        src={src}
-        alt={alt}
-        width="1440"
-        height="1000"
-        loading="lazy"
-        decoding="async"
-        fetchPriority="low"
-        onLoad={() => setLoaded(true)}
-      />
-    </div>
-  );
-}
-
-function Portfolio() {
-  return (
-    <section className="lp-portfolio" id="projekty">
-      <div className="container-page">
-        <Heading
-          eyebrow="Vybrané realizácie"
-          copy="Každý náhľad je reálny projekt. Kliknite a pozrite si ho priamo na živom webe."
-        >
-          Reálne weby. <em>Žiadne generické makety.</em>
-        </Heading>
-
-        <div className="lp-project-grid">
-          {projects.map((project, index) => (
-            <Reveal
-              className="lp-project"
-              key={project.name}
-              direction={index % 2 === 0 ? "left" : "right"}
-              distance={34}
-              delay={index * 0.06}
-            >
-              <a href={project.href} target="_blank" rel="noreferrer" data-tone={project.tone}>
-                <ProjectImage src={project.image} alt={project.alt} />
-                {/* Doména priamo na náhľade — návštevník vidí, že web
-                    naozaj beží, a vie si ho hneď overiť. */}
-                <span className="lp-project-domain" aria-hidden="true">
-                  <i />
-                  {project.domain}
-                </span>
-                <div className="lp-project-copy">
-                  <span>0{index + 1}</span>
-                  <p>{project.type}</p>
-                  <h3>{project.name}</h3>
-                  <small>{project.result}</small>
-                  <b>
-                    Pozrieť živý projekt <ExternalLink />
-                  </b>
-                </div>
-              </a>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function ProcessTimeline() {
   const listRef = useRef<HTMLOListElement>(null);
   const reducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: listRef,
+  const { scaleY, reached } = useTimelineProgress(listRef, {
+    nodeSelector: ".lp-step-node",
     offset: ["start 0.95", "end 0.5"],
-  });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 70, damping: 26, mass: 0.5 });
-  const [reached, setReached] = useState(reducedMotion ? process.length : 0);
-
-  useMotionValueEvent(scaleY, "change", (value) => {
-    if (reducedMotion) return;
-    const list = listRef.current;
-    if (!list) return;
-    // offsetTop by sa meral voči vlastnému <li> (má position: relative),
-    // takže každý uzol hlásil rovnakú hodnotu a rozsvietili sa naraz.
-    // Meriame teda polohu voči zoznamu.
-    const listRect = list.getBoundingClientRect();
-    const lineEnd = value * listRect.height;
-    const nodes = list.querySelectorAll<HTMLElement>(".lp-step-node");
-    let count = 0;
-    nodes.forEach((node) => {
-      const rect = node.getBoundingClientRect();
-      if (rect.top + rect.height / 2 - listRect.top <= lineEnd) count += 1;
-    });
-    setReached(count);
+    count: process.length,
   });
 
   return (
@@ -1010,7 +893,6 @@ export function PremiumLanding() {
         <ValueSection />
         <Capabilities />
         <DeratScrollStory />
-        <Portfolio />
         <FaqSection />
         <ProcessAndCta />
       </div>

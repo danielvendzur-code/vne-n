@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef, useState } from "react";
-import { motion, useMotionValueEvent, useScroll, useSpring } from "motion/react";
+import { useRef } from "react";
+import { motion } from "motion/react";
 import {
   ArrowRight,
   CalendarCheck,
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { CtaBand, PageIntro } from "@/components/site/motion-primitives";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useTimelineProgress } from "@/hooks/useTimelineProgress";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./postup.css";
@@ -108,32 +109,10 @@ const steps = [
 function Timeline() {
   const listRef = useRef<HTMLOListElement>(null);
   const reducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: listRef,
+  const { scaleY, reached } = useTimelineProgress(listRef, {
+    nodeSelector: ".sp-step-node",
     offset: ["start 0.92", "end 0.48"],
-  });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 70, damping: 26, mass: 0.5 });
-  // Koľko krokov už čiara pri scrollovaní dosiahla.
-  const [reached, setReached] = useState(reducedMotion ? steps.length : 0);
-
-  useMotionValueEvent(scaleY, "change", (value) => {
-    if (reducedMotion) return;
-    const list = listRef.current;
-    if (!list) return;
-    // Porovnávame skutočnú pozíciu uzla s koncom čiary, nie odhad podľa
-    // poradia — inak sa uzol rozsvietil až kus po tom, čo cezeň čiara prešla.
-    // offsetTop by sa meral voči vlastnému <li> (má position: relative),
-    // takže každý uzol hlásil rovnakú hodnotu a rozsvietili sa naraz.
-    // Meriame teda polohu voči zoznamu.
-    const listRect = list.getBoundingClientRect();
-    const lineEnd = value * listRect.height;
-    const nodes = list.querySelectorAll<HTMLElement>(".sp-step-node");
-    let count = 0;
-    nodes.forEach((node) => {
-      const rect = node.getBoundingClientRect();
-      if (rect.top + rect.height / 2 - listRect.top <= lineEnd) count += 1;
-    });
-    setReached(count);
+    count: steps.length,
   });
 
   return (
