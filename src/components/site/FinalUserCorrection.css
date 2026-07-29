@@ -1775,3 +1775,507 @@ html:root body .lp-page .lp-process-list > li {
   flex-direction: row !important;
   flex-wrap: nowrap !important;
 }
+
+/* ==============================================================
+   ČÍSLA DÔVERYHODNOSTI
+   Krátky pás nad cenníkom. Čísla sa pri scrollovaní odpočítajú,
+   takže oko na ne padne skôr než na cenu.
+   ============================================================== */
+html:root body .winner-numbers {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  margin: 0 0 34px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 22px !important;
+  background: rgba(122, 210, 180, 0.16) !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .winner-number {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #080b12 !important;
+}
+
+html:root body .winner-number dd {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 7px !important;
+  margin: 0 !important;
+  padding: 24px 22px !important;
+}
+
+html:root body .winner-number__value {
+  display: block !important;
+  color: #16c47f !important;
+  font-family: var(--font-display, inherit) !important;
+  font-size: clamp(1.7rem, 3.4vw, 2.35rem) !important;
+  font-weight: 620 !important;
+  letter-spacing: -0.045em !important;
+  line-height: 1 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+html:root body .winner-number__label {
+  display: block !important;
+  max-width: 24ch !important;
+  color: #97a3b3 !important;
+  font-size: 0.845rem !important;
+  line-height: 1.45 !important;
+}
+
+@media (max-width: 900px) {
+  html:root body .winner-numbers {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    margin-bottom: 26px !important;
+  }
+
+  html:root body .winner-number dd {
+    padding: 19px 17px !important;
+  }
+
+  html:root body .winner-number__label {
+    font-size: 0.79rem !important;
+  }
+}
+
+/* ==============================================================
+   CENNÍK — odporúčaný balík
+   Tri rovnako silné karty nedávali vodítko. Prvá teraz nesie
+   štítok a zelený okraj, zvyšné dve sú jemne stlmené.
+   ============================================================== */
+html:root body .winner-package {
+  position: relative !important;
+}
+
+html:root body .winner-package[data-featured="true"] {
+  border-color: rgba(22, 196, 127, 0.42) !important;
+  background: linear-gradient(180deg, rgba(22, 196, 127, 0.07), rgba(8, 11, 18, 0)) #0b111a !important;
+  box-shadow:
+    0 26px 60px -42px rgba(22, 196, 127, 0.8),
+    inset 0 0 0 1px rgba(22, 196, 127, 0.14) !important;
+}
+
+html:root body .winner-package[data-featured="false"] {
+  background: #0a0e16 !important;
+}
+
+html:root body .winner-package__badge {
+  position: absolute !important;
+  top: -11px !important;
+  left: 22px !important;
+  z-index: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 5px 13px !important;
+  border-radius: 999px !important;
+  color: #04140d !important;
+  background: #16c47f !important;
+  font-size: 0.695rem !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  box-shadow: 0 10px 26px -16px rgba(22, 196, 127, 0.95) !important;
+}
+
+/* Odporúčaný balík má plné tlačidlo, ostatné jemnejšie —
+   pohľad tak vie, kam má ísť najskôr. */
+html:root body .winner-package[data-featured="false"] .winner-package__cta {
+  color: #d6f5e7 !important;
+  background: rgba(22, 196, 127, 0.13) !important;
+  box-shadow: inset 0 0 0 1px rgba(22, 196, 127, 0.3) !important;
+}
+
+html:root body .winner-package[data-featured="false"] .winner-package__cta:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  background: #16c47f !important;
+}
+
+@media (max-width: 900px) {
+  html:root body .winner-package__badge {
+    left: 18px !important;
+    font-size: 0.655rem !important;
+  }
+}
+
+/* ==============================================================
+   REALIZÁCIE — doména na náhľade
+   Sekcia pôsobila ako galéria obrázkov. Doména na náhľade hovorí,
+   že web naozaj beží a dá sa overiť.
+   ============================================================== */
+html:root body .lp-page .lp-project > a {
+  position: relative !important;
+}
+
+html:root body .lp-page .lp-project-domain {
+  position: absolute !important;
+  top: 16px !important;
+  left: 16px !important;
+  z-index: 3 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 6px 12px 6px 10px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: #eef5f1 !important;
+  background: rgba(6, 12, 10, 0.72) !important;
+  backdrop-filter: blur(10px) !important;
+  font-size: 0.755rem !important;
+  font-weight: 640 !important;
+  letter-spacing: 0.005em !important;
+  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.24) !important;
+  transition:
+    background-color 240ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:root body .lp-page .lp-project-domain > i {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #16c47f !important;
+  box-shadow: 0 0 0 3px rgba(22, 196, 127, 0.22) !important;
+}
+
+html:root body .lp-page .lp-project > a:is(:hover, :focus-visible) .lp-project-domain {
+  background: rgba(6, 12, 10, 0.86) !important;
+  transform: translateY(-2px) !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .lp-page .lp-project-domain {
+    top: 12px !important;
+    left: 12px !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+/* ==============================================================
+   PRECHOD MEDZI HERO A ĎALŠOU SEKCIOU
+   Predtým tam bola ostrá linka. Mäkký prechod drží pohľad
+   v pohybe nadol namiesto toho, aby ho zastavil.
+   ============================================================== */
+html:root body .lp-page .lp-hero {
+  border-bottom: 0 !important;
+}
+
+html:root body .lp-page .lp-hero::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 2 !important;
+  height: 128px !important;
+  pointer-events: none !important;
+  background: linear-gradient(180deg, rgba(6, 12, 9, 0), rgba(6, 12, 9, 0.55) 62%, #070d0a) !important;
+}
+
+/* Jemné svetlo na začiatku ďalšej sekcie — pokračovanie, nie rez. */
+html:root body .lp-page .lp-value {
+  position: relative !important;
+}
+
+html:root body .lp-page .lp-value::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 50% !important;
+  z-index: 0 !important;
+  width: min(760px, 92vw) !important;
+  height: 200px !important;
+  transform: translateX(-50%) !important;
+  pointer-events: none !important;
+  background: radial-gradient(ellipse at 50% 0%, rgba(22, 196, 127, 0.09), transparent 70%) !important;
+}
+
+html:root body .lp-page .lp-value > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* ==============================================================
+   PÄTIČKA — doplnená veta o odozve
+   ============================================================== */
+html:root body .premium-footer-note {
+  max-width: 34ch !important;
+  margin-top: 12px !important;
+  color: #8b96a5 !important;
+  font-size: 0.85rem !important;
+  line-height: 1.55 !important;
+}
+
+/* ==============================================================
+   OPRAVY PO MERANÍ
+   1) Štítok mal top: -11px, ale karta má overflow: hidden, takže
+      sa orezal na polovicu. Z štítku je preto stužka na hornej
+      hrane karty — orezať sa nemá čo.
+   2) Pás s číslami mal navyše vlastný spodný margin k 72px medzere
+      kontajnera, čo dalo 106px hluchého miesta.
+   ============================================================== */
+html:root body .winner-package__badge {
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  justify-content: flex-start !important;
+  padding: 8px 24px !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+html:root body .winner-package[data-featured="true"] {
+  padding-top: 58px !important;
+}
+
+html:root body .winner-numbers {
+  margin: 0 !important;
+}
+
+@media (max-width: 900px) {
+  html:root body .winner-package__badge {
+    padding: 7px 19px !important;
+  }
+
+  html:root body .winner-package[data-featured="true"] {
+    padding-top: 50px !important;
+  }
+}
+
+/* Bez stužky mali zvyšné karty nadpis o 32 px vyššie. Rovnaký
+   horný priestor drží všetky tri riadky zarovnané. */
+html:root body .winner-package[data-featured="false"] {
+  padding-top: 58px !important;
+}
+
+/* Na mobile sú karty pod sebou, takže rezerva na stužku by bola
+   len prázdne miesto navrchu. */
+@media (max-width: 900px) {
+  html:root body .winner-package[data-featured="false"] {
+    padding-top: 26px !important;
+  }
+}
+
+/* ==============================================================
+   REALIZÁCIE — tri rovnaké karty vedľa seba
+   Prvá karta predtým prekrývala dva riadky, takže mala 1094 px
+   výšky na ~540 px obsahu — pod textom zostalo 500 px prázdna.
+   Rovnaká mriežka drží náhľady v pôvodnom pomere strán
+   a žiadny obrázok sa neoreže.
+   ============================================================== */
+@media (min-width: 901px) {
+  html:root body .lp-page .lp-project-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+    gap: 18px !important;
+  }
+
+  html:root body .lp-page .lp-project:first-child {
+    grid-row: auto !important;
+    grid-column: auto !important;
+  }
+}
+
+/* ==============================================================
+   POSLEDNÉ MODRÉ ZVYŠKY
+   Census v prehliadači našiel tri miesta, ktoré prezelenenie
+   obišlo: ikona riešenia v menu (#83c4ff), tlačidlo Zavrieť
+   (#aebbd0 — modrastá šeď) a focus rámik kontaktného formulára
+   (#5d98ff, hoci prstenec okolo neho už bol zelený).
+   ============================================================== */
+html:root body .site-menu-solution-icon,
+html:root body .site-menu-solution-icon svg {
+  color: #7fe0b4 !important;
+}
+
+html:root body .site-menu-close,
+html:root body .site-menu-close svg {
+  color: #b3bcb8 !important;
+}
+
+html:root body .contact-card input:focus,
+html:root body .contact-card textarea:focus,
+html:root body .contact-card select:focus {
+  border-color: #16c47f !important;
+  box-shadow: 0 0 0 3px rgba(22, 196, 127, 0.18) !important;
+}
+
+/* Chyba a úspech vo formulári v rovnakej palete. */
+html:root body .contact-card input[aria-invalid="true"],
+html:root body .contact-card textarea[aria-invalid="true"] {
+  border-color: #e0705f !important;
+}
+
+html:root body .contact-card input[aria-invalid="true"]:focus,
+html:root body .contact-card textarea[aria-invalid="true"]:focus {
+  border-color: #e0705f !important;
+  box-shadow: 0 0 0 3px rgba(224, 112, 95, 0.2) !important;
+}
+
+/* ==============================================================
+   FAQ — otvorená otázka nedávala žiadnu spätnú väzbu
+   Skoršie pravidlo „jeden vlas na každej karte" prebilo aj
+   otvorený stav, takže rámik ostal rovnaký a jediným signálom
+   bolo plus, ktoré sa zmenilo na mínus.
+   ============================================================== */
+html:root body .lp-page .lp-faq-item[data-open="true"] {
+  border-color: rgba(22, 196, 127, 0.44) !important;
+  background: linear-gradient(
+      180deg,
+      rgba(22, 196, 127, 0.07),
+      rgba(22, 196, 127, 0)
+    )
+    #0b1219 !important;
+}
+
+html:root body .lp-page .lp-faq-item[data-open="true"] h3 button {
+  color: #ffffff !important;
+}
+
+/* ==============================================================
+   ZJEDNOTENIE PALETY — druhá vlna
+   Census v prehliadači našiel 19 unikátnych modrých hodnôt, ktoré
+   prezelenenie obišlo. Sýte modré idú do zelenej značky, modrasté
+   šede do neutrálnych s rovnakou svetlosťou, takže kontrast textu
+   ostáva nezmenený.
+   ============================================================== */
+
+/* --- sýta modrá → zelená značky --- */
+html:root body .site-menu-cta {
+  color: #04140d !important;
+  background: #16c47f !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+html:root body .site-menu-cta small,
+html:root body .site-menu-cta svg {
+  color: #04140d !important;
+}
+
+html:root body .premium-footer-label,
+html:root body .sp-eyebrow,
+html:root body .contact-kicker,
+html:root body .contact-card-head > span,
+html:root body .sp-service-index,
+html:root body .sp-step-label,
+html:root body .sp-service-head > svg,
+html:root body .sp-timeline-progress,
+html:root body .contact-details svg,
+html:root body .contact-expect svg,
+html:root body .winner-package__icon,
+html:root body .winner-package__icon svg,
+html:root body .winner-prep__icon,
+html:root body .lp-page .lp-solution-icon,
+html:root body .lp-page .lp-capability-icon {
+  color: #7fe0b4 !important;
+}
+
+/* --- modrasté šede → neutrálne s rovnakou svetlosťou --- */
+html:root body .lp-page .lp-comparison-copy span,
+html:root body .lp-page .lp-comparison-body li,
+html:root body .lp-page .lp-switch > button,
+html:root body .premium-footer-links a,
+html:root body .premium-footer-links button,
+html:root body .premium-footer-bottom,
+html:root body .premium-footer-privacy,
+html:root body .premium-footer-privacy a,
+html:root body .premium-footer-privacy button,
+html:root body .sp-cta-lead {
+  color: #b0bab6 !important;
+}
+
+html:root body .lp-page .lp-control-label {
+  color: #a4aeaa !important;
+}
+
+html:root body .lp-page .lp-caps-num {
+  color: #7d8a85 !important;
+}
+
+/* --- modré hranice a body --- */
+html:root body .lp-page .lp-assistant-card,
+html:root body .site-menu-close,
+html:root body .contact-card-head {
+  border-color: rgba(122, 210, 180, 0.2) !important;
+}
+
+html:root body .lp-page .lp-switch > button i,
+html:root body .lp-page .lp-comparison-body li::marker {
+  background: #3d6b58 !important;
+}
+
+/* --- posledné adresné zvyšky nájdené meraním --- */
+/* Pomlčka pred nadpisom sekcie bola modrá na každom nadpise. */
+html:root body .lp-page .lp-eyebrow > i {
+  background: #3d6b58 !important;
+}
+
+/* Text kariet realizácií. */
+html:root body .lp-page .lp-project-copy p,
+html:root body .lp-page .lp-project-copy small {
+  color: #b0bab6 !important;
+}
+
+/* Mobilná verzia DERAT príbehu mala modrasté pozadie snímky. */
+html:root body .derat-story__mobile-slide figure {
+  background: #0d1a15 !important;
+}
+
+/* Kontaktný formulár — pokojové rámiky a oddeľovače. */
+html:root body .contact-card {
+  border-color: rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .contact-card input,
+html:root body .contact-card textarea,
+html:root body .contact-card select {
+  border-color: #2c3a35 !important;
+}
+
+html:root body .contact-or {
+  color: #8b948f !important;
+}
+
+/* Odfajknutia v cenníku, riadky kontaktu, pätička a drobné texty
+   boli posledné body, kde ostala pôvodná modrá. */
+html:root body .winner-package ul li svg,
+html:root body .winner-package ul li svg path {
+  color: #7fe0b4 !important;
+}
+
+html:root body .contact-details > a,
+html:root body .contact-details > span {
+  border-color: rgba(122, 210, 180, 0.16) !important;
+}
+
+html:root body .contact-card-head p,
+html:root body .premium-footer-brand p {
+  color: #b0bab6 !important;
+}
+
+html:root body .contact-or > span {
+  color: #8b948f !important;
+}
+
+/* Ikony „čo potrebujem od klienta" a bežné odstavce podstránok —
+   posledné miesta s pôvodnou modrou. */
+html:root body .winner-prep__item > svg,
+html:root body .winner-prep__item > svg path {
+  color: #7fe0b4 !important;
+}
+
+html:root body .sp-service-head p,
+html:root body .sp-service-row p,
+html:root body .sp-project-card > a p,
+html:root body .sp-step p {
+  color: #b0bab6 !important;
+}
+
+html:root body .sp-combine p {
+  color: #b0bab6 !important;
+}

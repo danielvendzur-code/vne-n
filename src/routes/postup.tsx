@@ -14,8 +14,32 @@ import {
 import { CtaBand, PageIntro } from "@/components/site/motion-primitives";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import { seo } from "@/lib/seo";
+import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./postup.css";
+
+const processJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Ako prebieha spolupráca na chatbote na mieru",
+  description:
+    "Šesť krokov od pozretia webu po widget na stránke: otázky, návrh logiky, dizajn, test, prepojenie dopytov a nasadenie.",
+  step: [
+    { name: "Pozriem si web a služby.", text: "Zistím, čo zákazníci potrebujú vedieť." },
+    { name: "Navrhnem otázky a výpočet.", text: "Kroky, možnosti a cenové pravidlá odsúhlasíme." },
+    { name: "Pripravím dizajn rozhrania.", text: "Nástroj prevezme farby a tón vášho webu." },
+    {
+      name: "Vytvorím a otestujem riešenie.",
+      text: "Dostanete odkaz na vyskúšanie pred nasadením.",
+    },
+    { name: "Prepojím dopyty so systémami.", text: "E-mail, kalendár, tabuľka alebo CRM." },
+    { name: "Widget sa vloží na web.", text: "Vo väčšine prípadov stačí jeden riadok kódu." },
+  ].map((step, index) => ({
+    "@type": "HowToStep",
+    position: index + 1,
+    name: step.name,
+    text: step.text,
+  })),
+});
 
 export const Route = createFileRoute("/postup")({
   head: () => ({
@@ -25,6 +49,13 @@ export const Route = createFileRoute("/postup")({
         "Šesť krokov od pozretia webu po widget na stránke: otázky, návrh logiky, dizajn, test, prepojenie dopytov a nasadenie bez prerábania webu.",
       path: "/postup",
     }),
+    scripts: [
+      { type: "application/ld+json", children: processJsonLd },
+      {
+        type: "application/ld+json",
+        children: breadcrumbJsonLd([{ name: "Ako to prebieha", path: "/postup" }]),
+      },
+    ],
   }),
   component: ProcessPage,
 });

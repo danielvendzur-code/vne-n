@@ -108,6 +108,7 @@ const projects = [
   {
     name: "Môj Plot",
     type: "E-commerce · produktový web",
+    domain: "mojplot.sk",
     result: "Prehľadný výber oplotenia, služieb a ďalšieho kroku pre zákazníka.",
     href: "https://mojplot.sk/",
     image: `${import.meta.env.BASE_URL}work/portfolio/mojplot.webp`,
@@ -117,6 +118,7 @@ const projects = [
   {
     name: "Koverta",
     type: "E-commerce · dopytový asistent",
+    domain: "koverta.sk",
     result: "Produktový web pre dom a záhradu doplnený o rýchly kontakt a asistenta.",
     href: "https://koverta.sk/",
     image: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,
@@ -126,6 +128,7 @@ const projects = [
   {
     name: "WEBKO",
     type: "Prezentačný web · lead generation",
+    domain: "webko.sk",
     result: "Sebavedomá prezentácia služby s jasným smerovaním ku kontaktu.",
     href: "https://www.webko.sk/",
     image: `${import.meta.env.BASE_URL}work/portfolio/webko.webp`,
@@ -841,6 +844,12 @@ function Portfolio() {
             >
               <a href={project.href} target="_blank" rel="noreferrer" data-tone={project.tone}>
                 <ProjectImage src={project.image} alt={project.alt} />
+                {/* Doména priamo na náhľade — návštevník vidí, že web
+                    naozaj beží, a vie si ho hneď overiť. */}
+                <span className="lp-project-domain" aria-hidden="true">
+                  <i />
+                  {project.domain}
+                </span>
                 <div className="lp-project-copy">
                   <span>0{index + 1}</span>
                   <p>{project.type}</p>

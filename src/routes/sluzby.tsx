@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Bot, Calculator, MessageCircle, SlidersHorizontal } from "lucide-react";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import { seo } from "@/lib/seo";
+import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
@@ -12,6 +12,12 @@ export const Route = createFileRoute("/sluzby")({
         "Chatboty, ľubovoľné kalkulačky a krokové konfigurátory. Každý nástroj môže fungovať samostatne alebo priamo v chatbote — vždy podľa logiky vašej služby.",
       path: "/sluzby",
     }),
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: breadcrumbJsonLd([{ name: "Chatboty a riešenia", path: "/sluzby" }]),
+      },
+    ],
   }),
   component: ServicesPage,
 });

@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { submitWebsiteLead } from "@/lib/lead-submission";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import { seo } from "@/lib/seo";
+import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./kontakt.css";
 import "./kontakt-final.css";
 
@@ -19,6 +19,12 @@ export const Route = createFileRoute("/kontakt")({
         "Opíšte, čo dnes na webe vysvetľujete alebo počítate ručne. Jednoduchý chatbot začína od 350 € a konkrétny rozsah dostanete vopred.",
       path: "/kontakt",
     }),
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: breadcrumbJsonLd([{ name: "Kontakt", path: "/kontakt" }]),
+      },
+    ],
   }),
   component: ContactPage,
 });

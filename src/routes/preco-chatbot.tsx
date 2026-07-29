@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import { seo } from "@/lib/seo";
+import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./preco-chatbot.css";
 
 export const Route = createFileRoute("/preco-chatbot")({
@@ -21,6 +21,12 @@ export const Route = createFileRoute("/preco-chatbot")({
         "Väčšina návštevníkov odíde bez otázky. Chatbot odpovie hneď, vypočíta cenu a odovzdá vám dopyt aj s kontextom. Pozrite si, čo to zmení na vašom webe.",
       path: "/preco-chatbot",
     }),
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: breadcrumbJsonLd([{ name: "Čo to prinesie webu", path: "/preco-chatbot" }]),
+      },
+    ],
   }),
   component: WhyChatbotPage,
 });
