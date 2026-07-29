@@ -19,8 +19,7 @@ export function Footer() {
           <BrandMark size={36} />
           <p>Môj Chatbot · chatboty, kalkulačky a konfigurátory navrhnuté na mieru.</p>
           <p className="premium-footer-note">
-            Napíšte, čo dnes počítate alebo vysvetľujete ručne. Odpoveď zvyčajne do jedného
-            pracovného dňa.
+            Napíšte, s čím vám má chatbot pomôcť. Odpoviem zvyčajne do jedného pracovného dňa.
           </p>
         </div>
 

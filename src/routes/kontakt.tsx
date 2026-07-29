@@ -16,7 +16,7 @@ export const Route = createFileRoute("/kontakt")({
     ...seo({
       title: "Kontakt — návrh chatbota, kalkulačky alebo konfigurátora",
       description:
-        "Opíšte, čo dnes na webe vysvetľujete alebo počítate ručne. Jednoduchý chatbot začína od 350 € a konkrétny rozsah dostanete vopred.",
+        "Napíšte, na čo sa vás zákazníci najčastejšie pýtajú. Jednoduchý chatbot stojí od 350 € a cenu poviem vopred.",
       path: "/kontakt",
     }),
     scripts: [
@@ -111,14 +111,14 @@ function ContactPage() {
         >
           <p className="contact-kicker">
             <i />
-            Konkrétny návrh riešenia
+            Návrh na mieru
           </p>
           <h1>
-            Ukážte mi, čo dnes robíte <em>ručne.</em>
+            Napíšte mi, s čím vám má chatbot <em>pomôcť.</em>
           </h1>
           <p className="contact-lead">
-            Jednoduchý chatbot začína od 350 €. Stačí stručne opísať službu, cenník alebo
-            rozhodovanie zákazníka a ozvem sa s vhodným rozsahom prvej verzie.
+            Jednoduchý chatbot stojí od 350 €. Stačí pár viet o tom, čo predávate a na čo sa vás
+            zákazníci najčastejšie pýtajú. Ozvem sa s návrhom aj cenou.
           </p>
 
           <div className="contact-details">
@@ -231,7 +231,7 @@ function ContactPage() {
                     required
                     maxLength={FIELD_LIMITS.project}
                     rows={5}
-                    placeholder="Napríklad: zákazníkom ručne počítame cenu podľa rozmerov, dopravy a montáže…"
+                    placeholder="Napríklad: zákazníci sa pýtajú, koľko bude stáť plot. Cenu rátame podľa metrov, brány a montáže."
                   />
                 </label>
                 <label>

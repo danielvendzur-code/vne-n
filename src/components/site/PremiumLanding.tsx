@@ -70,7 +70,7 @@ const heroTools = {
   chatbot: {
     label: "AI chatbot",
     icon: Bot,
-    text: "Odpovie 24/7, kvalifikuje záujem a pripraví dopyt, na ktorý môžete rovno reagovať.",
+    text: "Odpovedá vo dne v noci, zistí, čo zákazník chce, a pošle vám to aj s kontaktom.",
   },
   calculator: {
     label: "Chatbot s kalkulačkou",
@@ -94,12 +94,12 @@ const heroTools = {
 const comparisons = {
   without: {
     title: "Kontakt bez kontextu.",
-    copy: "Po formulári ešte zisťujete rozsah, lokalitu, termín aj očakávanie zákazníka.",
+    copy: "Z formulára príde meno a e-mail. Všetko ostatné musíte vypýtať sami.",
     items: ["Odpoveď až neskôr", "Rovnaké otázky dookola", "Nejasná priorita dopytu"],
   },
   with: {
     title: "Dopyt pripravený na ďalší krok.",
-    copy: "Návštevník dostane odpoveď hneď a vy kontakt spolu s relevantnými vstupmi.",
+    copy: "Zákazník dostane odpoveď hneď. Vám príde e-mail so všetkým, čo potrebujete vedieť.",
     items: ["Odpoveď ihneď", "Kompletný kontext", "Menej ručného zisťovania"],
   },
 };
@@ -271,7 +271,7 @@ const process = [
   {
     icon: MessageCircle,
     title: "Krátka analýza",
-    copy: "Prejdeme službu, zákazníka a kroky, ktoré dnes riešite ručne.",
+    copy: "Poviete mi, čo predávate a čo vás najviac zdržuje.",
   },
   {
     icon: Workflow,
@@ -520,7 +520,7 @@ function ValueSection() {
       <div className="container-page">
         <Heading
           eyebrow="Rozdiel v praxi"
-          copy="Chatbot odpovie okamžite, zozbiera správne vstupy a odovzdá vám dopyt pripravený na ďalší krok."
+          copy="Chatbot odpovie hneď, opýta sa na to podstatné a pošle vám hotový dopyt."
         >
           Menej zisťovania. <em>Viac pripravených dopytov.</em>
         </Heading>
@@ -738,15 +738,17 @@ function Capabilities() {
           ))}
         </div>
 
+        {/* Tlačidlo bolo predtým vnorené priamo vo vete, takže sa pri
+            zalomení prekrývalo s okolitým textom. Teraz stojí samostatne
+            pod ním a nemá sa s čím biť. */}
         <Reveal className="lp-caps-note" delay={0.08}>
           <CalendarClock aria-hidden="true" />
-          <p>
-            Nenašli ste svoju situáciu? Opíšte ju vlastnými slovami —{" "}
+          <div className="lp-caps-note__body">
+            <p>Nie je tu to, čo hľadáte? Napíšte to vlastnými slovami.</p>
             <button type="button" onClick={() => openSiteAssistant({ source: "capability-note" })}>
-              chatbot z nej pripraví zadanie
-            </button>{" "}
-            a ja sa ozvem s konkrétnym návrhom.
-          </p>
+              Povedať to chatbotovi <ArrowUpRight aria-hidden="true" />
+            </button>
+          </div>
         </Reveal>
       </div>
     </section>
