@@ -7,87 +7,6 @@
    (pružinový stagger, kreslená fajka).
    ============================================================ */
 
-.cw-widget {
-  color: var(--cw-ink);
-  background: transparent;
-  font-family:
-    "Inter Tight",
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-
-  /* text */
-  --cw-ink: #f4f8f8;
-  --cw-muted: #b3c3c7;
-  --cw-faint: #7f969c;
-  --cw-on-mint: #04140f; /* tmavý „ink" na mätovej výplni */
-
-  /* mineral povrchy */
-  --cw-bg: #061216;
-  --cw-bg-soft: #091a20;
-  --cw-surface: #0d2229;
-  --cw-surface-2: #0a1c22;
-  --cw-surface-raised: #122d35;
-
-  /* mätová rodina (primár) */
-  --cw-mint: #65e6c1;
-  --cw-mint-hi: #83f1d0;
-  --cw-mint-deep: #4bccaa;
-
-  /* akcenty */
-  --cw-accent: #72c7ff; /* modrá */
-  --cw-cyan: #72d3ea; /* sekundárna interakcia */
-  --cw-highlight: #8aa7ff;
-
-  /* linky */
-  --cw-line: rgba(222, 242, 245, 0.12);
-  --cw-line-strong: rgba(222, 242, 245, 0.22);
-
-  /* sklo + výplne */
-  --cw-glass: linear-gradient(155deg, rgba(243, 248, 250, 0.07), rgba(243, 248, 250, 0.02));
-  --cw-glass-hi: linear-gradient(155deg, rgba(243, 248, 250, 0.1), rgba(243, 248, 250, 0.03));
-  --cw-mint-fill: linear-gradient(140deg, #83f1d0 0%, #65e6c1 52%, #4bccaa 100%);
-  --cw-mint-gloss: radial-gradient(circle at 26% 12%, rgba(255, 255, 255, 0.46), transparent 44%);
-  /* fajka centrovaná v symetrickom viewBoxe — sadne do stredu bubliny na každej platforme */
-  --cw-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2304140f' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round' d='M5 12.6l4.4 4.4L19 7.1'/%3E%3C/svg%3E");
-
-  /* tiene + lesk */
-  --cw-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --cw-shadow: 0 8px 22px -18px rgba(0, 6, 10, 0.9);
-  --cw-shadow-lg: 0 30px 70px -26px rgba(0, 5, 9, 0.85), 0 12px 30px -18px rgba(0, 5, 9, 0.7);
-  --cw-glow: 0 16px 30px -20px color-mix(in oklab, #65e6c1 60%, transparent);
-
-  /* pohyb */
-  --cw-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --cw-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --cw-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  --cw-font: "Inter Tight", Inter, ui-sans-serif, system-ui, sans-serif;
-}
-
-.cw-widget *,
-.cw-widget *::before,
-.cw-widget *::after {
-  box-sizing: border-box;
-}
-
-.cw-widget button,
-.cw-widget input,
-.cw-widget textarea {
-  font: inherit;
-}
-
-.cw-widget button {
-  -webkit-tap-highlight-color: transparent;
-}
-
 /* ===== Ukážková stránka pod widgetom ===== */
 .widget-preview {
   position: relative;
@@ -107,11 +26,6 @@
     linear-gradient(90deg, rgba(222, 242, 245, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: linear-gradient(135deg, transparent 2%, #000 42%, transparent 96%);
-}
-
-.cw-widget {
-  position: relative;
-  z-index: 2147483000;
 }
 
 /* ============================================================
@@ -455,11 +369,7 @@
   animation: cw-live 2.4s ease-in-out infinite;
 }
 
-.cw-launcher:focus-visible,
-.cw-teaser button:focus-visible,
-.cw-panel button:focus-visible,
-.cw-panel input:focus-visible,
-.cw-panel textarea:focus-visible {
+.cw-launcher:focus-visible, .cw-teaser button:focus-visible, .cw-panel button:focus-visible, .cw-panel input:focus-visible, .cw-panel textarea:focus-visible {
   outline: 2.5px solid var(--cw-accent);
   outline-offset: 3px;
 }
@@ -996,8 +906,7 @@
     transform 0.38s var(--cw-ease);
 }
 
-.cw-chip:hover,
-.cw-chip:focus-visible {
+.cw-chip:hover, .cw-chip:focus-visible {
   padding-right: 33px;
   color: var(--cw-ink);
   border-color: color-mix(in oklab, var(--cw-mint) 46%, transparent);
@@ -1014,8 +923,7 @@
     var(--cw-glow);
 }
 
-.cw-chip:hover::after,
-.cw-chip:focus-visible::after {
+.cw-chip:hover::after, .cw-chip:focus-visible::after {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
   transition-delay: 0.05s;
@@ -1055,15 +963,13 @@
   color: var(--cw-on-mint);
 }
 
-.cw-chip--primary:hover,
-.cw-chip--primary:focus-visible {
+.cw-chip--primary:hover, .cw-chip--primary:focus-visible {
   color: var(--cw-on-mint);
   transform: translateY(-2px);
   box-shadow: 0 20px 34px -20px rgba(101, 230, 193, 0.9);
 }
 
-.cw-chip--primary:hover::before,
-.cw-chip--primary:focus-visible::before {
+.cw-chip--primary:hover::before, .cw-chip--primary:focus-visible::before {
   background:
     radial-gradient(circle at 32% 12%, rgba(255, 255, 255, 0.56), transparent 44%),
     linear-gradient(140deg, #93f6da 0%, #6fecca 52%, #52d6b3 100%);
@@ -1353,17 +1259,11 @@
 }
 
 /* výber „obkreslí" mätový border od stredu bokov (nahor aj nadol) */
-.cw-rowcard[data-selected="true"],
-.cw-scard[data-selected="true"],
-.cw-opt[data-selected="true"],
-.cw-vcard[data-selected="true"] {
+.cw-rowcard[data-selected="true"], .cw-scard[data-selected="true"], .cw-opt[data-selected="true"], .cw-vcard[data-selected="true"] {
   border-color: transparent;
 }
 
-.cw-rowcard[data-selected="true"]::before,
-.cw-scard[data-selected="true"]::before,
-.cw-opt[data-selected="true"]::before,
-.cw-vcard[data-selected="true"]::before {
+.cw-rowcard[data-selected="true"]::before, .cw-scard[data-selected="true"]::before, .cw-opt[data-selected="true"]::before, .cw-vcard[data-selected="true"]::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1404,8 +1304,7 @@
   transition: 0.28s;
 }
 
-.cw-rowcard:hover .cw-rowcard__icon,
-.cw-rowcard[data-selected="true"] .cw-rowcard__icon {
+.cw-rowcard:hover .cw-rowcard__icon, .cw-rowcard[data-selected="true"] .cw-rowcard__icon {
   border-color: transparent;
   background: var(--cw-mint-fill);
   color: var(--cw-on-mint);
@@ -1461,8 +1360,7 @@
   margin-top: 10px;
 }
 
-.cw-custom textarea,
-.cw-lead__form textarea {
+.cw-custom textarea, .cw-lead__form textarea {
   width: 100%;
   border: 1px solid var(--cw-line);
   border-radius: 12px;
@@ -1476,14 +1374,11 @@
   transition: 0.15s;
 }
 
-.cw-custom textarea::placeholder,
-.cw-lead__form textarea::placeholder,
-.cw-lead__form input::placeholder {
+.cw-custom textarea::placeholder, .cw-lead__form textarea::placeholder, .cw-lead__form input::placeholder {
   color: var(--cw-faint);
 }
 
-.cw-custom textarea:focus,
-.cw-lead__form textarea:focus {
+.cw-custom textarea:focus, .cw-lead__form textarea:focus {
   border-color: var(--cw-mint);
   background: var(--cw-surface-raised);
   box-shadow: 0 0 0 3px rgba(101, 230, 193, 0.13);
@@ -1558,8 +1453,7 @@
     color 0.25s;
 }
 
-.cw-scard:hover .cw-scard__icon,
-.cw-scard[data-selected="true"] .cw-scard__icon {
+.cw-scard:hover .cw-scard__icon, .cw-scard[data-selected="true"] .cw-scard__icon {
   border-color: transparent;
   background: var(--cw-mint-fill);
   color: var(--cw-on-mint);
@@ -1985,8 +1879,7 @@
 /* ============================================================
    Primárne tlačidlá — plná mätová výplň, tmavý ink, hover lift
    ============================================================ */
-.cw-submit,
-.cw-next {
+.cw-submit, .cw-next {
   position: relative;
   overflow: hidden;
   z-index: 0;
@@ -2011,10 +1904,7 @@
     box-shadow 0.28s ease;
 }
 
-.cw-submit:hover:not(:disabled),
-.cw-next:hover:not(:disabled),
-.cw-submit:focus-visible:not(:disabled),
-.cw-next:focus-visible:not(:disabled) {
+.cw-submit:hover:not(:disabled), .cw-next:hover:not(:disabled), .cw-submit:focus-visible:not(:disabled), .cw-next:focus-visible:not(:disabled) {
   transform: translateY(-2px);
   filter: brightness(1.05);
   box-shadow:
@@ -2022,13 +1912,11 @@
     0 22px 40px -20px rgba(101, 230, 193, 0.9);
 }
 
-.cw-submit:active:not(:disabled),
-.cw-next:active:not(:disabled) {
+.cw-submit:active:not(:disabled), .cw-next:active:not(:disabled) {
   transform: translateY(0) scale(0.99);
 }
 
-.cw-next:disabled,
-.cw-submit:disabled {
+.cw-next:disabled, .cw-submit:disabled {
   opacity: 0.42;
   cursor: default;
   box-shadow: none;

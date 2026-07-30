@@ -13,7 +13,6 @@ import "./MineralTheme.css";
 import "./MineralThemePolish.css";
 import "./WidgetMineral.css";
 import "./LiquidChipPolish.css";
-import "./ChatbotChipRestore.css";
 import "./UnifiedExperience.css";
 import "./NativeWidgetPreview.css";
 import "./MobileVerticalPolish.css";

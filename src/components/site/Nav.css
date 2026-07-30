@@ -14,22 +14,12 @@
   filter: drop-shadow(0 8px 18px rgba(0, 6, 7, 0.34));
 }
 
-.brand-symbol__shell,
-.brand-symbol__face,
-.brand-symbol__antenna,
-.brand-symbol__spark,
-.brand-symbol__eyes,
-.brand-symbol__accent {
+.brand-symbol__shell, .brand-symbol__face, .brand-symbol__antenna, .brand-symbol__spark, .brand-symbol__eyes, .brand-symbol__accent {
   transform-box: fill-box;
   transform-origin: center;
 }
 
-.brand-symbol__shell,
-.brand-symbol__face,
-.brand-symbol__antenna,
-.brand-symbol__eyes,
-.brand-symbol__spark,
-.brand-symbol__accent {
+.brand-symbol__shell, .brand-symbol__face, .brand-symbol__antenna, .brand-symbol__eyes, .brand-symbol__spark, .brand-symbol__accent {
   transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -63,8 +53,7 @@
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.site-nav-link:hover::after,
-.site-nav-link[data-status="active"]::after {
+.site-nav-link:hover::after, .site-nav-link[data-status="active"]::after {
   transform: scaleX(1);
   transform-origin: left center;
 }
@@ -76,44 +65,36 @@
   --brand-symbol-accent: #7fa58f;
 }
 
-.site-header-bar > a:focus-visible .brand-symbol__shell,
-.site-menu-brand:focus-visible .brand-symbol__shell {
+.site-header-bar > a:focus-visible .brand-symbol__shell, .site-menu-brand:focus-visible .brand-symbol__shell {
   transform: rotate(-2deg) scale(1.025);
 }
 
-.site-header-bar > a:focus-visible .brand-symbol__face,
-.site-menu-brand:focus-visible .brand-symbol__face {
+.site-header-bar > a:focus-visible .brand-symbol__face, .site-menu-brand:focus-visible .brand-symbol__face {
   transform: scale(1.035);
 }
 
-.site-header-bar > a:focus-visible .brand-symbol__antenna,
-.site-menu-brand:focus-visible .brand-symbol__antenna {
+.site-header-bar > a:focus-visible .brand-symbol__antenna, .site-menu-brand:focus-visible .brand-symbol__antenna {
   transform: rotate(7deg);
 }
 
-.site-header-bar > a:focus-visible .brand-symbol__spark,
-.site-menu-brand:focus-visible .brand-symbol__spark {
+.site-header-bar > a:focus-visible .brand-symbol__spark, .site-menu-brand:focus-visible .brand-symbol__spark {
   transform: translateY(-0.5px) scale(1.18);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .site-header-bar > a:hover .brand-symbol__shell,
-  .site-menu-brand:hover .brand-symbol__shell {
+  .site-header-bar > a:hover .brand-symbol__shell, .site-menu-brand:hover .brand-symbol__shell {
     transform: rotate(-2deg) scale(1.025);
   }
 
-  .site-header-bar > a:hover .brand-symbol__face,
-  .site-menu-brand:hover .brand-symbol__face {
+  .site-header-bar > a:hover .brand-symbol__face, .site-menu-brand:hover .brand-symbol__face {
     transform: scale(1.035);
   }
 
-  .site-header-bar > a:hover .brand-symbol__antenna,
-  .site-menu-brand:hover .brand-symbol__antenna {
+  .site-header-bar > a:hover .brand-symbol__antenna, .site-menu-brand:hover .brand-symbol__antenna {
     transform: rotate(7deg);
   }
 
-  .site-header-bar > a:hover .brand-symbol__spark,
-  .site-menu-brand:hover .brand-symbol__spark {
+  .site-header-bar > a:hover .brand-symbol__spark, .site-menu-brand:hover .brand-symbol__spark {
     transform: translateY(-0.5px) scale(1.18);
   }
 }
@@ -202,9 +183,7 @@
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.site-menu-head,
-.site-menu-content,
-.site-menu-footer {
+.site-menu-head, .site-menu-content, .site-menu-footer {
   position: relative;
   z-index: 1;
 }
@@ -283,8 +262,7 @@
   margin-bottom: 1rem;
 }
 
-.site-menu-routes a,
-.site-menu-email {
+.site-menu-routes a, .site-menu-email {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -295,8 +273,7 @@
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.site-menu-routes a:hover,
-.site-menu-email:hover {
+.site-menu-routes a:hover, .site-menu-email:hover {
   color: var(--primary-hover);
   transform: translateX(3px);
 }
@@ -342,14 +319,7 @@
   margin-top: 0.9rem;
 }
 
-body[data-site-menu-open="true"] .cw-widget {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-body[data-site-menu-open="true"] #site-assistant-widget-host,
-body[data-site-menu-open="true"] #dv-assistant-root {
+body[data-site-menu-open="true"] #site-assistant-widget-host, body[data-site-menu-open="true"] #dv-assistant-root {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
@@ -377,33 +347,11 @@ body[data-site-menu-open="true"] #dv-assistant-root {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-menu-drawer,
-  .site-menu-backdrop,
-  .brand-symbol__shell,
-  .brand-symbol__face,
-  .brand-symbol__antenna,
-  .brand-symbol__eyes,
-  .brand-symbol__spark,
-  .brand-symbol__smile {
+  .site-menu-drawer, .site-menu-backdrop, .brand-symbol__shell, .brand-symbol__face, .brand-symbol__antenna, .brand-symbol__eyes, .brand-symbol__spark, .brand-symbol__smile {
     transition-duration: 0.01ms;
   }
 
-  .site-header-bar > a:focus-visible .brand-symbol__shell,
-  .site-menu-brand:focus-visible .brand-symbol__shell,
-  .site-header-bar > a:focus-visible .brand-symbol__face,
-  .site-menu-brand:focus-visible .brand-symbol__face,
-  .site-header-bar > a:focus-visible .brand-symbol__antenna,
-  .site-menu-brand:focus-visible .brand-symbol__antenna,
-  .site-header-bar > a:focus-visible .brand-symbol__spark,
-  .site-menu-brand:focus-visible .brand-symbol__spark,
-  .site-header-bar > a:hover .brand-symbol__shell,
-  .site-menu-brand:hover .brand-symbol__shell,
-  .site-header-bar > a:hover .brand-symbol__face,
-  .site-menu-brand:hover .brand-symbol__face,
-  .site-header-bar > a:hover .brand-symbol__antenna,
-  .site-menu-brand:hover .brand-symbol__antenna,
-  .site-header-bar > a:hover .brand-symbol__spark,
-  .site-menu-brand:hover .brand-symbol__spark {
+  .site-header-bar > a:focus-visible .brand-symbol__shell, .site-menu-brand:focus-visible .brand-symbol__shell, .site-header-bar > a:focus-visible .brand-symbol__face, .site-menu-brand:focus-visible .brand-symbol__face, .site-header-bar > a:focus-visible .brand-symbol__antenna, .site-menu-brand:focus-visible .brand-symbol__antenna, .site-header-bar > a:focus-visible .brand-symbol__spark, .site-menu-brand:focus-visible .brand-symbol__spark, .site-header-bar > a:hover .brand-symbol__shell, .site-menu-brand:hover .brand-symbol__shell, .site-header-bar > a:hover .brand-symbol__face, .site-menu-brand:hover .brand-symbol__face, .site-header-bar > a:hover .brand-symbol__antenna, .site-menu-brand:hover .brand-symbol__antenna, .site-header-bar > a:hover .brand-symbol__spark, .site-menu-brand:hover .brand-symbol__spark {
     transform: none;
   }
 }

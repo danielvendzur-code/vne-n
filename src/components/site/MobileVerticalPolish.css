@@ -113,51 +113,8 @@
 }
 
 /* Chat replies wrap instead of creating a sideways rail. */
-.cw-widget .cw-quick-replies {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  overflow: visible !important;
-  scroll-snap-type: none !important;
-  touch-action: auto !important;
-  cursor: default !important;
-}
-
-.cw-widget .cw-quick-replies .cw-chip,
-.cw-widget .cw-quick-replies .cw-chip--primary {
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  scroll-snap-align: none !important;
-}
 
 /* Calculator options are deliberately vertical, never a horizontal slider. */
-.cw-widget .cw-rows {
-  display: grid !important;
-  grid-auto-flow: row !important;
-  grid-auto-columns: auto !important;
-  grid-template-columns: minmax(0, 1fr) !important;
-  gap: 9px !important;
-  overflow: visible !important;
-  margin-inline: 0 !important;
-  padding: 4px 0 12px !important;
-  scroll-snap-type: none !important;
-  scroll-padding-inline: 0 !important;
-  touch-action: auto !important;
-  cursor: default !important;
-}
-
-.cw-widget .cw-rowcard {
-  width: 100% !important;
-  min-width: 0 !important;
-  min-height: 84px !important;
-  scroll-snap-align: none !important;
-}
-
-.cw-widget .cw-grid,
-.cw-widget .cw-list {
-  overflow-x: visible !important;
-  touch-action: auto !important;
-}
 
 @media (hover: hover) and (pointer: fine) {
   :root .lp-page .lp-chip:hover:not([data-active="true"]) {
@@ -173,15 +130,6 @@
     opacity: 1;
     transform: translateX(120%);
   }
-
-  .cw-widget .cw-quick-replies .cw-chip:hover,
-  .cw-widget .cw-rowcard:hover:not([data-selected="true"]) {
-    border-color: rgba(126, 221, 241, 0.52) !important;
-    box-shadow:
-      inset 0 1px rgba(255, 255, 255, 0.14),
-      0 20px 34px -25px rgba(50, 145, 177, 0.72) !important;
-    transform: translateY(-3px) scale(1.01) !important;
-  }
 }
 
 @media (max-width: 700px) {
@@ -191,13 +139,11 @@
      Meranie ukázalo, že na žiadnej trase nič vodorovne nepresahuje,
      takže to obmedzenie nie je potrebné — vodorovný presah drží
      overflow-x: clip na <main>, ktoré scroll kontajner nevytvára. */
-  html,
-  body {
+  html, body {
     max-width: 100%;
   }
 
-  :root .lp-page .lp-assistant-chips,
-  :root .lp-page .lp-switch {
+  :root .lp-page .lp-assistant-chips, :root .lp-page .lp-switch {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.42rem !important;
@@ -208,8 +154,7 @@
     cursor: default !important;
   }
 
-  :root .lp-page .lp-assistant-chips button,
-  :root .lp-page .lp-switch button {
+  :root .lp-page .lp-assistant-chips button, :root .lp-page .lp-switch button {
     width: 100%;
     min-width: 0;
     min-height: 3rem;
@@ -218,8 +163,7 @@
     white-space: normal;
   }
 
-  :root .lp-page .lp-chip-liquid,
-  :root .lp-page .lp-switch-liquid {
+  :root .lp-page .lp-chip-liquid, :root .lp-page .lp-switch-liquid {
     inset: 0.4rem !important;
     width: auto !important;
     height: calc((100% - 1.6rem) / 3) !important;
@@ -250,46 +194,6 @@
 
   :root .lp-page .lp-chip-icon {
     margin-left: auto;
-  }
-
-  .cw-widget .cw-quick-replies {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 7px !important;
-    padding: 8px 12px 12px !important;
-  }
-
-  .cw-widget .cw-quick-replies .cw-chip,
-  .cw-widget .cw-quick-replies .cw-chip--primary,
-  .cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary) {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    justify-content: flex-start !important;
-    white-space: normal !important;
-    text-align: left !important;
-  }
-
-  .cw-widget .cw-quick-replies .cw-chip:not(.cw-chip--primary)::after {
-    margin-left: auto !important;
-  }
-
-  .cw-widget .cw-calc-body {
-    padding-inline: 12px !important;
-  }
-
-  .cw-widget .cw-rowcard {
-    min-height: 80px !important;
-    grid-template-columns: 42px minmax(0, 1fr) 30px !important;
-    gap: 10px !important;
-    border-radius: 21px !important;
-    padding: 11px 12px !important;
-  }
-
-  .cw-widget .cw-rowcard__icon {
-    width: 42px !important;
-    height: 42px !important;
-    border-radius: 15px !important;
   }
 
   .cookie-banner {
@@ -334,15 +238,10 @@
   :root .lp-page .lp-chip {
     font-size: 0.74rem;
   }
-
-  .cw-widget .cw-rowcard__body span {
-    max-width: 19ch !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .glide-field--hero .glide-field__canvas,
-  .glide-field--ambient .glide-field__canvas {
+  .glide-field--hero .glide-field__canvas, .glide-field--ambient .glide-field__canvas {
     animation: none !important;
     transform: none !important;
     filter: none !important;
