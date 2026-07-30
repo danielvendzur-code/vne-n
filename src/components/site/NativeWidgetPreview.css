@@ -1,9 +1,1 @@
 /* The launcher stays visible, while automatic preview copy never covers page content. */
-html body .cw-widget .cw-teaser {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  animation: none !important;
-  transition: none !important;
-}

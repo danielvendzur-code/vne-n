@@ -106,9 +106,7 @@
     box-shadow 460ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-:root .chip::before,
-:root .chip[data-tone="gold"]::before,
-:root .chip[data-tone="coral"]::before {
+:root .chip::before, :root .chip[data-tone="gold"]::before, :root .chip[data-tone="coral"]::before {
   width: 0.42rem;
   height: 0.42rem;
   flex: 0 0 auto;
@@ -134,16 +132,13 @@
     opacity 260ms ease;
 }
 
-:root .chip svg,
-:root .chip[data-tone="gold"] svg,
-:root .chip[data-tone="coral"] svg {
+:root .chip svg, :root .chip[data-tone="gold"] svg, :root .chip[data-tone="coral"] svg {
   color: #8fdcf0;
   transition: transform 440ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Hero and comparison selectors become rounded liquid segmented controls. */
-:root .lp-page .lp-assistant-chips,
-:root .lp-page .lp-switch {
+:root .lp-page .lp-assistant-chips, :root .lp-page .lp-switch {
   gap: 0.4rem;
   border: 1px solid rgba(222, 241, 246, 0.16);
   border-radius: 1.4rem;
@@ -164,8 +159,7 @@
     0 20px 42px -34px rgba(0, 4, 8, 0.92);
 }
 
-:root .lp-page .lp-assistant-chips button,
-:root .lp-page .lp-switch button {
+:root .lp-page .lp-assistant-chips button, :root .lp-page .lp-switch button {
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -200,14 +194,12 @@
   text-align: center;
 }
 
-:root .lp-page .lp-assistant-chips button::after,
-:root .lp-page .lp-switch button::after {
+:root .lp-page .lp-assistant-chips button::after, :root .lp-page .lp-switch button::after {
   display: none;
   content: none;
 }
 
-:root .lp-page .lp-assistant-chips button[data-active="true"],
-:root .lp-page .lp-switch button[data-active="true"] {
+:root .lp-page .lp-assistant-chips button[data-active="true"], :root .lp-page .lp-switch button[data-active="true"] {
   border-color: rgba(210, 237, 243, 0.52);
   color: #05151c;
   box-shadow:
@@ -215,8 +207,7 @@
     0 16px 30px -22px rgba(73, 157, 187, 0.8);
 }
 
-:root .lp-page .lp-chip-liquid,
-:root .lp-page .lp-switch-liquid {
+:root .lp-page .lp-chip-liquid, :root .lp-page .lp-switch-liquid {
   border-radius: inherit;
   border-color: rgba(210, 237, 243, 0.55);
   background:
@@ -316,10 +307,7 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-:root .lp-page .lp-chip-fill,
-:root .lp-page .lp-chip[data-tone="mint"] .lp-chip-fill,
-:root .lp-page .lp-chip[data-tone="coral"] .lp-chip-fill,
-:root .lp-page .lp-chip[data-tone="ink"] .lp-chip-fill {
+:root .lp-page .lp-chip-fill, :root .lp-page .lp-chip[data-tone="mint"] .lp-chip-fill, :root .lp-page .lp-chip[data-tone="coral"] .lp-chip-fill, :root .lp-page .lp-chip[data-tone="ink"] .lp-chip-fill {
   border-radius: inherit;
   background:
     radial-gradient(circle at 28% 16%, rgba(255, 255, 255, 0.48), transparent 43%),
@@ -353,177 +341,9 @@
 }
 
 /* Restore the chatbot's softer pill chips while keeping the mineral palette. */
-.cw-widget {
-  --cw-bg: #061216 !important;
-  --cw-bg-soft: #091a20 !important;
-  --cw-surface-muted: #0a1c22 !important;
-  --cw-surface: #0d2229 !important;
-  --cw-surface-raised: #122d35 !important;
-  --cw-ink: #f4f8f8 !important;
-  --cw-muted: #b3c3c7 !important;
-  --cw-faint: #7f969c !important;
-  --cw-brass: #65e6c1 !important;
-  --cw-brass-hover: #83f1d0 !important;
-  --cw-sage: #65e6c1 !important;
-  --cw-sage-hover: #83f1d0 !important;
-  --cw-copper: #72c7ff !important;
-  --cw-copper-hover: #91d4ff !important;
-  --cw-on-copper: #04140f !important;
-}
-
-.cw-widget .cw-quick-replies {
-  counter-reset: none !important;
-  gap: 7px !important;
-}
-
-.cw-widget .cw-chip {
-  counter-increment: none !important;
-  position: relative !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
-  min-height: 36px !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  border: 1px solid rgba(222, 242, 245, 0.14) !important;
-  border-radius: 999px !important;
-  padding: 9px 15px !important;
-  color: #c9d7dc !important;
-  background: linear-gradient(
-    155deg,
-    rgba(243, 248, 250, 0.07),
-    rgba(243, 248, 250, 0.02)
-  ) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 8px 22px -18px rgba(0, 6, 10, 0.9) !important;
-  font-weight: 640 !important;
-  letter-spacing: -0.006em !important;
-  transition:
-    transform 440ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 300ms ease,
-    color 260ms ease,
-    background 400ms ease,
-    box-shadow 440ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.cw-widget .cw-chip:not(.cw-chip--primary)::before {
-  display: none !important;
-  content: none !important;
-}
-
-.cw-widget .cw-chip:hover,
-.cw-widget .cw-chip:focus-visible {
-  border-color: color-mix(in oklab, #65e6c1 46%, transparent) !important;
-  color: #f4f8f8 !important;
-  background:
-    radial-gradient(
-      circle at 28% 0%,
-      color-mix(in oklab, #65e6c1 16%, transparent),
-      transparent 46%
-    ),
-    linear-gradient(155deg, rgba(243, 248, 250, 0.1), rgba(243, 248, 250, 0.03)) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 16px 30px -20px color-mix(in oklab, #65e6c1 60%, transparent) !important;
-  transform: translateY(-2px) !important;
-}
-
-.cw-widget .cw-chip--primary {
-  border-color: transparent !important;
-  border-radius: 999px !important;
-  color: #04140f !important;
-  background:
-    radial-gradient(circle at 26% 12%, rgba(255, 255, 255, 0.46), transparent 44%),
-    linear-gradient(140deg, #83f1d0 0%, #65e6c1 52%, #4bccaa 100%) !important;
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.42),
-    inset 0 -1px rgba(15, 96, 124, 0.12),
-    0 16px 30px -22px rgba(101, 230, 193, 0.82) !important;
-}
-
-.cw-widget .cw-chip--primary:hover,
-.cw-widget .cw-chip--primary:focus-visible {
-  border-color: rgba(255, 255, 255, 0.6) !important;
-  color: #04140f !important;
-  background:
-    radial-gradient(circle at 32% 12%, rgba(255, 255, 255, 0.56), transparent 43%),
-    linear-gradient(140deg, #93f6da 0%, #6fecca 52%, #52d6b3 100%) !important;
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.5),
-    0 20px 34px -22px rgba(101, 230, 193, 0.9) !important;
-  transform: translateY(-2px) !important;
-}
-
-.cw-widget .cw-tabs {
-  gap: 0 !important;
-  border-radius: 17px !important;
-  padding: 5px !important;
-  background: rgba(2, 14, 18, 0.66) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.045),
-    0 16px 34px -30px rgba(0, 4, 8, 0.9) !important;
-}
-
-.cw-widget .cw-tabs__glass,
-.cw-widget .cw-tabs button {
-  border-radius: 12px !important;
-}
-
-.cw-widget .cw-tabs__glass {
-  top: 5px !important;
-  bottom: 5px !important;
-  border-color: rgba(255, 255, 255, 0.28) !important;
-  background:
-    radial-gradient(circle at 26% 12%, rgba(255, 255, 255, 0.46), transparent 44%),
-    linear-gradient(140deg, #83f1d0 0%, #65e6c1 52%, #4bccaa 100%) !important;
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.42),
-    0 12px 26px -18px rgba(101, 230, 193, 0.6) !important;
-}
-
-.cw-widget .cw-rowcard,
-.cw-widget .cw-opt,
-.cw-widget .cw-scard,
-.cw-widget .cw-vcard,
-.cw-widget .cw-glide,
-.cw-widget .cw-rows,
-.cw-widget .cw-list,
-.cw-widget .cw-grid,
-.cw-widget .cw-lead {
-  border-radius: 16px !important;
-}
-
-.cw-widget .cw-rowcard:hover:not([data-selected="true"]),
-.cw-widget .cw-opt:hover:not([data-selected="true"]),
-.cw-widget .cw-scard:hover:not([data-selected="true"]),
-.cw-widget .cw-grid--volume .cw-vcard:hover:not([data-selected="true"]) {
-  border-color: color-mix(in oklab, #65e6c1 40%, transparent) !important;
-  background:
-    radial-gradient(circle at 16% 0%, rgba(101, 230, 193, 0.08), transparent 46%),
-    rgba(101, 230, 193, 0.05) !important;
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.075),
-    0 16px 30px -20px color-mix(in oklab, #65e6c1 55%, transparent) !important;
-  transform: translateY(-2px) !important;
-}
-
-.cw-widget .cw-rowcard[data-selected="true"],
-.cw-widget .cw-opt[data-selected="true"],
-.cw-widget .cw-scard[data-selected="true"],
-.cw-widget .cw-vcard[data-selected="true"] {
-  border-color: rgba(101, 230, 193, 0.62) !important;
-  background:
-    radial-gradient(circle at 18% 0%, rgba(101, 230, 193, 0.12), transparent 46%), #122d35 !important;
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.1),
-    0 18px 34px -26px color-mix(in oklab, #65e6c1 55%, transparent) !important;
-}
 
 @media (hover: hover) and (pointer: fine) {
-  :root a.chip:hover,
-  :root button.chip:hover {
+  :root a.chip:hover, :root button.chip:hover {
     border-color: rgba(114, 211, 234, 0.5);
     color: #f3f8fa;
     background:
@@ -536,19 +356,16 @@
     transform: translateY(-3px) scale(1.018);
   }
 
-  :root a.chip:hover::after,
-  :root button.chip:hover::after {
+  :root a.chip:hover::after, :root button.chip:hover::after {
     opacity: 1;
     translate: 360% 0;
   }
 
-  :root a.chip:hover svg,
-  :root button.chip:hover svg {
+  :root a.chip:hover svg, :root button.chip:hover svg {
     transform: translateY(-1px) scale(1.08);
   }
 
-  :root .lp-page .lp-assistant-chips button:hover:not([data-active="true"]),
-  :root .lp-page .lp-switch button:hover:not([data-active="true"]) {
+  :root .lp-page .lp-assistant-chips button:hover:not([data-active="true"]), :root .lp-page .lp-switch button:hover:not([data-active="true"]) {
     border-color: rgba(114, 211, 234, 0.25);
     color: #e0edf1;
     background:
@@ -593,14 +410,12 @@
 }
 
 @media (max-width: 560px) {
-  :root .lp-page .lp-assistant-chips,
-  :root .lp-page .lp-switch {
+  :root .lp-page .lp-assistant-chips, :root .lp-page .lp-switch {
     border-radius: 1.25rem;
     padding: 0.36rem;
   }
 
-  :root .lp-page .lp-assistant-chips button,
-  :root .lp-page .lp-switch button {
+  :root .lp-page .lp-assistant-chips button, :root .lp-page .lp-switch button {
     border-radius: 0.95rem;
   }
 
@@ -609,25 +424,10 @@
     border-radius: 1.15rem;
     white-space: normal;
   }
-
-  .cw-widget .cw-chip:not(.cw-chip--primary) {
-    flex: 1 1 calc(50% - 4px) !important;
-    min-width: 0 !important;
-    border-radius: 999px !important;
-    white-space: normal !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root .chip,
-  :root .lp-page .lp-assistant-chips button,
-  :root .lp-page .lp-switch button,
-  :root .lp-page .lp-chip,
-  .cw-widget .cw-chip,
-  .cw-widget .cw-rowcard,
-  .cw-widget .cw-opt,
-  .cw-widget .cw-scard,
-  .cw-widget .cw-vcard {
+  :root .chip, :root .lp-page .lp-assistant-chips button, :root .lp-page .lp-switch button, :root .lp-page .lp-chip {
     transition: none !important;
   }
 }
