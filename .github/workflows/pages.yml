@@ -91,8 +91,9 @@ jobs:
           test -f pages-dist/widget-loader.js
           test -f pages-dist/build-meta.json
           grep -Fq "Chatboty, ktoré" pages-dist/index.html
-          grep -Fq "od 350 €" pages-dist/index.html
-          grep -Fq "Čo potrebujem od klienta" pages-dist/index.html
+          test -f pages-dist/cennik/index.html
+          grep -Fq "od 350 €" pages-dist/cennik/index.html
+          grep -Fq "Čo potrebujem od klienta" pages-dist/cennik/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
@@ -156,7 +157,8 @@ jobs:
             return 1
           }
 
-          fetch_with_retry "/" "od 350 €"
+          fetch_with_retry "/" "Chatboty, ktoré"
+          fetch_with_retry "/cennik" "od 350 €"
           fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
           fetch_with_retry "/sluzby" ""
           fetch_with_retry "/sluzby/" ""

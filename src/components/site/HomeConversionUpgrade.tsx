@@ -140,29 +140,6 @@ export function HomeConversionUpgrade() {
   return (
     <section className="winner-upgrade" id="cena" aria-labelledby="winner-upgrade-title">
       <div className="container-page winner-upgrade__inner">
-        <header className="winner-upgrade__head">
-          <p className="winner-upgrade__eyebrow">Cena a príprava projektu</p>
-          <h2 id="winner-upgrade-title">
-            Začíname od <em>350 €.</em> Rozsah poznáte ešte pred vývojom.
-          </h2>
-          <p>
-            Jednoduchý chatbot viem nasadiť rýchlo. Ak má aj počítať cenu alebo skladať produkt,
-            závisí to od toho, koľko otázok a pravidiel bude mať. Cenu poviem vopred.
-          </p>
-        </header>
-
-        <dl className="winner-numbers" aria-label="Čísla o spolupráci">
-          {proofNumbers.map(({ value, prefix, suffix, label }) => (
-            <div className="winner-number" key={label}>
-              <dt className="sr-only">{label}</dt>
-              <dd>
-                <CountUp to={value} prefix={prefix} suffix={suffix} />
-                <span className="winner-number__label">{label}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
-
         <div className="winner-trust" aria-label="Dôvody spolupráce">
           {trustPoints.map(({ icon: Icon, title, copy }) => (
             <article className="winner-trust__item spotlight-surface" key={title}>
