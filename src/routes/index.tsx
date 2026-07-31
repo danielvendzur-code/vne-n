@@ -31,17 +31,14 @@ const serviceJsonLd = JSON.stringify({
     "produktové konfigurátory",
     "konverzia webu",
   ],
-  // Katalóg s cenou od 350 € — vďaka nemu vie Google ukázať rozsah
-  // ceny priamo vo výsledku, nielen holý popis.
+  // Katalóg služieb bez konkrétnej sumy — cena sa dohaduje podľa rozsahu,
+  // takže ju vo výsledku vyhľadávania zámerne neuvádzame.
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Chatboty a konverzné nástroje na mieru",
     itemListElement: [
       {
         "@type": "Offer",
-        priceCurrency: "EUR",
-        price: "350",
-        priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
         itemOffered: {
           "@type": "Service",

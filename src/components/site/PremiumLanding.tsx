@@ -58,11 +58,11 @@ const heroLine: Variants = {
 };
 
 const sequenceItem: Variants = {
-  hidden: { y: 24, opacity: 0 },
+  hidden: { y: 34, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: { duration: 0.72, ease: premiumEase },
+    transition: { duration: 0.78, ease: premiumEase },
   },
 };
 
@@ -301,7 +301,7 @@ function Reveal({
   className = "",
   direction = "up",
   delay = 0,
-  distance = 38,
+  distance = 52,
   amount = 0.18,
   ...rest
 }: {
@@ -319,13 +319,13 @@ function Reveal({
   // Na mobile sa všetko odhaľuje nahor. Bočný posun v 390 px stĺpci
   // vyzeral trhane a časť prvkov prišla mimo obrazovky.
   const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
-  const y = narrow ? 22 : direction === "up" ? Math.min(distance, 28) : 0;
+  const y = narrow ? 26 : direction === "up" ? Math.min(distance, 42) : 0;
 
   return (
     <motion.div
       className={className}
-      initial={reducedMotion ? false : { opacity: 0, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      initial={reducedMotion ? false : { opacity: 0, x, y, scale: narrow ? 1 : 0.985 }}
+      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       // Na úzkej obrazovke sú karty vysoké, takže 18 % prvku znamenalo
       // veľa scrollovania, kým sa vôbec začali odhaľovať.
       viewport={{
@@ -334,7 +334,7 @@ function Reveal({
         margin: narrow ? "0px 0px -8% 0px" : undefined,
       }}
       transition={{
-        duration: narrow ? 0.52 : 0.72,
+        duration: narrow ? 0.58 : 0.82,
         delay: narrow ? Math.min(delay, 0.08) : delay,
         ease: premiumEase,
       }}
@@ -356,32 +356,58 @@ function Heading({
 }) {
   const reducedMotion = useReducedMotion();
 
+  // Hlavička sa odhaľuje po častiach cez samostatné prvky s vlastným
+  // `initial`, nie cez názvy variantov na spoločnom rodičovi.
+  // Rodičovský motion.div v Layout.tsx má `initial={false}`, čo sa
+  // po strome dedí a variantom naviazaným na whileInView zhaslo
+  // počiatočné skryté nastavenie — nadpis potom naskočil rovno
+  // viditeľný a z celej animácie ostalo nič. Konkrétne hodnoty
+  // (nie názvy variantov) sa dedením nedajú prebiť, tak držia vždy.
+  const krok = (delay: number) =>
+    reducedMotion
+      ? ({ initial: false } as const)
+      : ({
+          initial: { opacity: 0, y: 28, x: -26 },
+          whileInView: { opacity: 1, y: 0, x: 0 },
+          viewport: { once: true, amount: 0.3 },
+          transition: { duration: 0.76, delay, ease: premiumEase },
+        } as const);
+
   return (
-    <motion.div
-      className="lp-heading"
-      initial={reducedMotion ? false : "hidden"}
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.34 }}
-      variants={{
-        hidden: { opacity: 0, x: -34 },
-        visible: {
-          opacity: 1,
-          x: 0,
-          transition: { duration: 0.7, ease: premiumEase, staggerChildren: 0.09 },
-        },
-      }}
-    >
-      <motion.p className="lp-eyebrow" variants={sequenceItem}>
+    <div className="lp-heading">
+      <motion.p className="lp-eyebrow" {...krok(0)}>
         <i />
         {eyebrow}
       </motion.p>
-      <motion.h2 variants={sequenceItem}>{children}</motion.h2>
+      {/*
+        Nadpis sa dvíha viac a dlhšie než okolie, takže je zreteľne
+        hlavným prvkom sekcie.
+
+        Zámerne bez clip-path: Chrome si `inset(0% 0% 100% 0%)`
+        znormalizuje na tri hodnoty, kým cieľ má štyri. Motion
+        interpoluje čísla vo vnútri reťazca a pri rozdielnom počte
+        animáciu ticho preskočí — nadpis potom navždy ostane skrytý
+        pod maskou. Posun a priehľadnosť sú spoľahlivé a bežia
+        na kompozitore.
+      */}
+      <motion.h2
+        {...(reducedMotion
+          ? ({ initial: false } as const)
+          : ({
+              initial: { opacity: 0, y: 46 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, amount: 0.3 },
+              transition: { duration: 0.9, delay: 0.12, ease: premiumEase },
+            } as const))}
+      >
+        {children}
+      </motion.h2>
       {copy ? (
-        <motion.p className="lp-heading-copy" variants={sequenceItem}>
+        <motion.p className="lp-heading-copy" {...krok(0.26)}>
           {copy}
         </motion.p>
       ) : null}
-    </motion.div>
+    </div>
   );
 }
 

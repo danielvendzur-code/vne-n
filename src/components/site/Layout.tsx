@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { AnimatePresence, motion, MotionConfig } from "motion/react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { MotionConfig } from "motion/react";
 import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -37,11 +36,8 @@ import "./FinalUserCorrection.css";
 import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 
-const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const reducedMotion = useReducedMotion();
 
   return (
     <MotionConfig reducedMotion="user">
@@ -53,18 +49,25 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </a>
         <Nav />
         <main id="main-content" className="relative flex-1 overflow-x-clip">
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.div
-              key={pathname}
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -8 }}
-              transition={reducedMotion ? { duration: 0 } : { duration: 0.25, ease: pageEase }}
-              style={{ width: "100%", opacity: 1 }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          {/*
+            Prechod medzi stránkami rieši CSS animácia na kľúčovanom divi.
+
+            Predtým tu bol obal AnimatePresence v režime popLayout a v ňom
+            motion.div s `initial={false}`. Lenže `initial={false}` sa
+            v motion dedí po celom strome pod sebou a potomkom vypne
+            počiatočný stav. Kvôli tomu na celom webe ticho nefungovalo
+            ani jedno odhaľovanie pri scrollovaní (whileInView) — nadpisy
+            aj karty naskočili rovno viditeľné. Za 0,25 s prelnutie medzi
+            stránkami to bola privysoká cena, tak je prechod v CSS.
+
+            Animuje sa výhradne priehľadnosť. `transform` by z obalu
+            urobil containing block pre position: fixed, čo by na tých
+            pár stoviek milisekúnd rozhádzalo zrno na pozadí aj bublinu
+            chatbota.
+          */}
+          <div key={pathname} className="page-transition" style={{ width: "100%" }}>
+            {children}
+          </div>
         </main>
         <Footer />
       </div>

@@ -6,7 +6,7 @@ export interface FaqEntry {
 export const faqs: FaqEntry[] = [
   {
     q: "Koľko stojí chatbot alebo kalkulačka na mieru?",
-    a: "Jednoduchý chatbot na mieru začína od 350 €. Kalkulačka alebo konfigurátor sa nacení podľa počtu pravidiel, krokov a prepojení. Po krátkom zadaní dostanete konkrétny rozsah prvej verzie aj cenu vopred — bez skrytých položiek.",
+    a: "Cena závisí od toho, koľko otázok, pravidiel a prepojení nástroj potrebuje. Napíšte mi pár viet o tom, čo predávate, a do jedného pracovného dňa dostanete konkrétny rozsah prvej verzie aj cenu vopred — bez skrytých položiek.",
   },
   {
     q: "Čo odo mňa potrebujete na začiatku?",

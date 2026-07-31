@@ -137,7 +137,7 @@ const structuredData = JSON.stringify({
       email: "mailto:daniel@vendzur.sk",
       telephone: "+421948699433",
       description:
-        "Chatboty, kalkulačky a konfigurátory na mieru pre firmy. Jednoduchý chatbot začína od 350 €.",
+        "Chatboty, kalkulačky a konfigurátory na mieru pre firmy, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
       founder: { "@id": "https://danielvendzur-code.github.io/vne-n/#daniel" },
       areaServed: "Slovakia",
       priceRange: "€€",
@@ -194,11 +194,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { httpEquiv: "Content-Security-Policy", content: contentSecurityPolicy },
       { name: "referrer", content: "strict-origin-when-cross-origin" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
-      { title: "Môj Chatbot — chatboty na mieru od 350 €" },
+      { title: "Môj Chatbot — chatboty a kalkulačky na mieru" },
       {
         name: "description",
         content:
-          "Chatboty, kalkulačky a konfigurátory na mieru od 350 €, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
+          "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
       },
       { name: "author", content: "Daniel Vendžúr" },
       { name: "theme-color", content: "#05070b" },
@@ -208,7 +208,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "AI chatboty, kalkulačky a konfigurátory na mieru. Jednoduché riešenie začína od 350 €.",
+          "AI chatboty, kalkulačky a konfigurátory na mieru, ktoré pripravia použiteľný dopyt.",
       },
       { property: "og:type", content: "website" },
       {
@@ -218,7 +218,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Môj Chatbot — chatboty na mieru od 350 €" },
+      { name: "twitter:title", content: "Môj Chatbot — chatboty a kalkulačky na mieru" },
       {
         name: "twitter:description",
         content: "Chatboty, kalkulačky a konfigurátory, ktoré pripravia použiteľný dopyt.",

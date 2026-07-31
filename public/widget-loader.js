@@ -34,7 +34,7 @@
     anchor.setAttribute("aria-label", "Získať návrh riešenia");
     anchor.innerHTML = `
       <span aria-hidden="true">✦</span>
-      <span><strong>Môj Chatbot</strong><small>Získať návrh od 350 €</small></span>
+      <span><strong>Môj Chatbot</strong><small>Získať návrh na mieru</small></span>
     `;
     Object.assign(anchor.style, {
       position: "fixed",

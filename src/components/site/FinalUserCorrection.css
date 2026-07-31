@@ -1424,6 +1424,13 @@ html:root body .lp-page .lp-assistant-cta {
    Riešené cez scroll-driven animations (animation-timeline: view()),
    takže bežia na kompozitore — nezaťažujú JS a sú plynulé aj na
    mobile. Ak ich prehliadač nepozná, obsah je jednoducho viditeľný.
+
+   POZOR na rozdelenie vrstiev: nadpisy sekcií, .lp-caps-row,
+   .lp-project a celé podstránky (.sp-page) odhaľuje motion/react
+   cez <Heading> a <Reveal>. CSS animácia na tých istých prvkoch
+   v kaskáde prebíja inline štýly, ktoré motion nastavuje, takže
+   by ticho zabila postupný nábeh. Tu preto ostávajú len prvky,
+   ktoré motion neriadi. Ich zosilnený nábeh je na konci súboru.
    ============================================================== */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -1438,37 +1445,13 @@ html:root body .lp-page .lp-assistant-cta {
       }
     }
 
-    html:root body .lp-page .lp-caps-row,
-    html:root body .lp-page .lp-project,
     html:root body .lp-page .lp-faq-item,
     html:root body .lp-page .lp-process-list li,
     html:root body .winner-trust__item,
-    html:root body .winner-package,
-    html:root body .sp-page .why-card,
-    html:root body .sp-page .sp-service,
-    html:root body .sp-page .sp-project-card {
+    html:root body .winner-package {
       animation: lp-rise-in linear both;
       animation-timeline: view();
       animation-range: entry 8% cover 26%;
-    }
-
-    /* Nadpisy sekcií prídu o kúsok skôr a jemnejšie. */
-    @keyframes lp-heading-in {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    html:root body .lp-page .lp-heading,
-    html:root body .sp-page .sp-heading {
-      animation: lp-heading-in linear both;
-      animation-timeline: view();
-      animation-range: entry 4% cover 20%;
     }
   }
 }
@@ -2753,13 +2736,8 @@ html:root body .lp-page .lp-caps-row-head p {
    číslo a nemajú všetky rovnaké rozloženie hlavičky.
    ============================================================== */
 
-<<<<<<< HEAD
 /* Hlavička zarovnaná doľava ako zvyšok webu. Vycentrovaná pôsobila
    odtrhnuto od obsahu, ktorý pod ňou začína vľavo. */
-=======
-/* Sekcia 02 má hlavičku na stred — už na prvý pohľad iná stavba
-   než susedné sekcie zarovnané doľava. */
->>>>>>> origin/claude/web-portfolio-publish-ynh7sk
 html:root body .lp-page .lp-caps .lp-heading {
   margin-inline: 0 !important;
   max-width: 900px !important;
@@ -3033,8 +3011,7 @@ html:root body .winner-upgrade::after {
   left: 0 !important;
   z-index: 2 !important;
   height: 1px !important;
-  transform: none !important;
-  animation: none !important;
+  transform-origin: left center !important;
   pointer-events: none !important;
   background: linear-gradient(
     90deg,
@@ -3043,6 +3020,25 @@ html:root body .winner-upgrade::after {
     rgba(255, 199, 157, 0.55) 78%,
     rgba(255, 199, 157, 0)
   ) !important;
+}
+
+/* Čiara sa doťahuje zľava, keď sekcia vchádza do obrazu. Predtým tu
+   stálo `animation: none`, čím sa doťahovanie potichu vyplo — čiara
+   len ticho svietila. Teraz sa kreslí a je jasne vidieť, že začína
+   nová sekcia. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html:root body .lp-page .lp-value::after,
+    html:root body .lp-page .lp-caps::after,
+    html:root body .lp-page .derat-story::after,
+    html:root body .lp-page .lp-faq::after,
+    html:root body .lp-page .lp-process::after,
+    html:root body .winner-upgrade::after {
+      animation: lp-rule-in 1s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+      animation-timeline: view() !important;
+      animation-range: entry 0% entry 55% !important;
+    }
+  }
 }
 
 html:root body .lp-page .derat-story {
@@ -3101,7 +3097,6 @@ html:root body .winner-upgrade__eyebrow {
 html:root body .lp-page .lp-caps-count {
   gap: 0 !important;
 }
-<<<<<<< HEAD
 
 /* ==============================================================
    TEXTÚRA POZADIA
@@ -3144,5 +3139,135 @@ html:root body::after {
     rgba(3, 5, 8, 0.38) 100%
   ) !important;
 }
-=======
->>>>>>> origin/claude/web-portfolio-publish-ynh7sk
+
+/* ==============================================================
+   VÝRAZNEJŠIE ODHAĽOVANIE TAM, KDE HO RIADI CSS
+
+   Prečo odhaľovanie textu pôsobilo mŕtvo: domovská stránka má
+   vlastné odhaľovanie v motion/react (`Heading` a `Reveal`
+   v PremiumLanding.tsx) — popisok, nadpis a podnadpis prichádzajú
+   postupne so šmykom zboku. Lenže CSS animácia s
+   `animation-timeline: view()` bežala na tých istých prvkoch
+   a bežiaca CSS animácia v kaskáde prebíja inline štýly, ktoré
+   motion nastavuje. Postupný nábeh sa tak zahodil a ostalo z neho
+   ploché preblikanie naviazané na polohu scrollu.
+
+   Platí preto jednoduché pravidlo: každý prvok patrí len jednej
+   vrstve. Čo animuje motion (.lp-heading, .lp-caps-row a celé
+   .sp-page podstránky), toho sa CSS nedotkne — tie selektory sú
+   vyhodené zo scroll animácií vyššie v tomto súbore. Tu ostáva
+   zvyšok: FAQ, kroky postupu a cenník.
+
+   Samotný nábeh bol navyše sotva badateľný — 26 px a jemné
+   stmavnutie. Prvky teraz prichádzajú z väčšej diaľky a karty
+   v rade sa rozbaľujú po sebe, nie všetky naraz.
+   ============================================================== */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes lp-card-rise {
+      from {
+        opacity: 0;
+        transform: translateY(46px) scale(0.972);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    html:root body .lp-page .lp-faq-item,
+    html:root body .lp-page .lp-process-list li,
+    html:root body .winner-trust__item,
+    html:root body .winner-package,
+    html:root body .winner-prep__item {
+      animation: lp-card-rise linear both !important;
+      animation-timeline: view() !important;
+      animation-range: entry 4% entry 46% !important;
+    }
+
+    /* Rad kariet sa rozbalí zľava doprava. Pri view() timeline má
+       každá karta vlastnú os, takže susedia inak nabehnú naraz —
+       posun rozsahu je to, čo z nich urobí postupnosť. */
+    html:root body .winner-trust__item:nth-child(2),
+    html:root body .winner-package:nth-child(2),
+    html:root body .winner-prep__item:nth-child(2) {
+      animation-range: entry 11% entry 53% !important;
+    }
+
+    html:root body .winner-trust__item:nth-child(3),
+    html:root body .winner-package:nth-child(3),
+    html:root body .winner-prep__item:nth-child(3) {
+      animation-range: entry 18% entry 60% !important;
+    }
+
+    html:root body .winner-prep__item:nth-child(4) {
+      animation-range: entry 25% entry 67% !important;
+    }
+
+    /* Nadpisy na cenníkovej podstránke motion neriadi, tie ostávajú
+       na CSS — vychádzajú spod masky, nech je vidieť, že sa niečo deje. */
+    @keyframes lp-title-in {
+      from {
+        opacity: 0;
+        transform: translateY(38px);
+        clip-path: inset(0 0 110% 0);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        clip-path: inset(0 0 -25% 0);
+      }
+    }
+
+    html:root body .winner-prep__intro h2,
+    html:root body .winner-final h2 {
+      animation: lp-title-in linear both !important;
+      animation-timeline: view() !important;
+      animation-range: entry 5% entry 48% !important;
+    }
+
+    @keyframes lp-lead-in {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    html:root body .winner-prep__intro p,
+    html:root body .winner-final > div > p {
+      animation: lp-lead-in linear both !important;
+      animation-timeline: view() !important;
+      animation-range: entry 14% entry 60% !important;
+    }
+  }
+}
+
+/* ==============================================================
+   PRECHOD MEDZI STRÁNKAMI
+   Nahrádza <AnimatePresence> z Layout.tsx. Ten obal mal
+   `initial={false}`, čo sa v motion dedí po celom strome — a tým
+   sa na celom webe vyplo odhaľovanie pri scrollovaní (whileInView).
+   Nadpisy aj karty naskočili rovno viditeľné.
+
+   Animuje sa len priehľadnosť. `transform` by z obalu spravil
+   containing block pre position: fixed a nakrátko by odskočilo
+   zrno na pozadí aj bublina chatbota.
+   ============================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  html:root body .page-transition {
+    animation: page-fade-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes page-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

@@ -113,10 +113,55 @@ test("pricing and client preparation cover the sales essentials", async () => {
   assert.match(conversion, /Pravidlá a podklady/);
   assert.match(conversion, /Značka a vzhľad/);
   assert.match(conversion, /Kam má ísť dopyt/);
-  assert.match(faq, /začína od 350 €/);
   assert.match(faq, /GDPR/);
   assert.match(faq, /čo ak si niečo vymyslí/);
   assert.match(config, /taste-system-20260723-v7/);
+  // Cena patrí výhradne na podstránku /cennik. Majiteľ ju nechce mať
+  // v bežnom obsahu, tak sa sem nesmie vrátiť ani cez FAQ či popis webu.
+  assert.doesNotMatch(faq, /350/);
+  assert.doesNotMatch(config, /350/);
+});
+
+test("no motion wrapper above the page content disables scroll reveals", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  // `initial={false}` na motion obale sa dedí po celom strome pod ním
+  // a potomkom vypne počiatočný stav. Kým to tu bolo, na celom webe
+  // ticho nefungovalo ani jedno odhaľovanie pri scrollovaní — nadpisy
+  // aj karty naskočili rovno viditeľné. Prechod medzi stránkami je
+  // preto v CSS (.page-transition), nie v <AnimatePresence>.
+  // Kontroluje sa skutočné použitie, nie zmienka v komentári.
+  assert.doesNotMatch(layout, /<AnimatePresence/);
+  assert.doesNotMatch(layout, /^import .*\bAnimatePresence\b/m);
+  assert.doesNotMatch(layout, /<motion\./);
+  assert.match(layout, /page-transition/);
+  // Hlavička sekcie musí mať vlastné konkrétne `initial`, nie názov
+  // variantu — ten sa dá dedením prebiť a odhalenie sa nespustí.
+  assert.match(landing, /initial: \{ opacity: 0/);
+  assert.doesNotMatch(landing, /whileInView="visible"/);
+  // clip-path si Chrome normalizuje na iný počet hodnôt, než má cieľ,
+  // a motion vtedy animáciu ticho preskočí — nadpis ostane neviditeľný.
+  assert.doesNotMatch(landing, /clipPath/);
+});
+
+test("the starting price stays on the pricing subpage only", async () => {
+  const cennik = await read("src/routes/cennik.tsx");
+  const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
+  // Cenník podstránku má, tam cena ostáva.
+  assert.match(cennik, /350 €/);
+  assert.match(conversion, /od 350 €/);
+  // Nikde inde v bežnom obsahu, ani v štruktúrovaných dátach.
+  for (const file of [
+    "src/routes/index.tsx",
+    "src/routes/kontakt.tsx",
+    "src/data/faq.ts",
+    "src/config/site.ts",
+    "public/widget-loader.js",
+  ]) {
+    assert.doesNotMatch(await read(file), /350/, `${file} nesmie obsahovať cenu`);
+  }
+  // Ani počty realizácií — tie majiteľ nechce ukazovať vôbec.
+  assert.doesNotMatch(conversion, /proofNumbers|winner-numbers|CountUp/);
 });
 
 test("contact form submits directly and keeps a resilient fallback", async () => {
@@ -177,13 +222,13 @@ test("metadata security and fresh assistant loading remain present", async () =>
   assert.match(root, /Content-Security-Policy/);
   assert.match(root, /strict-origin-when-cross-origin/);
   assert.match(root, /ProfessionalService/);
-  assert.match(root, /Môj Chatbot — chatboty na mieru od 350 €/);
+  assert.match(root, /Môj Chatbot — chatboty a kalkulačky na mieru/);
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
   assert.match(loader, /buildKey/);
   assert.doesNotMatch(loader, /\?v=\d{8}-/);
   assert.match(loader, /Môj Chatbot/);
-  assert.match(loader, /od 350 €/);
+  assert.match(loader, /Získať návrh na mieru/);
 });
 
 test("Pages workflow validates the live Taste build", async () => {

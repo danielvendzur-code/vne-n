@@ -1,6 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { animate, useInView } from "motion/react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -16,7 +14,6 @@ import {
   ShieldCheck,
   SlidersHorizontal,
 } from "lucide-react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
 const packages = [
@@ -101,40 +98,6 @@ const trustPoints = [
     copy: "Pred vývojom dostanete jasný návrh prvej verzie.",
   },
 ] as const;
-
-const proofNumbers = [
-  { value: 3, prefix: "", suffix: "", label: "reálne weby, ktoré si viete otvoriť" },
-  { value: 6, prefix: "", suffix: "", label: "živých ukážok na vyskúšanie v prehliadači" },
-  { value: 1, prefix: "do ", suffix: " dňa", label: "zvyčajná odpoveď na zadanie" },
-  { value: 350, prefix: "od ", suffix: " €", label: "štartovacia cena jednoduchého chatbota" },
-] as const;
-
-/** Číslo, ktoré sa pri scrollovaní odpočíta nahor. Bez animácie sa
- *  zobrazí rovno finálna hodnota, takže obsah nikdy nechýba. */
-function CountUp({ to, prefix, suffix }: { to: number; prefix: string; suffix: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
-  const reducedMotion = useReducedMotion();
-  const [shown, setShown] = useState(reducedMotion ? to : 0);
-
-  useEffect(() => {
-    if (reducedMotion || !inView) return;
-    const controls = animate(0, to, {
-      duration: 1.1,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (latest) => setShown(Math.round(latest)),
-    });
-    return () => controls.stop();
-  }, [inView, reducedMotion, to]);
-
-  return (
-    <span className="winner-number__value" ref={ref}>
-      {prefix}
-      {shown}
-      {suffix}
-    </span>
-  );
-}
 
 export function HomeConversionUpgrade() {
   return (
