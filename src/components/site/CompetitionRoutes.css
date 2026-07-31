@@ -6,16 +6,16 @@
   color: var(--text-primary) !important;
   background:
     radial-gradient(circle at 90% 3%, rgba(114, 199, 255, 0.055), transparent 30rem),
-    radial-gradient(circle at 4% 94%, rgba(101, 230, 193, 0.035), transparent 27rem),
+    radial-gradient(circle at 4% 94%, rgba(255, 199, 157, 0.035), transparent 27rem),
     var(--background) !important;
 }
 
 .sp-hero,
 .cookies-page .sp-hero {
-  border-bottom-color: rgba(222, 242, 245, 0.09) !important;
+  border-bottom-color: rgba(245, 247, 250, 0.09) !important;
   background:
     radial-gradient(circle at 88% 10%, rgba(114, 199, 255, 0.11), transparent 30rem),
-    radial-gradient(circle at 4% 90%, rgba(101, 230, 193, 0.055), transparent 27rem),
+    radial-gradient(circle at 4% 90%, rgba(255, 199, 157, 0.055), transparent 27rem),
     linear-gradient(140deg, #061216, #091c22 62%, #07171c) !important;
 }
 
@@ -56,7 +56,7 @@
 }
 
 .sp-section {
-  border-color: rgba(222, 242, 245, 0.09) !important;
+  border-color: rgba(245, 247, 250, 0.09) !important;
   background: transparent;
 }
 
@@ -73,11 +73,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: 1px solid rgba(222, 242, 245, 0.13) !important;
+  border: 1px solid rgba(245, 247, 250, 0.13) !important;
   border-radius: 999px !important;
   padding: 0.52rem 0.78rem !important;
   color: #c1d0d3 !important;
-  background: rgba(222, 242, 245, 0.04) !important;
+  background: rgba(245, 247, 250, 0.04) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
   font-weight: 690 !important;
 }
@@ -89,9 +89,9 @@
 
 .chip[data-tone="coral"],
 .chip[data-tone="gold"] {
-  border-color: rgba(101, 230, 193, 0.24) !important;
-  color: #d8f9ef !important;
-  background: rgba(101, 230, 193, 0.09) !important;
+  border-color: rgba(255, 199, 157, 0.24) !important;
+  color: #f5f7fa !important;
+  background: rgba(255, 199, 157, 0.09) !important;
 }
 
 /* Services */
@@ -100,7 +100,7 @@
 }
 
 .sp-service {
-  border: 1px solid rgba(222, 242, 245, 0.11) !important;
+  border: 1px solid rgba(245, 247, 250, 0.11) !important;
   border-radius: 20px !important;
   background:
     radial-gradient(circle at 94% 0%, rgba(114, 199, 255, 0.07), transparent 42%),
@@ -155,21 +155,21 @@
 }
 
 .sp-service-row {
-  border-color: rgba(222, 242, 245, 0.09) !important;
+  border-color: rgba(245, 247, 250, 0.09) !important;
 }
 
 .sp-combine {
-  border: 1px solid rgba(101, 230, 193, 0.22) !important;
+  border: 1px solid rgba(255, 199, 157, 0.22) !important;
   border-radius: 20px !important;
   background:
-    radial-gradient(circle at 92% 8%, rgba(101, 230, 193, 0.08), transparent 42%),
+    radial-gradient(circle at 92% 8%, rgba(255, 199, 157, 0.08), transparent 42%),
     linear-gradient(145deg, rgba(16, 47, 54, 0.94), rgba(7, 24, 30, 0.98)) !important;
   box-shadow: 0 30px 75px -52px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* Process timeline */
 .sp-timeline::before {
-  background: rgba(222, 242, 245, 0.12) !important;
+  background: rgba(245, 247, 250, 0.12) !important;
 }
 
 .sp-timeline-progress {
@@ -203,7 +203,7 @@
 }
 
 .sp-project-card > a {
-  border: 1px solid rgba(222, 242, 245, 0.11) !important;
+  border: 1px solid rgba(245, 247, 250, 0.11) !important;
   border-radius: 19px !important;
   background:
     radial-gradient(circle at 94% 0%, rgba(114, 199, 255, 0.06), transparent 42%),
@@ -223,7 +223,7 @@
 }
 
 .sp-project-visual {
-  border-color: rgba(222, 242, 245, 0.09) !important;
+  border-color: rgba(245, 247, 250, 0.09) !important;
   background: #0b2026 !important;
 }
 
@@ -237,7 +237,7 @@
 
 .sp-project-foot,
 .sp-detail-block {
-  border-color: rgba(222, 242, 245, 0.1) !important;
+  border-color: rgba(245, 247, 250, 0.1) !important;
 }
 
 .sp-detail-block > span i {
@@ -276,7 +276,7 @@
   color: var(--primary-foreground) !important;
   background: var(--primary) !important;
   box-shadow:
-    0 16px 36px rgba(101, 230, 193, 0.22),
+    0 16px 36px rgba(255, 199, 157, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
@@ -290,7 +290,7 @@
   background: var(--primary-hover) !important;
   transform: translateY(-3px) scale(1.01) !important;
   box-shadow:
-    0 23px 46px rgba(101, 230, 193, 0.3),
+    0 23px 46px rgba(255, 199, 157, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
 }
 
@@ -315,7 +315,7 @@
 .contact-page {
   background:
     radial-gradient(circle at 96% 8%, rgba(114, 199, 255, 0.1), transparent 34rem),
-    radial-gradient(circle at 4% 82%, rgba(101, 230, 193, 0.05), transparent 30rem),
+    radial-gradient(circle at 4% 82%, rgba(255, 199, 157, 0.05), transparent 30rem),
     linear-gradient(145deg, #061216, #091d23 52%, #051116) !important;
 }
 
@@ -351,7 +351,7 @@
 }
 
 .contact-expect {
-  border-color: rgba(222, 242, 245, 0.1) !important;
+  border-color: rgba(245, 247, 250, 0.1) !important;
 }
 
 .contact-card {
@@ -375,10 +375,10 @@
 .contact-card textarea,
 .contact-card select {
   min-height: 48px;
-  border: 1px solid rgba(222, 242, 245, 0.13) !important;
+  border: 1px solid rgba(245, 247, 250, 0.13) !important;
   border-radius: 13px !important;
   color: var(--text-primary) !important;
-  background: rgba(222, 242, 245, 0.04) !important;
+  background: rgba(245, 247, 250, 0.04) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
 }
 
@@ -391,7 +391,7 @@
 }
 
 .contact-or {
-  border-color: rgba(222, 242, 245, 0.09) !important;
+  border-color: rgba(245, 247, 250, 0.09) !important;
 }
 
 .contact-or span {
@@ -410,7 +410,7 @@
 }
 
 .cookies-card {
-  border: 1px solid rgba(222, 242, 245, 0.11) !important;
+  border: 1px solid rgba(245, 247, 250, 0.11) !important;
   border-radius: 20px !important;
   background:
     radial-gradient(circle at 94% 0%, rgba(114, 199, 255, 0.065), transparent 45%),
@@ -432,8 +432,8 @@
 
 .cookies-list > div,
 .cookies-status {
-  border-color: rgba(222, 242, 245, 0.09) !important;
-  background: rgba(222, 242, 245, 0.035) !important;
+  border-color: rgba(245, 247, 250, 0.09) !important;
+  background: rgba(245, 247, 250, 0.035) !important;
 }
 
 .cookies-status b,
@@ -442,7 +442,7 @@
 }
 
 .cookies-contact {
-  border-color: rgba(222, 242, 245, 0.09) !important;
+  border-color: rgba(245, 247, 250, 0.09) !important;
   background: #051116 !important;
 }
 
@@ -630,7 +630,7 @@
   gap: 11px;
   min-height: 52px;
   padding: 0 14px;
-  border: 1px solid rgba(222, 242, 245, 0.12);
+  border: 1px solid rgba(245, 247, 250, 0.12);
   border-radius: 14px;
   color: var(--text-secondary);
   background: linear-gradient(150deg, rgba(243, 248, 250, 0.05), rgba(243, 248, 250, 0.014));
@@ -673,20 +673,20 @@
   border-radius: inherit;
   background:
     radial-gradient(circle at 22% 0%, rgba(255, 255, 255, 0.4), transparent 46%),
-    linear-gradient(140deg, #83f1d0 0%, var(--primary) 52%, #4bccaa 100%);
+    linear-gradient(140deg, #7b8fa6 0%, var(--primary) 52%, #ffc79d 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.42),
-    0 12px 26px -16px rgba(101, 230, 193, 0.7);
+    0 12px 26px -16px rgba(255, 199, 157, 0.7);
 }
 
 .lp-hero-pick[data-active="true"] {
-  color: #04140f;
+  color: #080b10;
   border-color: transparent;
 }
 
 .lp-hero-pick[data-active="true"] .lp-hero-pick-icon {
-  background: rgba(4, 20, 15, 0.18);
-  color: #04140f;
+  background: rgba(8, 11, 16, 0.18);
+  color: #080b10;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -703,7 +703,7 @@
 /* ---- Unified premium chips (Koverta/Webko-inspired: crisp glass pills) ---- */
 :root .chip,
 :root .lp-page .lp-chip {
-  border: 1px solid rgba(222, 242, 245, 0.14) !important;
+  border: 1px solid rgba(245, 247, 250, 0.14) !important;
   background:
     linear-gradient(155deg, rgba(243, 248, 250, 0.07), rgba(243, 248, 250, 0.02)) !important;
   box-shadow:
@@ -717,7 +717,7 @@
 :root .lp-page .lp-chip-icon {
   width: 1.4rem !important;
   height: 1.4rem !important;
-  border: 1px solid rgba(222, 242, 245, 0.16) !important;
+  border: 1px solid rgba(245, 247, 250, 0.16) !important;
   background: transparent !important;
 }
 
@@ -740,20 +740,20 @@
 /* Active capability chip: solid mint liquid, dark ink, no busy dot */
 :root .lp-page .lp-chip[data-active="true"] {
   border-color: transparent !important;
-  color: #04140f !important;
+  color: #080b10 !important;
 }
 
 :root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
-  border-color: rgba(4, 20, 15, 0.28) !important;
+  border-color: rgba(8, 11, 16, 0.28) !important;
 }
 
 :root .lp-page .lp-chip-fill {
   background:
     radial-gradient(circle at 26% 12%, rgba(255, 255, 255, 0.46), transparent 44%),
-    linear-gradient(140deg, #83f1d0 0%, var(--primary) 52%, #4bccaa 100%) !important;
+    linear-gradient(140deg, #7b8fa6 0%, var(--primary) 52%, #ffc79d 100%) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.42),
-    0 14px 28px -18px rgba(101, 230, 193, 0.7) !important;
+    0 14px 28px -18px rgba(255, 199, 157, 0.7) !important;
 }
 
 
@@ -825,7 +825,7 @@
   min-height: 78px !important;
   padding: 13px 14px !important;
   border-radius: 16px !important;
-  border-color: rgba(222, 242, 245, 0.1) !important;
+  border-color: rgba(245, 247, 250, 0.1) !important;
   background:
     linear-gradient(155deg, rgba(243, 248, 250, 0.055), rgba(243, 248, 250, 0.012)) !important;
 }
@@ -890,7 +890,7 @@
 }
 
 .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
-  color: #04140f !important;
+  color: #080b10 !important;
   opacity: 0.78 !important;
   transition-delay: 300ms !important;
 }

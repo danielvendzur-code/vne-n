@@ -5,7 +5,7 @@
   --surface-raised: #15303b;
   --surface-muted: #0c1b23;
 
-  --text-primary: #f2f7f8;
+  --text-primary: #f5f7fa;
   --text-secondary: #b6c5cb;
   --text-light: #7e929a;
 
@@ -137,7 +137,7 @@ body {
 :root .lp-page {
   --lp-bg: #071116;
   --lp-bg-soft: #0a171e;
-  --lp-ink: #f2f7f8;
+  --lp-ink: #f5f7fa;
   --lp-primary-ink: #061319;
   --lp-muted: #b6c5cb;
   --lp-muted-soft: #7e929a;
@@ -203,7 +203,7 @@ body {
   background: linear-gradient(145deg, #122a35, #0a1a22);
   box-shadow:
     0 2rem 5rem rgba(0, 4, 8, 0.48),
-    inset 0 1px rgba(242, 247, 248, 0.065);
+    inset 0 1px rgba(245, 247, 250, 0.065);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -544,7 +544,7 @@ body {
 :root .lp-page .lp-project > a[data-tone="blue"] {
   border-color: rgba(10, 27, 36, 0.14);
   color: #0a1b24;
-  background: #f4f9fa;
+  background: #f5f7fa;
 }
 
 :root .lp-page .lp-project > a:hover {
@@ -562,7 +562,7 @@ body {
 
 :root .lp-page .lp-live-tools {
   border-color: rgba(10, 27, 36, 0.14);
-  background: rgba(244, 249, 250, 0.72);
+  background: rgba(245, 247, 250, 0.72);
 }
 
 :root .lp-page .lp-live-tools > span {

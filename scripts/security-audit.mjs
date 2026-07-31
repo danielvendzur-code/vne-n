@@ -121,8 +121,13 @@ if (
 ) {
   fail("Final matte interactions must load after the historical visual layers");
 }
-if (correctionIndex !== lastStyleImport) {
-  fail("FinalUserCorrection.css must be the final component style import");
+const brandIndex = layout.indexOf('import "./BrandSystemFinal.css"');
+if (brandIndex === -1) fail("BrandSystemFinal.css is not imported");
+if (brandIndex <= correctionIndex) {
+  fail("BrandSystemFinal.css must load after FinalUserCorrection.css");
+}
+if (brandIndex !== lastStyleImport) {
+  fail("BrandSystemFinal.css must be the final component style import");
 }
 if (!layout.includes("HomeConversionUpgrade")) fail("Layout is missing HomeConversionUpgrade");
 for (const token of ["LiquidSurfacePointer", "LiquidSegmentedDrag"]) {

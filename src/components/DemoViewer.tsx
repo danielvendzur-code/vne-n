@@ -64,7 +64,7 @@ export function DemoViewer({
             if (event.target === event.currentTarget) onClose();
           }}
           style={{
-            backgroundColor: "rgba(2, 13, 14, 0.88)",
+            backgroundColor: "rgba(6, 7, 10, 0.88)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
             paddingTop: "env(safe-area-inset-top)",

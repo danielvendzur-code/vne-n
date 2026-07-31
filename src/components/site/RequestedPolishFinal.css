@@ -46,7 +46,7 @@
   padding: 0.66rem 0.9rem;
   color: var(--action-ink);
   background: var(--action);
-  box-shadow: 0 14px 30px -18px rgba(100,227,179,.78), inset 0 1px rgba(255,255,255,.32);
+  box-shadow: 0 14px 30px -18px rgba(255, 199, 157,.78), inset 0 1px rgba(255,255,255,.32);
   font-family: inherit;
   font-size: 0.74rem;
   font-weight: 820;
@@ -64,7 +64,7 @@
   color: var(--action-ink);
   background: var(--action-hover);
   transform: translateY(-2px);
-  box-shadow: 0 20px 38px -17px rgba(100,227,179,.9), inset 0 1px rgba(255,255,255,.4);
+  box-shadow: 0 20px 38px -17px rgba(255, 199, 157,.9), inset 0 1px rgba(255,255,255,.4);
 }
 
 .lp-solution-cta:hover span,

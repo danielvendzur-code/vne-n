@@ -14,7 +14,7 @@ function usePalette(accent?: string) {
   return {
     accent: a,
     accentSoft: `color-mix(in oklab, ${a} 20%, transparent)`,
-    accentInk: accent ? `color-mix(in oklab, ${a} 26%, #06120d)` : "#06120d",
+    accentInk: accent ? `color-mix(in oklab, ${a} 26%, #080b10)` : "#080b10",
   };
 }
 
@@ -40,7 +40,7 @@ function Chip({
         lineHeight: 1.2,
         whiteSpace: "nowrap",
         border: `1px solid ${active ? "transparent" : "var(--border-strong)"}`,
-        color: active ? "#06120d" : "var(--text-secondary)",
+        color: active ? "#080b10" : "var(--text-secondary)",
         background: active ? accent : "transparent",
         boxShadow: active ? `0 6px 16px -10px ${accent}` : "none",
       }}
@@ -126,7 +126,7 @@ export function CalculatorMini({ compact, accent }: MiniProps) {
         </div>
         <span
           className="rounded-lg px-3 py-1.5 text-[11px] font-semibold"
-          style={{ backgroundColor: a, color: "#06120d" }}
+          style={{ backgroundColor: a, color: "#080b10" }}
         >
           Prepočítať
         </span>
@@ -153,7 +153,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
             className="grid h-8 w-8 place-items-center rounded-lg text-xs font-semibold"
             style={{
               border: `1px solid ${i === 1 ? "transparent" : "var(--border-strong)"}`,
-              color: i === 1 ? "#06120d" : "var(--text-secondary)",
+              color: i === 1 ? "#080b10" : "var(--text-secondary)",
               background: i === 1 ? a : "transparent",
               boxShadow: i === 1 ? `0 6px 16px -10px ${a}` : "none",
             }}

@@ -27,10 +27,12 @@ test("Taste system and conversion section are mounted", async () => {
     layout.indexOf('import "./MatteUiFinal.css"') <
       layout.indexOf('import "./FinalUserCorrection.css"'),
   );
-  assert.equal(
-    layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./FinalUserCorrection.css"'),
+  // the brand system is the new last word on the palette
+  assert.ok(
+    layout.indexOf('import "./FinalUserCorrection.css"') <
+      layout.indexOf('import "./BrandSystemFinal.css"'),
   );
+  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./BrandSystemFinal.css"'));
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);
   assert.match(approvedCss, /Reversed Blue Bloom/);

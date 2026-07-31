@@ -7,11 +7,11 @@
 :root {
   color-scheme: dark;
 
-  --background: #06120d;
-  --background-soft: #091a14;
-  --surface: #10261d;
-  --surface-raised: #17352a;
-  --surface-muted: #0c1f18;
+  --background: #080b10;
+  --background-soft: #0c1017;
+  --surface: #131923;
+  --surface-raised: #1b2331;
+  --surface-muted: #0f141c;
 
   --text-primary: #f4f1e8;
   --text-secondary: #bfc7bc;
@@ -20,13 +20,13 @@
   --primary: #bc7352;
   --primary-hover: #cd8665;
   --primary-soft: rgba(188, 115, 82, 0.14);
-  --primary-foreground: #07140e;
-  --primary-dark: #06120d;
+  --primary-foreground: #090d12;
+  --primary-dark: #080b10;
 
   --accent: #7fa58f;
-  --accent-hover: #98baa8;
+  --accent-hover: #ffc79d;
   --accent-soft: rgba(127, 165, 143, 0.14);
-  --accent-foreground: #07140e;
+  --accent-foreground: #090d12;
 
   --highlight: #d9bd83;
   --highlight-soft: rgba(217, 189, 131, 0.15);
@@ -50,7 +50,7 @@
   --muted: var(--background-soft);
   --muted-foreground: var(--text-secondary);
   --destructive: #ff7f72;
-  --destructive-foreground: #07140e;
+  --destructive-foreground: #090d12;
   --input: var(--border);
   --ring: var(--primary);
 }
@@ -436,7 +436,7 @@ button.chip {
   background: var(--surface);
   border: 2px solid var(--primary);
   margin-top: -7px;
-  box-shadow: 0 4px 16px rgba(0, 8, 8, 0.38);
+  box-shadow: 0 4px 16px rgba(3, 4, 5, 0.38);
   transition: transform 140ms var(--ease-out);
 }
 .slider::-webkit-slider-thumb:hover {
@@ -451,7 +451,7 @@ button.chip {
   border-radius: 50%;
   background: var(--surface);
   border: 2px solid var(--primary);
-  box-shadow: 0 4px 16px rgba(0, 8, 8, 0.38);
+  box-shadow: 0 4px 16px rgba(3, 4, 5, 0.38);
 }
 .slider:focus-visible {
   outline: none;

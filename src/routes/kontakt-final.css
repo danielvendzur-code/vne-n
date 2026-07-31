@@ -1,18 +1,18 @@
 /* Route-specific finish for the real lead form. */
 .contact-page {
   background:
-    radial-gradient(circle at 86% 15%, rgba(34, 207, 140, 0.1), transparent 30rem),
+    radial-gradient(circle at 86% 15%, rgba(255, 199, 157, 0.1), transparent 30rem),
     #05070b !important;
 }
 
 .contact-card {
   border-color: #26364c !important;
   background: linear-gradient(160deg, #0d151f, #080d14) !important;
-  box-shadow: 0 34px 82px -58px rgba(34, 207, 140, 0.84) !important;
+  box-shadow: 0 34px 82px -58px rgba(255, 199, 157, 0.84) !important;
 }
 
 .contact-card::before {
-  background: linear-gradient(to right, transparent, rgba(34, 207, 140, 0.72), transparent) !important;
+  background: linear-gradient(to right, transparent, rgba(255, 199, 157, 0.72), transparent) !important;
 }
 
 .contact-card input,
@@ -34,7 +34,7 @@
 .contact-card select:focus {
   border-color: #5d98ff !important;
   background: #0d151f !important;
-  box-shadow: 0 0 0 3px rgba(34, 207, 140, 0.12) !important;
+  box-shadow: 0 0 0 3px rgba(255, 199, 157, 0.12) !important;
 }
 
 .contact-consent {
@@ -56,7 +56,7 @@
   min-height: 0 !important;
   margin: 1px 0 0 !important;
   padding: 0 !important;
-  accent-color: #22cf8c;
+  accent-color: #ffc79d;
 }
 
 .contact-consent > span {
@@ -98,11 +98,11 @@
   color: #ffffff;
   fill: #3979ec;
   stroke-width: 1.7;
-  filter: drop-shadow(0 16px 28px rgba(34, 207, 140, 0.34));
+  filter: drop-shadow(0 16px 28px rgba(255, 199, 157, 0.34));
 }
 
 .contact-success > span {
-  color: #6fdcae;
+  color: #ffc79d;
   font-size: 0.7rem;
   font-weight: 820;
   letter-spacing: 0.12em;

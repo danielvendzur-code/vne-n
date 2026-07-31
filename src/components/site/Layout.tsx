@@ -36,6 +36,7 @@ import "./TasteSystemFinal.css";
 import "./ApprovedInteractionsFinal.css";
 import "./MatteUiFinal.css";
 import "./FinalUserCorrection.css";
+import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 
 // Poradie musí sedieť s poradím sekcií na domovskej stránke.
