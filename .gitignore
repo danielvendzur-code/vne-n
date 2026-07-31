@@ -33,3 +33,6 @@ pages-dist
 *.njsproj
 *.sln
 *.sw?
+
+# Vercel
+.vercel

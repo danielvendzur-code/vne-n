@@ -1,4 +1,7 @@
-export const SITE_URL = "https://danielvendzur-code.github.io/vne-n";
+import { SITE_ORIGIN } from "@/config/site";
+
+/** Kanonická adresa webu. Mení sa na jednom mieste — v config/site.ts. */
+export const SITE_URL = SITE_ORIGIN;
 
 interface SeoOptions {
   title: string;
