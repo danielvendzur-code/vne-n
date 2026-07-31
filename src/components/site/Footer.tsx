@@ -61,9 +61,13 @@ export function Footer() {
         </div>
       </div>
       <div className="container-page premium-footer-bottom">
-        <span>© {new Date().getFullYear()} · Môj Chatbot · Daniel Vendžúr</span>
+        <span>
+          © {new Date().getFullYear()} · Môj Chatbot · {siteConfig.legal.operator}
+          {siteConfig.legal.ico ? ` · IČO ${siteConfig.legal.ico}` : ""}
+        </span>
         <span className="premium-footer-privacy">
-          <Link to="/cookies">Používanie cookies</Link>
+          <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
+          <Link to="/cookies">Cookies</Link>
           <button type="button" onClick={openCookieSettings}>
             <Cookie size={13} /> Nastavenia cookies
           </button>
