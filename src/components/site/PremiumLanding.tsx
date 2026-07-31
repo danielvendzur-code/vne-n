@@ -632,7 +632,6 @@ function CapabilityGroup({
           <p>{copy}</p>
         </div>
         <span className="lp-caps-count">
-          {items.length} možností
           <i aria-hidden="true" />
         </span>
       </button>
