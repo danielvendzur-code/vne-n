@@ -30,16 +30,16 @@
 :root {
   --premium-glass: rgba(15, 20, 31, 0.72);
   --premium-glass-strong: rgba(17, 23, 36, 0.9);
-  --premium-line: rgba(130, 220, 185, 0.24);
-  --premium-line-strong: rgba(130, 220, 185, 0.48);
+  --premium-line: rgba(255, 199, 157, 0.24);
+  --premium-line-strong: rgba(255, 199, 157, 0.48);
   --premium-highlight: rgba(255, 255, 255, 0.13);
-  --premium-blue: #16c47f;
-  --premium-blue-hover: #0fa568;
+  --premium-blue: #ffc79d;
+  --premium-blue-hover: #4db6ac;
 }
 
 .ai-mascot {
   overflow: visible;
-  filter: drop-shadow(0 12px 24px rgba(15, 165, 104, 0.3));
+  filter: drop-shadow(0 12px 24px rgba(77, 182, 172, 0.3));
 }
 
 .ai-mascot__eyelids {
@@ -73,9 +73,9 @@
     linear-gradient(145deg, rgba(21, 28, 43, 0.91), rgba(6, 9, 15, 0.84)) !important;
   box-shadow:
     0 42px 110px -42px rgba(0, 0, 0, 0.95),
-    0 18px 52px -34px rgba(22, 196, 127, 0.7),
+    0 18px 52px -34px rgba(255, 199, 157, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(22, 196, 127, 0.08) !important;
+    inset 0 -1px 0 rgba(255, 199, 157, 0.08) !important;
   -webkit-backdrop-filter: blur(30px) saturate(165%) !important;
   backdrop-filter: blur(30px) saturate(165%) !important;
 }
@@ -100,13 +100,13 @@
   border-color: var(--premium-line) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 20px 55px -42px rgba(22, 196, 127, 0.7) !important;
+    0 20px 55px -42px rgba(255, 199, 157, 0.7) !important;
 }
 
 :root .lp-page .lp-comparison {
   border: 1px solid var(--premium-line-strong) !important;
   background:
-    radial-gradient(circle at 90% -12%, rgba(22, 196, 127, 0.2), transparent 46%),
+    radial-gradient(circle at 90% -12%, rgba(255, 199, 157, 0.2), transparent 46%),
     linear-gradient(145deg, rgba(19, 26, 40, 0.9), rgba(6, 9, 15, 0.92)) !important;
   -webkit-backdrop-filter: blur(25px) saturate(150%);
   backdrop-filter: blur(25px) saturate(150%);
@@ -124,7 +124,7 @@
     rgba(5, 8, 14, 0.72) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 18px 44px -32px rgba(22, 196, 127, 0.78) !important;
+    0 18px 44px -32px rgba(255, 199, 157, 0.78) !important;
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   backdrop-filter: blur(22px) saturate(160%);
 }
@@ -146,7 +146,7 @@
 
 :root .lp-page .lp-switch button:hover,
 :root .lp-page .lp-switch button:focus-visible {
-  border-color: rgba(130, 220, 185, 0.32) !important;
+  border-color: rgba(255, 199, 157, 0.32) !important;
   color: #ffffff !important;
   transform: translateY(-1px) !important;
 }
@@ -163,9 +163,9 @@
   border-radius: inherit;
   background:
     radial-gradient(circle at 22% -20%, rgba(255, 255, 255, 0.42), transparent 48%),
-    linear-gradient(135deg, rgba(71, 137, 255, 0.92), rgba(15, 165, 104, 0.76)) !important;
+    linear-gradient(135deg, rgba(71, 137, 255, 0.92), rgba(77, 182, 172, 0.76)) !important;
   box-shadow:
-    0 12px 30px -14px rgba(22, 196, 127, 0.85),
+    0 12px 30px -14px rgba(255, 199, 157, 0.85),
     inset 0 1px 0 rgba(255, 255, 255, 0.4),
     inset 0 -10px 24px rgba(8, 24, 58, 0.22) !important;
   -webkit-backdrop-filter: blur(16px) saturate(175%);
@@ -199,10 +199,10 @@
   border-color: var(--premium-line-strong) !important;
   color: #ffffff !important;
   background:
-    linear-gradient(145deg, rgba(117, 184, 255, 0.16), rgba(22, 196, 127, 0.07)),
+    linear-gradient(145deg, rgba(117, 184, 255, 0.16), rgba(255, 199, 157, 0.07)),
     rgba(12, 17, 28, 0.82) !important;
   box-shadow:
-    0 16px 34px -24px rgba(22, 196, 127, 0.9),
+    0 16px 34px -24px rgba(255, 199, 157, 0.9),
     inset 0 1px 0 rgba(255, 255, 255, 0.11) !important;
   transform: translateY(-2px) !important;
 }
@@ -213,9 +213,9 @@
   color: #ffffff !important;
   background:
     radial-gradient(circle at 16% -15%, rgba(255, 255, 255, 0.2), transparent 45%),
-    linear-gradient(145deg, rgba(22, 196, 127, 0.28), rgba(18, 41, 88, 0.48)) !important;
+    linear-gradient(145deg, rgba(255, 199, 157, 0.28), rgba(18, 41, 88, 0.48)) !important;
   box-shadow:
-    0 16px 38px -25px rgba(22, 196, 127, 0.92),
+    0 16px 38px -25px rgba(255, 199, 157, 0.92),
     inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
 }
 
@@ -233,12 +233,12 @@
     from 0deg,
     transparent 0,
     transparent calc(25% - var(--lp-border-progress) / 4),
-    #86e6c0 calc(25% - var(--lp-border-progress) / 4),
-    #16c47f calc(25% + var(--lp-border-progress) / 4),
+    #ffc79d calc(25% - var(--lp-border-progress) / 4),
+    #ffc79d calc(25% + var(--lp-border-progress) / 4),
     transparent calc(25% + var(--lp-border-progress) / 4),
     transparent calc(75% - var(--lp-border-progress) / 4),
-    #86e6c0 calc(75% - var(--lp-border-progress) / 4),
-    #16c47f calc(75% + var(--lp-border-progress) / 4),
+    #ffc79d calc(75% - var(--lp-border-progress) / 4),
+    #ffc79d calc(75% + var(--lp-border-progress) / 4),
     transparent calc(75% + var(--lp-border-progress) / 4),
     transparent 100%
   );
@@ -254,7 +254,7 @@
 :root .lp-page .lp-chip.is-border-tracing::after {
   opacity: 1;
   filter: drop-shadow(0 0 4px rgba(117, 184, 255, 0.76))
-    drop-shadow(0 0 10px rgba(22, 196, 127, 0.4));
+    drop-shadow(0 0 10px rgba(255, 199, 157, 0.4));
   animation: recovered-border-trace 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
@@ -275,9 +275,9 @@
   color: #ffffff !important;
   background:
     radial-gradient(circle at 20% -25%, rgba(255, 255, 255, 0.34), transparent 42%),
-    linear-gradient(135deg, #4789ff 0%, #16c47f 54%, #0fa568 100%) !important;
+    linear-gradient(135deg, #4789ff 0%, #ffc79d 54%, #4db6ac 100%) !important;
   box-shadow:
-    0 18px 40px -20px rgba(22, 196, 127, 0.92),
+    0 18px 40px -20px rgba(255, 199, 157, 0.92),
     inset 0 1px 0 rgba(255, 255, 255, 0.38),
     inset 0 -12px 24px rgba(7, 23, 58, 0.2) !important;
   -webkit-backdrop-filter: blur(14px) saturate(165%);
@@ -347,7 +347,7 @@
   filter: saturate(112%) brightness(1.06);
   transform: translateY(-3px) scale(1.012) !important;
   box-shadow:
-    0 26px 55px -22px rgba(22, 196, 127, 1),
+    0 26px 55px -22px rgba(255, 199, 157, 1),
     inset 0 1px 0 rgba(255, 255, 255, 0.48),
     inset 0 -12px 24px rgba(7, 23, 58, 0.16) !important;
 }
@@ -379,7 +379,7 @@
     rgba(12, 17, 27, 0.72) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.09),
-    0 16px 38px -30px rgba(22, 196, 127, 0.82) !important;
+    0 16px 38px -30px rgba(255, 199, 157, 0.82) !important;
 }
 
 .site-consultation-cta,

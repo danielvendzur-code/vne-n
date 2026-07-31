@@ -196,7 +196,7 @@ export function Nav() {
                 <LineSidebar
                   items={drawerItems}
                   onItemClick={closeMenu}
-                  accentColor="#16c47f"
+                  accentColor="#ffc79d"
                   textColor="#f7f9fc"
                   markerColor="rgba(247, 249, 252, 0.2)"
                   markerLength={48}

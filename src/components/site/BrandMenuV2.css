@@ -4,7 +4,7 @@
   --brand-symbol-shell: #102a35;
   --brand-symbol-face: #72d3ea;
   --brand-symbol-signal: #d2edf3;
-  --brand-symbol-accent: #a9e5f0;
+  --brand-symbol-accent: #7b8fa6;
   overflow: visible;
   filter: drop-shadow(0 12px 24px rgba(0, 8, 14, 0.32));
 }
@@ -236,7 +236,7 @@
   border-radius: 1.3rem;
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.32), transparent 48%),
-    linear-gradient(135deg, #9fe4f1, #72d3ea 52%, #62b2d0);
+    linear-gradient(135deg, #7b8fa6, #72d3ea 52%, #62b2d0);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.4),
     0 18px 32px -24px rgba(73, 157, 187, 0.78);
@@ -245,7 +245,7 @@
 .site-menu-cta:hover {
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.42), transparent 48%),
-    linear-gradient(135deg, #b2ebf4, #84dcef 52%, #6cbad4);
+    linear-gradient(135deg, #7b8fa6, #84dcef 52%, #6cbad4);
 }
 
 .site-menu-email {

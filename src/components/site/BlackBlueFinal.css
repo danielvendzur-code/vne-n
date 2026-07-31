@@ -15,37 +15,37 @@
   --text-primary: #f7f9fc;
   --text-secondary: #aeb6c2;
   --text-light: #747e8d;
-  --primary: #16c47f;
-  --primary-hover: #0fa568;
-  --primary-soft: rgba(22, 196, 127, 0.14);
+  --primary: #ffc79d;
+  --primary-hover: #4db6ac;
+  --primary-soft: rgba(255, 199, 157, 0.14);
   --primary-foreground: #ffffff;
   --primary-dark: #050609;
-  --accent: #16c47f;
-  --accent-hover: #0fa568;
-  --accent-soft: rgba(22, 196, 127, 0.13);
+  --accent: #ffc79d;
+  --accent-hover: #4db6ac;
+  --accent-soft: rgba(255, 199, 157, 0.13);
   --accent-foreground: #ffffff;
-  --highlight: #16c47f;
-  --highlight-soft: rgba(22, 196, 127, 0.14);
+  --highlight: #ffc79d;
+  --highlight-soft: rgba(255, 199, 157, 0.14);
   --border: rgba(247, 249, 252, 0.12);
   --border-strong: rgba(247, 249, 252, 0.22);
-  --ring: #16c47f;
-  --action: #16c47f;
-  --action-hover: #0fa568;
+  --ring: #ffc79d;
+  --action: #ffc79d;
+  --action-hover: #4db6ac;
   --action-ink: #ffffff;
-  --action-soft: rgba(22, 196, 127, 0.14);
-  --action-line: rgba(22, 196, 127, 0.48);
-  --interactive: #16c47f;
-  --interactive-soft: rgba(22, 196, 127, 0.13);
-  --interactive-line: rgba(22, 196, 127, 0.42);
+  --action-soft: rgba(255, 199, 157, 0.14);
+  --action-line: rgba(255, 199, 157, 0.48);
+  --interactive: #ffc79d;
+  --interactive-soft: rgba(255, 199, 157, 0.13);
+  --interactive-line: rgba(255, 199, 157, 0.42);
   --brand-symbol-shell: #f7f9fc;
-  --brand-symbol-face: #16c47f;
-  --brand-symbol-signal: #16c47f;
-  --brand-symbol-accent: #16c47f;
+  --brand-symbol-face: #ffc79d;
+  --brand-symbol-signal: #ffc79d;
+  --brand-symbol-accent: #ffc79d;
 }
 
 html {
   background: #050609;
-  scrollbar-color: rgba(22, 196, 127, 0.55) #050609;
+  scrollbar-color: rgba(255, 199, 157, 0.55) #050609;
 }
 
 body {
@@ -56,16 +56,16 @@ body {
 
 ::selection {
   color: #ffffff;
-  background: #16c47f;
+  background: #ffc79d;
 }
 
 .skip-link {
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 .skip-link:focus {
-  background: #0fa568 !important;
+  background: #4db6ac !important;
 }
 
 /* Shared landing-page tokens */
@@ -76,11 +76,11 @@ body {
   --lp-primary-ink: #ffffff;
   --lp-muted: #aeb6c2;
   --lp-muted-soft: #747e8d;
-  --lp-green: #16c47f;
-  --lp-green-dark: #0fa568;
-  --lp-mint: #16c47f;
-  --lp-coral: #16c47f;
-  --lp-blue: #16c47f;
+  --lp-green: #ffc79d;
+  --lp-green-dark: #4db6ac;
+  --lp-mint: #ffc79d;
+  --lp-coral: #ffc79d;
+  --lp-blue: #ffc79d;
   --lp-line: rgba(247, 249, 252, 0.12);
   --lp-line-strong: rgba(247, 249, 252, 0.22);
   --lp-surface-soft: #0a0d13;
@@ -97,10 +97,10 @@ body {
 /* Logo and navigation */
 .brand-symbol {
   --brand-symbol-shell: #f7f9fc;
-  --brand-symbol-face: #16c47f;
-  --brand-symbol-signal: #16c47f;
-  --brand-symbol-accent: #16c47f;
-  filter: drop-shadow(0 10px 24px rgba(22, 196, 127, 0.18)) !important;
+  --brand-symbol-face: #ffc79d;
+  --brand-symbol-signal: #ffc79d;
+  --brand-symbol-accent: #ffc79d;
+  filter: drop-shadow(0 10px 24px rgba(255, 199, 157, 0.18)) !important;
 }
 
 .brand-symbol__highlight, .brand-symbol__smile {
@@ -116,7 +116,7 @@ body {
 }
 
 .site-brand-copy small, .site-menu-eyebrow, .site-menu-brand small {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 .site-brand-lockup::after {
@@ -125,7 +125,7 @@ body {
 }
 
 .site-nav-link::before, .site-nav-link::after {
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 :root .site-header nav .site-nav-link[href$="/kontakt"] {
@@ -149,7 +149,7 @@ body {
   width: 0 !important;
   height: 2px !important;
   opacity: 1 !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   transform: translateX(-50%) !important;
   animation: none !important;
 }
@@ -161,14 +161,14 @@ body {
 .site-consultation-cta, .site-menu-cta, .site-header .site-consultation-cta[href$="/kontakt"] {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #16c47f !important;
-  box-shadow: 0 15px 34px -20px rgba(22, 196, 127, 0.8) !important;
+  background: #ffc79d !important;
+  box-shadow: 0 15px 34px -20px rgba(255, 199, 157, 0.8) !important;
 }
 
 .site-consultation-cta:hover, .site-consultation-cta:focus-visible, .site-menu-cta:hover, .site-menu-cta:focus-visible, .site-header .site-consultation-cta[href$="/kontakt"]:hover, .site-header .site-consultation-cta[href$="/kontakt"]:focus-visible {
   color: #ffffff !important;
-  background: #0fa568 !important;
-  box-shadow: 0 18px 40px -20px rgba(15, 165, 104, 0.92) !important;
+  background: #4db6ac !important;
+  box-shadow: 0 18px 40px -20px rgba(77, 182, 172, 0.92) !important;
 }
 
 .site-menu-toggle, .site-menu-close {
@@ -178,7 +178,7 @@ body {
 }
 
 .site-menu-toggle:hover, .site-menu-toggle:focus-visible, .site-menu-close:hover, .site-menu-close:focus-visible {
-  border-color: #16c47f !important;
+  border-color: #ffc79d !important;
   color: #ffffff !important;
   background: #151a24 !important;
 }
@@ -204,14 +204,14 @@ body {
 }
 
 .site-menu-solution:hover, .site-menu-solution:focus-visible, .site-menu-project-link:hover, .site-menu-project-link:focus-visible {
-  border-color: rgba(22, 196, 127, 0.5) !important;
+  border-color: rgba(255, 199, 157, 0.5) !important;
   color: #ffffff !important;
-  background: rgba(15, 165, 104, 0.2) !important;
+  background: rgba(77, 182, 172, 0.2) !important;
 }
 
 .site-menu-solution-icon {
-  color: #16c47f !important;
-  background: rgba(22, 196, 127, 0.14) !important;
+  color: #ffc79d !important;
+  background: rgba(255, 199, 157, 0.14) !important;
 }
 
 /* Hero and primary controls */
@@ -234,11 +234,11 @@ body {
 }
 
 .lp-hero h1 em, .lp-heading h2 em, .lp-eyebrow, .lp-hero-proof svg, .lp-assistant-answer svg {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 .lp-eyebrow i {
-  background: linear-gradient(90deg, #16c47f, transparent) !important;
+  background: linear-gradient(90deg, #ffc79d, transparent) !important;
 }
 
 .lp-hero-lead, .lp-heading-copy, .lp-hero-proof li {
@@ -248,15 +248,15 @@ body {
 .lp-button-primary, .lp-assistant-cta, .lp-caps-detail-cta, .lp-faq-ask, .lp-final-card .lp-button, .lp-final-card .lp-button-light, .lp-solution-cta {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
-  box-shadow: 0 16px 36px -22px rgba(22, 196, 127, 0.82) !important;
+  box-shadow: 0 16px 36px -22px rgba(255, 199, 157, 0.82) !important;
 }
 
 .lp-button-primary:hover, .lp-button-primary:focus-visible, .lp-assistant-cta:hover, .lp-assistant-cta:focus-visible, .lp-caps-detail-cta:hover, .lp-caps-detail-cta:focus-visible, .lp-faq-ask:hover, .lp-faq-ask:focus-visible, .lp-final-card .lp-button:hover, .lp-final-card .lp-button:focus-visible, .lp-final-card .lp-button-light:hover, .lp-final-card .lp-button-light:focus-visible, .lp-solution-cta:hover, .lp-solution-cta:focus-visible {
   color: #ffffff !important;
-  background: #0fa568 !important;
-  box-shadow: 0 20px 42px -22px rgba(15, 165, 104, 0.92) !important;
+  background: #4db6ac !important;
+  box-shadow: 0 20px 42px -22px rgba(77, 182, 172, 0.92) !important;
 }
 
 .lp-button-quiet {
@@ -266,14 +266,14 @@ body {
 }
 
 .lp-button-quiet:hover, .lp-button-quiet:focus-visible {
-  border-color: #0fa568 !important;
+  border-color: #4db6ac !important;
   color: #ffffff !important;
-  background: rgba(15, 165, 104, 0.22) !important;
+  background: rgba(77, 182, 172, 0.22) !important;
 }
 
 .lp-assistant-card {
   border-color: rgba(247, 249, 252, 0.13) !important;
-  border-top-color: rgba(22, 196, 127, 0.72) !important;
+  border-top-color: rgba(255, 199, 157, 0.72) !important;
   background: #090b10 !important;
   background-image: none !important;
   box-shadow:
@@ -295,7 +295,7 @@ body {
 
 .lp-assistant-chips button:hover, .lp-switch button:hover {
   color: #ffffff !important;
-  background: rgba(15, 165, 104, 0.16) !important;
+  background: rgba(77, 182, 172, 0.16) !important;
 }
 
 .lp-assistant-chips button[data-active="true"], .lp-switch button[data-active="true"] {
@@ -304,7 +304,7 @@ body {
 
 .lp-chip-liquid, .lp-switch-liquid {
   border-color: rgba(255, 255, 255, 0.18) !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
   box-shadow: none !important;
 }
@@ -337,13 +337,13 @@ body {
 }
 
 .lp-solution-pill > svg, .sp-service-head > svg, .cookies-card__icon, .contact-card-head > span {
-  border-color: rgba(22, 196, 127, 0.32) !important;
-  color: #16c47f !important;
-  background: rgba(22, 196, 127, 0.13) !important;
+  border-color: rgba(255, 199, 157, 0.32) !important;
+  color: #ffc79d !important;
+  background: rgba(255, 199, 157, 0.13) !important;
 }
 
 .lp-solution-pill:hover, .lp-solution-pill:focus-within, .sp-service:hover, .sp-project-card > a:hover, .sp-project-card > a:focus-visible, .cookies-card:hover {
-  border-color: rgba(22, 196, 127, 0.52) !important;
+  border-color: rgba(255, 199, 157, 0.52) !important;
 }
 
 .lp-chip, .lp-caps-chips button, .lp-caps-input, .chip, .sp-chip-row .chip, .sp-hero-chips .chip {
@@ -354,20 +354,20 @@ body {
 }
 
 .lp-chip:hover, .lp-chip:focus-visible, .lp-caps-chips button:hover, .lp-caps-chips button:focus-visible, .chip:hover, .chip:focus-visible {
-  border-color: rgba(15, 165, 104, 0.72) !important;
+  border-color: rgba(77, 182, 172, 0.72) !important;
   color: #ffffff !important;
-  background: rgba(15, 165, 104, 0.2) !important;
+  background: rgba(77, 182, 172, 0.2) !important;
 }
 
 .lp-chip[data-active="true"], .lp-caps-chips button[data-active="true"], .lp-caps-chips button[aria-pressed="true"] {
-  border-color: #16c47f !important;
+  border-color: #ffc79d !important;
   color: #ffffff !important;
-  background: rgba(22, 196, 127, 0.17) !important;
-  box-shadow: inset 3px 0 0 #16c47f !important;
+  background: rgba(255, 199, 157, 0.17) !important;
+  box-shadow: inset 3px 0 0 #ffc79d !important;
 }
 
 .lp-caps-row-head h3::after, .sp-detail-block > span i, .sp-timeline-progress, .lp-final-card::before, .sp-cta::before {
-  background: #16c47f !important;
+  background: #ffc79d !important;
   box-shadow: none !important;
 }
 
@@ -382,11 +382,11 @@ body {
 }
 
 .lp-portfolio .lp-heading h2 em, .lp-portfolio .lp-eyebrow, .lp-project-copy p, .lp-project-copy > span {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 .lp-portfolio .lp-eyebrow i {
-  background: linear-gradient(90deg, #16c47f, transparent) !important;
+  background: linear-gradient(90deg, #ffc79d, transparent) !important;
 }
 
 .lp-portfolio .lp-heading-copy, .lp-project-copy small, .lp-live-tools > span {
@@ -401,7 +401,7 @@ body {
 }
 
 .lp-project > a:hover, .lp-project > a:focus-visible {
-  border-color: rgba(22, 196, 127, 0.55) !important;
+  border-color: rgba(255, 199, 157, 0.55) !important;
   box-shadow: 0 34px 78px -46px rgba(0, 0, 0, 1) !important;
 }
 
@@ -420,14 +420,14 @@ body {
 
 .lp-live-tools a {
   border-color: rgba(247, 249, 252, 0.13) !important;
-  color: #16c47f !important;
+  color: #ffc79d !important;
   background: #0e1118 !important;
 }
 
 .lp-live-tools a:hover, .lp-live-tools a:focus-visible {
-  border-color: #0fa568 !important;
+  border-color: #4db6ac !important;
   color: #ffffff !important;
-  background: #0fa568 !important;
+  background: #4db6ac !important;
 }
 
 /* DERAT story */
@@ -435,7 +435,7 @@ body {
   --derat-ink: #f7f9fc;
   --derat-paper: #050609;
   --derat-muted: #aeb6c2;
-  --derat-mint: #16c47f;
+  --derat-mint: #ffc79d;
   color: #f7f9fc !important;
   background: #050609 !important;
   background-image: none !important;
@@ -447,11 +447,11 @@ body {
 }
 
 .derat-story__kicker, .derat-story a, .derat-story__progress span {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 .derat-story__progress span, .derat-story__mobile-dots button.is-active span {
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 /* Public subpages */
@@ -466,11 +466,11 @@ body {
 }
 
 .sp-eyebrow, .sp-hero h1 em, .sp-heading h2 em, .sp-service-head > svg, .sp-project-card .sp-project-cat, .sp-step-label svg, .contact-kicker, .contact-intro h1 em, .contact-details svg, .contact-expect li svg, .cookies-card__kicker, .cookies-status b, .cookies-contact a {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 .sp-eyebrow i, .contact-kicker i {
-  background: #16c47f !important;
+  background: #ffc79d !important;
   box-shadow: none !important;
 }
 
@@ -483,9 +483,9 @@ body {
 }
 
 .sp-step::before {
-  border-color: #16c47f !important;
+  border-color: #ffc79d !important;
   background: #050609 !important;
-  box-shadow: 0 0 0 0.32rem rgba(22, 196, 127, 0.12) !important;
+  box-shadow: 0 0 0 0.32rem rgba(255, 199, 157, 0.12) !important;
 }
 
 .sp-project-visual {
@@ -500,15 +500,15 @@ body {
 .sp-button--primary, .cookies-settings-button, .contact-submit {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
-  box-shadow: 0 16px 36px -22px rgba(22, 196, 127, 0.82) !important;
+  box-shadow: 0 16px 36px -22px rgba(255, 199, 157, 0.82) !important;
 }
 
 .sp-button--primary:hover, .sp-button--primary:focus-visible, .cookies-settings-button:hover, .cookies-settings-button:focus-visible, .contact-submit:hover, .contact-submit:focus-visible {
   color: #ffffff !important;
-  background: #0fa568 !important;
-  box-shadow: 0 20px 42px -22px rgba(15, 165, 104, 0.92) !important;
+  background: #4db6ac !important;
+  box-shadow: 0 20px 42px -22px rgba(77, 182, 172, 0.92) !important;
 }
 
 .sp-button--ghost, .contact-assistant {
@@ -518,9 +518,9 @@ body {
 }
 
 .sp-button--ghost:hover, .sp-button--ghost:focus-visible, .contact-assistant:hover, .contact-assistant:focus-visible {
-  border-color: #0fa568 !important;
+  border-color: #4db6ac !important;
   color: #ffffff !important;
-  background: rgba(15, 165, 104, 0.22) !important;
+  background: rgba(77, 182, 172, 0.22) !important;
 }
 
 .contact-glow {
@@ -534,9 +534,9 @@ body {
 }
 
 .contact-card input:focus, .contact-card textarea:focus, .contact-card select:focus {
-  border-color: #16c47f !important;
+  border-color: #ffc79d !important;
   background: #0e1118 !important;
-  box-shadow: 0 0 0 4px rgba(22, 196, 127, 0.13) !important;
+  box-shadow: 0 0 0 4px rgba(255, 199, 157, 0.13) !important;
 }
 
 .contact-or span, .cookies-contact {
@@ -553,8 +553,8 @@ body {
   --cookie-bg: #090b10;
   --cookie-border: rgba(247, 249, 252, 0.16);
   --cookie-soft: rgba(247, 249, 252, 0.055);
-  --cookie-accent: #16c47f;
-  --cookie-accent-strong: #16c47f;
+  --cookie-accent: #ffc79d;
+  --cookie-accent-strong: #ffc79d;
   border-color: var(--cookie-border) !important;
   color: #f7f9fc !important;
   background: #090b10 !important;
@@ -567,18 +567,18 @@ body {
 }
 
 .cookie-banner::after {
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 .cookie-banner__icon, .cookie-modal__mark, .cookie-category__icon {
-  border-color: rgba(22, 196, 127, 0.35) !important;
-  color: #16c47f !important;
-  background: rgba(22, 196, 127, 0.13) !important;
+  border-color: rgba(255, 199, 157, 0.35) !important;
+  color: #ffc79d !important;
+  background: rgba(255, 199, 157, 0.13) !important;
   background-image: none !important;
 }
 
 .cookie-banner__head p, .cookie-modal__head p, .cookie-category__copy > div span {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 .cookie-banner__head h2, .cookie-modal__head h2, .cookie-category__copy h3 {
@@ -592,14 +592,14 @@ body {
 .cookie-button--primary, .cookie-category__locked {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
   box-shadow: none !important;
 }
 
 .cookie-button--primary:hover, .cookie-button--primary:focus-visible {
   color: #ffffff !important;
-  background: #0fa568 !important;
+  background: #4db6ac !important;
 }
 
 .cookie-button--quiet, .cookie-modal__close, .cookie-category, .cookie-switch > span {
@@ -610,18 +610,18 @@ body {
 }
 
 .cookie-button--quiet:hover, .cookie-button--quiet:focus-visible, .cookie-modal__close:hover, .cookie-modal__close:focus-visible {
-  border-color: #0fa568 !important;
+  border-color: #4db6ac !important;
   color: #ffffff !important;
-  background: rgba(15, 165, 104, 0.22) !important;
+  background: rgba(77, 182, 172, 0.22) !important;
 }
 
 .cookie-switch input:checked + span {
-  border-color: #16c47f !important;
-  background: rgba(22, 196, 127, 0.24) !important;
+  border-color: #ffc79d !important;
+  background: rgba(255, 199, 157, 0.24) !important;
 }
 
 .cookie-switch input:checked + span::after {
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 /* Footer */
@@ -636,14 +636,14 @@ body {
 }
 
 .premium-footer-links a:hover, .premium-footer-links button:hover {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 /* The embedded assistant must match even before its own stylesheet finishes loading. */
 
 /* One consistent focus colour. */
 .lp-page button:focus-visible, .lp-page a:focus-visible, .site-header button:focus-visible, .site-header a:focus-visible, .sp-page button:focus-visible, .sp-page a:focus-visible, .contact-page button:focus-visible, .contact-page a:focus-visible, .contact-page input:focus-visible, .contact-page textarea:focus-visible, .contact-page select:focus-visible, .cookies-page button:focus-visible, .cookies-page a:focus-visible, .cookie-banner button:focus-visible, .cookie-modal button:focus-visible, .cookie-modal a:focus-visible {
-  outline: 3px solid rgba(22, 196, 127, 0.86) !important;
+  outline: 3px solid rgba(255, 199, 157, 0.86) !important;
   outline-offset: 4px !important;
 }
 
@@ -659,11 +659,11 @@ body {
   --lp-primary-ink: #ffffff;
   --lp-muted: #aeb6c2;
   --lp-muted-soft: #747e8d;
-  --lp-green: #16c47f;
-  --lp-green-dark: #0fa568;
-  --lp-mint: #16c47f;
-  --lp-coral: #16c47f;
-  --lp-blue: #16c47f;
+  --lp-green: #ffc79d;
+  --lp-green-dark: #4db6ac;
+  --lp-mint: #ffc79d;
+  --lp-coral: #ffc79d;
+  --lp-blue: #ffc79d;
   --lp-line: rgba(247, 249, 252, 0.12);
   --lp-line-strong: rgba(247, 249, 252, 0.22);
   --lp-surface-soft: #0a0d13;
@@ -678,16 +678,16 @@ body {
 :root .lp-page .lp-button-primary, :root .lp-page .lp-assistant-cta, :root .lp-page .lp-caps-detail-cta, :root .lp-page .lp-faq-ask, :root .lp-page .lp-final-card .lp-button, :root .lp-page .lp-final-card .lp-button-light, :root .lp-page .lp-solution-cta {
   border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
-  box-shadow: 0 16px 36px -22px rgba(22, 196, 127, 0.82) !important;
+  box-shadow: 0 16px 36px -22px rgba(255, 199, 157, 0.82) !important;
 }
 
 :root .lp-page .lp-button-primary:hover, :root .lp-page .lp-button-primary:focus-visible, :root .lp-page .lp-assistant-cta:hover, :root .lp-page .lp-assistant-cta:focus-visible, :root .lp-page .lp-caps-detail-cta:hover, :root .lp-page .lp-caps-detail-cta:focus-visible, :root .lp-page .lp-faq-ask:hover, :root .lp-page .lp-faq-ask:focus-visible, :root .lp-page .lp-final-card .lp-button:hover, :root .lp-page .lp-final-card .lp-button:focus-visible, :root .lp-page .lp-final-card .lp-button-light:hover, :root .lp-page .lp-final-card .lp-button-light:focus-visible, :root .lp-page .lp-solution-cta:hover, :root .lp-page .lp-solution-cta:focus-visible {
-  border-color: #0fa568 !important;
+  border-color: #4db6ac !important;
   color: #ffffff !important;
-  background: #0fa568 !important;
-  box-shadow: 0 20px 42px -22px rgba(15, 165, 104, 0.92) !important;
+  background: #4db6ac !important;
+  box-shadow: 0 20px 42px -22px rgba(77, 182, 172, 0.92) !important;
 }
 
 :root .lp-page .lp-assistant-chips button[data-active="true"], :root .lp-page .lp-switch button[data-active="true"] {
@@ -696,15 +696,15 @@ body {
 
 :root .lp-page .lp-chip-liquid, :root .lp-page .lp-switch-liquid {
   border-color: rgba(255, 255, 255, 0.18) !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
   box-shadow: none !important;
 }
 
 :root .lp-page .lp-chip::before, :root .chip::before, :root .chip[data-tone="gold"]::before, :root .chip[data-tone="coral"]::before {
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
-  box-shadow: 0 0 0 0.24rem rgba(22, 196, 127, 0.1) !important;
+  box-shadow: 0 0 0 0.24rem rgba(255, 199, 157, 0.1) !important;
 }
 
 :root .lp-page .lp-chip[data-active="true"]::before {
@@ -714,9 +714,9 @@ body {
 }
 
 :root .lp-page .lp-chip-icon {
-  border-color: rgba(22, 196, 127, 0.36) !important;
-  color: #16c47f !important;
-  background: rgba(22, 196, 127, 0.12) !important;
+  border-color: rgba(255, 199, 157, 0.36) !important;
+  color: #ffc79d !important;
+  background: rgba(255, 199, 157, 0.12) !important;
 }
 
 :root .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
@@ -726,18 +726,18 @@ body {
 }
 
 :root .lp-page .lp-chip-fill, :root .lp-page .lp-chip[data-tone="mint"] .lp-chip-fill, :root .lp-page .lp-chip[data-tone="coral"] .lp-chip-fill, :root .lp-page .lp-chip[data-tone="ink"] .lp-chip-fill {
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
   box-shadow: none !important;
 }
 
 :root .lp-page .lp-caps-row-head h3::after, :root .lp-page .lp-caps-row-head[data-tone="mint"] h3::after, :root .lp-page .lp-caps-row-head[data-tone="coral"] h3::after, :root .lp-page .lp-caps-row-head[data-tone="ink"] h3::after {
-  background: #16c47f !important;
+  background: #ffc79d !important;
   box-shadow: none !important;
 }
 
 :root .lp-page .lp-caps-detail-inner, :root .lp-page .lp-caps-detail-inner[data-tone="mint"], :root .lp-page .lp-caps-detail-inner[data-tone="coral"], :root .lp-page .lp-caps-detail-inner[data-tone="ink"] {
-  border-left-color: #16c47f !important;
+  border-left-color: #ffc79d !important;
 }
 
 @media (max-width: 640px) {

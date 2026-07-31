@@ -1,0 +1,132 @@
+/* =============================================================
+   Brand system — the peach/slate/teal palette, on one dark base.
+
+   Loaded last, so it settles the palette for the whole site. Three
+   accents only, exactly as briefed:
+
+     #FFC79D  primary, and the logo
+     #7B8FA6  secondary
+     #4DB6AC  hover and interactive accent
+     #0A0D12  background
+
+   The one thing the brief could not anticipate: #FFC79D is a light
+   colour. White text on it measures 1.51:1, which is unreadable, so
+   anything sitting ON the primary uses the dark base instead at
+   12.89:1. Same for the teal accent — white is 2.44:1, dark is 7.97:1.
+   ============================================================= */
+
+:root,
+html body {
+  --brand-primary: #ffc79d;
+  --brand-secondary: #7b8fa6;
+  --brand-accent: #4db6ac;
+  --brand-bg: #0a0d12;
+  --brand-surface: #111620;
+  --brand-raised: #161c28;
+  --brand-line: rgba(123, 143, 166, 0.18);
+  --brand-ink: #f5f7fa;
+  --brand-ink-dim: #a8b4c2;
+  /* text that sits on a filled primary or accent */
+  --brand-on-fill: #0a0d12;
+  --brand-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- one background, with a texture that is felt rather than seen ----
+   Two very low-alpha layers: a fine grain and a wide vignette. Fixed
+   attachment so it does not swim while the page scrolls. */
+html,
+body {
+  background-color: var(--brand-bg) !important;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(255, 199, 157, 0.05), transparent 42%),
+    radial-gradient(circle at 84% 78%, rgba(77, 182, 172, 0.045), transparent 46%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+  background-size: auto, auto, 140px 140px;
+}
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- the logo carries the primary, nothing behind it ---------------- */
+html body .brand-mark {
+  color: var(--brand-primary) !important;
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  overflow: visible !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+html body .site-brand-lockup:is(:hover, :focus-visible) .brand-mark {
+  color: var(--brand-accent) !important;
+}
+
+/* ---- readable text on filled controls -------------------------------
+   Substituting the palette cannot know which colour sits on top of
+   which, so every filled surface is corrected here. */
+html body :is(
+    .btn-primary, .lp-cta, .lp-btn--primary, .premium-cta,
+    [data-variant="primary"]
+  ):not(.cw-widget *) {
+  background: var(--brand-primary) !important;
+  color: var(--brand-on-fill) !important;
+  border-color: transparent !important;
+}
+html body :is(
+    .btn-primary, .lp-cta, .lp-btn--primary, .premium-cta,
+    [data-variant="primary"]
+  ):is(:hover, :focus-visible):not(:disabled):not(.cw-widget *) {
+  background: var(--brand-accent) !important;
+  color: var(--brand-on-fill) !important;
+}
+html body :is(.btn-primary, .lp-cta, .premium-cta) :is(svg, span, b) {
+  color: inherit !important;
+}
+
+/* ---- motion: one curve, and only where it helps --------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html body :is(a, button, .lp-card, .premium-card, [class*="-card"]) {
+    transition:
+      color 220ms var(--brand-ease),
+      background-color 320ms var(--brand-ease),
+      border-color 320ms var(--brand-ease),
+      box-shadow 320ms var(--brand-ease),
+      transform 320ms var(--brand-ease);
+  }
+  /* sections settle in as they enter, rather than popping */
+  html body [data-reveal] {
+    animation: brand-rise 640ms var(--brand-ease) backwards;
+  }
+  @keyframes brand-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  /* press feedback is quick, release is soft */
+  html body :is(a, button):active:not(:disabled) {
+    transform: scale(0.985);
+    transition-duration: 90ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body [data-reveal] {
+    animation: none !important;
+  }
+}
+
+/* ---- focus, on the accent so it reads against both fills ------------ */
+html body :is(a, button, input, textarea, select, summary):focus-visible {
+  outline: 3px solid rgba(77, 182, 172, 0.86) !important;
+  outline-offset: 3px !important;
+}

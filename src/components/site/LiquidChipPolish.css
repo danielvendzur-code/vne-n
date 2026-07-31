@@ -10,7 +10,7 @@
   --text-secondary: #b9cbd1;
   --text-light: #8399a2;
   --primary: #72d3ea;
-  --primary-hover: #a9e5f0;
+  --primary-hover: #7b8fa6;
   --primary-soft: rgba(114, 211, 234, 0.16);
   --primary-foreground: #05151c;
   --accent: #5b9fbd;
@@ -30,7 +30,7 @@
   --lp-muted: #b9cbd1;
   --lp-muted-soft: #8399a2;
   --lp-green: #72d3ea;
-  --lp-green-dark: #a9e5f0;
+  --lp-green-dark: #7b8fa6;
   --lp-mint: #9fdae8;
   --lp-coral: #5b9fbd;
   --lp-blue: #72b6cf;
@@ -216,7 +216,7 @@
       rgba(255, 255, 255, 0.46),
       transparent 42%
     ),
-    linear-gradient(135deg, #a8e6f1 0%, #73d2e9 46%, #62b2d0 100%);
+    linear-gradient(135deg, #7b8fa6 0%, #73d2e9 46%, #62b2d0 100%);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.42),
     inset 0 -1px rgba(15, 96, 124, 0.12),
@@ -311,7 +311,7 @@
   border-radius: inherit;
   background:
     radial-gradient(circle at 28% 16%, rgba(255, 255, 255, 0.48), transparent 43%),
-    linear-gradient(135deg, #a8e6f1 0%, #72d3ea 46%, #61b0ce 100%);
+    linear-gradient(135deg, #7b8fa6 0%, #72d3ea 46%, #61b0ce 100%);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.42),
     inset 0 -1px rgba(15, 96, 124, 0.12);

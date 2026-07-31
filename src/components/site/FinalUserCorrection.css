@@ -5,9 +5,9 @@
 html body .lp-page .lp-assistant-card {
   overflow: hidden !important;
   border: 0 !important;
-  background: #0e1512 !important;
+  background: #0e1115 !important;
   background-image: none !important;
-  box-shadow: inset 0 0 0 1px rgba(95, 200, 160, 0.1) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 199, 157, 0.1) !important;
 }
 
 html body .lp-page .lp-assistant-card > p {
@@ -66,8 +66,8 @@ html body .lp-page .lp-hero-pick:is(:hover, :focus-visible):not([data-active="tr
 html body .lp-page .lp-hero-pick[data-active="true"] {
   color: #fff !important;
   background:
-    radial-gradient(circle at 50% 48%, rgba(34, 207, 140, 0.2), transparent 70%),
-    linear-gradient(135deg, #0e2b21 0%, #124f39 100%) !important;
+    radial-gradient(circle at 50% 48%, rgba(255, 199, 157, 0.2), transparent 70%),
+    linear-gradient(135deg, #141b25 0%, #222d3f 100%) !important;
   box-shadow: none !important;
 }
 
@@ -79,7 +79,7 @@ html body .lp-page .lp-hero-pick-icon {
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
   background: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
@@ -133,7 +133,7 @@ html body .lp-page .lp-assistant-answer::after {
 }
 
 html body .lp-page .lp-assistant-answer > svg {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -166,8 +166,8 @@ html body .lp-page .lp-comparison-body {
   padding: clamp(32px, 5vw, 54px) !important;
   border: 0 !important;
   border-radius: 24px !important;
-  background: #0e1512 !important;
-  box-shadow: inset 0 0 0 1px rgba(95, 200, 160, 0.1) !important;
+  background: #0e1115 !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 199, 157, 0.1) !important;
 }
 
 html body .lp-page .lp-comparison-copy h3 {
@@ -204,7 +204,7 @@ html body .lp-page .lp-comparison-body li svg {
   height: 25px !important;
   padding: 5px !important;
   border-radius: 50% !important;
-  background: #12a870 !important;
+  background: #4db6ac !important;
 }
 
 html body .lp-page .lp-caps-chips {
@@ -224,7 +224,7 @@ html body .lp-page .lp-chip {
   border: 0 !important;
   border-radius: 17px !important;
   color: #d8e2ee !important;
-  background: #131c18 !important;
+  background: #13161c !important;
   background-image: none !important;
   box-shadow: none !important;
   text-align: center !important;
@@ -251,7 +251,7 @@ html body .lp-page .lp-chip:is(:hover, :focus-visible):not([data-active="true"])
 html body .lp-page .lp-chip[data-active="true"] {
   color: #fff !important;
   background:
-    radial-gradient(circle at 50% 50%, rgba(34, 207, 140, 0.24), transparent 68%), #146b4c !important;
+    radial-gradient(circle at 50% 50%, rgba(255, 199, 157, 0.24), transparent 68%), #2c3b53 !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -268,12 +268,12 @@ html body .lp-page .lp-chip-icon {
 
 html body .lp-page .lp-caps-detail-inner {
   border: 0 !important;
-  background: #0e1512 !important;
-  box-shadow: inset 0 0 0 1px rgba(95, 200, 160, 0.1) !important;
+  background: #0e1115 !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 199, 157, 0.1) !important;
 }
 
 html body .lp-page .lp-caps-detail-spec {
-  border-left-color: rgba(105, 200, 165, 0.1) !important;
+  border-left-color: rgba(255, 199, 157, 0.1) !important;
   background: #0e1927 !important;
 }
 
@@ -337,14 +337,14 @@ html body .cookies-page {
   --chip-h: 46px;
   --chip-radius: 999px;
   --chip-pad-x: 18px;
-  --chip-bg: #131c18;
+  --chip-bg: #13161c;
   --chip-bg-hover: #17273d;
   --chip-ink: #d3dded;
   --chip-ink-strong: #ffffff;
-  --chip-line: rgba(122, 210, 180, 0.18);
-  --chip-line-hover: rgba(40, 200, 140, 0.6);
-  --chip-accent: #16c47f;
-  --chip-accent-bg: #125940;
+  --chip-line: rgba(123, 143, 166, 0.18);
+  --chip-line-hover: rgba(77, 182, 172, 0.6);
+  --chip-accent: #ffc79d;
+  --chip-accent-bg: #253246;
   --chip-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -397,7 +397,7 @@ html:root body .cookies-page .chip {
     border-color: var(--chip-line-hover) !important;
     background: var(--chip-bg-hover) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 14px 26px -18px rgba(22, 196, 127, 0.75) !important;
+    box-shadow: 0 14px 26px -18px rgba(255, 199, 157, 0.75) !important;
   }
 }
 
@@ -406,7 +406,7 @@ html:root body .lp-page .lp-chip[data-selected="true"],
 html:root body .lp-page .lp-chip[data-active="true"] {
   color: var(--chip-ink-strong) !important;
   border-color: var(--chip-accent) !important;
-  background: #125940 !important;
+  background: #253246 !important;
   box-shadow: none !important;
   transform: translateY(0) !important;
 }
@@ -444,7 +444,7 @@ html:root body .lp-page .lp-chip[data-selected="true"]::after,
     linear-gradient(#000 0 0) !important;
   -webkit-mask-composite: xor !important;
   mask-composite: exclude !important;
-  filter: drop-shadow(0 0 5px rgba(22, 196, 127, 0.55)) !important;
+  filter: drop-shadow(0 0 5px rgba(255, 199, 157, 0.55)) !important;
   animation: chip-trace-symmetric 620ms var(--chip-ease) forwards !important;
 }
 
@@ -479,7 +479,7 @@ html:root body .lp-page .lp-hero-pick {
     border-color: var(--chip-line-hover) !important;
     background: var(--chip-bg-hover) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 16px 30px -20px rgba(22, 196, 127, 0.75) !important;
+    box-shadow: 0 16px 30px -20px rgba(255, 199, 157, 0.75) !important;
   }
 }
 
@@ -487,7 +487,7 @@ html:root body .lp-page .lp-hero-pick[data-selected="true"],
 html:root body .lp-page .lp-hero-pick[data-active="true"] {
   color: var(--chip-ink-strong) !important;
   border-color: var(--chip-accent) !important;
-  background: #125940 !important;
+  background: #253246 !important;
   background-image: none !important;
   box-shadow: none !important;
   transform: translateY(0) !important;
@@ -536,8 +536,8 @@ html:root body .lp-page .lp-comparison {
 html:root body .lp-page .lp-comparison-body {
   border: 0 !important;
   border-radius: 26px !important;
-  background: #0e1512 !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.14) !important;
+  background: #0e1115 !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.14) !important;
 }
 
 /* the inner copy block and the list are part of the card, not cards */
@@ -563,7 +563,7 @@ html:root body .lp-page .lp-switch--clean {
   border: 0 !important;
   border-radius: 999px !important;
   background: #0f1a28 !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.14) !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.14) !important;
   touch-action: pan-y !important;
   cursor: grab !important;
 }
@@ -580,8 +580,8 @@ html:root body .lp-page .lp-switch-thumb {
   left: 4px !important;
   width: calc(50% - 4px) !important;
   border-radius: 999px !important;
-  background: #16c47f !important;
-  box-shadow: 0 10px 22px -14px rgba(22, 196, 127, 0.9) !important;
+  background: #ffc79d !important;
+  box-shadow: 0 10px 22px -14px rgba(255, 199, 157, 0.9) !important;
   transform: translateX(0) !important;
   transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1) !important;
   pointer-events: none !important;
@@ -612,9 +612,9 @@ html:root body .lp-page,
 html:root body .sp-page,
 html:root body .contact-page,
 html:root body .cookies-page {
-  --blue: #16c47f;
-  --blue-strong: #0fa568;
-  --blue-soft: #7fe0b4;
+  --blue: #ffc79d;
+  --blue-strong: #4db6ac;
+  --blue-soft: #7b8fa6;
 }
 
 /* solid accents collapse onto the primary blue */
@@ -656,7 +656,7 @@ html:root body .contact-page .contact-submit {
   color: #ffffff !important;
   background: var(--blue) !important;
   background-image: none !important;
-  box-shadow: 0 16px 32px -20px rgba(22, 196, 127, 0.85) !important;
+  box-shadow: 0 16px 32px -20px rgba(255, 199, 157, 0.85) !important;
   font-weight: 680 !important;
   transition:
     background-color 200ms ease,
@@ -675,7 +675,7 @@ html:root body .sp-page .sp-button--primary:is(:hover, :focus-visible),
 html:root body .contact-page .contact-submit:is(:hover, :focus-visible) {
   background: var(--blue-strong) !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 20px 38px -20px rgba(15, 165, 104, 0.95) !important;
+  box-shadow: 0 20px 38px -20px rgba(77, 182, 172, 0.95) !important;
 }
 
 /* --- 5. Sections read apart: alternating tone + hairline --- */
@@ -709,8 +709,8 @@ html:root body .lp-page .winner-upgrade::before {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(122, 210, 180, 0.22) 22%,
-    rgba(122, 210, 180, 0.22) 78%,
+    rgba(123, 143, 166, 0.22) 22%,
+    rgba(123, 143, 166, 0.22) 78%,
     transparent
   ) !important;
   pointer-events: none !important;
@@ -733,15 +733,15 @@ html:root body .lp-page .lp-comparison-body[data-mode="without"] li svg {
    Runtime audit found ten different blues on one page: icons used
    #6DA4FF / #86AFF6 / #78BBFF, hairlines used two more tints, and the
    pricing block (which renders outside .lp-page) kept its own set.
-   Everything below collapses onto: #16c47f solid, #7fe0b4 soft,
+   Everything below collapses onto: #ffc79d solid, #7b8fa6 soft,
    rgba(122,162,220,.18) hairline.
    ============================================================== */
 html:root body .winner-upgrade,
 html:root body .winner-trust,
 html:root body .winner-packages {
-  --blue: #16c47f;
-  --blue-strong: #0fa568;
-  --blue-soft: #7fe0b4;
+  --blue: #ffc79d;
+  --blue-strong: #4db6ac;
+  --blue-soft: #7b8fa6;
 }
 
 /* one hairline tone on every card */
@@ -751,7 +751,7 @@ html:root body .lp-page .lp-assistant-answer,
 html:root body .lp-page .lp-final-card,
 html:root body .winner-trust__item,
 html:root body .winner-package {
-  border-color: rgba(122, 210, 180, 0.18) !important;
+  border-color: rgba(123, 143, 166, 0.18) !important;
 }
 
 /* one soft tone on every decorative icon */
@@ -761,14 +761,14 @@ html:root body .lp-page .lp-caps-note svg,
 html:root body .lp-page .lp-hero-proof svg,
 html:root body .winner-trust__item > svg,
 html:root body .winner-package__icon svg {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
 }
 
 /* eyebrows and small accents use the solid brand blue */
 html:root body .winner-upgrade__eyebrow,
 html:root body .winner-upgrade h2 em,
 html:root body .winner-package__price {
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 /* the pricing CTA is the same blue pill as every other action */
@@ -776,16 +776,16 @@ html:root body .winner-package__cta {
   border: 0 !important;
   border-radius: 999px !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
-  box-shadow: 0 16px 32px -20px rgba(22, 196, 127, 0.85) !important;
+  box-shadow: 0 16px 32px -20px rgba(255, 199, 157, 0.85) !important;
   transition:
     background-color 200ms ease,
     transform 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 html:root body .winner-package__cta:is(:hover, :focus-visible) {
-  background: #0fa568 !important;
+  background: #4db6ac !important;
   transform: translateY(-2px) !important;
 }
 
@@ -827,13 +827,13 @@ html:root body .winner-final__secondary {
 html:root body .winner-final__primary {
   border: 0 !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
-  box-shadow: 0 16px 32px -20px rgba(22, 196, 127, 0.85) !important;
+  box-shadow: 0 16px 32px -20px rgba(255, 199, 157, 0.85) !important;
 }
 
 html:root body .winner-final__primary:is(:hover, :focus-visible) {
-  background: #0fa568 !important;
+  background: #4db6ac !important;
   transform: translateY(-2px) !important;
 }
 
@@ -843,7 +843,7 @@ html:root body .winner-final__secondary {
   color: #dce5ef !important;
   background: #111d2b !important;
   background-image: none !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.18) !important;
 }
 
 html:root body .winner-final__secondary:is(:hover, :focus-visible) {
@@ -905,10 +905,10 @@ html:root body .cookies-page,
 html:root body .winner-upgrade {
   --cta-h: 52px;
   --cta-radius: 999px;
-  --cta-blue: #16c47f;
-  --cta-blue-hover: #0fa568;
-  --cta-alt: #12403a;
-  --cta-alt-hover: #17564d;
+  --cta-blue: #ffc79d;
+  --cta-blue-hover: #4db6ac;
+  --cta-alt: #1d2635;
+  --cta-alt-hover: #263347;
   --cta-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -935,7 +935,7 @@ html:root body .site-consultation-cta {
   color: #ffffff !important;
   background: var(--cta-blue) !important;
   background-image: none !important;
-  box-shadow: 0 16px 32px -20px rgba(22, 196, 127, 0.85) !important;
+  box-shadow: 0 16px 32px -20px rgba(255, 199, 157, 0.85) !important;
   font-size: 0.95rem !important;
   font-weight: 700 !important;
   letter-spacing: -0.01em !important;
@@ -959,7 +959,7 @@ html:root body .contact-page .contact-submit:is(:hover, :focus-visible),
 html:root body .site-consultation-cta:is(:hover, :focus-visible) {
   background: var(--cta-blue-hover) !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 20px 38px -20px rgba(15, 165, 104, 0.95) !important;
+  box-shadow: 0 20px 38px -20px rgba(77, 182, 172, 0.95) !important;
 }
 
 /* --- 2) druhá akcia: plná farba cez celý chip, iný odtieň --- */
@@ -1049,9 +1049,9 @@ html:root body .lp-page .lp-solution-pill {
   padding: 28px !important;
   border: 0 !important;
   border-radius: 22px !important;
-  background: #0e1512 !important;
+  background: #0e1115 !important;
   background-image: none !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.18) !important;
   transform: none !important;
   transition: none !important;
 }
@@ -1059,8 +1059,8 @@ html:root body .lp-page .lp-solution-pill {
 html:root body .lp-page .lp-solution-pill:is(:hover, :focus-within) {
   transform: none !important;
   border: 0 !important;
-  background: #0e1512 !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
+  background: #0e1115 !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.18) !important;
 }
 
 html:root body .lp-page .lp-solution-pill::before,
@@ -1076,7 +1076,7 @@ html:root body .lp-page .lp-solution-icon {
   height: 44px !important;
   border-radius: 999px !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 html:root body .lp-page .lp-solution-icon svg {
@@ -1271,7 +1271,7 @@ html:root body .site-menu-content {
    ============================================================== */
 html:root body .lp-page .lp-assistant-cta {
   gap: 8px !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   box-shadow: none !important;
 }
 
@@ -1282,7 +1282,7 @@ html:root body .lp-page .lp-assistant-cta .lp-button-content {
 }
 
 html:root body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
-  background: #0fa568 !important;
+  background: #4db6ac !important;
   transform: translateY(-2px) !important;
   box-shadow: none !important;
 }
@@ -1324,16 +1324,16 @@ html:root body .lp-page .lp-process-list li {
   padding: 26px !important;
   border: 0 !important;
   border-radius: 22px !important;
-  background: #0e1512 !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
+  background: #0e1115 !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.18) !important;
   transform: none !important;
   transition: none !important;
 }
 
 html:root body .lp-page .lp-process-list li:is(:hover, :focus-within) {
   transform: none !important;
-  background: #0e1512 !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
+  background: #0e1115 !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.18) !important;
 }
 
 html:root body .lp-page .lp-process-list li::before,
@@ -1343,7 +1343,7 @@ html:root body .lp-page .lp-process-list li::after {
 }
 
 html:root body .lp-page .lp-process-list li > span {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
   font-size: 0.78rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.06em !important;
@@ -1352,7 +1352,7 @@ html:root body .lp-page .lp-process-list li > span {
 html:root body .lp-page .lp-process-list li > svg {
   width: 22px !important;
   height: 22px !important;
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 html:root body .lp-page .lp-process-list li h3 {
@@ -1516,9 +1516,9 @@ html:root body .lp-page .lp-hero-pick[data-active="true"] {
 html:root body,
 html:root body .lp-page,
 html:root body .sp-page {
-  --wf-blue: #22cf8c;
-  --premium-blue: #16c47f;
-  --premium-blue-hover: #0fa568;
+  --wf-blue: #ffc79d;
+  --premium-blue: #ffc79d;
+  --premium-blue-hover: #4db6ac;
 }
 
 /* ==============================================================
@@ -1540,7 +1540,7 @@ html:root body .lp-page .lp-timeline-wrap::before {
   left: 10px !important;
   width: 2px !important;
   border-radius: 999px !important;
-  background: rgba(122, 210, 180, 0.18) !important;
+  background: rgba(123, 143, 166, 0.18) !important;
 }
 
 html:root body .lp-page .lp-timeline-progress {
@@ -1551,7 +1551,7 @@ html:root body .lp-page .lp-timeline-progress {
   z-index: 1 !important;
   width: 2px !important;
   border-radius: 999px !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   transform-origin: top center !important;
 }
 
@@ -1575,8 +1575,8 @@ html:root body .lp-page .lp-process-list li {
   padding: 24px 26px !important;
   border: 0 !important;
   border-radius: 20px !important;
-  background: #0e1512 !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.18) !important;
+  background: #0e1115 !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.18) !important;
   opacity: 0.55 !important;
   transform: translateY(10px) !important;
   transition:
@@ -1599,7 +1599,7 @@ html:root body .lp-page .lp-step-node {
   height: 22px !important;
   border-radius: 999px !important;
   background: #0e1118 !important;
-  box-shadow: inset 0 0 0 2px rgba(122, 210, 180, 0.28) !important;
+  box-shadow: inset 0 0 0 2px rgba(123, 143, 166, 0.28) !important;
   transition:
     box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1),
     background-color 380ms cubic-bezier(0.22, 1, 0.36, 1) !important;
@@ -1609,16 +1609,16 @@ html:root body .lp-page .lp-step-node i {
   width: 9px !important;
   height: 9px !important;
   border-radius: 999px !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   transform: scale(0) !important;
   transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 html:root body .lp-page .lp-process-list li[data-reached="true"] .lp-step-node {
-  background: #07231a !important;
+  background: #0f141b !important;
   box-shadow:
-    inset 0 0 0 2px #16c47f,
-    0 0 0 6px rgba(22, 196, 127, 0.12) !important;
+    inset 0 0 0 2px #ffc79d,
+    0 0 0 6px rgba(255, 199, 157, 0.12) !important;
 }
 
 html:root body .lp-page .lp-process-list li[data-reached="true"] .lp-step-node i {
@@ -1626,7 +1626,7 @@ html:root body .lp-page .lp-process-list li[data-reached="true"] .lp-step-node i
 }
 
 html:root body .lp-page .lp-process-list li > span {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
   font-size: 0.78rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.06em !important;
@@ -1635,7 +1635,7 @@ html:root body .lp-page .lp-process-list li > span {
 html:root body .lp-page .lp-process-list li > svg {
   width: 20px !important;
   height: 20px !important;
-  color: #16c47f !important;
+  color: #ffc79d !important;
 }
 
 @media (max-width: 720px) {
@@ -1699,7 +1699,7 @@ html:root body .lp-page .lp-step-icon {
   height: 44px !important;
   border-radius: 999px !important;
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 html:root body .lp-page .lp-step-icon svg {
@@ -1716,7 +1716,7 @@ html:root body .lp-page .lp-step-body {
 }
 
 html:root body .lp-page .lp-step-num {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
   font-size: 0.74rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.09em !important;
@@ -1790,8 +1790,8 @@ html:root body .winner-numbers {
   overflow: hidden !important;
   border: 0 !important;
   border-radius: 22px !important;
-  background: rgba(122, 210, 180, 0.16) !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.16) !important;
+  background: rgba(123, 143, 166, 0.16) !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.16) !important;
 }
 
 html:root body .winner-number {
@@ -1810,7 +1810,7 @@ html:root body .winner-number dd {
 
 html:root body .winner-number__value {
   display: block !important;
-  color: #16c47f !important;
+  color: #ffc79d !important;
   font-family: var(--font-display, inherit) !important;
   font-size: clamp(1.7rem, 3.4vw, 2.35rem) !important;
   font-weight: 620 !important;
@@ -1852,15 +1852,15 @@ html:root body .winner-package {
 }
 
 html:root body .winner-package[data-featured="true"] {
-  border-color: rgba(22, 196, 127, 0.42) !important;
-  background: linear-gradient(180deg, rgba(22, 196, 127, 0.07), rgba(8, 11, 18, 0)) #0c1210 !important;
+  border-color: rgba(255, 199, 157, 0.42) !important;
+  background: linear-gradient(180deg, rgba(255, 199, 157, 0.07), rgba(8, 11, 18, 0)) #0c0e12 !important;
   box-shadow:
-    0 26px 60px -42px rgba(22, 196, 127, 0.8),
-    inset 0 0 0 1px rgba(22, 196, 127, 0.14) !important;
+    0 26px 60px -42px rgba(255, 199, 157, 0.8),
+    inset 0 0 0 1px rgba(255, 199, 157, 0.14) !important;
 }
 
 html:root body .winner-package[data-featured="false"] {
-  background: #0a100d !important;
+  background: #0a0c10 !important;
 }
 
 html:root body .winner-package__badge {
@@ -1872,27 +1872,27 @@ html:root body .winner-package__badge {
   align-items: center !important;
   padding: 5px 13px !important;
   border-radius: 999px !important;
-  color: #04140d !important;
-  background: #16c47f !important;
+  color: #080b10 !important;
+  background: #ffc79d !important;
   font-size: 0.695rem !important;
   font-weight: 760 !important;
   letter-spacing: 0.07em !important;
   text-transform: uppercase !important;
   white-space: nowrap !important;
-  box-shadow: 0 10px 26px -16px rgba(22, 196, 127, 0.95) !important;
+  box-shadow: 0 10px 26px -16px rgba(255, 199, 157, 0.95) !important;
 }
 
 /* Odporúčaný balík má plné tlačidlo, ostatné jemnejšie —
    pohľad tak vie, kam má ísť najskôr. */
 html:root body .winner-package[data-featured="false"] .winner-package__cta {
-  color: #d6f5e7 !important;
-  background: rgba(22, 196, 127, 0.13) !important;
-  box-shadow: inset 0 0 0 1px rgba(22, 196, 127, 0.3) !important;
+  color: #f5f7fa !important;
+  background: rgba(255, 199, 157, 0.13) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 199, 157, 0.3) !important;
 }
 
 html:root body .winner-package[data-featured="false"] .winner-package__cta:is(:hover, :focus-visible) {
   color: #ffffff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
 }
 
 @media (max-width: 900px) {
@@ -1922,13 +1922,13 @@ html:root body .lp-page .lp-project-domain {
   padding: 6px 12px 6px 10px !important;
   border: 0 !important;
   border-radius: 999px !important;
-  color: #eef5f1 !important;
-  background: rgba(6, 12, 10, 0.72) !important;
+  color: #f5f7fa !important;
+  background: rgba(6, 8, 12, 0.72) !important;
   backdrop-filter: blur(10px) !important;
   font-size: 0.755rem !important;
   font-weight: 640 !important;
   letter-spacing: 0.005em !important;
-  box-shadow: inset 0 0 0 1px rgba(122, 210, 180, 0.24) !important;
+  box-shadow: inset 0 0 0 1px rgba(123, 143, 166, 0.24) !important;
   transition:
     background-color 240ms ease,
     transform 320ms cubic-bezier(0.22, 1, 0.36, 1) !important;
@@ -1938,12 +1938,12 @@ html:root body .lp-page .lp-project-domain > i {
   width: 6px !important;
   height: 6px !important;
   border-radius: 50% !important;
-  background: #16c47f !important;
-  box-shadow: 0 0 0 3px rgba(22, 196, 127, 0.22) !important;
+  background: #ffc79d !important;
+  box-shadow: 0 0 0 3px rgba(255, 199, 157, 0.22) !important;
 }
 
 html:root body .lp-page .lp-project > a:is(:hover, :focus-visible) .lp-project-domain {
-  background: rgba(6, 12, 10, 0.86) !important;
+  background: rgba(6, 8, 12, 0.86) !important;
   transform: translateY(-2px) !important;
 }
 
@@ -1973,7 +1973,7 @@ html:root body .lp-page .lp-hero::after {
   z-index: 2 !important;
   height: 128px !important;
   pointer-events: none !important;
-  background: linear-gradient(180deg, rgba(6, 12, 9, 0), rgba(6, 12, 9, 0.55) 62%, #070d0a) !important;
+  background: linear-gradient(180deg, rgba(6, 8, 12, 0), rgba(6, 8, 12, 0.55) 62%, #07090d) !important;
 }
 
 /* Jemné svetlo na začiatku ďalšej sekcie — pokračovanie, nie rez. */
@@ -1991,7 +1991,7 @@ html:root body .lp-page .lp-value::before {
   height: 200px !important;
   transform: translateX(-50%) !important;
   pointer-events: none !important;
-  background: radial-gradient(ellipse at 50% 0%, rgba(22, 196, 127, 0.09), transparent 70%) !important;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 199, 157, 0.09), transparent 70%) !important;
 }
 
 html:root body .lp-page .lp-value > * {
@@ -2089,7 +2089,7 @@ html:root body .winner-package[data-featured="false"] {
    ============================================================== */
 html:root body .site-menu-solution-icon,
 html:root body .site-menu-solution-icon svg {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
 }
 
 html:root body .site-menu-close,
@@ -2100,8 +2100,8 @@ html:root body .site-menu-close svg {
 html:root body .contact-card input:focus,
 html:root body .contact-card textarea:focus,
 html:root body .contact-card select:focus {
-  border-color: #16c47f !important;
-  box-shadow: 0 0 0 3px rgba(22, 196, 127, 0.18) !important;
+  border-color: #ffc79d !important;
+  box-shadow: 0 0 0 3px rgba(255, 199, 157, 0.18) !important;
 }
 
 /* Chyba a úspech vo formulári v rovnakej palete. */
@@ -2123,13 +2123,13 @@ html:root body .contact-card textarea[aria-invalid="true"]:focus {
    bolo plus, ktoré sa zmenilo na mínus.
    ============================================================== */
 html:root body .lp-page .lp-faq-item[data-open="true"] {
-  border-color: rgba(22, 196, 127, 0.44) !important;
+  border-color: rgba(255, 199, 157, 0.44) !important;
   background: linear-gradient(
       180deg,
-      rgba(22, 196, 127, 0.07),
-      rgba(22, 196, 127, 0)
+      rgba(255, 199, 157, 0.07),
+      rgba(255, 199, 157, 0)
     )
-    #0c1210 !important;
+    #0c0e12 !important;
 }
 
 html:root body .lp-page .lp-faq-item[data-open="true"] h3 button {
@@ -2146,15 +2146,15 @@ html:root body .lp-page .lp-faq-item[data-open="true"] h3 button {
 
 /* --- sýta modrá → zelená značky --- */
 html:root body .site-menu-cta {
-  color: #04140d !important;
-  background: #16c47f !important;
+  color: #080b10 !important;
+  background: #ffc79d !important;
   background-image: none !important;
   border-color: transparent !important;
 }
 
 html:root body .site-menu-cta small,
 html:root body .site-menu-cta svg {
-  color: #04140d !important;
+  color: #080b10 !important;
 }
 
 html:root body .premium-footer-label,
@@ -2172,7 +2172,7 @@ html:root body .winner-package__icon svg,
 html:root body .winner-prep__icon,
 html:root body .lp-page .lp-solution-icon,
 html:root body .lp-page .lp-capability-icon {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
 }
 
 /* --- modrasté šede → neutrálne s rovnakou svetlosťou --- */
@@ -2201,18 +2201,18 @@ html:root body .lp-page .lp-caps-num {
 html:root body .lp-page .lp-assistant-card,
 html:root body .site-menu-close,
 html:root body .contact-card-head {
-  border-color: rgba(122, 210, 180, 0.2) !important;
+  border-color: rgba(123, 143, 166, 0.2) !important;
 }
 
 html:root body .lp-page .lp-switch > button i,
 html:root body .lp-page .lp-comparison-body li::marker {
-  background: #3d6b58 !important;
+  background: #4db6ac !important;
 }
 
 /* --- posledné adresné zvyšky nájdené meraním --- */
 /* Pomlčka pred nadpisom sekcie bola modrá na každom nadpise. */
 html:root body .lp-page .lp-eyebrow > i {
-  background: #3d6b58 !important;
+  background: #4db6ac !important;
 }
 
 /* Text kariet realizácií. */
@@ -2223,12 +2223,12 @@ html:root body .lp-page .lp-project-copy small {
 
 /* Mobilná verzia DERAT príbehu mala modrasté pozadie snímky. */
 html:root body .derat-story__mobile-slide figure {
-  background: #0d1a15 !important;
+  background: #0e1219 !important;
 }
 
 /* Kontaktný formulár — pokojové rámiky a oddeľovače. */
 html:root body .contact-card {
-  border-color: rgba(122, 210, 180, 0.16) !important;
+  border-color: rgba(123, 143, 166, 0.16) !important;
 }
 
 html:root body .contact-card input,
@@ -2245,12 +2245,12 @@ html:root body .contact-or {
    boli posledné body, kde ostala pôvodná modrá. */
 html:root body .winner-package ul li svg,
 html:root body .winner-package ul li svg path {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
 }
 
 html:root body .contact-details > a,
 html:root body .contact-details > span {
-  border-color: rgba(122, 210, 180, 0.16) !important;
+  border-color: rgba(123, 143, 166, 0.16) !important;
 }
 
 html:root body .contact-card-head p,
@@ -2266,7 +2266,7 @@ html:root body .contact-or > span {
    posledné miesta s pôvodnou modrou. */
 html:root body .winner-prep__item > svg,
 html:root body .winner-prep__item > svg path {
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
 }
 
 html:root body .sp-service-head p,
@@ -2288,7 +2288,7 @@ html:root body .sp-combine p {
    ============================================================== */
 html:root body .lp-page .lp-switch > button[data-active="true"] .lp-control-label,
 html:root body .lp-page .lp-switch > button[data-active="true"] {
-  color: #04140d !important;
+  color: #080b10 !important;
   font-weight: 760 !important;
 }
 
@@ -2316,13 +2316,13 @@ html:root body .lp-page .lp-value,
 html:root body .lp-page .derat-story,
 html:root body .lp-page .lp-faq,
 html:root body .winner-upgrade {
-  background-color: #070b09 !important;
+  background-color: #07090b !important;
 }
 
 html:root body .lp-page .lp-caps,
 html:root body .lp-page .lp-portfolio,
 html:root body .lp-page .lp-process {
-  background-color: #0b120f !important;
+  background-color: #0b0e12 !important;
 }
 
 /* Vlasová linka na začiatku každej sekcie — lacný, ale jasný
@@ -2335,7 +2335,7 @@ html:root body .lp-page .lp-faq,
 html:root body .lp-page .lp-process,
 html:root body .winner-upgrade {
   position: relative !important;
-  border-top: 1px solid rgba(122, 210, 180, 0.14) !important;
+  border-top: 1px solid rgba(123, 143, 166, 0.14) !important;
 }
 
 /* Zelený akcent na začiatku linky nadväzuje na pomlčku
@@ -2354,7 +2354,7 @@ html:root body .winner-upgrade::after {
   height: 2px !important;
   transform-origin: left center !important;
   pointer-events: none !important;
-  background: linear-gradient(90deg, #16c47f, rgba(22, 196, 127, 0)) !important;
+  background: linear-gradient(90deg, #ffc79d, rgba(255, 199, 157, 0)) !important;
 }
 
 /* ==============================================================
@@ -2365,15 +2365,15 @@ html:root body .winner-upgrade::after {
    ============================================================== */
 html:root body .lp-page .lp-caps-row {
   overflow: hidden !important;
-  border: 1px solid rgba(122, 210, 180, 0.16) !important;
+  border: 1px solid rgba(123, 143, 166, 0.16) !important;
   border-radius: 20px !important;
-  background: #0a1210 !important;
+  background: #0a0d12 !important;
   transition: border-color 260ms ease, background-color 260ms ease !important;
 }
 
 html:root body .lp-page .lp-caps-row[data-open="true"] {
-  border-color: rgba(22, 196, 127, 0.42) !important;
-  background: linear-gradient(180deg, rgba(22, 196, 127, 0.06), rgba(22, 196, 127, 0)) #0a1210 !important;
+  border-color: rgba(255, 199, 157, 0.42) !important;
+  background: linear-gradient(180deg, rgba(255, 199, 157, 0.06), rgba(255, 199, 157, 0)) #0a0d12 !important;
 }
 
 html:root body .lp-page .lp-caps-row-head {
@@ -2393,7 +2393,7 @@ html:root body .lp-page .lp-caps-row-head {
 
 html:root body .lp-page .lp-caps-row-head h3 {
   margin: 0 !important;
-  color: #f4f8f6 !important;
+  color: #f5f7fa !important;
   font-size: 1.16rem !important;
   font-weight: 700 !important;
   letter-spacing: -0.024em !important;
@@ -2412,7 +2412,7 @@ html:root body .lp-page .lp-caps-count {
   align-items: center !important;
   gap: 11px !important;
   flex: 0 0 auto !important;
-  color: #7fe0b4 !important;
+  color: #7b8fa6 !important;
   font-size: 0.775rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em !important;
@@ -2436,7 +2436,7 @@ html:root body .lp-page .lp-caps-count > i::after {
   width: 100% !important;
   height: 1.6px !important;
   border-radius: 2px !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   transform: translateY(-50%) !important;
   transition: rotate 320ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
@@ -2544,7 +2544,7 @@ html:root body .site-menu-layer {
   --derat-muted: #a8bab1;
   --cw-muted: #a8bab1;
   --wr-muted: #9cb0a6;
-  --wr-panel: #0b110f;
+  --wr-panel: #0b0d11;
   --chip-ink: #d6deda;
   --al-muted: #a8bab1;
 }
@@ -2558,32 +2558,32 @@ html:root body .premium-footer,
 html:root body .lp-page .lp-faq-item,
 html:root body .lp-page .lp-final-card,
 html:root body .winner-package {
-  background-color: #0b110f !important;
+  background-color: #0b0d11 !important;
 }
 
 html:root body .site-menu-close {
-  background-color: rgba(9, 16, 13, 0.82) !important;
+  background-color: rgba(9, 12, 16, 0.82) !important;
 }
 
 html:root body .lp-page .lp-switch {
-  background-color: #121c17 !important;
+  background-color: #12161c !important;
 }
 
 html:root body .lp-page .lp-chip,
 html:root body .lp-page .lp-comparison-body li {
-  background-color: #141e1a !important;
+  background-color: #14181e !important;
 }
 
 html:root body .lp-page .lp-comparison-body {
-  background-color: #0e1512 !important;
+  background-color: #0e1115 !important;
 }
 
 html:root body .winner-package__price {
-  background-color: #0f1613 !important;
+  background-color: #0f1216 !important;
 }
 
 html:root body .lp-page .lp-project-media {
-  background-color: #090d0b !important;
+  background-color: #090b0d !important;
 }
 
 html:root body .lp-page .lp-caps-note {
@@ -2616,7 +2616,7 @@ html:root body .winner-package ul li {
 html:root body,
 html:root body .lp-page,
 html:root body .sp-page {
-  --border: #1c2a23;
+  --border: #1c212a;
 }
 
 html:root body .site-header-bar,
@@ -2627,20 +2627,20 @@ html:root body .site-menu-close,
 html:root body .premium-footer,
 html:root body .lp-page .lp-caps-note,
 html:root body .lp-page .lp-project > a {
-  border-color: rgba(122, 210, 180, 0.16) !important;
+  border-color: rgba(123, 143, 166, 0.16) !important;
 }
 
 html:root body .lp-page .lp-hero-pick {
-  background-color: #131c18 !important;
+  background-color: #13161c !important;
 }
 
 html:root body .lp-page .lp-assistant-answer {
-  background-color: #121b16 !important;
+  background-color: #12151b !important;
 }
 
 html:root body .lp-page .lp-comparison-body li,
 html:root body .lp-page .lp-final-card li {
-  background-color: #0e1512 !important;
+  background-color: #0e1115 !important;
 }
 
 html:root body .lp-page .lp-project > a {
@@ -2664,10 +2664,10 @@ html:root body,
 html:root body .lp-page,
 html:root body .sp-page,
 html:root body .winner-upgrade {
-  --surface-raised: #121c17;
-  --lp-surface-raised: #121c17;
-  --cw-surface-raised: #121c17;
-  --chip-bg: #131c18;
+  --surface-raised: #12161c;
+  --lp-surface-raised: #12161c;
+  --cw-surface-raised: #12161c;
+  --chip-bg: #13161c;
 }
 
 html:root body .sp-page .sp-hero,
@@ -2676,18 +2676,18 @@ html:root body .sp-page .sp-combine,
 html:root body .sp-page .sp-cta,
 html:root body .sp-page .sp-project-card > a,
 html:root body .sp-page .why-card {
-  border-color: rgba(122, 210, 180, 0.16) !important;
+  border-color: rgba(123, 143, 166, 0.16) !important;
 }
 
 html:root body .chip,
 html:root body .sp-page .chip {
-  background-color: #131c18 !important;
+  background-color: #13161c !important;
 }
 
 html:root body .sp-page .why-card,
 html:root body .sp-page .sp-project-card > a,
 html:root body .lp-page .lp-final-card li {
-  background-color: #0e1512 !important;
+  background-color: #0e1115 !important;
 }
 
 html:root body .sp-page li,
@@ -2725,7 +2725,7 @@ html:root body .contact-details > span {
 }
 
 html:root body .sp-page .sp-step {
-  border-color: rgba(122, 210, 180, 0.16) !important;
+  border-color: rgba(123, 143, 166, 0.16) !important;
 }
 
 html:root body .lp-page .lp-hero-lead,
@@ -2751,8 +2751,8 @@ html:root body .winner-upgrade .winner-upgrade__eyebrow:first-of-type::before {
   display: inline-block !important;
   margin-right: 10px !important;
   padding-right: 10px !important;
-  border-right: 1px solid rgba(122, 210, 180, 0.3) !important;
-  color: #16c47f !important;
+  border-right: 1px solid rgba(123, 143, 166, 0.3) !important;
+  color: #ffc79d !important;
   font-variant-numeric: tabular-nums !important;
   opacity: 0.9 !important;
 }
@@ -2798,7 +2798,7 @@ html:root body .lp-page .lp-caps .lp-heading-copy {
 html:root body .winner-upgrade {
   background-image: radial-gradient(
       ellipse at 50% 0%,
-      rgba(22, 196, 127, 0.1),
+      rgba(255, 199, 157, 0.1),
       transparent 62%
     ) !important;
 }
@@ -2844,7 +2844,7 @@ html:root body .section-rail::before {
   position: absolute !important;
   inset: -8px 0 -6px !important;
   z-index: -1 !important;
-  background: linear-gradient(180deg, rgba(6, 11, 9, 0.94), rgba(6, 11, 9, 0.82) 70%, rgba(6, 11, 9, 0)) !important;
+  background: linear-gradient(180deg, rgba(6, 8, 11, 0.94), rgba(6, 8, 11, 0.82) 70%, rgba(6, 8, 11, 0)) !important;
   backdrop-filter: blur(10px) !important;
 }
 
@@ -2885,8 +2885,8 @@ html:root body .lp-page .lp-caps-note button {
   padding: 11px 20px !important;
   border: 0 !important;
   border-radius: 999px !important;
-  color: #04140d !important;
-  background: #16c47f !important;
+  color: #080b10 !important;
+  background: #ffc79d !important;
   font-size: 0.875rem !important;
   font-weight: 720 !important;
   text-decoration: none !important;
@@ -2897,7 +2897,7 @@ html:root body .lp-page .lp-caps-note button {
 }
 
 html:root body .lp-page .lp-caps-note button:is(:hover, :focus-visible) {
-  background: #22cf8c !important;
+  background: #ffc79d !important;
   transform: translateY(-2px) !important;
 }
 

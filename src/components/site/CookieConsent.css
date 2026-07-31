@@ -6,7 +6,7 @@
   --cookie-border: rgba(210, 237, 243, 0.16);
   --cookie-soft: rgba(243, 248, 250, 0.055);
   --cookie-accent: #72d3ea;
-  --cookie-accent-strong: #9ee4f0;
+  --cookie-accent-strong: #7b8fa6;
   color: var(--text-primary);
   font-family: var(--font-sans);
 }
@@ -129,7 +129,7 @@
   color: #05151c;
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35), transparent 48%),
-    linear-gradient(135deg, #a9e5f0, #72d3ea 55%, #63b6d2);
+    linear-gradient(135deg, #7b8fa6, #72d3ea 55%, #63b6d2);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.38),
     0 14px 30px -22px rgba(74, 166, 196, 0.86);
@@ -408,7 +408,7 @@
 }
 
 .cookie-switch input:checked ~ b {
-  color: #bce8f0;
+  color: #7b8fa6;
 }
 
 .cookie-modal__policy {
@@ -453,7 +453,7 @@
   .cookie-button--primary:hover {
     background:
       radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.44), transparent 48%),
-      linear-gradient(135deg, #b9ebf3, #84dcef 55%, #6fc0d8);
+      linear-gradient(135deg, #7b8fa6, #84dcef 55%, #6fc0d8);
     box-shadow:
       inset 0 1px rgba(255, 255, 255, 0.46),
       0 18px 34px -22px rgba(74, 166, 196, 0.92);

@@ -72,13 +72,13 @@
 .color-stage {
   --lab-bg: #f2f0e8;
   --lab-surface: #fbfaf6;
-  --lab-ink: #10251f;
+  --lab-ink: #131922;
   --lab-muted: #5a6b64;
-  --lab-primary: #087a61;
+  --lab-primary: #2d3c54;
   --lab-primary-ink: #fff;
   --lab-accent: #ff765b;
   --lab-accent-alt: #b9ea6a;
-  --lab-line: rgba(16, 37, 31, 0.14);
+  --lab-line: rgba(19, 25, 34, 0.14);
   --brand-symbol-shell: var(--lab-ink);
   --brand-symbol-face: var(--lab-primary);
   --brand-symbol-signal: var(--lab-accent);
@@ -93,7 +93,7 @@
   background: var(--lab-bg);
   border: 1px solid var(--lab-line);
   border-radius: 34px;
-  box-shadow: 0 26px 80px -46px rgba(7, 19, 15, 0.5);
+  box-shadow: 0 26px 80px -46px rgba(9, 12, 17, 0.5);
   transition: color 480ms ease, background-color 480ms ease, border-color 480ms ease;
 }
 

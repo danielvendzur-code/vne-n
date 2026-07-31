@@ -120,7 +120,7 @@ export function Segmented<T extends string>({
                     backgroundColor: "var(--surface)",
                     border: "1px solid var(--border-strong)",
                     boxShadow:
-                      "0 8px 24px rgba(0, 0, 0, 0.22), 0 1px 0 rgba(244, 251, 248, 0.04) inset",
+                      "0 8px 24px rgba(0, 0, 0, 0.22), 0 1px 0 rgba(123, 143, 166, 0.04) inset",
                   }}
                   transition={{ type: "spring", stiffness: 350, damping: 30 }}
                 />
@@ -165,7 +165,7 @@ export function Toggle({
           className="absolute top-0.5 h-5 w-5 rounded-full shadow"
           style={{
             left: checked ? "calc(100% - 22px)" : "2px",
-            backgroundColor: "#f4fbf8",
+            backgroundColor: "#7b8fa6",
           }}
         />
       </button>
@@ -208,14 +208,14 @@ export function Slider({
           htmlFor={id}
           className="text-xs uppercase tracking-wider font-medium"
           style={{
-            color: dark ? "color-mix(in oklab, #f4fbf8 65%, transparent)" : "var(--text-secondary)",
+            color: dark ? "color-mix(in oklab, #7b8fa6 65%, transparent)" : "var(--text-secondary)",
           }}
         >
           {label}
         </label>
         <span
           className="text-sm font-semibold tabular-nums"
-          style={{ color: dark ? "#f4fbf8" : "var(--text-primary)" }}
+          style={{ color: dark ? "#7b8fa6" : "var(--text-primary)" }}
         >
           {value}
           {unit ? ` ${unit}` : ""}
@@ -338,7 +338,7 @@ export function Swatches({
                 >
                   <path
                     d="M3 7.5l2.5 2.5L11 4"
-                    stroke="#f4fbf8"
+                    stroke="#7b8fa6"
                     strokeWidth="2"
                     fill="none"
                     strokeLinecap="round"
@@ -374,7 +374,7 @@ export function SummaryRow({
       <span
         className="text-xs uppercase tracking-wider"
         style={{
-          color: dark ? "color-mix(in oklab, #f4fbf8 55%, transparent)" : "var(--text-secondary)",
+          color: dark ? "color-mix(in oklab, #7b8fa6 55%, transparent)" : "var(--text-secondary)",
         }}
       >
         {label}
@@ -387,7 +387,7 @@ export function SummaryRow({
               ? "var(--highlight)"
               : "var(--primary)"
             : dark
-              ? "#f4fbf8"
+              ? "#7b8fa6"
               : "var(--text-primary)",
         }}
       >

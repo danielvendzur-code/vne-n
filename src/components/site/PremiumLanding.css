@@ -1,8 +1,8 @@
 .lp-page {
-  --lp-bg: #06120d;
-  --lp-bg-soft: #091a14;
+  --lp-bg: #080b10;
+  --lp-bg-soft: #0c1017;
   --lp-ink: #f2efe6;
-  --lp-primary-ink: #07140e;
+  --lp-primary-ink: #090d12;
   --lp-muted: #b7beb4;
   --lp-muted-soft: #88968d;
   --lp-green: #d9bd83;
@@ -12,9 +12,9 @@
   --lp-blue: #7fa58f;
   --lp-line: rgba(242, 239, 230, 0.12);
   --lp-line-strong: rgba(242, 239, 230, 0.22);
-  --lp-surface-soft: #0c1f18;
-  --lp-surface: #10261d;
-  --lp-surface-raised: #17352a;
+  --lp-surface-soft: #0f141c;
+  --lp-surface: #131923;
+  --lp-surface-raised: #1b2331;
   --lp-liquid-white: 242 239 230;
   --lp-liquid-mint: 127 165 143;
   --lp-liquid-blue: 111 151 132;
@@ -104,7 +104,7 @@
   background:
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 84% 18%, rgba(127, 165, 143, 0.1), transparent 32rem),
-    linear-gradient(118deg, rgba(5, 17, 12, 0.98), rgba(6, 25, 17, 0.92) 54%, rgba(8, 31, 21, 0.9)),
+    linear-gradient(118deg, rgba(8, 10, 14, 0.98), rgba(11, 14, 20, 0.92) 54%, rgba(14, 18, 25, 0.9)),
     var(--lp-bg);
 }
 
@@ -147,9 +147,9 @@
   pointer-events: none;
   background: radial-gradient(
     ellipse at 34% 48%,
-    rgba(6, 18, 13, 0.98) 0%,
-    rgba(6, 18, 13, 0.8) 46%,
-    rgba(6, 18, 13, 0.22) 70%,
+    rgba(8, 11, 16, 0.98) 0%,
+    rgba(8, 11, 16, 0.8) 46%,
+    rgba(8, 11, 16, 0.22) 70%,
     transparent 84%
   );
 }
@@ -331,7 +331,7 @@
   border-radius: 0.95rem;
   padding: clamp(1.15rem, 2.4vw, 1.65rem);
   color: var(--lp-ink);
-  background: linear-gradient(145deg, rgba(18, 47, 35, 0.9), rgba(8, 25, 18, 0.94));
+  background: linear-gradient(145deg, rgba(23, 30, 42, 0.9), rgba(12, 15, 21, 0.94));
   box-shadow:
     0 2rem 5rem rgba(0, 0, 0, 0.48),
     inset 0 1px rgba(242, 239, 230, 0.07);
@@ -388,7 +388,7 @@
   border-radius: inherit;
   background:
     radial-gradient(circle at 26% -18%, rgba(255, 255, 255, 0.42), transparent 52%),
-    linear-gradient(150deg, #a6c6b3 0%, var(--lp-mint) 58%, #6c9581 100%);
+    linear-gradient(150deg, #ffc79d 0%, var(--lp-mint) 58%, #6c9581 100%);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.32),
     0 16px 30px -20px rgba(127, 165, 143, 0.7);
@@ -628,13 +628,13 @@
 }
 
 .lp-chip[data-active="true"] {
-  color: #0d2018;
+  color: #10151d;
   border-color: transparent;
 }
 
 .lp-chip[data-active="true"] .lp-chip-icon {
   rotate: 45deg;
-  border-color: rgba(10, 27, 19, 0.35);
+  border-color: rgba(13, 17, 24, 0.35);
 }
 
 .lp-chip-fill {
@@ -646,7 +646,7 @@
 }
 
 .lp-chip[data-tone="mint"] .lp-chip-fill {
-  background: #93b7a2;
+  background: #ffc79d;
 }
 
 .lp-chip[data-tone="coral"] .lp-chip-fill {
@@ -893,7 +893,7 @@
   overflow: hidden;
   border: 1px solid var(--lp-line);
   border-radius: 0.85rem;
-  background: linear-gradient(155deg, rgba(18, 44, 33, 0.55), rgba(9, 26, 19, 0.85));
+  background: linear-gradient(155deg, rgba(22, 29, 40, 0.55), rgba(12, 16, 23, 0.85));
   transition: border-color 280ms ease, background-color 280ms ease;
 }
 
@@ -984,7 +984,7 @@
   border-radius: 1rem;
   background:
     radial-gradient(circle at 92% 4%, rgba(127, 165, 143, 0.07), transparent 34%),
-    linear-gradient(145deg, rgba(20, 48, 36, 0.95), rgba(9, 27, 19, 0.98));
+    linear-gradient(145deg, rgba(24, 32, 44, 0.95), rgba(13, 17, 23, 0.98));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.035),
     0 34px 90px -58px rgba(0, 0, 0, 0.9);
@@ -1134,16 +1134,16 @@
 }
 
 .lp-portfolio {
-  color: #0a1b13;
+  color: #0d1118;
   background: #e9e6dc;
 }
 
 .lp-portfolio .lp-heading h2 {
-  color: #0a1b13;
+  color: #0d1118;
 }
 
 .lp-portfolio .lp-heading h2 em {
-  color: #436f5a;
+  color: #4db6ac;
 }
 
 .lp-portfolio .lp-eyebrow {
@@ -1185,9 +1185,9 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--lp-line);
-  border-color: rgba(10, 27, 19, 0.15);
+  border-color: rgba(13, 17, 24, 0.15);
   border-radius: 0.72rem;
-  color: #0a1b13;
+  color: #0d1118;
   background: #f2efe5;
   text-decoration: none;
   transition:
@@ -1198,8 +1198,8 @@
 
 .lp-project > a:hover {
   transform: translateY(-6px);
-  border-color: rgba(67, 111, 90, 0.5);
-  box-shadow: 0 34px 68px -42px rgba(8, 31, 21, 0.42);
+  border-color: rgba(77, 182, 172, 0.5);
+  box-shadow: 0 34px 68px -42px rgba(14, 18, 25, 0.42);
 }
 
 .lp-project-media {
@@ -1278,7 +1278,7 @@
   font-size: 2rem;
   letter-spacing: -0.05em;
   line-height: 1;
-  color: #0a1b13;
+  color: #0d1118;
 }
 
 .lp-project-copy small {
@@ -1321,7 +1321,7 @@
   align-items: center;
   gap: 0.6rem;
   margin-top: 1rem;
-  border: 1px solid rgba(10, 27, 19, 0.15);
+  border: 1px solid rgba(13, 17, 24, 0.15);
   border-radius: 0.65rem;
   padding: 0.82rem 1rem;
   background: rgba(242, 239, 230, 0.62);
@@ -1342,8 +1342,8 @@
   gap: 0.4rem;
   border-radius: 0.45rem;
   padding: 0.55rem 0.75rem;
-  color: #0a1b13;
-  background: rgba(10, 27, 19, 0.06);
+  color: #0d1118;
+  background: rgba(13, 17, 24, 0.06);
   font-size: 0.74rem;
   font-weight: 720;
   text-decoration: none;
@@ -1354,7 +1354,7 @@
 
 .lp-live-tools a:hover {
   color: #f2efe5;
-  background: #0a1b13;
+  background: #0d1118;
 }
 
 .lp-live-tools svg {
@@ -1369,7 +1369,7 @@
   background:
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 82% 16%, rgba(201, 170, 112, 0.065), transparent 25rem),
-    #05110c;
+    #080a0e;
 }
 
 .lp-process .lp-eyebrow,
@@ -1555,7 +1555,7 @@
 
   .lp-assistant-chips button:not([data-active="true"]):hover,
   .lp-switch button:not([data-active="true"]):hover {
-    border-color: rgba(166, 198, 179, 0.6);
+    border-color: rgba(255, 199, 157, 0.6);
     color: var(--lp-ink);
   }
 

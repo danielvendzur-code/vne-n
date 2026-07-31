@@ -2,7 +2,7 @@
 html body .lp-page .lp-hero-cta--primary {
   border: 0 !important;
   color: #fff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
   box-shadow: none !important;
   transform: none !important;
@@ -11,7 +11,7 @@ html body .lp-page .lp-hero-cta--primary {
 
 html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
   color: #fff !important;
-  background: #12a870 !important;
+  background: #4db6ac !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -19,14 +19,14 @@ html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
 html body .lp-page .lp-assistant-cta {
   border: 0 !important;
   color: #fff !important;
-  background: #16c47f !important;
+  background: #ffc79d !important;
   background-image: none !important;
   box-shadow: none !important;
 }
 
 html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
   color: #fff !important;
-  background: #12a870 !important;
+  background: #4db6ac !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -145,7 +145,7 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
 
   html body .lp-page .lp-chip[data-active="true"] {
     color: #fff !important;
-    background: #12a870 !important;
+    background: #4db6ac !important;
     background-image: none !important;
   }
 
