@@ -29,6 +29,7 @@ export function Footer() {
             <Link to="/sluzby">Čo tvorím</Link>
             <Link to="/preco-chatbot">Čo to prinesie webu</Link>
             <Link to="/projekty">Ukážky</Link>
+            <Link to="/cennik">Cena</Link>
             <Link to="/postup">Spolupráca</Link>
             <Link to="/kontakt">Kontakt</Link>
           </nav>

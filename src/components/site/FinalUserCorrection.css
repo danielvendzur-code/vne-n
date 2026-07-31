@@ -2753,20 +2753,20 @@ html:root body .lp-page .lp-caps-row-head p {
    číslo a nemajú všetky rovnaké rozloženie hlavičky.
    ============================================================== */
 
-/* Sekcia 02 má hlavičku na stred — už na prvý pohľad iná stavba
-   než susedné sekcie zarovnané doľava. */
+/* Hlavička zarovnaná doľava ako zvyšok webu. Vycentrovaná pôsobila
+   odtrhnuto od obsahu, ktorý pod ňou začína vľavo. */
 html:root body .lp-page .lp-caps .lp-heading {
-  margin-inline: auto !important;
-  max-width: 780px !important;
-  text-align: center !important;
+  margin-inline: 0 !important;
+  max-width: 900px !important;
+  text-align: left !important;
 }
 
 html:root body .lp-page .lp-caps .lp-heading .lp-eyebrow {
-  justify-content: center !important;
+  justify-content: flex-start !important;
 }
 
 html:root body .lp-page .lp-caps .lp-heading-copy {
-  margin-inline: auto !important;
+  margin-inline: 0 !important;
 }
 
 /* Cenník je posledná zastávka, tak dostal výraznejší panel
@@ -2781,16 +2781,6 @@ html:root body .winner-upgrade {
 
 html:root body .winner-upgrade .winner-upgrade__inner {
   position: relative !important;
-}
-
-@media (max-width: 720px) {
-  html:root body .lp-page .lp-caps .lp-heading {
-    text-align: left !important;
-  }
-
-  html:root body .lp-page .lp-caps .lp-heading .lp-eyebrow {
-    justify-content: flex-start !important;
-  }
 }
 
 /* ==============================================================
@@ -3105,4 +3095,46 @@ html:root body .winner-upgrade__eyebrow {
 /* Ukazovateľ možností bez počtu je len plus/mínus. */
 html:root body .lp-page .lp-caps-count {
   gap: 0 !important;
+}
+
+/* ==============================================================
+   TEXTÚRA POZADIA
+   Jemné zrno cez celý web. Ploché tmavé pozadie pôsobí lacno,
+   hlavne na veľkých monitoroch, kde je v prechodoch vidieť
+   pásikovanie — zrno ho rozbije.
+
+   Šum generuje SVG filter priamo v CSS, takže nepribúda žiadna
+   sieťová požiadavka. Vrstva je fixná a nereaguje na myš, takže
+   nezavadzia ani nestojí prekresľovanie pri scrollovaní.
+   ============================================================== */
+html:root body::before {
+  content: "" !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  opacity: 0.3 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E") !important;
+  background-repeat: repeat !important;
+  background-size: 180px 180px !important;
+}
+
+/* Obsah musí ostať nad zrnom. */
+html:root body > * {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Veľmi jemná vinieta na okrajoch — drží pohľad v strede plochy. */
+html:root body::after {
+  content: "" !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background: radial-gradient(
+    ellipse at 50% 42%,
+    transparent 56%,
+    rgba(3, 5, 8, 0.38) 100%
+  ) !important;
 }

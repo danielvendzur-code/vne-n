@@ -16,6 +16,7 @@ import { Route as OchranaUdajovRouteImport } from './routes/ochrana-udajov'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as FarbyRouteImport } from './routes/farby'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as CennikRouteImport } from './routes/cennik'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
 import { Route as ProjektySlugRouteImport } from './routes/projekty.$slug'
@@ -55,6 +56,11 @@ const CookiesRoute = CookiesRouteImport.update({
   path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CennikRoute = CennikRouteImport.update({
+  id: '/cennik',
+  path: '/cennik',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -73,6 +79,7 @@ const ProjektySlugRoute = ProjektySlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cennik'
     | '/cookies'
     | '/farby'
     | '/kontakt'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cennik'
     | '/cookies'
     | '/farby'
     | '/kontakt'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cennik'
     | '/cookies'
     | '/farby'
     | '/kontakt'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CennikRoute: typeof CennikRoute
   CookiesRoute: typeof CookiesRoute
   FarbyRoute: typeof FarbyRoute
   KontaktRoute: typeof KontaktRoute
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cennik': {
+      id: '/cennik'
+      path: '/cennik'
+      fullPath: '/cennik'
+      preLoaderRoute: typeof CennikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -237,6 +257,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CennikRoute: CennikRoute,
   CookiesRoute: CookiesRoute,
   FarbyRoute: FarbyRoute,
   KontaktRoute: KontaktRoute,

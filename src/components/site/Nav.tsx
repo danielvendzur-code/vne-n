@@ -16,6 +16,7 @@ const drawerItems: LineSidebarItem[] = [
   { label: "Chatboty a riešenia", href: "/sluzby" },
   { label: "Čo to prinesie webu", href: "/preco-chatbot" },
   { label: "Realizácie", href: "/projekty" },
+  { label: "Cena", href: "/cennik" },
   { label: "Ako to prebieha", href: "/postup" },
   { label: "Kontakt", href: "/kontakt" },
 ];
