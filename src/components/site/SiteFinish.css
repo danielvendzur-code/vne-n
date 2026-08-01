@@ -228,6 +228,26 @@ html body a:not([class]):hover {
 }
 
 /* --------------------------------------------------------------------------
+   5b. Popis na plnom tlačidle musí byť čitateľný
+   Hlavná farba je svetlá marhuľová. Biely text na nej mal kontrast 1,51:1
+   — teda prakticky neviditeľný. Na domovskej stránke to už neskoršia
+   vrstva opravila, na kontakte a podstránkach nie.
+   -------------------------------------------------------------------------- */
+html:root body .contact-page .contact-submit,
+html:root body .sp-page .sp-button--primary,
+html:root body .contact-page .contact-submit :is(span, b, svg),
+html:root body .sp-page .sp-button--primary :is(span, b, svg) {
+  color: #12100e !important;
+}
+
+html:root body .contact-page .contact-submit:is(:hover, :focus-visible),
+html:root body .sp-page .sp-button--primary:is(:hover, :focus-visible),
+html:root body .contact-page .contact-submit:is(:hover, :focus-visible) :is(span, b, svg),
+html:root body .sp-page .sp-button--primary:is(:hover, :focus-visible) :is(span, b, svg) {
+  color: #12100e !important;
+}
+
+/* --------------------------------------------------------------------------
    6. Baterka na kartách podstránok
    -------------------------------------------------------------------------- */
 html body :is(.sp-project-card > a, .sp-detail-block, .sp-cta, .contact-card, .contact-expect) {

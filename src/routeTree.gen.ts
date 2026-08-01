@@ -21,6 +21,7 @@ import { Route as CennikRouteImport } from './routes/cennik'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
 import { Route as ProjektySlugRouteImport } from './routes/projekty.$slug'
+import { Route as ApiLeadRouteImport } from './routes/api.lead'
 
 const SluzbyRoute = SluzbyRouteImport.update({
   id: '/sluzby',
@@ -82,6 +83,11 @@ const ProjektySlugRoute = ProjektySlugRouteImport.update({
   path: '/projekty/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiLeadRoute = ApiLeadRouteImport.update({
+  id: '/api/lead',
+  path: '/api/lead',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
+  '/api/lead': typeof ApiLeadRoute
   '/projekty/$slug': typeof ProjektySlugRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
+  '/api/lead': typeof ApiLeadRoute
   '/projekty/$slug': typeof ProjektySlugRoute
   '/projekty': typeof ProjektyIndexRoute
 }
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
+  '/api/lead': typeof ApiLeadRoute
   '/projekty/$slug': typeof ProjektySlugRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/postup'
     | '/preco-chatbot'
     | '/sluzby'
+    | '/api/lead'
     | '/projekty/$slug'
     | '/projekty/'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/postup'
     | '/preco-chatbot'
     | '/sluzby'
+    | '/api/lead'
     | '/projekty/$slug'
     | '/projekty'
   id:
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/postup'
     | '/preco-chatbot'
     | '/sluzby'
+    | '/api/lead'
     | '/projekty/$slug'
     | '/projekty/'
   fileRoutesById: FileRoutesById
@@ -182,6 +194,7 @@ export interface RootRouteChildren {
   PostupRoute: typeof PostupRoute
   PrecoChatbotRoute: typeof PrecoChatbotRoute
   SluzbyRoute: typeof SluzbyRoute
+  ApiLeadRoute: typeof ApiLeadRoute
   ProjektySlugRoute: typeof ProjektySlugRoute
   ProjektyIndexRoute: typeof ProjektyIndexRoute
 }
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjektySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/lead': {
+      id: '/api/lead'
+      path: '/api/lead'
+      fullPath: '/api/lead'
+      preLoaderRoute: typeof ApiLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -286,6 +306,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostupRoute: PostupRoute,
   PrecoChatbotRoute: PrecoChatbotRoute,
   SluzbyRoute: SluzbyRoute,
+  ApiLeadRoute: ApiLeadRoute,
   ProjektySlugRoute: ProjektySlugRoute,
   ProjektyIndexRoute: ProjektyIndexRoute,
 }

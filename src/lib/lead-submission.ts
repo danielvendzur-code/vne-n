@@ -1,7 +1,13 @@
 import { siteConfig } from "@/config/site";
 
-const LEAD_ENDPOINT =
-  import.meta.env.VITE_LEAD_API_URL?.trim() || "https://moj-chatbot-backend.vercel.app/api/lead";
+/**
+ * Vlastný koncový bod na rovnakej doméne (`src/routes/api.lead.ts`).
+ *
+ * Predtým sa dopyt posielal na cudzí backend, ktorý po prechode na
+ * mojchatbot.sk odpovedal `origin-not-allowed` — formulár teda tiché
+ * zlyhával. Vlastná adresa rieši aj CORS aj závislosť na cudzej službe.
+ */
+const LEAD_ENDPOINT = import.meta.env.VITE_LEAD_API_URL?.trim() || "/api/lead";
 
 /**
  * Adresa, na ktorú dopyt smeruje aj vtedy, keď API nie je dostupné a
@@ -23,6 +29,8 @@ export type WebsiteLead = {
   features?: string;
   timeline?: string;
   consent: boolean;
+  /** Návnada pre roboty — človek toto pole nikdy nevidí ani nevyplní. */
+  website?: string;
 };
 
 type LeadResponse = {
@@ -72,15 +80,7 @@ export async function submitWebsiteLead(payload: WebsiteLead): Promise<LeadResul
       credentials: "omit",
       cache: "no-store",
       signal: controller.signal,
-      body: JSON.stringify({
-        ...payload,
-        // Dopyt chodí na značkovú adresu a odosielateľ má dostať
-        // automatické poďakovanie s kópiou toho, čo poslal.
-        recipient: FALLBACK_RECIPIENT,
-        replyTo: payload.email,
-        autoReply: true,
-        locale: "sk",
-      }),
+      body: JSON.stringify(payload),
     });
     const data = (await response.json().catch(() => ({}))) as LeadResponse;
     if (response.ok && data.ok) {

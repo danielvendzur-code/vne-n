@@ -141,6 +141,51 @@ test("contact form submits directly and keeps a resilient fallback", async () =>
   assert.match(client, /fallback/);
 });
 
+test("lead endpoint runs on our own domain and never leaks the key", async () => {
+  const api = await read("src/routes/api.lead.ts");
+  const mail = await read("src/lib/lead-email.ts");
+  const client = await read("src/lib/lead-submission.ts");
+
+  // Vlastný koncový bod, nie cudzí backend — ten po prechode na
+  // mojchatbot.sk odpovedal origin-not-allowed a formulár tíško padal.
+  assert.match(client, /"\/api\/lead"/);
+  assert.doesNotMatch(client, /moj-chatbot-backend\.vercel\.app/);
+
+  // Kľúč žije iba v serverovom module a nikdy sa nedostane do balíka
+  // pre prehliadač — `import.meta.env.VITE_*` by ho tam vložilo.
+  assert.match(mail, /process\.env\.RESEND_API_KEY/);
+  assert.doesNotMatch(mail, /import\.meta\.env/);
+  assert.doesNotMatch(client, /RESEND/);
+
+  // Odpoveď na dopyt ide zákazníkovi, poďakovanie zase na značkovú adresu.
+  assert.match(mail, /reply_to: lead\.email/);
+  assert.match(mail, /reply_to: LEAD_RECIPIENT/);
+
+  // Overenie vstupu, návnada na roboty a strop na počet dopytov.
+  assert.match(api, /invalid-payload/);
+  assert.match(api, /HEADER_INJECTION/);
+  assert.match(api, /raw\.website/);
+  assert.match(api, /rateLimited/);
+  assert.match(api, /too-many-requests/);
+
+  // Keď kľúč chýba, návštevník dostane mailto namiesto tichého zlyhania.
+  assert.match(api, /delivery-not-configured/);
+  assert.match(api, /mailtoFallback/);
+});
+
+test("primary buttons keep readable ink on the light brand colour", async () => {
+  const contact = await read("src/routes/kontakt.tsx");
+  const finish = await read("src/components/site/SiteFinish.css");
+
+  // Biely popis na svetlej marhuľovej mal kontrast 1,51:1.
+  assert.match(finish, /\.contact-page \.contact-submit,/);
+  assert.match(finish, /\.sp-page \.sp-button--primary,/);
+  assert.match(finish, /color: #12100e !important/);
+
+  // Odosielacie tlačidlo je obyčajné, bez preletujúceho bieleho kruhu.
+  assert.doesNotMatch(contact, /approved-sweep-action/);
+});
+
 test("portfolio image loading preserves lazy loading after the first image", async () => {
   const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
   assert.match(motion, /image\.loading = index === 0 \? "eager" : "lazy"/);
@@ -354,10 +399,10 @@ test("both contact addresses are wired through one config", async () => {
   // Záložná mailto adresa aj príjemca dopytu idú z jedného miesta.
   assert.match(lead, /siteConfig\.contact\.email/);
   assert.doesNotMatch(lead, /daniel@vendzur\.sk/);
-  // Automatické poďakovanie sa vypýta od API a potvrdí sa len vtedy,
-  // keď ho API naozaj odošle.
-  assert.match(lead, /autoReply: true/);
+  // Poďakovanie posiela server sám; web sa len dozvie, či naozaj odišlo,
+  // a podľa toho zvolí znenie potvrdenia.
   assert.match(lead, /thankYouSent/);
+  assert.match(lead, /autoReplySent/);
   assert.match(contact, /thankYouSent/);
   assert.match(footer, /contact\.emailPersonal/);
 });

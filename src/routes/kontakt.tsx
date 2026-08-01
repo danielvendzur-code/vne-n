@@ -65,6 +65,8 @@ function ContactPage() {
   const [project, setProject] = useState("");
   const [timing, setTiming] = useState("Bez pevného termínu");
   const [consent, setConsent] = useState(false);
+  /** Návnada pre roboty — pole je skryté, človek doň nikdy nič nezapíše. */
+  const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [thankYouSent, setThankYouSent] = useState(false);
   const [error, setError] = useState("");
@@ -98,6 +100,7 @@ function ContactPage() {
         interest: "Návrh chatbota, kalkulačky alebo konfigurátora",
         timeline: timing,
         consent: true,
+        website: botTrap,
       });
       if (result.fallback) window.location.assign(result.fallback);
       setThankYouSent(result.thankYouSent);
@@ -289,6 +292,20 @@ function ContactPage() {
                     ))}
                   </select>
                 </label>
+                {/* Skryté pole proti robotom. Pre čítačky obrazovky je
+                    mimo poradia aj mimo prístupného stromu. */}
+                <div className="contact-trap" aria-hidden="true">
+                  <label htmlFor="contact-website">Web (nevypĺňať)</label>
+                  <input
+                    id="contact-website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={botTrap}
+                    onChange={(event) => setBotTrap(event.target.value)}
+                  />
+                </div>
                 <label className="contact-consent">
                   <input
                     type="checkbox"
@@ -304,7 +321,7 @@ function ContactPage() {
                 ) : null}
                 <button
                   type="submit"
-                  className="contact-submit approved-sweep-action"
+                  className="contact-submit"
                   data-state={submitState}
                   disabled={submitState === "sending"}
                 >

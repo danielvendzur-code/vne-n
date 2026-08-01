@@ -81,9 +81,66 @@
   line-height: 1.45;
 }
 
+/* Obyčajné tlačidlo.
+   Predtým cezeň pri prejazde myšou preletel 235 px biely kruh, ktorý
+   z odosielacieho tlačidla robil efekt namiesto ovládacieho prvku. */
+.contact-submit {
+  width: 100%;
+  min-height: 52px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 0 !important;
+  border-radius: 13px !important;
+  color: #12100e !important;
+  background: #ffc79d !important;
+  box-shadow: none !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    opacity 180ms ease !important;
+}
+
+.contact-submit::before,
+.contact-submit::after {
+  content: none !important;
+  display: none !important;
+}
+
+.contact-submit__content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.contact-submit__content svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-submit:hover:not(:disabled) {
+    background: #ffb078 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
 .contact-submit:disabled {
   cursor: wait;
   opacity: 0.72;
+}
+
+/* Návnada pre roboty — mimo obrazovky, ale nie `display: none`,
+   inak by ju časť robotov preskočila. */
+.contact-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .contact-success {
