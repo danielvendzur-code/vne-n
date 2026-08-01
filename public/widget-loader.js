@@ -15,6 +15,15 @@
   let settled = false;
   let pendingOpen = null;
 
+  const internalHref = (pathname) => {
+    const basePath = document.documentElement.dataset.basePath || "/vne-n";
+    const segments = [basePath, pathname]
+      .map((segment) => String(segment).replace(/^\/+|\/+$/g, ""))
+      .filter(Boolean);
+
+    return `/${segments.join("/")}`;
+  };
+
   const hasMountedWidget = () =>
     Boolean(
       document.getElementById(HOST_ID) &&
@@ -44,7 +53,7 @@
 
     const anchor = document.createElement("a");
     anchor.id = FALLBACK_ID;
-    anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;
+    anchor.href = internalHref("/kontakt");
     anchor.setAttribute("aria-label", "Otvoriť krátke zadanie");
     anchor.innerHTML = `
       <span aria-hidden="true">✦</span>

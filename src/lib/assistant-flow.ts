@@ -1,13 +1,7 @@
 import type { AssistantPreset, InterestId } from "../types/assistant";
 
 export type StepId =
-  | "interest"
-  | "industry"
-  | "channel"
-  | "features"
-  | "volume"
-  | "timeline"
-  | "contact";
+  "interest" | "industry" | "channel" | "features" | "volume" | "timeline" | "contact";
 
 export const STEPS: StepId[] = [
   "interest",
