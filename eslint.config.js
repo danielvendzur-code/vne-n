@@ -6,7 +6,11 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", ".output", ".vinxi"] },
+  // `pages-dist` je výstup zo scripts/export-github-pages.mjs. V CI
+  // vzniká až po lintovaní, takže tam neprekáža, ale lokálne po
+  // exporte lint padal na zminifikovaných balíkoch — stovky chýb,
+  // ktoré nemajú so zdrojákmi nič spoločné.
+  { ignores: ["dist", ".output", ".vinxi", "pages-dist"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
