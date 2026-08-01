@@ -47,7 +47,10 @@ test("client landing layer is authoritative and pricing stays off the homepage",
     layout.indexOf('import "./ClientLandingFinal.css"') <
       layout.indexOf('import "./SiteFinish.css"'),
   );
-  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./SiteFinish.css"'));
+  assert.equal(
+    layout.lastIndexOf('import "./'),
+    layout.indexOf('import "./TeamMotionUpgrade.css"'),
+  );
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);
   assert.match(approvedCss, /Reversed Blue Bloom/);
@@ -387,14 +390,14 @@ test("both landing variants exist and the client one stays out of the index", as
   assert.match(robots, /Disallow: \/navrh/);
 });
 
-test("both contact addresses are wired through one config", async () => {
+test("the public website is team-first and uses one brand contact", async () => {
   const config = await read("src/config/site.ts");
   const lead = await read("src/lib/lead-submission.ts");
   const contact = await read("src/routes/kontakt.tsx");
   const footer = await read("src/components/site/Footer.tsx");
 
   assert.match(config, /email: "info@mojchatbot\.sk"/);
-  assert.match(config, /emailPersonal: "daniel@vendzur\.sk"/);
+  assert.match(config, /founder: "Daniel Vendžúr"/);
   assert.match(config, /https:\/\/mojchatbot\.sk/);
   // Záložná mailto adresa aj príjemca dopytu idú z jedného miesta.
   assert.match(lead, /siteConfig\.contact\.email/);
@@ -404,7 +407,8 @@ test("both contact addresses are wired through one config", async () => {
   assert.match(lead, /thankYouSent/);
   assert.match(lead, /autoReplySent/);
   assert.match(contact, /thankYouSent/);
-  assert.match(footer, /contact\.emailPersonal/);
+  assert.doesNotMatch(footer, /contact\.emailPersonal/);
+  assert.match(footer, /Tím vedie/);
 });
 
 test("final correction restores the comparison and removes chip ornaments", async () => {
@@ -420,4 +424,35 @@ test("final correction restores the comparison and removes chip ornaments", asyn
   assert.match(css, /\.lp-comparison > \.lp-switch\.lp-switch--clean/);
   assert.match(css, /visibility:\s*visible !important/);
   assert.doesNotMatch(css, /inset 3px 0 0|mix-blend-mode|lp-bloom-dot/);
+});
+
+test("privacy copy matches the deployed processors and cookie-free analytics", async () => {
+  const privacy = await read("src/routes/ochrana-udajov.tsx");
+  const cookies = await read("src/routes/cookies.tsx");
+  const root = await read("src/routes/__root.tsx");
+  const layout = await read("src/components/site/Layout.tsx");
+
+  assert.match(privacy, /Vercel/);
+  assert.match(privacy, /Resend/);
+  assert.match(privacy, /Websupport/);
+  assert.match(privacy, /Anthropic/);
+  assert.match(privacy, /Prenosy mimo EHP/);
+  assert.doesNotMatch(privacy, /neprenášam mimo Európsky hospodársky priestor/);
+  assert.match(cookies, /Žiadne sledovacie cookies/);
+  assert.match(cookies, /Vercel Web Analytics/);
+  assert.match(root, /@vercel\/analytics\/react/);
+  assert.match(root, /<Analytics \/>/);
+  assert.doesNotMatch(layout, /<CookieConsent/);
+});
+
+test("collaboration timelines alternate from the sides and respect reduced motion", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const process = await read("src/routes/postup.tsx");
+  const css = await read("src/components/site/TeamMotionUpgrade.css");
+
+  assert.match(landing, /data-side=\{index % 2 === 0 \? "left" : "right"\}/);
+  assert.match(landing, /lp-step-result/);
+  assert.match(process, /whileInView=\{\{ opacity: 1, x: 0, y: 0 \}\}/);
+  assert.match(css, /animation-timeline: view\(\)/);
+  assert.match(css, /prefers-reduced-motion: reduce/);
 });

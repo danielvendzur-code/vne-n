@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Cookie, Mail, Phone } from "lucide-react";
+import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { liveTools, realizations } from "@/data/realizations";
-import { openCookieSettings } from "@/lib/cookie-consent";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
 export function Footer() {
@@ -14,14 +13,17 @@ export function Footer() {
           <BrandMark size={36} />
           <p>Môj Chatbot · chatboty, kalkulačky a konfigurátory navrhnuté na mieru.</p>
           <p className="premium-footer-note">
-            Napíšte, s čím vám má chatbot pomôcť. Odpoviem zvyčajne do jedného pracovného dňa.
+            Napíšte nám, s čím má web pomôcť. Ozveme sa zvyčajne do jedného pracovného dňa.
+          </p>
+          <p className="premium-footer-founder">
+            Tím vedie {siteConfig.team.founder}, {siteConfig.team.founderRole}.
           </p>
         </div>
 
         <div>
           <p className="premium-footer-label">Navigácia</p>
           <nav className="premium-footer-links" aria-label="Navigácia v pätičke">
-            <Link to="/sluzby">Čo tvorím</Link>
+            <Link to="/sluzby">Čo tvoríme</Link>
             <Link to="/preco-chatbot">Čo to prinesie webu</Link>
             <Link to="/projekty">Realizácie</Link>
             <Link to="/cennik">Cena</Link>
@@ -47,19 +49,10 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="premium-footer-label">Priamy kontakt</p>
+          <p className="premium-footer-label">Kontakt na tím</p>
           <div className="premium-footer-links">
-            {/* Značková adresa je hlavná — na ňu chodia dopyty aj z nej
-                odchádzajú odpovede. Osobná stojí pod ňou ako druhá možnosť. */}
             <a href={`mailto:${siteConfig.contact.email}`}>
               <Mail size={15} /> {siteConfig.contact.email}
-            </a>
-            <a
-              href={`mailto:${siteConfig.contact.emailPersonal}`}
-              className="premium-footer-alt"
-              title="Osobná adresa Daniela Vendžúra"
-            >
-              {siteConfig.contact.emailPersonal}
             </a>
             <a href={`tel:${siteConfig.contact.phoneHref}`}>
               <Phone size={15} /> {siteConfig.contact.phoneLabel}
@@ -72,15 +65,12 @@ export function Footer() {
       </div>
       <div className="container-page premium-footer-bottom">
         <span>
-          © {new Date().getFullYear()} · Môj Chatbot · {siteConfig.legal.operator}
+          © {new Date().getFullYear()} · Môj Chatbot · prevádzkovateľ {siteConfig.legal.operator}
           {siteConfig.legal.ico ? ` · IČO ${siteConfig.legal.ico}` : ""}
         </span>
         <span className="premium-footer-privacy">
           <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
-          <Link to="/cookies">Cookies</Link>
-          <button type="button" onClick={openCookieSettings}>
-            <Cookie size={13} /> Nastavenia cookies
-          </button>
+          <Link to="/cookies">Cookies a analytika</Link>
         </span>
       </div>
     </footer>

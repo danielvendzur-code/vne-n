@@ -28,9 +28,9 @@ const palettes: PaletteOption[] = [
     id: "indigo",
     number: "01",
     name: "Ateliér Indigo",
-    mood: "osobná · teplá · prémiová",
+    mood: "ľudská · teplá · prémiová",
     verdict:
-      "Môj favorit: pôsobí ako prémiové osobné štúdio a pritom prirodzene ladí s farbami chatbota.",
+      "Výrazný prémiový smer, ktorý pôsobí ľudsky a prirodzene ladí s produktovým rozhraním.",
     background: "#f7f4ed",
     surface: "#ffffff",
     ink: "#151718",
@@ -132,10 +132,10 @@ function paletteStyle(palette: PaletteOption) {
 export const Route = createFileRoute("/farby")({
   head: () => ({
     meta: [
-      { title: "Farebné smery — Daniel Vendzúr" },
+      { title: "Farebné smery — Môj Chatbot" },
       {
         name: "description",
-        content: "Živý výber farebných smerov pre novú vizuálnu identitu webu Daniela Vendzúra.",
+        content: "Interný živý výber farebných smerov pre vizuálnu identitu tímu Môj Chatbot.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -182,7 +182,7 @@ function ColorLabPage() {
         <nav className="demo-nav" aria-label="Ukážková navigácia">
           <span className="demo-nav__logo">
             <Symbol size={32} />
-            <b>Daniel Vendzúr</b>
+            <b>Môj Chatbot</b>
           </span>
           <span className="demo-nav__links" aria-hidden="true">
             <i>Riešenia</i>
@@ -203,7 +203,7 @@ function ColorLabPage() {
               Web, ktorý nielen vyzerá dobre. <em>Aj pracuje.</em>
             </h1>
             <p className="demo-lead">
-              Navrhnem nástroj, ktorý návštevníkovi odpovie a vám odovzdá pripravený dopyt.
+              Navrhneme nástroj, ktorý návštevníkovi odpovie a vám odovzdá pripravený dopyt.
             </p>
             <div className="demo-actions">
               <a href={contactHref} className="demo-cta">
@@ -314,7 +314,7 @@ function ColorLabPage() {
 
       <footer className="color-lab__footer">
         <p>
-          Stačí mi napísať číslo <strong>01—05</strong>. Potom zvolený smer prenesiem do celého
+          Stačí nám poslať číslo <strong>01—05</strong>. Zvolený smer potom prenesieme do celého
           webu.
         </p>
         <a href={homeHref}>

@@ -6,9 +6,9 @@ import { breadcrumbJsonLd, seo } from "@/lib/seo";
 export const Route = createFileRoute("/cennik")({
   head: () => ({
     ...seo({
-      title: "Cena a čo potrebujem od klienta",
+      title: "Cena a čo potrebujeme od klienta",
       description:
-        "Jednoduchý chatbot začína od 350 €. Kalkulačka či konfigurátor podľa počtu otázok a pravidiel. Cenu poviem vopred, po krátkom zadaní.",
+        "Jednoduchý chatbot začína od 350 €. Kalkulačka či konfigurátor závisí od počtu otázok a pravidiel. Presnú cenu povieme vopred po krátkom zadaní.",
       path: "/cennik",
     }),
     scripts: [
@@ -32,10 +32,10 @@ function PricingPage() {
         eyebrow="Cena"
         title={
           <>
-            Koľko to stojí <em>a čo od vás potrebujem.</em>
+            Koľko to stojí <em>a čo od vás potrebujeme.</em>
           </>
         }
-        lead="Jednoduchý chatbot viem nasadiť rýchlo. Ak má aj počítať cenu alebo skladať produkt, závisí to od počtu otázok a pravidiel — cenu poviem vopred."
+        lead="Jednoduchý chatbot vieme nasadiť rýchlo. Ak má aj počítať cenu alebo skladať produkt, rozsah závisí od počtu otázok a pravidiel — presnú cenu povieme vopred."
       />
       <HomeConversionUpgrade />
     </div>

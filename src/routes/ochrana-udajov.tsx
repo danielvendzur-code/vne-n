@@ -1,5 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Building2, Clock3, Lock, Mail, ShieldCheck, UserCheck } from "lucide-react";
+import {
+  Building2,
+  Clock3,
+  Globe2,
+  Lock,
+  Mail,
+  Server,
+  ShieldCheck,
+  UserCheck,
+} from "lucide-react";
 import { PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { siteConfig } from "@/config/site";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
@@ -8,9 +17,9 @@ import "./cookies.css";
 export const Route = createFileRoute("/ochrana-udajov")({
   head: () => ({
     ...seo({
-      title: "Ochrana osobných údajov",
+      title: "Ochrana osobných údajov — Môj Chatbot",
       description:
-        "Aké údaje z formulára a chatbota spracúvam, prečo, ako dlho ich uchovávam a aké máte práva podľa GDPR.",
+        "Informácie o spracúvaní údajov z formulára, chatbota, e-mailovej komunikácie a cookie-free analytiky.",
       path: "/ochrana-udajov",
     }),
     scripts: [
@@ -26,48 +35,58 @@ export const Route = createFileRoute("/ochrana-udajov")({
 const purposes = [
   {
     icon: Mail,
-    title: "Odpoveď na váš dopyt",
-    what: "Meno, e-mail, prípadne telefón, web firmy a text správy.",
-    why: "Bez toho vám neviem odpovedať ani pripraviť návrh.",
-    basis: "Predzmluvné vzťahy — čl. 6 ods. 1 písm. b) GDPR.",
-    keep: "Dva roky od poslednej správy. Potom údaje mažem.",
+    title: "Dopyt a obchodná komunikácia",
+    what: "Meno, e-mail, telefón, firma alebo web, obsah zadania a údaje, ktoré dobrovoľne odošlete.",
+    why: "Aby sme mohli dopyt vyhodnotiť, odpovedať a pripraviť návrh riešenia.",
+    basis: "Kroky pred uzatvorením zmluvy a plnenie zmluvy — čl. 6 ods. 1 písm. b) GDPR.",
+    keep: "Najviac 24 mesiacov od poslednej komunikácie, ak nevznikne zmluvný alebo zákonný dôvod na dlhšie uchovanie.",
   },
   {
     icon: UserCheck,
-    title: "Rozhovor s chatbotom",
-    what: "Vaše odpovede v chatbote a kontakt, ak ho zadáte.",
-    why: "Aby som vedel, čo potrebujete, a nemusel sa pýtať znova.",
-    basis: "Predzmluvné vzťahy — čl. 6 ods. 1 písm. b) GDPR.",
-    keep: "Dva roky od rozhovoru.",
+    title: "Rozhovor s AI asistentom",
+    what: "Text otázok, zvolené možnosti a kontakt, iba ak ho návštevník zadá.",
+    why: "Aby asistent odpovedal a pripravil použiteľné zadanie pre tím Môj Chatbot.",
+    basis:
+      "Kroky pred uzatvorením zmluvy — čl. 6 ods. 1 písm. b) GDPR; pri anonymnej otázke oprávnený záujem na poskytovaní služby.",
+    keep: "Podľa účelu komunikácie, najviac 24 mesiacov; technické záznamy kratšie podľa nastavenia poskytovateľa.",
   },
   {
     icon: Clock3,
-    title: "Meranie návštevnosti",
-    what: "Anonymné údaje o tom, ktoré stránky sa otvárajú.",
-    why: "Aby som vedel, čo na webe funguje a čo nie.",
-    basis: "Váš súhlas — čl. 6 ods. 1 písm. a) GDPR. Kedykoľvek ho môžete odvolať.",
-    keep: "Podľa nastavenia súhlasu, najdlhšie 14 mesiacov.",
+    title: "Cookie-free meranie návštevnosti",
+    what: "Súhrnné údaje o otvorenej stránke, zdroji návštevy, krajine, zariadení a prehliadači.",
+    why: "Aby sme rozumeli používaniu webu, opravovali problémy a zlepšovali obsah.",
+    basis: "Oprávnený záujem na meraní a zlepšovaní webu — čl. 6 ods. 1 písm. f) GDPR.",
+    keep: "Vercel nepoužíva analytické cookies; dočasný hash sa obnovuje denne a relácia sa zahodí po 24 hodinách. Súhrnné reporty môžu byť uchované dlhšie.",
+  },
+  {
+    icon: Server,
+    title: "Bezpečnosť a technická prevádzka",
+    what: "IP adresa, čas požiadavky, technické hlavičky, chybové a bezpečnostné záznamy.",
+    why: "Ochrana formulárov, prevencia zneužitia, diagnostika chýb a dostupnosť služby.",
+    basis: "Oprávnený záujem na bezpečnej prevádzke — čl. 6 ods. 1 písm. f) GDPR.",
+    keep: "Len čas potrebný na bezpečnosť a diagnostiku, spravidla najviac 30 dní, ak incident nevyžaduje dlhšie uchovanie.",
   },
 ];
 
 const rights = [
-  "Vedieť, aké údaje o vás mám, a dostať ich kópiu.",
-  "Nechať si ich opraviť, ak nie sú správne.",
-  "Nechať si ich vymazať, ak už nie sú potrebné.",
-  "Obmedziť ich spracúvanie alebo proti nemu namietať.",
-  "Dostať ich v bežnom formáte a preniesť inam.",
-  "Kedykoľvek odvolať súhlas, ktorý ste dali.",
+  "Požiadať o prístup k svojim údajom a ich kópiu.",
+  "Požiadať o opravu nepresných alebo neúplných údajov.",
+  "Požiadať o vymazanie alebo obmedzenie spracúvania, ak sú splnené podmienky.",
+  "Namietať proti spracúvaniu založenému na oprávnenom záujme.",
+  "Získať údaje v prenosnom formáte, ak sa uplatní právo na prenosnosť.",
+  "Podať sťažnosť na Úrad na ochranu osobných údajov Slovenskej republiky.",
 ];
 
 function PrivacyPage() {
-  const { legal, contact } = siteConfig;
+  const { legal, contact, team } = siteConfig;
   const identity = [
+    { label: "Značka", value: team.label },
     { label: "Prevádzkovateľ", value: legal.operator },
-    { label: "Sídlo", value: legal.address },
+    { label: "Sídlo / miesto podnikania", value: legal.address },
     { label: "IČO", value: legal.ico },
     { label: "DIČ", value: legal.dic },
     { label: "IČ DPH", value: legal.icDph },
-    { label: "Zapísaný", value: legal.registration },
+    { label: "Registrácia", value: legal.registration },
   ].filter((row) => row.value);
 
   return (
@@ -76,17 +95,17 @@ function PrivacyPage() {
         eyebrow="Súkromie"
         title={
           <>
-            Čo robím s údajmi, <em>ktoré mi pošlete.</em>
+            Údaje používame iba na jasný účel. <em>Nie na predaj ani reklamnú databázu.</em>
           </>
         }
-        lead="Zbieram len to, čo potrebujem na to, aby som vám odpovedal. Nič nepredávam ďalej a nikomu iné údaje neposkytujem."
+        lead="Táto stránka vysvetľuje, aké údaje spracúvame pri používaní webu, formulára, AI asistenta a e-mailovej komunikácie."
       />
 
       <section className="cookies-section">
         <div className="container-page cookies-grid">
-          <Reveal className="cookies-card">
+          <Reveal className="cookies-card" direction="left">
             <h2>
-              <Building2 aria-hidden="true" /> Kto údaje spracúva
+              <Building2 aria-hidden="true" /> Kto je prevádzkovateľ
             </h2>
             <dl className="privacy-identity">
               {identity.map((row) => (
@@ -96,7 +115,7 @@ function PrivacyPage() {
                 </div>
               ))}
               <div>
-                <dt>E-mail</dt>
+                <dt>E-mail pre súkromie</dt>
                 <dd>
                   <a href={`mailto:${contact.email}`}>{contact.email}</a>
                 </dd>
@@ -108,18 +127,20 @@ function PrivacyPage() {
                 </dd>
               </div>
             </dl>
-            {legal.notVatPayer ? <p className="cookies-note">Nie som platiteľ DPH.</p> : null}
           </Reveal>
 
-          <Reveal className="cookies-card" delay={0.06}>
+          <Reveal className="cookies-card" direction="right" delay={0.06}>
             <h2>
-              <ShieldCheck aria-hidden="true" /> Krátko a jasne
+              <ShieldCheck aria-hidden="true" /> Základné zásady
             </h2>
             <ul className="cookies-list">
-              <li>Údaje používam len na to, aby som vám odpovedal na dopyt.</li>
-              <li>Nikomu ich nepredávam ani neposkytujem na reklamu.</li>
-              <li>Uchovávam ich dva roky, potom ich mažem.</li>
-              <li>Kedykoľvek si môžete vyžiadať výmaz — stačí napísať e-mail.</li>
+              <li>Zbierame iba údaje potrebné na odpoveď, realizáciu a bezpečnú prevádzku.</li>
+              <li>Údaje nepredávame a nepoužívame na reklamu tretích strán.</li>
+              <li>Obsah formulára ani chatbota neposielame do analytiky.</li>
+              <li>
+                Nepoužívame automatizované rozhodovanie s právnymi alebo obdobne významnými
+                účinkami.
+              </li>
             </ul>
           </Reveal>
         </div>
@@ -128,17 +149,22 @@ function PrivacyPage() {
       <section className="cookies-section">
         <div className="container-page">
           <Reveal>
-            <h2 className="cookies-heading">Na čo údaje potrebujem</h2>
+            <h2 className="cookies-heading">Účely, údaje a doby uchovania</h2>
           </Reveal>
           <div className="privacy-purposes">
             {purposes.map(({ icon: Icon, title, what, why, basis, keep }, index) => (
-              <Reveal className="cookies-card" key={title} delay={index * 0.05}>
+              <Reveal
+                className="cookies-card"
+                key={title}
+                direction={index % 2 === 0 ? "left" : "right"}
+                delay={index * 0.04}
+              >
                 <h3>
                   <Icon aria-hidden="true" /> {title}
                 </h3>
                 <dl className="privacy-detail">
                   <div>
-                    <dt>Čo zbieram</dt>
+                    <dt>Čo spracúvame</dt>
                     <dd>{what}</dd>
                   </div>
                   <div>
@@ -162,7 +188,48 @@ function PrivacyPage() {
 
       <section className="cookies-section">
         <div className="container-page cookies-grid">
-          <Reveal className="cookies-card">
+          <Reveal className="cookies-card" direction="left">
+            <h2>
+              <Lock aria-hidden="true" /> Poskytovatelia a príjemcovia
+            </h2>
+            <p>Na technickú prevádzku používame najmä tieto kategórie dodávateľov:</p>
+            <ul className="cookies-list">
+              <li>
+                <b>Vercel</b> — hosting webu, serverové funkcie a cookie-free Web Analytics.
+              </li>
+              <li>
+                <b>Resend</b> — odosielanie transakčných e-mailov a potvrdení dopytu.
+              </li>
+              <li>
+                <b>Websupport</b> — doména, DNS a firemná e-mailová schránka.
+              </li>
+              <li>
+                <b>Anthropic</b> — spracovanie otázok, keď návštevník použije AI odpoveď chatbota.
+              </li>
+            </ul>
+            <p className="cookies-note">
+              Dodávatelia dostanú iba údaje potrebné na konkrétnu službu a sú viazaní zmluvnými a
+              bezpečnostnými podmienkami.
+            </p>
+          </Reveal>
+
+          <Reveal className="cookies-card" direction="right" delay={0.06}>
+            <h2>
+              <Globe2 aria-hidden="true" /> Prenosy mimo EHP
+            </h2>
+            <p>
+              Niektorí technologickí dodávatelia pôsobia v Spojených štátoch alebo spracúvajú údaje
+              aj mimo Európskeho hospodárskeho priestoru. Prenos sa uskutočňuje iba pri existencii
+              vhodného právneho mechanizmu, najmä rozhodnutia o primeranosti, štandardných zmluvných
+              doložiek alebo iných záruk podľa GDPR.
+            </p>
+            <p className="cookies-note">
+              Predchádzajúce tvrdenie, že údaje nikdy neopúšťajú EHP, nebolo pri použitom
+              technologickom stacku presné a bolo odstránené.
+            </p>
+          </Reveal>
+
+          <Reveal className="cookies-card cookies-card--wide" direction="left" delay={0.1}>
             <h2>
               <UserCheck aria-hidden="true" /> Vaše práva
             </h2>
@@ -172,28 +239,9 @@ function PrivacyPage() {
               ))}
             </ul>
             <p className="cookies-note">
-              Stačí napísať na <a href={`mailto:${contact.email}`}>{contact.email}</a>. Ozvem sa
-              najneskôr do jedného mesiaca. Ak by ste neboli spokojní, môžete sa obrátiť na Úrad na
-              ochranu osobných údajov SR, Hraničná 12, 820 07 Bratislava.
-            </p>
-          </Reveal>
-
-          <Reveal className="cookies-card" delay={0.06}>
-            <h2>
-              <Lock aria-hidden="true" /> Komu sa údaje dostanú
-            </h2>
-            <p>
-              Údaje spracúvam sám. Web a e-mail bežia na službách, ktoré fungujú ako
-              sprostredkovatelia — hosting stránky a doručovanie e-mailov. Tie majú prístup len k
-              tomu, čo je potrebné na prevádzku, a viaže ich zmluva o spracúvaní údajov.
-            </p>
-            <p className="cookies-note">
-              Údaje neprenášam mimo Európsky hospodársky priestor. Nepoužívam automatizované
-              rozhodovanie ani profilovanie, ktoré by malo pre vás právne účinky.
-            </p>
-            <p className="cookies-note">
-              Podrobnosti o cookies nájdete na stránke <Link to="/cookies">Používanie cookies</Link>
-              .
+              Žiadosť pošlite na <a href={`mailto:${contact.email}`}>{contact.email}</a>. Odpovieme
+              bez zbytočného odkladu, spravidla najneskôr do jedného mesiaca. Podrobnosti o meraní
+              nájdete na stránke <Link to="/cookies">Cookies a analytika</Link>.
             </p>
           </Reveal>
         </div>

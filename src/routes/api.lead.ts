@@ -25,8 +25,7 @@ const LIMITS = {
 } as const;
 
 const CENTRAL_LEAD_API_URL =
-  process.env.CENTRAL_LEAD_API_URL?.trim() ||
-  "https://moj-chatbot-backend.vercel.app/api/lead";
+  process.env.CENTRAL_LEAD_API_URL?.trim() || "https://moj-chatbot-backend.vercel.app/api/lead";
 const CENTRAL_LEAD_ORIGIN = "https://moj-chatbot-backend.vercel.app";
 const CENTRAL_TIMEOUT_MS = 12_000;
 

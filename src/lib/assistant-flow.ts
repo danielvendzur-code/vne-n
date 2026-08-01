@@ -26,7 +26,7 @@ export const QUESTIONS: Record<StepId, [title: string, subtitle: string]> = {
   ],
   industry: [
     "V akom odvetví podnikáte?",
-    "Podľa odvetvia pripravím vhodné ukážky a tón komunikácie.",
+    "Podľa odvetvia pripravíme vhodné ukážky a tón komunikácie.",
   ],
   channel: [
     "Kde má asistent bežať?",
@@ -40,7 +40,7 @@ export const QUESTIONS: Record<StepId, [title: string, subtitle: string]> = {
   ],
   contact: [
     "Zhrnutie návrhu",
-    "Skontrolujte výber a nechajte mi kontakt — pripravím návrh na mieru.",
+    "Skontrolujte výber a nechajte mi kontakt — pripravíme návrh na mieru.",
   ],
 };
 
@@ -80,7 +80,7 @@ export const INTERESTS: InterestOption[] = [
   {
     id: "custom",
     label: "Vlastné riešenie",
-    description: "Popíšte svoj proces a navrhnem asistenta presne podľa neho.",
+    description: "Popíšte svoj proces a navrhneme asistenta presne podľa neho.",
     icon: "spark",
   },
 ];
@@ -167,7 +167,7 @@ export const CHANNELS: ChannelOption[] = [
   {
     id: "novy-web",
     label: "Web ešte len chystáme",
-    description: "Asistenta navrhneme spolu s novým webom.",
+    description: "Asistenta navrhnemee spolu s novým webom.",
   },
   {
     id: "social",

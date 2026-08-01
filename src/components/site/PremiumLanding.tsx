@@ -121,7 +121,7 @@ const comparisons = {
 const heroProof = [
   { icon: BadgeCheck, text: "Reálne nasadené weby, nie makety" },
   { icon: PenLine, text: "Vlastná logika podľa vašej firmy" },
-  { icon: Clock3, text: "Od návrhu po nasadenie priamo so mnou" },
+  { icon: Clock3, text: "Od návrhu po nasadenie s tímom Môj Chatbot" },
 ];
 
 const heroCopy = {
@@ -129,7 +129,7 @@ const heroCopy = {
     context: "Chatboty · kalkulačky · konfigurátory",
     lines: ["Váš web odpovie", "skôr, než", "zákazník odíde."],
     aria: "Váš web odpovie skôr, než zákazník odíde.",
-    lead: "Staviam chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď a vám príde dopyt, s ktorým sa dá rovno pracovať.",
+    lead: "Tvoríme chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď a vám príde dopyt, s ktorým sa dá rovno pracovať.",
     primary: { label: "Pozrieť realizácie", href: "#realizacie" },
     secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
   },
@@ -137,7 +137,7 @@ const heroCopy = {
     context: "Pre klientov po návrhu v e-maile",
     lines: ["Návrh už máte.", "Teraz si pozrite,", "ako bude pracovať."],
     aria: "Návrh už máte. Teraz si pozrite, ako bude pracovať na vašom webe.",
-    lead: "Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce a priamy kontakt na mňa.",
+    lead: "Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce a priamy kontakt na náš tím.",
     primary: { label: "Pozrieť živú realizáciu", href: "#pripadova-studia" },
     secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
   },
@@ -303,18 +303,27 @@ const capabilityGroups = [
 const process = [
   {
     icon: MessageCircle,
-    title: "Krátka analýza",
-    copy: "Poviete mi, čo predávate a čo vás najviac zdržuje.",
+    title: "Úvodný brief",
+    copy: "Spoločne pomenujete cieľ, najčastejšie otázky zákazníkov a údaje, ktoré má riešenie zbierať.",
+    result: "Výstup: jasný rozsah prvej verzie a zoznam podkladov.",
   },
   {
     icon: Workflow,
-    title: "Logika a prototyp",
-    copy: "Navrhnem otázky, rozhodovanie aj rozhranie ešte pred vývojom.",
+    title: "Tok, logika a prototyp",
+    copy: "Navrhneme otázky, rozhodovanie, výpočty aj rozhranie skôr, než sa začne samotný vývoj.",
+    result: "Výstup: klikateľný návrh a odsúhlasená logika.",
+  },
+  {
+    icon: BadgeCheck,
+    title: "Vývoj a spoločné testovanie",
+    copy: "Riešenie postavíme a preveríme na reálnych scenároch, mobile aj desktope. Pripomienky zapracujeme pred nasadením.",
+    result: "Výstup: otestovaná verzia pripravená na ostrú prevádzku.",
   },
   {
     icon: Rocket,
-    title: "Nasadenie",
-    copy: "Hotový nástroj otestujem, prepojím a nasadím priamo na váš web.",
+    title: "Nasadenie a zlepšovanie",
+    copy: "Nástroj prepojíme s e-mailom alebo ďalšími systémami, vložíme na web a podľa reálnych dát doladíme detaily.",
+    result: "Výstup: živé riešenie a jasný plán ďalších úprav.",
   },
 ];
 
@@ -559,7 +568,7 @@ function Hero({ variant }: { variant: LandingVariant }) {
               onClick={() => openSiteAssistant({ source: "hero-card" })}
             >
               <span className="lp-button-content">
-                Vyskúšať môjho chatbota <ArrowUpRight />
+                Vyskúšať chatbota <ArrowUpRight />
               </span>
             </button>
           </div>
@@ -820,7 +829,7 @@ function Capabilities() {
     <section className="lp-caps" id="moznosti">
       <div className="container-page">
         <Heading
-          eyebrow="Čo všetko viem postaviť"
+          eyebrow="Čo všetko vieme postaviť"
           copy="Vyberte, čo je najbližšie k vašej situácii — po rozkliknutí uvidíte, čo nástroj robí, aké vstupy zbiera a čo z neho dostanete."
         >
           Ak sa to dá opísať pravidlami, <em>dá sa to postaviť.</em>
@@ -965,7 +974,7 @@ function FaqSection() {
         <div className="lp-faq-side">
           <Heading
             eyebrow="Časté otázky"
-            copy="Ak tu odpoveď nie je, napíšte mi — alebo sa spýtajte priamo chatbota v rohu obrazovky."
+            copy="Ak tu odpoveď nie je, napíšte nám — alebo sa spýtajte priamo chatbota v rohu obrazovky."
           >
             Všetko, čo firmy <em>zaujíma najskôr.</em>
           </Heading>
@@ -1005,8 +1014,20 @@ function ProcessTimeline() {
         <motion.span className="lp-timeline-progress" style={{ scaleY }} aria-hidden="true" />
       )}
       <ol className="lp-process-list" ref={listRef}>
-        {process.map(({ icon: Icon, title, copy }, index) => (
-          <li key={title} data-reached={reducedMotion || index < reached}>
+        {process.map(({ icon: Icon, title, copy, result }, index) => (
+          <motion.li
+            key={title}
+            data-reached={reducedMotion || index < reached}
+            data-side={index % 2 === 0 ? "left" : "right"}
+            initial={reducedMotion ? false : { opacity: 0, x: index % 2 === 0 ? -58 : 58, y: 18 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, amount: 0.34, margin: "-7% 0px -12% 0px" }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : { duration: 0.82, delay: index * 0.06, ease: premiumEase }
+            }
+          >
             <span className="lp-step-node" aria-hidden="true">
               <i />
             </span>
@@ -1017,8 +1038,11 @@ function ProcessTimeline() {
               <span className="lp-step-num">Krok 0{index + 1}</span>
               <h3>{title}</h3>
               <p>{copy}</p>
+              <p className="lp-step-result">
+                <Check aria-hidden="true" /> {result}
+              </p>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ol>
     </div>
@@ -1044,8 +1068,8 @@ function ProcessAndCta() {
 
         <Reveal className="lp-final-card" direction="right" distance={44}>
           <Symbol size={52} />
-          <p>Máte návrh v e-maile alebo nápad v hlave?</p>
-          <h2>Stačí mi povedať, čo vám sedí. Ďalší krok pripravím ja.</h2>
+          <p>Máte návrh v e-maile alebo nápad, ktorý chcete preveriť?</p>
+          <h2>Stačí nám povedať, čo vám sedí. Ďalší krok pripraví tím Môj Chatbot.</h2>
           <Link to="/kontakt" className="lp-button lp-button-light" ref={magneticFinal}>
             <span className="lp-button-content">
               Dohodnúť ďalší krok <ArrowRight />

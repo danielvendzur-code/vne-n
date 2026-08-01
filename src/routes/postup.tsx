@@ -11,43 +11,77 @@ import {
   Search,
   Workflow,
 } from "lucide-react";
-import { CtaBand, PageIntro } from "@/components/site/motion-primitives";
+import { CtaBand, PageIntro, premiumEase } from "@/components/site/motion-primitives";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useTimelineProgress } from "@/hooks/useTimelineProgress";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./postup.css";
 
+const steps = [
+  {
+    icon: Search,
+    label: "Krok 01 · Zorientovanie",
+    title: "Pozrieme si web, služby a obchodný proces.",
+    copy: "Zistíme, čo zákazníci potrebujú vedieť a ktoré údaje firma dnes zisťuje ručne.",
+    chips: ["Bez záväzku", "Stačí odkaz na web"],
+  },
+  {
+    icon: Workflow,
+    label: "Krok 02 · Návrh logiky",
+    title: "Navrhneme otázky, vetvenie a výpočty.",
+    copy: "Spoločne odsúhlasíme kroky, možnosti, cenové pravidlá a výsledok pre zákazníka ešte pred vývojom.",
+    chips: ["Mapa otázok", "Cenové pravidlá", "Schválenie vopred"],
+  },
+  {
+    icon: Palette,
+    label: "Krok 03 · Dizajn",
+    title: "Rozhranie zladíme s vašou značkou.",
+    copy: "Nástroj prevezme farby, typografiu a tón komunikácie webu, aby nepôsobil ako cudzí doplnok.",
+    chips: ["Vaše farby", "Mobil aj desktop"],
+  },
+  {
+    icon: Code2,
+    label: "Krok 04 · Vývoj a test",
+    title: "Riešenie postavíme a otestujeme.",
+    copy: "Preveríme logiku, výpočty aj správanie na počítači a mobile. Pred nasadením dostanete živý testovací odkaz.",
+    chips: ["Testovací odkaz", "Reálne scenáre"],
+  },
+  {
+    icon: PlugZap,
+    label: "Krok 05 · Prepojenie",
+    title: "Dopyty prepojíme s vašimi systémami.",
+    copy: "E-mail, kalendár, tabuľka, CRM alebo vlastné API dostanú údaje bez ručného prepisovania.",
+    chips: ["E-mail", "Kalendár", "Tabuľka", "CRM / API"],
+  },
+  {
+    icon: CalendarCheck,
+    label: "Krok 06 · Nasadenie",
+    title: "Widget nasadíme a doladíme podľa prevádzky.",
+    copy: "Vo väčšine prípadov stačí jeden riadok kódu. Po spustení skontrolujeme funkčnosť a upravíme detaily podľa reálnych reakcií.",
+    chips: ["Jeden riadok kódu", "Podpora po spustení"],
+  },
+];
+
 const processJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "Ako prebieha spolupráca na chatbote na mieru",
-  description:
-    "Šesť krokov od pozretia webu po widget na stránke: otázky, návrh logiky, dizajn, test, prepojenie dopytov a nasadenie.",
-  step: [
-    { name: "Pozriem si web a služby.", text: "Zistím, čo zákazníci potrebujú vedieť." },
-    { name: "Navrhnem otázky a výpočet.", text: "Kroky, možnosti a cenové pravidlá odsúhlasíme." },
-    { name: "Pripravím dizajn rozhrania.", text: "Nástroj prevezme farby a tón vášho webu." },
-    {
-      name: "Vytvorím a otestujem riešenie.",
-      text: "Dostanete odkaz na vyskúšanie pred nasadením.",
-    },
-    { name: "Prepojím dopyty so systémami.", text: "E-mail, kalendár, tabuľka alebo CRM." },
-    { name: "Widget sa vloží na web.", text: "Vo väčšine prípadov stačí jeden riadok kódu." },
-  ].map((step, index) => ({
+  name: "Ako prebieha spolupráca s tímom Môj Chatbot",
+  description: "Šesť krokov od analýzy po nasadenie chatbota, kalkulačky alebo konfigurátora.",
+  step: steps.map((step, index) => ({
     "@type": "HowToStep",
     position: index + 1,
-    name: step.name,
-    text: step.text,
+    name: step.title,
+    text: step.copy,
   })),
 });
 
 export const Route = createFileRoute("/postup")({
   head: () => ({
     ...seo({
-      title: "Ako prebieha spolupráca — od zadania po nástroj na webe",
+      title: "Ako prebieha spolupráca — Môj Chatbot",
       description:
-        "Šesť krokov od pozretia webu po widget na stránke: otázky, návrh logiky, dizajn, test, prepojenie dopytov a nasadenie bez prerábania webu.",
+        "Šesť jasných krokov od úvodného briefu po nasadenie a zlepšovanie nástroja na webe.",
       path: "/postup",
     }),
     scripts: [
@@ -60,51 +94,6 @@ export const Route = createFileRoute("/postup")({
   }),
   component: ProcessPage,
 });
-
-const steps = [
-  {
-    icon: Search,
-    label: "Krok 01 · Zorientovanie",
-    title: "Pozriem si web a služby.",
-    copy: "Zistím, čo zákazníci potrebujú vedieť a ktoré údaje dnes firma zisťuje ručne — telefonátmi, e-mailami alebo obchôdzkami.",
-    chips: ["Bez záväzku", "Stačí odkaz na web"],
-  },
-  {
-    icon: Workflow,
-    label: "Krok 02 · Návrh logiky",
-    title: "Navrhnem otázky a výpočet.",
-    copy: "Spolu určíme kroky, možnosti, cenové pravidlá a výsledok pre zákazníka. Logika je odsúhlasená ešte pred vývojom.",
-    chips: ["Mapa otázok", "Cenové pravidlá", "Schválite vopred"],
-  },
-  {
-    icon: Palette,
-    label: "Krok 03 · Dizajn",
-    title: "Pripravím dizajn rozhrania.",
-    copy: "Nástroj vyzerá ako súčasť vášho webu — prevezme farby, písmo aj tón komunikácie. Žiadny cudzí widget.",
-    chips: ["Vaše farby", "Mobil aj desktop"],
-  },
-  {
-    icon: Code2,
-    label: "Krok 04 · Vývoj a test",
-    title: "Vytvorím a otestujem riešenie.",
-    copy: "Skontrolujem logiku, výpočty aj správanie na počítači a mobile. Dostanete odkaz na vyskúšanie ešte pred nasadením.",
-    chips: ["Testovací odkaz", "Reálne scenáre"],
-  },
-  {
-    icon: PlugZap,
-    label: "Krok 05 · Prepojenie",
-    title: "Prepojím dopyty so systémami.",
-    copy: "Dopyty chodia na e-mail aj s celým kontextom. Podľa potreby pripojím kalendár, tabuľku alebo systém, s ktorým už pracujete.",
-    chips: ["E-mail", "Kalendár", "Tabuľka", "CRM / API"],
-  },
-  {
-    icon: CalendarCheck,
-    label: "Krok 06 · Nasadenie",
-    title: "Widget sa vloží na web.",
-    copy: "Vo väčšine prípadov stačí jeden riadok kódu — celý web sa prerábať nemusí. Po nasadení sledujem, či všetko beží, a doladím detaily.",
-    chips: ["Jeden riadok kódu", "Podpora po spustení"],
-  },
-];
 
 function Timeline() {
   const listRef = useRef<HTMLOListElement>(null);
@@ -121,31 +110,41 @@ function Timeline() {
         <motion.span className="sp-timeline-progress" style={{ scaleY }} aria-hidden="true" />
       )}
       <ol className="sp-timeline" ref={listRef}>
-        {steps.map((step, index) => {
-          const isReached = reducedMotion || index < reached;
-          return (
-            <li key={step.title} className="sp-timeline-item" data-reached={isReached}>
-              <span className="sp-step-node" aria-hidden="true">
-                <i />
-              </span>
-              <div className="sp-step">
-                <p className="sp-step-label">
-                  <step.icon aria-hidden="true" />
-                  {step.label}
-                </p>
-                <h2>{step.title}</h2>
-                <p>{step.copy}</p>
-                <div className="sp-chip-row">
-                  {step.chips.map((chip) => (
-                    <span className="chip" key={chip}>
-                      {chip}
-                    </span>
-                  ))}
-                </div>
+        {steps.map((step, index) => (
+          <motion.li
+            key={step.title}
+            className="sp-timeline-item"
+            data-reached={reducedMotion || index < reached}
+            data-side={index % 2 === 0 ? "left" : "right"}
+            initial={reducedMotion ? false : { opacity: 0, x: index % 2 === 0 ? -64 : 64, y: 20 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, amount: 0.28, margin: "-6% 0px -10% 0px" }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : { duration: 0.82, delay: Math.min(index * 0.055, 0.22), ease: premiumEase }
+            }
+          >
+            <span className="sp-step-node" aria-hidden="true">
+              <i />
+            </span>
+            <div className="sp-step">
+              <p className="sp-step-label">
+                <step.icon aria-hidden="true" />
+                {step.label}
+              </p>
+              <h2>{step.title}</h2>
+              <p>{step.copy}</p>
+              <div className="sp-chip-row">
+                {step.chips.map((chip) => (
+                  <span className="chip" key={chip}>
+                    {chip}
+                  </span>
+                ))}
               </div>
-            </li>
-          );
-        })}
+            </div>
+          </motion.li>
+        ))}
       </ol>
     </div>
   );
@@ -158,10 +157,10 @@ function ProcessPage() {
         eyebrow="Spolupráca"
         title={
           <>
-            Od prvých otázok <em>po nástroj na vašom webe.</em>
+            Od prvých otázok <em>po živé riešenie na vašom webe.</em>
           </>
         }
-        lead="Šesť krokov s jasným výstupom v každom z nich. Vždy viete, čo sa práve deje, čo schvaľujete a čo bude nasledovať."
+        lead="Šesť krokov s jasným výstupom. Vždy viete, čo sa práve deje, čo schvaľujete a čo bude nasledovať."
       >
         <div className="sp-hero-chips">
           <span className="chip">Logika schválená pred vývojom</span>
@@ -169,18 +168,16 @@ function ProcessPage() {
           <span className="chip">Bez prerábania webu</span>
         </div>
       </PageIntro>
-
       <section className="sp-section">
         <div className="container-page">
           <Timeline />
         </div>
       </section>
-
       <section className="sp-section">
         <CtaBand
           kicker="Zaujíma vás niektorý krok?"
-          title="Napíšte konkrétnu otázku. Odpoviem konkrétne."
-          lead="Ak chcete vedieť, ako by vyzeral prvý krok pre vašu službu, stačí krátke zadanie — pripravím návrh otázok a logiky."
+          title="Napíšte konkrétnu otázku. Odpovieme konkrétne."
+          lead="Po krátkom zadaní pripravíme návrh prvého kroku, otázok a logiky pre vašu službu."
         >
           <button
             type="button"

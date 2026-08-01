@@ -126,10 +126,10 @@ function ContactPage() {
             Návrh na mieru
           </p>
           <h1>
-            Napíšte mi, s čím vám má chatbot <em>pomôcť.</em>
+            Napíšte nám, s čím vám má chatbot <em>pomôcť.</em>
           </h1>
           <p className="contact-lead">
-            Stačí pár viet o tom, čo predávate a na čo sa vás zákazníci najčastejšie pýtajú. Ozvem
+            Stačí pár viet o tom, čo predávate a na čo sa vás zákazníci najčastejšie pýtajú. Ozveme
             sa s návrhom, jasným rozsahom aj cenou vopred.
           </p>
 
@@ -138,11 +138,6 @@ function ContactPage() {
               <Mail />
               {siteConfig.contact.email}
               <em>hlavná adresa</em>
-            </a>
-            <a href={`mailto:${siteConfig.contact.emailPersonal}`}>
-              <Mail />
-              {siteConfig.contact.emailPersonal}
-              <em>osobná</em>
             </a>
             <a href={`tel:${siteConfig.contact.phoneHref}`}>
               <Phone />
@@ -190,16 +185,16 @@ function ContactPage() {
               transition={{ duration: 0.62, ease: premiumEase }}
             >
               <CheckCircle2 aria-hidden="true" />
-              <span>Ďakujem za zadanie</span>
-              <h2>Dopyt je na ceste ku mne.</h2>
+              <span>Ďakujeme za zadanie</span>
+              <h2>Dopyt je už u tímu Môj Chatbot.</h2>
               <p>
-                Zadanie od <b>{name.trim() || "vás"}</b> som prijal na{" "}
+                Zadanie od <b>{name.trim() || "vás"}</b> sme prijali na{" "}
                 <b>{siteConfig.contact.email}</b>. Odpoveď s odporúčaným riešením, rozsahom a cenou
-                pošlem na <b>{email.trim()}</b> zvyčajne do jedného pracovného dňa.
+                pošleme na <b>{email.trim()}</b> zvyčajne do jedného pracovného dňa.
               </p>
               {thankYouSent ? (
                 <p className="contact-success-note">
-                  Potvrdenie s kópiou vášho zadania som poslal na <b>{email.trim()}</b>. Ak vám
+                  Potvrdenie s kópiou vášho zadania sme poslali na <b>{email.trim()}</b>. Ak vám
                   nepríde do pár minút, skontrolujte prosím priečinok s reklamou alebo spamom.
                 </p>
               ) : (
@@ -232,7 +227,7 @@ function ContactPage() {
             <>
               <div className="contact-card-head">
                 <span>01 / krátke zadanie</span>
-                <h2 id="contact-form-title">Povedzte mi základ.</h2>
+                <h2 id="contact-form-title">Povedzte nám základ.</h2>
                 <p>
                   Zadanie príde priamo na {siteConfig.contact.email} a vy dostanete automatické
                   potvrdenie. Povinné sú iba meno, e-mail a stručný popis.

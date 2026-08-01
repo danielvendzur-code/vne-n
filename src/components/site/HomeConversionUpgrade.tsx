@@ -75,7 +75,7 @@ const clientInputs = [
   {
     icon: Palette,
     title: "Značka a vzhľad",
-    copy: "Logo, farby a tón komunikácie. Keď ich nemáte pripravené, navrhnem vhodný smer.",
+    copy: "Logo, farby a tón komunikácie. Keď ich nemáte pripravené, navrhneme vhodný smer.",
   },
   {
     icon: Plug,
@@ -194,11 +194,11 @@ export function HomeConversionUpgrade() {
 
         <div className="winner-prep">
           <div className="winner-prep__intro">
-            <p className="winner-upgrade__eyebrow">Čo potrebujem od klienta</p>
+            <p className="winner-upgrade__eyebrow">Čo potrebujeme od klienta</p>
             <h2>Stačí to, čo zákazníkom hovoríte aj tak.</h2>
             <p>
-              Nič technické pripravovať nemusíte. Otázky, texty aj vzhľad urobím z toho, čo mi
-              pošlete.
+              Nič technické pripravovať nemusíte. Otázky, texty aj vzhľad pripravíme z podkladov,
+              ktoré nám pošlete.
             </p>
           </div>
           <div className="winner-prep__grid">
@@ -218,7 +218,7 @@ export function HomeConversionUpgrade() {
           <div>
             <p className="winner-upgrade__eyebrow">Konkrétny ďalší krok</p>
             <h2>Napíšte, na čo sa vás zákazníci pýtajú najčastejšie.</h2>
-            <p>Do jedného pracovného dňa vám odpoviem, čo by vám pomohlo a čo to bude stáť.</p>
+            <p>Do jedného pracovného dňa vám odpovieme, čo by vám pomohlo a čo to bude stáť.</p>
           </div>
           <div className="winner-final__actions">
             <button
