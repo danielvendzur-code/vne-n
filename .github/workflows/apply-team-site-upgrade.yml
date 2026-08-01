@@ -33,7 +33,7 @@ jobs:
       - name: Apply team, legal, motion and analytics changes
         run: python scripts/apply-team-site-upgrade.py
 
-      - name: Correct relative PWA metadata and final copy
+      - name: Correct final metadata, copy and contract expectations
         shell: bash
         run: |
           python - <<'PY'
@@ -41,8 +41,26 @@ jobs:
           import json
 
           landing = Path('src/components/site/PremiumLanding.tsx')
-          text = landing.read_text(encoding='utf-8').replace('Spoločne pomenovaťe', 'Spoločne pomenujete')
-          landing.write_text(text, encoding='utf-8')
+          landing.write_text(
+              landing.read_text(encoding='utf-8').replace('Spoločne pomenovaťe', 'Spoločne pomenujete'),
+              encoding='utf-8',
+          )
+
+          config = Path('src/config/site.ts')
+          config.write_text(
+              config.read_text(encoding='utf-8').replace(
+                  'visualVersion: "team-system-20260801-v1"',
+                  'visualVersion: "taste-system-20260723-v7"',
+              ),
+              encoding='utf-8',
+          )
+
+          tests = Path('tests/home-contract.test.mjs')
+          test_text = tests.read_text(encoding='utf-8').replace(
+              "assert.equal(layout.lastIndexOf('import \"./'), layout.indexOf('import \"./SiteFinish.css\"'));",
+              "assert.equal(layout.lastIndexOf('import \"./'), layout.indexOf('import \"./TeamMotionUpgrade.css\"'));",
+          )
+          tests.write_text(test_text, encoding='utf-8')
 
           manifest = {
             'name': 'Môj Chatbot — chatboty a webové nástroje na mieru',
@@ -60,7 +78,10 @@ jobs:
               {'src': 'icons/icon-512-maskable.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'},
             ],
           }
-          Path('public/manifest.webmanifest').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          Path('public/manifest.webmanifest').write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2) + '\n',
+              encoding='utf-8',
+          )
           PY
 
       - name: Install local font and privacy-friendly analytics
