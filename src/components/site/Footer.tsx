@@ -64,10 +64,7 @@ export function Footer() {
         </div>
       </div>
       <div className="container-page premium-footer-bottom">
-        <span>
-          © {new Date().getFullYear()} · Môj Chatbot · prevádzkovateľ {siteConfig.legal.operator}
-          {siteConfig.legal.ico ? ` · IČO ${siteConfig.legal.ico}` : ""}
-        </span>
+        <span>© {new Date().getFullYear()} · Môj Chatbot</span>
         <span className="premium-footer-privacy">
           <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
           <Link to="/cookies">Cookies a analytika</Link>
