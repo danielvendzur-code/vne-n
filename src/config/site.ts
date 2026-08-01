@@ -10,7 +10,7 @@ export const siteConfig = {
     founderRole: "zakladateľ a produktový dizajnér",
   },
   contact: {
-    /** Jediná verejná kontaktná adresa značky. */
+    /** Jediná verejná kontaktná adresa značky na celom webe. */
     email: "info@mojchatbot.sk",
     /** Zakladateľská adresa ostáva iba ako interný údaj; na webe sa nezobrazuje. */
     emailPersonal: "daniel@vendzur.sk",
