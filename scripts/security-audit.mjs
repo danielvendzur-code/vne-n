@@ -106,30 +106,39 @@ const tasteIndex = layout.indexOf('import "./TasteSystemFinal.css"');
 const approvedIndex = layout.indexOf('import "./ApprovedInteractionsFinal.css"');
 const matteIndex = layout.indexOf('import "./MatteUiFinal.css"');
 const correctionIndex = layout.indexOf('import "./FinalUserCorrection.css"');
+const brandIndex = layout.indexOf('import "./BrandSystemFinal.css"');
+const clientIndex = layout.indexOf('import "./ClientLandingFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
 if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
 if (approvedIndex === -1) fail("ApprovedInteractionsFinal.css is not imported");
 if (matteIndex === -1) fail("MatteUiFinal.css is not imported");
 if (correctionIndex === -1) fail("FinalUserCorrection.css is not imported");
+if (brandIndex === -1) fail("BrandSystemFinal.css is not imported");
+if (clientIndex === -1) fail("ClientLandingFinal.css is not imported");
 if (
   previousIndex >= winnerIndex ||
   winnerIndex >= tasteIndex ||
   tasteIndex >= approvedIndex ||
   approvedIndex >= matteIndex ||
-  matteIndex >= correctionIndex
+  matteIndex >= correctionIndex ||
+  correctionIndex >= brandIndex ||
+  brandIndex >= clientIndex
 ) {
-  fail("Final matte interactions must load after the historical visual layers");
+  fail("Client landing styles must load after the historical visual layers");
 }
-const brandIndex = layout.indexOf('import "./BrandSystemFinal.css"');
-if (brandIndex === -1) fail("BrandSystemFinal.css is not imported");
-if (brandIndex <= correctionIndex) {
-  fail("BrandSystemFinal.css must load after FinalUserCorrection.css");
+if (clientIndex !== lastStyleImport) {
+  fail("ClientLandingFinal.css must be the final component style import");
 }
-if (brandIndex !== lastStyleImport) {
-  fail("BrandSystemFinal.css must be the final component style import");
+if (layout.includes("HomeConversionUpgrade")) {
+  fail("Removed homepage pricing section is still mounted in Layout");
 }
-if (!layout.includes("HomeConversionUpgrade")) fail("Layout is missing HomeConversionUpgrade");
+if (!layout.includes('className="page-transition"')) {
+  fail("Layout is missing the non-inheriting CSS route transition");
+}
+if (/<AnimatePresence|<motion\./.test(layout)) {
+  fail("A Motion route wrapper can disable descendant whileInView reveals");
+}
 for (const token of ["LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
   if (layout.includes(token)) fail(`Removed liquid runtime is still mounted: ${token}`);
 }
@@ -220,7 +229,24 @@ for (const token of [
 if (/inset 3px 0 0|mix-blend-mode|lp-bloom-dot/i.test(correctionCss))
   fail("Ornament or liquid decoration remains in final correction");
 
+const clientCss = await read("src/components/site/ClientLandingFinal.css");
+for (const token of [
+  "CLIENT LANDING",
+  "--brand-primary: #ffc79d",
+  "The icon is an icon, never an icon tile",
+  "@keyframes client-chip-confirm",
+  ".page-transition",
+  "@keyframes client-page-fade-in",
+  "prefers-reduced-motion",
+]) {
+  if (!clientCss.includes(token)) fail(`Client landing system is missing ${token}`);
+}
+if (/#19345d|#245fae|#3979ec|#4db6ac|#7b8fa6/i.test(clientCss)) {
+  fail("Legacy blue or teal remains in the authoritative client landing layer");
+}
+
 const landing = await read("src/components/site/PremiumLanding.tsx");
+const homeRoute = await read("src/routes/index.tsx");
 for (const token of ["lp-hero-cta--primary", "lp-hero-cta--secondary", "lp-switch--clean"]) {
   if (!landing.includes(token)) fail(`Homepage rebuild is missing ${token}`);
 }
@@ -235,10 +261,23 @@ for (const token of [
 ]) {
   if (landing.includes(token)) fail(`Removed liquid homepage element remains: ${token}`);
 }
+if (landing.includes("HomeConversionUpgrade")) {
+  fail("Removed homepage pricing section is still mounted in PremiumLanding");
+}
+if (/hasOfferCatalog|price\s*:\s*["']350["']/.test(homeRoute)) {
+  fail("Removed homepage pricing is still present in structured data");
+}
+for (const [path, content] of [
+  ["src/components/site/PremiumLanding.tsx", landing],
+  ["src/routes/index.tsx", homeRoute],
+  ["src/routes/__root.tsx", rootRoute],
+  ["public/widget-loader.js", loader],
+]) {
+  if (/350\s*€|od\s+350/i.test(content)) fail(`Removed homepage price remains in ${path}`);
+}
 
 const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
 for (const token of [
-  "od 350 €",
   "Čo potrebujem od klienta",
   "Web a ponuka",
   "Pravidlá a podklady",

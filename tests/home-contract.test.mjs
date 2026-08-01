@@ -4,12 +4,17 @@ import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("Taste system and conversion section are mounted", async () => {
+test("client landing layer is authoritative and pricing stays off the homepage", async () => {
   const layout = await read("src/components/site/Layout.tsx");
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const homeRoute = await read("src/routes/index.tsx");
+  const pricingRoute = await read("src/routes/cennik.tsx");
   const tasteCss = await read("src/components/site/TasteSystemFinal.css");
   const approvedCss = await read("src/components/site/ApprovedInteractionsFinal.css");
-  const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
-  assert.match(layout, /HomeConversionUpgrade/);
+  assert.doesNotMatch(layout, /HomeConversionUpgrade/);
+  assert.doesNotMatch(landing, /HomeConversionUpgrade/);
+  assert.doesNotMatch(homeRoute, /hasOfferCatalog|price:\s*"350"/);
+  assert.match(pricingRoute, /<HomeConversionUpgrade \/>/);
   assert.match(layout, /CompetitionWinnerFinal\.css/);
   assert.match(layout, /TasteSystemFinal\.css/);
   assert.match(layout, /ApprovedInteractionsFinal\.css/);
@@ -27,18 +32,22 @@ test("Taste system and conversion section are mounted", async () => {
     layout.indexOf('import "./MatteUiFinal.css"') <
       layout.indexOf('import "./FinalUserCorrection.css"'),
   );
-  // the brand system is the new last word on the palette
+  // The client landing layer is the final visual authority.
   assert.ok(
     layout.indexOf('import "./FinalUserCorrection.css"') <
       layout.indexOf('import "./BrandSystemFinal.css"'),
   );
-  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./BrandSystemFinal.css"'));
+  assert.ok(
+    layout.indexOf('import "./BrandSystemFinal.css"') <
+      layout.indexOf('import "./ClientLandingFinal.css"'),
+  );
+  assert.equal(
+    layout.lastIndexOf('import "./'),
+    layout.indexOf('import "./ClientLandingFinal.css"'),
+  );
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);
   assert.match(approvedCss, /Reversed Blue Bloom/);
-  assert.match(conversion, /od 350 €/);
-  assert.match(conversion, /Čo potrebujem od klienta/);
-  assert.match(conversion, /Získať návrh riešenia/);
 });
 
 test("decorative hover blobs are removed from quiet actions and chips", async () => {
@@ -55,18 +64,15 @@ test("decorative hover blobs are removed from quiet actions and chips", async ()
   assert.match(tasteCss, /background: none !important/);
 });
 
-test("website chips are rounded borderless and use a clean selected state", async () => {
-  const tasteCss = await read("src/components/site/TasteSystemFinal.css");
-  assert.match(tasteCss, /\.lp-hero-pick,[\s\S]*\.lp-chip/);
-  assert.match(tasteCss, /border: 0 !important/);
-  assert.match(tasteCss, /border-radius: 16px !important/);
-  assert.match(
-    tasteCss,
-    /\.lp-hero-pick\[data-active="true"\],[\s\S]*background: #19345d !important/,
-  );
-  assert.match(tasteCss, /\.lp-hero-pick-fill,[\s\S]*display: none !important/);
-  assert.match(tasteCss, /\.lp-hero-pick-icon,[\s\S]*background: transparent !important/);
-  assert.doesNotMatch(tasteCss, /inset 3px 0 0/);
+test("website chips use a warm selected glow without an icon plate", async () => {
+  const css = await read("src/components/site/ClientLandingFinal.css");
+  assert.match(css, /--chip-accent: #ffc79d/);
+  assert.match(css, /\.lp-hero-pick-icon,[\s\S]*background: transparent !important/);
+  assert.match(css, /\.lp-hero-pick-icon,[\s\S]*border-radius: 0 !important/);
+  assert.match(css, /0 0 36px -8px rgba\(255, 199, 157, 0\.72\)/);
+  assert.match(css, /animation: client-chip-confirm 420ms/);
+  assert.match(css, /@keyframes client-chip-confirm/);
+  assert.doesNotMatch(css, /#19345d|#245fae|#3979ec|#4db6ac|#7b8fa6/);
 });
 
 test("comparison uses one clean content surface without liquid runtime", async () => {
@@ -102,7 +108,7 @@ test("hero and desktop navigation remain visually simplified", async () => {
   assert.match(css, /Remove card tilt/);
 });
 
-test("pricing and client preparation cover the sales essentials", async () => {
+test("the dedicated pricing page still covers client preparation", async () => {
   const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
   const faq = await read("src/data/faq.ts");
   const config = await read("src/config/site.ts");
@@ -113,7 +119,8 @@ test("pricing and client preparation cover the sales essentials", async () => {
   assert.match(conversion, /Pravidlá a podklady/);
   assert.match(conversion, /Značka a vzhľad/);
   assert.match(conversion, /Kam má ísť dopyt/);
-  assert.match(faq, /začína od 350 €/);
+  assert.doesNotMatch(faq, /od 350 €/);
+  assert.match(faq, /pevnú cenu vopred/);
   assert.match(faq, /GDPR/);
   assert.match(faq, /čo ak si niečo vymyslí/);
   assert.match(config, /taste-system-20260723-v7/);
@@ -136,6 +143,7 @@ test("portfolio image loading preserves lazy loading after the first image", asy
   assert.match(motion, /image\.loading = index === 0 \? "eager" : "lazy"/);
   assert.match(motion, /image\.fetchPriority = index === 0 \? "high" : "low"/);
   assert.doesNotMatch(motion, /images\.map[\s\S]*image\.loading = "eager"/);
+  assert.doesNotMatch(motion, /glide\.style\.(?:transform|willChange)/);
 });
 
 test("mobile layouts and reduced motion remain explicit", async () => {
@@ -173,17 +181,29 @@ test("approved buttons and one-layer details remain mounted", async () => {
 
 test("metadata security and fresh assistant loading remain present", async () => {
   const root = await read("src/routes/__root.tsx");
+  const config = await read("src/config/site.ts");
   const loader = await read("public/widget-loader.js");
   assert.match(root, /Content-Security-Policy/);
   assert.match(root, /strict-origin-when-cross-origin/);
   assert.match(root, /ProfessionalService/);
-  assert.match(root, /Môj Chatbot — chatboty na mieru od 350 €/);
+  assert.match(root, /Môj Chatbot — pripravené dopyty priamo z webu/);
+  assert.match(root, /VITE_ASSISTANT_EMBED_URL/);
+  assert.match(root, /data-assistant-source=\{safeAssistantEmbedUrl\}/);
+  assert.match(config, /VITE_SITE_URL/);
+  assert.doesNotMatch(root, /priceRange/);
+  assert.doesNotMatch(root, /od 350 €/);
   assert.match(loader, /__DV_ASSISTANT_LOADER_ACTIVE__/);
   assert.match(loader, /MOUNT_TIMEOUT/);
   assert.match(loader, /buildKey/);
+  assert.match(loader, /moj\.chatbot\.backend\/embed\.js/);
+  assert.match(loader, /pendingOpen/);
+  assert.match(loader, /__siteAssistantEmbed/);
+  assert.match(loader, /dataset\.assistantSource/);
   assert.doesNotMatch(loader, /\?v=\d{8}-/);
+  assert.doesNotMatch(loader, /moj-chatbot-backend\.vercel\.app\/widget\.js/);
+  assert.doesNotMatch(loader, /moj\.chatbot\.backend\/widget\.js/);
   assert.match(loader, /Môj Chatbot/);
-  assert.match(loader, /od 350 €/);
+  assert.doesNotMatch(loader, /od 350 €/);
 });
 
 test("Pages workflow validates the live Taste build", async () => {
@@ -197,10 +217,10 @@ test("Pages workflow validates the live Taste build", async () => {
   assert.match(workflow, /live_smoke=success/);
 });
 
-test("website chips use one crisp non-liquid interaction system", async () => {
+test("website chips use one crisp warm interaction system", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
-  const css = await read("src/components/site/ApprovedInteractionsFinal.css");
+  const css = await read("src/components/site/ClientLandingFinal.css");
 
   assert.doesNotMatch(landing, /lp-hero-pick-fill/);
   assert.doesNotMatch(landing, /lp-chip-fill/);
@@ -210,10 +230,23 @@ test("website chips use one crisp non-liquid interaction system", async () => {
   assert.match(landing, /event\.stopPropagation\(\)/);
   assert.doesNotMatch(pointer, /"\.lp-hero-pick"/);
   assert.doesNotMatch(pointer, /"\.lp-chip"/);
-  assert.match(css, /Visible chip rebuild/);
-  assert.match(css, /contain:\s*layout paint !important/);
-  assert.match(css, /background:\s*#245fae !important/);
-  assert.match(css, /\.lp-hero-pick-check/);
+  assert.match(css, /solution picker \/ chips/);
+  assert.match(css, /background: rgba\(255, 199, 157, 0\.13\) !important/);
+  assert.match(css, /The icon is an icon, never an icon tile/);
+});
+
+test("landing anchors, reversible reveals and source integrity stay intact", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const realization = await read("src/components/site/DeratScrollStory.tsx");
+  const primitives = await read("src/components/site/motion-primitives.tsx");
+  const finalCorrection = await read("src/components/site/FinalUserCorrection.css");
+
+  assert.match(landing, /href="#realizacie"/);
+  assert.match(landing, /href="#moznosti"/);
+  assert.match(realization, /id="realizacie"/);
+  assert.match(landing, /once: false/);
+  assert.match(primitives, /once: false/);
+  assert.doesNotMatch(finalCorrection, /^(?:<<<<<<<|=======|>>>>>>>)(?: .*)?$/m);
 });
 
 test("final correction restores the comparison and removes chip ornaments", async () => {

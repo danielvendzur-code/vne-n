@@ -7,32 +7,32 @@
 :root {
   color-scheme: dark;
 
-  --background: #080b10;
-  --background-soft: #0c1017;
-  --surface: #131923;
-  --surface-raised: #1b2331;
-  --surface-muted: #0f141c;
+  --background: #0a0908;
+  --background-soft: #100e0c;
+  --surface: #15120f;
+  --surface-raised: #1c1814;
+  --surface-muted: #12100e;
 
-  --text-primary: #f4f1e8;
-  --text-secondary: #bfc7bc;
-  --text-light: #8d9c92;
+  --text-primary: #faf5ef;
+  --text-secondary: #c9beb4;
+  --text-light: #988b80;
 
-  --primary: #bc7352;
-  --primary-hover: #cd8665;
-  --primary-soft: rgba(188, 115, 82, 0.14);
-  --primary-foreground: #090d12;
-  --primary-dark: #080b10;
+  --primary: #ffc79d;
+  --primary-hover: #f0a873;
+  --primary-soft: rgba(255, 199, 157, 0.14);
+  --primary-foreground: #0a0908;
+  --primary-dark: #0a0908;
 
-  --accent: #7fa58f;
-  --accent-hover: #ffc79d;
-  --accent-soft: rgba(127, 165, 143, 0.14);
-  --accent-foreground: #090d12;
+  --accent: #ffc79d;
+  --accent-hover: #f0a873;
+  --accent-soft: rgba(255, 199, 157, 0.12);
+  --accent-foreground: #0a0908;
 
-  --highlight: #d9bd83;
-  --highlight-soft: rgba(217, 189, 131, 0.15);
+  --highlight: #ffd7b8;
+  --highlight-soft: rgba(255, 215, 184, 0.14);
 
-  --border: rgba(242, 239, 230, 0.12);
-  --border-strong: rgba(242, 239, 230, 0.22);
+  --border: rgba(255, 231, 213, 0.11);
+  --border-strong: rgba(255, 199, 157, 0.24);
 
   --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.035);
   --shadow-dialog: 0 30px 90px rgba(0, 0, 0, 0.48);
@@ -50,7 +50,7 @@
   --muted: var(--background-soft);
   --muted-foreground: var(--text-secondary);
   --destructive: #ff7f72;
-  --destructive-foreground: #090d12;
+  --destructive-foreground: #0a0908;
   --input: var(--border);
   --ring: var(--primary);
 }
@@ -487,7 +487,10 @@ button.chip {
 
 .premium-footer-main {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(8rem, 0.5fr) minmax(9rem, 0.6fr) minmax(13rem, 0.75fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(8rem, 0.5fr) minmax(9rem, 0.6fr) minmax(
+      13rem,
+      0.75fr
+    );
   gap: 3rem;
   padding-block: 4rem;
 }

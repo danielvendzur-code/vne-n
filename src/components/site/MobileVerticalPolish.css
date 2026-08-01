@@ -18,11 +18,9 @@
   0%,
   100% {
     opacity: 0.78;
-    filter: saturate(1) brightness(0.98);
   }
   50% {
     opacity: 1;
-    filter: saturate(1.12) brightness(1.06);
   }
 }
 
@@ -32,7 +30,7 @@
   animation:
     vendzur-glide-drift 15s cubic-bezier(0.45, 0, 0.55, 1) infinite,
     vendzur-glide-breathe 7.5s ease-in-out infinite;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .glide-field--ambient .glide-field__canvas {
@@ -40,7 +38,7 @@
   animation:
     vendzur-glide-drift 19s cubic-bezier(0.45, 0, 0.55, 1) -4s infinite,
     vendzur-glide-breathe 9s ease-in-out -2s infinite;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 /* Cookie notice is truly viewport-sticky and respects safe areas. */
@@ -105,7 +103,12 @@
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(112deg, transparent 20%, rgba(255, 255, 255, 0.11) 48%, transparent 76%);
+  background: linear-gradient(
+    112deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.11) 48%,
+    transparent 76%
+  );
   transform: translateX(-120%);
   transition:
     transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -139,11 +142,13 @@
      Meranie ukázalo, že na žiadnej trase nič vodorovne nepresahuje,
      takže to obmedzenie nie je potrebné — vodorovný presah drží
      overflow-x: clip na <main>, ktoré scroll kontajner nevytvára. */
-  html, body {
+  html,
+  body {
     max-width: 100%;
   }
 
-  :root .lp-page .lp-assistant-chips, :root .lp-page .lp-switch {
+  :root .lp-page .lp-assistant-chips,
+  :root .lp-page .lp-switch {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.42rem !important;
@@ -154,7 +159,8 @@
     cursor: default !important;
   }
 
-  :root .lp-page .lp-assistant-chips button, :root .lp-page .lp-switch button {
+  :root .lp-page .lp-assistant-chips button,
+  :root .lp-page .lp-switch button {
     width: 100%;
     min-width: 0;
     min-height: 3rem;
@@ -163,7 +169,8 @@
     white-space: normal;
   }
 
-  :root .lp-page .lp-chip-liquid, :root .lp-page .lp-switch-liquid {
+  :root .lp-page .lp-chip-liquid,
+  :root .lp-page .lp-switch-liquid {
     inset: 0.4rem !important;
     width: auto !important;
     height: calc((100% - 1.6rem) / 3) !important;
@@ -241,7 +248,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .glide-field--hero .glide-field__canvas, .glide-field--ambient .glide-field__canvas {
+  .glide-field--hero .glide-field__canvas,
+  .glide-field--ambient .glide-field__canvas {
     animation: none !important;
     transform: none !important;
     filter: none !important;

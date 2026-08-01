@@ -44,7 +44,7 @@ export function Reveal({
       className={className}
       initial={reducedMotion ? false : { opacity: 0, x, y }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount }}
+      viewport={{ once: false, amount, margin: "-8% 0px -8% 0px" }}
       transition={{ duration: 0.72, delay, ease: premiumEase }}
     >
       {children}
@@ -141,7 +141,7 @@ export function SectionHeading({
       data-align={align}
       initial={reducedMotion ? false : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, amount: 0.34 }}
+      viewport={{ once: false, amount: 0.28, margin: "-8% 0px -8% 0px" }}
       variants={{
         hidden: { opacity: 0, x: -30 },
         visible: {
