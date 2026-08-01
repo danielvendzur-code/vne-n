@@ -4,13 +4,14 @@ export const siteConfig = {
   title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
   description:
     "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
+  team: {
+    label: "Tím Môj Chatbot",
+    founder: "Daniel Vendžúr",
+    founderRole: "zakladateľ a produktový dizajnér",
+  },
   contact: {
-    /**
-     * Hlavná adresa značky. Sem chodia dopyty z formulára aj z chatbota
-     * a je to adresa, ktorá sa zobrazuje na webe ako prvá.
-     */
     email: "info@mojchatbot.sk",
-    /** Osobná adresa — ostáva dostupná pre priamu komunikáciu. */
+    /** Zakladateľská adresa ostáva iba ako interný údaj; na webe sa nezobrazuje. */
     emailPersonal: "daniel@vendzur.sk",
     phoneLabel: "+421 948 699 433",
     phoneHref: "+421948699433",
@@ -18,36 +19,19 @@ export const siteConfig = {
   nav: [],
 
   /**
-   * Údaje prevádzkovateľa.
-   *
-   * Zákon č. 22/2004 Z. z. o elektronickom obchode žiada, aby boli na
-   * webe dostupné identifikačné údaje. Kým sú polia prázdne, príslušné
-   * riadky sa na stránke jednoducho nezobrazia — nikde nesvieti
-   * nedoplnený text. Po doplnení sa objavia samy.
-   *
-   * DOPLŇTE PRED SPUSTENÍM NA VLASTNEJ DOMÉNE:
+   * Identifikačné údaje právneho prevádzkovateľa webu a dodávateľa služby.
+   * Meno zakladateľa nie je náhradou za obchodné údaje. Pred komerčným
+   * spustením treba doplniť presný subjekt, adresu, IČO a registráciu.
    */
   legal: {
-    /** Meno alebo obchodné meno, na ktoré je živnosť či firma vedená. */
     operator: "Daniel Vendžúr",
-    /** Ulica, číslo, PSČ a mesto — sídlo alebo miesto podnikania. */
     address: "",
-    /** IČO, ak podnikáte. */
     ico: "",
-    /** DIČ, ak ho máte pridelené. */
     dic: "",
-    /** IČ DPH — nechajte prázdne, ak nie ste platiteľ DPH. */
     icDph: "",
-    /** Napr. „Okresný úrad Žilina, č. živnostenského registra 580-XXXXX". */
     registration: "",
-    /** Nechajte true, ak nie ste platiteľ DPH — doplní sa veta o tom. */
     notVatPayer: true,
   },
 };
 
-/**
- * Adresa webu. Po prechode na vlastnú doménu stačí zmeniť túto jednu
- * hodnotu (alebo nastaviť VITE_SITE_URL pri builde) — kanonické adresy,
- * sitemap aj sociálne náhľady sa prispôsobia samy.
- */
 export const SITE_ORIGIN = import.meta.env.VITE_SITE_URL ?? "https://mojchatbot.sk";

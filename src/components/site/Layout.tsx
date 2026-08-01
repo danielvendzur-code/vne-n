@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
 import { useSpotlight } from "@/hooks/useSpotlight";
-import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
@@ -36,8 +35,9 @@ import "./FinalUserCorrection.css";
 import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 import "./ClientLandingFinal.css";
-// Posledná vrstva — čo je v SiteFinish.css, to platí.
+// Posledné dve vrstvy — TeamMotionUpgrade je autorita pre nový scroll a timeline systém.
 import "./SiteFinish.css";
+import "./TeamMotionUpgrade.css";
 
 /**
  * Povrchy, ktoré po celom webe reagujú na kurzor teplým svetlom.
@@ -62,7 +62,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
         <SiteMotionEnhancements key={`motion-${pathname}`} />
-        <CookieConsent />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>

@@ -1,4 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Analytics } from "@vercel/analytics/react";
+import "@fontsource-variable/inter-tight";
 import {
   HeadContent,
   Outlet,
@@ -190,7 +192,7 @@ const structuredData = JSON.stringify({
       "@type": "Person",
       "@id": `${publicOrigin}/#daniel`,
       name: "Daniel Vendžúr",
-      email: `mailto:${siteConfig.contact.emailPersonal}`,
+      email: `mailto:${siteConfig.contact.email}`,
       url: `${publicOrigin}/`,
       jobTitle: "Zakladateľ Môj Chatbot",
       worksFor: { "@id": `${publicOrigin}/#business` },
@@ -205,11 +207,6 @@ const structuredData = JSON.stringify({
     },
   ],
 });
-
-const interTightLatinExt =
-  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsJ8ah8QA.woff2";
-const interTightLatin =
-  "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsH8ag.woff2";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -245,7 +242,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
       },
-      { name: "author", content: "Daniel Vendžúr" },
+      { name: "author", content: "Tím Môj Chatbot" },
       { name: "theme-color", content: "#0a0908" },
       { property: "og:site_name", content: "Môj Chatbot" },
       { property: "og:locale", content: "sk_SK" },
@@ -283,27 +280,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         sizes: "180x180",
       },
       { rel: "manifest", href: `${import.meta.env.BASE_URL}manifest.webmanifest` },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://danielvendzur-code.github.io" },
-      {
-        rel: "preload",
-        href: interTightLatinExt,
-        as: "font",
-        type: "font/woff2",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "preload",
-        href: interTightLatin,
-        as: "font",
-        type: "font/woff2",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&display=swap",
-      },
     ],
     scripts: [{ type: "application/ld+json", children: structuredData }],
   }),
@@ -330,6 +307,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <Analytics />
         <Scripts />
       </body>
     </html>

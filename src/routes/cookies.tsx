@@ -1,17 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BarChart3, Cookie, RotateCcw, ShieldCheck } from "lucide-react";
+import { BarChart3, Cookie, Fingerprint, ShieldCheck } from "lucide-react";
 import { PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { siteConfig } from "@/config/site";
-import { openCookieSettings } from "@/lib/cookie-consent";
 import { seo } from "@/lib/seo";
 import "./cookies.css";
 
 export const Route = createFileRoute("/cookies")({
   head: () => ({
     ...seo({
-      title: "Používanie cookies — Daniel Vendžúr",
+      title: "Cookies a meranie návštevnosti — Môj Chatbot",
       description:
-        "Prehľad cookies používaných na webe, ich účel, trvanie a možnosť kedykoľvek zmeniť súhlas.",
+        "Prehľad technológií používaných na webe, cookie-free analytiky a ochrany súkromia návštevníkov.",
       path: "/cookies",
     }),
   }),
@@ -22,85 +21,74 @@ function CookiesPage() {
   return (
     <div className="cookies-page">
       <PageIntro
-        eyebrow="Súkromie a cookies"
+        eyebrow="Súkromie a analytika"
         title={
           <>
-            Jasné pravidlá. <em>Žiadne skryté sledovanie.</em>
+            Štatistiky bez reklamných profilov. <em>Žiadne sledovacie cookies.</em>
           </>
         }
-        lead="Nevyhnutné cookies používam iba na fungovanie webu a zapamätanie vašej voľby. Voliteľné analytické funkcie zostanú vypnuté, kým ich nepovolíte."
-      >
-        <button type="button" className="cookies-settings-button" onClick={openCookieSettings}>
-          <Cookie aria-hidden="true" /> Otvoriť nastavenia cookies
-        </button>
-      </PageIntro>
+        lead="Web používa cookie-free Vercel Web Analytics na súhrnné meranie návštevnosti. Nevytvárame reklamné profily a nepoužívame Google Analytics ani marketingové pixely."
+      />
 
       <section className="cookies-section">
         <div className="container-page cookies-grid">
-          <Reveal className="cookies-card" amount={0.22}>
+          <Reveal className="cookies-card" direction="left">
             <span className="cookies-card__icon" aria-hidden="true">
-              <ShieldCheck />
+              <Cookie />
             </span>
-            <p className="cookies-card__kicker">01 / Nevyhnutné</p>
-            <h2>Čo je aktívne vždy</h2>
+            <p className="cookies-card__kicker">01 / Cookies</p>
+            <h2>Analytické a marketingové cookies nepoužívame.</h2>
             <p>
-              Technické uloženie súhlasu je potrebné, aby sa cookie okno nezobrazovalo pri každej
-              návšteve a web rešpektoval váš posledný výber.
+              Meranie návštevnosti neukladá do prehliadača identifikátor návštevníka. Web môže
+              používať iba technické úložisko potrebné pre konkrétnu funkciu rozhrania, nikdy nie na
+              reklamnú identifikáciu naprieč webmi.
             </p>
-            <dl className="cookies-list">
-              <div>
-                <dt>Názov</dt>
-                <dd>vendzur_cookie_consent</dd>
-              </div>
-              <div>
-                <dt>Účel</dt>
-                <dd>Uloženie voľby „všetko“ alebo „iba nevyhnutné“.</dd>
-              </div>
-              <div>
-                <dt>Platnosť</dt>
-                <dd>180 dní</dd>
-              </div>
-              <div>
-                <dt>Typ</dt>
-                <dd>Prvá strana, nevyhnutná</dd>
-              </div>
-            </dl>
           </Reveal>
 
-          <Reveal className="cookies-card" delay={0.08} amount={0.22}>
+          <Reveal className="cookies-card" direction="right" delay={0.06}>
             <span className="cookies-card__icon" aria-hidden="true">
               <BarChart3 />
             </span>
-            <p className="cookies-card__kicker">02 / Analytické</p>
-            <h2>Aktívne iba po súhlase</h2>
+            <p className="cookies-card__kicker">02 / Návštevnosť</p>
+            <h2>Vercel Web Analytics</h2>
             <p>
-              Udalosti z webu a asistenta sa môžu použiť na pochopenie toho, ktoré časti fungujú a
-              ktoré treba zlepšiť. Bez súhlasu je analytický režim odmietnutý.
+              Zobrazujú sa súhrnné počty návštev, otvorené stránky, zdroje návštevnosti, krajina,
+              typ zariadenia a prehliadač. Údaje slúžia na zlepšovanie obsahu a použiteľnosti webu.
             </p>
             <div className="cookies-status">
-              <span>Aktuálny stav nasadenia</span>
-              <b>Bez externého analytického poskytovateľa</b>
+              <span>Režim merania</span>
+              <b>Bez cookies a bez trvalého identifikátora</b>
               <p>
-                Web momentálne nenačítava Google Analytics ani iný externý merací skript, takže sa
-                nevytvárajú ďalšie analytické cookies.
+                Dočasný anonymizovaný identifikátor sa obnovuje každý deň a relácia sa neuchováva
+                dlhšie než 24 hodín.
               </p>
             </div>
           </Reveal>
 
-          <Reveal className="cookies-card cookies-card--wide" delay={0.12} amount={0.22}>
+          <Reveal className="cookies-card" direction="left" delay={0.1}>
             <span className="cookies-card__icon" aria-hidden="true">
-              <RotateCcw />
+              <Fingerprint />
             </span>
-            <p className="cookies-card__kicker">03 / Zmena rozhodnutia</p>
-            <h2>Súhlas môžete kedykoľvek upraviť.</h2>
+            <p className="cookies-card__kicker">03 / Čo nevidíme</p>
+            <h2>Nevidíme konkrétneho človeka.</h2>
             <p>
-              Odkaz „Nastavenia cookies“ je trvalo v pätičke. Po vypnutí analytiky web odstráni
-              známe analytické cookies, ak by boli v budúcnosti nasadené. Základný obsah zostáva
-              dostupný bez ohľadu na voľbu.
+              Štatistiky neslúžia na pomenovanie návštevníka, spájanie návštev medzi dňami ani
+              sledovanie aktivity na iných webových stránkach. Obsah formulára a chatbota sa do
+              analytiky neposiela.
             </p>
-            <button type="button" className="cookies-settings-button" onClick={openCookieSettings}>
-              Zmeniť nastavenie
-            </button>
+          </Reveal>
+
+          <Reveal className="cookies-card" direction="right" delay={0.14}>
+            <span className="cookies-card__icon" aria-hidden="true">
+              <ShieldCheck />
+            </span>
+            <p className="cookies-card__kicker">04 / Právny základ</p>
+            <h2>Zlepšovanie webu a ochrana prevádzky.</h2>
+            <p>
+              Súhrnné meranie používame na základe oprávneného záujmu rozumieť fungovaniu webu,
+              odhaľovať technické problémy a zlepšovať obsah. Podrobnosti sú na stránke ochrany
+              osobných údajov.
+            </p>
           </Reveal>
         </div>
       </section>
@@ -111,7 +99,7 @@ function CookiesPage() {
             Otázky k súkromiu:{" "}
             <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
           </p>
-          <small>Posledná aktualizácia: 20. júla 2026</small>
+          <small>Posledná aktualizácia: 1. augusta 2026</small>
         </div>
       </section>
     </div>

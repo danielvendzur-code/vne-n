@@ -25,7 +25,7 @@ const serviceJsonLd = JSON.stringify({
   areaServed: "SK",
   description:
     "Chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom alebo rezerváciami, ktoré pripravujú použiteľné dopyty.",
-  founder: { "@type": "Person", name: "Daniel Vendžúr" },
+  founder: { "@type": "Person", name: siteConfig.team.founder },
   knowsAbout: [
     "chatboty",
     "AI asistenti",

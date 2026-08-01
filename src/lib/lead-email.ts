@@ -82,7 +82,7 @@ function replyHtml(lead: LeadPayload) {
     <h1 style="margin:0 0 14px;color:#1a1512;font-size:22px;line-height:1.25">Váš dopyt mi prišiel.</h1>
     <p style="margin:0 0 16px;color:#4a423c;font-size:15px;line-height:1.65">
       Dobrý deň${lead.name ? `, ${escapeHtml(lead.name.split(" ")[0])}` : ""},<br>
-      ďakujem za správu. Pozriem sa na ňu a ozvem sa s odporúčaným riešením,
+      ďakujem za správu. Pozriem sa na ňu a ozveme sa s odporúčaným riešením,
       rozsahom aj cenou zvyčajne do jedného pracovného dňa.
     </p>
     ${
@@ -95,7 +95,7 @@ function replyHtml(lead: LeadPayload) {
       Ak chcete niečo doplniť, stačí odpovedať na tento e-mail.
     </p>
     <p style="margin:22px 0 0;color:#8a7f75;font-size:13px">
-      Daniel Vendžúr · Môj Chatbot<br>
+      Tím Môj Chatbot<br>
       <a href="https://mojchatbot.sk" style="color:#c2803f">mojchatbot.sk</a>
     </p>
   </div></body></html>`;
@@ -184,12 +184,12 @@ export async function deliverLead(lead: LeadPayload): Promise<DeliveryResult> {
     text: [
       `Dobrý deň${lead.name ? `, ${lead.name.split(" ")[0]}` : ""},`,
       "",
-      "ďakujem za správu. Ozvem sa s odporúčaným riešením, rozsahom aj cenou",
+      "ďakujem za správu. Ozveme sa s odporúčaným riešením, rozsahom aj cenou",
       "zvyčajne do jedného pracovného dňa.",
       "",
       lead.note ? `Čo ste poslali:\n${lead.note}` : "",
       "",
-      "Daniel Vendžúr · Môj Chatbot",
+      "Tím Môj Chatbot",
       "https://mojchatbot.sk",
     ]
       .filter(Boolean)
