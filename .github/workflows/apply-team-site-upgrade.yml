@@ -1,0 +1,85 @@
+name: Apply team site upgrade
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/apply-team-site-upgrade.py
+      - .github/workflows/apply-team-site-upgrade.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: team-site-upgrade-${{ github.head_ref }}
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Apply team, legal, motion and analytics changes
+        run: python scripts/apply-team-site-upgrade.py
+
+      - name: Correct relative PWA metadata and final copy
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          landing = Path('src/components/site/PremiumLanding.tsx')
+          text = landing.read_text(encoding='utf-8').replace('Spoločne pomenovaťe', 'Spoločne pomenujete')
+          landing.write_text(text, encoding='utf-8')
+
+          manifest = {
+            'name': 'Môj Chatbot — chatboty a webové nástroje na mieru',
+            'short_name': 'Môj Chatbot',
+            'description': 'Chatboty, kalkulačky a konfigurátory na mieru od tímu Môj Chatbot.',
+            'start_url': '.',
+            'scope': '.',
+            'display': 'standalone',
+            'background_color': '#0a0908',
+            'theme_color': '#0a0908',
+            'lang': 'sk',
+            'icons': [
+              {'src': 'icons/icon-192.png', 'sizes': '192x192', 'type': 'image/png'},
+              {'src': 'icons/icon-512.png', 'sizes': '512x512', 'type': 'image/png'},
+              {'src': 'icons/icon-512-maskable.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'},
+            ],
+          }
+          Path('public/manifest.webmanifest').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Install local font and privacy-friendly analytics
+        run: npm install --save @vercel/analytics@latest @fontsource-variable/inter-tight@latest
+
+      - name: Type and contract tests
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Production build
+        run: npm run build:vercel
+
+      - name: Commit validated upgrade to the PR branch
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'feat: present Môj Chatbot as a team and add privacy-friendly analytics'
+          git push origin HEAD:${{ github.head_ref }}
