@@ -606,6 +606,54 @@
   gap: clamp(2.5rem, 5vw, 5rem) !important;
 }
 
+/* Na obale bodkového poľa visel `filter: saturate() hue-rotate()`.
+   Filter núti prehliadač prehnať celú 1,3-megapixelovú plochu canvasu
+   vlastným priechodom pri každom snímku scrollu — hero sekcia kvôli
+   tomu bežala na 73 ms na snímok namiesto 17 ms. Hue-rotate bol navyše
+   pozostatok po modrej palete, takže odchádza aj z estetických dôvodov.
+   Priehľadnosť rieši samotný canvas, ktorý filter nepotrebuje. */
+html body .lp-page .lp-hero-glide {
+  /* Ľavú tretinu poľa aj tak prekrýva plný prechod pozadia, takže sa
+     tam bodky nikdy neukážu. Nekreslíme ich teda vôbec — canvas je
+     o tretinu menší a o toľko lacnejší na prekreslenie. */
+  left: 30% !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+@media (max-width: 900px) {
+  html body .lp-page .lp-hero-glide {
+    left: 0 !important;
+  }
+}
+
+html body .lp-page .lp-hero-glide .glide-field__canvas {
+  opacity: 0.46;
+}
+
+/* Rovnaký prípad: 34 px rozostrenie nad kruhovým prechodom, ktorý je
+   sám o sebe mäkký. Prechod stačí rozšíriť a rozostrenie zmizne aj
+   s jeho cenou. */
+html body .lp-page .lp-hero-stage::before {
+  filter: none !important;
+  -webkit-filter: none !important;
+  background: radial-gradient(circle, rgba(255, 199, 157, 0.13), transparent 72%) !important;
+}
+
+/* Farebný filter na náhľadoch realizácií sa navyše animoval pri
+   prejazde myšou — dva filtrové priechody cez veľký obrázok naraz.
+   Rozdiel v sýtosti bol pritom neviditeľný. */
+html body .lp-page .lp-project-media img,
+html body .lp-page .lp-project > a:hover .lp-project-media img,
+html body .lp-page .lp-project > a:focus-visible .lp-project-media img {
+  filter: none !important;
+  -webkit-filter: none !important;
+  transition:
+    opacity 460ms ease,
+    transform 760ms var(--lp-ease) !important;
+}
+
 .lp-hero-copy {
   /* Nadpis potrebuje šírku, inak sa tri riadky rozpadnú na päť. */
   max-width: 40rem;

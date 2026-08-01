@@ -288,7 +288,11 @@ export function GlideField({
     const pointerMotionEnabled = !motionDisabled && hasFinePointer;
     const burstEnabled = !motionDisabled;
     const isAmbient = className.includes("glide-field--ambient");
-    const maxParticles = isAmbient ? (coarse ? 2600 : 6500) : coarse ? 4600 : 11000;
+    // Pole je jemná textúra na pozadí, nie hlavný obsah. Menej bodiek
+    // znamená menšiu plochu na prekreslenie — a práve prekresľovanie
+    // canvasu pri scrollovaní zrážalo hero sekciu pod 20 snímok
+    // za sekundu (nameraných 73 ms na snímok oproti 33 ms bez neho).
+    const maxParticles = isAmbient ? (coarse ? 1600 : 3600) : coarse ? 2400 : 6000;
     const palette = readPalette(root);
 
     let bounds = root.getBoundingClientRect();
@@ -331,9 +335,12 @@ export function GlideField({
       updateBounds();
       const width = Math.max(1, Math.round(bounds.width));
       const height = Math.max(1, Math.round(bounds.height));
-      const rawDpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.1 : 1.35);
-      const pixelBudget = Math.sqrt(2_800_000 / Math.max(1, width * height));
-      const dpr = clamp(Math.min(rawDpr, pixelBudget), 0.68, rawDpr);
+      // Bodky sú 1 px štvorčeky — vyššie rozlíšenie im nepridá na kráse,
+      // len znásobí plochu, ktorú musí prehliadač pri scrollovaní
+      // prekresliť. Preto strop 1× a tvrdší rozpočet na pixely.
+      const rawDpr = Math.min(window.devicePixelRatio || 1, 1);
+      const pixelBudget = Math.sqrt(800_000 / Math.max(1, width * height));
+      const dpr = clamp(Math.min(rawDpr, pixelBudget), 0.55, rawDpr);
 
       field = createField({
         canvas,
