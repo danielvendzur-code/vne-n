@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { runInNewContext } from "node:vm";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -204,6 +205,56 @@ test("metadata security and fresh assistant loading remain present", async () =>
   assert.doesNotMatch(loader, /moj\.chatbot\.backend\/widget\.js/);
   assert.match(loader, /Môj Chatbot/);
   assert.doesNotMatch(loader, /od 350 €/);
+});
+
+test("assistant fallback always links to an internal contact route", async () => {
+  const loader = await read("public/widget-loader.js");
+
+  const fallbackHrefFor = (basePath) => {
+    let fallbackAnchor;
+
+    class MockElement {
+      constructor(tagName) {
+        this.tagName = tagName;
+        this.dataset = {};
+        this.style = {};
+      }
+
+      setAttribute() {}
+      remove() {}
+    }
+
+    const document = {
+      readyState: "complete",
+      documentElement: {
+        dataset: {
+          assistantSource: "https://example.test/embed.js",
+          basePath,
+        },
+      },
+      getElementById: () => null,
+      createElement: (tagName) => new MockElement(tagName),
+      head: {
+        appendChild: (element) => element.onerror?.(),
+      },
+      body: {
+        appendChild: (element) => {
+          fallbackAnchor = element;
+        },
+      },
+    };
+    const window = {
+      addEventListener() {},
+      removeEventListener() {},
+    };
+
+    runInNewContext(loader, { document, HTMLElement: MockElement, window });
+    return fallbackAnchor?.href;
+  };
+
+  assert.equal(fallbackHrefFor("/"), "/kontakt");
+  assert.equal(fallbackHrefFor("/vne-n/"), "/vne-n/kontakt");
+  assert.doesNotMatch(fallbackHrefFor("//"), /^\/\//);
 });
 
 test("Pages workflow validates the live Taste build", async () => {

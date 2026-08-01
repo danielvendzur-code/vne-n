@@ -62,6 +62,9 @@ for (const path of checkedFiles) {
     if (/\beval\s*\(/.test(content)) fail(`eval() detected in ${path}`);
     if (/\bnew\s+Function\s*\(/.test(content)) fail(`new Function() detected in ${path}`);
     if (/document\.write\s*\(/.test(content)) fail(`document.write() detected in ${path}`);
+    if (/\b(?:href|to)\s*=\s*(?:\{\s*)?["'`]\/\/[^/]/.test(content)) {
+      fail(`Protocol-relative link detected in ${path}`);
+    }
   }
 }
 
