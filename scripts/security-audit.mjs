@@ -293,7 +293,7 @@ for (const [path, content] of [
 
 const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
 for (const token of [
-  "Čo potrebujem od klienta",
+  "Čo potrebujeme od klienta",
   "Web a ponuka",
   "Pravidlá a podklady",
   "Získať návrh riešenia",
