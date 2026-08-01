@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://danielvendzur-code.github.io/vne-n/sitemap.xml
+# Stránka s návrhom je len pre klientov z e-mailu, nepatrí do indexu.
+Disallow: /navrh
+Disallow: /farby
+
+Sitemap: https://mojchatbot.sk/sitemap.xml

@@ -2,14 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Cookie, Mail, Phone } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
+import { liveTools, realizations } from "@/data/realizations";
 import { openCookieSettings } from "@/lib/cookie-consent";
 import { openSiteAssistant } from "@/lib/site-assistant";
-
-const liveTools = [
-  ["DERAT kalkulačka", "https://derat-chatbot-backend.vercel.app/"],
-  ["APLAN AI", "https://danielvendzur-code.github.io/aplan-chatbot-backend/"],
-  ["Môj Chatbot", "https://danielvendzur-code.github.io/moj.chatbot.backend/"],
-] as const;
 
 export function Footer() {
   return (
@@ -28,7 +23,7 @@ export function Footer() {
           <nav className="premium-footer-links" aria-label="Navigácia v pätičke">
             <Link to="/sluzby">Čo tvorím</Link>
             <Link to="/preco-chatbot">Čo to prinesie webu</Link>
-            <Link to="/projekty">Ukážky</Link>
+            <Link to="/projekty">Realizácie</Link>
             <Link to="/cennik">Cena</Link>
             <Link to="/postup">Spolupráca</Link>
             <Link to="/kontakt">Kontakt</Link>
@@ -36,9 +31,14 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="premium-footer-label">Živé nástroje</p>
+          <p className="premium-footer-label">Živé weby a nástroje</p>
           <div className="premium-footer-links">
-            {liveTools.map(([name, href]) => (
+            {realizations.map((project) => (
+              <a key={project.name} href={project.href} target="_blank" rel="noreferrer">
+                {project.domain} <ArrowUpRight size={13} />
+              </a>
+            ))}
+            {liveTools.map(({ name, href }) => (
               <a key={name} href={href} target="_blank" rel="noreferrer">
                 {name} <ArrowUpRight size={13} />
               </a>

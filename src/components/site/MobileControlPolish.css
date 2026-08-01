@@ -6,12 +6,14 @@ html body .lp-page .lp-hero-cta--primary {
   background-image: none !important;
   box-shadow: none !important;
   transform: none !important;
-  transition: background-color 170ms ease, color 170ms ease !important;
+  transition:
+    background-color 170ms ease,
+    color 170ms ease !important;
 }
 
 html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
   color: #fff !important;
-  background: #4db6ac !important;
+  background: #b27d51 !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -26,7 +28,7 @@ html body .lp-page .lp-assistant-cta {
 
 html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
   color: #fff !important;
-  background: #4db6ac !important;
+  background: #b27d51 !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -65,7 +67,7 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
     border: 0 !important;
     /* Pill, so it matches the sliding thumb inside it. */
     border-radius: 999px !important;
-    background: #0f1a28 !important;
+    background: #271910 !important;
     box-shadow: none !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -92,7 +94,7 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
   }
 
   html body .lp-page .lp-switch--clean button:not([data-active="true"]):is(:hover, :focus-visible) {
-    color: #f3f6fa !important;
+    color: #faf6f3 !important;
     background: transparent !important;
   }
 
@@ -145,7 +147,7 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
 
   html body .lp-page .lp-chip[data-active="true"] {
     color: #fff !important;
-    background: #4db6ac !important;
+    background: #b27d51 !important;
     background-image: none !important;
   }
 

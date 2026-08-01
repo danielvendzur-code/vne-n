@@ -94,7 +94,10 @@
   border: 1px solid var(--lab-line);
   border-radius: 34px;
   box-shadow: 0 26px 80px -46px rgba(9, 12, 17, 0.5);
-  transition: color 480ms ease, background-color 480ms ease, border-color 480ms ease;
+  transition:
+    color 480ms ease,
+    background-color 480ms ease,
+    border-color 480ms ease;
 }
 
 html[data-color-lab="true"] #site-assistant-widget-host,
@@ -140,8 +143,12 @@ html[data-color-lab="true"] #dv-assistant-root {
 }
 
 @keyframes color-lab-atmosphere-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .color-stage__grain {
@@ -153,16 +160,41 @@ html[data-color-lab="true"] #dv-assistant-root {
 
 .color-stage--indigo .color-stage__atmosphere {
   background:
-    radial-gradient(ellipse 46% 55% at 88% 22%, color-mix(in srgb, var(--lab-accent-alt) 56%, transparent), transparent 74%),
-    radial-gradient(ellipse 38% 42% at 9% 88%, color-mix(in srgb, var(--lab-primary) 18%, transparent), transparent 72%),
-    radial-gradient(ellipse 24% 36% at 72% 82%, color-mix(in srgb, var(--lab-accent) 16%, transparent), transparent 78%);
+    radial-gradient(
+      ellipse 46% 55% at 88% 22%,
+      color-mix(in srgb, var(--lab-accent-alt) 56%, transparent),
+      transparent 74%
+    ),
+    radial-gradient(
+      ellipse 38% 42% at 9% 88%,
+      color-mix(in srgb, var(--lab-primary) 18%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 24% 36% at 72% 82%,
+      color-mix(in srgb, var(--lab-accent) 16%, transparent),
+      transparent 78%
+    );
 }
 
 .color-stage--midnight .color-stage__atmosphere {
   background:
-    radial-gradient(ellipse 42% 54% at 80% 18%, color-mix(in srgb, var(--lab-primary) 20%, transparent), transparent 72%),
-    radial-gradient(ellipse 34% 48% at 12% 88%, color-mix(in srgb, var(--lab-accent) 20%, transparent), transparent 72%),
-    linear-gradient(118deg, transparent 30%, color-mix(in srgb, var(--lab-surface) 72%, transparent) 50%, transparent 70%);
+    radial-gradient(
+      ellipse 42% 54% at 80% 18%,
+      color-mix(in srgb, var(--lab-primary) 20%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 34% 48% at 12% 88%,
+      color-mix(in srgb, var(--lab-accent) 20%, transparent),
+      transparent 72%
+    ),
+    linear-gradient(
+      118deg,
+      transparent 30%,
+      color-mix(in srgb, var(--lab-surface) 72%, transparent) 50%,
+      transparent 70%
+    );
 }
 
 .color-stage--midnight .demo-eyebrow,
@@ -172,23 +204,57 @@ html[data-color-lab="true"] #dv-assistant-root {
 
 .color-stage--cobalt .color-stage__atmosphere {
   background:
-    linear-gradient(112deg, transparent 35%, color-mix(in srgb, var(--lab-accent-alt) 62%, transparent) 56%, transparent 75%),
-    radial-gradient(ellipse 42% 48% at 86% 75%, color-mix(in srgb, var(--lab-accent) 19%, transparent), transparent 72%),
-    radial-gradient(ellipse 25% 45% at 6% 10%, color-mix(in srgb, var(--lab-primary) 12%, transparent), transparent 78%);
+    linear-gradient(
+      112deg,
+      transparent 35%,
+      color-mix(in srgb, var(--lab-accent-alt) 62%, transparent) 56%,
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 42% 48% at 86% 75%,
+      color-mix(in srgb, var(--lab-accent) 19%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 25% 45% at 6% 10%,
+      color-mix(in srgb, var(--lab-primary) 12%, transparent),
+      transparent 78%
+    );
 }
 
 .color-stage--teal .color-stage__atmosphere {
   background:
-    radial-gradient(circle at 78% 17%, color-mix(in srgb, var(--lab-primary) 30%, transparent), transparent 31%),
-    radial-gradient(circle at 90% 78%, color-mix(in srgb, var(--lab-accent) 22%, transparent), transparent 28%),
-    radial-gradient(circle at 4% 88%, color-mix(in srgb, var(--lab-accent-alt) 16%, transparent), transparent 30%);
+    radial-gradient(
+      circle at 78% 17%,
+      color-mix(in srgb, var(--lab-primary) 30%, transparent),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 90% 78%,
+      color-mix(in srgb, var(--lab-accent) 22%, transparent),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 4% 88%,
+      color-mix(in srgb, var(--lab-accent-alt) 16%, transparent),
+      transparent 30%
+    );
   filter: blur(1px) saturate(1.1);
 }
 
 .color-stage--acid .color-stage__atmosphere {
   background:
-    linear-gradient(122deg, transparent 31%, color-mix(in srgb, var(--lab-primary) 14%, transparent) 48%, transparent 61%),
-    radial-gradient(ellipse 36% 60% at 82% 18%, color-mix(in srgb, var(--lab-accent) 30%, transparent), transparent 72%);
+    linear-gradient(
+      122deg,
+      transparent 31%,
+      color-mix(in srgb, var(--lab-primary) 14%, transparent) 48%,
+      transparent 61%
+    ),
+    radial-gradient(
+      ellipse 36% 60% at 82% 18%,
+      color-mix(in srgb, var(--lab-accent) 30%, transparent),
+      transparent 72%
+    );
 }
 
 .color-stage--acid .color-stage__atmosphere::before {
@@ -653,7 +719,9 @@ html[data-color-lab="true"] #dv-assistant-root {
   border-bottom: 1px solid #c6cbc7;
   cursor: pointer;
   text-align: left;
-  transition: background-color 180ms ease, padding 180ms ease;
+  transition:
+    background-color 180ms ease,
+    padding 180ms ease;
 }
 
 .palette-option:hover,
@@ -708,7 +776,9 @@ html[data-color-lab="true"] #dv-assistant-root {
   border-radius: 50%;
   opacity: 0;
   transform: scale(0.7);
-  transition: opacity 160ms ease, transform 160ms ease;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
 }
 
 .palette-option[data-active="true"] .palette-option__check {

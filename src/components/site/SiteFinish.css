@@ -1,0 +1,318 @@
+/* ==========================================================================
+   Globálne dokončenie webu.
+   Načítava sa ako posledná vrstva v Layout.tsx — čo je tu, platí.
+   Rieši: čitateľnosť textu, jednotné teplé prejazdy myšou s baterkou,
+   orezanú hlavičku a menu, tiene pod ikonami a plynulosť animácií.
+   ========================================================================== */
+
+:root {
+  /* Čitateľnosť. Pôvodné odtiene mali na čiernom podklade kontrast
+     okolo 6:1 a v dlhších odstavcoch splývali. */
+  --text-secondary: #d6cabd;
+  --text-light: #ab9e92;
+
+  /* Prejazd myšou. Blízko hlavnej marhuľovej, len o odtieň sýtejší,
+     takže sa dá odlíšiť od pokojného stavu bez zmeny charakteru. */
+  --hover: #ffb078;
+  --hover-soft: rgba(255, 176, 120, 0.13);
+  --hover-line: rgba(255, 176, 120, 0.52);
+
+  /* Baterka pod kurzorom. */
+  --spot-color: rgba(255, 199, 157, 0.15);
+
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   1. Text
+   -------------------------------------------------------------------------- */
+body {
+  color: var(--text-primary);
+  text-rendering: optimizeSpeed;
+}
+
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* --------------------------------------------------------------------------
+   2. Žiadne tiene ani dlaždice pod ikonami
+   Logo aj ikony v tlačidlách mali `drop-shadow`, ktorý na tmavom podklade
+   pôsobil ako škvrna pod značkou — najviditeľnejšie pri prejazde myšou,
+   keď sa mark zväčšil a tieň sa posunul.
+   -------------------------------------------------------------------------- */
+html body .brand-mark,
+html body .brand-symbol,
+html body .site-brand-lockup .brand-mark,
+html body .site-menu-brand .brand-mark,
+html
+  body
+  :is(.lp-hero-pick, .lp-chip, .site-menu-solution, .sp-project-card)
+  :is(svg, .brand-mark) {
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+}
+
+html body .site-brand-lockup:is(:hover, :focus-visible) :is(.brand-mark, .brand-symbol),
+html body .site-menu-brand:is(:hover, :focus-visible) :is(.brand-mark, .brand-symbol) {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Bublina chatbota mala pri prejazde myšou posunutý svetlý tieň (16 px
+   nadol), ktorý sa pod ikonou zobrazil ako samostatná škvrna. Svetlo
+   ostáva, ale drží sa bubliny namiesto toho, aby pod ňou plávalo. */
+html body .cw-launcher:hover,
+html body .cw-launcher:focus-visible,
+html body #dv-assistant-fallback:hover,
+html body #dv-assistant-fallback:focus-visible {
+  box-shadow:
+    0 22px 44px -20px rgba(9, 4, 1, 0.9),
+    0 0 0 1px rgba(255, 199, 157, 0.28) !important;
+}
+
+html body .cw-launcher :is(svg, span),
+html body #dv-assistant-fallback :is(svg, span) {
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+html body .cw-launcher::before,
+html body .cw-launcher::after,
+html body #dv-assistant-fallback::before,
+html body #dv-assistant-fallback::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Žiadne pseudo-prvky pod ikonou vnútri ovládacích prvkov. */
+html body :is(.lp-hero-pick-icon, .lp-chip-icon, .site-menu-solution-icon)::before,
+html body :is(.lp-hero-pick-icon, .lp-chip-icon, .site-menu-solution-icon)::after,
+html body .site-brand-lockup::before,
+html body .site-brand-lockup::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Hlavička — nič sa neoreže
+   Lišta mala vnútornú výšku 56 px v 52 px vysokom riadku, takže sa horná
+   hrana pilulky odrezala o okraj obrazovky. Riadok teraz meria aspoň
+   toľko, čo lišta, a hlavička má vlastnú vrstvu nad obsahom.
+   -------------------------------------------------------------------------- */
+html body .site-header {
+  z-index: 60;
+  overflow: visible !important;
+}
+
+html body .site-header > .container-page {
+  height: auto !important;
+  min-height: 60px;
+  overflow: visible !important;
+}
+
+html body .site-header-bar {
+  min-height: 58px !important;
+  overflow: visible !important;
+}
+
+html body .site-brand-lockup {
+  min-width: 0;
+  overflow: visible !important;
+  white-space: nowrap;
+}
+
+html body .site-brand-name {
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Menu — celý panel je dostupný
+   Panel mal pevnú výšku 100dvh a zaoblenie s `overflow: hidden`, takže sa
+   posledná položka aj pätička orezali a nedalo sa k nim doscrollovať.
+   -------------------------------------------------------------------------- */
+/* Vrstva musí sedieť presne na obrazovke, inak panel začína pod hranou
+   a o rovnaký kus presahuje dole. */
+html body .site-menu-layer {
+  position: fixed !important;
+  inset: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html body .site-menu-drawer {
+  top: 0 !important;
+  bottom: 0 !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 199, 157, 0.35) transparent;
+}
+
+/* Kľúčové: obsah si berie svoju prirodzenú výšku a scrolluje celý panel.
+   S `flex: 1` sa stlačil na zvyšnú výšku, obsah z neho vytiekol cez
+   pätičku a posledné položky sa nedali dosiahnuť. */
+html body .site-menu-head,
+html body .site-menu-content,
+html body .site-menu-footer {
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
+}
+
+html body .site-menu-content {
+  /* Odsadenie zhora drží obsah pod hlavičkou aj pri scrollovaní panela. */
+  padding-block: clamp(1.6rem, 4vh, 3rem) clamp(1.4rem, 3vh, 2.2rem) !important;
+}
+
+html body .site-menu-footer {
+  margin-top: auto !important;
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom)) !important;
+}
+
+/* Na nízkych obrazovkách sa panel musí dať prescrollovať celý. */
+@media (max-height: 760px) {
+  html body .site-menu-content {
+    padding-block: 1.3rem 1.1rem !important;
+  }
+
+  html body .site-menu-head {
+    min-height: 0 !important;
+    padding-block: 1rem !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Jednotný teplý prejazd myšou
+   Nikde na webe nesvieti modrá — ani v odkazoch, ani vo výbere textu,
+   ani v zameraní klávesnicou.
+   -------------------------------------------------------------------------- */
+::selection {
+  color: #0a0806;
+  background: #ffc79d;
+}
+
+html body :focus-visible {
+  outline: 2px solid #ffc79d !important;
+  outline-offset: 3px !important;
+}
+
+html body a:not([class]):hover {
+  color: var(--hover);
+}
+
+/* Odkazy v pätičke a v navigácii */
+@media (hover: hover) and (pointer: fine) {
+  html body .premium-footer-links a:hover,
+  html body .premium-footer-links button:hover,
+  html body .site-nav-link:hover,
+  html body .premium-footer-privacy a:hover,
+  html body .premium-footer-privacy button:hover {
+    color: var(--hover) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Baterka na kartách podstránok
+   -------------------------------------------------------------------------- */
+html body .sp-project-card > a,
+html body .sp-detail-block,
+html body .contact-card {
+  --spot-x: 50%;
+  --spot-y: -30%;
+  position: relative;
+  isolation: isolate;
+}
+
+html body .sp-project-card > a::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    20rem 20rem at var(--spot-x) var(--spot-y),
+    var(--spot-color),
+    transparent 68%
+  );
+  transition: opacity 380ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html body .sp-project-card > a[data-spot="on"]::after {
+    opacity: 1;
+  }
+
+  html body .sp-project-card > a:hover {
+    border-color: var(--hover-line) !important;
+    transform: translateY(-5px);
+  }
+}
+
+html body .sp-project-card > a > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   7. Plynulosť
+   Animácie bežia len na vlastnostiach, ktoré vie prehliadač preniesť na
+   grafickú kartu (transform, opacity). Ostatné prechody sú vypnuté, aby
+   sa počas scrollu neprepočítavalo rozloženie.
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  /* Lepiaca hlavička nesmie prekryť cieľ odkazu na sekciu. */
+  scroll-padding-top: 6rem;
+  /* Bez toho sa pri scrollovaní preskakovalo o riadok pri zmene výšky. */
+  overflow-anchor: auto;
+}
+
+/* Prvky, ktoré sa naozaj hýbu, dostanú vlastnú vrstvu — ale len počas
+   prejazdu, inak by web zbytočne držal desiatky vrstiev v pamäti. */
+@media (hover: hover) and (pointer: fine) {
+  html body :is(.lp-project > a, .sp-project-card > a, .lp-button, .site-menu-solution):hover {
+    will-change: transform;
+  }
+}
+
+/* Blur je najdrahšia operácia na stránke. Na dotykových zariadeniach,
+   kde je výkon najslabší, sa z rozostrenia pozadia stane plná plocha. */
+@media (max-width: 900px) {
+  html body :is(.site-menu-backdrop, .lp-project-domain) {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background-color: rgba(10, 7, 5, 0.9) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html body *,
+  html body *::before,
+  html body *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

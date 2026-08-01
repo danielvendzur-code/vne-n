@@ -1,27 +1,31 @@
 /* Route-specific finish for the real lead form. */
 .contact-page {
   background:
-    radial-gradient(circle at 86% 15%, rgba(255, 199, 157, 0.1), transparent 30rem),
-    #05070b !important;
+    radial-gradient(circle at 86% 15%, rgba(255, 199, 157, 0.1), transparent 30rem), #0b0705 !important;
 }
 
 .contact-card {
-  border-color: #26364c !important;
-  background: linear-gradient(160deg, #0d151f, #080d14) !important;
+  border-color: #4a3628 !important;
+  background: linear-gradient(160deg, #1e140e, #140d08) !important;
   box-shadow: 0 34px 82px -58px rgba(255, 199, 157, 0.84) !important;
 }
 
 .contact-card::before {
-  background: linear-gradient(to right, transparent, rgba(255, 199, 157, 0.72), transparent) !important;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 199, 157, 0.72),
+    transparent
+  ) !important;
 }
 
 .contact-card input,
 .contact-card textarea,
 .contact-card select {
   min-height: 49px;
-  border-color: #29394f !important;
-  color: #f5f7fb !important;
-  background: #0b121b !important;
+  border-color: #4d392b !important;
+  color: #fbf8f5 !important;
+  background: #1a120c !important;
   font-size: 16px !important;
 }
 
@@ -32,8 +36,8 @@
 .contact-card input:focus,
 .contact-card textarea:focus,
 .contact-card select:focus {
-  border-color: #5d98ff !important;
-  background: #0d151f !important;
+  border-color: #f4ae68 !important;
+  background: #1e140e !important;
   box-shadow: 0 0 0 3px rgba(255, 199, 157, 0.12) !important;
 }
 
@@ -43,10 +47,10 @@
   align-items: start !important;
   gap: 0.65rem !important;
   padding: 0.75rem 0.8rem;
-  border: 1px solid #202d40;
+  border: 1px solid #3f2d21;
   border-radius: 12px;
-  color: #93a1b3;
-  background: #080e16;
+  color: #aca49a;
+  background: #150e09;
   cursor: pointer;
 }
 
@@ -60,7 +64,7 @@
 }
 
 .contact-consent > span {
-  color: #93a1b3 !important;
+  color: #aca49a !important;
   font-size: 0.75rem !important;
   font-weight: 560 !important;
   line-height: 1.45;

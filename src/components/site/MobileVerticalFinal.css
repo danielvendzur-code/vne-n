@@ -1,14 +1,14 @@
 /* Final corrections discovered by the real-device audit. */
 
 .cookie-modal-backdrop {
-  background: rgba(1, 9, 13, 0.86) !important;
+  background: rgba(13, 6, 1, 0.86) !important;
 }
 
 .cookie-modal {
   background:
     radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.075), transparent 36%),
-    radial-gradient(circle at 92% 8%, rgba(114, 211, 234, 0.07), transparent 38%),
-    linear-gradient(145deg, #12323e 0%, #091f29 48%, #06131a 100%) !important;
+    radial-gradient(circle at 92% 8%, rgba(229, 174, 119, 0.07), transparent 38%),
+    linear-gradient(145deg, #3c2414 0%, #28160a 48%, #190e07 100%) !important;
 }
 
 @media (max-width: 700px) {
@@ -61,6 +61,6 @@
   .cookie-modal {
     background:
       radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.075), transparent 34%),
-      linear-gradient(155deg, #12323e 0%, #081c25 52%, #06131a 100%) !important;
+      linear-gradient(155deg, #3c2414 0%, #241409 52%, #190e07 100%) !important;
   }
 }

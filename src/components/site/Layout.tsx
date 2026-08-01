@@ -35,6 +35,8 @@ import "./FinalUserCorrection.css";
 import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 import "./ClientLandingFinal.css";
+// Posledná vrstva — čo je v SiteFinish.css, to platí.
+import "./SiteFinish.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });

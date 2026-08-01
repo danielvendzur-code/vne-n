@@ -198,8 +198,8 @@ export function Nav() {
                   items={drawerItems}
                   onItemClick={closeMenu}
                   accentColor="#ffc79d"
-                  textColor="#f7f9fc"
-                  markerColor="rgba(247, 249, 252, 0.2)"
+                  textColor="#fcfaf7"
+                  markerColor="rgba(252, 250, 247, 0.2)"
                   markerLength={48}
                   maxShift={20}
                   itemGap={18}
@@ -232,7 +232,7 @@ export function Nav() {
                   ))}
                 </div>
                 <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
-                  Pozrieť hotové realizácie <ArrowRight size={16} aria-hidden="true" />
+                  Pozrieť živé weby, ktoré som robil <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               </aside>
             </div>

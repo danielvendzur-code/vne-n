@@ -127,8 +127,8 @@ const heroProof = [
 const heroCopy = {
   public: {
     context: "Chatboty · kalkulačky · konfigurátory",
-    lines: ["Web, ktorý odpovie", "skôr, než zákazník", "stihne odísť."],
-    aria: "Web, ktorý odpovie skôr, než zákazník stihne odísť.",
+    lines: ["Váš web odpovie", "skôr, než", "zákazník odíde."],
+    aria: "Váš web odpovie skôr, než zákazník odíde.",
     lead: "Staviam chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď a vám príde dopyt, s ktorým sa dá rovno pracovať.",
     primary: { label: "Pozrieť realizácie", href: "#realizacie" },
     secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
@@ -138,7 +138,7 @@ const heroCopy = {
     lines: ["Návrh už máte.", "Teraz si pozrite,", "ako bude pracovať."],
     aria: "Návrh už máte. Teraz si pozrite, ako bude pracovať na vašom webe.",
     lead: "Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce a priamy kontakt na mňa.",
-    primary: { label: "Pozrieť živú realizáciu", href: "#realizacie" },
+    primary: { label: "Pozrieť živú realizáciu", href: "#pripadova-studia" },
     secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
   },
 } satisfies Record<LandingVariant, unknown>;
@@ -352,9 +352,8 @@ function Reveal({
   // Na mobile sa všetko odhaľuje nahor. Bočný posun v 390 px stĺpci
   // vyzeral trhane a časť prvkov prišla mimo obrazovky.
   const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
-  const y = narrow ? 22 : direction === "up" ? Math.min(distance, 28) : 0;
-  const enterDuration = narrow ? 0.5 : 0.68;
-  const exitDuration = narrow ? 0.24 : 0.3;
+  const y = narrow ? 18 : direction === "up" ? Math.min(distance, 26) : 0;
+  const enterDuration = narrow ? 0.52 : 0.72;
 
   return (
     <motion.div
@@ -362,12 +361,7 @@ function Reveal({
       initial={reducedMotion ? false : "hidden"}
       whileInView={reducedMotion ? undefined : "visible"}
       variants={{
-        hidden: {
-          opacity: 0,
-          x,
-          y,
-          transition: { duration: exitDuration, ease: premiumEase },
-        },
+        hidden: { opacity: 0, x, y },
         visible: {
           opacity: 1,
           x: 0,
@@ -379,12 +373,14 @@ function Reveal({
           },
         },
       }}
-      // Na úzkej obrazovke sú karty vysoké, takže 18 % prvku znamenalo
-      // veľa scrollovania, kým sa vôbec začali odhaľovať.
+      // `once: true` je tu kľúčové pre plynulosť. S opakovaným
+      // odhaľovaním sa pri každom prechode cez sekciu znovu spúšťali
+      // desiatky animácií naraz — presne to sekanie, ktoré bolo cítiť
+      // pri scrollovaní hore-dole. Naviac to pôsobilo nervózne.
       viewport={{
-        once: false,
+        once: true,
         amount: narrow ? 0.06 : amount,
-        margin: narrow ? "-4% 0px -8% 0px" : "-8% 0px -8% 0px",
+        margin: narrow ? "-4% 0px -6% 0px" : "-6% 0px -6% 0px",
       }}
       {...rest}
     >
@@ -409,17 +405,13 @@ function Heading({
       className="lp-heading"
       initial={reducedMotion ? false : "hidden"}
       whileInView="visible"
-      viewport={{ once: false, amount: 0.28, margin: "-8% 0px -8% 0px" }}
+      viewport={{ once: true, amount: 0.25, margin: "-6% 0px -6% 0px" }}
       variants={{
-        hidden: {
-          opacity: 0,
-          x: -34,
-          transition: { duration: 0.3, ease: premiumEase },
-        },
+        hidden: { opacity: 0, x: -28 },
         visible: {
           opacity: 1,
           x: 0,
-          transition: { duration: 0.7, ease: premiumEase, staggerChildren: 0.09 },
+          transition: { duration: 0.72, ease: premiumEase, staggerChildren: 0.085 },
         },
       }}
     >

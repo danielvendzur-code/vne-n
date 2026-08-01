@@ -1,24 +1,24 @@
 .lp-page {
-  --lp-bg: #080b10;
-  --lp-bg-soft: #0c1017;
+  --lp-bg: #100b08;
+  --lp-bg-soft: #17100c;
   --lp-ink: #f2efe6;
-  --lp-primary-ink: #090d12;
+  --lp-primary-ink: #120d09;
   --lp-muted: #b7beb4;
   --lp-muted-soft: #88968d;
   --lp-green: #d9bd83;
   --lp-green-dark: #e8d5a6;
-  --lp-mint: #7fa58f;
+  --lp-mint: #ffc79d;
   --lp-coral: #bc7352;
-  --lp-blue: #7fa58f;
+  --lp-blue: #ffc79d;
   --lp-line: rgba(242, 239, 230, 0.12);
   --lp-line-strong: rgba(242, 239, 230, 0.22);
-  --lp-surface-soft: #0f141c;
-  --lp-surface: #131923;
-  --lp-surface-raised: #1b2331;
-  --lp-liquid-white: 242 239 230;
-  --lp-liquid-mint: 127 165 143;
-  --lp-liquid-blue: 111 151 132;
-  --lp-liquid-coral: 188 115 82;
+  --lp-surface-soft: #1b1410;
+  --lp-surface: #221a14;
+  --lp-surface-raised: #30241c;
+  --lp-liquid-white: 250 244 236;
+  --lp-liquid-mint: 255 199 157;
+  --lp-liquid-blue: 240 168 115;
+  --lp-liquid-coral: 216 128 88;
   --lp-liquid-ease: cubic-bezier(0.22, 1, 0.36, 1);
   overflow: clip;
   color: var(--lp-ink);
@@ -103,8 +103,13 @@
   border-bottom: 1px solid var(--lp-line);
   background:
     url("../../assets/forest-grain.svg") repeat,
-    radial-gradient(circle at 84% 18%, rgba(127, 165, 143, 0.1), transparent 32rem),
-    linear-gradient(118deg, rgba(8, 10, 14, 0.98), rgba(11, 14, 20, 0.92) 54%, rgba(14, 18, 25, 0.9)),
+    radial-gradient(circle at 84% 18%, rgba(255, 199, 157, 0.1), transparent 32rem),
+    linear-gradient(
+      118deg,
+      rgba(14, 10, 8, 0.98),
+      rgba(20, 15, 11, 0.92) 54%,
+      rgba(25, 18, 14, 0.9)
+    ),
     var(--lp-bg);
 }
 
@@ -147,9 +152,9 @@
   pointer-events: none;
   background: radial-gradient(
     ellipse at 34% 48%,
-    rgba(8, 11, 16, 0.98) 0%,
-    rgba(8, 11, 16, 0.8) 46%,
-    rgba(8, 11, 16, 0.22) 70%,
+    rgba(16, 11, 8, 0.98) 0%,
+    rgba(16, 11, 8, 0.8) 46%,
+    rgba(16, 11, 8, 0.22) 70%,
     transparent 84%
   );
 }
@@ -331,7 +336,7 @@
   border-radius: 0.95rem;
   padding: clamp(1.15rem, 2.4vw, 1.65rem);
   color: var(--lp-ink);
-  background: linear-gradient(145deg, rgba(23, 30, 42, 0.9), rgba(12, 15, 21, 0.94));
+  background: linear-gradient(145deg, rgba(41, 31, 24, 0.9), rgba(21, 16, 12, 0.94));
   box-shadow:
     0 2rem 5rem rgba(0, 0, 0, 0.48),
     inset 0 1px rgba(242, 239, 230, 0.07);
@@ -391,7 +396,7 @@
     linear-gradient(150deg, #ffc79d 0%, var(--lp-mint) 58%, #6c9581 100%);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.32),
-    0 16px 30px -20px rgba(127, 165, 143, 0.7);
+    0 16px 30px -20px rgba(255, 199, 157, 0.7);
 }
 
 .lp-control-label {
@@ -413,7 +418,7 @@
   background: linear-gradient(145deg, rgba(242, 239, 230, 0.06), rgba(242, 239, 230, 0.018));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.055),
-    0 18px 38px -34px rgba(127, 165, 143, 0.45);
+    0 18px 38px -34px rgba(255, 199, 157, 0.45);
   font-size: 0.78rem;
   line-height: 1.5;
 }
@@ -436,13 +441,13 @@
   justify-content: center;
   gap: 0.7rem;
   margin-top: 0.75rem;
-  border: 1px solid rgba(127, 165, 143, 0.38);
+  border: 1px solid rgba(255, 199, 157, 0.38);
   border-radius: 0.72rem;
   color: var(--lp-ink);
-  background: rgba(127, 165, 143, 0.12);
+  background: rgba(255, 199, 157, 0.12);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.08),
-    0 18px 34px -24px rgba(127, 165, 143, 0.46);
+    0 18px 34px -24px rgba(255, 199, 157, 0.46);
   font-size: 0.82rem;
   font-weight: 740;
   cursor: pointer;
@@ -499,7 +504,7 @@
   background:
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 90% 6%, rgba(201, 170, 112, 0.05), transparent 30rem),
-    radial-gradient(circle at 6% 88%, rgba(127, 165, 143, 0.05), transparent 26rem),
+    radial-gradient(circle at 6% 88%, rgba(255, 199, 157, 0.05), transparent 26rem),
     var(--lp-bg);
 }
 
@@ -628,13 +633,13 @@
 }
 
 .lp-chip[data-active="true"] {
-  color: #10151d;
+  color: #1c1511;
   border-color: transparent;
 }
 
 .lp-chip[data-active="true"] .lp-chip-icon {
   rotate: 45deg;
-  border-color: rgba(13, 17, 24, 0.35);
+  border-color: rgba(24, 17, 13, 0.35);
 }
 
 .lp-chip-fill {
@@ -848,11 +853,11 @@
   gap: 0.65rem;
   min-height: 3.2rem;
   width: fit-content;
-  border: 1px solid rgba(127, 165, 143, 0.38);
+  border: 1px solid rgba(255, 199, 157, 0.38);
   border-radius: 0.72rem;
   padding: 0.85rem 1.25rem;
   color: var(--lp-ink);
-  background: rgba(127, 165, 143, 0.1);
+  background: rgba(255, 199, 157, 0.1);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
   font-size: 0.85rem;
   font-weight: 700;
@@ -893,8 +898,10 @@
   overflow: hidden;
   border: 1px solid var(--lp-line);
   border-radius: 0.85rem;
-  background: linear-gradient(155deg, rgba(22, 29, 40, 0.55), rgba(12, 16, 23, 0.85));
-  transition: border-color 280ms ease, background-color 280ms ease;
+  background: linear-gradient(155deg, rgba(39, 29, 23, 0.55), rgba(23, 16, 12, 0.85));
+  transition:
+    border-color 280ms ease,
+    background-color 280ms ease;
 }
 
 .lp-faq-item[data-open="true"] {
@@ -972,7 +979,7 @@
 .lp-value {
   background:
     url("../../assets/forest-grain.svg") repeat,
-    radial-gradient(circle at 8% 10%, rgba(127, 165, 143, 0.055), transparent 26rem),
+    radial-gradient(circle at 8% 10%, rgba(255, 199, 157, 0.055), transparent 26rem),
     var(--lp-bg-soft);
 }
 
@@ -983,8 +990,8 @@
   border: 1px solid var(--lp-line);
   border-radius: 1rem;
   background:
-    radial-gradient(circle at 92% 4%, rgba(127, 165, 143, 0.07), transparent 34%),
-    linear-gradient(145deg, rgba(24, 32, 44, 0.95), rgba(13, 17, 23, 0.98));
+    radial-gradient(circle at 92% 4%, rgba(255, 199, 157, 0.07), transparent 34%),
+    linear-gradient(145deg, rgba(43, 32, 25, 0.95), rgba(23, 17, 13, 0.98));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.035),
     0 34px 90px -58px rgba(0, 0, 0, 0.9);
@@ -1134,16 +1141,16 @@
 }
 
 .lp-portfolio {
-  color: #0d1118;
+  color: #18110d;
   background: #e9e6dc;
 }
 
 .lp-portfolio .lp-heading h2 {
-  color: #0d1118;
+  color: #18110d;
 }
 
 .lp-portfolio .lp-heading h2 em {
-  color: #4db6ac;
+  color: #b27d51;
 }
 
 .lp-portfolio .lp-eyebrow {
@@ -1185,9 +1192,9 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--lp-line);
-  border-color: rgba(13, 17, 24, 0.15);
+  border-color: rgba(24, 17, 13, 0.15);
   border-radius: 0.72rem;
-  color: #0d1118;
+  color: #18110d;
   background: #f2efe5;
   text-decoration: none;
   transition:
@@ -1198,8 +1205,8 @@
 
 .lp-project > a:hover {
   transform: translateY(-6px);
-  border-color: rgba(77, 182, 172, 0.5);
-  box-shadow: 0 34px 68px -42px rgba(14, 18, 25, 0.42);
+  border-color: rgba(178, 125, 81, 0.5);
+  box-shadow: 0 34px 68px -42px rgba(25, 18, 14, 0.42);
 }
 
 .lp-project-media {
@@ -1278,7 +1285,7 @@
   font-size: 2rem;
   letter-spacing: -0.05em;
   line-height: 1;
-  color: #0d1118;
+  color: #18110d;
 }
 
 .lp-project-copy small {
@@ -1321,7 +1328,7 @@
   align-items: center;
   gap: 0.6rem;
   margin-top: 1rem;
-  border: 1px solid rgba(13, 17, 24, 0.15);
+  border: 1px solid rgba(24, 17, 13, 0.15);
   border-radius: 0.65rem;
   padding: 0.82rem 1rem;
   background: rgba(242, 239, 230, 0.62);
@@ -1342,8 +1349,8 @@
   gap: 0.4rem;
   border-radius: 0.45rem;
   padding: 0.55rem 0.75rem;
-  color: #0d1118;
-  background: rgba(13, 17, 24, 0.06);
+  color: #18110d;
+  background: rgba(24, 17, 13, 0.06);
   font-size: 0.74rem;
   font-weight: 720;
   text-decoration: none;
@@ -1354,7 +1361,7 @@
 
 .lp-live-tools a:hover {
   color: #f2efe5;
-  background: #0d1118;
+  background: #18110d;
 }
 
 .lp-live-tools svg {
@@ -1369,7 +1376,7 @@
   background:
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 82% 16%, rgba(201, 170, 112, 0.065), transparent 25rem),
-    #080a0e;
+    #0e0a08;
 }
 
 .lp-process .lp-eyebrow,
@@ -1543,14 +1550,14 @@
     background: rgba(242, 239, 230, 0.075);
     box-shadow:
       inset 0 0 0 1px var(--lp-line-strong),
-      0 18px 38px -30px rgba(127, 165, 143, 0.56);
+      0 18px 38px -30px rgba(255, 199, 157, 0.56);
   }
 
   .lp-assistant-cta:hover {
-    background: rgba(127, 165, 143, 0.18);
+    background: rgba(255, 199, 157, 0.18);
     box-shadow:
       inset 0 1px rgba(255, 255, 255, 0.12),
-      0 24px 44px -23px rgba(127, 165, 143, 0.6);
+      0 24px 44px -23px rgba(255, 199, 157, 0.6);
   }
 
   .lp-assistant-chips button:not([data-active="true"]):hover,
@@ -1566,7 +1573,7 @@
   }
 
   .lp-chip[data-tone="mint"]:not([data-active="true"]):hover {
-    border-color: rgba(127, 165, 143, 0.6);
+    border-color: rgba(255, 199, 157, 0.6);
   }
 
   .lp-chip[data-tone="coral"]:not([data-active="true"]):hover {

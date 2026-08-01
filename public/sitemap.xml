@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/</loc>
+    <loc>https://mojchatbot.sk/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/sluzby</loc>
+    <loc>https://mojchatbot.sk/sluzby</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/preco-chatbot</loc>
+    <loc>https://mojchatbot.sk/preco-chatbot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/kontakt</loc>
+    <loc>https://mojchatbot.sk/kontakt</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/projekty</loc>
+    <loc>https://mojchatbot.sk/projekty</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/postup</loc>
+    <loc>https://mojchatbot.sk/postup</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/projekty/ukazka-01</loc>
-    <priority>0.6</priority>
+    <loc>https://mojchatbot.sk/projekty/ukazka-01</loc>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/projekty/ukazka-02</loc>
-    <priority>0.6</priority>
+    <loc>https://mojchatbot.sk/projekty/ukazka-02</loc>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/projekty/ukazka-03</loc>
-    <priority>0.6</priority>
+    <loc>https://mojchatbot.sk/projekty/ukazka-03</loc>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/projekty/ukazka-04</loc>
-    <priority>0.6</priority>
+    <loc>https://mojchatbot.sk/projekty/ukazka-04</loc>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/projekty/ukazka-05</loc>
-    <priority>0.6</priority>
+    <loc>https://mojchatbot.sk/projekty/ukazka-05</loc>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/projekty/ukazka-06</loc>
-    <priority>0.6</priority>
+    <loc>https://mojchatbot.sk/projekty/ukazka-06</loc>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/cookies</loc>
+    <loc>https://mojchatbot.sk/cookies</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/ochrana-udajov</loc>
+    <loc>https://mojchatbot.sk/ochrana-udajov</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://danielvendzur-code.github.io/vne-n/cennik</loc>
+    <loc>https://mojchatbot.sk/cennik</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

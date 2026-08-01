@@ -165,7 +165,6 @@ const structuredData = JSON.stringify({
       image: `${publicOrigin}/og/og-home.jpg`,
       email: `mailto:${siteConfig.contact.email}`,
       telephone: siteConfig.contact.phoneHref,
-      priceRange: "€€",
       description:
         "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
       founder: { "@id": `${publicOrigin}/#daniel` },

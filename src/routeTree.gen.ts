@@ -13,6 +13,7 @@ import { Route as SluzbyRouteImport } from './routes/sluzby'
 import { Route as PrecoChatbotRouteImport } from './routes/preco-chatbot'
 import { Route as PostupRouteImport } from './routes/postup'
 import { Route as OchranaUdajovRouteImport } from './routes/ochrana-udajov'
+import { Route as NavrhRouteImport } from './routes/navrh'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as FarbyRouteImport } from './routes/farby'
 import { Route as CookiesRouteImport } from './routes/cookies'
@@ -39,6 +40,11 @@ const PostupRoute = PostupRouteImport.update({
 const OchranaUdajovRoute = OchranaUdajovRouteImport.update({
   id: '/ochrana-udajov',
   path: '/ochrana-udajov',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NavrhRoute = NavrhRouteImport.update({
+  id: '/navrh',
+  path: '/navrh',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontaktRoute = KontaktRouteImport.update({
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
+  '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
+  '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/cookies': typeof CookiesRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
+  '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/farby'
     | '/kontakt'
+    | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
     | '/preco-chatbot'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/farby'
     | '/kontakt'
+    | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
     | '/preco-chatbot'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/farby'
     | '/kontakt'
+    | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
     | '/preco-chatbot'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   CookiesRoute: typeof CookiesRoute
   FarbyRoute: typeof FarbyRoute
   KontaktRoute: typeof KontaktRoute
+  NavrhRoute: typeof NavrhRoute
   OchranaUdajovRoute: typeof OchranaUdajovRoute
   PostupRoute: typeof PostupRoute
   PrecoChatbotRoute: typeof PrecoChatbotRoute
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/ochrana-udajov'
       fullPath: '/ochrana-udajov'
       preLoaderRoute: typeof OchranaUdajovRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/navrh': {
+      id: '/navrh'
+      path: '/navrh'
+      fullPath: '/navrh'
+      preLoaderRoute: typeof NavrhRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontakt': {
@@ -261,6 +281,7 @@ const rootRouteChildren: RootRouteChildren = {
   CookiesRoute: CookiesRoute,
   FarbyRoute: FarbyRoute,
   KontaktRoute: KontaktRoute,
+  NavrhRoute: NavrhRoute,
   OchranaUdajovRoute: OchranaUdajovRoute,
   PostupRoute: PostupRoute,
   PrecoChatbotRoute: PrecoChatbotRoute,

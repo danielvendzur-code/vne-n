@@ -2,11 +2,11 @@
 
 .cookie-banner,
 .cookie-modal {
-  --cookie-bg: rgba(7, 24, 32, 0.94);
-  --cookie-border: rgba(210, 237, 243, 0.16);
-  --cookie-soft: rgba(243, 248, 250, 0.055);
-  --cookie-accent: #72d3ea;
-  --cookie-accent-strong: #7b8fa6;
+  --cookie-bg: rgba(31, 17, 8, 0.94);
+  --cookie-border: rgba(242, 227, 211, 0.16);
+  --cookie-soft: rgba(250, 246, 243, 0.055);
+  --cookie-accent: #e5ae77;
+  --cookie-accent-strong: #9c9185;
   color: var(--text-primary);
   font-family: var(--font-sans);
 }
@@ -23,11 +23,11 @@
   padding: 18px;
   background:
     radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.095), transparent 42%),
-    radial-gradient(circle at 92% 18%, rgba(114, 211, 234, 0.075), transparent 44%),
-    linear-gradient(145deg, rgba(17, 49, 61, 0.95), rgba(5, 18, 25, 0.965));
+    radial-gradient(circle at 92% 18%, rgba(229, 174, 119, 0.075), transparent 44%),
+    linear-gradient(145deg, rgba(59, 35, 19, 0.95), rgba(24, 13, 6, 0.965));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.08),
-    0 26px 70px -30px rgba(0, 4, 8, 0.82);
+    0 26px 70px -30px rgba(7, 3, 1, 0.82);
   backdrop-filter: blur(22px) saturate(118%);
   -webkit-backdrop-filter: blur(22px) saturate(118%);
 }
@@ -37,7 +37,7 @@
   position: absolute;
   inset: auto 22px 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(114, 211, 234, 0.36), transparent);
+  background: linear-gradient(90deg, transparent, rgba(229, 174, 119, 0.36), transparent);
   pointer-events: none;
 }
 
@@ -53,11 +53,11 @@
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  border: 1px solid rgba(114, 211, 234, 0.22);
+  border: 1px solid rgba(229, 174, 119, 0.22);
   color: var(--cookie-accent-strong);
   background:
     radial-gradient(circle at 35% 18%, rgba(255, 255, 255, 0.13), transparent 48%),
-    rgba(114, 211, 234, 0.075);
+    rgba(229, 174, 119, 0.075);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
 }
 
@@ -84,7 +84,7 @@
 
 .cookie-banner__head h2 {
   margin: 0;
-  color: #f3f8fa;
+  color: #faf6f3;
   font-size: 1rem;
   font-weight: 760;
   letter-spacing: -0.025em;
@@ -93,7 +93,7 @@
 
 .cookie-banner__copy {
   margin: 14px 0 15px;
-  color: #a8bbc2;
+  color: #bcb5ae;
   font-size: 0.76rem;
   line-height: 1.55;
 }
@@ -126,19 +126,19 @@
 }
 
 .cookie-button--primary {
-  color: #05151c;
+  color: #1b0e06;
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35), transparent 48%),
-    linear-gradient(135deg, #7b8fa6, #72d3ea 55%, #63b6d2);
+    linear-gradient(135deg, #9c9185, #e5ae77 55%, #ce9567);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.38),
-    0 14px 30px -22px rgba(74, 166, 196, 0.86);
+    0 14px 30px -22px rgba(191, 129, 79, 0.86);
 }
 
 .cookie-button--quiet {
-  border-color: rgba(210, 237, 243, 0.16);
-  color: #e5f1f4;
-  background: rgba(243, 248, 250, 0.035);
+  border-color: rgba(242, 227, 211, 0.16);
+  color: #f3ede6;
+  background: rgba(250, 246, 243, 0.035);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.045);
 }
 
@@ -149,7 +149,7 @@
   gap: 4px;
   margin: 8px 0 -4px;
   padding: 5px 2px;
-  color: #a9c9d1;
+  color: #cfbdab;
   font-size: 0.68rem;
   font-weight: 700;
   transition: color 220ms ease;
@@ -177,7 +177,7 @@
   width: 100%;
   height: 100%;
   border: 0;
-  background: rgba(1, 9, 13, 0.72);
+  background: rgba(13, 6, 1, 0.72);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -192,11 +192,11 @@
   padding: clamp(20px, 4vw, 28px);
   background:
     radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.085), transparent 37%),
-    radial-gradient(circle at 92% 8%, rgba(114, 211, 234, 0.08), transparent 38%),
-    linear-gradient(145deg, rgba(17, 48, 60, 0.985), rgba(5, 18, 25, 0.995));
+    radial-gradient(circle at 92% 8%, rgba(229, 174, 119, 0.08), transparent 38%),
+    linear-gradient(145deg, rgba(58, 35, 19, 0.985), rgba(24, 13, 6, 0.995));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.08),
-    0 36px 110px -36px rgba(0, 2, 5, 0.94);
+    0 36px 110px -36px rgba(5, 2, 0, 0.94);
   outline: none;
 }
 
@@ -220,7 +220,7 @@
 
 .cookie-modal__head h2 {
   margin: 0;
-  color: #f3f8fa;
+  color: #faf6f3;
   font-size: clamp(1.15rem, 3vw, 1.45rem);
   font-weight: 770;
   letter-spacing: -0.035em;
@@ -232,10 +232,10 @@
   height: 40px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(210, 237, 243, 0.14);
+  border: 1px solid rgba(242, 227, 211, 0.14);
   border-radius: 14px;
-  color: #bdd3d9;
-  background: rgba(243, 248, 250, 0.035);
+  color: #d8cbbe;
+  background: rgba(250, 246, 243, 0.035);
   transition:
     transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 220ms ease,
@@ -251,7 +251,7 @@
 .cookie-modal__intro {
   max-width: 58ch;
   margin: 18px 0 20px;
-  color: #a8bbc2;
+  color: #bcb5ae;
   font-size: 0.78rem;
   line-height: 1.6;
 }
@@ -266,19 +266,18 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 13px;
-  border: 1px solid rgba(210, 237, 243, 0.13);
+  border: 1px solid rgba(242, 227, 211, 0.13);
   border-radius: 20px;
   padding: 14px;
   background:
-    linear-gradient(135deg, rgba(243, 248, 250, 0.045), rgba(114, 211, 234, 0.016)),
-    rgba(5, 20, 28, 0.62);
+    linear-gradient(135deg, rgba(250, 246, 243, 0.045), rgba(229, 174, 119, 0.016)),
+    rgba(27, 14, 6, 0.62);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.045);
 }
 
 .cookie-category[data-locked="true"] {
   background:
-    linear-gradient(135deg, rgba(243, 248, 250, 0.035), transparent),
-    rgba(5, 20, 28, 0.5);
+    linear-gradient(135deg, rgba(250, 246, 243, 0.035), transparent), rgba(27, 14, 6, 0.5);
 }
 
 .cookie-category__icon {
@@ -305,7 +304,7 @@
 
 .cookie-category__copy h3 {
   margin: 0;
-  color: #edf6f8;
+  color: #f8f3ed;
   font-size: 0.86rem;
   font-weight: 760;
   letter-spacing: -0.015em;
@@ -321,7 +320,7 @@
 
 .cookie-category__copy p {
   margin: 5px 0 0;
-  color: #9fb2b8;
+  color: #b4aca3;
   font-size: 0.7rem;
   line-height: 1.48;
 }
@@ -331,9 +330,9 @@
   height: 34px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(114, 211, 234, 0.25);
+  border: 1px solid rgba(229, 174, 119, 0.25);
   border-radius: 50%;
-  color: #05151c;
+  color: #1b0e06;
   background: var(--cookie-accent);
 }
 
@@ -363,9 +362,9 @@
   position: relative;
   width: 48px;
   height: 28px;
-  border: 1px solid rgba(210, 237, 243, 0.17);
+  border: 1px solid rgba(242, 227, 211, 0.17);
   border-radius: 999px;
-  background: rgba(243, 248, 250, 0.055);
+  background: rgba(250, 246, 243, 0.055);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   transition:
     border-color 260ms ease,
@@ -381,7 +380,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #b8c8cd;
+  background: #c9c3bc;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.28);
   transition:
     transform 360ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -390,25 +389,25 @@
 }
 
 .cookie-switch input:checked + span {
-  border-color: rgba(114, 211, 234, 0.48);
-  background: rgba(114, 211, 234, 0.19);
+  border-color: rgba(229, 174, 119, 0.48);
+  background: rgba(229, 174, 119, 0.19);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.09);
 }
 
 .cookie-switch input:checked + span::after {
   transform: translateX(20px);
-  background: #72d3ea;
-  box-shadow: 0 3px 12px rgba(72, 167, 198, 0.42);
+  background: #e5ae77;
+  box-shadow: 0 3px 12px rgba(193, 129, 77, 0.42);
 }
 
 .cookie-switch b {
-  color: #96abb2;
+  color: #ada59b;
   font-size: 0.58rem;
   font-weight: 720;
 }
 
 .cookie-switch input:checked ~ b {
-  color: #7b8fa6;
+  color: #9c9185;
 }
 
 .cookie-modal__policy {
@@ -422,7 +421,7 @@
   align-items: center;
   gap: 4px;
   padding: 4px 1px;
-  color: #a9c9d1;
+  color: #cfbdab;
   font-size: 0.68rem;
   font-weight: 700;
 }
@@ -433,7 +432,7 @@
   gap: 9px;
   margin-top: 18px;
   padding-top: 16px;
-  border-top: 1px solid rgba(210, 237, 243, 0.1);
+  border-top: 1px solid rgba(242, 227, 211, 0.1);
 }
 
 .cookie-button:focus-visible,
@@ -441,7 +440,7 @@
 .cookie-modal__close:focus-visible,
 .cookie-modal__policy a:focus-visible,
 .cookie-switch input:focus-visible + span {
-  outline: 2px solid rgba(114, 211, 234, 0.86);
+  outline: 2px solid rgba(229, 174, 119, 0.86);
   outline-offset: 3px;
 }
 
@@ -453,22 +452,22 @@
   .cookie-button--primary:hover {
     background:
       radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.44), transparent 48%),
-      linear-gradient(135deg, #7b8fa6, #84dcef 55%, #6fc0d8);
+      linear-gradient(135deg, #9c9185, #ebba88 55%, #d4a373);
     box-shadow:
       inset 0 1px rgba(255, 255, 255, 0.46),
-      0 18px 34px -22px rgba(74, 166, 196, 0.92);
+      0 18px 34px -22px rgba(191, 129, 79, 0.92);
   }
 
   .cookie-button--quiet:hover,
   .cookie-modal__close:hover {
-    border-color: rgba(114, 211, 234, 0.34);
-    color: #f0f8fa;
-    background: rgba(114, 211, 234, 0.075);
+    border-color: rgba(229, 174, 119, 0.34);
+    color: #faf5f0;
+    background: rgba(229, 174, 119, 0.075);
   }
 
   .cookie-banner__settings:hover,
   .cookie-modal__policy a:hover {
-    color: #d2edf3;
+    color: #f2e3d3;
   }
 
   .cookie-banner__settings:hover svg,
@@ -516,7 +515,7 @@
   }
 
   .cookie-modal-backdrop {
-    background: rgba(1, 9, 13, 0.76);
+    background: rgba(13, 6, 1, 0.76);
   }
 
   .cookie-modal {
@@ -588,7 +587,7 @@
     grid-template-columns: auto 1fr;
     align-items: center;
     justify-items: start;
-    border-top: 1px solid rgba(210, 237, 243, 0.09);
+    border-top: 1px solid rgba(242, 227, 211, 0.09);
     padding-top: 10px;
   }
 
@@ -602,7 +601,7 @@
     z-index: 2;
     margin-inline: -16px;
     padding: 15px 16px max(18px, env(safe-area-inset-bottom));
-    background: linear-gradient(180deg, rgba(6, 19, 26, 0), #06131a 20%);
+    background: linear-gradient(180deg, rgba(25, 14, 7, 0), #190e07 20%);
   }
 }
 
