@@ -23,7 +23,9 @@ export function seo({ title, description, path, noindex }: SeoOptions) {
     meta: [
       { title },
       { name: "description", content: description },
-      ...(noindex ? [{ name: "robots", content: "noindex" }] : []),
+      ...(noindex
+        ? [{ name: "robots", content: "noindex, nofollow" }]
+        : [{ name: "robots", content: "index, follow, max-image-preview:large" }]),
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:url", content: canonical },

@@ -52,6 +52,9 @@ export function Footer() {
             <a href={`mailto:${siteConfig.contact.email}`}>
               <Mail size={15} /> {siteConfig.contact.email}
             </a>
+            <a href={`mailto:${siteConfig.contact.emailPersonal}`}>
+              <Mail size={15} /> {siteConfig.contact.emailPersonal}
+            </a>
             <a href={`tel:${siteConfig.contact.phoneHref}`}>
               <Phone size={15} /> {siteConfig.contact.phoneLabel}
             </a>

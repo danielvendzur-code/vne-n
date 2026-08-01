@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PremiumLanding } from "@/components/site/PremiumLanding";
+import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
+import { realizations } from "@/data/realizations";
 import { seo, SITE_URL } from "@/lib/seo";
 
 const faqJsonLd = JSON.stringify({
@@ -16,10 +18,10 @@ const faqJsonLd = JSON.stringify({
 const serviceJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Daniel Vendžúr — chatboty na mieru, ktoré zvyšujú konverzie",
+  name: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
   url: `${SITE_URL}/`,
-  email: "daniel@vendzur.sk",
-  telephone: "+421948699433",
+  email: siteConfig.contact.email,
+  telephone: siteConfig.contact.phoneHref,
   areaServed: "SK",
   description:
     "Chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom alebo rezerváciami, ktoré pripravujú použiteľné dopyty.",
@@ -33,22 +35,40 @@ const serviceJsonLd = JSON.stringify({
   ],
 });
 
+/**
+ * Zoznam reálnych realizácií — Google z neho v obohatených výsledkoch
+ * vie ukázať, že za webom stoja skutočné nasadené projekty.
+ */
+const portfolioJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Vybrané realizácie",
+  itemListElement: realizations.map((project, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: project.name,
+    url: project.href,
+    description: project.result,
+  })),
+});
+
 export const Route = createFileRoute("/")({
   head: () => ({
     ...seo({
-      title: "Daniel Vendžúr — chatboty na mieru, ktoré zvyšujú konverzie",
+      title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
       description:
-        "Navrhujem chatboty na mieru — od jednoduchého asistenta až po chatbot s kalkulačkou, konfigurátorom či rezerváciami. Zákazník dostane odpoveď hneď a vy pripravený dopyt.",
+        "Chatbot na mieru, ktorý odpovie zákazníkovi hneď a vám pošle pripravený dopyt. Kalkulačky, konfigurátory a AI asistenti pre firemné weby na Slovensku.",
       path: "/",
     }),
     scripts: [
       { type: "application/ld+json", children: serviceJsonLd },
       { type: "application/ld+json", children: faqJsonLd },
+      { type: "application/ld+json", children: portfolioJsonLd },
     ],
   }),
   component: HomePage,
 });
 
 function HomePage() {
-  return <PremiumLanding />;
+  return <PremiumLanding variant="public" />;
 }

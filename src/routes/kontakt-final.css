@@ -95,10 +95,25 @@
   width: 54px;
   height: 54px;
   margin-bottom: 1.2rem;
-  color: #ffffff;
-  fill: #3979ec;
+  color: #12100e;
+  fill: #ffc79d;
   stroke-width: 1.7;
   filter: drop-shadow(0 16px 28px rgba(255, 199, 157, 0.34));
+  animation: contact-success-pop 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes contact-success-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  60% {
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .contact-success > span {
@@ -120,15 +135,66 @@
 }
 
 .contact-success p {
-  max-width: 30rem;
-  margin: 1rem auto 1.5rem;
-  color: #9eabbc;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  max-width: 32rem;
+  margin: 1rem auto 0;
+  color: #d6cabd;
+  font-size: 0.94rem;
+  line-height: 1.66;
 }
 
 .contact-success p b {
-  color: #e8eef7;
+  color: #fbf4ec;
+  font-weight: 650;
+}
+
+/* Doplnková veta pod hlavným potvrdením — tichšia, ale stále čitateľná. */
+.contact-success-note {
+  margin-top: 0.85rem !important;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 199, 157, 0.16);
+  color: #bdb0a4 !important;
+  font-size: 0.86rem !important;
+}
+
+.contact-success-note a {
+  color: #ffc79d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-success-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-success-summary li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 0.95rem;
+  border: 1px solid rgba(255, 199, 157, 0.18);
+  border-radius: 0.85rem;
+  background: rgba(255, 199, 157, 0.05);
+  text-align: left;
+}
+
+.contact-success-summary span {
+  color: #a4978b;
+  font-size: 0.66rem;
+  font-weight: 780;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.contact-success-summary b {
+  color: #fbf4ec;
+  font-size: 0.86rem;
+  font-weight: 620;
 }
 
 .contact-success .contact-assistant {
@@ -136,8 +202,8 @@
 }
 
 .contact-or span {
-  color: #758397 !important;
-  background: #0a1018 !important;
+  color: #a4978b !important;
+  background: #100e0c !important;
 }
 
 @media (max-width: 640px) {

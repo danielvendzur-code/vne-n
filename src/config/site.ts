@@ -5,7 +5,13 @@ export const siteConfig = {
   description:
     "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
   contact: {
-    email: "daniel@vendzur.sk",
+    /**
+     * Hlavná adresa značky. Sem chodia dopyty z formulára aj z chatbota
+     * a je to adresa, ktorá sa zobrazuje na webe ako prvá.
+     */
+    email: "info@mojchatbot.sk",
+    /** Osobná adresa — ostáva dostupná pre priamu komunikáciu. */
+    emailPersonal: "daniel@vendzur.sk",
     phoneLabel: "+421 948 699 433",
     phoneHref: "+421948699433",
   },
@@ -44,5 +50,4 @@ export const siteConfig = {
  * hodnotu (alebo nastaviť VITE_SITE_URL pri builde) — kanonické adresy,
  * sitemap aj sociálne náhľady sa prispôsobia samy.
  */
-export const SITE_ORIGIN =
-  import.meta.env.VITE_SITE_URL ?? "https://danielvendzur-code.github.io/vne-n";
+export const SITE_ORIGIN = import.meta.env.VITE_SITE_URL ?? "https://mojchatbot.sk";
