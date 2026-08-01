@@ -1,4 +1,4 @@
-run_id=30675328415
+run_id=30675805748
 widget=failure
 widget_ready=false
 install=success
@@ -38,7 +38,7 @@ Running 5 tests using 1 worker
     [2m      - scrolling into view if needed[22m
     [2m      - done scrolling[22m
     [2m      - <span aria-hidden="true"></span> intercepts pointer events[22m
-    [2m  150 × retrying click action[22m
+    [2m  148 × retrying click action[22m
     [2m        - waiting 500ms[22m
     [2m        - waiting for element to be visible, enabled and stable[22m
     [2m        - element is visible, enabled and stable[22m
@@ -201,7 +201,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js           189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-CYmppvom.js                223.27 kB │ gzip: 73.73 kB
 
-[32m✓ built in 1.66s[39m
+[32m✓ built in 1.70s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 150 modules transformed.
 rendering chunks...
@@ -240,7 +240,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-C1aavFOg.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-DfbKuonJ.js                     64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-1UpGx9Iw.js                       66.38 kB │ gzip: 17.16 kB
 
-[32m✓ built in 731ms[39m
+[32m✓ built in 794ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-08-01`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -260,7 +260,7 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         416.46 kB │ gzip: 104.43 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 583ms[39m
+[32m✓ built in 611ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 
@@ -297,7 +297,7 @@ computing gzip size...
 .output/public/assets/react-core-CWFrONgv.js           189.80 kB │ gzip: 59.72 kB
 .output/public/assets/index-CCZblPY_.js                223.41 kB │ gzip: 73.79 kB
 
-[32m✓ built in 1.64s[39m
+[32m✓ built in 1.67s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 150 modules transformed.
 rendering chunks...
@@ -336,7 +336,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-DbPf0b14.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-BhHABPps.js                     64.35 kB │ gzip: 15.94 kB
 node_modules/.nitro/vite/services/ssr/assets/routes-CNUsfgqt.js                       66.41 kB │ gzip: 17.16 kB
 
-[32m✓ built in 731ms[39m
+[32m✓ built in 784ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `node-server`, compatibility: `2026-08-01`)[22m
 [success] [nitro] Generated public [36m.output/public[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -355,7 +355,7 @@ computing gzip size...
 .output/server/_chunks/motion.mjs         416.46 kB │ gzip: 104.43 kB
 .output/server/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 532ms[39m
+[32m✓ built in 567ms[39m
 [info] Generated [36m.output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 exported /
