@@ -194,11 +194,11 @@ export function HomeConversionUpgrade() {
 
         <div className="winner-prep">
           <div className="winner-prep__intro">
-            <p className="winner-upgrade__eyebrow">Čo potrebujem od klienta</p>
+            <p className="winner-upgrade__eyebrow">Čo potrebujeme od klienta</p>
             <h2>Stačí to, čo zákazníkom hovoríte aj tak.</h2>
             <p>
-              Nič technické pripravovať nemusíte. Otázky, texty aj vzhľad urobím z toho, čo mi
-              pošlete.
+              Nič technické pripravovať nemusíte. Otázky, texty aj vzhľad pripravíme z podkladov,
+              ktoré nám pošlete.
             </p>
           </div>
           <div className="winner-prep__grid">
