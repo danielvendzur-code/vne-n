@@ -112,6 +112,7 @@ const correctionIndex = layout.indexOf('import "./FinalUserCorrection.css"');
 const brandIndex = layout.indexOf('import "./BrandSystemFinal.css"');
 const clientIndex = layout.indexOf('import "./ClientLandingFinal.css"');
 const finishIndex = layout.indexOf('import "./SiteFinish.css"');
+const teamMotionIndex = layout.indexOf('import "./TeamMotionUpgrade.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
 if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
@@ -121,6 +122,7 @@ if (correctionIndex === -1) fail("FinalUserCorrection.css is not imported");
 if (brandIndex === -1) fail("BrandSystemFinal.css is not imported");
 if (clientIndex === -1) fail("ClientLandingFinal.css is not imported");
 if (finishIndex === -1) fail("SiteFinish.css is not imported");
+if (teamMotionIndex === -1) fail("TeamMotionUpgrade.css is not imported");
 if (
   previousIndex >= winnerIndex ||
   winnerIndex >= tasteIndex ||
@@ -132,13 +134,16 @@ if (
 ) {
   fail("Client landing styles must load after the historical visual layers");
 }
-// SiteFinish.css je posledná vrstva — dokončuje paletu, prejazdy
-// myšou aj opravy hlavičky a menu, takže musí prekryť všetko pred ňou.
+// SiteFinish dokončuje historické vrstvy. TeamMotionUpgrade je úzka
+// autoritatívna vrstva iba pre nový tímový timeline a scroll systém.
 if (clientIndex >= finishIndex) {
   fail("SiteFinish.css must load after ClientLandingFinal.css");
 }
-if (finishIndex !== lastStyleImport) {
-  fail("SiteFinish.css must be the final component style import");
+if (finishIndex >= teamMotionIndex) {
+  fail("TeamMotionUpgrade.css must load after SiteFinish.css");
+}
+if (teamMotionIndex !== lastStyleImport) {
+  fail("TeamMotionUpgrade.css must be the final component style import");
 }
 if (layout.includes("HomeConversionUpgrade")) {
   fail("Removed homepage pricing section is still mounted in Layout");
