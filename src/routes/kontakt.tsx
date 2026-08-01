@@ -134,13 +134,15 @@ function ContactPage() {
           </p>
 
           <div className="contact-details">
-            <a href={`mailto:${siteConfig.contact.email}`}>
+            <a href={`mailto:${siteConfig.contact.email}`} data-primary="true">
               <Mail />
               {siteConfig.contact.email}
+              <em>hlavná adresa</em>
             </a>
             <a href={`mailto:${siteConfig.contact.emailPersonal}`}>
               <Mail />
               {siteConfig.contact.emailPersonal}
+              <em>osobná</em>
             </a>
             <a href={`tel:${siteConfig.contact.phoneHref}`}>
               <Phone />

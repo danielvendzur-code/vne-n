@@ -133,6 +133,34 @@
   opacity: 0.72;
 }
 
+/* Dve adresy, jedno poradie.
+   Značková adresa je hlavná — na ňu chodia dopyty a z nej odchádzajú
+   odpovede. Osobná je len druhá možnosť, tak aj vyzerá. */
+.contact-details a {
+  padding-right: 0.95rem !important;
+}
+
+.contact-details a em {
+  margin-left: auto;
+  padding-left: 0.75rem;
+  color: #a4978b;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.contact-details a[data-primary="true"] {
+  border-color: rgba(255, 199, 157, 0.34) !important;
+  background: rgba(255, 199, 157, 0.07) !important;
+}
+
+.contact-details a[data-primary="true"] em {
+  color: #ffc79d;
+}
+
 /* Návnada pre roboty — mimo obrazovky, ale nie `display: none`,
    inak by ju časť robotov preskočila. */
 .contact-trap {

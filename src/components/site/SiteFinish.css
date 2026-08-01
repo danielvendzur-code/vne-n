@@ -227,6 +227,16 @@ html body a:not([class]):hover {
   }
 }
 
+/* Osobná adresa v pätičke je druhá v poradí, nie druhý rovnocenný kontakt.
+   Odsadenie ju priradí pod značkovú adresu, tlmenšia farba a menšie
+   písmo povedia zvyšok — bez popisku, ktorý by sa v úzkom stĺpci lámal. */
+html body .premium-footer-links a.premium-footer-alt {
+  margin-top: -0.35rem;
+  padding-left: 1.45rem;
+  color: var(--text-light) !important;
+  font-size: 0.8rem;
+}
+
 /* --------------------------------------------------------------------------
    5b. Popis na plnom tlačidle musí byť čitateľný
    Hlavná farba je svetlá marhuľová. Biely text na nej mal kontrast 1,51:1

@@ -49,11 +49,17 @@ export function Footer() {
         <div>
           <p className="premium-footer-label">Priamy kontakt</p>
           <div className="premium-footer-links">
+            {/* Značková adresa je hlavná — na ňu chodia dopyty aj z nej
+                odchádzajú odpovede. Osobná stojí pod ňou ako druhá možnosť. */}
             <a href={`mailto:${siteConfig.contact.email}`}>
               <Mail size={15} /> {siteConfig.contact.email}
             </a>
-            <a href={`mailto:${siteConfig.contact.emailPersonal}`}>
-              <Mail size={15} /> {siteConfig.contact.emailPersonal}
+            <a
+              href={`mailto:${siteConfig.contact.emailPersonal}`}
+              className="premium-footer-alt"
+              title="Osobná adresa Daniela Vendžúra"
+            >
+              {siteConfig.contact.emailPersonal}
             </a>
             <a href={`tel:${siteConfig.contact.phoneHref}`}>
               <Phone size={15} /> {siteConfig.contact.phoneLabel}
