@@ -87,6 +87,14 @@ jobs:
       - name: Install local font and privacy-friendly analytics
         run: npm install --save @vercel/analytics@latest @fontsource-variable/inter-tight@latest
 
+      - name: Format generated files
+        shell: bash
+        run: |
+          changed="$(git diff --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|mjs|css|json|webmanifest)$' || true)"
+          if [ -n "$changed" ]; then
+            printf '%s\n' "$changed" | xargs npx prettier --write
+          fi
+
       - name: Type and contract tests
         run: npm test
 
