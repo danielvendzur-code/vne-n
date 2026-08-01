@@ -105,9 +105,9 @@ const comparisons = {
 };
 
 const heroProof = [
-  { icon: BadgeCheck, text: "Reálne nasadené weby a živé nástroje" },
-  { icon: PenLine, text: "Logiku navrhujem ešte pred vývojom" },
-  { icon: Clock3, text: "Odpoveď zvyčajne do 1 pracovného dňa" },
+  { icon: BadgeCheck, text: "Živá realizácia, nie maketa" },
+  { icon: PenLine, text: "Vlastná logika podľa vašej firmy" },
+  { icon: Clock3, text: "Od návrhu po nasadenie priamo so mnou" },
 ];
 
 const capabilityGroups = [
@@ -320,23 +320,38 @@ function Reveal({
   // vyzeral trhane a časť prvkov prišla mimo obrazovky.
   const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
   const y = narrow ? 22 : direction === "up" ? Math.min(distance, 28) : 0;
+  const enterDuration = narrow ? 0.5 : 0.68;
+  const exitDuration = narrow ? 0.24 : 0.3;
 
   return (
     <motion.div
       className={className}
-      initial={reducedMotion ? false : { opacity: 0, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      initial={reducedMotion ? false : "hidden"}
+      whileInView={reducedMotion ? undefined : "visible"}
+      variants={{
+        hidden: {
+          opacity: 0,
+          x,
+          y,
+          transition: { duration: exitDuration, ease: premiumEase },
+        },
+        visible: {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          transition: {
+            duration: enterDuration,
+            delay: narrow ? Math.min(delay, 0.06) : delay,
+            ease: premiumEase,
+          },
+        },
+      }}
       // Na úzkej obrazovke sú karty vysoké, takže 18 % prvku znamenalo
       // veľa scrollovania, kým sa vôbec začali odhaľovať.
       viewport={{
-        once: true,
+        once: false,
         amount: narrow ? 0.06 : amount,
-        margin: narrow ? "0px 0px -8% 0px" : undefined,
-      }}
-      transition={{
-        duration: narrow ? 0.52 : 0.72,
-        delay: narrow ? Math.min(delay, 0.08) : delay,
-        ease: premiumEase,
+        margin: narrow ? "-4% 0px -8% 0px" : "-8% 0px -8% 0px",
       }}
       {...rest}
     >
@@ -361,9 +376,13 @@ function Heading({
       className="lp-heading"
       initial={reducedMotion ? false : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, amount: 0.34 }}
+      viewport={{ once: false, amount: 0.28, margin: "-8% 0px -8% 0px" }}
       variants={{
-        hidden: { opacity: 0, x: -34 },
+        hidden: {
+          opacity: 0,
+          x: -34,
+          transition: { duration: 0.3, ease: premiumEase },
+        },
         visible: {
           opacity: 1,
           x: 0,
@@ -402,30 +421,33 @@ function Hero() {
           initial={reducedMotion ? false : "hidden"}
           animate="visible"
         >
-          <h1 aria-label="Chatboty, ktoré zvyšujú konverzie a pripravujú dopyty.">
+          <motion.p className="lp-hero-context" variants={sequenceItem}>
+            Pre klientov po návrhu v e-maile
+          </motion.p>
+          <h1 aria-label="Návrh už máte. Teraz si pozrite, ako bude pracovať na vašom webe.">
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>Chatboty, ktoré</motion.span>
+              <motion.span variants={heroLine}>Návrh už máte.</motion.span>
             </span>
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>zvyšujú konverzie</motion.span>
+              <motion.span variants={heroLine}>Teraz si pozrite,</motion.span>
             </span>
             <span className="lp-hero-line" aria-hidden="true">
-              <motion.em variants={heroLine}>a pripravujú dopyty.</motion.em>
+              <motion.em variants={heroLine}>ako bude pracovať.</motion.em>
             </span>
           </h1>
           <motion.p className="lp-hero-lead" variants={sequenceItem}>
-            AI chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď — vy
-            pripravený dopyt.
+            Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce
+            a priamy kontakt na mňa.
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
-            <Link to="/kontakt" className="lp-button lp-hero-cta lp-hero-cta--primary">
+            <a href="#realizacie" className="lp-button lp-hero-cta lp-hero-cta--primary">
               <span className="lp-button-content">
-                Chcem chatbot na mieru <ArrowRight size={17} />
+                Pozrieť živú realizáciu <ArrowRight size={17} />
               </span>
-            </Link>
-            <a href="#projekty" className="lp-button lp-hero-cta lp-hero-cta--secondary">
+            </a>
+            <a href="#moznosti" className="lp-button lp-hero-cta lp-hero-cta--secondary">
               <span className="lp-button-content">
-                Pozrieť realizácie <ArrowUpRight size={17} />
+                Čo môže riešenie robiť <ArrowUpRight size={17} />
               </span>
             </a>
           </motion.div>
@@ -448,7 +470,7 @@ function Hero() {
           }
         >
           <div className="lp-assistant-card">
-            <p>Čo pre vás postavím</p>
+            <p>Vyberte, čo má web robiť</p>
             <div className="lp-hero-picker" role="group" aria-label="Typ riešenia">
               {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
                 ([key, tool]) => {
@@ -481,13 +503,14 @@ function Hero() {
               <motion.div
                 className="lp-assistant-answer"
                 key={activeTool}
+                layout="position"
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
-                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -4 }}
-                transition={reducedMotion ? { duration: 0 } : { duration: 0.32, ease: premiumEase }}
+                initial={reducedMotion ? false : { opacity: 0, x: 9, filter: "blur(4px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: -7, filter: "blur(3px)" }}
+                transition={reducedMotion ? { duration: 0 } : { duration: 0.22, ease: premiumEase }}
               >
                 <Check />
                 <span>{heroTools[activeTool].text}</span>
@@ -575,7 +598,7 @@ function ValueSection() {
               initial={reducedMotion ? false : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
-              transition={reducedMotion ? { duration: 0 } : { duration: 0.38, ease: premiumEase }}
+              transition={reducedMotion ? { duration: 0 } : { duration: 0.24, ease: premiumEase }}
             >
               <div className="lp-comparison-copy">
                 <h3>{active.title}</h3>
@@ -614,7 +637,13 @@ function CapabilityGroup({
   const panelId = `lp-caps-panel-${index}`;
 
   return (
-    <Reveal className="lp-caps-row" amount={0.2} data-open={open}>
+    <Reveal
+      className="lp-caps-row"
+      amount={0.16}
+      direction={index % 2 === 0 ? "left" : "right"}
+      distance={32}
+      data-open={open}
+    >
       <button
         type="button"
         className="lp-caps-row-head"
@@ -635,87 +664,116 @@ function CapabilityGroup({
           <i aria-hidden="true" />
         </span>
       </button>
-      <motion.div
-        className="lp-caps-row-body"
-        id={panelId}
-        initial={false}
-        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-        transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: premiumEase }}
-        style={{ overflow: "hidden" }}
-      >
-        <div className="lp-caps-chips" role="group" aria-label={title}>
-          {items.map((item) => {
-            const isActive = active === item.label;
-            return (
-              <button
-                type="button"
-                key={item.label}
-                className="lp-chip"
-                data-tone={tone}
-                data-active={isActive}
-                aria-expanded={isActive}
-                data-chip-kind="capability"
-                data-selected={isActive}
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setActive(isActive ? null : item.label);
-                }}
-              >
-                <span className="lp-chip-label">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-        <AnimatePresence initial={false} mode="wait">
-          {activeItem ? (
-            <motion.div
-              className="lp-caps-detail"
-              key={activeItem.label}
-              role="status"
-              aria-live="polite"
-              initial={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
-              transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: premiumEase }}
-            >
-              <div className="lp-caps-detail-inner" data-tone={tone}>
-                <div className="lp-caps-detail-copy">
-                  <h4>{activeItem.label}</h4>
-                  <p>{activeItem.desc}</p>
+      <AnimatePresence initial={false}>
+        {open ? (
+          <motion.div
+            className="lp-caps-row-body"
+            id={panelId}
+            initial={reducedMotion ? false : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reducedMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
+            transition={reducedMotion ? { duration: 0 } : { duration: 0.34, ease: premiumEase }}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="lp-caps-chips" role="group" aria-label={title}>
+              {items.map((item) => {
+                const isActive = active === item.label;
+                return (
                   <button
                     type="button"
-                    className="lp-caps-detail-cta"
-                    onClick={() =>
-                      openSiteAssistant({ source: "capability-chip", category: activeItem.label })
-                    }
+                    key={item.label}
+                    className="lp-chip"
+                    data-tone={tone}
+                    data-active={isActive}
+                    aria-expanded={isActive}
+                    data-chip-kind="capability"
+                    data-selected={isActive}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setActive(isActive ? null : item.label);
+                    }}
                   >
-                    Otvoriť krátke zadanie <ArrowUpRight aria-hidden="true" />
+                    <span className="lp-chip-label">{item.label}</span>
                   </button>
-                </div>
-                <dl className="lp-caps-detail-spec">
-                  <div>
-                    <dt>Vstupy od zákazníka</dt>
-                    <dd>
-                      <span className="lp-caps-inputs">
-                        {activeItem.inputs.map((input) => (
-                          <span className="lp-caps-input" key={input}>
-                            {input}
+                );
+              })}
+            </div>
+            <AnimatePresence initial={false} mode="popLayout">
+              {activeItem ? (
+                <motion.div
+                  className="lp-caps-detail"
+                  key={activeItem.label}
+                  layout="position"
+                  role="status"
+                  aria-live="polite"
+                  initial={
+                    reducedMotion
+                      ? { opacity: 1 }
+                      : { opacity: 0, x: 12, y: 4, filter: "blur(5px)" }
+                  }
+                  animate={{
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                    filter: "blur(0px)",
+                    transition: reducedMotion
+                      ? { duration: 0 }
+                      : { duration: 0.3, ease: premiumEase },
+                  }}
+                  exit={
+                    reducedMotion
+                      ? { opacity: 1 }
+                      : {
+                          opacity: 0,
+                          x: -8,
+                          filter: "blur(3px)",
+                          transition: { duration: 0.15, ease: premiumEase },
+                        }
+                  }
+                >
+                  <div className="lp-caps-detail-inner" data-tone={tone}>
+                    <div className="lp-caps-detail-copy">
+                      <h4>{activeItem.label}</h4>
+                      <p>{activeItem.desc}</p>
+                      <button
+                        type="button"
+                        className="lp-caps-detail-cta"
+                        onClick={() =>
+                          openSiteAssistant({
+                            source: "capability-chip",
+                            category: activeItem.label,
+                          })
+                        }
+                      >
+                        Otvoriť krátke zadanie <ArrowUpRight aria-hidden="true" />
+                      </button>
+                    </div>
+                    <dl className="lp-caps-detail-spec">
+                      <div>
+                        <dt>Vstupy od zákazníka</dt>
+                        <dd>
+                          <span className="lp-caps-inputs">
+                            {activeItem.inputs.map((input) => (
+                              <span className="lp-caps-input" key={input}>
+                                {input}
+                              </span>
+                            ))}
                           </span>
-                        ))}
-                      </span>
-                    </dd>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Výstup pre vás</dt>
+                        <dd>{activeItem.output}</dd>
+                      </div>
+                    </dl>
                   </div>
-                  <div>
-                    <dt>Výstup pre vás</dt>
-                    <dd>{activeItem.output}</dd>
-                  </div>
-                </dl>
-              </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </motion.div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </Reveal>
   );
 }
@@ -754,12 +812,19 @@ function Capabilities() {
   );
 }
 
-function FaqItem({ question, answer }: { question: string; answer: string }) {
+function FaqItem({ question, answer, index }: { question: string; answer: string; index: number }) {
   const [open, setOpen] = useState(false);
   const reducedMotion = useReducedMotion();
 
   return (
-    <div className="lp-faq-item" data-open={open}>
+    <Reveal
+      className="lp-faq-item"
+      data-open={open}
+      direction="right"
+      distance={24}
+      amount={0.12}
+      delay={Math.min(index * 0.045, 0.18)}
+    >
       <h3>
         <button type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
           <span>{question}</span>
@@ -779,7 +844,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </div>
+    </Reveal>
   );
 }
 
@@ -805,11 +870,11 @@ function FaqSection() {
             </button>
           </Reveal>
         </div>
-        <Reveal className="lp-faq-list" direction="right" distance={40}>
-          {faqs.map((faq) => (
-            <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
+        <div className="lp-faq-list">
+          {faqs.map((faq, index) => (
+            <FaqItem key={faq.q} question={faq.q} answer={faq.a} index={index} />
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -820,7 +885,7 @@ function ProcessTimeline() {
   const reducedMotion = useReducedMotion();
   const { scaleY, reached } = useTimelineProgress(listRef, {
     nodeSelector: ".lp-step-node",
-    offset: ["start 0.95", "end 0.5"],
+    offset: ["start 0.86", "end 0.5"],
     count: process.length,
   });
 
@@ -869,11 +934,11 @@ function ProcessAndCta() {
 
         <Reveal className="lp-final-card" direction="right" distance={44}>
           <Symbol size={52} />
-          <p>Máte nápad alebo opakujúci sa proces?</p>
-          <h2>Pozrime sa, čo môže váš web robiť automaticky.</h2>
+          <p>Máte návrh v e-maile alebo nápad v hlave?</p>
+          <h2>Stačí mi povedať, čo vám sedí. Ďalší krok pripravím ja.</h2>
           <Link to="/kontakt" className="lp-button lp-button-light" ref={magneticFinal}>
             <span className="lp-button-content">
-              Nezáväzná konzultácia <ArrowRight />
+              Dohodnúť ďalší krok <ArrowRight />
             </span>
           </Link>
           <a href={`mailto:${siteConfig.contact.email}`} className="lp-final-email">
@@ -891,9 +956,9 @@ export function PremiumLanding() {
       <div className="lp-page">
         <PageProgress />
         <Hero />
+        <DeratScrollStory />
         <ValueSection />
         <Capabilities />
-        <DeratScrollStory />
         <FaqSection />
         <ProcessAndCta />
       </div>

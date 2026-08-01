@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { AnimatePresence, motion, MotionConfig } from "motion/react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { MotionConfig } from "motion/react";
 import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -27,7 +26,6 @@ import "./ProfessionalChipFinal.css";
 import "./AppleLiquidSystemFinal.css";
 import "./WebsiteRefinementFinal.css";
 import "./WebsiteRequestFinish.css";
-import "./HomeConversionUpgrade.css";
 import "./OwnerFriendlyPolish.css";
 import "./CompetitionWinnerFinal.css";
 import "./TasteSystemFinal.css";
@@ -36,12 +34,10 @@ import "./MatteUiFinal.css";
 import "./FinalUserCorrection.css";
 import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
-
-const pageEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import "./ClientLandingFinal.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const reducedMotion = useReducedMotion();
 
   return (
     <MotionConfig reducedMotion="user">
@@ -53,18 +49,15 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </a>
         <Nav />
         <main id="main-content" className="relative flex-1 overflow-x-clip">
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.div
-              key={pathname}
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -8 }}
-              transition={reducedMotion ? { duration: 0 } : { duration: 0.25, ease: pageEase }}
-              style={{ width: "100%", opacity: 1 }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          {/*
+            Keep the route wrapper outside Motion. A parent `initial={false}` is
+            inherited by descendants and silently disables their whileInView
+            entrance states. The keyed CSS fade preserves a route transition
+            without interfering with reversible section reveals.
+          */}
+          <div key={pathname} className="page-transition" style={{ width: "100%" }}>
+            {children}
+          </div>
         </main>
         <Footer />
       </div>

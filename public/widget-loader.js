@@ -4,37 +4,51 @@
   if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;
   window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;
 
-  const SOURCES = [
-    "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
-    "https://moj-chatbot-backend.vercel.app/widget.js",
-  ];
-  const ROOT_ID = "dv-assistant-root";
+  const SOURCE =
+    document.documentElement.dataset.assistantSource ||
+    "https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js";
+  const HOST_ID = "site-assistant-widget-host";
   const FALLBACK_ID = "dv-assistant-fallback";
+  const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
 
-  let sourceIndex = 0;
   let settled = false;
+  let pendingOpen = null;
 
-  const hasMountedWidget = () => {
-    const root = document.getElementById(ROOT_ID);
-    return Boolean(root && root.childElementCount > 0);
+  const hasMountedWidget = () =>
+    Boolean(
+      document.getElementById(HOST_ID) &&
+      typeof window.openSiteAssistant === "function" &&
+      window.openSiteAssistant.__siteAssistantEmbed,
+    );
+
+  const rememberEarlyOpen = (event) => {
+    if (hasMountedWidget()) return;
+    pendingOpen = event?.detail || { entry: "builder" };
   };
 
-  const removeFallback = () => {
-    document.getElementById(FALLBACK_ID)?.remove();
+  window.addEventListener(OPEN_EVENT, rememberEarlyOpen);
+
+  const handOffPendingOpen = () => {
+    window.removeEventListener(OPEN_EVENT, rememberEarlyOpen);
+    if (!pendingOpen || typeof window.openSiteAssistant !== "function") return;
+    const options = pendingOpen;
+    pendingOpen = null;
+    window.openSiteAssistant(options);
   };
 
   const showFallback = () => {
     if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;
     settled = true;
+    window.removeEventListener(OPEN_EVENT, rememberEarlyOpen);
 
     const anchor = document.createElement("a");
     anchor.id = FALLBACK_ID;
     anchor.href = `${document.documentElement.dataset.basePath || "/vne-n"}/kontakt`;
-    anchor.setAttribute("aria-label", "Získať návrh riešenia");
+    anchor.setAttribute("aria-label", "Otvoriť krátke zadanie");
     anchor.innerHTML = `
       <span aria-hidden="true">✦</span>
-      <span><strong>Môj Chatbot</strong><small>Získať návrh od 350 €</small></span>
+      <span><strong>Môj Chatbot</strong><small>Otvoriť krátke zadanie</small></span>
     `;
     Object.assign(anchor.style, {
       position: "fixed",
@@ -46,27 +60,21 @@
       gap: "10px",
       minHeight: "58px",
       padding: "10px 15px",
-      border: "0",
+      border: "1px solid rgba(255,199,157,.22)",
       borderRadius: "18px",
-      color: "#f6f8fb",
-      background: "#101822",
+      color: "#faf5ef",
+      background: "#12100e",
       boxShadow: "0 24px 58px -38px rgba(0,0,0,.98)",
-      fontFamily: '"Segoe UI Variable", "Aptos", system-ui, sans-serif',
+      fontFamily: '"Inter Tight", "Segoe UI Variable", system-ui, sans-serif',
       textDecoration: "none",
     });
 
     const icon = anchor.firstElementChild;
     if (icon instanceof HTMLElement) {
       Object.assign(icon.style, {
-        display: "grid",
-        width: "24px",
-        height: "24px",
-        placeItems: "center",
-        border: "0",
-        borderRadius: "0",
-        color: "#8eb5f6",
+        color: "#ffc79d",
         background: "transparent",
-        fontSize: "16px",
+        fontSize: "17px",
         fontWeight: "700",
       });
     }
@@ -80,7 +88,7 @@
         Object.assign(strong.style, { fontSize: "13px", fontWeight: "680" });
       }
       if (small instanceof HTMLElement) {
-        Object.assign(small.style, { color: "#9eabbc", fontSize: "11px" });
+        Object.assign(small.style, { color: "#c9beb4", fontSize: "11px" });
       }
     }
 
@@ -92,32 +100,25 @@
     const check = () => {
       if (hasMountedWidget()) {
         settled = true;
-        removeFallback();
+        document.getElementById(FALLBACK_ID)?.remove();
+        handOffPendingOpen();
         return;
       }
       if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
         script.remove();
-        loadNext();
+        showFallback();
         return;
       }
-      window.setTimeout(check, 250);
+      window.setTimeout(check, 180);
     };
     check();
   };
 
-  const loadNext = () => {
+  const start = () => {
     if (settled || hasMountedWidget()) return;
-    const source = SOURCES[sourceIndex++];
-    if (!source) {
-      showFallback();
-      return;
-    }
+    document.documentElement.dataset.basePath =
+      document.documentElement.dataset.basePath || "/vne-n";
 
-    const script = document.createElement("script");
-    /* Rotating cache key: a pinned constant meant every browser kept serving the
-       build it first downloaded, so widget updates never reached visitors.
-       Refreshes every 5 minutes, so a chatbot update shows up almost
-       immediately while short-term caching still works. */
     const now = new Date();
     const buildKey = [
       now.getUTCFullYear(),
@@ -126,22 +127,18 @@
       String(now.getUTCHours()).padStart(2, "0"),
       String(Math.floor(now.getUTCMinutes() / 5) * 5).padStart(2, "0"),
     ].join("");
-    script.src = `${source}?v=${buildKey}`;
+
+    const script = document.createElement("script");
+    script.src = `${SOURCE}?v=${buildKey}`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
-    script.dataset.dvAssistantSource = source;
+    script.dataset.dvAssistantSource = SOURCE;
     script.onload = () => confirmMount(script);
     script.onerror = () => {
       script.remove();
-      loadNext();
+      showFallback();
     };
     document.head.appendChild(script);
-  };
-
-  const start = () => {
-    document.documentElement.dataset.basePath =
-      document.documentElement.dataset.basePath || "/vne-n";
-    loadNext();
   };
 
   if (document.readyState === "loading") {

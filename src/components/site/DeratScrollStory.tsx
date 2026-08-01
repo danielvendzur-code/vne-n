@@ -1,8 +1,6 @@
 import { useEffect, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./DeratScrollStory.css";
 import "./DeratScrollStoryMobile.css";
 
@@ -54,6 +52,7 @@ const chapters = [
 
 export function DeratScrollStory() {
   const rootRef = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
   const progressValue = useMotionValue(0);
   const springProgress = useSpring(progressValue, {
     stiffness: 190,
@@ -96,11 +95,23 @@ export function DeratScrollStory() {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+    if (
+      !window.matchMedia("(min-width: 900px) and (prefers-reduced-motion: no-preference)").matches
+    ) {
+      return;
+    }
 
-    gsap.registerPlugin(ScrollTrigger);
-    const media = gsap.matchMedia();
+    let cancelled = false;
+    let cleanup: () => void = () => {};
 
-    media.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
+    const installStory = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
+
+      gsap.registerPlugin(ScrollTrigger);
       const story = root.querySelector<HTMLElement>("[data-derat-story]");
       const frameElements = gsap.utils.toArray<HTMLElement>("[data-derat-frame]", root);
       const copySteps = gsap.utils.toArray<HTMLElement>("[data-derat-copy]", root);
@@ -162,13 +173,27 @@ export function DeratScrollStory() {
         });
       }, root);
 
-      return () => {
+      cleanup = () => {
         progressValue.set(0);
         context.revert();
       };
-    });
+    };
 
-    return () => media.revert();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        void installStory();
+      },
+      { rootMargin: "900px 0px" },
+    );
+    observer.observe(root);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      cleanup();
+    };
   }, [progressValue]);
 
   return (
@@ -178,7 +203,13 @@ export function DeratScrollStory() {
       className="derat-story"
       aria-labelledby="derat-story-title"
     >
-      <header className="container-page derat-story__heading">
+      <motion.header
+        className="container-page derat-story__heading"
+        initial={reducedMotion ? false : { opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.24, margin: "-7% 0px -8% 0px" }}
+        transition={reducedMotion ? { duration: 0 } : { duration: 0.68, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div>
           <p className="derat-story__kicker">Príklad realizácie · DERAT</p>
           <h2 id="derat-story-title">Kalkulačka, ktorá z návštevníka spraví pripravený dopyt.</h2>
@@ -192,7 +223,7 @@ export function DeratScrollStory() {
             Otvoriť živý projekt <ArrowUpRight size={15} aria-hidden="true" />
           </a>
         </div>
-      </header>
+      </motion.header>
 
       <div className="container-page derat-story__desktop" data-derat-story>
         <div className="derat-story__visual">
@@ -232,7 +263,18 @@ export function DeratScrollStory() {
 
       <div className="derat-story__mobile" aria-label="Kroky kalkulačky DERAT">
         {frames.map((frame, index) => (
-          <article className="derat-story__mobile-slide" key={frame.src}>
+          <motion.article
+            className="derat-story__mobile-slide"
+            key={frame.src}
+            initial={reducedMotion ? false : { opacity: 0, y: 26, scale: 0.985 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0.18, margin: "-4% 0px -8% 0px" }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : { duration: 0.6, delay: Math.min(index * 0.025, 0.075), ease: [0.16, 1, 0.3, 1] }
+            }
+          >
             <figure>
               <img
                 src={frame.src}
@@ -249,7 +291,7 @@ export function DeratScrollStory() {
               <h3>{chapters[index].title}</h3>
               <p>{chapters[index].copy}</p>
             </div>
-          </article>
+          </motion.article>
         ))}
       </div>
     </section>

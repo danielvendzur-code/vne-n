@@ -6,7 +6,9 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", ".output", ".vinxi"] },
+  // Generated bundles must never be linted as application source. This mirrors
+  // the output directories in .gitignore, including local Vercel/Pages builds.
+  { ignores: ["dist", ".output", ".vinxi", "pages-dist", ".vercel", ".wrangler"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

@@ -1,33 +1,33 @@
 /* =============================================================
-   Brand system — the peach/slate/teal palette, on one dark base.
+   Brand system — warm peach and parchment on one charcoal base.
 
    Loaded last, so it settles the palette for the whole site. Three
-   accents only, exactly as briefed:
+   The shared landing and assistant palette has one interactive family:
 
      #FFC79D  primary, and the logo
-     #7B8FA6  secondary
-     #4DB6AC  hover and interactive accent
-     #0A0D12  background
+     #CBBCaf  warm secondary text
+     #F0A873  hover accent
+     #0A0908  background
 
    The one thing the brief could not anticipate: #FFC79D is a light
    colour. White text on it measures 1.51:1, which is unreadable, so
    anything sitting ON the primary uses the dark base instead at
-   12.89:1. Same for the teal accent — white is 2.44:1, dark is 7.97:1.
+   strong contrast. Hover fills follow the same rule.
    ============================================================= */
 
 :root,
 html body {
   --brand-primary: #ffc79d;
-  --brand-secondary: #7b8fa6;
-  --brand-accent: #4db6ac;
-  --brand-bg: #0a0d12;
-  --brand-surface: #111620;
-  --brand-raised: #161c28;
-  --brand-line: rgba(123, 143, 166, 0.18);
-  --brand-ink: #f5f7fa;
-  --brand-ink-dim: #a8b4c2;
+  --brand-secondary: #cbbcaf;
+  --brand-accent: #f0a873;
+  --brand-bg: #0a0908;
+  --brand-surface: #12100e;
+  --brand-raised: #191511;
+  --brand-line: rgba(255, 199, 157, 0.17);
+  --brand-ink: #faf5ef;
+  --brand-ink-dim: #c9beb4;
   /* text that sits on a filled primary or accent */
-  --brand-on-fill: #0a0d12;
+  --brand-on-fill: #0a0908;
   --brand-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -47,9 +47,12 @@ body::before {
   opacity: 0.5;
   background-image:
     radial-gradient(circle at 18% 12%, rgba(255, 199, 157, 0.05), transparent 42%),
-    radial-gradient(circle at 84% 78%, rgba(77, 182, 172, 0.045), transparent 46%),
+    radial-gradient(circle at 84% 78%, rgba(240, 168, 115, 0.04), transparent 46%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
-  background-size: auto, auto, 140px 140px;
+  background-size:
+    auto,
+    auto,
+    140px 140px;
 }
 body > * {
   position: relative;
@@ -69,24 +72,27 @@ html body .brand-mark {
   flex: 0 0 auto !important;
 }
 html body .site-brand-lockup:is(:hover, :focus-visible) .brand-mark {
-  color: var(--brand-accent) !important;
+  color: var(--brand-primary) !important;
 }
 
 /* ---- readable text on filled controls -------------------------------
    Substituting the palette cannot know which colour sits on top of
    which, so every filled surface is corrected here. */
-html body :is(
-    .btn-primary, .lp-cta, .lp-btn--primary, .premium-cta,
-    [data-variant="primary"]
-  ):not(.cw-widget *) {
+html
+  body
+  :is(.btn-primary, .lp-cta, .lp-btn--primary, .premium-cta, [data-variant="primary"]):not(
+    .cw-widget *
+  ) {
   background: var(--brand-primary) !important;
   color: var(--brand-on-fill) !important;
   border-color: transparent !important;
 }
-html body :is(
-    .btn-primary, .lp-cta, .lp-btn--primary, .premium-cta,
-    [data-variant="primary"]
-  ):is(:hover, :focus-visible):not(:disabled):not(.cw-widget *) {
+html
+  body
+  :is(.btn-primary, .lp-cta, .lp-btn--primary, .premium-cta, [data-variant="primary"]):is(
+    :hover,
+    :focus-visible
+  ):not(:disabled):not(.cw-widget *) {
   background: var(--brand-accent) !important;
   color: var(--brand-on-fill) !important;
 }
@@ -109,8 +115,14 @@ html body :is(.btn-primary, .lp-cta, .premium-cta) :is(svg, span, b) {
     animation: brand-rise 640ms var(--brand-ease) backwards;
   }
   @keyframes brand-rise {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: none; }
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
   /* press feedback is quick, release is soft */
   html body :is(a, button):active:not(:disabled) {
@@ -125,8 +137,8 @@ html body :is(.btn-primary, .lp-cta, .premium-cta) :is(svg, span, b) {
   }
 }
 
-/* ---- focus, on the accent so it reads against both fills ------------ */
+/* ---- focus, in the shared peach accent ------------------------------- */
 html body :is(a, button, input, textarea, select, summary):focus-visible {
-  outline: 3px solid rgba(77, 182, 172, 0.86) !important;
+  outline: 3px solid rgba(255, 199, 157, 0.88) !important;
   outline-offset: 3px !important;
 }

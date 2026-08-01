@@ -32,7 +32,7 @@ export function useTimelineProgress(
     target: listRef,
     offset: offset as unknown as Parameters<typeof useScroll>[0]["offset"],
   });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 70, damping: 26, mass: 0.5 });
+  const scaleY = useSpring(scrollYProgress, { stiffness: 108, damping: 24, mass: 0.36 });
   const [reached, setReached] = useState(reducedMotion ? count : 0);
 
   // Stredy uzlov v pomere k výške zoznamu (0–1). Merané mimo animácie.

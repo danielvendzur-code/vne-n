@@ -2753,13 +2753,8 @@ html:root body .lp-page .lp-caps-row-head p {
    číslo a nemajú všetky rovnaké rozloženie hlavičky.
    ============================================================== */
 
-<<<<<<< HEAD
 /* Hlavička zarovnaná doľava ako zvyšok webu. Vycentrovaná pôsobila
    odtrhnuto od obsahu, ktorý pod ňou začína vľavo. */
-=======
-/* Sekcia 02 má hlavičku na stred — už na prvý pohľad iná stavba
-   než susedné sekcie zarovnané doľava. */
->>>>>>> origin/claude/web-portfolio-publish-ynh7sk
 html:root body .lp-page .lp-caps .lp-heading {
   margin-inline: 0 !important;
   max-width: 900px !important;
@@ -3101,8 +3096,6 @@ html:root body .winner-upgrade__eyebrow {
 html:root body .lp-page .lp-caps-count {
   gap: 0 !important;
 }
-<<<<<<< HEAD
-
 /* ==============================================================
    TEXTÚRA POZADIA
    Jemné zrno cez celý web. Ploché tmavé pozadie pôsobí lacno,
@@ -3144,5 +3137,3 @@ html:root body::after {
     rgba(3, 5, 8, 0.38) 100%
   ) !important;
 }
-=======
->>>>>>> origin/claude/web-portfolio-publish-ynh7sk

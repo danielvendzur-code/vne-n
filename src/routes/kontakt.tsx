@@ -16,7 +16,7 @@ export const Route = createFileRoute("/kontakt")({
     ...seo({
       title: "Kontakt — návrh chatbota, kalkulačky alebo konfigurátora",
       description:
-        "Napíšte, na čo sa vás zákazníci najčastejšie pýtajú. Jednoduchý chatbot stojí od 350 € a cenu poviem vopred.",
+        "Napíšte, na čo sa vás zákazníci najčastejšie pýtajú. Po krátkom zadaní dostanete jasný rozsah, termín a cenu vopred.",
       path: "/kontakt",
     }),
     scripts: [
@@ -117,8 +117,8 @@ function ContactPage() {
             Napíšte mi, s čím vám má chatbot <em>pomôcť.</em>
           </h1>
           <p className="contact-lead">
-            Jednoduchý chatbot stojí od 350 €. Stačí pár viet o tom, čo predávate a na čo sa vás
-            zákazníci najčastejšie pýtajú. Ozvem sa s návrhom aj cenou.
+            Stačí pár viet o tom, čo predávate a na čo sa vás zákazníci najčastejšie pýtajú. Ozvem
+            sa s návrhom, jasným rozsahom aj cenou vopred.
           </p>
 
           <div className="contact-details">
