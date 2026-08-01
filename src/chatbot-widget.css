@@ -13,7 +13,7 @@
   min-height: 100dvh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 88% 14%, rgba(114, 199, 255, 0.08), transparent 30rem),
+    radial-gradient(circle at 88% 14%, rgba(245, 185, 124, 0.08), transparent 30rem),
     radial-gradient(circle at 14% 88%, rgba(255, 199, 157, 0.05), transparent 26rem), var(--cw-bg);
 }
 
@@ -22,8 +22,8 @@
   inset: 0;
   opacity: 0.5;
   background-image:
-    linear-gradient(rgba(245, 247, 250, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(245, 247, 250, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(250, 248, 245, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250, 248, 245, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: linear-gradient(135deg, transparent 2%, #000 42%, transparent 96%);
 }
@@ -46,13 +46,13 @@
   0%,
   100% {
     box-shadow:
-      0 16px 34px -18px rgba(0, 6, 10, 0.85),
+      0 16px 34px -18px rgba(9, 4, 1, 0.85),
       0 0 0 0 rgba(255, 199, 157, 0.28),
       var(--cw-inset);
   }
   50% {
     box-shadow:
-      0 16px 34px -18px rgba(0, 6, 10, 0.85),
+      0 16px 34px -18px rgba(9, 4, 1, 0.85),
       0 0 0 12px rgba(255, 199, 157, 0),
       var(--cw-inset);
   }
@@ -313,7 +313,7 @@
     radial-gradient(38px 30px at 30% 22%, rgba(255, 199, 157, 0.22), transparent 62%),
     linear-gradient(180deg, var(--cw-surface-raised), var(--cw-surface));
   box-shadow:
-    0 16px 34px -18px rgba(0, 6, 10, 0.85),
+    0 16px 34px -18px rgba(9, 4, 1, 0.85),
     var(--cw-inset);
   cursor: pointer;
   transition:
@@ -339,9 +339,11 @@
 .cw-launcher:hover {
   transform: translateY(-3px) scale(1.05);
   border-color: rgba(255, 199, 157, 0.58);
+  /* Posunutý svetlý tieň sa pod bublinou zobrazoval ako samostatná
+     škvrna. Svetlo teraz obopína bublinu namiesto plávania pod ňou. */
   box-shadow:
-    0 22px 44px -18px rgba(0, 6, 10, 0.9),
-    0 16px 30px -20px color-mix(in oklab, #ffc79d 55%, transparent),
+    0 22px 44px -20px rgba(9, 4, 1, 0.9),
+    0 0 26px -4px color-mix(in oklab, #ffc79d 34%, transparent),
     var(--cw-inset);
   animation-play-state: paused;
 }
@@ -369,7 +371,11 @@
   animation: cw-live 2.4s ease-in-out infinite;
 }
 
-.cw-launcher:focus-visible, .cw-teaser button:focus-visible, .cw-panel button:focus-visible, .cw-panel input:focus-visible, .cw-panel textarea:focus-visible {
+.cw-launcher:focus-visible,
+.cw-teaser button:focus-visible,
+.cw-panel button:focus-visible,
+.cw-panel input:focus-visible,
+.cw-panel textarea:focus-visible {
   outline: 2.5px solid var(--cw-accent);
   outline-offset: 3px;
 }
@@ -473,12 +479,12 @@
   border-radius: 24px;
   color: var(--cw-ink);
   background:
-    radial-gradient(120% 68% at 50% -8%, rgba(114, 199, 255, 0.1), transparent 58%),
+    radial-gradient(120% 68% at 50% -8%, rgba(245, 185, 124, 0.1), transparent 58%),
     radial-gradient(85% 58% at 92% 108%, rgba(255, 199, 157, 0.07), transparent 62%), var(--cw-bg);
   border: 1px solid var(--cw-line-strong);
   box-shadow:
-    0 34px 78px -26px rgba(0, 5, 9, 0.88),
-    0 14px 36px -20px rgba(0, 5, 9, 0.78),
+    0 34px 78px -26px rgba(8, 4, 1, 0.88),
+    0 14px 36px -20px rgba(8, 4, 1, 0.78),
     var(--cw-inset);
   display: flex;
   flex-direction: column;
@@ -491,7 +497,7 @@
   position: relative;
   overflow: hidden;
   padding: 13px 14px;
-  background: linear-gradient(180deg, rgba(18, 45, 53, 0.82), rgba(10, 28, 34, 0.5));
+  background: linear-gradient(180deg, rgba(52, 32, 19, 0.82), rgba(33, 20, 11, 0.5));
   border-bottom: 1px solid var(--cw-line);
   color: var(--cw-ink);
   display: flex;
@@ -514,7 +520,7 @@
   justify-content: center;
   flex: 0 0 auto;
   box-shadow:
-    0 6px 16px -8px rgba(0, 6, 10, 0.7),
+    0 6px 16px -8px rgba(9, 4, 1, 0.7),
     var(--cw-inset);
 }
 
@@ -650,10 +656,10 @@
   padding: 5px;
   border-radius: 17px;
   border: 1px solid var(--cw-line);
-  background: rgba(2, 14, 18, 0.66);
+  background: rgba(17, 9, 3, 0.66);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.045),
-    0 16px 34px -30px rgba(0, 4, 8, 0.9);
+    0 16px 34px -30px rgba(7, 3, 1, 0.9);
   flex: 0 0 auto;
 }
 
@@ -875,7 +881,7 @@
   align-items: center;
   border: 1px solid var(--cw-line);
   border-radius: 999px;
-  color: #c9d7dc;
+  color: #dbd3ca;
   background: var(--cw-glass);
   padding: 10px 16px;
   font: 640 11.5px var(--cw-font);
@@ -906,7 +912,8 @@
     transform 0.38s var(--cw-ease);
 }
 
-.cw-chip:hover, .cw-chip:focus-visible {
+.cw-chip:hover,
+.cw-chip:focus-visible {
   padding-right: 33px;
   color: var(--cw-ink);
   border-color: color-mix(in oklab, var(--cw-mint) 46%, transparent);
@@ -923,7 +930,8 @@
     var(--cw-glow);
 }
 
-.cw-chip:hover::after, .cw-chip:focus-visible::after {
+.cw-chip:hover::after,
+.cw-chip:focus-visible::after {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
   transition-delay: 0.05s;
@@ -952,7 +960,7 @@
   background: var(--cw-mint-gloss), var(--cw-mint-fill);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.42),
-    inset 0 -1px 0 rgba(15, 96, 124, 0.12);
+    inset 0 -1px 0 rgba(120, 59, 19, 0.12);
   clip-path: circle(75% at 50% 50%);
   animation: cw-fill-out 760ms var(--cw-ease-out) 0.35s both;
 }
@@ -963,16 +971,18 @@
   color: var(--cw-on-mint);
 }
 
-.cw-chip--primary:hover, .cw-chip--primary:focus-visible {
+.cw-chip--primary:hover,
+.cw-chip--primary:focus-visible {
   color: var(--cw-on-mint);
   transform: translateY(-2px);
   box-shadow: 0 20px 34px -20px rgba(255, 199, 157, 0.9);
 }
 
-.cw-chip--primary:hover::before, .cw-chip--primary:focus-visible::before {
+.cw-chip--primary:hover::before,
+.cw-chip--primary:focus-visible::before {
   background:
     radial-gradient(circle at 32% 12%, rgba(255, 255, 255, 0.56), transparent 44%),
-    linear-gradient(140deg, #7b8fa6 0%, #ffc79d 52%, #ffc79d 100%);
+    linear-gradient(140deg, #9c9185 0%, #ffc79d 52%, #ffc79d 100%);
 }
 
 /* vstupný riadok — pill pole ako moderné chat appky */
@@ -1130,7 +1140,7 @@
 .cw-progress__dots i {
   height: 6px;
   border-radius: 999px;
-  background: rgba(245, 247, 250, 0.1);
+  background: rgba(250, 248, 245, 0.1);
   transition:
     height 0.22s ease,
     background 0.22s ease,
@@ -1259,11 +1269,17 @@
 }
 
 /* výber „obkreslí" mätový border od stredu bokov (nahor aj nadol) */
-.cw-rowcard[data-selected="true"], .cw-scard[data-selected="true"], .cw-opt[data-selected="true"], .cw-vcard[data-selected="true"] {
+.cw-rowcard[data-selected="true"],
+.cw-scard[data-selected="true"],
+.cw-opt[data-selected="true"],
+.cw-vcard[data-selected="true"] {
   border-color: transparent;
 }
 
-.cw-rowcard[data-selected="true"]::before, .cw-scard[data-selected="true"]::before, .cw-opt[data-selected="true"]::before, .cw-vcard[data-selected="true"]::before {
+.cw-rowcard[data-selected="true"]::before,
+.cw-scard[data-selected="true"]::before,
+.cw-opt[data-selected="true"]::before,
+.cw-vcard[data-selected="true"]::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1304,7 +1320,8 @@
   transition: 0.28s;
 }
 
-.cw-rowcard:hover .cw-rowcard__icon, .cw-rowcard[data-selected="true"] .cw-rowcard__icon {
+.cw-rowcard:hover .cw-rowcard__icon,
+.cw-rowcard[data-selected="true"] .cw-rowcard__icon {
   border-color: transparent;
   background: var(--cw-mint-fill);
   color: var(--cw-on-mint);
@@ -1360,7 +1377,8 @@
   margin-top: 10px;
 }
 
-.cw-custom textarea, .cw-lead__form textarea {
+.cw-custom textarea,
+.cw-lead__form textarea {
   width: 100%;
   border: 1px solid var(--cw-line);
   border-radius: 12px;
@@ -1374,11 +1392,14 @@
   transition: 0.15s;
 }
 
-.cw-custom textarea::placeholder, .cw-lead__form textarea::placeholder, .cw-lead__form input::placeholder {
+.cw-custom textarea::placeholder,
+.cw-lead__form textarea::placeholder,
+.cw-lead__form input::placeholder {
   color: var(--cw-faint);
 }
 
-.cw-custom textarea:focus, .cw-lead__form textarea:focus {
+.cw-custom textarea:focus,
+.cw-lead__form textarea:focus {
   border-color: var(--cw-mint);
   background: var(--cw-surface-raised);
   box-shadow: 0 0 0 3px rgba(255, 199, 157, 0.13);
@@ -1453,7 +1474,8 @@
     color 0.25s;
 }
 
-.cw-scard:hover .cw-scard__icon, .cw-scard[data-selected="true"] .cw-scard__icon {
+.cw-scard:hover .cw-scard__icon,
+.cw-scard[data-selected="true"] .cw-scard__icon {
   border-color: transparent;
   background: var(--cw-mint-fill);
   color: var(--cw-on-mint);
@@ -1721,7 +1743,7 @@
   justify-content: space-between;
   gap: 10px;
   padding: 5px 0;
-  border-bottom: 1px dashed rgba(245, 247, 250, 0.14);
+  border-bottom: 1px dashed rgba(250, 248, 245, 0.14);
   font: 600 11.3px var(--cw-font);
   color: var(--cw-muted);
 }
@@ -1773,7 +1795,7 @@
   margin-bottom: 6px;
   box-shadow:
     var(--cw-inset),
-    0 10px 26px -20px rgba(0, 6, 10, 0.7);
+    0 10px 26px -20px rgba(9, 4, 1, 0.7);
 }
 
 .cw-lead__head {
@@ -1870,16 +1892,17 @@
   border-radius: 11px;
   padding: 9px 11px;
   font: 700 11.5px var(--cw-font);
-  background: rgba(114, 199, 255, 0.1);
+  background: rgba(245, 185, 124, 0.1);
   color: var(--cw-accent);
-  border: 1px solid rgba(114, 199, 255, 0.34);
+  border: 1px solid rgba(245, 185, 124, 0.34);
   animation: cw-q-in 0.25s ease both;
 }
 
 /* ============================================================
    Primárne tlačidlá — plná mätová výplň, tmavý ink, hover lift
    ============================================================ */
-.cw-submit, .cw-next {
+.cw-submit,
+.cw-next {
   position: relative;
   overflow: hidden;
   z-index: 0;
@@ -1904,7 +1927,10 @@
     box-shadow 0.28s ease;
 }
 
-.cw-submit:hover:not(:disabled), .cw-next:hover:not(:disabled), .cw-submit:focus-visible:not(:disabled), .cw-next:focus-visible:not(:disabled) {
+.cw-submit:hover:not(:disabled),
+.cw-next:hover:not(:disabled),
+.cw-submit:focus-visible:not(:disabled),
+.cw-next:focus-visible:not(:disabled) {
   transform: translateY(-2px);
   filter: brightness(1.05);
   box-shadow:
@@ -1912,11 +1938,13 @@
     0 22px 40px -20px rgba(255, 199, 157, 0.9);
 }
 
-.cw-submit:active:not(:disabled), .cw-next:active:not(:disabled) {
+.cw-submit:active:not(:disabled),
+.cw-next:active:not(:disabled) {
   transform: translateY(0) scale(0.99);
 }
 
-.cw-next:disabled, .cw-submit:disabled {
+.cw-next:disabled,
+.cw-submit:disabled {
   opacity: 0.42;
   cursor: default;
   box-shadow: none;
@@ -1935,7 +1963,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  border: 2.5px solid rgba(8, 11, 16, 0.3);
+  border: 2.5px solid rgba(16, 11, 8, 0.3);
   border-top-color: var(--cw-on-mint);
   animation: cw-spin 0.8s linear infinite;
 }
@@ -1954,7 +1982,7 @@
   gap: 10px;
   padding: 10px 13px 13px;
   border-top: 0;
-  background: linear-gradient(180deg, rgba(6, 18, 22, 0), var(--cw-bg) 42%);
+  background: linear-gradient(180deg, rgba(21, 13, 7, 0), var(--cw-bg) 42%);
   align-items: center;
 }
 

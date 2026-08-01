@@ -1,27 +1,31 @@
 /* Route-specific finish for the real lead form. */
 .contact-page {
   background:
-    radial-gradient(circle at 86% 15%, rgba(255, 199, 157, 0.1), transparent 30rem),
-    #05070b !important;
+    radial-gradient(circle at 86% 15%, rgba(255, 199, 157, 0.1), transparent 30rem), #0b0705 !important;
 }
 
 .contact-card {
-  border-color: #26364c !important;
-  background: linear-gradient(160deg, #0d151f, #080d14) !important;
+  border-color: #4a3628 !important;
+  background: linear-gradient(160deg, #1e140e, #140d08) !important;
   box-shadow: 0 34px 82px -58px rgba(255, 199, 157, 0.84) !important;
 }
 
 .contact-card::before {
-  background: linear-gradient(to right, transparent, rgba(255, 199, 157, 0.72), transparent) !important;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 199, 157, 0.72),
+    transparent
+  ) !important;
 }
 
 .contact-card input,
 .contact-card textarea,
 .contact-card select {
   min-height: 49px;
-  border-color: #29394f !important;
-  color: #f5f7fb !important;
-  background: #0b121b !important;
+  border-color: #4d392b !important;
+  color: #fbf8f5 !important;
+  background: #1a120c !important;
   font-size: 16px !important;
 }
 
@@ -32,8 +36,8 @@
 .contact-card input:focus,
 .contact-card textarea:focus,
 .contact-card select:focus {
-  border-color: #5d98ff !important;
-  background: #0d151f !important;
+  border-color: #f4ae68 !important;
+  background: #1e140e !important;
   box-shadow: 0 0 0 3px rgba(255, 199, 157, 0.12) !important;
 }
 
@@ -43,10 +47,10 @@
   align-items: start !important;
   gap: 0.65rem !important;
   padding: 0.75rem 0.8rem;
-  border: 1px solid #202d40;
+  border: 1px solid #3f2d21;
   border-radius: 12px;
-  color: #93a1b3;
-  background: #080e16;
+  color: #aca49a;
+  background: #150e09;
   cursor: pointer;
 }
 
@@ -60,7 +64,7 @@
 }
 
 .contact-consent > span {
-  color: #93a1b3 !important;
+  color: #aca49a !important;
   font-size: 0.75rem !important;
   font-weight: 560 !important;
   line-height: 1.45;
@@ -77,9 +81,94 @@
   line-height: 1.45;
 }
 
+/* Obyčajné tlačidlo.
+   Predtým cezeň pri prejazde myšou preletel 235 px biely kruh, ktorý
+   z odosielacieho tlačidla robil efekt namiesto ovládacieho prvku. */
+.contact-submit {
+  width: 100%;
+  min-height: 52px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 0 !important;
+  border-radius: 13px !important;
+  color: #12100e !important;
+  background: #ffc79d !important;
+  box-shadow: none !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    opacity 180ms ease !important;
+}
+
+.contact-submit::before,
+.contact-submit::after {
+  content: none !important;
+  display: none !important;
+}
+
+.contact-submit__content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.contact-submit__content svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-submit:hover:not(:disabled) {
+    background: #ffb078 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
 .contact-submit:disabled {
   cursor: wait;
   opacity: 0.72;
+}
+
+/* Dve adresy, jedno poradie.
+   Značková adresa je hlavná — na ňu chodia dopyty a z nej odchádzajú
+   odpovede. Osobná je len druhá možnosť, tak aj vyzerá. */
+.contact-details a {
+  padding-right: 0.95rem !important;
+}
+
+.contact-details a em {
+  margin-left: auto;
+  padding-left: 0.75rem;
+  color: #a4978b;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.contact-details a[data-primary="true"] {
+  border-color: rgba(255, 199, 157, 0.34) !important;
+  background: rgba(255, 199, 157, 0.07) !important;
+}
+
+.contact-details a[data-primary="true"] em {
+  color: #ffc79d;
+}
+
+/* Návnada pre roboty — mimo obrazovky, ale nie `display: none`,
+   inak by ju časť robotov preskočila. */
+.contact-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .contact-success {
@@ -95,10 +184,25 @@
   width: 54px;
   height: 54px;
   margin-bottom: 1.2rem;
-  color: #ffffff;
-  fill: #3979ec;
+  color: #12100e;
+  fill: #ffc79d;
   stroke-width: 1.7;
   filter: drop-shadow(0 16px 28px rgba(255, 199, 157, 0.34));
+  animation: contact-success-pop 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes contact-success-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  60% {
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .contact-success > span {
@@ -120,15 +224,66 @@
 }
 
 .contact-success p {
-  max-width: 30rem;
-  margin: 1rem auto 1.5rem;
-  color: #9eabbc;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  max-width: 32rem;
+  margin: 1rem auto 0;
+  color: #d6cabd;
+  font-size: 0.94rem;
+  line-height: 1.66;
 }
 
 .contact-success p b {
-  color: #e8eef7;
+  color: #fbf4ec;
+  font-weight: 650;
+}
+
+/* Doplnková veta pod hlavným potvrdením — tichšia, ale stále čitateľná. */
+.contact-success-note {
+  margin-top: 0.85rem !important;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 199, 157, 0.16);
+  color: #bdb0a4 !important;
+  font-size: 0.86rem !important;
+}
+
+.contact-success-note a {
+  color: #ffc79d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-success-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-success-summary li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 0.95rem;
+  border: 1px solid rgba(255, 199, 157, 0.18);
+  border-radius: 0.85rem;
+  background: rgba(255, 199, 157, 0.05);
+  text-align: left;
+}
+
+.contact-success-summary span {
+  color: #a4978b;
+  font-size: 0.66rem;
+  font-weight: 780;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.contact-success-summary b {
+  color: #fbf4ec;
+  font-size: 0.86rem;
+  font-weight: 620;
 }
 
 .contact-success .contact-assistant {
@@ -136,8 +291,8 @@
 }
 
 .contact-or span {
-  color: #758397 !important;
-  background: #0a1018 !important;
+  color: #a4978b !important;
+  background: #100e0c !important;
 }
 
 @media (max-width: 640px) {

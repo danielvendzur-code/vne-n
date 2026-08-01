@@ -7,8 +7,8 @@
   padding-inline: 1rem !important;
   border: 1px solid var(--wr-line-strong) !important;
   border-radius: var(--wr-radius-md) !important;
-  color: #dbe4ef !important;
-  background: #0e141e !important;
+  color: #eee5dc !important;
+  background: #1d150f !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -24,9 +24,9 @@
 
 .lp-page .lp-assistant-cta:hover,
 .lp-page .lp-assistant-cta:focus-visible {
-  border-color: #405573 !important;
+  border-color: #715742 !important;
   color: #ffffff !important;
-  background: #101824 !important;
+  background: #231811 !important;
   transform: none !important;
   box-shadow: none !important;
 }
@@ -36,10 +36,10 @@
 .lp-page .lp-chip {
   min-height: 54px !important;
   padding: 10px 13px !important;
-  border: 1px solid #263449 !important;
+  border: 1px solid #483427 !important;
   border-radius: 14px !important;
-  color: #c8d2df !important;
-  background: #0e151f !important;
+  color: #ded3c9 !important;
+  background: #1e150f !important;
   background-image: none !important;
   box-shadow: none !important;
   transform: none !important;
@@ -61,18 +61,18 @@
 .lp-page .lp-hero-pick:focus-visible,
 .lp-page .lp-chip:hover,
 .lp-page .lp-chip:focus-visible {
-  border-color: #435a78 !important;
+  border-color: #765b45 !important;
   color: #ffffff !important;
-  background: #111a27 !important;
+  background: #261a12 !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 .lp-page .lp-hero-pick[data-active="true"],
 .lp-page .lp-chip[data-active="true"] {
-  border-color: rgba(113, 170, 255, 0.76) !important;
+  border-color: rgba(245, 184, 123, 0.76) !important;
   color: #ffffff !important;
-  background: #132039 !important;
+  background: #372315 !important;
   background-image: none !important;
   box-shadow: 0 0 0 1px rgba(255, 199, 157, 0.08) !important;
   transform: none !important;
@@ -80,7 +80,7 @@
 
 .lp-page .lp-hero-pick-icon,
 .lp-page .lp-chip-icon {
-  color: #86acec !important;
+  color: #e8b98a !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -89,14 +89,14 @@
 
 .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon,
 .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
-  color: #9bc0ff !important;
+  color: #f8cda2 !important;
 }
 
 /* The arrow remains as a quiet directional cue. */
 .lp-page .lp-hero-pick-plus {
   display: inline-flex !important;
   margin-left: auto !important;
-  color: #8493a8 !important;
+  color: #a1978c !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -104,7 +104,7 @@
 
 .lp-page .lp-hero-pick:hover .lp-hero-pick-plus,
 .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
-  color: #a9c7ff !important;
+  color: #f9d4af !important;
 }
 
 /* Restore and strengthen the cursor-following flashlight on "Chcem takéto riešenie". */
@@ -114,9 +114,9 @@
   position: relative !important;
   isolation: isolate !important;
   overflow: hidden !important;
-  border: 1px solid #31445f !important;
-  color: #ecf3ff !important;
-  background: #0c1420 !important;
+  border: 1px solid #5d4433 !important;
+  color: #fef6ed !important;
+  background: #1f140d !important;
   box-shadow: 0 16px 36px -30px rgba(255, 199, 157, 0.78) !important;
 }
 
@@ -132,14 +132,16 @@
   background: radial-gradient(
     circle at var(--liquid-x) var(--liquid-y),
     rgba(255, 255, 255, 0.76) 0,
-    rgba(171, 209, 255, 0.5) 10%,
+    rgba(249, 213, 177, 0.5) 10%,
     rgba(255, 199, 157, 0.34) 24%,
     rgba(255, 199, 157, 0.12) 40%,
     transparent 62%
   ) !important;
   filter: blur(1px) !important;
   transform: scale(0.68) !important;
-  transition: opacity 160ms ease, transform 420ms var(--wr-ease) !important;
+  transition:
+    opacity 160ms ease,
+    transform 420ms var(--wr-ease) !important;
 }
 
 .lp-page .lp-solution-cta::after {
@@ -152,7 +154,7 @@
   opacity: 0 !important;
   border-radius: inherit !important;
   box-shadow:
-    inset 0 0 0 1px rgba(141, 189, 255, 0.62),
+    inset 0 0 0 1px rgba(247, 198, 149, 0.62),
     inset 0 0 22px rgba(255, 199, 157, 0.12) !important;
   transition: opacity 160ms ease !important;
 }
@@ -177,9 +179,9 @@
 
 .lp-page .lp-solution-cta:hover,
 .lp-page .lp-solution-cta:focus-visible {
-  border-color: #73aaff !important;
+  border-color: #f5b97d !important;
   color: #ffffff !important;
-  background: #101b2b !important;
+  background: #2a1b11 !important;
   box-shadow: 0 18px 42px -27px rgba(255, 199, 157, 0.95) !important;
   transform: none !important;
 }

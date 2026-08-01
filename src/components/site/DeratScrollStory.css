@@ -1,7 +1,7 @@
 .derat-story {
-  --derat-ink: #090c10;
-  --derat-paper: #f5f7fa;
-  --derat-muted: #a9c1bc;
+  --derat-ink: #100c09;
+  --derat-paper: #faf8f5;
+  --derat-muted: #bcb5ae;
   --derat-mint: #ffc79d;
   position: relative;
   overflow: clip;
@@ -9,7 +9,7 @@
   color: var(--derat-paper);
   background:
     radial-gradient(circle at 92% 15%, rgba(255, 199, 157, 0.09), transparent 31rem),
-    radial-gradient(circle at 8% 72%, rgba(112, 168, 255, 0.055), transparent 27rem),
+    radial-gradient(circle at 8% 72%, rgba(245, 184, 122, 0.055), transparent 27rem),
     var(--derat-ink);
 }
 
@@ -84,7 +84,7 @@
 }
 
 .derat-story__intro a:focus-visible {
-  outline: 3px solid rgba(112, 168, 255, 0.68);
+  outline: 3px solid rgba(245, 184, 122, 0.68);
   outline-offset: 5px;
 }
 
@@ -115,9 +115,9 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  border: 1px solid rgba(245, 247, 250, 0.14);
+  border: 1px solid rgba(250, 248, 245, 0.14);
   border-radius: clamp(1.5rem, 3vw, 2.35rem);
-  background: #141b26;
+  background: #251b15;
   box-shadow: 0 3rem 7rem rgba(0, 0, 0, 0.42);
   isolation: isolate;
 }
@@ -154,7 +154,7 @@
   height: 3px;
   margin-top: 1.4rem;
   border-radius: 999px;
-  background: rgba(245, 247, 250, 0.12);
+  background: rgba(250, 248, 245, 0.12);
 }
 
 .derat-story__progress span {
@@ -178,13 +178,13 @@
   flex-direction: column;
   justify-content: center;
   padding: clamp(3rem, 8vh, 5rem) 0;
-  border-top: 1px solid rgba(245, 247, 250, 0.13);
+  border-top: 1px solid rgba(250, 248, 245, 0.13);
   will-change: transform, opacity;
 }
 
 .derat-story__copy-step:last-child {
   min-height: 68svh;
-  border-bottom: 1px solid rgba(245, 247, 250, 0.13);
+  border-bottom: 1px solid rgba(250, 248, 245, 0.13);
 }
 
 .derat-story__copy-step h3,
@@ -264,9 +264,9 @@
     overflow: hidden;
     aspect-ratio: 3 / 4;
     margin: 0;
-    border: 1px solid rgba(245, 247, 250, 0.14);
+    border: 1px solid rgba(250, 248, 245, 0.14);
     border-radius: 1.55rem;
-    background: #141b26;
+    background: #251b15;
     box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.3);
   }
 
@@ -298,7 +298,7 @@
   .derat-story__dots button {
     width: 0.48rem;
     height: 0.48rem;
-    border: 1px solid rgba(245, 247, 250, 0.42);
+    border: 1px solid rgba(250, 248, 245, 0.42);
     border-radius: 999px;
     padding: 0;
     background: transparent;
@@ -345,9 +345,9 @@
     overflow: hidden;
     aspect-ratio: 3 / 4;
     margin: 0;
-    border: 1px solid rgba(245, 247, 250, 0.14);
+    border: 1px solid rgba(250, 248, 245, 0.14);
     border-radius: 1.55rem;
-    background: #141b26;
+    background: #251b15;
   }
 
   .derat-story__mobile-slide img {

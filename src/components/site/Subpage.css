@@ -79,7 +79,7 @@
   background:
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 88% 10%, rgba(201, 170, 112, 0.07), transparent 30rem),
-    radial-gradient(circle at 4% 90%, rgba(127, 165, 143, 0.06), transparent 26rem),
+    radial-gradient(circle at 4% 90%, rgba(255, 199, 157, 0.06), transparent 26rem),
     var(--background);
 }
 
@@ -152,7 +152,7 @@
   border: 1px solid var(--border);
   border-radius: 1rem;
   padding: clamp(1.5rem, 3.4vw, 2.6rem);
-  background: linear-gradient(160deg, rgba(22, 29, 40, 0.6), rgba(12, 16, 23, 0.92));
+  background: linear-gradient(160deg, rgba(39, 29, 23, 0.6), rgba(23, 16, 12, 0.92));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.04),
     0 30px 70px -52px rgba(0, 0, 0, 0.85);
@@ -160,7 +160,7 @@
 }
 
 .sp-service:hover {
-  border-color: rgba(127, 165, 143, 0.35);
+  border-color: rgba(255, 199, 157, 0.35);
 }
 
 .sp-service-index {
@@ -255,7 +255,7 @@
   padding: clamp(1.5rem, 3vw, 2.3rem);
   background:
     radial-gradient(circle at 92% 8%, rgba(217, 189, 131, 0.1), transparent 40%),
-    linear-gradient(150deg, rgba(27, 35, 49, 0.92), rgba(12, 16, 23, 0.96));
+    linear-gradient(150deg, rgba(48, 36, 28, 0.92), rgba(23, 16, 12, 0.96));
 }
 
 .sp-combine h3 {
@@ -394,7 +394,7 @@
   border-radius: 0.95rem;
   padding: 1.5rem;
   color: var(--text-primary);
-  background: linear-gradient(160deg, rgba(22, 29, 40, 0.55), rgba(12, 16, 23, 0.9));
+  background: linear-gradient(160deg, rgba(39, 29, 23, 0.55), rgba(23, 16, 12, 0.9));
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
   text-decoration: none;
   transition:
@@ -418,7 +418,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(12, 16, 23, 0.42), transparent 45%);
+  background: linear-gradient(to top, rgba(23, 16, 12, 0.42), transparent 45%);
 }
 
 .sp-project-visual > * {
@@ -595,7 +595,7 @@
   background:
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 50% -30%, rgba(217, 189, 131, 0.13), transparent 60%),
-    linear-gradient(160deg, rgba(27, 35, 49, 0.94), rgba(10, 14, 20, 0.98));
+    linear-gradient(160deg, rgba(48, 36, 28, 0.94), rgba(20, 14, 10, 0.98));
   box-shadow: 0 36px 90px -50px rgba(0, 0, 0, 0.8);
 }
 

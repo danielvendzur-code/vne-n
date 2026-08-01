@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
+import { useSpotlight } from "@/hooks/useSpotlight";
 import { CookieConsent } from "./CookieConsent";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -35,9 +36,27 @@ import "./FinalUserCorrection.css";
 import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 import "./ClientLandingFinal.css";
+// Posledná vrstva — čo je v SiteFinish.css, to platí.
+import "./SiteFinish.css";
+
+/**
+ * Povrchy, ktoré po celom webe reagujú na kurzor teplým svetlom.
+ * Jeden poslucháč na <main> obslúži všetky karty naraz — aj tie, ktoré
+ * sa dorenderujú neskôr, lebo selektor sa vyhodnocuje až pri pohybe.
+ */
+const SPOTLIGHT_SURFACES = [
+  ".sp-project-card > a",
+  ".sp-detail-block",
+  ".sp-cta",
+  ".rz-card",
+  ".rz-tools-list a",
+  ".contact-card",
+  ".contact-expect",
+].join(", ");
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const mainRef = useSpotlight<HTMLElement>(SPOTLIGHT_SURFACES);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -48,7 +67,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           Preskočiť na obsah
         </a>
         <Nav />
-        <main id="main-content" className="relative flex-1 overflow-x-clip">
+        <main id="main-content" className="relative flex-1 overflow-x-clip" ref={mainRef}>
           {/*
             Keep the route wrapper outside Motion. A parent `initial={false}` is
             inherited by descendants and silently disables their whileInView

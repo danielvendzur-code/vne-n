@@ -10,6 +10,7 @@ const sourceSha = process.env.GITHUB_SHA || "local";
 
 const routes = [
   "/",
+  "/navrh",
   "/sluzby",
   "/projekty",
   "/postup",

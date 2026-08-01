@@ -38,6 +38,13 @@ const FIELD_LIMITS = {
 
 type SubmitState = "idle" | "sending" | "done";
 
+const TIMING_OPTIONS = [
+  "Bez pevného termínu",
+  "Do 1 mesiaca",
+  "Do 2–3 mesiacov",
+  "Čo najskôr",
+] as const;
+
 function isBlockedControlCharacter(character: string): boolean {
   const code = character.charCodeAt(0);
   return code <= 8 || (code >= 11 && code <= 12) || (code >= 14 && code <= 31) || code === 127;
@@ -58,7 +65,10 @@ function ContactPage() {
   const [project, setProject] = useState("");
   const [timing, setTiming] = useState("Bez pevného termínu");
   const [consent, setConsent] = useState(false);
+  /** Návnada pre roboty — pole je skryté, človek doň nikdy nič nezapíše. */
+  const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const [thankYouSent, setThankYouSent] = useState(false);
   const [error, setError] = useState("");
   const reducedMotion = useReducedMotion();
 
@@ -90,8 +100,10 @@ function ContactPage() {
         interest: "Návrh chatbota, kalkulačky alebo konfigurátora",
         timeline: timing,
         consent: true,
+        website: botTrap,
       });
       if (result.fallback) window.location.assign(result.fallback);
+      setThankYouSent(result.thankYouSent);
       setSubmitState("done");
     } catch {
       setSubmitState("idle");
@@ -122,9 +134,15 @@ function ContactPage() {
           </p>
 
           <div className="contact-details">
-            <a href={`mailto:${siteConfig.contact.email}`}>
+            <a href={`mailto:${siteConfig.contact.email}`} data-primary="true">
               <Mail />
               {siteConfig.contact.email}
+              <em>hlavná adresa</em>
+            </a>
+            <a href={`mailto:${siteConfig.contact.emailPersonal}`}>
+              <Mail />
+              {siteConfig.contact.emailPersonal}
+              <em>osobná</em>
             </a>
             <a href={`tel:${siteConfig.contact.phoneHref}`}>
               <Phone />
@@ -163,14 +181,45 @@ function ContactPage() {
           transition={{ duration: 0.8, delay: 0.12, ease: premiumEase }}
         >
           {submitState === "done" ? (
-            <div className="contact-success" role="status">
+            <motion.div
+              className="contact-success"
+              role="status"
+              aria-live="polite"
+              initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.62, ease: premiumEase }}
+            >
               <CheckCircle2 aria-hidden="true" />
               <span>Ďakujem za zadanie</span>
-              <h2>Dopyt je pripravený.</h2>
+              <h2>Dopyt je na ceste ku mne.</h2>
               <p>
-                Ozvem sa na <b>{email.trim()}</b> s odporúčaným riešením a ďalším krokom zvyčajne do
-                jedného pracovného dňa.
+                Zadanie od <b>{name.trim() || "vás"}</b> som prijal na{" "}
+                <b>{siteConfig.contact.email}</b>. Odpoveď s odporúčaným riešením, rozsahom a cenou
+                pošlem na <b>{email.trim()}</b> zvyčajne do jedného pracovného dňa.
               </p>
+              {thankYouSent ? (
+                <p className="contact-success-note">
+                  Potvrdenie s kópiou vášho zadania som poslal na <b>{email.trim()}</b>. Ak vám
+                  nepríde do pár minút, skontrolujte prosím priečinok s reklamou alebo spamom.
+                </p>
+              ) : (
+                <p className="contact-success-note">
+                  Ak by ste chceli medzitým niečo doplniť, stačí odpovedať na{" "}
+                  <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>.
+                </p>
+              )}
+              <ul className="contact-success-summary">
+                <li>
+                  <span>Termín</span>
+                  <b>{timing}</b>
+                </li>
+                {company.trim() ? (
+                  <li>
+                    <span>Firma alebo web</span>
+                    <b>{company.trim()}</b>
+                  </li>
+                ) : null}
+              </ul>
               <button
                 type="button"
                 className="contact-assistant"
@@ -178,13 +227,16 @@ function ContactPage() {
               >
                 <MessageCircle /> Ešte sa niečo opýtať
               </button>
-            </div>
+            </motion.div>
           ) : (
             <>
               <div className="contact-card-head">
                 <span>01 / krátke zadanie</span>
                 <h2 id="contact-form-title">Povedzte mi základ.</h2>
-                <p>Formulár odošle zadanie priamo. Povinné sú iba meno, e-mail a stručný popis.</p>
+                <p>
+                  Zadanie príde priamo na {siteConfig.contact.email} a vy dostanete automatické
+                  potvrdenie. Povinné sú iba meno, e-mail a stručný popis.
+                </p>
               </div>
               <form onSubmit={(event) => void submit(event)}>
                 <div className="contact-fields-two">
@@ -237,12 +289,25 @@ function ContactPage() {
                 <label>
                   <span>Ideálny termín</span>
                   <select value={timing} onChange={(event) => setTiming(event.target.value)}>
-                    <option>Bez pevného termínu</option>
-                    <option>Do 1 mesiaca</option>
-                    <option>Do 2–3 mesiacov</option>
-                    <option>Čo najskôr</option>
+                    {TIMING_OPTIONS.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
                   </select>
                 </label>
+                {/* Skryté pole proti robotom. Pre čítačky obrazovky je
+                    mimo poradia aj mimo prístupného stromu. */}
+                <div className="contact-trap" aria-hidden="true">
+                  <label htmlFor="contact-website">Web (nevypĺňať)</label>
+                  <input
+                    id="contact-website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={botTrap}
+                    onChange={(event) => setBotTrap(event.target.value)}
+                  />
+                </div>
                 <label className="contact-consent">
                   <input
                     type="checkbox"
@@ -258,7 +323,7 @@ function ContactPage() {
                 ) : null}
                 <button
                   type="submit"
-                  className="contact-submit approved-sweep-action"
+                  className="contact-submit"
                   data-state={submitState}
                   disabled={submitState === "sending"}
                 >

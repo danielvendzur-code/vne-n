@@ -4,14 +4,14 @@
 
 :root {
   --taste-font: "Segoe UI Variable", "Aptos", "Inter Tight", ui-sans-serif, system-ui, sans-serif;
-  --taste-bg: #05080d;
-  --taste-surface: #0d141e;
-  --taste-surface-hover: #131d2a;
-  --taste-surface-active: #172b4b;
-  --taste-text: #f5f7fb;
-  --taste-muted: #98a5b6;
-  --taste-blue: #4f86e8;
-  --taste-blue-soft: #86adf1;
+  --taste-bg: #0d0805;
+  --taste-surface: #1d140e;
+  --taste-surface-hover: #291c14;
+  --taste-surface-active: #492c19;
+  --taste-text: #fbf8f5;
+  --taste-muted: #b0a89e;
+  --taste-blue: #e29455;
+  --taste-blue-soft: #edbc8a;
 }
 
 html body {
@@ -86,18 +86,18 @@ html body .lp-button-quiet {
 
 html body .lp-button-primary {
   color: #ffffff !important;
-  background: #3979e6 !important;
+  background: #df8840 !important;
 }
 
 html body .lp-button-primary:hover,
 html body .lp-button-primary:focus-visible {
   color: #ffffff !important;
-  background: #4b87ee !important;
+  background: #e79552 !important;
 }
 
 html body .lp-button-quiet {
   padding-inline: 0.35rem !important;
-  color: #a9b5c5 !important;
+  color: #beb7b0 !important;
   background: transparent !important;
 }
 
@@ -121,8 +121,8 @@ html body .sp-chip-row .chip {
   min-height: 48px !important;
   border: 0 !important;
   border-radius: 16px !important;
-  color: #c5cfdb !important;
-  background: #0e1621 !important;
+  color: #dad0c6 !important;
+  background: #20160f !important;
   background-image: none !important;
   box-shadow: none !important;
   filter: none !important;
@@ -143,7 +143,7 @@ html body .sp-chip-row .chip:hover,
 html body .sp-chip-row .chip:focus-visible {
   border: 0 !important;
   color: #ffffff !important;
-  background: #151f2d !important;
+  background: #2c1f16 !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -154,7 +154,7 @@ html body .sp-hero-chips .chip[aria-pressed="true"],
 html body .sp-chip-row .chip[aria-pressed="true"] {
   border: 0 !important;
   color: #ffffff !important;
-  background: #19345d !important;
+  background: #5a351c !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -174,7 +174,7 @@ html body .lp-chip-icon {
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #8fb5f6 !important;
+  color: #f2c393 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -199,7 +199,7 @@ html body .lp-chip-label {
 
 html body .lp-hero-pick-plus {
   border: 0 !important;
-  color: #8fa1b6 !important;
+  color: #b4a391 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -219,7 +219,7 @@ html body .lp-assistant-answer > svg {
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #89b0f2 !important;
+  color: #eebe8d !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -233,7 +233,7 @@ html body .lp-solution-icon,
 html body .lp-capability-icon {
   border: 0 !important;
   border-radius: 0 !important;
-  color: #8fb5f6 !important;
+  color: #f2c393 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -299,7 +299,7 @@ html body .lp-switch {
   padding: 5px !important;
   border: 0 !important;
   border-radius: 999px !important;
-  background: #0d141e !important;
+  background: #1d140e !important;
   box-shadow: none !important;
 }
 
@@ -311,7 +311,7 @@ html body .lp-switch button {
 
 html body .lp-switch-liquid {
   border: 0 !important;
-  background: #254b86 !important;
+  background: #825129 !important;
   box-shadow: none !important;
 }
 
@@ -323,7 +323,7 @@ html body .lp-comparison-body {
   padding: clamp(2rem, 4vw, 3.4rem) !important;
   border: 0 !important;
   border-radius: 24px !important;
-  background: #080d14 !important;
+  background: #140d08 !important;
   box-shadow: none !important;
   overflow: hidden !important;
 }
@@ -353,7 +353,7 @@ html body .lp-chip:focus-visible,
 html body .lp-switch button:focus-visible,
 html body .lp-solution-cta:focus-visible,
 html body .lp-assistant-cta:focus-visible {
-  outline: 2px solid rgba(126, 171, 245, 0.85) !important;
+  outline: 2px solid rgba(240, 186, 131, 0.85) !important;
   outline-offset: 3px !important;
 }
 

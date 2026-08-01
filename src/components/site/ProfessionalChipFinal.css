@@ -17,20 +17,26 @@
 @keyframes lp-professional-centre-fill {
   0%,
   58% {
-    background-size: 0% 0%, 100% 100%, 100% 100%;
+    background-size:
+      0% 0%,
+      100% 100%,
+      100% 100%;
   }
   100% {
-    background-size: 230% 230%, 100% 100%, 100% 100%;
+    background-size:
+      230% 230%,
+      100% 100%,
+      100% 100%;
   }
 }
 
 :root .lp-page {
-  --lp-liquid-line: rgba(189, 216, 255, 0.3);
-  --lp-liquid-line-strong: rgba(205, 228, 255, 0.68);
+  --lp-liquid-line: rgba(250, 222, 194, 0.3);
+  --lp-liquid-line-strong: rgba(251, 230, 209, 0.68);
   --lp-liquid-blue: #ffc79d;
-  --lp-liquid-blue-light: #82c2ff;
-  --lp-liquid-surface: rgba(10, 15, 25, 0.72);
-  --lp-liquid-surface-strong: rgba(10, 17, 31, 0.9);
+  --lp-liquid-blue-light: #f6c18b;
+  --lp-liquid-surface: rgba(24, 16, 11, 0.72);
+  --lp-liquid-surface-strong: rgba(30, 19, 11, 0.9);
 }
 
 :root .lp-page .lp-hero-picker {
@@ -43,23 +49,26 @@
   isolation: isolate !important;
   overflow: hidden !important;
   border: 1px solid var(--lp-liquid-line) !important;
-  color: #dbe7f8 !important;
+  color: #f7eadc !important;
   background-color: var(--lp-liquid-surface) !important;
   background-image:
     radial-gradient(
       circle at 50% 52%,
-      rgba(72, 141, 255, 0.34) 0 48%,
+      rgba(242, 163, 85, 0.34) 0 48%,
       rgba(255, 199, 157, 0.12) 68%,
       transparent 100%
     ),
     linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.022) 48%),
-    linear-gradient(135deg, rgba(17, 24, 38, 0.84), rgba(7, 11, 19, 0.82)) !important;
+    linear-gradient(135deg, rgba(37, 26, 18, 0.84), rgba(19, 12, 7, 0.82)) !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
-  background-size: 0% 0%, 100% 100%, 100% 100% !important;
+  background-size:
+    0% 0%,
+    100% 100%,
+    100% 100% !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -1px 0 rgba(117, 184, 255, 0.045),
+    inset 0 -1px 0 rgba(245, 186, 127, 0.045),
     0 18px 42px -34px rgba(255, 199, 157, 0.72) !important;
   -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
   backdrop-filter: blur(22px) saturate(145%) !important;
@@ -95,22 +104,28 @@
 :root .lp-page .lp-hero-pick:focus-visible,
 :root .lp-page .lp-chip:hover,
 :root .lp-page .lp-chip:focus-visible {
-  border-color: rgba(201, 226, 255, 0.58) !important;
+  border-color: rgba(251, 228, 205, 0.58) !important;
   color: #ffffff !important;
-  background-size: 185% 185%, 100% 100%, 100% 100% !important;
+  background-size:
+    185% 185%,
+    100% 100%,
+    100% 100% !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0 rgba(117, 184, 255, 0.08),
+    inset 0 -1px 0 rgba(245, 186, 127, 0.08),
     0 20px 46px -31px rgba(255, 199, 157, 0.84) !important;
   transform: translateY(-2px) translateZ(0) !important;
 }
 
 :root .lp-page .lp-hero-pick[data-active="true"],
 :root .lp-page .lp-chip[data-active="true"] {
-  border-color: rgba(133, 190, 255, 0.82) !important;
+  border-color: rgba(246, 194, 142, 0.82) !important;
   color: #ffffff !important;
   background-color: var(--lp-liquid-surface-strong) !important;
-  background-size: 230% 230%, 100% 100%, 100% 100% !important;
+  background-size:
+    230% 230%,
+    100% 100%,
+    100% 100% !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(255, 199, 157, 0.12),
@@ -120,7 +135,10 @@
 :root .lp-page .lp-hero-pick[data-active="true"].is-border-tracing,
 :root .lp-page .lp-chip[data-active="true"].is-border-tracing {
   border-color: var(--lp-liquid-line) !important;
-  background-size: 0% 0%, 100% 100%, 100% 100% !important;
+  background-size:
+    0% 0%,
+    100% 100%,
+    100% 100% !important;
   animation: lp-professional-centre-fill 1160ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
@@ -137,7 +155,7 @@
   opacity: 0 !important;
   background: conic-gradient(
     from -90deg,
-    #e2f1ff 0 var(--lp-professional-trace),
+    #fdf1e4 0 var(--lp-professional-trace),
     transparent var(--lp-professional-trace) 100%
   ) !important;
   -webkit-mask:
@@ -152,7 +170,7 @@
 :root .lp-page .lp-hero-pick.is-border-tracing::after,
 :root .lp-page .lp-chip.is-border-tracing::after {
   opacity: 1 !important;
-  filter: drop-shadow(0 0 4px rgba(214, 235, 255, 0.82))
+  filter: drop-shadow(0 0 4px rgba(252, 235, 217, 0.82))
     drop-shadow(0 0 11px rgba(255, 199, 157, 0.42));
   animation: lp-professional-border-trace 690ms linear forwards !important;
 }
@@ -195,7 +213,8 @@
   height: 18px !important;
   border: 0 !important;
   border-radius: 0 !important;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23e9f5ff' stroke-width='2.7' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.2 4.2L19 7.2'/%3E%3C/svg%3E") center / 17px 17px no-repeat !important;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23e9f5ff' stroke-width='2.7' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.2 4.2L19 7.2'/%3E%3C/svg%3E")
+    center / 17px 17px no-repeat !important;
   box-shadow: none !important;
 }
 
@@ -209,7 +228,7 @@
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #91a6c0 !important;
+  color: #bea993 !important;
   background: transparent !important;
   box-shadow: none !important;
   font-size: 0.69rem !important;
@@ -221,12 +240,12 @@
 }
 
 :root .lp-page .lp-caps-input {
-  border: 1px solid rgba(189, 216, 255, 0.22) !important;
+  border: 1px solid rgba(250, 222, 194, 0.22) !important;
   border-radius: 999px !important;
-  color: #cbd9ed !important;
+  color: #ecdccc !important;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.014)),
-    rgba(9, 14, 23, 0.74) !important;
+    rgba(22, 15, 10, 0.74) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   backdrop-filter: blur(16px) saturate(140%);
@@ -239,11 +258,11 @@
   overflow: hidden !important;
   gap: 6px !important;
   padding: 6px !important;
-  border: 1px solid rgba(189, 216, 255, 0.28) !important;
+  border: 1px solid rgba(250, 222, 194, 0.28) !important;
   border-radius: 999px !important;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.014)),
-    rgba(6, 10, 17, 0.78) !important;
+    rgba(17, 10, 6, 0.78) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.11),
     0 18px 40px -34px rgba(255, 199, 157, 0.78) !important;
@@ -266,14 +285,14 @@
   left: 6px !important;
   width: calc((100% - 18px) / 2) !important;
   height: calc(100% - 12px) !important;
-  border: 1px solid rgba(177, 215, 255, 0.68) !important;
+  border: 1px solid rgba(250, 216, 182, 0.68) !important;
   border-radius: 999px !important;
   background:
     radial-gradient(circle at 48% -35%, rgba(255, 255, 255, 0.38), transparent 48%),
-    linear-gradient(145deg, rgba(255, 199, 157, 0.52), rgba(19, 58, 132, 0.48)) !important;
+    linear-gradient(145deg, rgba(255, 199, 157, 0.52), rgba(127, 65, 24, 0.48)) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 -10px 24px rgba(4, 18, 49, 0.24),
+    inset 0 -10px 24px rgba(47, 22, 6, 0.24),
     0 14px 32px -20px rgba(255, 199, 157, 0.82) !important;
   transform: translate3d(var(--lp-segment-x), 0, 0) scaleX(var(--lp-segment-stretch));
   transform-origin: center;
@@ -295,8 +314,10 @@
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
-  color: #aebbd0 !important;
-  transition: color 260ms ease, transform 260ms ease !important;
+  color: #cfbfaf !important;
+  transition:
+    color 260ms ease,
+    transform 260ms ease !important;
 }
 
 :root .lp-page .lp-switch > button:hover,
@@ -320,12 +341,12 @@
   overflow: hidden !important;
   min-height: 50px !important;
   padding-inline: 1.2rem !important;
-  border: 1px solid rgba(190, 219, 255, 0.42) !important;
+  border: 1px solid rgba(250, 223, 195, 0.42) !important;
   border-radius: 999px !important;
-  color: #f6faff !important;
+  color: #fefbf7 !important;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.018)),
-    rgba(9, 14, 24, 0.78) !important;
+    rgba(23, 15, 10, 0.78) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 18px 42px -31px rgba(255, 199, 157, 0.82) !important;
@@ -349,8 +370,12 @@
   z-index: -1 !important;
   inset: -45% -10% !important;
   border-radius: inherit !important;
-  background:
-    radial-gradient(circle at center, rgba(72, 141, 255, 0.78) 0 32%, rgba(255, 199, 157, 0.48) 54%, transparent 76%) !important;
+  background: radial-gradient(
+    circle at center,
+    rgba(242, 163, 85, 0.78) 0 32%,
+    rgba(255, 199, 157, 0.48) 54%,
+    transparent 76%
+  ) !important;
   transform: scale3d(0.06, 0.28, 1);
   opacity: 0;
   transition:
@@ -394,7 +419,7 @@
 :root .lp-page .lp-caps-detail-cta:focus-visible,
 :root .lp-page .lp-faq-ask:hover,
 :root .lp-page .lp-faq-ask:focus-visible {
-  border-color: rgba(210, 232, 255, 0.78) !important;
+  border-color: rgba(252, 233, 213, 0.78) !important;
   color: #ffffff !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
@@ -418,10 +443,10 @@
 
 :root .lp-page .lp-button-primary,
 :root .lp-page .lp-assistant-cta {
-  border-color: rgba(176, 213, 255, 0.68) !important;
+  border-color: rgba(249, 215, 182, 0.68) !important;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.025)),
-    linear-gradient(145deg, rgba(255, 199, 157, 0.72), rgba(22, 67, 157, 0.74)) !important;
+    linear-gradient(145deg, rgba(255, 199, 157, 0.72), rgba(152, 83, 27, 0.74)) !important;
 }
 
 @media (max-width: 700px) {
@@ -454,7 +479,10 @@
   :root .lp-page .lp-hero-pick[data-active="true"].is-border-tracing,
   :root .lp-page .lp-chip[data-active="true"].is-border-tracing {
     animation: none !important;
-    background-size: 230% 230%, 100% 100%, 100% 100% !important;
+    background-size:
+      230% 230%,
+      100% 100%,
+      100% 100% !important;
   }
 
   :root .lp-page .lp-hero-pick.is-border-tracing::after,

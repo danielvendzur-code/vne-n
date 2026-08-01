@@ -18,6 +18,7 @@ import {
   CalendarClock,
   Check,
   Clock3,
+  ExternalLink,
   Mail,
   MessageCircle,
   PenLine,
@@ -32,15 +33,28 @@ import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
+import { liveTools as liveToolLinks, realizations } from "@/data/realizations";
 import { useMagnetic } from "@/hooks/useMagnetic";
 import { useNarrowViewport, useReducedMotion } from "@/hooks/useReducedMotion";
+import { useSpotlight } from "@/hooks/useSpotlight";
 import { useTimelineProgress } from "@/hooks/useTimelineProgress";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./PremiumLanding.css";
+import "./LandingFinish.css";
 
 type ComparisonMode = "without" | "with";
 type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
 type RevealDirection = "up" | "left" | "right";
+
+/**
+ * Domovská stránka má dve verzie textu.
+ *
+ * `public` je to, čo uvidí ktokoľvek, kto na web príde z vyhľadávania —
+ * hovorí o službe ako takej. `client` je verzia pre ľudí, ktorým som
+ * poslal návrh e-mailom, a nadväzuje priamo naň. Líši sa len obsah hero
+ * sekcie; zvyšok stránky je pre obe verzie rovnaký.
+ */
+export type LandingVariant = "public" | "client";
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const heroSequence: Variants = {
@@ -105,10 +119,29 @@ const comparisons = {
 };
 
 const heroProof = [
-  { icon: BadgeCheck, text: "Živá realizácia, nie maketa" },
+  { icon: BadgeCheck, text: "Reálne nasadené weby, nie makety" },
   { icon: PenLine, text: "Vlastná logika podľa vašej firmy" },
   { icon: Clock3, text: "Od návrhu po nasadenie priamo so mnou" },
 ];
+
+const heroCopy = {
+  public: {
+    context: "Chatboty · kalkulačky · konfigurátory",
+    lines: ["Váš web odpovie", "skôr, než", "zákazník odíde."],
+    aria: "Váš web odpovie skôr, než zákazník odíde.",
+    lead: "Staviam chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď a vám príde dopyt, s ktorým sa dá rovno pracovať.",
+    primary: { label: "Pozrieť realizácie", href: "#realizacie" },
+    secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
+  },
+  client: {
+    context: "Pre klientov po návrhu v e-maile",
+    lines: ["Návrh už máte.", "Teraz si pozrite,", "ako bude pracovať."],
+    aria: "Návrh už máte. Teraz si pozrite, ako bude pracovať na vašom webe.",
+    lead: "Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce a priamy kontakt na mňa.",
+    primary: { label: "Pozrieť živú realizáciu", href: "#pripadova-studia" },
+    secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
+  },
+} satisfies Record<LandingVariant, unknown>;
 
 const capabilityGroups = [
   {
@@ -319,22 +352,28 @@ function Reveal({
   // Na mobile sa všetko odhaľuje nahor. Bočný posun v 390 px stĺpci
   // vyzeral trhane a časť prvkov prišla mimo obrazovky.
   const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
-  const y = narrow ? 22 : direction === "up" ? Math.min(distance, 28) : 0;
-  const enterDuration = narrow ? 0.5 : 0.68;
-  const exitDuration = narrow ? 0.24 : 0.3;
+  const y = narrow ? 18 : direction === "up" ? Math.min(distance, 26) : 0;
+  const enterDuration = narrow ? 0.52 : 0.72;
+
+  // Pri vypnutých animáciách sa obsah vykreslí bez akýchkoľvek stavov.
+  // Predtým tu ostal `variants` s `hidden: { opacity: 0 }` a bez cieľa,
+  // do ktorého by sa animovalo — takže realizácie, možnosti aj otázky
+  // ostali pre týchto návštevníkov trvalo neviditeľné.
+  if (reducedMotion) {
+    return (
+      <div className={className} {...rest}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div
       className={className}
-      initial={reducedMotion ? false : "hidden"}
-      whileInView={reducedMotion ? undefined : "visible"}
+      initial="hidden"
+      whileInView="visible"
       variants={{
-        hidden: {
-          opacity: 0,
-          x,
-          y,
-          transition: { duration: exitDuration, ease: premiumEase },
-        },
+        hidden: { opacity: 0, x, y },
         visible: {
           opacity: 1,
           x: 0,
@@ -346,12 +385,14 @@ function Reveal({
           },
         },
       }}
-      // Na úzkej obrazovke sú karty vysoké, takže 18 % prvku znamenalo
-      // veľa scrollovania, kým sa vôbec začali odhaľovať.
+      // `once: true` je tu kľúčové pre plynulosť. S opakovaným
+      // odhaľovaním sa pri každom prechode cez sekciu znovu spúšťali
+      // desiatky animácií naraz — presne to sekanie, ktoré bolo cítiť
+      // pri scrollovaní hore-dole. Naviac to pôsobilo nervózne.
       viewport={{
-        once: false,
+        once: true,
         amount: narrow ? 0.06 : amount,
-        margin: narrow ? "-4% 0px -8% 0px" : "-8% 0px -8% 0px",
+        margin: narrow ? "-4% 0px -6% 0px" : "-6% 0px -6% 0px",
       }}
       {...rest}
     >
@@ -376,17 +417,13 @@ function Heading({
       className="lp-heading"
       initial={reducedMotion ? false : "hidden"}
       whileInView="visible"
-      viewport={{ once: false, amount: 0.28, margin: "-8% 0px -8% 0px" }}
+      viewport={{ once: true, amount: 0.25, margin: "-6% 0px -6% 0px" }}
       variants={{
-        hidden: {
-          opacity: 0,
-          x: -34,
-          transition: { duration: 0.3, ease: premiumEase },
-        },
+        hidden: { opacity: 0, x: -28 },
         visible: {
           opacity: 1,
           x: 0,
-          transition: { duration: 0.7, ease: premiumEase, staggerChildren: 0.09 },
+          transition: { duration: 0.72, ease: premiumEase, staggerChildren: 0.085 },
         },
       }}
     >
@@ -404,12 +441,13 @@ function Heading({
   );
 }
 
-function Hero() {
+function Hero({ variant }: { variant: LandingVariant }) {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
   const reducedMotion = useReducedMotion();
+  const copy = heroCopy[variant];
 
   return (
-    <section className="lp-hero" id="uvod">
+    <section className="lp-hero" id="uvod" data-variant={variant}>
       <div className="lp-hero-glide" aria-hidden="true">
         <GlideField className="glide-field--hero" radius={142} />
       </div>
@@ -422,32 +460,31 @@ function Hero() {
           animate="visible"
         >
           <motion.p className="lp-hero-context" variants={sequenceItem}>
-            Pre klientov po návrhu v e-maile
+            {copy.context}
           </motion.p>
-          <h1 aria-label="Návrh už máte. Teraz si pozrite, ako bude pracovať na vašom webe.">
-            <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>Návrh už máte.</motion.span>
-            </span>
-            <span className="lp-hero-line" aria-hidden="true">
-              <motion.span variants={heroLine}>Teraz si pozrite,</motion.span>
-            </span>
-            <span className="lp-hero-line" aria-hidden="true">
-              <motion.em variants={heroLine}>ako bude pracovať.</motion.em>
-            </span>
+          <h1 aria-label={copy.aria}>
+            {copy.lines.map((line, index) => (
+              <span className="lp-hero-line" aria-hidden="true" key={line}>
+                {index === copy.lines.length - 1 ? (
+                  <motion.em variants={heroLine}>{line}</motion.em>
+                ) : (
+                  <motion.span variants={heroLine}>{line}</motion.span>
+                )}
+              </span>
+            ))}
           </h1>
           <motion.p className="lp-hero-lead" variants={sequenceItem}>
-            Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce
-            a priamy kontakt na mňa.
+            {copy.lead}
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
-            <a href="#realizacie" className="lp-button lp-hero-cta lp-hero-cta--primary">
+            <a href={copy.primary.href} className="lp-button lp-hero-cta lp-hero-cta--primary">
               <span className="lp-button-content">
-                Pozrieť živú realizáciu <ArrowRight size={17} />
+                {copy.primary.label} <ArrowRight size={17} />
               </span>
             </a>
-            <a href="#moznosti" className="lp-button lp-hero-cta lp-hero-cta--secondary">
+            <a href={copy.secondary.href} className="lp-button lp-hero-cta lp-hero-cta--secondary">
               <span className="lp-button-content">
-                Čo môže riešenie robiť <ArrowUpRight size={17} />
+                {copy.secondary.label} <ArrowUpRight size={17} />
               </span>
             </a>
           </motion.div>
@@ -812,6 +849,79 @@ function Capabilities() {
   );
 }
 
+function Realizations() {
+  return (
+    <section className="lp-portfolio" id="realizacie">
+      <div className="container-page">
+        <Heading
+          eyebrow="Vybrané realizácie"
+          copy="Každý náhľad je web, ktorý naozaj beží na vlastnej doméne. Kliknite a pozrite si ho živý."
+        >
+          Reálne weby. <em>Žiadne generické makety.</em>
+        </Heading>
+
+        <div className="lp-project-grid">
+          {realizations.map((project, index) => (
+            <Reveal
+              className="lp-project"
+              key={project.name}
+              direction={index % 2 === 0 ? "left" : "right"}
+              distance={34}
+              delay={Math.min(index * 0.07, 0.16)}
+            >
+              <a href={project.href} target="_blank" rel="noreferrer">
+                <ProjectImage src={project.image} alt={project.alt} eager={index === 0} />
+                {/* Doména priamo na náhľade — návštevník vidí, že web
+                    naozaj beží, a vie si ho hneď overiť. */}
+                <span className="lp-project-domain" aria-hidden="true">
+                  <i />
+                  {project.domain}
+                </span>
+                <div className="lp-project-copy">
+                  <span>0{index + 1}</span>
+                  <p>{project.type}</p>
+                  <h3>{project.name}</h3>
+                  <small>{project.result}</small>
+                  <b>
+                    Pozrieť živý web <ExternalLink />
+                  </b>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="lp-live-tools" delay={0.08}>
+          <span>Živé nástroje na vyskúšanie</span>
+          {liveToolLinks.map(({ name, href }) => (
+            <a key={name} href={href} target="_blank" rel="noreferrer">
+              {name} <ArrowUpRight />
+            </a>
+          ))}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function ProjectImage({ src, alt, eager }: { src: string; alt: string; eager?: boolean }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className="lp-project-media" data-loaded={loaded}>
+      <img
+        src={src}
+        alt={alt}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={eager ? "high" : "low"}
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+      />
+    </div>
+  );
+}
+
 function FaqItem({ question, answer, index }: { question: string; answer: string; index: number }) {
   const [open, setOpen] = useState(false);
   const reducedMotion = useReducedMotion();
@@ -950,14 +1060,33 @@ function ProcessAndCta() {
   );
 }
 
-export function PremiumLanding() {
+/**
+ * Povrchy, ktoré reagujú na kurzor teplým svetlom. Jeden poslucháč na
+ * celej stránke obslúži všetky — je to lacnejšie než listener na každej
+ * karte a hlavne to nezávisí od toho, kedy sa ktorá sekcia vykreslí.
+ */
+const SPOTLIGHT_TARGETS = [
+  ".lp-assistant-card",
+  ".lp-project > a",
+  ".lp-caps-row-head",
+  ".lp-faq-item",
+  ".lp-final-card",
+  ".lp-comparison-body",
+  ".lp-process-list li",
+  ".lp-live-tools a",
+].join(", ");
+
+export function PremiumLanding({ variant = "public" }: { variant?: LandingVariant }) {
+  const pageRef = useSpotlight<HTMLDivElement>(SPOTLIGHT_TARGETS);
+
   return (
     <MotionConfig reducedMotion="user">
-      <div className="lp-page">
+      <div className="lp-page" data-variant={variant} ref={pageRef}>
         <PageProgress />
-        <Hero />
+        <Hero variant={variant} />
         <DeratScrollStory />
         <ValueSection />
+        <Realizations />
         <Capabilities />
         <FaqSection />
         <ProcessAndCta />

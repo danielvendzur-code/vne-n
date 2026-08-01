@@ -1,0 +1,903 @@
+/* ==========================================================================
+   Dokončenie domovskej stránky.
+   Načítava sa ako posledná vrstva nad PremiumLanding.css, takže tu stojí
+   finálna podoba: oddelenie sekcií, teplé prejazdy myšou s baterkou,
+   časová os a mriežka realizácií.
+   ========================================================================== */
+
+.lp-page {
+  /* Teplá paleta prejazdov. Modrá sa na webe nevyskytuje nikde. */
+  --lp-hover: #ffb078;
+  --lp-hover-soft: rgba(255, 176, 120, 0.14);
+  --lp-spot: rgba(255, 199, 157, 0.16);
+  --lp-spot-strong: rgba(255, 199, 157, 0.26);
+  --lp-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Striedavé podklady sekcií — vďaka nim je na prvý pohľad vidieť,
+     že sa človek posunul o sekciu ďalej. */
+  --lp-band-a: #0a0806;
+  --lp-band-b: #120c08;
+  --lp-band-c: #0d0906;
+}
+
+/* --------------------------------------------------------------------------
+   1. Oddelenie sekcií
+   Každá sekcia dostane vlastný tón podkladu, hornú vlásočnicu a jemné
+   teplé svetlo v hornom okraji. Prechod medzi sekciami je tak čitateľný
+   aj bez toho, aby bolo treba čítať nadpisy.
+   -------------------------------------------------------------------------- */
+.lp-page > section {
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(5rem, 10vw, 8.5rem);
+}
+
+.lp-page > section:not(.lp-hero)::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  width: min(76rem, 92vw);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 199, 157, 0.34) 22%,
+    rgba(255, 199, 157, 0.5) 50%,
+    rgba(255, 199, 157, 0.34) 78%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Mäkké svetlo tesne pod predelom — sekcia sa „rozsvieti" pri nábehu. */
+.lp-page > section:not(.lp-hero)::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  width: min(60rem, 88vw);
+  height: 14rem;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse 60% 100% at 50% 0%,
+    rgba(255, 199, 157, 0.075),
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.lp-value {
+  background: var(--lp-band-b) !important;
+}
+
+.lp-portfolio {
+  color: #f6efe7 !important;
+  background: var(--lp-band-a) !important;
+}
+
+.lp-caps {
+  background: var(--lp-band-b) !important;
+}
+
+.lp-faq {
+  background: var(--lp-band-c) !important;
+}
+
+.lp-process {
+  background: var(--lp-band-b) !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. Nadpisy sekcií — výraznejší nábeh a lepšia čitateľnosť
+   -------------------------------------------------------------------------- */
+.lp-page .lp-heading h2 {
+  color: #fdf7f0 !important;
+}
+
+.lp-page .lp-heading h2 em {
+  color: #ffc79d !important;
+  font-style: normal;
+}
+
+.lp-page .lp-heading-copy {
+  max-width: 46rem;
+  color: #cfc3b7 !important;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.68;
+}
+
+.lp-page .lp-eyebrow {
+  color: #ffc79d !important;
+}
+
+.lp-page .lp-eyebrow i {
+  width: 2.1rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ffc79d, rgba(255, 199, 157, 0)) !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Baterka pod kurzorom
+   Polohu zapisuje hook useSpotlight do --spot-x / --spot-y. Vrstva je
+   samostatný pseudo-prvok, takže sa prekresľuje bez dotyku rozloženia.
+   -------------------------------------------------------------------------- */
+.lp-page
+  :is(
+    .lp-assistant-card,
+    .lp-project > a,
+    .lp-caps-row-head,
+    .lp-faq-item,
+    .lp-final-card,
+    .lp-comparison-body,
+    .lp-process-list li,
+    .lp-live-tools a
+  ) {
+  --spot-x: 50%;
+  --spot-y: -30%;
+  position: relative;
+  isolation: isolate;
+}
+
+.lp-page
+  :is(
+    .lp-assistant-card,
+    .lp-project > a,
+    .lp-caps-row-head,
+    .lp-faq-item,
+    .lp-final-card,
+    .lp-comparison-body,
+    .lp-process-list li,
+    .lp-live-tools a
+  )::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    20rem 20rem at var(--spot-x) var(--spot-y),
+    var(--lp-spot),
+    transparent 66%
+  );
+  /* Iba opacity — baterka sa nikdy nedotkne rozloženia stránky. */
+  transition: opacity 380ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-page [data-spot="on"]::after {
+    opacity: 1;
+  }
+}
+
+.lp-page :is(.lp-assistant-card, .lp-final-card, .lp-caps-row-head, .lp-faq-item) > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   3b. Prejazd svetlom po hlavných tlačidlách
+   Krátky lesk, ktorý prebehne tlačidlom raz pri nabehnutí kurzora.
+   -------------------------------------------------------------------------- */
+.lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta, .lp-button-light) {
+  position: relative;
+  overflow: hidden;
+}
+
+.lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta, .lp-button-light)::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.42) 50%,
+    transparent 62%
+  );
+  transform: translateX(-140%);
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-page
+    :is(.lp-hero-cta--primary, .lp-assistant-cta, .lp-button-light):is(
+      :hover,
+      :focus-visible
+    )::before {
+    animation: lp-shine 820ms var(--lp-ease);
+  }
+}
+
+@keyframes lp-shine {
+  from {
+    opacity: 0.9;
+    transform: translateX(-140%);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(140%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Realizácie — tmavé teplé karty s reálnymi náhľadmi
+   -------------------------------------------------------------------------- */
+.lp-portfolio .lp-heading h2,
+.lp-portfolio .lp-project-copy h3 {
+  color: #fdf7f0 !important;
+}
+
+.lp-portfolio .lp-heading-copy,
+.lp-portfolio .lp-project-copy small {
+  color: #cfc3b7 !important;
+}
+
+.lp-project-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)) !important;
+  grid-template-rows: none !important;
+  gap: clamp(1rem, 2vw, 1.5rem) !important;
+  margin-top: clamp(2.7rem, 5vw, 4.2rem);
+}
+
+.lp-project:first-child {
+  grid-row: auto !important;
+}
+
+.lp-project > a {
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 231, 213, 0.11) !important;
+  border-radius: 1.15rem !important;
+  color: #f6efe7 !important;
+  background: linear-gradient(168deg, #1a120c, #100b08) !important;
+  box-shadow: 0 26px 62px -46px rgba(0, 0, 0, 0.95) !important;
+  text-decoration: none;
+  transition:
+    transform 420ms var(--lp-ease),
+    border-color 320ms ease,
+    box-shadow 420ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-project > a:hover,
+  .lp-project > a:focus-visible {
+    transform: translateY(-6px);
+    border-color: rgba(255, 199, 157, 0.46) !important;
+    box-shadow:
+      0 34px 76px -44px rgba(0, 0, 0, 0.98),
+      0 0 46px -20px rgba(255, 199, 157, 0.4) !important;
+  }
+}
+
+.lp-project-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #17100b !important;
+}
+
+.lp-project-media::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(110deg, #17100b 22%, #241811 38%, #17100b 54%);
+  background-size: 220% 100%;
+  animation: lp-skeleton 1.35s linear infinite;
+  transition: opacity 300ms ease;
+}
+
+.lp-project-media[data-loaded="true"]::before {
+  opacity: 0;
+  animation: none;
+}
+
+.lp-project-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 460ms ease,
+    transform 760ms var(--lp-ease);
+}
+
+.lp-project-media[data-loaded="true"] img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-project > a:hover .lp-project-media img {
+    transform: scale(1.045);
+  }
+}
+
+/* Doména na náhľade — dôkaz, že web naozaj beží. */
+.lp-project-domain {
+  position: absolute;
+  z-index: 2;
+  top: 0.9rem;
+  left: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(255, 199, 157, 0.28);
+  border-radius: 999px;
+  padding: 0.34rem 0.7rem;
+  color: #ffe3c9;
+  background: rgba(16, 11, 8, 0.78);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 0.68rem;
+  font-weight: 720;
+  letter-spacing: 0.01em;
+}
+
+.lp-project-domain i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7fd6a0;
+  box-shadow: 0 0 0 3px rgba(127, 214, 160, 0.18);
+}
+
+.lp-project-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.4rem;
+}
+
+.lp-project-copy > span {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  color: #8f8377 !important;
+  font-size: 0.7rem;
+  font-weight: 760;
+}
+
+.lp-project-copy p {
+  margin: 0 2.5rem 0.6rem 0;
+  color: #ffc79d !important;
+  font-size: 0.67rem;
+  font-weight: 780;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.lp-project-copy h3 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.4vw, 1.95rem);
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+}
+
+.lp-project-copy small {
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.lp-project-copy b {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 1.15rem;
+  color: #ffc79d;
+  font-size: 0.78rem;
+  font-weight: 720;
+}
+
+.lp-project-copy b svg {
+  width: 0.9rem;
+  transition: transform 260ms var(--lp-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-project > a:hover .lp-project-copy b svg {
+    transform: translate(3px, -3px);
+  }
+}
+
+.lp-live-tools {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+  border: 1px solid rgba(255, 231, 213, 0.11) !important;
+  border-radius: 1rem !important;
+  padding: 0.9rem 1.05rem;
+  background: rgba(255, 199, 157, 0.035) !important;
+}
+
+.lp-live-tools > span {
+  margin-right: auto;
+  color: #b0a397 !important;
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.lp-live-tools a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid rgba(255, 199, 157, 0.2);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  color: #f6efe7 !important;
+  background: rgba(255, 199, 157, 0.06) !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease,
+    transform 260ms var(--lp-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-live-tools a:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 199, 157, 0.55) !important;
+    color: #0f0a07 !important;
+    background: #ffc79d !important;
+  }
+}
+
+.lp-live-tools svg {
+  width: 0.82rem;
+}
+
+@keyframes lp-skeleton {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Časová os spolupráce
+   Čiara narastá plynulo, uzly sa rozsvecujú po jednom a krok, ku ktorému
+   sa človek doscrolloval, mierne vystúpi dopredu.
+   -------------------------------------------------------------------------- */
+.lp-timeline-wrap {
+  position: relative;
+  padding-left: 2.4rem;
+}
+
+.lp-timeline-wrap::before {
+  content: "";
+  position: absolute;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  left: 0.72rem;
+  width: 2px;
+  border-radius: 2px;
+  background: rgba(255, 231, 213, 0.12);
+}
+
+.lp-timeline-progress {
+  position: absolute;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  left: 0.72rem;
+  width: 2px;
+  border-radius: 2px;
+  transform-origin: top center;
+  background: linear-gradient(180deg, #ffc79d, #f0a873 62%, rgba(240, 168, 115, 0.35));
+  box-shadow: 0 0 18px rgba(255, 199, 157, 0.42);
+}
+
+.lp-process-list {
+  display: grid;
+  gap: clamp(1.6rem, 3vw, 2.4rem);
+  margin: clamp(2.4rem, 5vw, 3.4rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-process-list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgba(255, 231, 213, 0.08);
+  border-radius: 1.1rem;
+  background: rgba(255, 199, 157, 0.022);
+  opacity: 0.5;
+  transform: translateY(6px);
+  transition:
+    opacity 520ms var(--lp-ease),
+    transform 520ms var(--lp-ease),
+    border-color 520ms ease,
+    background-color 520ms ease;
+}
+
+.lp-process-list li[data-reached="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  border-color: rgba(255, 199, 157, 0.24);
+  background: rgba(255, 199, 157, 0.055);
+}
+
+/* Bodka na čiare */
+.lp-step-node {
+  position: absolute;
+  top: 1.75rem;
+  left: -2.05rem;
+  width: 15px;
+  height: 15px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #100b08;
+  box-shadow: 0 0 0 2px rgba(255, 231, 213, 0.16);
+  transition: box-shadow 460ms ease;
+}
+
+.lp-step-node i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 231, 213, 0.28);
+  transition:
+    background-color 460ms ease,
+    transform 460ms var(--lp-ease);
+}
+
+.lp-process-list li[data-reached="true"] .lp-step-node {
+  box-shadow:
+    0 0 0 2px rgba(255, 199, 157, 0.65),
+    0 0 20px rgba(255, 199, 157, 0.4);
+}
+
+.lp-process-list li[data-reached="true"] .lp-step-node i {
+  background: #ffc79d;
+  transform: scale(1.12);
+}
+
+.lp-step-icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgba(255, 199, 157, 0.2);
+  border-radius: 0.85rem;
+  color: #ffc79d;
+  background: rgba(255, 199, 157, 0.07);
+  transition:
+    border-color 460ms ease,
+    background-color 460ms ease;
+}
+
+.lp-step-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.lp-process-list li[data-reached="true"] .lp-step-icon {
+  border-color: rgba(255, 199, 157, 0.45);
+  background: rgba(255, 199, 157, 0.13);
+}
+
+.lp-step-num {
+  display: block;
+  color: #ffc79d;
+  font-size: 0.66rem;
+  font-weight: 780;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.lp-step-body h3 {
+  margin: 0.4rem 0 0;
+  color: #fdf7f0;
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+}
+
+.lp-step-body p {
+  margin: 0.42rem 0 0;
+  color: #cfc3b7;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .lp-timeline-wrap {
+    padding-left: 1.9rem;
+  }
+
+  .lp-timeline-wrap::before,
+  .lp-timeline-progress {
+    left: 0.44rem;
+  }
+
+  .lp-step-node {
+    left: -1.62rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Hero
+   -------------------------------------------------------------------------- */
+.lp-hero {
+  position: relative;
+  padding-block: clamp(3.6rem, 7vw, 6rem) clamp(4rem, 7vw, 6.5rem) !important;
+  background:
+    radial-gradient(ellipse 70% 55% at 70% 8%, rgba(255, 199, 157, 0.11), transparent 70%),
+    var(--lp-band-a) !important;
+}
+
+.lp-hero-grid {
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 5rem) !important;
+}
+
+/* Na obale bodkového poľa visel `filter: saturate() hue-rotate()`.
+   Filter núti prehliadač prehnať celú 1,3-megapixelovú plochu canvasu
+   vlastným priechodom pri každom snímku scrollu — hero sekcia kvôli
+   tomu bežala na 73 ms na snímok namiesto 17 ms. Hue-rotate bol navyše
+   pozostatok po modrej palete, takže odchádza aj z estetických dôvodov.
+   Priehľadnosť rieši samotný canvas, ktorý filter nepotrebuje. */
+html body .lp-page .lp-hero-glide {
+  /* Ľavú tretinu poľa aj tak prekrýva plný prechod pozadia, takže sa
+     tam bodky nikdy neukážu. Nekreslíme ich teda vôbec — canvas je
+     o tretinu menší a o toľko lacnejší na prekreslenie. */
+  left: 30% !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+@media (max-width: 900px) {
+  html body .lp-page .lp-hero-glide {
+    left: 0 !important;
+  }
+}
+
+html body .lp-page .lp-hero-glide .glide-field__canvas {
+  opacity: 0.46;
+}
+
+/* Rovnaký prípad: 34 px rozostrenie nad kruhovým prechodom, ktorý je
+   sám o sebe mäkký. Prechod stačí rozšíriť a rozostrenie zmizne aj
+   s jeho cenou. */
+html body .lp-page .lp-hero-stage::before {
+  filter: none !important;
+  -webkit-filter: none !important;
+  background: radial-gradient(circle, rgba(255, 199, 157, 0.13), transparent 72%) !important;
+}
+
+/* Farebný filter na náhľadoch realizácií sa navyše animoval pri
+   prejazde myšou — dva filtrové priechody cez veľký obrázok naraz.
+   Rozdiel v sýtosti bol pritom neviditeľný. */
+html body .lp-page .lp-project-media img,
+html body .lp-page .lp-project > a:hover .lp-project-media img,
+html body .lp-page .lp-project > a:focus-visible .lp-project-media img {
+  filter: none !important;
+  -webkit-filter: none !important;
+  transition:
+    opacity 460ms ease,
+    transform 760ms var(--lp-ease) !important;
+}
+
+.lp-hero-copy {
+  /* Nadpis potrebuje šírku, inak sa tri riadky rozpadnú na päť. */
+  max-width: 40rem;
+}
+
+/* Predel na spodku hero — sekcia pod ním sa jasne odlíši. */
+.lp-hero::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 9rem;
+  background: linear-gradient(180deg, transparent, rgba(18, 12, 8, 0.9));
+  pointer-events: none;
+}
+
+.lp-hero-context {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 1.4rem;
+  border: 1px solid rgba(255, 199, 157, 0.24);
+  border-radius: 999px;
+  padding: 0.42rem 0.85rem;
+  color: #ffc79d !important;
+  background: rgba(255, 199, 157, 0.06);
+  font-size: 0.7rem;
+  font-weight: 760;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lp-hero h1 {
+  margin: 0;
+  /* Nadpis je zámerne o niečo menší, než bol. Pri 5,4 rem sa tri riadky
+     na notebooku lámali na päť a hero prestalo mať tvar. */
+  font-size: clamp(2.05rem, 3.35vw, 3.35rem) !important;
+  font-weight: 580;
+  letter-spacing: -0.052em;
+  line-height: 1.04;
+}
+
+/* Každý riadok nadpisu je vlastná clona. Keby sa zalomil, maska by
+   orezala jeho druhú polovicu a nábeh by vyzeral rozbito. */
+@media (min-width: 860px) {
+  .lp-hero-line > * {
+    white-space: nowrap;
+  }
+}
+
+.lp-hero-line {
+  display: block;
+  overflow: hidden;
+  /* Riadok sa vysúva zdola — bez orezania by bolo vidieť, ako priletí. */
+  padding-bottom: 0.08em;
+}
+
+.lp-hero-line > * {
+  display: block;
+  font-style: normal;
+  will-change: transform;
+}
+
+@media (max-width: 859px) {
+  .lp-hero h1 {
+    text-wrap: balance;
+  }
+
+  /* Bez nowrap sa riadok môže zalomiť, takže clona musí ísť preč,
+     inak by orezala jeho druhý riadok. */
+  .lp-hero-line {
+    overflow: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-hero-line {
+    overflow: visible;
+  }
+}
+
+.lp-hero h1 em {
+  color: #ffc79d;
+}
+
+.lp-hero-lead {
+  max-width: 34rem;
+  margin: 1.6rem 0 0;
+  color: #d4c8bc !important;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.66;
+}
+
+.lp-hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  margin: 2.2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lp-hero-proof li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b6a99d;
+  font-size: 0.82rem;
+  font-weight: 560;
+}
+
+.lp-hero-proof svg {
+  width: 1rem;
+  height: 1rem;
+  color: #ffc79d;
+}
+
+/* --------------------------------------------------------------------------
+   7. Porovnanie a možnosti — čitateľnosť
+   -------------------------------------------------------------------------- */
+.lp-page .lp-comparison-copy h3 {
+  color: #fdf7f0 !important;
+}
+
+.lp-page .lp-comparison-copy span,
+.lp-page .lp-comparison-body li {
+  color: #d4c8bc !important;
+}
+
+/* Značka pri položke bola plný kruh vo farbe, ktorá sa zhodovala
+   s farbou samotnej fajky — z ikony ostal len prázdny peniažok.
+   Teraz je fajka (alebo krížik) vidieť a kruh je len jej podklad. */
+html:root body .lp-page .lp-comparison-body li svg {
+  width: 26px !important;
+  height: 26px !important;
+  padding: 5px !important;
+  border-radius: 50% !important;
+  stroke-width: 2.4;
+  box-shadow: none !important;
+}
+
+html:root body .lp-page .lp-comparison-body[data-mode="with"] li svg {
+  color: #0f0a07 !important;
+  background: #ffc79d !important;
+}
+
+html:root body .lp-page .lp-comparison-body[data-mode="without"] li svg {
+  color: #ffb4a8 !important;
+  background: rgba(255, 122, 106, 0.16) !important;
+}
+
+.lp-page .lp-caps-row-head h3 {
+  color: #fdf7f0 !important;
+}
+
+.lp-page .lp-caps-row-head p,
+.lp-page .lp-caps-detail-copy p,
+.lp-page .lp-caps-detail-spec dd {
+  color: #cfc3b7 !important;
+}
+
+.lp-page .lp-faq-item h3 button {
+  color: #fdf7f0 !important;
+}
+
+.lp-page .lp-faq-body p {
+  color: #cfc3b7 !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. Menej práce pre prehliadač
+   Sekcie mimo obrazovky sa neprekresľujú. Bez toho robil prehliadač
+   rozloženie celej 12 000 px stránky pri každom snímku scrollu.
+   -------------------------------------------------------------------------- */
+.lp-caps,
+.lp-faq,
+.lp-process,
+.lp-portfolio {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-project-media img,
+  .lp-process-list li {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

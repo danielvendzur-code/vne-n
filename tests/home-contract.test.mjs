@@ -42,10 +42,12 @@ test("client landing layer is authoritative and pricing stays off the homepage",
     layout.indexOf('import "./BrandSystemFinal.css"') <
       layout.indexOf('import "./ClientLandingFinal.css"'),
   );
-  assert.equal(
-    layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./ClientLandingFinal.css"'),
+  // SiteFinish.css je posledná vrstva — čo je v nej, to platí.
+  assert.ok(
+    layout.indexOf('import "./ClientLandingFinal.css"') <
+      layout.indexOf('import "./SiteFinish.css"'),
   );
+  assert.equal(layout.lastIndexOf('import "./'), layout.indexOf('import "./SiteFinish.css"'));
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);
   assert.match(approvedCss, /Reversed Blue Bloom/);
@@ -137,6 +139,51 @@ test("contact form submits directly and keeps a resilient fallback", async () =>
   assert.match(client, /api\/lead/);
   assert.match(client, /AbortController/);
   assert.match(client, /fallback/);
+});
+
+test("lead endpoint runs on our own domain and never leaks the key", async () => {
+  const api = await read("src/routes/api.lead.ts");
+  const mail = await read("src/lib/lead-email.ts");
+  const client = await read("src/lib/lead-submission.ts");
+
+  // Vlastný koncový bod, nie cudzí backend — ten po prechode na
+  // mojchatbot.sk odpovedal origin-not-allowed a formulár tíško padal.
+  assert.match(client, /"\/api\/lead"/);
+  assert.doesNotMatch(client, /moj-chatbot-backend\.vercel\.app/);
+
+  // Kľúč žije iba v serverovom module a nikdy sa nedostane do balíka
+  // pre prehliadač — `import.meta.env.VITE_*` by ho tam vložilo.
+  assert.match(mail, /process\.env\.RESEND_API_KEY/);
+  assert.doesNotMatch(mail, /import\.meta\.env/);
+  assert.doesNotMatch(client, /RESEND/);
+
+  // Odpoveď na dopyt ide zákazníkovi, poďakovanie zase na značkovú adresu.
+  assert.match(mail, /reply_to: lead\.email/);
+  assert.match(mail, /reply_to: LEAD_RECIPIENT/);
+
+  // Overenie vstupu, návnada na roboty a strop na počet dopytov.
+  assert.match(api, /invalid-payload/);
+  assert.match(api, /HEADER_INJECTION/);
+  assert.match(api, /raw\.website/);
+  assert.match(api, /rateLimited/);
+  assert.match(api, /too-many-requests/);
+
+  // Keď kľúč chýba, návštevník dostane mailto namiesto tichého zlyhania.
+  assert.match(api, /delivery-not-configured/);
+  assert.match(api, /mailtoFallback/);
+});
+
+test("primary buttons keep readable ink on the light brand colour", async () => {
+  const contact = await read("src/routes/kontakt.tsx");
+  const finish = await read("src/components/site/SiteFinish.css");
+
+  // Biely popis na svetlej marhuľovej mal kontrast 1,51:1.
+  assert.match(finish, /\.contact-page \.contact-submit,/);
+  assert.match(finish, /\.sp-page \.sp-button--primary,/);
+  assert.match(finish, /color: #12100e !important/);
+
+  // Odosielacie tlačidlo je obyčajné, bez preletujúceho bieleho kruhu.
+  assert.doesNotMatch(contact, /approved-sweep-action/);
 });
 
 test("portfolio image loading preserves lazy loading after the first image", async () => {
@@ -286,18 +333,78 @@ test("website chips use one crisp warm interaction system", async () => {
   assert.match(css, /The icon is an icon, never an icon tile/);
 });
 
-test("landing anchors, reversible reveals and source integrity stay intact", async () => {
+test("landing anchors, one-shot reveals and source integrity stay intact", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const realization = await read("src/components/site/DeratScrollStory.tsx");
   const primitives = await read("src/components/site/motion-primitives.tsx");
   const finalCorrection = await read("src/components/site/FinalUserCorrection.css");
 
-  assert.match(landing, /href="#realizacie"/);
-  assert.match(landing, /href="#moznosti"/);
-  assert.match(realization, /id="realizacie"/);
-  assert.match(landing, /once: false/);
-  assert.match(primitives, /once: false/);
+  // Sekcia realizácií drží reálne weby; prípadová štúdia má vlastnú kotvu,
+  // takže sa id na stránke neopakuje.
+  assert.match(landing, /id="realizacie"/);
+  assert.match(landing, /href: "#realizacie"/);
+  assert.match(landing, /href: "#moznosti"/);
+  assert.match(landing, /href: "#pripadova-studia"/);
+  assert.match(realization, /id="pripadova-studia"/);
+  assert.doesNotMatch(realization, /id="realizacie"/);
+
+  // Odhaľovanie sa spúšťa raz. Opakované spúšťanie pri každom prechode
+  // cez sekciu bolo hlavným zdrojom sekania pri scrollovaní.
+  assert.doesNotMatch(landing, /once: false/);
+  assert.doesNotMatch(primitives, /once: false/);
+  assert.doesNotMatch(realization, /once: false/);
+  assert.match(primitives, /once: true/);
+
   assert.doesNotMatch(finalCorrection, /^(?:<<<<<<<|=======|>>>>>>>)(?: .*)?$/m);
+});
+
+test("realizations are real live websites, not invented case studies", async () => {
+  const realizations = await read("src/data/realizations.ts");
+  const projectsRoute = await read("src/routes/projekty.index.tsx");
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+
+  for (const domain of ["mojplot.sk", "koverta.sk", "webko.sk"]) {
+    assert.match(realizations, new RegExp(domain.replace(".", "\\.")));
+  }
+  // Vzorové rozhrania ostávajú, ale sú označené ako ukážky, nie realizácie.
+  assert.match(projectsRoute, /Vzorové rozhrania/);
+  assert.match(projectsRoute, /nie sú nasadené firemné projekty/);
+  assert.match(landing, /realizations\.map/);
+  assert.doesNotMatch(landing, /Ukážka 0/);
+});
+
+test("both landing variants exist and the client one stays out of the index", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const clientRoute = await read("src/routes/navrh.tsx");
+  const homeRoute = await read("src/routes/index.tsx");
+  const robots = await read("public/robots.txt");
+
+  assert.match(landing, /Návrh už máte\./);
+  assert.match(landing, /variant="client"|variant: LandingVariant/);
+  assert.match(clientRoute, /noindex: true/);
+  assert.match(homeRoute, /variant="public"/);
+  assert.doesNotMatch(homeRoute, /Návrh už máte/);
+  assert.match(robots, /Disallow: \/navrh/);
+});
+
+test("both contact addresses are wired through one config", async () => {
+  const config = await read("src/config/site.ts");
+  const lead = await read("src/lib/lead-submission.ts");
+  const contact = await read("src/routes/kontakt.tsx");
+  const footer = await read("src/components/site/Footer.tsx");
+
+  assert.match(config, /email: "info@mojchatbot\.sk"/);
+  assert.match(config, /emailPersonal: "daniel@vendzur\.sk"/);
+  assert.match(config, /https:\/\/mojchatbot\.sk/);
+  // Záložná mailto adresa aj príjemca dopytu idú z jedného miesta.
+  assert.match(lead, /siteConfig\.contact\.email/);
+  assert.doesNotMatch(lead, /daniel@vendzur\.sk/);
+  // Poďakovanie posiela server sám; web sa len dozvie, či naozaj odišlo,
+  // a podľa toho zvolí znenie potvrdenia.
+  assert.match(lead, /thankYouSent/);
+  assert.match(lead, /autoReplySent/);
+  assert.match(contact, /thankYouSent/);
+  assert.match(footer, /contact\.emailPersonal/);
 });
 
 test("final correction restores the comparison and removes chip ornaments", async () => {

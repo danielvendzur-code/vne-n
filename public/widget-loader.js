@@ -55,8 +55,17 @@
     anchor.id = FALLBACK_ID;
     anchor.href = internalHref("/kontakt");
     anchor.setAttribute("aria-label", "Otvoriť krátke zadanie");
+    // Ikona je kreslená, nie znak z písma. Textový symbol sa v niektorých
+    // písmach vykreslil s vlastným pozadím a pod ikonou ostávala škvrna.
     anchor.innerHTML = `
-      <span aria-hidden="true">✦</span>
+      <span aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" focusable="false">
+          <path d="M12 3.2 13.7 9l5.8 1.7-5.8 1.7L12 18.2l-1.7-5.8L4.5 10.7 10.3 9 12 3.2Z"
+                fill="currentColor" />
+          <path d="M18.6 15.4 19.4 18l2.6.8-2.6.8-.8 2.6-.8-2.6-2.6-.8 2.6-.8.8-2.6Z"
+                fill="currentColor" opacity="0.62" />
+        </svg>
+      </span>
       <span><strong>Môj Chatbot</strong><small>Otvoriť krátke zadanie</small></span>
     `;
     Object.assign(anchor.style, {
@@ -81,10 +90,12 @@
     const icon = anchor.firstElementChild;
     if (icon instanceof HTMLElement) {
       Object.assign(icon.style, {
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
         color: "#ffc79d",
         background: "transparent",
-        fontSize: "17px",
-        fontWeight: "700",
+        filter: "none",
       });
     }
 

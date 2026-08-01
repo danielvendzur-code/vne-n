@@ -1,10 +1,10 @@
 /* Approved CTA and content hierarchy layer. Imported after TasteSystemFinal.css. */
 :root {
-  --approved-ink: #08111f;
-  --approved-ink-hover: #0b1728;
-  --approved-blue: #3979e6;
-  --approved-blue-light: #7b8fa6;
-  --approved-line: rgba(104, 160, 255, 0.5);
+  --approved-ink: #1e1109;
+  --approved-ink-hover: #27170c;
+  --approved-blue: #df8840;
+  --approved-blue-light: #9c9185;
+  --approved-line: rgba(244, 179, 115, 0.5);
   --approved-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -25,11 +25,11 @@ html
   border-radius: 13px !important;
   color: #ffffff !important;
   background:
-    radial-gradient(circle at 16% -30%, rgba(120, 169, 255, 0.2), transparent 46%),
-    linear-gradient(145deg, #0c1829 0%, var(--approved-ink) 66%, #07101c 100%) !important;
+    radial-gradient(circle at 16% -30%, rgba(246, 188, 129, 0.2), transparent 46%),
+    linear-gradient(145deg, #28180d 0%, var(--approved-ink) 66%, #1b1008 100%) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 16px 34px -26px rgba(57, 121, 230, 0.95) !important;
+    0 16px 34px -26px rgba(223, 136, 64, 0.95) !important;
   transform: translate3d(0, 0, 0) !important;
   transition:
     transform 220ms var(--approved-ease),
@@ -58,7 +58,7 @@ html
   opacity: 1 !important;
   pointer-events: none !important;
   background: #ffffff !important;
-  box-shadow: 0 0 58px rgba(92, 149, 242, 0.48) !important;
+  box-shadow: 0 0 58px rgba(236, 167, 98, 0.48) !important;
   mix-blend-mode: difference !important;
   transform: translate3d(0, -50%, 0) !important;
   transition:
@@ -86,10 +86,10 @@ html
     .approved-sweep-action,
     .contact-submit.approved-sweep-action
   ):is(:hover, :focus-visible) {
-  border-color: rgba(135, 181, 255, 0.82) !important;
+  border-color: rgba(247, 195, 143, 0.82) !important;
   background:
-    radial-gradient(circle at 18% -30%, rgba(120, 169, 255, 0.25), transparent 48%),
-    linear-gradient(145deg, #10213a 0%, var(--approved-ink-hover) 68%, #08121f 100%) !important;
+    radial-gradient(circle at 18% -30%, rgba(246, 188, 129, 0.25), transparent 48%),
+    linear-gradient(145deg, #382112 0%, var(--approved-ink-hover) 68%, #1e1109 100%) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 21px 40px -28px rgba(255, 199, 157, 1) !important;
@@ -131,8 +131,8 @@ html body .approved-action__content {
 }
 
 html body .contact-submit.approved-sweep-action[data-state="sending"] {
-  border-color: rgba(112, 166, 255, 0.62) !important;
-  background: linear-gradient(145deg, #10213a, #0a1728) !important;
+  border-color: rgba(245, 184, 122, 0.62) !important;
+  background: linear-gradient(145deg, #382112, #27160b) !important;
   cursor: wait !important;
   opacity: 1 !important;
 }
@@ -148,13 +148,13 @@ html body :is(.lp-button-bloom, .approved-bloom-action) {
   overflow: hidden !important;
   min-height: 48px !important;
   padding-inline: 1.25rem !important;
-  border: 1px solid rgba(137, 181, 255, 0.72) !important;
+  border: 1px solid rgba(247, 196, 145, 0.72) !important;
   border-radius: 13px !important;
   color: #ffffff !important;
   background: var(--approved-blue) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 17px 34px -26px rgba(57, 121, 230, 1) !important;
+    0 17px 34px -26px rgba(223, 136, 64, 1) !important;
   transform: translate3d(0, 0, 0) !important;
   transition:
     transform 240ms var(--approved-ease),
@@ -170,7 +170,7 @@ html body :is(.lp-bloom-dot, .approved-bloom-dot) {
   height: 32px;
   border-radius: 50%;
   pointer-events: none;
-  background: linear-gradient(145deg, #6da3ff, #3979e6 64%, #285ebd);
+  background: linear-gradient(145deg, #f5b677, #df8840 64%, #b76c2e);
   box-shadow: 0 0 20px rgba(255, 199, 157, 0.38);
   transform: scale(6.2);
   transition:
@@ -196,13 +196,13 @@ html body :is(.lp-bloom-dot--four, .approved-bloom-dot--four) {
 }
 
 html body :is(.lp-button-bloom, .approved-bloom-action):is(:hover, :focus-visible) {
-  border-color: rgba(96, 153, 249, 0.48) !important;
+  border-color: rgba(243, 173, 102, 0.48) !important;
   color: #ffffff !important;
-  background: #0a111c !important;
+  background: #1b110b !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     inset 0 0 0 1px rgba(255, 199, 157, 0.08),
-    0 18px 38px -29px rgba(57, 121, 230, 0.78) !important;
+    0 18px 38px -29px rgba(223, 136, 64, 0.78) !important;
   transform: translateY(-2px) !important;
 }
 
@@ -240,9 +240,9 @@ html body .lp-caps-detail-inner {
   gap: clamp(1.5rem, 4vw, 3rem) !important;
   padding: clamp(1.35rem, 3vw, 2rem) !important;
   border: 1px solid rgba(255, 255, 255, 0.075) !important;
-  border-left: 2px solid rgba(92, 149, 242, 0.76) !important;
+  border-left: 2px solid rgba(236, 167, 98, 0.76) !important;
   border-radius: 18px !important;
-  background: #080d14 !important;
+  background: #140d08 !important;
   box-shadow: none !important;
 }
 
@@ -287,7 +287,7 @@ html body .lp-caps-input {
   padding: 0 0 0 0.75rem !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #c4cfdd !important;
+  color: #dcd1c5 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -301,7 +301,7 @@ html body .lp-caps-input::before {
   height: 4px;
   border-radius: 50%;
   background: var(--approved-blue-light);
-  box-shadow: 0 0 8px rgba(92, 149, 242, 0.55);
+  box-shadow: 0 0 8px rgba(236, 167, 98, 0.55);
 }
 
 /* Preparation/trust text blocks: no card-inside-section effect. */
@@ -389,8 +389,8 @@ html body :is(.lp-hero-pick, .lp-chip) {
   min-height: 48px !important;
   border: 0 !important;
   border-radius: 16px !important;
-  color: #c8d2df !important;
-  background: #0f1722 !important;
+  color: #ded3c9 !important;
+  background: #211710 !important;
   background-image: none !important;
   box-shadow: none !important;
   filter: none !important;
@@ -416,7 +416,7 @@ html body :is(.lp-hero-pick-fill, .lp-chip-fill) {
 
 html body :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-active="true"]) {
   color: #ffffff !important;
-  background: #151f2d !important;
+  background: #2c1f16 !important;
   box-shadow: none !important;
   filter: none !important;
   transform: none !important;
@@ -424,7 +424,7 @@ html body :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-acti
 
 html body :is(.lp-hero-pick, .lp-chip)[data-active="true"] {
   color: #ffffff !important;
-  background: #17365f !important;
+  background: #5c341a !important;
   background-image: none !important;
   box-shadow: none !important;
   filter: none !important;
@@ -438,7 +438,7 @@ html body :is(.lp-hero-pick-icon, .lp-chip-icon) {
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #79a9ff !important;
+  color: #f6bc82 !important;
   background: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
@@ -454,7 +454,7 @@ html body :is(.lp-hero-pick-icon, .lp-chip-icon) svg {
 }
 
 html body :is(.lp-hero-pick, .lp-chip)[data-active="true"] :is(.lp-hero-pick-icon, .lp-chip-icon) {
-  color: #a9c8ff !important;
+  color: #f9d4af !important;
   background: transparent !important;
   transform: none !important;
 }
@@ -474,7 +474,7 @@ html body .lp-hero-pick-check {
   width: 16px !important;
   height: 16px !important;
   margin-left: auto !important;
-  color: #b8d2ff !important;
+  color: #fadcbd !important;
   stroke-width: 2.15 !important;
 }
 
@@ -483,7 +483,7 @@ html body :is(.lp-hero-pick, .lp-chip):active {
 }
 
 html body :is(.lp-hero-pick, .lp-chip):focus-visible {
-  outline: 2px solid rgba(111, 164, 255, 0.86) !important;
+  outline: 2px solid rgba(245, 183, 121, 0.86) !important;
   outline-offset: 3px !important;
 }
 
@@ -491,8 +491,8 @@ html body :is(.lp-hero-pick, .lp-chip):focus-visible {
    their existing geometry. */
 html body :is(.sp-hero-chips .chip, .sp-chip-row .chip) {
   border-color: transparent !important;
-  color: #bcc8d7 !important;
-  background: #0f1722 !important;
+  color: #d6cabd !important;
+  background: #211710 !important;
   background-image: none !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -501,12 +501,12 @@ html body :is(.sp-hero-chips .chip, .sp-chip-row .chip) {
 
 @media (hover: none), (pointer: coarse) {
   html body :is(.lp-hero-pick, .lp-chip):hover {
-    color: #c8d2df !important;
-    background: #0f1722 !important;
+    color: #ded3c9 !important;
+    background: #211710 !important;
   }
   html body :is(.lp-hero-pick, .lp-chip)[data-active="true"]:hover {
     color: #ffffff !important;
-    background: #17365f !important;
+    background: #5c341a !important;
   }
 }
 
@@ -527,9 +527,9 @@ html body .lp-page :is(.lp-hero-pick, .lp-chip) {
   isolation: isolate !important;
   contain: layout paint !important;
   overflow: hidden !important;
-  border: 1px solid rgba(82, 139, 230, 0.24) !important;
-  color: #d5deea !important;
-  background: #101824 !important;
+  border: 1px solid rgba(224, 149, 88, 0.24) !important;
+  color: #e9e0d6 !important;
+  background: #231811 !important;
   background-image: none !important;
   box-shadow: none !important;
   filter: none !important;
@@ -581,17 +581,17 @@ html
   :is(.lp-hero-pick, .lp-chip):is(:hover, :focus-visible):not([data-active="true"]) {
   border-color: rgba(255, 199, 157, 0.48) !important;
   color: #ffffff !important;
-  background: #162235 !important;
+  background: #342317 !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 html body .lp-page :is(.lp-hero-pick, .lp-chip)[data-active="true"] {
-  border-color: #5b96f5 !important;
+  border-color: #efa861 !important;
   color: #ffffff !important;
-  background: #245fae !important;
+  background: #a8632a !important;
   background-image: none !important;
-  box-shadow: 0 12px 28px -22px rgba(57, 121, 230, 0.92) !important;
+  box-shadow: 0 12px 28px -22px rgba(223, 136, 64, 0.92) !important;
   transform: none !important;
 }
 
@@ -606,7 +606,7 @@ html body .lp-page :is(.lp-hero-pick-icon, .lp-chip-icon) {
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #79a9ff !important;
+  color: #f6bc82 !important;
   background: transparent !important;
   box-shadow: none !important;
   filter: none !important;
@@ -651,13 +651,13 @@ html body .lp-page .lp-hero-pick-label {
 
 html body .lp-page .lp-hero-pick-plus {
   grid-column: 2 !important;
-  color: #8fa1b7 !important;
+  color: #b5a391 !important;
   font-size: 10px !important;
   font-weight: 650 !important;
 }
 
 html body .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
-  color: #d7e7ff !important;
+  color: #fcebda !important;
 }
 
 html body .lp-page .lp-hero-pick-check {
@@ -685,14 +685,14 @@ html body .lp-page :is(.lp-hero-pick, .lp-chip):active {
 }
 
 html body .lp-page :is(.lp-hero-pick, .lp-chip):focus-visible {
-  outline: 2px solid rgba(108, 164, 255, 0.94) !important;
+  outline: 2px solid rgba(245, 182, 118, 0.94) !important;
   outline-offset: 3px !important;
 }
 
 html body :is(.sp-hero-chips .chip, .sp-chip-row .chip) {
-  border-color: rgba(82, 139, 230, 0.24) !important;
-  color: #c8d2df !important;
-  background: #101824 !important;
+  border-color: rgba(224, 149, 88, 0.24) !important;
+  color: #ded3c9 !important;
+  background: #231811 !important;
   background-image: none !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -701,8 +701,8 @@ html body :is(.sp-hero-chips .chip, .sp-chip-row .chip) {
 
 @media (hover: none), (pointer: coarse) {
   html body .lp-page :is(.lp-hero-pick, .lp-chip):hover:not([data-active="true"]) {
-    border-color: rgba(82, 139, 230, 0.24) !important;
-    color: #d5deea !important;
-    background: #101824 !important;
+    border-color: rgba(224, 149, 88, 0.24) !important;
+    color: #e9e0d6 !important;
+    background: #231811 !important;
   }
 }

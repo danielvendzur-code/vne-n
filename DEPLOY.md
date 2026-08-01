@@ -27,11 +27,39 @@ legal: {
 V tom istom súbore je aj `SITE_ORIGIN`. Nastavte na svoju doménu:
 
 ```ts
-export const SITE_ORIGIN =
-  import.meta.env.VITE_SITE_URL ?? "https://vasa-domena.sk";
+export const SITE_ORIGIN = import.meta.env.VITE_SITE_URL ?? "https://vasa-domena.sk";
 ```
 
 Tým sa prispôsobia kanonické adresy aj náhľady pri zdieľaní na sieťach.
+
+---
+
+## Odosielanie dopytov z formulára
+
+Formulár posiela dopyt na vlastný koncový bod `/api/lead`, ktorý beží
+na rovnakej doméne ako web (`src/routes/api.lead.ts`). Odosielanie
+zabezpečuje **Resend**.
+
+Vo Verceli nastavte v **Settings → Environment Variables**:
+
+| Premenná          | Povinná | Hodnota                                              |
+| ----------------- | ------- | ---------------------------------------------------- |
+| `RESEND_API_KEY`  | áno     | kľúč z resend.com (`re_…`)                           |
+| `LEAD_TO_EMAIL`   | nie     | kam chodia dopyty, inak `info@mojchatbot.sk`         |
+| `LEAD_FROM_EMAIL` | nie     | odosielateľ, inak `Môj Chatbot <info@mojchatbot.sk>` |
+
+**Doména odosielateľa musí byť v Resende overená.** Kým nie je, Resend
+správu odmietne — v logu Vercelu sa objaví dôvod. Overenie je v Resende
+v sekcii _Domains_: pridáte `mojchatbot.sk` a doplníte DKIM a SPF záznamy
+do DNS.
+
+Čo sa deje po odoslaní formulára:
+
+1. Dopyt príde na `LEAD_TO_EMAIL`. Odpoveď na túto správu ide priamo
+   zákazníkovi (`reply_to` je jeho adresa).
+2. Zákazník dostane automatické poďakovanie s kópiou toho, čo poslal.
+3. Ak kľúč chýba alebo Resend zlyhá, web otvorí e-mailového klienta
+   s predvyplneným dopytom — návštevník teda o správu nepríde.
 
 ---
 
@@ -66,9 +94,9 @@ vercel --prod
 2. Napíšte svoju doménu (napr. `mojchatbot.sk`) a dajte **Add**.
 3. Vercel vypíše, aké DNS záznamy máte nastaviť. Sú to spravidla dva:
 
-| Typ | Názov | Hodnota |
-|---|---|---|
-| `A` | `@` | `76.76.21.21` |
+| Typ     | Názov | Hodnota                |
+| ------- | ----- | ---------------------- |
+| `A`     | `@`   | `76.76.21.21`          |
 | `CNAME` | `www` | `cname.vercel-dns.com` |
 
 > Presné hodnoty berte z Vercelu, nie odtiaľto — občas ich menia.

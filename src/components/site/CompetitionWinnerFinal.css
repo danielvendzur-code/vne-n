@@ -3,18 +3,18 @@
  * One black/blue visual language, consistent chips and a restrained pointer flashlight.
  */
 :root {
-  --wf-bg: #05070b;
-  --wf-panel: #0a0f17;
-  --wf-panel-2: #0d141f;
-  --wf-panel-hover: #111b2a;
-  --wf-border: #202b3b;
-  --wf-border-hover: #3a5272;
-  --wf-blue: #4e8cff;
+  --wf-bg: #0b0705;
+  --wf-panel: #160f0b;
+  --wf-panel-2: #1e140e;
+  --wf-panel-hover: #291b12;
+  --wf-border: #3a2b21;
+  --wf-border-hover: #70533c;
+  --wf-blue: #f3a75a;
   --wf-blue-strong: #ffc79d;
   --wf-blue-soft: rgba(255, 199, 157, 0.14);
-  --wf-text: #f6f8fb;
-  --wf-muted: #9eabbc;
-  --wf-faint: #6f7d8f;
+  --wf-text: #fbf9f6;
+  --wf-muted: #b5aea5;
+  --wf-faint: #8b8073;
   --wf-radius: 16px;
   --wf-radius-lg: 24px;
   --wf-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -90,7 +90,9 @@
     transparent 57%
   ) !important;
   transform: scale(0.72) !important;
-  transition: opacity 170ms ease, transform 420ms var(--wf-ease) !important;
+  transition:
+    opacity 170ms ease,
+    transform 420ms var(--wf-ease) !important;
 }
 
 .spotlight-surface[data-spotlight="true"]::before,
@@ -144,7 +146,7 @@
 .lp-hero {
   background:
     radial-gradient(circle at 80% 20%, rgba(255, 199, 157, 0.11), transparent 34rem),
-    linear-gradient(180deg, #05070b 0%, #060910 100%) !important;
+    linear-gradient(180deg, #0b0705 0%, #100a06 100%) !important;
 }
 
 .lp-hero-grid {
@@ -160,9 +162,9 @@
 .lp-assistant-card {
   top: 44% !important;
   width: min(100%, 35rem) !important;
-  border: 1px solid #27354a !important;
+  border: 1px solid #493528 !important;
   border-radius: 25px !important;
-  background: linear-gradient(180deg, #0c121c, #080d14) !important;
+  background: linear-gradient(180deg, #1b130d, #140d08) !important;
   box-shadow:
     0 38px 95px -55px rgba(0, 0, 0, 0.98),
     0 24px 60px -48px rgba(255, 199, 157, 0.72) !important;
@@ -179,7 +181,7 @@
 }
 
 .lp-hero-proof li {
-  color: #aab6c6 !important;
+  color: #bfb8b1 !important;
 }
 
 .lp-hero-proof svg {
@@ -195,9 +197,9 @@
 .lp-chip,
 .sp-hero-chips .chip,
 .sp-chip-row .chip {
-  border: 1px solid #28364a !important;
-  color: #c8d2df !important;
-  background: #0c131d !important;
+  border: 1px solid #493629 !important;
+  color: #ded3c9 !important;
+  background: #1c130d !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -245,18 +247,18 @@
 .lp-chip:focus-visible,
 .sp-hero-chips .chip:hover,
 .sp-chip-row .chip:hover {
-  border-color: #466184 !important;
+  border-color: #826248 !important;
   color: #ffffff !important;
-  background: #101a28 !important;
+  background: #271a11 !important;
   box-shadow: 0 15px 34px -30px rgba(255, 199, 157, 0.88) !important;
   transform: none !important;
 }
 
 .lp-hero-pick[data-active="true"],
 .lp-chip[data-active="true"] {
-  border-color: #6ca5ff !important;
+  border-color: #f5b676 !important;
   color: #ffffff !important;
-  background: #13213a !important;
+  background: #382315 !important;
   background-image: none !important;
   box-shadow:
     0 0 0 1px rgba(255, 199, 157, 0.12),
@@ -266,7 +268,7 @@
 
 .lp-hero-pick-icon,
 .lp-chip-icon {
-  color: #88b2f8 !important;
+  color: #f4c08c !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -282,22 +284,22 @@
 
 .lp-hero-pick-plus {
   border: 0 !important;
-  color: #7d8da3 !important;
+  color: #9b9185 !important;
   background: transparent !important;
 }
 
 /* Remove card tilt as a visual language; preserve only spotlight and border. */
 .lp-solution-pill {
   transform: none !important;
-  border-color: #202c3d !important;
-  background: #090f17 !important;
+  border-color: #3c2c21 !important;
+  background: #160f0a !important;
   box-shadow: none !important;
 }
 
 .lp-solution-pill:hover {
   transform: none !important;
-  border-color: #344a67 !important;
-  background: #0d151f !important;
+  border-color: #654b36 !important;
+  background: #1e140e !important;
   box-shadow: 0 22px 52px -44px rgba(255, 199, 157, 0.82) !important;
 }
 
@@ -308,9 +310,9 @@
 .lp-button-quiet,
 .sp-button--ghost,
 .contact-assistant {
-  border: 1px solid #30425b !important;
-  color: #e2eaf4 !important;
-  background: #0d151f !important;
+  border: 1px solid #594232 !important;
+  color: #f3ebe3 !important;
+  background: #1e140e !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -325,19 +327,19 @@
 .lp-button-quiet:hover,
 .sp-button--ghost:hover,
 .contact-assistant:hover {
-  border-color: #6198e9 !important;
+  border-color: #e4a566 !important;
   color: #ffffff !important;
-  background: #111c2a !important;
+  background: #291b12 !important;
   box-shadow: 0 17px 38px -31px rgba(255, 199, 157, 0.92) !important;
   transform: none !important;
 }
 
 /* Keep the approved liquid comparison as the only glass control. */
 .lp-switch {
-  border-color: rgba(184, 213, 255, 0.3) !important;
+  border-color: rgba(250, 220, 189, 0.3) !important;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.012)),
-    rgba(6, 10, 17, 0.88) !important;
+    rgba(17, 10, 6, 0.88) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 18px 44px -36px rgba(255, 199, 157, 0.85) !important;
@@ -355,10 +357,9 @@
   position: relative;
   overflow: hidden;
   padding: clamp(5rem, 9vw, 8.5rem) 0;
-  border-top: 1px solid #111a26;
+  border-top: 1px solid #251a12;
   background:
-    radial-gradient(circle at 85% 18%, rgba(255, 199, 157, 0.1), transparent 31rem),
-    #05070b !important;
+    radial-gradient(circle at 85% 18%, rgba(255, 199, 157, 0.1), transparent 31rem), #0b0705 !important;
 }
 
 .winner-upgrade__inner {
@@ -419,14 +420,17 @@
   padding: 1rem;
   border: 1px solid var(--wf-border);
   border-radius: var(--wf-radius);
-  background: #090f17;
-  transition: border-color 200ms ease, background-color 200ms ease, box-shadow 240ms ease;
+  background: #160f0a;
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 240ms ease;
 }
 
 .winner-trust__item:hover,
 .winner-prep__item:hover {
   border-color: var(--wf-border-hover);
-  background: #0d151f;
+  background: #1e140e;
   box-shadow: 0 20px 46px -40px rgba(255, 199, 157, 0.82);
 }
 
@@ -436,7 +440,7 @@
   height: 21px;
   flex: 0 0 auto;
   margin-top: 2px;
-  color: #86b1fb;
+  color: #f6c18b;
 }
 
 .winner-trust h3,
@@ -469,18 +473,21 @@
   padding: clamp(1.25rem, 2.4vw, 1.65rem);
   border: 1px solid var(--wf-border);
   border-radius: var(--wf-radius-lg);
-  background: linear-gradient(180deg, #0b111a, #080d14);
-  transition: border-color 220ms ease, background-color 220ms ease, box-shadow 260ms ease;
+  background: linear-gradient(180deg, #19110c, #140d08);
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease,
+    box-shadow 260ms ease;
 }
 
 .winner-package[data-featured="true"] {
-  border-color: #3f6598;
-  background: linear-gradient(180deg, #101b2d, #090f18);
+  border-color: #946743;
+  background: linear-gradient(180deg, #2c1c11, #170f0a);
   box-shadow: 0 28px 70px -54px rgba(255, 199, 157, 0.95);
 }
 
 .winner-package:hover {
-  border-color: #426087;
+  border-color: #846145;
   box-shadow: 0 28px 64px -52px rgba(255, 199, 157, 0.9);
 }
 
@@ -497,10 +504,10 @@
   height: 45px;
   display: grid;
   place-items: center;
-  border: 1px solid #38577f;
+  border: 1px solid #7c583b;
   border-radius: 14px;
   color: #ffffff;
-  background: #212b3c;
+  background: #3b2c22;
 }
 
 .winner-package__icon svg {
@@ -510,10 +517,10 @@
 
 .winner-package__price {
   padding: 0.45rem 0.68rem;
-  border: 1px solid #30425b;
+  border: 1px solid #594232;
   border-radius: 999px;
-  color: #dce7f5;
-  background: #0d151f;
+  color: #f4e9dd;
+  background: #1e140e;
   font-size: 0.78rem;
   font-weight: 790;
 }
@@ -541,7 +548,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.55rem;
-  color: #c8d2df;
+  color: #ded3c9;
   font-size: 0.88rem;
   line-height: 1.4;
 }
@@ -551,7 +558,7 @@
   height: 16px;
   flex: 0 0 auto;
   margin-top: 2px;
-  color: #7faefb;
+  color: #f6bd84;
 }
 
 .winner-package__cta {
@@ -563,19 +570,22 @@
   gap: 10px;
   margin-top: auto;
   padding: 0 1rem;
-  border: 1px solid #3d5980;
+  border: 1px solid #7d5b40;
   border-radius: 14px;
   color: #ffffff;
-  background: #101d30;
+  background: #2f1d11;
   font-weight: 760;
   cursor: pointer;
-  transition: border-color 200ms ease, background-color 200ms ease, box-shadow 240ms ease;
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 240ms ease;
 }
 
 .winner-package__cta:hover,
 .winner-package__cta:focus-visible {
-  border-color: #72aaff;
-  background: #212b3c;
+  border-color: #f5b97c;
+  background: #3b2c22;
   box-shadow: 0 18px 38px -31px rgba(255, 199, 157, 0.95);
 }
 
@@ -621,9 +631,9 @@
   align-items: center;
   gap: 2rem;
   padding: clamp(1.5rem, 4vw, 2.5rem);
-  border: 1px solid #2b3b52;
+  border: 1px solid #503b2d;
   border-radius: 26px;
-  background: linear-gradient(140deg, #101b2c, #080e16 68%);
+  background: linear-gradient(140deg, #2b1b11, #150e09 68%);
   box-shadow: 0 34px 82px -58px rgba(255, 199, 157, 0.9);
 }
 
@@ -661,21 +671,21 @@
 }
 
 .winner-final__primary {
-  border: 1px solid #6ba4ff;
+  border: 1px solid #f5b575;
   color: #ffffff;
-  background: #3979ec;
+  background: #e58a40;
   box-shadow: 0 18px 42px -30px rgba(255, 199, 157, 0.9);
 }
 
 .winner-final__primary:hover,
 .winner-final__primary:focus-visible {
-  background: #4a88f4;
+  background: #ed9f51;
 }
 
 .winner-final__secondary {
-  border: 1px solid #30425b;
-  color: #e2eaf4;
-  background: #0d151f;
+  border: 1px solid #594232;
+  color: #f3ebe3;
+  background: #1e140e;
 }
 
 /* Error and legacy states should not switch to the old mint design. */

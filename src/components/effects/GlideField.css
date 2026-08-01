@@ -41,27 +41,17 @@
     linear-gradient(145deg, #090807, #100e0c 54%, #17120f);
 }
 
+/* Pole sa doľava stráca. Predtým to robila CSS maska, ktorá si pri
+   každom snímku scrollu vypýtala vlastný kompozitný priechod cez celý
+   canvas. Rovnaký obraz spraví obyčajný prekryv vo farbe pozadia —
+   a je to len bežné vykreslenie plochy. */
 .glide-field--hero .glide-field__canvas {
   opacity: 0.96;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    rgb(0 0 0 / 0.17) 0%,
-    rgb(0 0 0 / 0.34) 28%,
-    rgb(0 0 0 / 0.86) 50%,
-    #000 68%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    rgb(0 0 0 / 0.17) 0%,
-    rgb(0 0 0 / 0.34) 28%,
-    rgb(0 0 0 / 0.86) 50%,
-    #000 68%
-  );
 }
 
 .glide-field--hero .glide-field__vignette {
   background:
-    linear-gradient(90deg, rgb(8 6 5 / 0.36), transparent 40%, transparent 78%),
+    linear-gradient(90deg, #0a0806 0%, rgb(10 8 6 / 0.5) 18%, transparent 46%),
     linear-gradient(180deg, rgb(8 6 5 / 0.18), transparent 20%, transparent 76%, rgb(8 6 5 / 0.52));
 }
 
@@ -73,8 +63,6 @@
 
 .glide-field--ambient .glide-field__canvas {
   opacity: 0.38;
-  -webkit-mask-image: radial-gradient(ellipse at 68% 54%, #000 0%, transparent 76%);
-  mask-image: radial-gradient(ellipse at 68% 54%, #000 0%, transparent 76%);
 }
 
 .glide-field--ambient .glide-field__vignette {
@@ -103,8 +91,16 @@
 
   .glide-field--hero .glide-field__canvas {
     opacity: 0.6;
-    -webkit-mask-image: linear-gradient(180deg, rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.58) 48%, #000 72%);
-    mask-image: linear-gradient(180deg, rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.58) 48%, #000 72%);
+  }
+
+  .glide-field--hero .glide-field__vignette {
+    background: linear-gradient(
+      180deg,
+      rgb(10 8 6 / 0.62) 0%,
+      rgb(10 8 6 / 0.2) 34%,
+      transparent 62%,
+      rgb(8 6 5 / 0.52)
+    );
   }
 
   .glide-field--ambient .glide-field__canvas {
@@ -120,7 +116,14 @@
 
 /* Keď je pole mimo obrazovky, canvas sa nekreslí vôbec.
    Držať ho v kompozitore stálo polovicu snímkovej frekvencie
-   celej stránky (33,3 ms na snímok namiesto 16,7 ms). */
-.glide-field[data-offscreen="true"] .glide-field__canvas {
+   celej stránky (33,3 ms na snímok namiesto 16,7 ms).
+
+   Skúšané aj cez `content-visibility: auto` priamo na poli — v meraní
+   to vyšlo horšie (43,7 ms oproti 39,3 ms na snímok), lebo prehliadač
+   pri každom návrate poľa do obrazovky prepočítaval jeho obsah nanovo.
+   Ostáva teda pozorovateľ, ktorý navyše zastavuje aj samotnú animáciu,
+   nielen kreslenie. */
+.glide-field[data-offscreen="true"] .glide-field__canvas,
+.glide-field[data-disabled="true"] .glide-field__canvas {
   display: none;
 }

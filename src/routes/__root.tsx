@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { SiteLayout } from "../components/site/Layout";
-import { SITE_ORIGIN } from "../config/site";
+import { SITE_ORIGIN, siteConfig } from "../config/site";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -156,29 +156,49 @@ const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "ProfessionalService",
+      "@type": ["ProfessionalService", "Organization"],
       "@id": `${publicOrigin}/#business`,
-      name: "Môj Chatbot",
+      name: siteConfig.brand,
+      alternateName: "Moj Chatbot",
       url: `${publicOrigin}/`,
-      email: "mailto:daniel@vendzur.sk",
-      telephone: "+421948699433",
+      logo: `${publicOrigin}/brand/logo.svg`,
+      image: `${publicOrigin}/og/og-home.jpg`,
+      email: `mailto:${siteConfig.contact.email}`,
+      telephone: siteConfig.contact.phoneHref,
       description:
         "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
       founder: { "@id": `${publicOrigin}/#daniel` },
-      areaServed: "Slovakia",
+      areaServed: { "@type": "Country", name: "Slovensko" },
+      availableLanguage: ["sk"],
+      knowsAbout: [
+        "chatbot na mieru",
+        "AI asistent pre web",
+        "cenová kalkulačka",
+        "produktový konfigurátor",
+        "generovanie dopytov",
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: `mailto:${siteConfig.contact.email}`,
+        telephone: siteConfig.contact.phoneHref,
+        availableLanguage: ["sk"],
+        areaServed: "SK",
+      },
     },
     {
       "@type": "Person",
       "@id": `${publicOrigin}/#daniel`,
       name: "Daniel Vendžúr",
-      email: "mailto:daniel@vendzur.sk",
+      email: `mailto:${siteConfig.contact.emailPersonal}`,
       url: `${publicOrigin}/`,
       jobTitle: "Zakladateľ Môj Chatbot",
       worksFor: { "@id": `${publicOrigin}/#business` },
     },
     {
       "@type": "WebSite",
-      name: "Môj Chatbot",
+      "@id": `${publicOrigin}/#website`,
+      name: siteConfig.brand,
       url: `${publicOrigin}/`,
       inLanguage: "sk",
       publisher: { "@id": `${publicOrigin}/#business` },
