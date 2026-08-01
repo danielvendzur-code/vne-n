@@ -126,21 +126,34 @@
    Polohu zapisuje hook useSpotlight do --spot-x / --spot-y. Vrstva je
    samostatný pseudo-prvok, takže sa prekresľuje bez dotyku rozloženia.
    -------------------------------------------------------------------------- */
-.lp-page .lp-assistant-card,
-.lp-page .lp-project > a,
-.lp-page .lp-comparison,
-.lp-page .lp-final-card,
-.lp-page .lp-caps-row-head {
+.lp-page
+  :is(
+    .lp-assistant-card,
+    .lp-project > a,
+    .lp-caps-row-head,
+    .lp-faq-item,
+    .lp-final-card,
+    .lp-comparison-body,
+    .lp-process-list li,
+    .lp-live-tools a
+  ) {
   --spot-x: 50%;
   --spot-y: -30%;
   position: relative;
   isolation: isolate;
 }
 
-.lp-page .lp-assistant-card::after,
-.lp-page .lp-project > a::after,
-.lp-page .lp-final-card::after,
-.lp-page .lp-caps-row-head::after {
+.lp-page
+  :is(
+    .lp-assistant-card,
+    .lp-project > a,
+    .lp-caps-row-head,
+    .lp-faq-item,
+    .lp-final-card,
+    .lp-comparison-body,
+    .lp-process-list li,
+    .lp-live-tools a
+  )::after {
   content: "";
   position: absolute;
   z-index: 0;
@@ -149,27 +162,69 @@
   opacity: 0;
   pointer-events: none;
   background: radial-gradient(
-    22rem 22rem at var(--spot-x) var(--spot-y),
+    20rem 20rem at var(--spot-x) var(--spot-y),
     var(--lp-spot),
-    transparent 68%
+    transparent 66%
   );
-  transition: opacity 420ms ease;
+  /* Iba opacity — baterka sa nikdy nedotkne rozloženia stránky. */
+  transition: opacity 380ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .lp-page .lp-assistant-card[data-spot="on"]::after,
-  .lp-page .lp-project > a[data-spot="on"]::after,
-  .lp-page .lp-final-card[data-spot="on"]::after,
-  .lp-page .lp-caps-row-head[data-spot="on"]::after {
+  .lp-page [data-spot="on"]::after {
     opacity: 1;
   }
 }
 
-.lp-page .lp-assistant-card > *,
-.lp-page .lp-final-card > *,
-.lp-page .lp-caps-row-head > * {
+.lp-page :is(.lp-assistant-card, .lp-final-card, .lp-caps-row-head, .lp-faq-item) > * {
   position: relative;
   z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   3b. Prejazd svetlom po hlavných tlačidlách
+   Krátky lesk, ktorý prebehne tlačidlom raz pri nabehnutí kurzora.
+   -------------------------------------------------------------------------- */
+.lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta, .lp-button-light) {
+  position: relative;
+  overflow: hidden;
+}
+
+.lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta, .lp-button-light)::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.42) 50%,
+    transparent 62%
+  );
+  transform: translateX(-140%);
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lp-page
+    :is(.lp-hero-cta--primary, .lp-assistant-cta, .lp-button-light):is(
+      :hover,
+      :focus-visible
+    )::before {
+    animation: lp-shine 820ms var(--lp-ease);
+  }
+}
+
+@keyframes lp-shine {
+  from {
+    opacity: 0.9;
+    transform: translateX(-140%);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(140%);
+  }
 }
 
 /* --------------------------------------------------------------------------

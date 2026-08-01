@@ -433,7 +433,6 @@ function Hero({ variant }: { variant: LandingVariant }) {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
   const reducedMotion = useReducedMotion();
   const copy = heroCopy[variant];
-  const stageRef = useSpotlight<HTMLDivElement>(".lp-assistant-card");
 
   return (
     <section className="lp-hero" id="uvod" data-variant={variant}>
@@ -489,7 +488,6 @@ function Hero({ variant }: { variant: LandingVariant }) {
 
         <motion.div
           className="lp-hero-stage"
-          ref={stageRef}
           initial={reducedMotion ? false : { opacity: 0, x: 54, scale: 0.975 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={
@@ -840,8 +838,6 @@ function Capabilities() {
 }
 
 function Realizations() {
-  const gridRef = useSpotlight<HTMLDivElement>(".lp-project > a");
-
   return (
     <section className="lp-portfolio" id="realizacie">
       <div className="container-page">
@@ -852,7 +848,7 @@ function Realizations() {
           Reálne weby. <em>Žiadne generické makety.</em>
         </Heading>
 
-        <div className="lp-project-grid" ref={gridRef}>
+        <div className="lp-project-grid">
           {realizations.map((project, index) => (
             <Reveal
               className="lp-project"
@@ -1052,10 +1048,28 @@ function ProcessAndCta() {
   );
 }
 
+/**
+ * Povrchy, ktoré reagujú na kurzor teplým svetlom. Jeden poslucháč na
+ * celej stránke obslúži všetky — je to lacnejšie než listener na každej
+ * karte a hlavne to nezávisí od toho, kedy sa ktorá sekcia vykreslí.
+ */
+const SPOTLIGHT_TARGETS = [
+  ".lp-assistant-card",
+  ".lp-project > a",
+  ".lp-caps-row-head",
+  ".lp-faq-item",
+  ".lp-final-card",
+  ".lp-comparison-body",
+  ".lp-process-list li",
+  ".lp-live-tools a",
+].join(", ");
+
 export function PremiumLanding({ variant = "public" }: { variant?: LandingVariant }) {
+  const pageRef = useSpotlight<HTMLDivElement>(SPOTLIGHT_TARGETS);
+
   return (
     <MotionConfig reducedMotion="user">
-      <div className="lp-page" data-variant={variant}>
+      <div className="lp-page" data-variant={variant} ref={pageRef}>
         <PageProgress />
         <Hero variant={variant} />
         <DeratScrollStory />
