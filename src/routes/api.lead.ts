@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { deliverLead, LEAD_RECIPIENT, type LeadPayload } from "@/lib/lead-email";
+import { LEAD_RECIPIENT, type LeadPayload } from "@/lib/lead-email";
 
 /**
  * Príjem dopytov z kontaktného formulára.
  *
- * Beží na rovnakej doméne ako web, takže odpadá CORS aj závislosť na
- * cudzej službe. Samotné odoslanie rieši Resend v `lib/lead-email.ts`;
- * kľúč je v premennej prostredia a do prehliadača sa nikdy nedostane.
+ * Prehliadač volá vlastný koncový bod na rovnakej doméne, takže nevzniká
+ * CORS problém. Server potom odovzdá overený dopyt centrálnemu chatbot
+ * backendu, kde je jediná produkčná konfigurácia Resendu. Web preto už
+ * nepotrebuje druhú kópiu RESEND_API_KEY vo svojom Vercel projekte.
  */
 
 const LIMITS = {
@@ -22,6 +23,12 @@ const LIMITS = {
   timeline: 80,
   source: 60,
 } as const;
+
+const CENTRAL_LEAD_API_URL =
+  process.env.CENTRAL_LEAD_API_URL?.trim() ||
+  "https://moj-chatbot-backend.vercel.app/api/lead";
+const CENTRAL_LEAD_ORIGIN = "https://moj-chatbot-backend.vercel.app";
+const CENTRAL_TIMEOUT_MS = 12_000;
 
 /** Znaky, ktoré v hlavičke e-mailu umožňujú vložiť vlastný riadok. */
 const HEADER_INJECTION = /[\r\n]/;
@@ -89,6 +96,47 @@ const json = (body: unknown, status = 200) =>
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
   });
 
+type CentralLeadResponse = {
+  ok?: boolean;
+  error?: string;
+  reason?: string;
+  autoReplySent?: boolean;
+};
+
+type CentralDelivery = {
+  status: number;
+  body: CentralLeadResponse;
+};
+
+/**
+ * Volanie je server-to-server. Origin nastavujeme na vlastný backend, ktorý
+ * ho povoľuje; návštevníkov pôvod sa na backend neprenáša ani nesfalšuje.
+ */
+async function deliverThroughCentralBackend(lead: LeadPayload): Promise<CentralDelivery> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), CENTRAL_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(CENTRAL_LEAD_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: CENTRAL_LEAD_ORIGIN,
+      },
+      cache: "no-store",
+      signal: controller.signal,
+      body: JSON.stringify(lead),
+    });
+    const body = (await response.json().catch(() => ({}))) as CentralLeadResponse;
+    return { status: response.status, body };
+  } catch (error) {
+    console.error("Centrálny lead backend je nedostupný:", error);
+    return { status: 502, body: { ok: false, error: "upstream-unavailable" } };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export const Route = createFileRoute("/api/lead")({
   server: {
     handlers: {
@@ -133,21 +181,25 @@ export const Route = createFileRoute("/api/lead")({
           return json({ ok: false, error: "invalid-payload" }, 422);
         }
 
-        const result = await deliverLead(lead);
+        const result = await deliverThroughCentralBackend(lead);
 
-        if (result.notConfigured) {
-          console.error("RESEND_API_KEY nie je nastavený — dopyt sa neodoslal.");
+        if (result.status === 503 || result.body.error === "delivery-not-configured") {
+          console.error("RESEND_API_KEY nie je nastavený na centrálnom chatbot backende.");
           return json(
             { ok: false, error: "delivery-not-configured", fallback: mailtoFallback(lead) },
             503,
           );
         }
 
-        if (!result.delivered) {
+        if (!result.body.ok) {
+          console.error(
+            "Centrálny backend dopyt neodoslal:",
+            result.body.error || result.body.reason || result.status,
+          );
           return json({ ok: false, error: "delivery-failed", fallback: mailtoFallback(lead) }, 502);
         }
 
-        return json({ ok: true, autoReplySent: result.autoReplySent });
+        return json({ ok: true, autoReplySent: result.body.autoReplySent === true });
       },
 
       GET: () => json({ ok: false, error: "method-not-allowed" }, 405),
