@@ -1,0 +1,362 @@
+name: Apply mobile timeline repair
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/apply-mobile-timeline-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Apply focused mobile layout repair
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          nav = Path('src/components/site/Nav.tsx')
+          nav_text = nav.read_text(encoding='utf-8')
+          old_header = '''    <header
+      className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
+      style={{ zIndex: open ? 90 : 40 }}
+    >'''
+          new_header = '''    <header
+      className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
+      data-scrolled={scrolled}
+      style={{ zIndex: open ? 90 : 40 }}
+    >'''
+          if old_header not in nav_text:
+              raise SystemExit('Nav header block not found')
+          nav_text = nav_text.replace(old_header, new_header)
+          nav_text = nav_text.replace(
+              'Pozrieť živé weby, ktoré som robil',
+              'Pozrieť živé weby tímu',
+          )
+          nav.write_text(nav_text, encoding='utf-8')
+
+          css = Path('src/components/site/TeamMotionUpgrade.css')
+          css_text = css.read_text(encoding='utf-8')
+          marker = '/* MOBILE TIMELINE REPAIR — screenshot audit 2026-08-02 */'
+          if marker in css_text:
+              raise SystemExit('Mobile repair already present')
+
+          css_text += r'''
+
+/* MOBILE TIMELINE REPAIR — screenshot audit 2026-08-02
+   On phones the historical client layer still painted the list item as a
+   second card and moved its own rail independently. This final block makes
+   the mobile timeline a single-card layout with one shared axis. */
+@media (max-width: 720px) {
+  html:root body .site-header {
+    padding-block: 6px !important;
+    transition: padding 260ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  html:root body .site-header > .container-page {
+    min-height: 52px !important;
+    padding-inline: 10px !important;
+  }
+
+  html:root body .site-header-bar {
+    min-height: 52px !important;
+    border-radius: 16px !important;
+    padding-inline: 11px !important;
+    transition:
+      min-height 260ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-radius 260ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 220ms ease !important;
+  }
+
+  html:root body .site-header[data-scrolled="true"] {
+    padding-block: 4px !important;
+  }
+
+  html:root body .site-header[data-scrolled="true"] .site-header-bar {
+    min-height: 48px !important;
+    border-radius: 14px !important;
+  }
+
+  html:root body .site-header .site-brand-lockup {
+    gap: 8px !important;
+  }
+
+  html:root body .site-header .site-brand-lockup .brand-mark {
+    width: 30px !important;
+    height: 30px !important;
+    flex-basis: 30px !important;
+  }
+
+  html:root body .site-header[data-scrolled="true"] .site-brand-lockup .brand-mark {
+    width: 28px !important;
+    height: 28px !important;
+    flex-basis: 28px !important;
+  }
+
+  html:root body .site-header .site-brand-name {
+    font-size: 0.78rem !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  html:root body .site-header .site-menu-toggle {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+  }
+
+  html:root body .lp-page .lp-process .container-page,
+  html:root body .sp-page--process .container-page {
+    padding-inline: 14px !important;
+  }
+
+  html:root body .lp-page .lp-process-grid {
+    gap: 2.4rem !important;
+  }
+
+  html:root body .lp-page .lp-timeline-wrap,
+  html:root body .sp-page--process .sp-timeline-wrap {
+    --timeline-axis: 11px;
+    margin-top: 1.7rem !important;
+    padding-left: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Disable the obsolete wrapper rail. The active rail belongs to the list. */
+  html:root body .lp-page .lp-timeline-wrap::before,
+  html:root body .sp-page--process .sp-timeline-wrap::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  html:root body .lp-page .lp-process-list,
+  html:root body .sp-page--process .sp-timeline {
+    gap: 1rem !important;
+  }
+
+  html:root body .lp-page .lp-process-list::before,
+  html:root body .sp-page--process .sp-timeline::before,
+  html:root body .lp-page .lp-timeline-progress,
+  html:root body .sp-page--process .sp-timeline-progress {
+    left: var(--timeline-axis) !important;
+    width: 2px !important;
+    margin-left: -1px !important;
+  }
+
+  html:root body .lp-page .lp-process-list > li,
+  html:root body .sp-page--process .sp-timeline-item {
+    display: grid !important;
+    grid-template-columns: 28px minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  html:root body .lp-page .lp-process-list > li[data-reached="true"],
+  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  html:root body .lp-page .lp-process-list > li .lp-step-body,
+  html:root body .lp-page .lp-process-list > li[data-side="left"] .lp-step-body,
+  html:root body .lp-page .lp-process-list > li[data-side="right"] .lp-step-body,
+  html:root body .sp-page--process .sp-timeline-item .sp-step,
+  html:root body .sp-page--process .sp-timeline-item[data-side="left"] .sp-step,
+  html:root body .sp-page--process .sp-timeline-item[data-side="right"] .sp-step {
+    grid-column: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 17px 15px 16px !important;
+    border: 1px solid rgba(255, 199, 157, 0.18) !important;
+    border-radius: 18px !important;
+    text-align: left !important;
+    background:
+      radial-gradient(circle at 88% 0%, rgba(255, 199, 157, 0.08), transparent 45%),
+      #12100e !important;
+    box-shadow: 0 20px 48px -40px rgba(0, 0, 0, 0.96) !important;
+    overflow: hidden !important;
+  }
+
+  html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-body,
+  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step {
+    border-color: rgba(255, 199, 157, 0.32) !important;
+    box-shadow: 0 22px 56px -42px rgba(255, 199, 157, 0.35) !important;
+  }
+
+  html:root body .lp-page .lp-step-node,
+  html:root body .sp-page--process .sp-step-node {
+    left: var(--timeline-axis) !important;
+    top: 27px !important;
+    width: 17px !important;
+    height: 17px !important;
+    border-width: 2px !important;
+    box-shadow: 0 0 0 4px #0a0908 !important;
+  }
+
+  html:root body .lp-page .lp-step-node > i,
+  html:root body .sp-page--process .sp-step-node > i {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-node,
+  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step-node {
+    background: #100b08 !important;
+    box-shadow:
+      0 0 0 4px #0a0908,
+      0 0 0 6px rgba(255, 199, 157, 0.1),
+      0 0 20px rgba(255, 199, 157, 0.4) !important;
+  }
+
+  html:root body .lp-page .lp-step-icon {
+    display: none !important;
+  }
+
+  html:root body .lp-page .lp-step-num,
+  html:root body .sp-page--process .sp-step-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.42rem !important;
+    margin: 0 0 0.62rem !important;
+    font-size: 0.66rem !important;
+    font-weight: 780 !important;
+    letter-spacing: 0.13em !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase !important;
+  }
+
+  html:root body .lp-page .lp-step-body h3,
+  html:root body .sp-page--process .sp-step h2 {
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(1.24rem, 5.7vw, 1.48rem) !important;
+    font-weight: 690 !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.1 !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    text-wrap: pretty !important;
+  }
+
+  html:root body .lp-page .lp-step-body > p:not(.lp-step-result),
+  html:root body .sp-page--process .sp-step > p:not(.sp-step-label) {
+    max-width: 100% !important;
+    margin: 0.68rem 0 0 !important;
+    font-size: 0.91rem !important;
+    line-height: 1.5 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  html:root body .lp-page .lp-step-result {
+    display: grid !important;
+    grid-template-columns: 15px minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 0.45rem !important;
+    margin-top: 0.82rem !important;
+    padding-top: 0.78rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 680 !important;
+    line-height: 1.42 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  html:root body .lp-page .lp-step-result svg {
+    width: 14px !important;
+    height: 14px !important;
+    margin-top: 0.12rem !important;
+  }
+
+  html:root body .sp-page--process .sp-chip-row {
+    gap: 0.38rem !important;
+    margin-top: 0.9rem !important;
+  }
+
+  html:root body .sp-page--process .sp-chip-row .chip {
+    padding: 0.45rem 0.62rem !important;
+    font-size: 0.69rem !important;
+  }
+
+  /* Keep the launcher useful without letting it cover an entire card. */
+  html:root body #site-assistant-widget-host {
+    right: 7px !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    transform: scale(0.78) !important;
+    transform-origin: right bottom !important;
+  }
+
+  html:root body #dv-assistant-fallback {
+    right: 10px !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    min-height: 52px !important;
+    padding: 8px 11px !important;
+    transform: scale(0.88) !important;
+    transform-origin: right bottom !important;
+  }
+}
+'''
+          css.write_text(css_text, encoding='utf-8')
+
+          tests = Path('tests/home-contract.test.mjs')
+          test_text = tests.read_text(encoding='utf-8')
+          test_text += r'''
+
+test("mobile timeline uses one card, one axis and a compact sticky header", async () => {
+  const nav = await read("src/components/site/Nav.tsx");
+  const css = await read("src/components/site/TeamMotionUpgrade.css");
+
+  assert.match(nav, /data-scrolled=\{scrolled\}/);
+  assert.match(css, /MOBILE TIMELINE REPAIR/);
+  assert.match(css, /\.lp-timeline-wrap::before[\s\S]*content: none !important/);
+  assert.match(css, /\.lp-process-list > li[\s\S]*border: 0 !important/);
+  assert.match(css, /grid-template-columns: 28px minmax\(0, 1fr\) !important/);
+  assert.match(css, /top: 27px !important/);
+  assert.match(css, /#site-assistant-widget-host[\s\S]*scale\(0\.78\)/);
+});
+'''
+          tests.write_text(test_text, encoding='utf-8')
+          PY
+
+      - name: Format and validate
+        run: |
+          bunx prettier --write src/components/site/Nav.tsx src/components/site/TeamMotionUpgrade.css tests/home-contract.test.mjs
+          bun test
+          bun run lint
+          bun run build
+
+      - name: Remove helper and commit validated repair
+        shell: bash
+        run: |
+          rm .github/workflows/apply-mobile-timeline-fix.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'fix: rebuild the mobile collaboration timeline'
+          git push origin HEAD:${{ github.head_ref }}
