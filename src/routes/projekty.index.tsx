@@ -4,7 +4,6 @@ import { AssistantMini, CalculatorMini, ConfiguratorMini } from "@/components/si
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { projects, type PreviewType } from "@/data/projects";
 import { liveTools, realizations } from "@/data/realizations";
-import { useSpotlight } from "@/hooks/useSpotlight";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo, SITE_URL } from "@/lib/seo";
 import "./realizacie.css";
@@ -52,9 +51,6 @@ export const Route = createFileRoute("/projekty/")({
 });
 
 function ProjectsPage() {
-  const gridRef = useSpotlight<HTMLDivElement>(".rz-card");
-  const demoRef = useSpotlight<HTMLDivElement>(".sp-project-card > a");
-
   return (
     <div className="sp-page">
       <PageIntro
@@ -75,7 +71,7 @@ function ProjectsPage() {
 
       <section className="sp-section">
         <div className="container-page">
-          <div className="rz-grid" ref={gridRef}>
+          <div className="rz-grid">
             {realizations.map((project, index) => (
               <Reveal
                 className="rz-item"
@@ -142,7 +138,7 @@ function ProjectsPage() {
             </p>
           </Reveal>
 
-          <div className="sp-project-grid" style={{ marginTop: "2.2rem" }} ref={demoRef}>
+          <div className="sp-project-grid" style={{ marginTop: "2.2rem" }}>
             {projects.map((project, index) => {
               const Preview = previewByType[project.previewType];
               return (

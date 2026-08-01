@@ -230,16 +230,16 @@ html body a:not([class]):hover {
 /* --------------------------------------------------------------------------
    6. Baterka na kartách podstránok
    -------------------------------------------------------------------------- */
-html body .sp-project-card > a,
-html body .sp-detail-block,
-html body .contact-card {
+html body :is(.sp-project-card > a, .sp-detail-block, .sp-cta, .contact-card, .contact-expect) {
   --spot-x: 50%;
   --spot-y: -30%;
   position: relative;
   isolation: isolate;
 }
 
-html body .sp-project-card > a::after {
+html
+  body
+  :is(.sp-project-card > a, .sp-detail-block, .sp-cta, .contact-card, .contact-expect)::after {
   content: "";
   position: absolute;
   z-index: 0;
@@ -252,11 +252,13 @@ html body .sp-project-card > a::after {
     var(--spot-color),
     transparent 68%
   );
+  /* Animuje sa iba priehľadnosť, takže efekt nikdy nespúšťa prepočet
+     rozloženia ani počas rýchleho pohybu myšou. */
   transition: opacity 380ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html body .sp-project-card > a[data-spot="on"]::after {
+  html body [data-spot="on"]::after {
     opacity: 1;
   }
 
@@ -266,7 +268,7 @@ html body .sp-project-card > a::after {
   }
 }
 
-html body .sp-project-card > a > * {
+html body :is(.sp-project-card > a, .sp-detail-block, .sp-cta, .contact-card, .contact-expect) > * {
   position: relative;
   z-index: 1;
 }
