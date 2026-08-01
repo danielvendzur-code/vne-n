@@ -35,8 +35,10 @@ import "./FinalUserCorrection.css";
 import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 import "./ClientLandingFinal.css";
-// Posledné dve vrstvy — TeamMotionUpgrade je autorita pre nový scroll a timeline systém.
+// Posledné vrstvy: SiteFinish uzatvára web, mobilná oprava ruší historické
+// konflikty timeline a TeamMotionUpgrade ostáva posledná motion autorita.
 import "./SiteFinish.css";
+import "./MobileTimelineRepair.css";
 import "./TeamMotionUpgrade.css";
 
 /**

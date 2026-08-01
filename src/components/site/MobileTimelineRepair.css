@@ -1,0 +1,241 @@
+/* Mobile timeline repair — authoritative only below 720 px.
+   Historical layers painted the list item as a second card and positioned
+   a second rail. This file reduces the component to one rail + one card. */
+
+@media (max-width: 720px) {
+  /* Compact sticky navigation so it does not cover the active step. */
+  html:root body .site-header {
+    padding-block: 5px !important;
+  }
+
+  html:root body .site-header > .container-page {
+    min-height: 50px !important;
+    padding-inline: 10px !important;
+  }
+
+  html:root body .site-header-bar {
+    min-height: 50px !important;
+    border-radius: 15px !important;
+    padding-inline: 10px !important;
+  }
+
+  html:root body .site-header .site-brand-lockup {
+    gap: 8px !important;
+  }
+
+  html:root body .site-header .site-brand-lockup .brand-mark {
+    width: 29px !important;
+    height: 29px !important;
+    flex: 0 0 29px !important;
+  }
+
+  html:root body .site-header .site-brand-name {
+    font-size: 0.78rem !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  html:root body .site-header .site-menu-toggle {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+  }
+
+  html:root body .lp-page .lp-process .container-page,
+  html:root body .sp-page--process .container-page {
+    padding-inline: 14px !important;
+  }
+
+  html:root body .lp-page .lp-process-grid {
+    gap: 2.4rem !important;
+  }
+
+  html:root body .lp-page .lp-timeline-wrap,
+  html:root body .sp-page--process .sp-timeline-wrap {
+    --timeline-axis: 10px;
+    margin-top: 1.65rem !important;
+    padding-left: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Disable the obsolete wrapper rail; the list owns the only active rail. */
+  html:root body .lp-page .lp-timeline-wrap::before,
+  html:root body .sp-page--process .sp-timeline-wrap::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  html:root body .lp-page .lp-process-list,
+  html:root body .sp-page--process .sp-timeline {
+    gap: 1rem !important;
+  }
+
+  html:root body .lp-page .lp-process-list::before,
+  html:root body .sp-page--process .sp-timeline::before,
+  html:root body .lp-page .lp-timeline-progress,
+  html:root body .sp-page--process .sp-timeline-progress {
+    left: var(--timeline-axis) !important;
+    width: 2px !important;
+    margin-left: -1px !important;
+  }
+
+  /* The list item is layout only. It must never look like another card. */
+  html:root body .lp-page .lp-process-list > li,
+  html:root body .sp-page--process .sp-timeline-item,
+  html:root body .lp-page .lp-process-list > li[data-reached="true"],
+  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] {
+    display: grid !important;
+    grid-template-columns: 27px minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  /* The inner body is the single visible card. */
+  html:root body .lp-page .lp-process-list > li .lp-step-body,
+  html:root body .lp-page .lp-process-list > li[data-side="left"] .lp-step-body,
+  html:root body .lp-page .lp-process-list > li[data-side="right"] .lp-step-body,
+  html:root body .sp-page--process .sp-timeline-item .sp-step,
+  html:root body .sp-page--process .sp-timeline-item[data-side="left"] .sp-step,
+  html:root body .sp-page--process .sp-timeline-item[data-side="right"] .sp-step {
+    grid-column: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 17px 15px 16px !important;
+    border: 1px solid rgba(255, 199, 157, 0.18) !important;
+    border-radius: 18px !important;
+    text-align: left !important;
+    background:
+      radial-gradient(circle at 88% 0%, rgba(255, 199, 157, 0.08), transparent 45%),
+      #12100e !important;
+    box-shadow: 0 20px 48px -40px rgba(0, 0, 0, 0.96) !important;
+    overflow: hidden !important;
+  }
+
+  html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-body,
+  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step {
+    border-color: rgba(255, 199, 157, 0.32) !important;
+    box-shadow: 0 22px 56px -42px rgba(255, 199, 157, 0.35) !important;
+  }
+
+  /* Nodes sit beside the step label, not in the vertical centre of tall cards. */
+  html:root body .lp-page .lp-step-node,
+  html:root body .sp-page--process .sp-step-node {
+    left: var(--timeline-axis) !important;
+    top: 27px !important;
+    width: 17px !important;
+    height: 17px !important;
+    border-width: 2px !important;
+    background: #100b08 !important;
+    box-shadow: 0 0 0 4px #0a0908 !important;
+  }
+
+  html:root body .lp-page .lp-step-node > i,
+  html:root body .sp-page--process .sp-step-node > i {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-node,
+  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step-node {
+    background: #100b08 !important;
+    box-shadow:
+      0 0 0 4px #0a0908,
+      0 0 0 6px rgba(255, 199, 157, 0.1),
+      0 0 20px rgba(255, 199, 157, 0.4) !important;
+  }
+
+  html:root body .lp-page .lp-step-icon {
+    display: none !important;
+  }
+
+  html:root body .lp-page .lp-step-num,
+  html:root body .sp-page--process .sp-step-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.42rem !important;
+    margin: 0 0 0.62rem !important;
+    font-size: 0.66rem !important;
+    font-weight: 780 !important;
+    letter-spacing: 0.13em !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase !important;
+  }
+
+  html:root body .lp-page .lp-step-body h3,
+  html:root body .sp-page--process .sp-step h2 {
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(1.24rem, 5.7vw, 1.48rem) !important;
+    font-weight: 690 !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.1 !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    text-wrap: pretty !important;
+  }
+
+  html:root body .lp-page .lp-step-body > p:not(.lp-step-result),
+  html:root body .sp-page--process .sp-step > p:not(.sp-step-label) {
+    max-width: 100% !important;
+    margin: 0.68rem 0 0 !important;
+    font-size: 0.91rem !important;
+    line-height: 1.5 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  html:root body .lp-page .lp-step-result {
+    display: grid !important;
+    grid-template-columns: 15px minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 0.45rem !important;
+    margin-top: 0.82rem !important;
+    padding-top: 0.78rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 680 !important;
+    line-height: 1.42 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  html:root body .lp-page .lp-step-result svg {
+    width: 14px !important;
+    height: 14px !important;
+    margin-top: 0.12rem !important;
+  }
+
+  html:root body .sp-page--process .sp-chip-row {
+    gap: 0.38rem !important;
+    margin-top: 0.9rem !important;
+  }
+
+  html:root body .sp-page--process .sp-chip-row .chip {
+    padding: 0.45rem 0.62rem !important;
+    font-size: 0.69rem !important;
+  }
+
+  /* Keep the launcher available without letting it cover most of a card. */
+  html:root body #site-assistant-widget-host {
+    right: 7px !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    transform: scale(0.78) !important;
+    transform-origin: right bottom !important;
+  }
+
+  html:root body #dv-assistant-fallback {
+    right: 10px !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    min-height: 52px !important;
+    padding: 8px 11px !important;
+    transform: scale(0.88) !important;
+    transform-origin: right bottom !important;
+  }
+}

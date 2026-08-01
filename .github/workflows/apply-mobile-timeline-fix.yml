@@ -1,0 +1,30 @@
+name: Mobile timeline regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - src/components/site/MobileTimelineRepair.css
+      - src/components/site/TeamMotionUpgrade.css
+      - src/components/site/Layout.tsx
+      - src/components/site/Nav.tsx
+      - src/components/site/PremiumLanding.tsx
+      - src/routes/postup.tsx
+      - .github/workflows/apply-mobile-timeline-fix.yml
+
+permissions:
+  contents: read
+
+jobs:
+  mobile-timeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - run: bun install --frozen-lockfile
+      - run: bun test
+      - run: bun run lint
+      - run: bun run build
