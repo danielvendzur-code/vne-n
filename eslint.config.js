@@ -6,11 +6,15 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  // `pages-dist` je výstup zo scripts/export-github-pages.mjs. V CI
-  // vzniká až po lintovaní, takže tam neprekáža, ale lokálne po
-  // exporte lint padal na zminifikovaných balíkoch — stovky chýb,
-  // ktoré nemajú so zdrojákmi nič spoločné.
-  { ignores: ["dist", ".output", ".vinxi", "pages-dist"] },
+  // Zoznam musí kopírovať výstupné adresáre z .gitignore. Všetko sú to
+  // zbuildované balíky: `pages-dist` robí scripts/export-github-pages.mjs,
+  // `.vercel/output` vzniká pri builde s NITRO_PRESET=vercel.
+  //
+  // V CI to neprekáža, lebo lint beží skôr než build. Lokálne ale po
+  // builde `bun run lint` padal na zminifikovaných balíkoch — naposledy
+  // 45 967 chýb, z toho ani jedna v zdrojákoch. Také množstvo šumu
+  // spoľahlivo prekryje skutočnú chybu, tak nech sem nelezie.
+  { ignores: ["dist", ".output", ".vinxi", "pages-dist", ".vercel", ".wrangler"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
