@@ -116,7 +116,14 @@
 
 /* Keď je pole mimo obrazovky, canvas sa nekreslí vôbec.
    Držať ho v kompozitore stálo polovicu snímkovej frekvencie
-   celej stránky (33,3 ms na snímok namiesto 16,7 ms). */
-.glide-field[data-offscreen="true"] .glide-field__canvas {
+   celej stránky (33,3 ms na snímok namiesto 16,7 ms).
+
+   Skúšané aj cez `content-visibility: auto` priamo na poli — v meraní
+   to vyšlo horšie (43,7 ms oproti 39,3 ms na snímok), lebo prehliadač
+   pri každom návrate poľa do obrazovky prepočítaval jeho obsah nanovo.
+   Ostáva teda pozorovateľ, ktorý navyše zastavuje aj samotnú animáciu,
+   nielen kreslenie. */
+.glide-field[data-offscreen="true"] .glide-field__canvas,
+.glide-field[data-disabled="true"] .glide-field__canvas {
   display: none;
 }

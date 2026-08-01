@@ -840,6 +840,28 @@ html body .lp-page .lp-project > a:focus-visible .lp-project-media img {
   color: #d4c8bc !important;
 }
 
+/* Značka pri položke bola plný kruh vo farbe, ktorá sa zhodovala
+   s farbou samotnej fajky — z ikony ostal len prázdny peniažok.
+   Teraz je fajka (alebo krížik) vidieť a kruh je len jej podklad. */
+html:root body .lp-page .lp-comparison-body li svg {
+  width: 26px !important;
+  height: 26px !important;
+  padding: 5px !important;
+  border-radius: 50% !important;
+  stroke-width: 2.4;
+  box-shadow: none !important;
+}
+
+html:root body .lp-page .lp-comparison-body[data-mode="with"] li svg {
+  color: #0f0a07 !important;
+  background: #ffc79d !important;
+}
+
+html:root body .lp-page .lp-comparison-body[data-mode="without"] li svg {
+  color: #ffb4a8 !important;
+  background: rgba(255, 122, 106, 0.16) !important;
+}
+
 .lp-page .lp-caps-row-head h3 {
   color: #fdf7f0 !important;
 }

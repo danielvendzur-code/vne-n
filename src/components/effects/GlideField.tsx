@@ -278,8 +278,25 @@ export function GlideField({
     const context = canvas.getContext("2d", { alpha: true });
     if (!context) return;
 
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
-      .connection;
+    const nav = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+      deviceMemory?: number;
+    };
+    const connection = nav.connection;
+
+    // Na slabom zariadení je pole to prvé, čo môže odísť. Je to čistá
+    // dekorácia — a práve na týchto zariadeniach je scrollovanie cítiť
+    // najviac. Prahy sú zámerne nízke, aby vypadli len naozaj slabé kusy.
+    const weakDevice =
+      (typeof nav.deviceMemory === "number" && nav.deviceMemory > 0 && nav.deviceMemory <= 2) ||
+      (typeof nav.hardwareConcurrency === "number" &&
+        nav.hardwareConcurrency > 0 &&
+        nav.hardwareConcurrency <= 2);
+    if (weakDevice) {
+      root.dataset.disabled = "true";
+      return;
+    }
+
     const coarse =
       window.matchMedia("(pointer: coarse)").matches &&
       !window.matchMedia("(any-pointer: fine)").matches;

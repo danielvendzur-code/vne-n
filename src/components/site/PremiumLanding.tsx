@@ -355,11 +355,23 @@ function Reveal({
   const y = narrow ? 18 : direction === "up" ? Math.min(distance, 26) : 0;
   const enterDuration = narrow ? 0.52 : 0.72;
 
+  // Pri vypnutých animáciách sa obsah vykreslí bez akýchkoľvek stavov.
+  // Predtým tu ostal `variants` s `hidden: { opacity: 0 }` a bez cieľa,
+  // do ktorého by sa animovalo — takže realizácie, možnosti aj otázky
+  // ostali pre týchto návštevníkov trvalo neviditeľné.
+  if (reducedMotion) {
+    return (
+      <div className={className} {...rest}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <motion.div
       className={className}
-      initial={reducedMotion ? false : "hidden"}
-      whileInView={reducedMotion ? undefined : "visible"}
+      initial="hidden"
+      whileInView="visible"
       variants={{
         hidden: { opacity: 0, x, y },
         visible: {
