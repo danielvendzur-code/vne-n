@@ -47,6 +47,29 @@ test("the approved option 1 layer fixes contrast and removes warm legacy states"
   assert.doesNotMatch(css, forbiddenWarm);
 });
 
+test("the harmony layer repairs the hero composition and icon rhythm", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const css = await read("src/components/site/ProfessionalHarmonyFinal.css");
+
+  assert.match(layout, /ProfessionalHarmonyFinal\.css/);
+  assert.ok(
+    layout.indexOf('import "./ApprovedOptionOneFinal.css"') <
+      layout.indexOf('import "./ProfessionalHarmonyFinal.css"'),
+  );
+  assert.ok(
+    layout.indexOf('import "./ProfessionalHarmonyFinal.css"') <
+      layout.indexOf('import "./LimeWhiteBrandFinal.css"'),
+  );
+  assert.match(css, /\.lp-hero-copy::before[\s\S]*content: none !important/);
+  assert.match(css, /\.lp-hero-glide[\s\S]*display: none !important/);
+  assert.match(css, /\.lp-hero-proof[\s\S]*grid-template-columns: repeat\(3/);
+  assert.match(css, /\.lp-hero-proof svg[\s\S]*background: transparent !important/);
+  assert.match(css, /\.lp-assistant-card[\s\S]*position: relative !important/);
+  assert.match(css, /\.lp-hero-picker[\s\S]*grid-template-columns: repeat\(2/);
+  assert.match(css, /\.lp-assistant-cta[\s\S]*background: var\(--h-forest\) !important/);
+  assert.doesNotMatch(css, forbiddenWarm);
+});
+
 test("the emergency widget fallback uses option 1 and a gradual green hover", async () => {
   const loader = await read("public/widget-loader.js");
 
