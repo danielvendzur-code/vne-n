@@ -197,7 +197,7 @@ export function Nav() {
                 <LineSidebar
                   items={drawerItems}
                   onItemClick={closeMenu}
-                  accentColor="#ffc79d"
+                  accentColor="#d9ff78"
                   textColor="#fcfaf7"
                   markerColor="rgba(252, 250, 247, 0.2)"
                   markerLength={48}
@@ -232,7 +232,7 @@ export function Nav() {
                   ))}
                 </div>
                 <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
-                  Pozrieť živé weby, ktoré som robil <ArrowRight size={16} aria-hidden="true" />
+                  Pozrieť živé weby tímu Môj Chatbot <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               </aside>
             </div>

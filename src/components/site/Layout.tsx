@@ -35,14 +35,15 @@ import "./FinalUserCorrection.css";
 import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 import "./ClientLandingFinal.css";
-// Posledné vrstvy: SiteFinish uzatvára web, mobilná oprava ruší historické
-// konflikty timeline a TeamMotionUpgrade ostáva posledná motion autorita.
 import "./SiteFinish.css";
 import "./MobileTimelineRepair.css";
 import "./TeamMotionUpgrade.css";
+// Finálna autorita nového vizuálu. Musí ostať posledná, pretože vedome
+// zjednocuje historické vrstvy do jednej bielej, lesnej a limetkovej palety.
+import "./LimeWhiteBrandFinal.css";
 
 /**
- * Povrchy, ktoré po celom webe reagujú na kurzor teplým svetlom.
+ * Povrchy, ktoré po celom webe reagujú na kurzor jemným značkovým svetlom.
  * Jeden poslucháč na <main> obslúži všetky karty naraz — aj tie, ktoré
  * sa dorenderujú neskôr, lebo selektor sa vyhodnocuje až pri pohybe.
  */
