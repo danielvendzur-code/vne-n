@@ -1,0 +1,129 @@
+/* Final corrections identified by desktop and mobile visual QA. */
+
+/* Featured project copy: one clean column with the project number used as a
+   quiet watermark instead of stealing width from the title. */
+@media (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: flex-start !important;
+    min-width: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy > span {
+    position: absolute !important;
+    right: 1.25rem !important;
+    bottom: 0.85rem !important;
+    z-index: 0 !important;
+    color: rgba(25, 131, 79, 0.09) !important;
+    font-size: 5rem !important;
+    font-weight: 820 !important;
+    letter-spacing: -0.08em !important;
+    line-height: 1 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy :is(p, h3, small, b) {
+    position: relative !important;
+    z-index: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy h3 {
+    max-width: none !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    font-size: clamp(2.5rem, 3.35vw, 3.65rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy small {
+    max-width: 18rem !important;
+  }
+}
+
+/* One icon, placed where the eye expects it on every breakpoint. */
+html:root body .site-theme-white-green .lp-page .lp-caps-row-head .lp-caps-count {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  align-self: center !important;
+  justify-self: end !important;
+}
+
+/* Remove the last warm state from the before/after proof. */
+html:root body .site-theme-white-green .lp-page .lp-value .lp-switch button {
+  color: #4a6054 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-switch button[data-active="true"] {
+  color: var(--sh-forest) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-comparison-body li svg {
+  color: var(--sh-green) !important;
+  fill: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-comparison-body[data-mode="without"] li svg {
+  color: #7b5454 !important;
+}
+
+/* Process rail and nodes use the approved brand colours only. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-track {
+  background: rgba(255, 255, 255, 0.13) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
+  background: linear-gradient(90deg, var(--sh-lime-main), var(--sh-green)) !important;
+  box-shadow: 0 0 16px rgba(185, 237, 77, 0.34) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+  color: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: var(--sh-forest) !important;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.025) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps li[data-reached="true"] .lp-tl-node {
+  color: var(--sh-forest) !important;
+  border-color: rgba(217, 255, 120, 0.75) !important;
+  background: var(--sh-lime) !important;
+  box-shadow:
+    0 0 0 5px rgba(217, 255, 120, 0.1),
+    0 0 22px rgba(185, 237, 77, 0.32) !important;
+}
+
+/* The CTA is lime, therefore all copy must remain dark and readable. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-card > p {
+  color: rgba(11, 47, 32, 0.7) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-card h2 {
+  color: var(--sh-forest) !important;
+  -webkit-text-fill-color: var(--sh-forest) !important;
+  text-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-card :is(.symbol, .symbol svg, .symbol path) {
+  color: var(--sh-green-dark) !important;
+  stroke: currentColor !important;
+  opacity: 1 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-email {
+  color: var(--sh-forest) !important;
+}
+
+@media (max-width: 640px) {
+  html:root body .site-theme-white-green .lp-page .lp-caps-row-head .lp-caps-count {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+    align-self: center !important;
+  }
+}
