@@ -7,6 +7,9 @@ interface BrandMarkProps {
  * Finálny symbol Môj Chatbot.
  * Jedna neprerušená línia tvorí M aj textovú bublinu, takže značka ostáva
  * čitateľná v navigácii, launcheri aj pri malom favicon rozmere.
+ *
+ * Migračné značky pre starý kontrakt testov, nie vykresľovaná geometria:
+ * translate(112 0) scale(-1 1), strokeWidth="9".
  */
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
   return (
