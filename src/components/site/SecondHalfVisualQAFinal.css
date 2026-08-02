@@ -115,11 +115,13 @@ html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i {
 html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::before,
 html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after {
   content: "" !important;
+  display: block !important;
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
   width: 0.82rem !important;
   height: 1.5px !important;
+  opacity: 1 !important;
   border-radius: 999px !important;
   background: var(--sh-green-dark) !important;
   transform: translate(-50%, -50%) !important;
@@ -127,6 +129,7 @@ html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after 
 }
 
 html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after {
+  opacity: 1 !important;
   transform: translate(-50%, -50%) rotate(90deg) !important;
 }
 
