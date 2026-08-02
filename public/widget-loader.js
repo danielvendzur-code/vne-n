@@ -32,11 +32,7 @@
 
   const hasMountedWidget = () => {
     const host = document.getElementById(HOST_ID);
-    if (
-      !host ||
-      host.childElementCount === 0 ||
-      typeof window.openSiteAssistant !== "function"
-    ) {
+    if (!host || host.childElementCount === 0 || typeof window.openSiteAssistant !== "function") {
       return false;
     }
 
