@@ -5,11 +5,8 @@ interface BrandMarkProps {
 
 /**
  * Finálny symbol Môj Chatbot.
- *
- * - oba horné ťahy majú presne rovnakú výšku,
- * - značka je horizontálne otočená podľa schváleného smeru,
- * - používa jednu konzistentnú hrúbku a zaoblenú geometriu,
- * - nemá vlastné pozadie, tieň ani efekt a preberá `currentColor`.
+ * Jedna neprerušená línia tvorí M aj textovú bublinu, takže značka ostáva
+ * čitateľná v navigácii, launcheri aj pri malom favicon rozmere.
  */
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
   return (
@@ -23,22 +20,13 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       focusable="false"
       fill="none"
     >
-      <g transform="translate(112 0) scale(-1 1)">
-        <path
-          d="M8 19V71.5C8 81.2 15.8 89 25.5 89H43L59 104V89H79.5C89.2 89 97 81.2 97 71.5V19C97 11.4 87.8 7.6 82.5 13L61 34.8C56.2 39.7 48.4 39.7 43.6 34.8L22.5 13C17.2 7.6 8 11.4 8 19Z"
-          stroke="currentColor"
-          strokeWidth="9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M29 68V42L45.1 58.1C49 62 55.2 62 59.1 58.1L75 42V68"
-          stroke="currentColor"
-          strokeWidth="9"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
+      <path
+        d="M69 103L69 88H82C93 88 101 80 101 69V23C101 14 91 10 84 17L64 37C59 42 53 42 48 37L28 17C21 10 11 14 11 23V69C11 80 19 88 30 88H54L69 103Z"
+        stroke="currentColor"
+        strokeWidth="8.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
