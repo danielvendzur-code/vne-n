@@ -49,8 +49,8 @@ for (const route of routes) {
 
   if (route === "/") {
     homeHtml = html;
-    if (!homeHtml.includes("Chatboty, ktoré")) {
-      throw new Error("Homepage export does not contain the current chatbot-first hero copy");
+    if (!homeHtml.includes("Váš web odpovie")) {
+      throw new Error("Homepage export does not contain the current public hero copy");
     }
     if (homeHtml.includes("Webové nástroje, ktoré odovzdajú hotový dopyt")) {
       throw new Error("Homepage export still contains obsolete hero copy");
