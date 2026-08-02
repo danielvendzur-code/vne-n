@@ -1,398 +1,878 @@
-/* MÔJ CHATBOT — professional harmony pass. Approved palette only. */
+/* =====================================================================
+   MÔJ CHATBOT — WHITE / LIME / FOREST, WITH MOTION
+   This is the final composition layer before the protected compatibility
+   import. It deliberately restores the existing GlideField, Motion and GSAP
+   interactions instead of flattening them.
+   ===================================================================== */
+
+html:root body .site-theme-white-green,
 html:root body .site-theme-white-green .lp-page {
-  --h-forest: #0b2f20;
-  --h-green: #19834f;
-  --h-lime: #d9ff78;
-  --h-sage: #f5f9f2;
+  --h-white: #ffffff;
+  --h-paper: #fbfdf9;
+  --h-sage: #f3f8ef;
   --h-mint: #eaf6df;
-  --h-muted: #536159;
-  --h-line: rgba(11, 47, 32, 0.12);
+  --h-lime: #d9ff78;
+  --h-lime-main: #b9ed4d;
+  --h-lime-deep: #90cd2f;
+  --h-green: #19834f;
+  --h-green-hover: #126d41;
+  --h-forest: #0b2f20;
+  --h-ink: #10291d;
+  --h-muted: #56655d;
+  --h-line: rgba(11, 47, 32, 0.13);
+  --h-line-strong: rgba(25, 131, 79, 0.3);
+  --h-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --h-shadow: 0 30px 88px -58px rgba(11, 47, 32, 0.44);
+  --h-shadow-hover: 0 38px 100px -54px rgba(11, 47, 32, 0.54);
 }
 
-/* Calm hero canvas; remove the grey block and stacked legacy effects. */
+html:root body .site-theme-white-green main,
+html:root body .site-theme-white-green .lp-page {
+  color: var(--h-ink) !important;
+  background: var(--h-white) !important;
+}
+
+/* Subtle paper grain. It stays still while content moves. */
+html:root body .site-theme-white-green main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background: url("../../assets/forest-grain.svg") repeat;
+  mix-blend-mode: multiply;
+}
+
+html:root body .site-theme-white-green main > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------------
+   Header
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header-bar {
+  min-height: 3.9rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.16) !important;
+  border-radius: 1.35rem !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  box-shadow:
+    0 20px 54px -43px rgba(11, 47, 32, 0.52),
+    inset 0 1px rgba(255, 255, 255, 0.95) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(130%) !important;
+  backdrop-filter: blur(18px) saturate(130%) !important;
+}
+
+html:root body .site-theme-white-green .brand-mark {
+  color: var(--h-lime-main) !important;
+  filter:
+    drop-shadow(0 0 5px rgba(185, 237, 77, 0.34))
+    drop-shadow(0 8px 14px rgba(25, 131, 79, 0.1)) !important;
+}
+
+html:root body .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible) .brand-mark {
+  color: var(--h-green) !important;
+  filter: drop-shadow(0 8px 16px rgba(25, 131, 79, 0.2)) !important;
+  transform: translateY(-2px) scale(1.055) !important;
+}
+
+html:root body .site-theme-white-green :is(.site-consultation-cta, .site-menu-cta) {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  color: var(--h-forest) !important;
+  border: 1px solid rgba(144, 205, 47, 0.38) !important;
+  background: var(--h-lime) !important;
+  box-shadow: 0 18px 38px -27px rgba(89, 137, 0, 0.5) !important;
+}
+
+html:root body .site-theme-white-green :is(.site-consultation-cta, .site-menu-cta)::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -1px !important;
+  z-index: -1 !important;
+  border-radius: inherit !important;
+  background: var(--h-green-hover) !important;
+  transform: scaleX(0) !important;
+  transform-origin: center !important;
+  transition: transform 430ms var(--h-ease) 55ms !important;
+}
+
+html:root body .site-theme-white-green :is(.site-consultation-cta, .site-menu-cta):is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--h-green-hover) !important;
+  background: var(--h-lime) !important;
+  transform: translateY(-2px) !important;
+}
+
+html:root body .site-theme-white-green :is(.site-consultation-cta, .site-menu-cta):is(:hover, :focus-visible)::before {
+  transform: scaleX(1) !important;
+}
+
+html:root body .site-theme-white-green .site-menu-toggle {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .site-menu-toggle:is(:hover, :focus-visible) {
+  color: var(--h-green-hover) !important;
+  background: var(--h-mint) !important;
+}
+
+/* ---------------------------------------------------------------------
+   Hero — true white, visible animated field, disciplined green glow
+   --------------------------------------------------------------------- */
 html:root body .site-theme-white-green .lp-page .lp-hero {
-  min-height: min(820px, calc(100svh - 72px)) !important;
-  padding-block: clamp(4.2rem, 7vw, 6.3rem) clamp(3.8rem, 6vw, 5.3rem) !important;
+  min-height: min(860px, calc(100svh - 70px)) !important;
+  padding-block: clamp(4.8rem, 8vh, 6.6rem) clamp(4rem, 7vh, 5.8rem) !important;
+  overflow: hidden !important;
   border-bottom: 1px solid var(--h-line) !important;
   background:
-    radial-gradient(circle at 83% 42%, rgba(217, 255, 120, 0.18), transparent 24rem),
-    linear-gradient(180deg, #ffffff 0%, #fbfdf9 58%, #f5f9f2 100%) !important;
+    url("../../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 80% 25%, rgba(217, 255, 120, 0.27), transparent 26rem),
+    radial-gradient(circle at 7% 86%, rgba(25, 131, 79, 0.075), transparent 28rem),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 57%, #f7fbf4 100%) !important;
 }
-html:root body .site-theme-white-green .lp-page .lp-hero::before,
+
+html:root body .site-theme-white-green .lp-page .lp-hero::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.93) 0 34%, rgba(255, 255, 255, 0.42) 58%, transparent 78%),
+    radial-gradient(circle at 67% 50%, rgba(185, 237, 77, 0.08), transparent 34rem) !important;
+}
+
 html:root body .site-theme-white-green .lp-page .lp-hero-copy::before {
-  content: none !important;
-  display: none !important;
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: -1 !important;
+  inset: -3.5rem -4.5rem !important;
+  pointer-events: none !important;
+  background: radial-gradient(ellipse at 37% 48%, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.72) 48%, transparent 76%) !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-glide {
-  display: none !important;
+  display: block !important;
+  position: absolute !important;
+  inset: -7% -5% -8% 31% !important;
+  z-index: 0 !important;
+  opacity: 0.48 !important;
+  pointer-events: none !important;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%, #000 100%) !important;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 24%, #000 100%) !important;
 }
+
+html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field,
+html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field--hero {
+  --glide-base: 245 250 239 !important;
+  --glide-active: 185 237 77 !important;
+  --glide-secondary: 25 131 79 !important;
+  --glide-impact: 217 255 120 !important;
+  filter: none !important;
+  mix-blend-mode: multiply !important;
+}
+
 html:root body .site-theme-white-green .lp-page .lp-hero-glow {
-  top: 18% !important;
-  right: 2% !important;
-  width: 35rem !important;
-  height: 35rem !important;
-  opacity: 0.55 !important;
-  filter: blur(28px) !important;
-  background: radial-gradient(circle, rgba(185, 237, 77, 0.18), transparent 69%) !important;
+  display: block !important;
+  top: 9% !important;
+  right: -7% !important;
+  width: min(50rem, 62vw) !important;
+  height: min(50rem, 62vw) !important;
+  opacity: 0.7 !important;
+  background:
+    radial-gradient(circle at 45% 44%, rgba(217, 255, 120, 0.3), transparent 43%),
+    radial-gradient(circle at 66% 62%, rgba(25, 131, 79, 0.08), transparent 57%) !important;
+  filter: blur(18px) !important;
+  animation: h-glow-drift 9s ease-in-out infinite alternate !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-grid {
-  width: min(100% - 2.5rem, 82rem) !important;
-  grid-template-columns: minmax(0, 1.02fr) minmax(25rem, 0.82fr) !important;
+  position: relative !important;
+  z-index: 2 !important;
+  width: min(100% - 2.5rem, 84rem) !important;
+  grid-template-columns: minmax(0, 1.02fr) minmax(27rem, 0.83fr) !important;
   align-items: center !important;
-  gap: clamp(3.5rem, 7vw, 7.5rem) !important;
+  gap: clamp(3rem, 6.5vw, 7.25rem) !important;
   padding-block: 0 !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-copy {
-  max-width: 42rem !important;
+  max-width: 43rem !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-context {
   width: fit-content !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 0.55rem !important;
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 1.45rem !important;
   border: 0 !important;
   border-radius: 0 !important;
   padding: 0 !important;
   color: var(--h-green) !important;
   background: transparent !important;
   font-size: 0.72rem !important;
-  font-weight: 760 !important;
-  letter-spacing: 0.13em !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero-context::before {
-  content: "" !important;
-  width: 1.65rem !important;
-  height: 2px !important;
-  border-radius: 999px !important;
-  background: var(--h-green) !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero h1 {
-  max-width: 11.8ch !important;
-  font-size: clamp(3.45rem, 5vw, 5.25rem) !important;
-  font-weight: 540 !important;
-  letter-spacing: -0.066em !important;
-  line-height: 0.94 !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero-lead {
-  max-width: 36rem !important;
-  margin-top: 1.5rem !important;
-  color: var(--h-muted) !important;
-  font-size: clamp(1.02rem, 1.25vw, 1.14rem) !important;
-  line-height: 1.62 !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-actions {
-  gap: 0.7rem !important;
-  margin-top: 1.8rem !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero-cta {
-  min-height: 3.45rem !important;
-  border-radius: 0.92rem !important;
-  padding-inline: 1.35rem !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero-cta--primary {
-  color: var(--h-forest) !important;
-  border-color: rgba(143, 207, 43, 0.34) !important;
-  background: var(--h-lime) !important;
-  box-shadow: 0 18px 38px -25px rgba(90, 137, 0, 0.44) !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary {
-  color: var(--h-forest) !important;
-  border-color: var(--h-line) !important;
-  background: rgba(255, 255, 255, 0.86) !important;
-  box-shadow: none !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary:is(:hover, :focus-visible) {
-  color: var(--h-forest) !important;
-  border-color: rgba(25, 131, 79, 0.28) !important;
-  background: var(--h-mint) !important;
+  font-weight: 780 !important;
+  letter-spacing: 0.14em !important;
 }
 
-/* Proof points: one aligned row, real line icons, no green squares. */
+html:root body .site-theme-white-green .lp-page .lp-hero-context::before {
+  content: "" !important;
+  width: 1.7rem !important;
+  height: 2px !important;
+  border-radius: 999px !important;
+  background: var(--h-lime-main) !important;
+  box-shadow: 0 0 12px rgba(185, 237, 77, 0.46) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+  max-width: 11.8ch !important;
+  color: var(--h-forest) !important;
+  font-size: clamp(3.65rem, 5.25vw, 5.65rem) !important;
+  font-weight: 560 !important;
+  letter-spacing: -0.071em !important;
+  line-height: 0.92 !important;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.7) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line em {
+  color: var(--h-green) !important;
+  -webkit-text-fill-color: var(--h-green) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-lead {
+  max-width: 37rem !important;
+  margin-top: 1.55rem !important;
+  color: var(--h-muted) !important;
+  font-size: clamp(1.04rem, 1.35vw, 1.18rem) !important;
+  line-height: 1.62 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-actions {
+  gap: 0.72rem !important;
+  margin-top: 1.9rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta,
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  min-height: 3.55rem !important;
+  border-radius: 1rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta) {
+  color: var(--h-forest) !important;
+  border: 1px solid rgba(144, 205, 47, 0.42) !important;
+  background: var(--h-lime) !important;
+  box-shadow:
+    0 20px 42px -27px rgba(82, 129, 0, 0.52),
+    inset 0 1px rgba(255, 255, 255, 0.52) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta)::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -1px !important;
+  z-index: -1 !important;
+  border-radius: inherit !important;
+  opacity: 1 !important;
+  background: var(--h-green-hover) !important;
+  transform: scaleX(0) !important;
+  transform-origin: center !important;
+  transition: transform 470ms var(--h-ease) 55ms !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta):is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--h-green-hover) !important;
+  background: var(--h-lime) !important;
+  box-shadow: 0 24px 50px -29px rgba(11, 47, 32, 0.52) !important;
+  transform: translateY(-3px) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-hero-cta--primary, .lp-assistant-cta):is(:hover, :focus-visible)::before {
+  transform: scaleX(1) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-button-content {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary {
+  color: var(--h-forest) !important;
+  border: 1px solid var(--h-line) !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: 0 16px 36px -32px rgba(11, 47, 32, 0.38) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary:is(:hover, :focus-visible) {
+  color: var(--h-forest) !important;
+  border-color: rgba(25, 131, 79, 0.32) !important;
+  background:
+    radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(217, 255, 120, 0.75), var(--h-mint) 58%) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* Proof points are supportive, not three competing badges. */
 html:root body .site-theme-white-green .lp-page .lp-hero-proof {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.65rem 1.45rem !important;
   margin-top: 2rem !important;
   padding-top: 1.05rem !important;
   border-top: 1px solid var(--h-line) !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-proof li {
-  min-width: 0 !important;
-  display: grid !important;
-  grid-template-columns: 1.05rem minmax(0, 1fr) !important;
+  display: inline-flex !important;
   align-items: center !important;
   gap: 0.5rem !important;
-  padding-right: 0.9rem !important;
-  color: #355044 !important;
-  font-size: 0.74rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #3f574b !important;
+  font-size: 0.75rem !important;
   font-weight: 640 !important;
-  line-height: 1.35 !important;
 }
-html:root body .site-theme-white-green .lp-page .lp-hero-proof li + li {
-  border-left: 1px solid var(--h-line) !important;
-  padding-left: 0.9rem !important;
-}
+
 html:root body .site-theme-white-green .lp-page .lp-hero-proof svg {
   width: 1rem !important;
   height: 1rem !important;
-  padding: 0 !important;
   color: var(--h-green) !important;
-  stroke: currentColor !important;
   fill: none !important;
   border: 0 !important;
-  border-radius: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
-/* Product card: aligned to the copy and visually quieter. */
+/* Animated demo card. The pointer variables come from useSpotlight. */
 html:root body .site-theme-white-green .lp-page .lp-hero-stage {
-  min-height: auto !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
+  min-height: clamp(31rem, 58vh, 39rem) !important;
+  display: grid !important;
+  place-items: center !important;
   overflow: visible !important;
+  perspective: 1200px !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-stage::before {
   content: "" !important;
   position: absolute !important;
   z-index: 0 !important;
-  inset: 10% -8% 4% 8% !important;
-  border-radius: 44% 56% 52% 48% / 46% 45% 55% 54% !important;
-  background: rgba(217, 255, 120, 0.18) !important;
-  filter: blur(44px) !important;
+  inset: 8% -7% 2% 4% !important;
+  border-radius: 46% 54% 48% 52% / 46% 42% 58% 54% !important;
+  background:
+    radial-gradient(circle at 48% 42%, rgba(217, 255, 120, 0.4), rgba(185, 237, 77, 0.12) 43%, transparent 72%) !important;
+  filter: blur(35px) !important;
+  animation: h-blob-breathe 8s ease-in-out infinite alternate !important;
   pointer-events: none !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-assistant-card {
   position: relative !important;
   top: auto !important;
   right: auto !important;
-  z-index: 1 !important;
-  width: min(100%, 31rem) !important;
-  transform: none !important;
-  animation: none !important;
-  border: 1px solid var(--h-line) !important;
-  border-radius: 1.65rem !important;
-  padding: clamp(1.4rem, 2.3vw, 1.8rem) !important;
-  background: rgba(255, 255, 255, 0.97) !important;
+  z-index: 2 !important;
+  width: min(100%, 31.5rem) !important;
+  transform-style: preserve-3d !important;
+  border: 1px solid rgba(25, 131, 79, 0.19) !important;
+  border-radius: 1.75rem !important;
+  padding: clamp(1.4rem, 2.35vw, 1.85rem) !important;
+  color: var(--h-ink) !important;
+  background:
+    radial-gradient(circle at var(--spot-x, 82%) var(--spot-y, 4%), rgba(217, 255, 120, 0.24), transparent 40%),
+    rgba(255, 255, 255, 0.94) !important;
   box-shadow:
-    0 34px 90px -58px rgba(11, 47, 32, 0.42),
-    inset 0 1px #ffffff !important;
+    0 42px 110px -61px rgba(11, 47, 32, 0.58),
+    0 18px 42px -34px rgba(25, 131, 79, 0.28),
+    inset 0 1px rgba(255, 255, 255, 0.98) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
+  backdrop-filter: blur(20px) saturate(120%) !important;
+  animation: h-card-float 6.8s ease-in-out infinite !important;
+  transition:
+    border-color 320ms var(--h-ease),
+    box-shadow 420ms var(--h-ease) !important;
 }
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card[data-spot="on"] {
+  border-color: rgba(25, 131, 79, 0.36) !important;
+  box-shadow: var(--h-shadow-hover) !important;
+}
+
 html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
   max-width: 14ch !important;
-  margin-bottom: 1.15rem !important;
-  font-size: clamp(1.75rem, 2.35vw, 2.25rem) !important;
-  font-weight: 590 !important;
-  letter-spacing: -0.05em !important;
+  margin-bottom: 1.2rem !important;
+  color: var(--h-forest) !important;
+  font-size: clamp(1.8rem, 2.45vw, 2.35rem) !important;
+  font-weight: 620 !important;
+  letter-spacing: -0.052em !important;
   line-height: 1.01 !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-picker {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 0.58rem !important;
+  gap: 0.6rem !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-pick {
-  min-height: 4.1rem !important;
+  min-height: 4.05rem !important;
   display: grid !important;
   grid-template-columns: 1.2rem minmax(0, 1fr) !important;
   align-items: center !important;
   justify-content: start !important;
-  gap: 0.7rem !important;
+  gap: 0.72rem !important;
+  border: 1px solid var(--h-line) !important;
   border-radius: 1rem !important;
-  padding: 0.78rem 0.92rem !important;
+  padding: 0.78rem 0.94rem !important;
+  color: #3a5145 !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: 0 12px 28px -26px rgba(11, 47, 32, 0.46) !important;
   text-align: left !important;
-  box-shadow: none !important;
-  transform: none !important;
+  transition:
+    color 260ms ease,
+    border-color 320ms ease,
+    background-color 320ms ease,
+    box-shadow 380ms var(--h-ease),
+    transform 380ms var(--h-ease) !important;
 }
-html:root body .site-theme-white-green .lp-page .lp-hero-pick-icon {
-  width: 1.15rem !important;
-  height: 1.15rem !important;
-  display: grid !important;
-  place-items: center !important;
-  color: inherit !important;
-  border: 0 !important;
-  background: transparent !important;
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:is(:hover, :focus-visible):not([data-active="true"]) {
+  color: var(--h-forest) !important;
+  border-color: rgba(144, 205, 47, 0.48) !important;
+  background: var(--h-lime) !important;
+  box-shadow: 0 20px 38px -26px rgba(82, 129, 0, 0.43) !important;
+  transform: translateY(-3px) scale(1.012) !important;
 }
-html:root body .site-theme-white-green .lp-page .lp-hero-pick-icon svg {
-  width: 1.05rem !important;
-  height: 1.05rem !important;
-  stroke-width: 1.8 !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-hero-pick-label {
-  color: inherit !important;
-  font-size: 0.86rem !important;
-  font-weight: 690 !important;
-  line-height: 1.2 !important;
-}
+
 html:root body .site-theme-white-green .lp-page .lp-hero-pick:is([data-active="true"], [data-selected="true"], [aria-pressed="true"]) {
   color: #ffffff !important;
-  border-color: var(--h-forest) !important;
-  background: var(--h-forest) !important;
+  border-color: var(--h-green-hover) !important;
+  background: var(--h-green-hover) !important;
+  box-shadow: 0 20px 42px -29px rgba(11, 47, 32, 0.62) !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-hero-pick:is([data-active="true"], [data-selected="true"], [aria-pressed="true"]) .lp-hero-pick-icon {
   color: var(--h-lime) !important;
 }
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-icon {
+  color: var(--h-green) !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-label {
+  color: inherit !important;
+  font-size: 0.86rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
 html:root body .site-theme-white-green .lp-page .lp-assistant-answer {
   min-height: 4.6rem !important;
   grid-template-columns: 1rem minmax(0, 1fr) !important;
   gap: 0.72rem !important;
-  margin-top: 0.75rem !important;
-  border: 0 !important;
+  margin-top: 0.78rem !important;
+  border: 1px solid rgba(25, 131, 79, 0.09) !important;
   border-radius: 1rem !important;
   padding: 1rem !important;
-  color: #355044 !important;
-  background: var(--h-sage) !important;
-  box-shadow: inset 0 0 0 1px rgba(11, 47, 32, 0.06) !important;
+  color: #3d5548 !important;
+  background: linear-gradient(145deg, #f6faf3, #edf6e7) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9) !important;
   font-size: 0.8rem !important;
   line-height: 1.52 !important;
 }
+
 html:root body .site-theme-white-green .lp-page .lp-assistant-answer svg {
-  width: 1rem !important;
-  height: 1rem !important;
   color: var(--h-green) !important;
   background: transparent !important;
 }
-html:root body .site-theme-white-green .lp-page .lp-assistant-cta {
-  min-height: 3.5rem !important;
-  border-color: var(--h-forest) !important;
-  border-radius: 1rem !important;
-  color: #ffffff !important;
-  background: var(--h-forest) !important;
-  box-shadow: none !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
-  color: #ffffff !important;
-  border-color: var(--h-green) !important;
-  background: var(--h-green) !important;
+
+/* ---------------------------------------------------------------------
+   Page rhythm: mostly white, light tonal transitions, no sterile slabs
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page :is(.lp-value, .lp-caps, .lp-portfolio, .lp-faq) {
+  padding-block: clamp(5.4rem, 8vw, 8rem) !important;
+  border-top: 1px solid rgba(11, 47, 32, 0.075) !important;
+  background:
+    url("../../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 88% 8%, rgba(217, 255, 120, 0.09), transparent 30rem),
+    #ffffff !important;
 }
 
-/* Header and the rest of the page use restrained, repeatable roles. */
-html:root body .site-theme-white-green .site-header-bar {
-  min-height: 3.8rem !important;
-  border-radius: 1.3rem !important;
-  border-color: var(--h-line) !important;
-  background: rgba(255, 255, 255, 0.93) !important;
-  box-shadow: 0 16px 44px -38px rgba(11, 47, 32, 0.4) !important;
+html:root body .site-theme-white-green .lp-page :is(.lp-caps, .lp-faq) {
+  background:
+    url("../../assets/forest-grain.svg") repeat,
+    linear-gradient(180deg, #f8fbf6 0%, #ffffff 44%, #f7faf5 100%) !important;
 }
-html:root body .site-theme-white-green .site-consultation-cta {
-  color: var(--h-forest) !important;
-  border-color: rgba(25, 131, 79, 0.18) !important;
-  background: var(--h-mint) !important;
-  box-shadow: none !important;
-}
-html:root body .site-theme-white-green .site-consultation-cta:is(:hover, :focus-visible) {
-  color: #ffffff !important;
-  border-color: var(--h-green) !important;
-  background: var(--h-green) !important;
-}
-html:root body .site-theme-white-green .site-menu-toggle {
-  border-color: transparent !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-html:root body .site-theme-white-green .site-menu-toggle:focus-visible {
-  outline: 2px solid rgba(25, 131, 79, 0.38) !important;
-  outline-offset: 2px !important;
-  box-shadow: none !important;
-}
-html:root body .site-theme-white-green .lp-page :is(.lp-value, .lp-caps, .lp-faq) {
-  background: var(--h-sage) !important;
-  background-image: none !important;
-}
-html:root body .site-theme-white-green .lp-page :is(.derat-story, .lp-portfolio) {
-  background: #ffffff !important;
-  background-image: none !important;
-}
-html:root body .site-theme-white-green .lp-page :is(.lp-value, .derat-story, .lp-caps, .lp-portfolio, .lp-faq) {
-  border-top: 1px solid rgba(11, 47, 32, 0.08) !important;
-}
+
 html:root body .site-theme-white-green .lp-page .lp-heading h2 {
   max-width: 13ch !important;
-  font-weight: 520 !important;
-  letter-spacing: -0.055em !important;
-  line-height: 0.98 !important;
+  color: var(--h-forest) !important;
+  font-weight: 550 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 0.97 !important;
 }
+
+html:root body .site-theme-white-green .lp-page .lp-heading h2 em {
+  color: var(--h-green) !important;
+  -webkit-text-fill-color: var(--h-green) !important;
+}
+
 html:root body .site-theme-white-green .lp-page .lp-eyebrow {
   border: 0 !important;
   border-radius: 0 !important;
   padding: 0 !important;
-  background: transparent !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-eyebrow i {
-  width: 1.65rem !important;
-  height: 2px !important;
-  border: 0 !important;
-  background: var(--h-green) !important;
-}
-html:root body .site-theme-white-green .lp-page :is(.lp-comparison, .lp-project-card, .lp-caps-detail, .lp-faq-item, .lp-caps-row) {
-  border-radius: 1.35rem !important;
-  border-color: var(--h-line) !important;
-  box-shadow: 0 28px 76px -54px rgba(11, 47, 32, 0.34) !important;
-}
-html:root body .site-theme-white-green .lp-page .lp-caps-row-head h3::after {
-  width: 0.38rem !important;
-  height: 0.38rem !important;
-  background: var(--h-green) !important;
-}
-html:root body .site-theme-white-green .lp-page :is(.lp-project-arrow, .lp-caps-icon, .lp-caps-note > svg, .lp-step-icon, .lp-step-result svg, .lp-faq-item svg) {
   color: var(--h-green) !important;
-  fill: none !important;
-  border: 0 !important;
   background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-eyebrow i {
+  width: 1.7rem !important;
+  height: 2px !important;
+  background: var(--h-lime-main) !important;
+  box-shadow: 0 0 10px rgba(185, 237, 77, 0.38) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-heading-copy {
+  color: var(--h-muted) !important;
+}
+
+/* Comparison, capabilities and FAQ retain their own interactions. */
+html:root body .site-theme-white-green .lp-page :is(.lp-comparison, .lp-caps-row, .lp-caps-detail, .lp-faq-item) {
+  border-color: var(--h-line) !important;
+  background:
+    radial-gradient(circle at var(--spot-x, 88%) var(--spot-y, 8%), rgba(217, 255, 120, 0.13), transparent 38%),
+    rgba(255, 255, 255, 0.94) !important;
+  box-shadow: var(--h-shadow) !important;
+  transition:
+    border-color 320ms var(--h-ease),
+    box-shadow 420ms var(--h-ease),
+    transform 420ms var(--h-ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-comparison, .lp-caps-row, .lp-caps-detail, .lp-faq-item)[data-spot="on"],
+html:root body .site-theme-white-green .lp-page :is(.lp-comparison, .lp-caps-row, .lp-caps-detail, .lp-faq-item):is(:hover, :focus-within) {
+  border-color: rgba(25, 131, 79, 0.3) !important;
+  box-shadow: var(--h-shadow-hover) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+  color: var(--h-ink) !important;
+  background:
+    radial-gradient(circle at var(--spot-x, 92%) var(--spot-y, 6%), rgba(217, 255, 120, 0.23), transparent 38%),
+    linear-gradient(145deg, #ffffff, #f3f8ef) !important;
+  transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) !important;
+  transition: transform 300ms var(--h-ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch {
+  border-color: rgba(11, 47, 32, 0.1) !important;
+  background: var(--h-mint) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch-thumb {
+  border-color: rgba(25, 131, 79, 0.12) !important;
+  background: #ffffff !important;
+  box-shadow: 0 13px 28px -20px rgba(11, 47, 32, 0.42) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-chip, .lp-caps-chip, .lp-filter) {
+  color: #3d5548 !important;
+  border-color: var(--h-line) !important;
+  background: #ffffff !important;
   box-shadow: none !important;
 }
 
+html:root body .site-theme-white-green .lp-page :is(.lp-chip, .lp-caps-chip, .lp-filter):is(:hover, :focus-visible):not([data-active="true"]) {
+  color: var(--h-forest) !important;
+  border-color: rgba(144, 205, 47, 0.46) !important;
+  background: var(--h-lime) !important;
+  transform: translateY(-2px) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-chip, .lp-caps-chip, .lp-filter):is([data-active="true"], [data-selected="true"], [aria-pressed="true"]) {
+  color: #ffffff !important;
+  border-color: var(--h-green-hover) !important;
+  background: var(--h-green-hover) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-caps-detail-cta, .lp-faq-ask, .lp-final-cta) {
+  color: var(--h-forest) !important;
+  border-color: rgba(144, 205, 47, 0.38) !important;
+  background: var(--h-lime) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-caps-detail-cta, .lp-faq-ask, .lp-final-cta):is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--h-green-hover) !important;
+  background: var(--h-green-hover) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Realization cards get the flashlight and controlled physical tilt back. */
+html:root body .site-theme-white-green .lp-page .lp-project > a {
+  transform-style: preserve-3d !important;
+  border: 1px solid var(--h-line) !important;
+  background:
+    radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(217, 255, 120, 0.2), transparent 38%),
+    #ffffff !important;
+  box-shadow: var(--h-shadow) !important;
+  transform: perspective(1250px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(0) !important;
+  transition:
+    transform 360ms var(--h-ease),
+    border-color 340ms var(--h-ease),
+    box-shadow 420ms var(--h-ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project > a:is(:hover, :focus-visible),
+html:root body .site-theme-white-green .lp-page .lp-project > a[data-spot="on"] {
+  border-color: rgba(25, 131, 79, 0.36) !important;
+  box-shadow: var(--h-shadow-hover) !important;
+  transform: perspective(1250px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-7px) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-media {
+  background: var(--h-sage) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-domain,
+html:root body .site-theme-white-green .lp-page .lp-project-copy b {
+  color: var(--h-green) !important;
+}
+
+/* ---------------------------------------------------------------------
+   DERAT case study — preserve GSAP, repair spacing and visual hierarchy
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .derat-story {
+  --derat-paper: var(--h-forest);
+  --derat-muted: var(--h-muted);
+  --derat-mint: var(--h-lime-main);
+  scroll-margin-top: 6rem !important;
+  padding: clamp(5.6rem, 8vw, 7.8rem) 0 clamp(5.2rem, 8vw, 7.4rem) !important;
+  color: var(--h-forest) !important;
+  background:
+    url("../../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 90% 9%, rgba(217, 255, 120, 0.15), transparent 30rem),
+    radial-gradient(circle at 4% 78%, rgba(25, 131, 79, 0.055), transparent 28rem),
+    #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__heading {
+  grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.58fr) !important;
+  align-items: end !important;
+  gap: clamp(2.5rem, 6vw, 6.5rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__kicker {
+  color: var(--h-green) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__heading h2 {
+  max-width: 12.6ch !important;
+  color: var(--h-forest) !important;
+  font-size: clamp(2.7rem, 4.8vw, 4.75rem) !important;
+  font-weight: 550 !important;
+  letter-spacing: -0.058em !important;
+  line-height: 0.96 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__intro p {
+  color: var(--h-muted) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__intro a {
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 3.25rem !important;
+  border: 1px solid rgba(144, 205, 47, 0.38) !important;
+  border-radius: 0.95rem !important;
+  padding: 0.82rem 1.15rem !important;
+  color: var(--h-forest) !important;
+  background: var(--h-lime) !important;
+  box-shadow: 0 18px 38px -28px rgba(82, 129, 0, 0.43) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__intro a:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--h-green-hover) !important;
+  background: var(--h-green-hover) !important;
+  transform: translateY(-3px) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__desktop {
+  grid-template-columns: minmax(25rem, 1.02fr) minmax(20rem, 0.72fr) !important;
+  gap: clamp(3.25rem, 7vw, 7rem) !important;
+  margin-top: clamp(3.5rem, 6vw, 5.75rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__visual-stick {
+  top: 6.5rem !important;
+  width: min(100%, 36rem, calc(78svh - 5rem)) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__stage {
+  border-color: rgba(11, 47, 32, 0.14) !important;
+  border-radius: 2rem !important;
+  background: var(--h-sage) !important;
+  box-shadow: 0 38px 96px -54px rgba(11, 47, 32, 0.48) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__progress {
+  background: rgba(11, 47, 32, 0.1) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__progress span {
+  background: linear-gradient(90deg, var(--h-lime-main), var(--h-green)) !important;
+  box-shadow: 0 0 12px rgba(185, 237, 77, 0.4) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__copy-step {
+  min-height: clamp(31rem, 58svh, 38rem) !important;
+  padding: clamp(2.5rem, 6vh, 4rem) 0 !important;
+  border-color: rgba(11, 47, 32, 0.11) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__copy-step:last-child {
+  min-height: clamp(29rem, 54svh, 36rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.derat-story__copy-step h3, .derat-story__mobile-copy h3) {
+  max-width: 12ch !important;
+  color: var(--h-forest) !important;
+  font-size: clamp(2rem, 2.75vw, 3rem) !important;
+  font-weight: 540 !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.derat-story__copy-step > p:last-child, .derat-story__mobile-copy > p:last-child) {
+  color: var(--h-muted) !important;
+}
+
+/* Process remains the one deliberate dark-green section. */
+html:root body .site-theme-white-green .lp-page .lp-process {
+  color: #ffffff !important;
+  background:
+    url("../../assets/forest-grain.svg") repeat,
+    radial-gradient(circle at 88% 8%, rgba(217, 255, 120, 0.12), transparent 28rem),
+    radial-gradient(circle at 9% 88%, rgba(25, 131, 79, 0.16), transparent 30rem),
+    var(--h-forest) !important;
+}
+
+/* ---------------------------------------------------------------------
+   Motion
+   --------------------------------------------------------------------- */
+@keyframes h-glow-drift {
+  0% { transform: translate3d(-2%, -1%, 0) scale(0.96); }
+  100% { transform: translate3d(4%, 3%, 0) scale(1.06); }
+}
+
+@keyframes h-blob-breathe {
+  0% { transform: translate3d(-2%, 0, 0) scale(0.94) rotate(-2deg); opacity: 0.72; }
+  100% { transform: translate3d(3%, -2%, 0) scale(1.06) rotate(2deg); opacity: 1; }
+}
+
+@keyframes h-card-float {
+  0%, 100% {
+    transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translate3d(0, -8px, 0);
+  }
+}
+
 @media (max-width: 980px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero {
+    min-height: auto !important;
+  }
+
   html:root body .site-theme-white-green .lp-page .lp-hero-grid {
     width: min(100% - 2rem, 48rem) !important;
     grid-template-columns: 1fr !important;
     gap: 3rem !important;
   }
-  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
-    justify-content: flex-start !important;
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-glide {
+    inset: 34% -18% -5% 12% !important;
+    opacity: 0.36 !important;
   }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+    min-height: auto !important;
+  }
+
   html:root body .site-theme-white-green .lp-page .lp-assistant-card {
     width: min(100%, 36rem) !important;
   }
+
+  html:root body .site-theme-white-green .lp-page .derat-story__heading {
+    grid-template-columns: 1fr !important;
+    gap: 1.6rem !important;
+  }
 }
+
 @media (max-width: 640px) {
   html:root body .site-theme-white-green .lp-page .lp-hero {
-    padding-top: 3.8rem !important;
+    padding-top: 4rem !important;
   }
+
   html:root body .site-theme-white-green .lp-page .lp-hero-grid {
     width: min(100% - 1.35rem, 38rem) !important;
-    gap: 2.2rem !important;
+    gap: 2.25rem !important;
   }
+
   html:root body .site-theme-white-green .lp-page .lp-hero h1 {
-    max-width: 12.4ch !important;
-    font-size: clamp(2.65rem, 13vw, 3.65rem) !important;
+    max-width: 12.2ch !important;
+    font-size: clamp(2.7rem, 13vw, 3.7rem) !important;
   }
+
   html:root body .site-theme-white-green .lp-page .lp-actions {
     display: grid !important;
     grid-template-columns: 1fr !important;
   }
+
   html:root body .site-theme-white-green .lp-page .lp-hero-cta {
     width: 100% !important;
   }
-  html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-picker {
     grid-template-columns: 1fr !important;
-    gap: 0.65rem !important;
   }
-  html:root body .site-theme-white-green .lp-page .lp-hero-proof li,
-  html:root body .site-theme-white-green .lp-page .lp-hero-proof li + li {
-    border-left: 0 !important;
-    padding: 0 !important;
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+    min-height: 3.55rem !important;
   }
+
   html:root body .site-theme-white-green .lp-page .lp-assistant-card {
     border-radius: 1.35rem !important;
     padding: 1.1rem !important;
   }
-  html:root body .site-theme-white-green .lp-page .lp-hero-picker {
-    grid-template-columns: 1fr !important;
+
+  html:root body .site-theme-white-green .lp-page .derat-story {
+    padding-block: 4.8rem !important;
   }
-  html:root body .site-theme-white-green .lp-page .lp-hero-pick {
-    min-height: 3.55rem !important;
+
+  html:root body .site-theme-white-green .lp-page .derat-story__mobile-slide figure {
+    border-color: var(--h-line) !important;
+    background: var(--h-sage) !important;
+    box-shadow: 0 24px 58px -42px rgba(11, 47, 32, 0.44) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .lp-page :is(.lp-hero-glow, .lp-hero-stage::before, .lp-assistant-card) {
+    animation: none !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page :is(.lp-assistant-card, .lp-project > a, .lp-comparison-body) {
+    transform: none !important;
   }
 }
