@@ -42,8 +42,9 @@ import "./WhiteGreenIdentityLock.css";
 import "./ApprovedOptionOneFinal.css";
 import "./ProfessionalHarmonyFinal.css";
 import "./HeroMotionSafety.css";
+import "./SecondHalfPremiumFinal.css";
 // Tento import musí zostať posledný kvôli existujúcemu deployment kontraktu.
-// Harmony a hero safeguard vrstvy majú cielene vyššiu scoped špecificitu.
+// Finálne vrstvy používajú cielene vyššiu scoped špecificitu.
 import "./LimeWhiteBrandFinal.css";
 
 const SPOTLIGHT_SURFACES = [
@@ -52,9 +53,13 @@ const SPOTLIGHT_SURFACES = [
   ".lp-comparison",
   ".lp-comparison-body",
   ".lp-caps-row",
+  ".lp-caps-row-head",
   ".lp-caps-detail",
   ".lp-project > a",
   ".lp-faq-item",
+  ".lp-tl-card",
+  ".lp-final-card",
+  ".lp-live-tools a",
   ".sp-project-card > a",
   ".sp-detail-block",
   ".sp-cta",
