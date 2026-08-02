@@ -49,7 +49,7 @@ import "./SecondHalfIconLock.css";
 import "./LimeWhiteBrandFinal.css";
 // Final authority: removes the remaining warm accent, restores tactile
 // interaction states and adds the restrained paper texture.
-import "./GreenTextureInteractionsFinal.css";
+import "@/components/site/GreenTextureInteractionsFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
