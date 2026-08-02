@@ -98,8 +98,7 @@ export const Route = createFileRoute("/postup")({
 function Timeline() {
   const listRef = useRef<HTMLOListElement>(null);
   const reducedMotion = useReducedMotion();
-  const { scaleY, reached } = useTimelineProgress(listRef, {
-    nodeSelector: ".sp-step-node",
+  const { progress, reached } = useTimelineProgress(listRef, {
     offset: ["start 0.92", "end 0.48"],
     count: steps.length,
   });
@@ -107,7 +106,11 @@ function Timeline() {
   return (
     <div className="sp-timeline-wrap">
       {reducedMotion ? null : (
-        <motion.span className="sp-timeline-progress" style={{ scaleY }} aria-hidden="true" />
+        <motion.span
+          className="sp-timeline-progress"
+          style={{ scaleY: progress }}
+          aria-hidden="true"
+        />
       )}
       <ol className="sp-timeline" ref={listRef}>
         {steps.map((step, index) => (

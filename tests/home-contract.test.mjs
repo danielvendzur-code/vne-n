@@ -176,6 +176,29 @@ test("lead endpoint runs on our own domain and never leaks the key", async () =>
   assert.match(api, /mailtoFallback/);
 });
 
+test("process reads as a timeline, not three empty boxes", async () => {
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const css = await read("src/components/site/LandingFinish.css");
+  const hook = await read("src/hooks/useTimelineProgress.ts");
+
+  // Kroky sú vedľa seba a spája ich jedna narastajúca čiara.
+  assert.match(landing, /lp-timeline-rail/);
+  assert.match(landing, /lp-timeline-fill/);
+  assert.match(css, /grid-template-columns: repeat\(var\(--steps, 3\)/);
+
+  // Smer čiary si vyberá CSS, hodnotu dodáva jedna premenná — tá istá
+  // os tak funguje vodorovne na širokej obrazovke aj zvislo na mobile.
+  assert.match(css, /scaleX\(var\(--tl-progress\)\)/);
+  assert.match(css, /scaleY\(var\(--tl-progress\)\)/);
+  // Prahy sa počítajú, nemerajú — odpadlo tým meranie rozloženia aj
+  // pozorovateľ rozmerov, ktorý musel bežať pri každej zmene veľkosti.
+  assert.match(hook, /progress/);
+  assert.match(hook, /\(index \+ 0\.5\) \/ count/);
+  assert.doesNotMatch(hook, /\.getBoundingClientRect\(/);
+  assert.doesNotMatch(hook, /new ResizeObserver\(/);
+  assert.doesNotMatch(hook, /useEffect\(/);
+});
+
 test("primary buttons keep readable ink on the light brand colour", async () => {
   const contact = await read("src/routes/kontakt.tsx");
   const finish = await read("src/components/site/SiteFinish.css");
@@ -345,9 +368,13 @@ test("landing anchors, one-shot reveals and source integrity stay intact", async
   // Sekcia realizácií drží reálne weby; prípadová štúdia má vlastnú kotvu,
   // takže sa id na stránke neopakuje.
   assert.match(landing, /id="realizacie"/);
+  assert.match(landing, /id="moznosti"/);
   assert.match(landing, /href: "#realizacie"/);
-  assert.match(landing, /href: "#moznosti"/);
   assert.match(landing, /href: "#pripadova-studia"/);
+
+  // Prvé tlačidlo v hero vedie k dohode, nie o kus nižšie na tú istú
+  // stránku — predtým obe viedli len na ďalšie prezeranie.
+  assert.match(landing, /primary: \{ label: "[^"]+", to: "\/kontakt" \}/);
   assert.match(realization, /id="pripadova-studia"/);
   assert.doesNotMatch(realization, /id="realizacie"/);
 

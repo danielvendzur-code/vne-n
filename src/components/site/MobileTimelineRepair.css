@@ -115,8 +115,7 @@
     border-radius: 18px !important;
     text-align: left !important;
     background:
-      radial-gradient(circle at 88% 0%, rgba(255, 199, 157, 0.08), transparent 45%),
-      #12100e !important;
+      radial-gradient(circle at 88% 0%, rgba(255, 199, 157, 0.08), transparent 45%), #12100e !important;
     box-shadow: 0 20px 48px -40px rgba(0, 0, 0, 0.96) !important;
     overflow: hidden !important;
   }

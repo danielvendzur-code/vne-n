@@ -72,11 +72,11 @@ const heroLine: Variants = {
 };
 
 const sequenceItem: Variants = {
-  hidden: { y: 24, opacity: 0 },
+  hidden: { y: 26, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: { duration: 0.72, ease: premiumEase },
+    transition: { duration: 0.78, ease: premiumEase },
   },
 };
 
@@ -130,18 +130,30 @@ const heroCopy = {
     lines: ["Váš web odpovie", "skôr, než", "zákazník odíde."],
     aria: "Váš web odpovie skôr, než zákazník odíde.",
     lead: "Tvoríme chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď a vám príde dopyt, s ktorým sa dá rovno pracovať.",
-    primary: { label: "Pozrieť realizácie", href: "#realizacie" },
-    secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
+    // Prvé tlačidlo vedie k dohode, nie na ďalšie prezeranie. Predtým
+    // obe viedli len o kus nižšie na tú istú stránku.
+    primary: { label: "Nezáväzná konzultácia", to: "/kontakt" },
+    secondary: { label: "Pozrieť realizácie", href: "#realizacie" },
   },
   client: {
     context: "Pre klientov po návrhu v e-maile",
     lines: ["Návrh už máte.", "Teraz si pozrite,", "ako bude pracovať."],
     aria: "Návrh už máte. Teraz si pozrite, ako bude pracovať na vašom webe.",
     lead: "Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce a priamy kontakt na náš tím.",
-    primary: { label: "Pozrieť živú realizáciu", href: "#pripadova-studia" },
-    secondary: { label: "Čo môže riešenie robiť", href: "#moznosti" },
+    primary: { label: "Dohodnúť ďalší krok", to: "/kontakt" },
+    secondary: { label: "Pozrieť živú realizáciu", href: "#pripadova-studia" },
   },
-} satisfies Record<LandingVariant, unknown>;
+} satisfies Record<
+  LandingVariant,
+  {
+    context: string;
+    lines: string[];
+    aria: string;
+    lead: string;
+    primary: { label: string; to: string };
+    secondary: { label: string; href: string };
+  }
+>;
 
 const capabilityGroups = [
   {
@@ -362,7 +374,7 @@ function Reveal({
   // vyzeral trhane a časť prvkov prišla mimo obrazovky.
   const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
   const y = narrow ? 18 : direction === "up" ? Math.min(distance, 26) : 0;
-  const enterDuration = narrow ? 0.52 : 0.72;
+  const enterDuration = narrow ? 0.58 : 0.82;
 
   // Pri vypnutých animáciách sa obsah vykreslí bez akýchkoľvek stavov.
   // Predtým tu ostal `variants` s `hidden: { opacity: 0 }` a bez cieľa,
@@ -382,11 +394,15 @@ function Reveal({
       initial="hidden"
       whileInView="visible"
       variants={{
-        hidden: { opacity: 0, x, y },
+        // Jemné priblíženie k posunu — prvok akoby prišiel spoza roviny
+        // stránky namiesto toho, aby len skočil zdola. Scale aj opacity
+        // aj transform rieši grafická karta, takže to nič nestojí.
+        hidden: { opacity: 0, x, y, scale: narrow ? 1 : 0.985 },
         visible: {
           opacity: 1,
           x: 0,
           y: 0,
+          scale: 1,
           transition: {
             duration: enterDuration,
             delay: narrow ? Math.min(delay, 0.06) : delay,
@@ -428,11 +444,13 @@ function Heading({
       whileInView="visible"
       viewport={{ once: true, amount: 0.25, margin: "-6% 0px -6% 0px" }}
       variants={{
-        hidden: { opacity: 0, x: -28 },
+        hidden: { opacity: 0 },
         visible: {
           opacity: 1,
-          x: 0,
-          transition: { duration: 0.72, ease: premiumEase, staggerChildren: 0.085 },
+          // Nadpis nabieha po častiach: najprv linka s popiskom, potom
+          // samotný nadpis, nakoniec veta pod ním. Rodič sa len odkryje,
+          // pohyb si robí každá časť sama — inak by sa posun zdvojil.
+          transition: { duration: 0.4, ease: premiumEase, staggerChildren: 0.11 },
         },
       }}
     >
@@ -486,11 +504,11 @@ function Hero({ variant }: { variant: LandingVariant }) {
             {copy.lead}
           </motion.p>
           <motion.div className="lp-actions" variants={sequenceItem}>
-            <a href={copy.primary.href} className="lp-button lp-hero-cta lp-hero-cta--primary">
+            <Link to={copy.primary.to} className="lp-button lp-hero-cta lp-hero-cta--primary">
               <span className="lp-button-content">
                 {copy.primary.label} <ArrowRight size={17} />
               </span>
-            </a>
+            </Link>
             <a href={copy.secondary.href} className="lp-button lp-hero-cta lp-hero-cta--secondary">
               <span className="lp-button-content">
                 {copy.secondary.label} <ArrowUpRight size={17} />
@@ -1000,49 +1018,51 @@ function FaqSection() {
 }
 
 function ProcessTimeline() {
-  const listRef = useRef<HTMLOListElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const { scaleY, reached } = useTimelineProgress(listRef, {
-    nodeSelector: ".lp-step-node",
-    offset: ["start 0.86", "end 0.5"],
+  const { progress, reached } = useTimelineProgress(wrapRef, {
+    offset: ["start 0.82", "end 0.62"],
     count: process.length,
   });
 
   return (
-    <div className="lp-timeline-wrap">
-      {reducedMotion ? null : (
-        <motion.span className="lp-timeline-progress" style={{ scaleY }} aria-hidden="true" />
-      )}
-      <ol className="lp-process-list" ref={listRef}>
+    <div
+      className="lp-timeline"
+      ref={wrapRef}
+      style={{ "--steps": process.length } as React.CSSProperties}
+    >
+      {/* Koľaj a čiara, ktorá po nej narastá. Smer si vyberá CSS podľa
+          šírky obrazovky — na širokej doprava, na mobile nadol. */}
+      <div className="lp-timeline-rail" aria-hidden="true">
+        <span className="lp-timeline-track" />
+        {reducedMotion ? (
+          <span className="lp-timeline-fill" data-static="true" />
+        ) : (
+          <motion.span
+            className="lp-timeline-fill"
+            style={{ "--tl-progress": progress } as React.CSSProperties}
+          />
+        )}
+      </div>
+
+      <ol className="lp-tl-steps">
         {process.map(({ icon: Icon, title, copy, result }, index) => (
-          <motion.li
-            key={title}
-            data-reached={reducedMotion || index < reached}
-            data-side={index % 2 === 0 ? "left" : "right"}
-            initial={reducedMotion ? false : { opacity: 0, x: index % 2 === 0 ? -58 : 58, y: 18 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true, amount: 0.34, margin: "-7% 0px -12% 0px" }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : { duration: 0.82, delay: index * 0.06, ease: premiumEase }
-            }
-          >
-            <span className="lp-step-node" aria-hidden="true">
-              <i />
+          <li key={title} data-reached={reducedMotion || index < reached}>
+            <span className="lp-tl-node" aria-hidden="true">
+              <b>{index + 1}</b>
             </span>
-            <span className="lp-step-icon" aria-hidden="true">
-              <Icon />
-            </span>
-            <div className="lp-step-body">
-              <span className="lp-step-num">Krok 0{index + 1}</span>
+            <div className="lp-tl-card">
+              <span className="lp-tl-icon" aria-hidden="true">
+                <Icon />
+              </span>
+              <span className="lp-tl-num">Krok 0{index + 1}</span>
               <h3>{title}</h3>
               <p>{copy}</p>
-              <p className="lp-step-result">
+              <p className="lp-tl-result">
                 <Check aria-hidden="true" /> {result}
               </p>
             </div>
-          </motion.li>
+          </li>
         ))}
       </ol>
     </div>
@@ -1096,7 +1116,7 @@ const SPOTLIGHT_TARGETS = [
   ".lp-faq-item",
   ".lp-final-card",
   ".lp-comparison-body",
-  ".lp-process-list li",
+  ".lp-tl-card",
   ".lp-live-tools a",
 ].join(", ");
 

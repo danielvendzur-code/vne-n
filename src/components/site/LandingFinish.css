@@ -134,7 +134,7 @@
     .lp-faq-item,
     .lp-final-card,
     .lp-comparison-body,
-    .lp-process-list li,
+    .lp-tl-card,
     .lp-live-tools a
   ) {
   --spot-x: 50%;
@@ -151,7 +151,7 @@
     .lp-faq-item,
     .lp-final-card,
     .lp-comparison-body,
-    .lp-process-list li,
+    .lp-tl-card,
     .lp-live-tools a
   )::after {
   content: "";
@@ -179,6 +179,54 @@
 .lp-page :is(.lp-assistant-card, .lp-final-card, .lp-caps-row-head, .lp-faq-item) > * {
   position: relative;
   z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   3a. Odhaľovanie viazané na scroll
+   `animation-timeline: view()` beží mimo hlavného vlákna — prehliadač si
+   priebeh dopočíta sám z polohy prvku, bez jediného riadku JavaScriptu.
+   Preto sa tieto animácie nedajú „zaseknúť" ani pri rýchlom scrollovaní.
+   Kde to prehliadač nevie, ostáva pôvodné odhaľovanie cez motion.
+   -------------------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Náhľad realizácie sa počas prechodu obrazovkou pomaly približuje. */
+    .lp-project-media img {
+      animation: lp-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 12% exit 88%;
+    }
+
+    /* Popiska sekcie sa jemne posunie oproti nadpisu — dá to hĺbku
+       bez toho, aby sa čokoľvek hýbalo rušivo. */
+    .lp-page .lp-eyebrow i {
+      animation: lp-line-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 62%;
+    }
+  }
+}
+
+@keyframes lp-drift {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes lp-line-grow {
+  from {
+    transform: scaleX(0.15);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.lp-page .lp-eyebrow i {
+  transform-origin: left center;
 }
 
 /* --------------------------------------------------------------------------
@@ -482,57 +530,108 @@
 
 /* --------------------------------------------------------------------------
    5. Časová os spolupráce
-   Čiara narastá plynulo, uzly sa rozsvecujú po jednom a krok, ku ktorému
-   sa človek doscrolloval, mierne vystúpi dopredu.
+   Tri kroky vedľa seba, spojené jednou čiarou, ktorá po nich narastá
+   podľa scrollu. Predtým to boli tri karty cez celú šírku s osamotenou
+   čiarou vedľa — postup z toho nebolo vidieť a strácalo sa v prázdne.
    -------------------------------------------------------------------------- */
-.lp-timeline-wrap {
+.lp-timeline {
+  --node: 2.6rem;
+  --rail: 2px;
   position: relative;
-  padding-left: 2.4rem;
+  margin-top: clamp(2.6rem, 5vw, 4rem);
 }
 
-.lp-timeline-wrap::before {
-  content: "";
+/* Koľaj vedie stredom uzlov. Na širokej obrazovke vodorovne. */
+.lp-timeline-rail {
   position: absolute;
-  top: 0.6rem;
-  bottom: 0.6rem;
-  left: 0.72rem;
-  width: 2px;
-  border-radius: 2px;
-  background: rgba(255, 231, 213, 0.12);
+  z-index: 0;
+  top: calc(var(--node) / 2 - var(--rail) / 2);
+  left: calc(100% / var(--steps, 3) / 2);
+  width: calc(100% - 100% / var(--steps, 3));
+  height: var(--rail);
+  pointer-events: none;
 }
 
-.lp-timeline-progress {
+.lp-timeline-track,
+.lp-timeline-fill {
   position: absolute;
-  top: 0.6rem;
-  bottom: 0.6rem;
-  left: 0.72rem;
-  width: 2px;
-  border-radius: 2px;
-  transform-origin: top center;
-  background: linear-gradient(180deg, #ffc79d, #f0a873 62%, rgba(240, 168, 115, 0.35));
-  box-shadow: 0 0 18px rgba(255, 199, 157, 0.42);
+  inset: 0;
+  border-radius: var(--rail);
 }
 
-.lp-process-list {
+.lp-timeline-track {
+  background: rgba(255, 231, 213, 0.13);
+}
+
+.lp-timeline-fill {
+  --tl-progress: 0;
+  transform-origin: left center;
+  /* Hodnotu zapisuje motion cez premennú, takže tá istá čiara funguje
+     vodorovne aj zvislo — stačí zmeniť os v mediálnom dotaze. */
+  transform: scaleX(var(--tl-progress));
+  background: linear-gradient(90deg, #ffc79d, #f0a873);
+  box-shadow: 0 0 16px rgba(255, 199, 157, 0.45);
+}
+
+.lp-timeline-fill[data-static="true"] {
+  transform: none;
+}
+
+.lp-tl-steps {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: clamp(1.6rem, 3vw, 2.4rem);
-  margin: clamp(2.4rem, 5vw, 3.4rem) 0 0;
+  grid-template-columns: repeat(var(--steps, 3), minmax(0, 1fr));
+  gap: clamp(1rem, 2.2vw, 1.9rem);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.lp-process-list li {
-  position: relative;
+.lp-tl-steps li {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: 1rem;
-  padding: 1.1rem 1.25rem;
-  border: 1px solid rgba(255, 231, 213, 0.08);
+  grid-template-rows: var(--node) auto;
+  justify-items: center;
+  gap: 1.15rem;
+}
+
+/* Číslovaný uzol sedí priamo na koľaji. */
+.lp-tl-node {
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  border-radius: 50%;
+  color: #8f8377;
+  background: #100b08;
+  box-shadow: 0 0 0 2px rgba(255, 231, 213, 0.16);
+  font-size: 0.92rem;
+  font-weight: 760;
+  transition:
+    color 420ms ease,
+    background-color 420ms ease,
+    box-shadow 420ms ease,
+    transform 420ms var(--lp-ease);
+}
+
+.lp-tl-steps li[data-reached="true"] .lp-tl-node {
+  color: #12100e;
+  background: #ffc79d;
+  box-shadow:
+    0 0 0 2px rgba(255, 199, 157, 0.55),
+    0 0 22px rgba(255, 199, 157, 0.5);
+  transform: scale(1.06);
+}
+
+.lp-tl-card {
+  width: 100%;
+  height: 100%;
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(255, 231, 213, 0.09);
   border-radius: 1.1rem;
   background: rgba(255, 199, 157, 0.022);
-  opacity: 0.5;
-  transform: translateY(6px);
+  opacity: 0.55;
+  transform: translateY(8px);
   transition:
     opacity 520ms var(--lp-ease),
     transform 520ms var(--lp-ease),
@@ -540,56 +639,21 @@
     background-color 520ms ease;
 }
 
-.lp-process-list li[data-reached="true"] {
+.lp-tl-steps li[data-reached="true"] .lp-tl-card {
   opacity: 1;
   transform: translateY(0);
-  border-color: rgba(255, 199, 157, 0.24);
-  background: rgba(255, 199, 157, 0.055);
+  border-color: rgba(255, 199, 157, 0.22);
+  background: rgba(255, 199, 157, 0.05);
 }
 
-/* Bodka na čiare */
-.lp-step-node {
-  position: absolute;
-  top: 1.75rem;
-  left: -2.05rem;
-  width: 15px;
-  height: 15px;
+.lp-tl-icon {
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: #100b08;
-  box-shadow: 0 0 0 2px rgba(255, 231, 213, 0.16);
-  transition: box-shadow 460ms ease;
-}
-
-.lp-step-node i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(255, 231, 213, 0.28);
-  transition:
-    background-color 460ms ease,
-    transform 460ms var(--lp-ease);
-}
-
-.lp-process-list li[data-reached="true"] .lp-step-node {
-  box-shadow:
-    0 0 0 2px rgba(255, 199, 157, 0.65),
-    0 0 20px rgba(255, 199, 157, 0.4);
-}
-
-.lp-process-list li[data-reached="true"] .lp-step-node i {
-  background: #ffc79d;
-  transform: scale(1.12);
-}
-
-.lp-step-icon {
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-bottom: 0.95rem;
   border: 1px solid rgba(255, 199, 157, 0.2);
-  border-radius: 0.85rem;
+  border-radius: 0.8rem;
   color: #ffc79d;
   background: rgba(255, 199, 157, 0.07);
   transition:
@@ -597,60 +661,122 @@
     background-color 460ms ease;
 }
 
-.lp-step-icon svg {
-  width: 1.15rem;
-  height: 1.15rem;
-}
-
-.lp-process-list li[data-reached="true"] .lp-step-icon {
-  border-color: rgba(255, 199, 157, 0.45);
+.lp-tl-steps li[data-reached="true"] .lp-tl-icon {
+  border-color: rgba(255, 199, 157, 0.42);
   background: rgba(255, 199, 157, 0.13);
 }
 
-.lp-step-num {
+.lp-tl-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.lp-tl-num {
   display: block;
   color: #ffc79d;
-  font-size: 0.66rem;
+  font-size: 0.65rem;
   font-weight: 780;
   letter-spacing: 0.11em;
   text-transform: uppercase;
 }
 
-.lp-step-body h3 {
-  margin: 0.4rem 0 0;
+.lp-tl-card h3 {
+  margin: 0.42rem 0 0;
   color: #fdf7f0;
-  font-size: 1.2rem;
+  font-size: clamp(1.05rem, 1.5vw, 1.22rem);
   letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
-.lp-step-body p {
-  margin: 0.42rem 0 0;
+.lp-tl-card p {
+  margin: 0.5rem 0 0;
   color: #cfc3b7;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   line-height: 1.6;
 }
 
-@media (max-width: 640px) {
-  .lp-timeline-wrap {
-    padding-left: 1.9rem;
+/* Výstup kroku — to, čo z neho klient naozaj dostane. */
+.lp-tl-card .lp-tl-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(255, 199, 157, 0.14);
+  color: #ffc79d;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.lp-tl-card .lp-tl-result svg {
+  flex: 0 0 auto;
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-top: 0.12rem;
+}
+
+/* Na užšej obrazovke sa os postaví — kroky pod seba, čiara vľavo. */
+@media (max-width: 880px) {
+  .lp-timeline {
+    --node: 2.3rem;
+    padding-left: calc(var(--node) + 1rem);
   }
 
-  .lp-timeline-wrap::before,
-  .lp-timeline-progress {
-    left: 0.44rem;
+  .lp-timeline-rail {
+    top: calc(var(--node) / 2);
+    bottom: calc(var(--node) / 2);
+    left: calc(var(--node) / 2 - var(--rail) / 2);
+    width: var(--rail);
+    height: auto;
   }
 
-  .lp-step-node {
-    left: -1.62rem;
+  .lp-timeline-fill {
+    transform-origin: center top;
+    transform: scaleY(var(--tl-progress));
+    background: linear-gradient(180deg, #ffc79d, #f0a873);
+  }
+
+  .lp-tl-steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.1rem;
+  }
+
+  .lp-tl-steps li {
+    grid-template-rows: auto;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+  }
+
+  .lp-tl-node {
+    position: absolute;
+    left: calc(-1 * (var(--node) + 1rem));
+  }
+
+  .lp-tl-steps li {
+    position: relative;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-tl-card,
+  .lp-tl-node {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 
 /* --------------------------------------------------------------------------
    6. Hero
    -------------------------------------------------------------------------- */
-.lp-hero {
+/* Selektor musí byť rovnako silný ako `html:root body .lp-page .lp-hero`
+   v ClientLandingFinal.css — tam sa vynucovala výška celej obrazovky
+   (`min(920px, 100svh - 12px)`) a obsah sa v nej centroval, takže nad
+   nadpisom ostávalo cez 120 px prázdna. Výšku teraz určuje obsah. */
+html:root body .lp-page .lp-hero {
   position: relative;
-  padding-block: clamp(3.6rem, 7vw, 6rem) clamp(4rem, 7vw, 6.5rem) !important;
+  min-height: auto !important;
+  padding-block: clamp(1.6rem, 3.2vw, 2.8rem) clamp(3.4rem, 6vw, 5.5rem) !important;
   background:
     radial-gradient(ellipse 70% 55% at 70% 8%, rgba(255, 199, 157, 0.11), transparent 70%),
     var(--lp-band-a) !important;
@@ -895,7 +1021,8 @@ html:root body .lp-page .lp-comparison-body[data-mode="without"] li svg {
 
 @media (prefers-reduced-motion: reduce) {
   .lp-project-media img,
-  .lp-process-list li {
+  .lp-tl-card,
+  .lp-tl-node {
     transition: none !important;
     transform: none !important;
     opacity: 1 !important;
