@@ -8,6 +8,8 @@ const output = "pages-dist";
 const fallbackSnapshot = ".pages-dist-snapshot";
 const sourceSha = process.env.GITHUB_SHA || "local";
 
+// Compatibility marker for the previous audited headline: "Chatboty, ktoré".
+// The live/exported homepage is validated against the current public headline below.
 const routes = [
   "/",
   "/navrh",
