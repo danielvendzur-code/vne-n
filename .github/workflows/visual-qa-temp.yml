@@ -14,13 +14,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
-      - run: bun run build:pages
-      - name: Start preview
+      - name: Start styled Vite preview
         run: |
-          PORT=4173 node .output/server/index.mjs > /tmp/preview.log 2>&1 &
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/preview.log 2>&1 &
           echo $! > /tmp/preview.pid
-          for attempt in {1..40}; do
-            curl --fail --silent http://127.0.0.1:4173/vne-n/ > /dev/null && exit 0
+          for attempt in {1..50}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
             sleep 1
           done
           cat /tmp/preview.log
@@ -29,11 +28,11 @@ jobs:
         run: bunx playwright@1.55.0 install --with-deps chromium
       - name: Capture desktop and mobile
         run: |
-          bunx playwright@1.55.0 screenshot --browser chromium --viewport-size "1600,900" --full-page http://127.0.0.1:4173/vne-n/ desktop.png
-          bunx playwright@1.55.0 screenshot --browser chromium --viewport-size "390,844" --full-page http://127.0.0.1:4173/vne-n/ mobile.png
+          bunx playwright@1.55.0 screenshot --browser chromium --viewport-size "1600,900" --wait-for-timeout 2500 --full-page http://127.0.0.1:4173/ desktop.png
+          bunx playwright@1.55.0 screenshot --browser chromium --viewport-size "390,844" --wait-for-timeout 2500 --full-page http://127.0.0.1:4173/ mobile.png
       - uses: actions/upload-artifact@v4
         with:
-          name: visual-qa
+          name: visual-qa-styled
           path: |
             desktop.png
             mobile.png
