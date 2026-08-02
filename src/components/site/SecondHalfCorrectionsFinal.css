@@ -1,0 +1,101 @@
+/* Visual-QA corrections for the premium second half. */
+
+/* The featured case uses the full tall card: image and result sit side by side
+   instead of leaving a large unused white track below the copy. */
+@media (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) > a {
+    grid-template-columns: minmax(0, 1.16fr) minmax(17rem, 0.72fr) !important;
+    grid-template-rows: 1fr !important;
+    min-height: 39rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-media {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 39rem !important;
+    aspect-ratio: auto !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-content: end !important;
+    border-left: 1px solid rgba(11, 47, 32, 0.1) !important;
+    padding: clamp(1.6rem, 3vw, 2.45rem) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(217, 255, 120, 0.22), transparent 48%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.72), #ffffff 46%) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy::before {
+    content: "FEATURED" !important;
+    position: absolute !important;
+    top: 1.5rem !important;
+    left: 1.75rem !important;
+    color: rgba(25, 131, 79, 0.44) !important;
+    font-size: 0.64rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy h3 {
+    max-width: 6ch !important;
+    font-size: clamp(2.7rem, 4vw, 4.4rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy small {
+    margin-top: 1.1rem !important;
+  }
+}
+
+/* Existing legacy CSS draws its own plus. The final control uses one clean
+   pair of lines only. */
+html:root body .site-theme-white-green .lp-page .lp-caps-count > i {
+  display: none !important;
+}
+
+/* Below the desktop breakpoint only the purpose-built mobile story belongs in
+   the document flow. Keeping the sticky desktop scene caused a duplicated
+   phone and several empty screens before the mobile cards. */
+@media (max-width: 899px) {
+  html:root body .site-theme-white-green .lp-page .derat-story__desktop {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .derat-story__mobile {
+    display: grid !important;
+    margin-top: 2rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) > a {
+    min-height: 0 !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-media,
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    min-height: 0 !important;
+    border-left: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy::before {
+    content: none !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy h3 {
+    max-width: none !important;
+    font-size: 1.7rem !important;
+  }
+}
