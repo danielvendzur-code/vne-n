@@ -13,7 +13,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test": "node --test tests/home-contract.test.mjs",
+    "test": "node --test tests/home-contract.test.mjs tests/white-green-identity.test.mjs",
     "format": "prettier --write .",
     "build:vercel": "NITRO_PRESET=vercel vite build",
     "build:pages": "NITRO_PRESET=node-server VITE_BASE_PATH=/vne-n/ vite build"
