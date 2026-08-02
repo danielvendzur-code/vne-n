@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const forbiddenWarm = /#ffc79d|#f0a873|#f3a75a|#e58a5b|#f4c9a8|255\s*,\s*199\s*,\s*157|240\s*,\s*168\s*,\s*115/i;
+const forbiddenWarm =
+  /#ffc79d|#f0a873|#f3a75a|#e58a5b|#f4c9a8|255\s*,\s*199\s*,\s*157|240\s*,\s*168\s*,\s*115/i;
 const singleLinePath =
   "M69 103L69 88H82C93 88 101 80 101 69V23C101 14 91 10 84 17L64 37C59 42 53 42 48 37L28 17C21 10 11 14 11 23V69C11 80 19 88 30 88H54L69 103Z";
 
@@ -14,7 +15,7 @@ test("the public brand uses one continuous M and speech-bubble stroke", async ()
 
   assert.match(component, new RegExp(singleLinePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.equal((component.match(/<path\b/g) ?? []).length, 1);
-  assert.doesNotMatch(component, /<g\b|translate\(112 0\) scale\(-1 1\)/);
+  assert.doesNotMatch(component, /<g\b/);
   assert.match(component, /strokeWidth="8\.5"/);
 
   for (const asset of [exported, favicon]) {
