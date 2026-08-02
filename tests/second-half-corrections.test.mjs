@@ -14,10 +14,7 @@ test("visual QA corrections prevent the mobile story gap and empty featured card
       layout.indexOf('import "./SecondHalfCorrectionsFinal.css"'),
   );
   assert.match(css, /\.lp-project:nth-child\(1\) > a[\s\S]*grid-template-columns/);
-  assert.match(
-    css,
-    /\.lp-project:nth-child\(1\) \.lp-project-media[\s\S]*min-height: 39rem/,
-  );
+  assert.match(css, /\.lp-project:nth-child\(1\) \.lp-project-media[\s\S]*min-height: 39rem/);
   assert.match(
     css,
     /@media \(max-width: 899px\)[\s\S]*\.derat-story__desktop[\s\S]*display: none !important/,
