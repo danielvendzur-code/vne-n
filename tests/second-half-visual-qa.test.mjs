@@ -21,22 +21,13 @@ test("the final visual-QA layer removes clipping and legacy warm states", async 
       layout.indexOf('import "./LimeWhiteBrandFinal.css"'),
   );
 
-  assert.match(
-    css,
-    /\.lp-project:nth-child\(1\) \.lp-project-copy[\s\S]*display: flex !important/,
-  );
+  assert.match(css, /\.lp-project:nth-child\(1\) \.lp-project-copy[\s\S]*display: flex !important/);
   assert.match(
     css,
     /\.lp-project:nth-child\(1\) \.lp-project-copy h3[\s\S]*max-width: none !important/,
   );
-  assert.match(
-    css,
-    /\.lp-caps-row-head \.lp-caps-count[\s\S]*grid-column: 3 !important/,
-  );
-  assert.match(
-    css,
-    /\.lp-comparison-body li svg[\s\S]*background: transparent !important/,
-  );
+  assert.match(css, /\.lp-caps-row-head \.lp-caps-count[\s\S]*grid-column: 3 !important/);
+  assert.match(css, /\.lp-comparison-body li svg[\s\S]*background: transparent !important/);
   assert.match(
     css,
     /\.lp-tl-steps li\[data-reached="true"\] \.lp-tl-node[\s\S]*background: var\(--sh-lime\) !important/,
