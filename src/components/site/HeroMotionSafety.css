@@ -1,0 +1,19 @@
+/* Final desktop safeguards for the restored animated hero. */
+html:root body .site-theme-white-green .lp-page .lp-hero::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line {
+  overflow: visible !important;
+  margin-bottom: 0 !important;
+  padding-block: 0.04em 0.1em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line > span,
+html:root body .site-theme-white-green .lp-page .lp-hero-line > em {
+  min-height: 1.02em !important;
+  line-height: 1 !important;
+}
