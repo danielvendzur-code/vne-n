@@ -46,9 +46,11 @@ import "./SecondHalfPremiumFinal.css";
 import "./SecondHalfCorrectionsFinal.css";
 import "./SecondHalfVisualQAFinal.css";
 import "./SecondHalfIconLock.css";
-// Tento import musí zostať posledný kvôli existujúcemu deployment kontraktu.
-// Finálne vrstvy používajú cielene vyššiu scoped špecificitu.
 import "./LimeWhiteBrandFinal.css";
+// Final authority: removes the remaining warm accent, restores tactile
+// interaction states and adds the restrained paper texture.
+import "@/components/site/GreenTextureInteractionsFinal.css";
+import "@/components/site/GreenInteractionVisualCorrection.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

@@ -1,0 +1,85 @@
+/* Visual correction after the first real desktop and mobile render. */
+
+/* The texture must be visible, but it must still read as clean paper. */
+html:root body::before {
+  background:
+    repeating-linear-gradient(0deg, rgba(11, 47, 32, 0.011) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(90deg, rgba(25, 131, 79, 0.008) 0 1px, transparent 1px 7px),
+    radial-gradient(circle at 9% 4%, rgba(217, 255, 120, 0.2), transparent 27rem),
+    radial-gradient(circle at 92% 12%, rgba(25, 131, 79, 0.09), transparent 31rem),
+    radial-gradient(circle at 62% 84%, rgba(185, 237, 77, 0.12), transparent 34rem),
+    linear-gradient(180deg, #ffffff 0%, #fbfdf9 54%, #ffffff 100%) !important;
+}
+
+html:root body::after {
+  opacity: 0.105 !important;
+  background-size: 150px 150px !important;
+}
+
+/* Specific enough to beat historical route-level CTA selectors. */
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-hero
+  .lp-hero-cta--primary:is(:hover, :focus-visible),
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-assistant-card
+  .lp-assistant-cta:is(:hover, :focus-visible),
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-final-card
+  .lp-button:is(:hover, :focus-visible),
+html:root body .site-theme-white-green .site-header .site-consultation-cta:is(:hover, :focus-visible),
+html:root body .site-theme-white-green .site-menu-drawer .site-menu-cta:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #126d41 !important;
+  background: #126d41 !important;
+  background-color: #126d41 !important;
+  background-image: none !important;
+  box-shadow: 0 24px 50px -28px rgba(11, 47, 32, 0.62) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  :is(.lp-caps-detail-cta, .lp-faq-ask, .lp-live-tools a):is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: #126d41 !important;
+  background: #126d41 !important;
+  box-shadow: 0 20px 42px -28px rgba(11, 47, 32, 0.56) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* Press feedback must remain visible even against stronger old transforms. */
+html:root
+  body
+  .site-theme-white-green
+  :is(
+    .site-consultation-cta,
+    .site-menu-cta,
+    .lp-button,
+    .lp-assistant-cta,
+    .lp-hero-pick,
+    .lp-chip,
+    .lp-caps-row-head,
+    .lp-caps-detail-cta,
+    .lp-faq-ask,
+    .lp-faq-item h3 button,
+    .lp-live-tools a,
+    .sp-button,
+    .contact-submit
+  ):active {
+  transform: translateY(1px) scale(0.965) !important;
+  box-shadow:
+    inset 0 0 0 2px rgba(25, 131, 79, 0.22),
+    0 8px 22px -16px rgba(11, 47, 32, 0.54) !important;
+  transition-duration: 70ms !important;
+}
