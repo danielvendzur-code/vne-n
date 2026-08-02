@@ -1,4 +1,4 @@
-run_id=30758002390
+run_id=30758071452
 install=success
 lint=success
 test=success
@@ -13,175 +13,175 @@ TAP version 13
 # Subtest: client landing layer is authoritative and pricing stays off the homepage
 ok 1 - client landing layer is authoritative and pricing stays off the homepage
   ---
-  duration_ms: 10.574702
+  duration_ms: 10.788792
   type: 'test'
   ...
 # Subtest: decorative hover blobs are removed from quiet actions and chips
 ok 2 - decorative hover blobs are removed from quiet actions and chips
   ---
-  duration_ms: 1.350495
+  duration_ms: 1.434495
   type: 'test'
   ...
 # Subtest: website chips use a warm selected glow without an icon plate
 ok 3 - website chips use a warm selected glow without an icon plate
   ---
-  duration_ms: 1.726685
+  duration_ms: 1.390553
   type: 'test'
   ...
 # Subtest: comparison uses one clean content surface without liquid runtime
 ok 4 - comparison uses one clean content surface without liquid runtime
   ---
-  duration_ms: 2.354315
+  duration_ms: 2.31369
   type: 'test'
   ...
 # Subtest: typography and icons share one visual language
 ok 5 - typography and icons share one visual language
   ---
-  duration_ms: 0.82684
+  duration_ms: 0.778407
   type: 'test'
   ...
 # Subtest: hero and desktop navigation remain visually simplified
 ok 6 - hero and desktop navigation remain visually simplified
   ---
-  duration_ms: 0.892121
+  duration_ms: 0.875398
   type: 'test'
   ...
 # Subtest: the dedicated pricing page still covers client preparation
 ok 7 - the dedicated pricing page still covers client preparation
   ---
-  duration_ms: 1.541501
+  duration_ms: 1.443442
   type: 'test'
   ...
 # Subtest: contact form submits directly and keeps a resilient fallback
 ok 8 - contact form submits directly and keeps a resilient fallback
   ---
-  duration_ms: 1.195246
+  duration_ms: 1.080091
   type: 'test'
   ...
 # Subtest: lead endpoint runs on our own domain and never leaks the key
 ok 9 - lead endpoint runs on our own domain and never leaks the key
   ---
-  duration_ms: 1.997319
+  duration_ms: 1.753872
   type: 'test'
   ...
 # Subtest: process reads as a timeline, not three empty boxes
 ok 10 - process reads as a timeline, not three empty boxes
   ---
-  duration_ms: 3.328118
+  duration_ms: 2.492394
   type: 'test'
   ...
 # Subtest: primary buttons keep readable ink on the light brand colour
 ok 11 - primary buttons keep readable ink on the light brand colour
   ---
-  duration_ms: 1.266669
+  duration_ms: 1.06343
   type: 'test'
   ...
 # Subtest: portfolio image loading preserves lazy loading after the first image
 ok 12 - portfolio image loading preserves lazy loading after the first image
   ---
-  duration_ms: 1.625768
+  duration_ms: 1.697457
   type: 'test'
   ...
 # Subtest: mobile layouts and reduced motion remain explicit
 ok 13 - mobile layouts and reduced motion remain explicit
   ---
-  duration_ms: 1.347059
+  duration_ms: 1.34126
   type: 'test'
   ...
 # Subtest: approved buttons and one-layer details remain mounted
 ok 14 - approved buttons and one-layer details remain mounted
   ---
-  duration_ms: 1.900369
+  duration_ms: 1.648656
   type: 'test'
   ...
 # Subtest: metadata security and fresh assistant loading remain present
 ok 15 - metadata security and fresh assistant loading remain present
   ---
-  duration_ms: 1.776148
+  duration_ms: 1.350948
   type: 'test'
   ...
 # Subtest: assistant fallback always links to an internal contact route
 ok 16 - assistant fallback always links to an internal contact route
   ---
-  duration_ms: 3.403027
+  duration_ms: 3.285158
   type: 'test'
   ...
 # Subtest: Pages workflow validates the live Taste build
 ok 17 - Pages workflow validates the live Taste build
   ---
-  duration_ms: 1.049404
+  duration_ms: 1.006354
   type: 'test'
   ...
 # Subtest: website chips use one crisp warm interaction system
 ok 18 - website chips use one crisp warm interaction system
   ---
-  duration_ms: 1.792107
+  duration_ms: 1.86483
   type: 'test'
   ...
 # Subtest: landing anchors, one-shot reveals and source integrity stay intact
 ok 19 - landing anchors, one-shot reveals and source integrity stay intact
   ---
-  duration_ms: 2.784785
+  duration_ms: 2.611177
   type: 'test'
   ...
 # Subtest: realizations are real live websites, not invented case studies
 ok 20 - realizations are real live websites, not invented case studies
   ---
-  duration_ms: 4.261516
+  duration_ms: 7.108123
   type: 'test'
   ...
 # Subtest: both landing variants exist and the client one stays out of the index
 ok 21 - both landing variants exist and the client one stays out of the index
   ---
-  duration_ms: 2.206359
+  duration_ms: 3.454956
   type: 'test'
   ...
 # Subtest: the public website is team-first and uses one brand contact
 ok 22 - the public website is team-first and uses one brand contact
   ---
-  duration_ms: 1.967825
+  duration_ms: 4.052585
   type: 'test'
   ...
 # Subtest: final correction restores the comparison and removes chip ornaments
 ok 23 - final correction restores the comparison and removes chip ornaments
   ---
-  duration_ms: 2.383379
+  duration_ms: 1.526147
   type: 'test'
   ...
 # Subtest: privacy copy matches the deployed processors and cookie-free analytics
 ok 24 - privacy copy matches the deployed processors and cookie-free analytics
   ---
-  duration_ms: 1.456442
+  duration_ms: 1.317606
   type: 'test'
   ...
 # Subtest: collaboration timelines animate and respect reduced motion
 ok 25 - collaboration timelines animate and respect reduced motion
   ---
-  duration_ms: 2.073752
+  duration_ms: 2.065258
   type: 'test'
   ...
 # Subtest: the white forest lime system is the final brand authority
 ok 26 - the white forest lime system is the final brand authority
   ---
-  duration_ms: 2.013891
+  duration_ms: 1.856243
   type: 'test'
   ...
 # Subtest: the public brand uses the approved option 1 geometry
 ok 27 - the public brand uses the approved option 1 geometry
   ---
-  duration_ms: 7.873262
+  duration_ms: 6.11778
   type: 'test'
   ...
 # Subtest: the approved option 1 layer fixes contrast and removes warm legacy states
 ok 28 - the approved option 1 layer fixes contrast and removes warm legacy states
   ---
-  duration_ms: 2.64242
+  duration_ms: 1.893604
   type: 'test'
   ...
 # Subtest: the emergency widget fallback uses option 1 and a gradual green hover
 ok 29 - the emergency widget fallback uses option 1 and a gradual green hover
   ---
-  duration_ms: 1.82061
+  duration_ms: 1.950109
   type: 'test'
   ...
 1..29
@@ -192,7 +192,7 @@ ok 29 - the emergency widget fallback uses option 1 and a gradual green hover
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 113.793515
+# duration_ms 117.853434
 
 ===== build =====
 $ NITRO_PRESET=vercel vite build
@@ -238,7 +238,7 @@ computing gzip size...
 .vercel/output/static/assets/react-core-CWFrONgv.js                               189.80 kB │ gzip: 59.72 kB
 .vercel/output/static/assets/index-2Je1sh2J.js                                    216.65 kB │ gzip: 71.63 kB
 
-[32m✓ built in 1.73s[39m
+[32m✓ built in 1.76s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
 [2Ktransforming...✓ 163 modules transformed.
 rendering chunks...
@@ -288,7 +288,7 @@ node_modules/.nitro/vite/services/ssr/assets/router-BLpst7nS.js                 
 node_modules/.nitro/vite/services/ssr/assets/tanstack-CHTOywYG.js                                  64.34 kB │ gzip: 15.93 kB
 node_modules/.nitro/vite/services/ssr/assets/PremiumLanding-BsplB4SV.js                            73.88 kB │ gzip: 18.95 kB
 
-[32m✓ built in 941ms[39m
+[32m✓ built in 841ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `vercel`, compatibility: `2026-08-02`)[22m
 [success] [nitro] Generated public [36m.vercel/output/static[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -307,7 +307,7 @@ computing gzip size...
 .vercel/output/functions/__server.func/_chunks/motion.mjs         417.94 kB │ gzip: 104.88 kB
 .vercel/output/functions/__server.func/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 612ms[39m
+[32m✓ built in 535ms[39m
 [info] Generated [36m.vercel/output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 [success] [nitro] You can deploy this build using `npx nitro deploy --prebuilt`
