@@ -43,10 +43,7 @@ jobs:
             src/components/site/Nav.tsx \
             src/routes/__root.tsx \
             src/components/BrandMark.tsx \
-            src/components/site/LimeWhiteBrandFinal.css \
-            public/brand/logo.svg \
-            public/brand/mark-lime.svg \
-            public/favicon.svg
+            src/components/site/LimeWhiteBrandFinal.css
 
       - name: Run source and deployment security audit
         run: node scripts/security-audit.mjs
