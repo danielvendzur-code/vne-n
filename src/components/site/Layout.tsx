@@ -39,10 +39,10 @@ import "./SiteFinish.css";
 import "./MobileTimelineRepair.css";
 import "./TeamMotionUpgrade.css";
 import "./WhiteGreenIdentityLock.css";
-// Schválená verzia 1 má vyššiu scoped špecificitu než historické vrstvy.
 import "./ApprovedOptionOneFinal.css";
-// Kompatibilná vrstva ostáva posledná pre existujúci bezpečnostný kontrakt;
-// schválená vrstva nad ňou používa zámerne vyššiu špecificitu.
+import "./ProfessionalHarmonyFinal.css";
+// Tento import musí zostať posledný kvôli existujúcemu deployment kontraktu.
+// Harmony vrstva má cielene vyššiu scoped špecificitu.
 import "./LimeWhiteBrandFinal.css";
 
 const SPOTLIGHT_SURFACES = [

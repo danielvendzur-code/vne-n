@@ -1,0 +1,398 @@
+/* MÔJ CHATBOT — professional harmony pass. Approved palette only. */
+html:root body .site-theme-white-green .lp-page {
+  --h-forest: #0b2f20;
+  --h-green: #19834f;
+  --h-lime: #d9ff78;
+  --h-sage: #f5f9f2;
+  --h-mint: #eaf6df;
+  --h-muted: #536159;
+  --h-line: rgba(11, 47, 32, 0.12);
+}
+
+/* Calm hero canvas; remove the grey block and stacked legacy effects. */
+html:root body .site-theme-white-green .lp-page .lp-hero {
+  min-height: min(820px, calc(100svh - 72px)) !important;
+  padding-block: clamp(4.2rem, 7vw, 6.3rem) clamp(3.8rem, 6vw, 5.3rem) !important;
+  border-bottom: 1px solid var(--h-line) !important;
+  background:
+    radial-gradient(circle at 83% 42%, rgba(217, 255, 120, 0.18), transparent 24rem),
+    linear-gradient(180deg, #ffffff 0%, #fbfdf9 58%, #f5f9f2 100%) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero::before,
+html:root body .site-theme-white-green .lp-page .lp-hero-copy::before {
+  content: none !important;
+  display: none !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-glide {
+  display: none !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-glow {
+  top: 18% !important;
+  right: 2% !important;
+  width: 35rem !important;
+  height: 35rem !important;
+  opacity: 0.55 !important;
+  filter: blur(28px) !important;
+  background: radial-gradient(circle, rgba(185, 237, 77, 0.18), transparent 69%) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+  width: min(100% - 2.5rem, 82rem) !important;
+  grid-template-columns: minmax(0, 1.02fr) minmax(25rem, 0.82fr) !important;
+  align-items: center !important;
+  gap: clamp(3.5rem, 7vw, 7.5rem) !important;
+  padding-block: 0 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-copy {
+  max-width: 42rem !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-context {
+  width: fit-content !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.55rem !important;
+  margin-bottom: 1.5rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  color: var(--h-green) !important;
+  background: transparent !important;
+  font-size: 0.72rem !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.13em !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-context::before {
+  content: "" !important;
+  width: 1.65rem !important;
+  height: 2px !important;
+  border-radius: 999px !important;
+  background: var(--h-green) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+  max-width: 11.8ch !important;
+  font-size: clamp(3.45rem, 5vw, 5.25rem) !important;
+  font-weight: 540 !important;
+  letter-spacing: -0.066em !important;
+  line-height: 0.94 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-lead {
+  max-width: 36rem !important;
+  margin-top: 1.5rem !important;
+  color: var(--h-muted) !important;
+  font-size: clamp(1.02rem, 1.25vw, 1.14rem) !important;
+  line-height: 1.62 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-actions {
+  gap: 0.7rem !important;
+  margin-top: 1.8rem !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-cta {
+  min-height: 3.45rem !important;
+  border-radius: 0.92rem !important;
+  padding-inline: 1.35rem !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--primary {
+  color: var(--h-forest) !important;
+  border-color: rgba(143, 207, 43, 0.34) !important;
+  background: var(--h-lime) !important;
+  box-shadow: 0 18px 38px -25px rgba(90, 137, 0, 0.44) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary {
+  color: var(--h-forest) !important;
+  border-color: var(--h-line) !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+  box-shadow: none !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary:is(:hover, :focus-visible) {
+  color: var(--h-forest) !important;
+  border-color: rgba(25, 131, 79, 0.28) !important;
+  background: var(--h-mint) !important;
+}
+
+/* Proof points: one aligned row, real line icons, no green squares. */
+html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  margin-top: 2rem !important;
+  padding-top: 1.05rem !important;
+  border-top: 1px solid var(--h-line) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-proof li {
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: 1.05rem minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding-right: 0.9rem !important;
+  color: #355044 !important;
+  font-size: 0.74rem !important;
+  font-weight: 640 !important;
+  line-height: 1.35 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-proof li + li {
+  border-left: 1px solid var(--h-line) !important;
+  padding-left: 0.9rem !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-proof svg {
+  width: 1rem !important;
+  height: 1rem !important;
+  padding: 0 !important;
+  color: var(--h-green) !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Product card: aligned to the copy and visually quieter. */
+html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+  min-height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  overflow: visible !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-stage::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 10% -8% 4% 8% !important;
+  border-radius: 44% 56% 52% 48% / 46% 45% 55% 54% !important;
+  background: rgba(217, 255, 120, 0.18) !important;
+  filter: blur(44px) !important;
+  pointer-events: none !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  z-index: 1 !important;
+  width: min(100%, 31rem) !important;
+  transform: none !important;
+  animation: none !important;
+  border: 1px solid var(--h-line) !important;
+  border-radius: 1.65rem !important;
+  padding: clamp(1.4rem, 2.3vw, 1.8rem) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  box-shadow:
+    0 34px 90px -58px rgba(11, 47, 32, 0.42),
+    inset 0 1px #ffffff !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
+  max-width: 14ch !important;
+  margin-bottom: 1.15rem !important;
+  font-size: clamp(1.75rem, 2.35vw, 2.25rem) !important;
+  font-weight: 590 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 1.01 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-picker {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.58rem !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+  min-height: 4.1rem !important;
+  display: grid !important;
+  grid-template-columns: 1.2rem minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-content: start !important;
+  gap: 0.7rem !important;
+  border-radius: 1rem !important;
+  padding: 0.78rem 0.92rem !important;
+  text-align: left !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-icon {
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+  display: grid !important;
+  place-items: center !important;
+  color: inherit !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-icon svg {
+  width: 1.05rem !important;
+  height: 1.05rem !important;
+  stroke-width: 1.8 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-label {
+  color: inherit !important;
+  font-size: 0.86rem !important;
+  font-weight: 690 !important;
+  line-height: 1.2 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:is([data-active="true"], [data-selected="true"], [aria-pressed="true"]) {
+  color: #ffffff !important;
+  border-color: var(--h-forest) !important;
+  background: var(--h-forest) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:is([data-active="true"], [data-selected="true"], [aria-pressed="true"]) .lp-hero-pick-icon {
+  color: var(--h-lime) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-assistant-answer {
+  min-height: 4.6rem !important;
+  grid-template-columns: 1rem minmax(0, 1fr) !important;
+  gap: 0.72rem !important;
+  margin-top: 0.75rem !important;
+  border: 0 !important;
+  border-radius: 1rem !important;
+  padding: 1rem !important;
+  color: #355044 !important;
+  background: var(--h-sage) !important;
+  box-shadow: inset 0 0 0 1px rgba(11, 47, 32, 0.06) !important;
+  font-size: 0.8rem !important;
+  line-height: 1.52 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-assistant-answer svg {
+  width: 1rem !important;
+  height: 1rem !important;
+  color: var(--h-green) !important;
+  background: transparent !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta {
+  min-height: 3.5rem !important;
+  border-color: var(--h-forest) !important;
+  border-radius: 1rem !important;
+  color: #ffffff !important;
+  background: var(--h-forest) !important;
+  box-shadow: none !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--h-green) !important;
+  background: var(--h-green) !important;
+}
+
+/* Header and the rest of the page use restrained, repeatable roles. */
+html:root body .site-theme-white-green .site-header-bar {
+  min-height: 3.8rem !important;
+  border-radius: 1.3rem !important;
+  border-color: var(--h-line) !important;
+  background: rgba(255, 255, 255, 0.93) !important;
+  box-shadow: 0 16px 44px -38px rgba(11, 47, 32, 0.4) !important;
+}
+html:root body .site-theme-white-green .site-consultation-cta {
+  color: var(--h-forest) !important;
+  border-color: rgba(25, 131, 79, 0.18) !important;
+  background: var(--h-mint) !important;
+  box-shadow: none !important;
+}
+html:root body .site-theme-white-green .site-consultation-cta:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--h-green) !important;
+  background: var(--h-green) !important;
+}
+html:root body .site-theme-white-green .site-menu-toggle {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:root body .site-theme-white-green .site-menu-toggle:focus-visible {
+  outline: 2px solid rgba(25, 131, 79, 0.38) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+html:root body .site-theme-white-green .lp-page :is(.lp-value, .lp-caps, .lp-faq) {
+  background: var(--h-sage) !important;
+  background-image: none !important;
+}
+html:root body .site-theme-white-green .lp-page :is(.derat-story, .lp-portfolio) {
+  background: #ffffff !important;
+  background-image: none !important;
+}
+html:root body .site-theme-white-green .lp-page :is(.lp-value, .derat-story, .lp-caps, .lp-portfolio, .lp-faq) {
+  border-top: 1px solid rgba(11, 47, 32, 0.08) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-heading h2 {
+  max-width: 13ch !important;
+  font-weight: 520 !important;
+  letter-spacing: -0.055em !important;
+  line-height: 0.98 !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-eyebrow {
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-eyebrow i {
+  width: 1.65rem !important;
+  height: 2px !important;
+  border: 0 !important;
+  background: var(--h-green) !important;
+}
+html:root body .site-theme-white-green .lp-page :is(.lp-comparison, .lp-project-card, .lp-caps-detail, .lp-faq-item, .lp-caps-row) {
+  border-radius: 1.35rem !important;
+  border-color: var(--h-line) !important;
+  box-shadow: 0 28px 76px -54px rgba(11, 47, 32, 0.34) !important;
+}
+html:root body .site-theme-white-green .lp-page .lp-caps-row-head h3::after {
+  width: 0.38rem !important;
+  height: 0.38rem !important;
+  background: var(--h-green) !important;
+}
+html:root body .site-theme-white-green .lp-page :is(.lp-project-arrow, .lp-caps-icon, .lp-caps-note > svg, .lp-step-icon, .lp-step-result svg, .lp-faq-item svg) {
+  color: var(--h-green) !important;
+  fill: none !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 980px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    width: min(100% - 2rem, 48rem) !important;
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+    justify-content: flex-start !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+    width: min(100%, 36rem) !important;
+  }
+}
+@media (max-width: 640px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero {
+    padding-top: 3.8rem !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    width: min(100% - 1.35rem, 38rem) !important;
+    gap: 2.2rem !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+    max-width: 12.4ch !important;
+    font-size: clamp(2.65rem, 13vw, 3.65rem) !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero-cta {
+    width: 100% !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof li,
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof li + li {
+    border-left: 0 !important;
+    padding: 0 !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+    border-radius: 1.35rem !important;
+    padding: 1.1rem !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero-picker {
+    grid-template-columns: 1fr !important;
+  }
+  html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+    min-height: 3.55rem !important;
+  }
+}
