@@ -36,9 +36,6 @@
       return false;
     }
 
-    // Starší iframe build označoval globálnu funkciu cez
-    // __siteAssistantEmbed. Aktuálny priamy build sa spoľahlivo rozpozná
-    // podľa skutočného React hosta `dv-assistant-root`.
     return Boolean(window.openSiteAssistant.__siteAssistantEmbed || host.id === HOST_ID);
   };
 
@@ -68,8 +65,10 @@
     anchor.setAttribute("aria-label", "Otvoriť krátke zadanie");
     anchor.innerHTML = `
       <span aria-hidden="true">
-        <svg width="38" height="38" viewBox="0 0 112 112" fill="none" focusable="false">
-          <path d="M69 103L69 88H82C93 88 101 80 101 69V23C101 14 91 10 84 17L64 37C59 42 53 42 48 37L28 17C21 10 11 14 11 23V69C11 80 19 88 30 88H54L69 103Z"
+        <svg width="42" height="42" viewBox="0 0 112 112" fill="none" focusable="false">
+          <path d="M93 84V23C93 13 81 9 74 16L56 34L38 16C31 9 19 13 19 23V70C19 81 27 89 38 89H47V104L63 89H78"
+                stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M36 69V43L51 58C54 61 58 61 61 58L76 43V69"
                 stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </span>
@@ -83,7 +82,7 @@
       display: "inline-flex",
       alignItems: "center",
       gap: "11px",
-      minHeight: "62px",
+      minHeight: "64px",
       padding: "10px 16px 10px 12px",
       border: "1px solid rgba(11,47,32,.14)",
       borderRadius: "20px",
@@ -92,6 +91,8 @@
       boxShadow: "0 24px 58px -38px rgba(11,47,32,.48)",
       fontFamily: '"Inter Tight", "Segoe UI Variable", system-ui, sans-serif',
       textDecoration: "none",
+      transition:
+        "background-color 320ms cubic-bezier(.16,1,.3,1), border-color 320ms cubic-bezier(.16,1,.3,1), transform 320ms cubic-bezier(.16,1,.3,1)",
     });
 
     const icon = anchor.firstElementChild;
@@ -102,7 +103,8 @@
         justifyContent: "center",
         color: "#b9ed4d",
         background: "transparent",
-        filter: "drop-shadow(0 5px 10px rgba(25,131,79,.18))",
+        filter: "none",
+        transition: "color 520ms cubic-bezier(.16,1,.3,1)",
       });
     }
 
@@ -122,11 +124,13 @@
     anchor.onmouseenter = () => {
       anchor.style.borderColor = "rgba(25,131,79,.34)";
       anchor.style.background = "#f5f9f2";
+      anchor.style.transform = "translateY(-2px)";
       if (icon instanceof HTMLElement) icon.style.color = "#19834f";
     };
     anchor.onmouseleave = () => {
       anchor.style.borderColor = "rgba(11,47,32,.14)";
       anchor.style.background = "#ffffff";
+      anchor.style.transform = "translateY(0)";
       if (icon instanceof HTMLElement) icon.style.color = "#b9ed4d";
     };
 

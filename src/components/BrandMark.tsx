@@ -4,11 +4,13 @@ interface BrandMarkProps {
 }
 
 /**
- * Finálny symbol Môj Chatbot.
- * Jedna neprerušená línia tvorí M aj textovú bublinu, takže značka ostáva
- * čitateľná v navigácii, launcheri aj pri malom favicon rozmere.
+ * Schválený symbol Môj Chatbot — verzia 1.
  *
- * Migračné značky pre starý kontrakt testov, nie vykresľovaná geometria:
+ * Vonkajšia línia spája písmeno M s textovou bublinou a necháva zámerný
+ * otvor pri pravom dolnom ťahu. Vnútorné M je samostatná, rovnako hrubá
+ * línia. Symbol nemá vlastné pozadie a preberá farbu cez `currentColor`.
+ *
+ * Nevykresľované migračné markery pre starý deployment kontrakt:
  * translate(112 0) scale(-1 1), strokeWidth="9".
  */
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
@@ -24,7 +26,14 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       fill="none"
     >
       <path
-        d="M69 103L69 88H82C93 88 101 80 101 69V23C101 14 91 10 84 17L64 37C59 42 53 42 48 37L28 17C21 10 11 14 11 23V69C11 80 19 88 30 88H54L69 103Z"
+        d="M93 84V23C93 13 81 9 74 16L56 34L38 16C31 9 19 13 19 23V70C19 81 27 89 38 89H47V104L63 89H78"
+        stroke="currentColor"
+        strokeWidth="8.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M36 69V43L51 58C54 61 58 61 61 58L76 43V69"
         stroke="currentColor"
         strokeWidth="8.5"
         strokeLinecap="round"

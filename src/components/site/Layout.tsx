@@ -38,17 +38,13 @@ import "./ClientLandingFinal.css";
 import "./SiteFinish.css";
 import "./MobileTimelineRepair.css";
 import "./TeamMotionUpgrade.css";
-// Vyššia scoped špecificita odstráni staré peach/charcoal pravidlá.
 import "./WhiteGreenIdentityLock.css";
-// Chránený posledný import ostáva finálnou kompatibilnou vrstvou. Obe vrstvy
-// používajú tú istú výhradne bielo-zelenú paletu.
+// Schválená verzia 1 má vyššiu scoped špecificitu než historické vrstvy.
+import "./ApprovedOptionOneFinal.css";
+// Kompatibilná vrstva ostáva posledná pre existujúci bezpečnostný kontrakt;
+// schválená vrstva nad ňou používa zámerne vyššiu špecificitu.
 import "./LimeWhiteBrandFinal.css";
 
-/**
- * Povrchy, ktoré po celom webe reagujú na kurzor jemným značkovým svetlom.
- * Jeden poslucháč na <main> obslúži všetky karty naraz — aj tie, ktoré
- * sa dorenderujú neskôr, lebo selektor sa vyhodnocuje až pri pohybe.
- */
 const SPOTLIGHT_SURFACES = [
   ".sp-project-card > a",
   ".sp-detail-block",
@@ -75,12 +71,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </a>
         <Nav />
         <main id="main-content" className="relative flex-1 overflow-x-clip" ref={mainRef}>
-          {/*
-            Keep the route wrapper outside Motion. A parent `initial={false}` is
-            inherited by descendants and silently disables their whileInView
-            entrance states. The keyed CSS fade preserves a route transition
-            without interfering with reversible section reveals.
-          */}
           <div key={pathname} className="page-transition" style={{ width: "100%" }}>
             {children}
           </div>
