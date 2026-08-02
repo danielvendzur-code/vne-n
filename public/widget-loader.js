@@ -119,16 +119,16 @@
       }
     }
 
-    anchor.addEventListener("mouseenter", () => {
+    anchor.onmouseenter = () => {
       anchor.style.borderColor = "rgba(25,131,79,.34)";
       anchor.style.background = "#f5f9f2";
       if (icon instanceof HTMLElement) icon.style.color = "#19834f";
-    });
-    anchor.addEventListener("mouseleave", () => {
+    };
+    anchor.onmouseleave = () => {
       anchor.style.borderColor = "rgba(11,47,32,.14)";
       anchor.style.background = "#ffffff";
       if (icon instanceof HTMLElement) icon.style.color = "#b9ed4d";
-    });
+    };
 
     document.body.appendChild(anchor);
   };
