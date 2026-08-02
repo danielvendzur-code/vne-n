@@ -472,14 +472,20 @@ test("privacy copy matches the deployed processors and cookie-free analytics", a
   assert.doesNotMatch(layout, /<CookieConsent/);
 });
 
-test("collaboration timelines alternate from the sides and respect reduced motion", async () => {
+test("collaboration timelines animate and respect reduced motion", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const process = await read("src/routes/postup.tsx");
   const css = await read("src/components/site/TeamMotionUpgrade.css");
 
-  assert.match(landing, /data-side=\{index % 2 === 0 \? "left" : "right"\}/);
-  assert.match(landing, /lp-step-result/);
+  // Na domovskej stránke už kroky nestriedajú strany — sú vedľa seba na
+  // jednej narastajúcej čiare. Výstup každého kroku ostáva.
+  assert.match(landing, /lp-tl-result/);
+  assert.doesNotMatch(landing, /data-side=\{index % 2 === 0 \? "left" : "right"\}/);
+
+  // Šesťkrokovú os na /postup striedanie strán ďalej používa.
+  assert.match(process, /data-side=\{index % 2 === 0 \? "left" : "right"\}/);
   assert.match(process, /whileInView=\{\{ opacity: 1, x: 0, y: 0 \}\}/);
+
   assert.match(css, /animation-timeline: view\(\)/);
   assert.match(css, /prefers-reduced-motion: reduce/);
 });
