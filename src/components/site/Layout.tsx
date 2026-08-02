@@ -46,6 +46,14 @@ import "./ProfessionalHarmonyFinal.css";
 import "./LimeWhiteBrandFinal.css";
 
 const SPOTLIGHT_SURFACES = [
+  ".lp-assistant-card",
+  ".lp-hero-cta--secondary",
+  ".lp-comparison",
+  ".lp-comparison-body",
+  ".lp-caps-row",
+  ".lp-caps-detail",
+  ".lp-project > a",
+  ".lp-faq-item",
   ".sp-project-card > a",
   ".sp-detail-block",
   ".sp-cta",
