@@ -38,9 +38,10 @@ import "./ClientLandingFinal.css";
 import "./SiteFinish.css";
 import "./MobileTimelineRepair.css";
 import "./TeamMotionUpgrade.css";
-// Finálna autorita nového vizuálu. Musí ostať posledná, pretože vedome
-// zjednocuje historické vrstvy do jednej bielej, lesnej a limetkovej palety.
 import "./LimeWhiteBrandFinal.css";
+// Táto vrstva má vlastný koreň a vyššiu špecificitu než staré peach/charcoal
+// experimenty. Je jedinou konečnou autoritou farieb verejného webu.
+import "./WhiteGreenIdentityLock.css";
 
 /**
  * Povrchy, ktoré po celom webe reagujú na kurzor jemným značkovým svetlom.
@@ -63,7 +64,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--background)" }}>
+      <div
+        className="site-theme-white-green min-h-screen flex flex-col"
+        style={{ backgroundColor: "var(--background)" }}
+      >
         <SiteMotionEnhancements key={`motion-${pathname}`} />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
