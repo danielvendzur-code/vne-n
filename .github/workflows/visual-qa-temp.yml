@@ -24,12 +24,63 @@ jobs:
           done
           cat /tmp/preview.log
           exit 1
-      - name: Install browser
-        run: bunx playwright@1.55.0 install --with-deps chromium
-      - name: Capture desktop and mobile
+      - name: Install browser and test runner
         run: |
-          bunx playwright@1.55.0 screenshot --browser chromium --viewport-size "1600,900" --wait-for-timeout 2500 --full-page http://127.0.0.1:4173/ desktop.png
-          bunx playwright@1.55.0 screenshot --browser chromium --viewport-size "390,844" --wait-for-timeout 2500 --full-page http://127.0.0.1:4173/ mobile.png
+          bunx playwright@1.55.0 install --with-deps chromium
+          bun add --no-save --dev @playwright/test@1.55.0
+      - name: Capture and inspect styled render
+        run: |
+          cat > visual-temp.spec.ts <<'EOF'
+          import { test } from '@playwright/test';
+
+          const selectors = [
+            '.page-transition',
+            '.lp-page',
+            '.lp-hero',
+            '.lp-hero-grid',
+            '.lp-hero-copy',
+            '.lp-hero-context',
+            '.lp-hero-line',
+            '.lp-hero-line > span',
+            '.lp-hero-stage',
+            '.lp-assistant-card',
+          ];
+
+          test('desktop', async ({ page }) => {
+            await page.setViewportSize({ width: 1600, height: 900 });
+            await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+            await page.waitForTimeout(5000);
+            const info = await page.evaluate((requested) => requested.map((selector) => {
+              const element = document.querySelector(selector);
+              if (!(element instanceof HTMLElement)) return { selector, missing: true };
+              const style = getComputedStyle(element);
+              const rect = element.getBoundingClientRect();
+              return {
+                selector,
+                opacity: style.opacity,
+                visibility: style.visibility,
+                display: style.display,
+                transform: style.transform,
+                animationName: style.animationName,
+                color: style.color,
+                width: Math.round(rect.width),
+                height: Math.round(rect.height),
+                top: Math.round(rect.top),
+                left: Math.round(rect.left),
+              };
+            }), selectors);
+            console.log(`STYLE_DEBUG=${JSON.stringify(info)}`);
+            await page.screenshot({ path: 'desktop.png', fullPage: true });
+          });
+
+          test('mobile', async ({ page }) => {
+            await page.setViewportSize({ width: 390, height: 844 });
+            await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+            await page.waitForTimeout(2500);
+            await page.screenshot({ path: 'mobile.png', fullPage: true });
+          });
+          EOF
+          bunx playwright test visual-temp.spec.ts --reporter=line --workers=1
       - uses: actions/upload-artifact@v4
         with:
           name: visual-qa-styled
