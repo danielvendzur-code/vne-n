@@ -1,19 +1,11 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Baterka pod kurzorom.
+ * Baterka a jemný fyzický náklon pod kurzorom.
  *
- * Na koreňovom prvku sleduje pohyb myši a zapisuje polohu do premenných
- * `--spot-x` / `--spot-y`, z ktorých si CSS kreslí teplý svetelný kruh.
- * Zápis prebieha raz za snímok cez requestAnimationFrame, takže ani rýchly
- * pohyb myšou nezahltí hlavné vlákno — na rozdiel od zápisu priamo
- * v obsluhe udalosti, ktorá sa spúšťa aj 200× za sekundu.
- *
- * Efekt sa zapína len na zariadeniach so skutočným kurzorom. Na dotyku
- * by nemal čo sledovať a zbytočne by kreslil ďalšiu vrstvu.
- *
- * @param selector Potomkovia, ktorí majú baterku dostať. Bez neho ju
- *                 dostane samotný koreňový prvok.
+ * Pohyb zapisuje iba CSS premenné a je zoskupený cez requestAnimationFrame,
+ * takže React sa pri pohybe myši vôbec nerenderuje. Dotykové zariadenia aj
+ * reduced-motion režim zostávajú bez efektu.
  */
 export function useSpotlight<T extends HTMLElement>(selector?: string) {
   const ref = useRef<T>(null);
@@ -24,54 +16,85 @@ export function useSpotlight<T extends HTMLElement>(selector?: string) {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    type PendingFrame = {
+      target: HTMLElement;
+      x: number;
+      y: number;
+      tiltX: number;
+      tiltY: number;
+    };
+
     let frame = 0;
-    let pending: { target: HTMLElement; x: number; y: number } | null = null;
+    let pending: PendingFrame | null = null;
 
     const flush = () => {
       frame = 0;
       if (!pending) return;
-      const { target, x, y } = pending;
+      const { target, x, y, tiltX, tiltY } = pending;
       pending = null;
       target.style.setProperty("--spot-x", `${x.toFixed(1)}%`);
       target.style.setProperty("--spot-y", `${y.toFixed(1)}%`);
+      target.style.setProperty("--tilt-x", `${tiltX.toFixed(2)}deg`);
+      target.style.setProperty("--tilt-y", `${tiltY.toFixed(2)}deg`);
+      target.dataset.spot = "on";
+    };
+
+    const resolveTarget = (origin: EventTarget | null) => {
+      if (!(origin instanceof Element)) return null;
+      const target = selector
+        ? origin.closest<HTMLElement>(selector)
+        : (root as unknown as HTMLElement);
+      return target && root.contains(target) ? target : null;
+    };
+
+    const resetTarget = (target: HTMLElement | null) => {
+      if (!target) return;
+      delete target.dataset.spot;
+      target.style.setProperty("--tilt-x", "0deg");
+      target.style.setProperty("--tilt-y", "0deg");
     };
 
     const handleMove = (event: PointerEvent) => {
       if (event.pointerType === "touch") return;
-      const origin = event.target;
-      if (!(origin instanceof Element)) return;
-      const target = selector
-        ? origin.closest<HTMLElement>(selector)
-        : (root as unknown as HTMLElement);
-      if (!target || !root.contains(target)) return;
+      const target = resolveTarget(event.target);
+      if (!target) return;
 
       const bounds = target.getBoundingClientRect();
       if (!bounds.width || !bounds.height) return;
 
+      const xRatio = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+      const yRatio = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
+
       pending = {
         target,
-        x: ((event.clientX - bounds.left) / bounds.width) * 100,
-        y: ((event.clientY - bounds.top) / bounds.height) * 100,
+        x: xRatio * 100,
+        y: yRatio * 100,
+        tiltX: (0.5 - yRatio) * 5.2,
+        tiltY: (xRatio - 0.5) * 6.4,
       };
-      target.dataset.spot = "on";
       if (!frame) frame = window.requestAnimationFrame(flush);
     };
 
-    const handleLeave = (event: PointerEvent) => {
-      const origin = event.target;
-      if (!(origin instanceof Element)) return;
-      const target = selector ? origin.closest<HTMLElement>(selector) : root;
-      if (target instanceof HTMLElement) delete target.dataset.spot;
+    const handleOut = (event: PointerEvent) => {
+      const target = resolveTarget(event.target);
+      if (!target) return;
+      const nextTarget = resolveTarget(event.relatedTarget);
+      if (nextTarget === target) return;
+      resetTarget(target);
+    };
+
+    const handleRootLeave = () => {
+      root.querySelectorAll<HTMLElement>("[data-spot='on']").forEach(resetTarget);
     };
 
     root.addEventListener("pointermove", handleMove, { passive: true });
-    root.addEventListener("pointerleave", handleLeave, { passive: true });
-    root.addEventListener("pointerout", handleLeave, { passive: true });
+    root.addEventListener("pointerout", handleOut, { passive: true });
+    root.addEventListener("pointerleave", handleRootLeave, { passive: true });
 
     return () => {
       root.removeEventListener("pointermove", handleMove);
-      root.removeEventListener("pointerleave", handleLeave);
-      root.removeEventListener("pointerout", handleLeave);
+      root.removeEventListener("pointerout", handleOut);
+      root.removeEventListener("pointerleave", handleRootLeave);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, [selector]);
