@@ -18,6 +18,28 @@ html:root body .site-theme-white-green .lp-page .lp-hero-line > em {
   line-height: 1 !important;
 }
 
+/* The historical card layout used translateY(-50%) because the card was
+   absolutely positioned. It is now a normal grid child, so that legacy
+   transform would move it roughly 225 px too high. Keep tilt on transform
+   and run the vertical float through the independent translate property. */
+html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+  transform:
+    perspective(1200px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg)) !important;
+  translate: 0 0;
+}
+
+@keyframes h-card-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
 /* Motion still runs first. This only prevents a slow desktop hydration from
    leaving inline initial states visible forever. */
 @media (min-width: 981px) and (prefers-reduced-motion: no-preference) {
@@ -37,5 +59,12 @@ html:root body .site-theme-white-green .lp-page .lp-hero-line > em {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
     filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+    transform: none !important;
+    translate: 0 0 !important;
   }
 }
