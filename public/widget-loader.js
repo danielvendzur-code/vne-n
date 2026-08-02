@@ -66,15 +66,11 @@
     anchor.id = FALLBACK_ID;
     anchor.href = internalHref("/kontakt");
     anchor.setAttribute("aria-label", "Otvoriť krátke zadanie");
-    // Ikona je kreslená, nie znak z písma. Textový symbol sa v niektorých
-    // písmach vykreslil s vlastným pozadím a pod ikonou ostávala škvrna.
     anchor.innerHTML = `
       <span aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" focusable="false">
-          <path d="M12 3.2 13.7 9l5.8 1.7-5.8 1.7L12 18.2l-1.7-5.8L4.5 10.7 10.3 9 12 3.2Z"
-                fill="currentColor" />
-          <path d="M18.6 15.4 19.4 18l2.6.8-2.6.8-.8 2.6-.8-2.6-2.6-.8 2.6-.8.8-2.6Z"
-                fill="currentColor" opacity="0.62" />
+        <svg width="38" height="38" viewBox="0 0 112 112" fill="none" focusable="false">
+          <path d="M69 103L69 88H82C93 88 101 80 101 69V23C101 14 91 10 84 17L64 37C59 42 53 42 48 37L28 17C21 10 11 14 11 23V69C11 80 19 88 30 88H54L69 103Z"
+                stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </span>
       <span><strong>Môj Chatbot</strong><small>Otvoriť krátke zadanie</small></span>
@@ -86,14 +82,14 @@
       zIndex: "2147483000",
       display: "inline-flex",
       alignItems: "center",
-      gap: "10px",
-      minHeight: "58px",
-      padding: "10px 15px",
-      border: "1px solid rgba(255,199,157,.22)",
-      borderRadius: "18px",
-      color: "#faf5ef",
-      background: "#12100e",
-      boxShadow: "0 24px 58px -38px rgba(0,0,0,.98)",
+      gap: "11px",
+      minHeight: "62px",
+      padding: "10px 16px 10px 12px",
+      border: "1px solid rgba(11,47,32,.14)",
+      borderRadius: "20px",
+      color: "#0b2f20",
+      background: "#ffffff",
+      boxShadow: "0 24px 58px -38px rgba(11,47,32,.48)",
       fontFamily: '"Inter Tight", "Segoe UI Variable", system-ui, sans-serif',
       textDecoration: "none",
     });
@@ -104,9 +100,9 @@
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        color: "#ffc79d",
+        color: "#b9ed4d",
         background: "transparent",
-        filter: "none",
+        filter: "drop-shadow(0 5px 10px rgba(25,131,79,.18))",
       });
     }
 
@@ -116,12 +112,23 @@
       const strong = copy.querySelector("strong");
       const small = copy.querySelector("small");
       if (strong instanceof HTMLElement) {
-        Object.assign(strong.style, { fontSize: "13px", fontWeight: "680" });
+        Object.assign(strong.style, { color: "#0b2f20", fontSize: "13px", fontWeight: "680" });
       }
       if (small instanceof HTMLElement) {
-        Object.assign(small.style, { color: "#c9beb4", fontSize: "11px" });
+        Object.assign(small.style, { color: "#536159", fontSize: "11px" });
       }
     }
+
+    anchor.addEventListener("mouseenter", () => {
+      anchor.style.borderColor = "rgba(25,131,79,.34)";
+      anchor.style.background = "#f5f9f2";
+      if (icon instanceof HTMLElement) icon.style.color = "#19834f";
+    });
+    anchor.addEventListener("mouseleave", () => {
+      anchor.style.borderColor = "rgba(11,47,32,.14)";
+      anchor.style.background = "#ffffff";
+      if (icon instanceof HTMLElement) icon.style.color = "#b9ed4d";
+    });
 
     document.body.appendChild(anchor);
   };
