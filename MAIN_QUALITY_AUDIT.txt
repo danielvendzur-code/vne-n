@@ -1,4 +1,4 @@
-run_id=30747003356
+run_id=30752138441
 install=success
 lint=success
 test=success
@@ -13,162 +13,168 @@ TAP version 13
 # Subtest: client landing layer is authoritative and pricing stays off the homepage
 ok 1 - client landing layer is authoritative and pricing stays off the homepage
   ---
-  duration_ms: 9.345261
+  duration_ms: 12.933716
   type: 'test'
   ...
 # Subtest: decorative hover blobs are removed from quiet actions and chips
 ok 2 - decorative hover blobs are removed from quiet actions and chips
   ---
-  duration_ms: 1.094035
+  duration_ms: 1.987935
   type: 'test'
   ...
 # Subtest: website chips use a warm selected glow without an icon plate
 ok 3 - website chips use a warm selected glow without an icon plate
   ---
-  duration_ms: 1.690977
+  duration_ms: 2.659362
   type: 'test'
   ...
 # Subtest: comparison uses one clean content surface without liquid runtime
 ok 4 - comparison uses one clean content surface without liquid runtime
   ---
-  duration_ms: 2.352552
+  duration_ms: 3.747609
   type: 'test'
   ...
 # Subtest: typography and icons share one visual language
 ok 5 - typography and icons share one visual language
   ---
-  duration_ms: 0.852066
+  duration_ms: 1.007302
   type: 'test'
   ...
 # Subtest: hero and desktop navigation remain visually simplified
 ok 6 - hero and desktop navigation remain visually simplified
   ---
-  duration_ms: 0.915396
+  duration_ms: 1.112096
   type: 'test'
   ...
 # Subtest: the dedicated pricing page still covers client preparation
 ok 7 - the dedicated pricing page still covers client preparation
   ---
-  duration_ms: 1.406457
+  duration_ms: 1.549239
   type: 'test'
   ...
 # Subtest: contact form submits directly and keeps a resilient fallback
 ok 8 - contact form submits directly and keeps a resilient fallback
   ---
-  duration_ms: 1.084346
+  duration_ms: 1.34523
   type: 'test'
   ...
 # Subtest: lead endpoint runs on our own domain and never leaks the key
 ok 9 - lead endpoint runs on our own domain and never leaks the key
   ---
-  duration_ms: 1.558336
+  duration_ms: 2.758477
   type: 'test'
   ...
 # Subtest: process reads as a timeline, not three empty boxes
 ok 10 - process reads as a timeline, not three empty boxes
   ---
-  duration_ms: 3.159313
+  duration_ms: 2.797739
   type: 'test'
   ...
 # Subtest: primary buttons keep readable ink on the light brand colour
 ok 11 - primary buttons keep readable ink on the light brand colour
   ---
-  duration_ms: 1.333258
+  duration_ms: 1.456075
   type: 'test'
   ...
 # Subtest: portfolio image loading preserves lazy loading after the first image
 ok 12 - portfolio image loading preserves lazy loading after the first image
   ---
-  duration_ms: 1.683843
+  duration_ms: 2.202383
   type: 'test'
   ...
 # Subtest: mobile layouts and reduced motion remain explicit
 ok 13 - mobile layouts and reduced motion remain explicit
   ---
-  duration_ms: 1.586128
+  duration_ms: 1.696813
   type: 'test'
   ...
 # Subtest: approved buttons and one-layer details remain mounted
 ok 14 - approved buttons and one-layer details remain mounted
   ---
-  duration_ms: 1.972581
+  duration_ms: 2.544048
   type: 'test'
   ...
 # Subtest: metadata security and fresh assistant loading remain present
 ok 15 - metadata security and fresh assistant loading remain present
   ---
-  duration_ms: 1.666099
+  duration_ms: 2.024091
   type: 'test'
   ...
 # Subtest: assistant fallback always links to an internal contact route
 ok 16 - assistant fallback always links to an internal contact route
   ---
-  duration_ms: 3.486973
+  duration_ms: 3.908794
   type: 'test'
   ...
 # Subtest: Pages workflow validates the live Taste build
 ok 17 - Pages workflow validates the live Taste build
   ---
-  duration_ms: 1.042346
+  duration_ms: 3.214644
   type: 'test'
   ...
 # Subtest: website chips use one crisp warm interaction system
 ok 18 - website chips use one crisp warm interaction system
   ---
-  duration_ms: 1.995444
+  duration_ms: 1.789696
   type: 'test'
   ...
 # Subtest: landing anchors, one-shot reveals and source integrity stay intact
 ok 19 - landing anchors, one-shot reveals and source integrity stay intact
   ---
-  duration_ms: 2.795061
+  duration_ms: 2.862269
   type: 'test'
   ...
 # Subtest: realizations are real live websites, not invented case studies
 ok 20 - realizations are real live websites, not invented case studies
   ---
-  duration_ms: 7.149177
+  duration_ms: 6.52146
   type: 'test'
   ...
 # Subtest: both landing variants exist and the client one stays out of the index
 ok 21 - both landing variants exist and the client one stays out of the index
   ---
-  duration_ms: 1.816825
+  duration_ms: 2.05569
   type: 'test'
   ...
 # Subtest: the public website is team-first and uses one brand contact
 ok 22 - the public website is team-first and uses one brand contact
   ---
-  duration_ms: 1.784895
+  duration_ms: 2.005998
   type: 'test'
   ...
 # Subtest: final correction restores the comparison and removes chip ornaments
 ok 23 - final correction restores the comparison and removes chip ornaments
   ---
-  duration_ms: 2.085905
+  duration_ms: 3.52487
   type: 'test'
   ...
 # Subtest: privacy copy matches the deployed processors and cookie-free analytics
 ok 24 - privacy copy matches the deployed processors and cookie-free analytics
   ---
-  duration_ms: 1.611005
+  duration_ms: 1.923384
   type: 'test'
   ...
 # Subtest: collaboration timelines animate and respect reduced motion
 ok 25 - collaboration timelines animate and respect reduced motion
   ---
-  duration_ms: 1.99843
+  duration_ms: 2.285044
   type: 'test'
   ...
-1..25
-# tests 25
+# Subtest: the white forest lime system is the final brand authority
+ok 26 - the white forest lime system is the final brand authority
+  ---
+  duration_ms: 3.140437
+  type: 'test'
+  ...
+1..26
+# tests 26
 # suites 0
-# pass 25
+# pass 26
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 116.320016
+# duration_ms 138.574168
 
 ===== build =====
 $ NITRO_PRESET=vercel vite build
@@ -176,7 +182,7 @@ $ NITRO_PRESET=vercel vite build
 [info] [nitro:vercel] Using `web` entry format.
 [33mThe plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the [1mresolve.tsconfigPaths[22m option. You can remove the plugin and set [1mresolve.tsconfigPaths: true[22m in your Vite config instead.[39m
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
-[2Ktransforming...✓ 2393 modules transformed.
+[2Ktransforming...✓ 2394 modules transformed.
 rendering chunks...
 computing gzip size...
 .vercel/output/static/assets/inter-tight-vietnamese-wght-normal-TKKdAiBA.woff2     10.48 kB
@@ -189,34 +195,34 @@ computing gzip size...
 .vercel/output/static/assets/motion-primitives-Bq2ZPHvg.css                        13.51 kB │ gzip:  3.20 kB
 .vercel/output/static/assets/PremiumLanding-6vX9Xsfv.css                           54.55 kB │ gzip: 10.97 kB
 .vercel/output/static/assets/styles-CE5l2rso.css                                   81.14 kB │ gzip: 14.30 kB
-.vercel/output/static/assets/index-D55Cyx37.css                                   411.81 kB │ gzip: 65.88 kB
-.vercel/output/static/assets/navrh-B17X6zXV.js                                      0.24 kB │ gzip:  0.20 kB
-.vercel/output/static/assets/routes-BxlBQmV2.js                                     0.24 kB │ gzip:  0.20 kB
-.vercel/output/static/assets/Symbol-D-DHotwd.js                                     0.26 kB │ gzip:  0.20 kB
-.vercel/output/static/assets/useTimelineProgress-BFVD0EjF.js                        0.59 kB │ gzip:  0.41 kB
-.vercel/output/static/assets/projekty._slug-BbXENIHk.js                             0.72 kB │ gzip:  0.44 kB
+.vercel/output/static/assets/index-DnGTu21q.css                                   428.25 kB │ gzip: 68.97 kB
+.vercel/output/static/assets/navrh-C9hB-Sbf.js                                      0.24 kB │ gzip:  0.20 kB
+.vercel/output/static/assets/routes-CA1xCSGU.js                                     0.24 kB │ gzip:  0.20 kB
+.vercel/output/static/assets/Symbol-BeIR4dEW.js                                     0.26 kB │ gzip:  0.20 kB
+.vercel/output/static/assets/useTimelineProgress-BblbhRIj.js                        0.59 kB │ gzip:  0.41 kB
+.vercel/output/static/assets/projekty._slug-U1g8qoj-.js                             0.72 kB │ gzip:  0.44 kB
 .vercel/output/static/assets/rolldown-runtime-Cyuzqnbw.js                           0.82 kB │ gzip:  0.47 kB
-.vercel/output/static/assets/motion-primitives-CEvzZjPT.js                          1.68 kB │ gzip:  0.77 kB
-.vercel/output/static/assets/postup-SF8L4Lhd.js                                     3.01 kB │ gzip:  1.38 kB
-.vercel/output/static/assets/cookies-DToukEZc.js                                    3.72 kB │ gzip:  1.41 kB
-.vercel/output/static/assets/preco-chatbot-BxUoQUwT.js                              4.08 kB │ gzip:  1.64 kB
-.vercel/output/static/assets/sluzby-I86MH9ft.js                                     4.62 kB │ gzip:  1.87 kB
-.vercel/output/static/assets/cennik-Dk7KlkCv.js                                     6.12 kB │ gzip:  2.33 kB
-.vercel/output/static/assets/farby-B-lIUbbe.js                                      8.00 kB │ gzip:  2.91 kB
-.vercel/output/static/assets/ochrana-udajov-D4kLwmh8.js                             8.25 kB │ gzip:  3.07 kB
-.vercel/output/static/assets/projekty._slug-CKxSoKQV.js                             8.36 kB │ gzip:  2.84 kB
-.vercel/output/static/assets/kontakt-UShyNy2Q.js                                    8.88 kB │ gzip:  3.47 kB
-.vercel/output/static/assets/projekty.index-DqV5J2yu.js                             9.69 kB │ gzip:  2.97 kB
-.vercel/output/static/assets/PremiumLanding-B9tBIErh.js                            42.72 kB │ gzip: 14.95 kB
+.vercel/output/static/assets/motion-primitives-CWoR1SrP.js                          1.68 kB │ gzip:  0.77 kB
+.vercel/output/static/assets/postup-CtXAwM27.js                                     3.01 kB │ gzip:  1.38 kB
+.vercel/output/static/assets/cookies-uPQGCdYu.js                                    3.72 kB │ gzip:  1.40 kB
+.vercel/output/static/assets/preco-chatbot-Ca5Z9qVu.js                              4.08 kB │ gzip:  1.64 kB
+.vercel/output/static/assets/sluzby-CWGKGcGr.js                                     4.62 kB │ gzip:  1.86 kB
+.vercel/output/static/assets/cennik-vc8M29-O.js                                     6.12 kB │ gzip:  2.32 kB
+.vercel/output/static/assets/farby-Dwrq-gdA.js                                      8.00 kB │ gzip:  2.91 kB
+.vercel/output/static/assets/ochrana-udajov-_V2GnRPH.js                             8.25 kB │ gzip:  3.06 kB
+.vercel/output/static/assets/projekty._slug-CvgSthkr.js                             8.36 kB │ gzip:  2.84 kB
+.vercel/output/static/assets/kontakt-7R675Etk.js                                    8.88 kB │ gzip:  3.47 kB
+.vercel/output/static/assets/projekty.index-B2lWq22h.js                             9.69 kB │ gzip:  2.97 kB
+.vercel/output/static/assets/PremiumLanding-DQUW3i8D.js                            42.72 kB │ gzip: 14.95 kB
 .vercel/output/static/assets/vendor-B6Kn24Jn.js                                    52.16 kB │ gzip: 20.54 kB
 .vercel/output/static/assets/vendor-BQZsIOEE.js                                    62.57 kB │ gzip: 25.84 kB
 .vercel/output/static/assets/motion-B79r__W-.js                                   145.92 kB │ gzip: 49.13 kB
 .vercel/output/static/assets/react-core-CWFrONgv.js                               189.80 kB │ gzip: 59.72 kB
-.vercel/output/static/assets/index-O7vh6Q59.js                                    223.10 kB │ gzip: 74.51 kB
+.vercel/output/static/assets/index-B6TdXLhr.js                                    216.74 kB │ gzip: 71.65 kB
 
-[32m✓ built in 1.80s[39m
+[32m✓ built in 2.04s[39m
 [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
-[2Ktransforming...✓ 160 modules transformed.
+[2Ktransforming...✓ 161 modules transformed.
 rendering chunks...
 computing gzip size...
 node_modules/.nitro/vite/services/ssr/assets/inter-tight-vietnamese-wght-normal-TKKdAiBA.woff2     10.48 kB
@@ -230,41 +236,41 @@ node_modules/.nitro/vite/services/ssr/assets/postup-B2Flitw2.css                
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-Bq2ZPHvg.css                        13.51 kB │ gzip:  3.20 kB
 node_modules/.nitro/vite/services/ssr/assets/PremiumLanding-6vX9Xsfv.css                           54.55 kB │ gzip: 10.97 kB
 node_modules/.nitro/vite/services/ssr/assets/styles-CE5l2rso.css                                   81.14 kB │ gzip: 14.30 kB
-node_modules/.nitro/vite/services/ssr/assets/router-DQnbiFxn.css                                  409.45 kB │ gzip: 65.52 kB
+node_modules/.nitro/vite/services/ssr/assets/router-BUOAq2ru.css                                  425.89 kB │ gzip: 68.57 kB
 node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-0GVloK9P.js                           0.44 kB │ gzip:  0.29 kB
-node_modules/.nitro/vite/services/ssr/assets/Symbol-CykDut7y.js                                     0.52 kB │ gzip:  0.34 kB
-node_modules/.nitro/vite/services/ssr/assets/routes-CXyNj8wY.js                                     0.58 kB │ gzip:  0.41 kB
-node_modules/.nitro/vite/services/ssr/assets/navrh-CgupklWU.js                                      0.77 kB │ gzip:  0.50 kB
-node_modules/.nitro/vite/services/ssr/assets/start-B0ojRywB.js                                      0.84 kB │ gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/Symbol-vG0_RSQR.js                                     0.52 kB │ gzip:  0.34 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-CpgS4hRk.js                                     0.58 kB │ gzip:  0.41 kB
+node_modules/.nitro/vite/services/ssr/assets/navrh-BBJ7dUr8.js                                      0.77 kB │ gzip:  0.50 kB
+node_modules/.nitro/vite/services/ssr/assets/start-Bg8_Jmc2.js                                      0.84 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/site-assistant-nRt5KrGt.js                             0.93 kB │ gzip:  0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-CWE7mHKW.js                             1.15 kB │ gzip:  0.56 kB
 node_modules/.nitro/vite/services/ssr/assets/useReducedMotion-DAc8Nusu.js                           1.26 kB │ gzip:  0.60 kB
 node_modules/.nitro/vite/services/ssr/assets/site-nlLY14e1.js                                       1.42 kB │ gzip:  0.84 kB
+node_modules/.nitro/vite/services/ssr/assets/BrandMark-CEq_V8aL.js                                  1.48 kB │ gzip:  0.85 kB
 node_modules/.nitro/vite/services/ssr/assets/useTimelineProgress-BJszEqd3.js                        1.80 kB │ gzip:  0.94 kB
 node_modules/.nitro/vite/services/ssr/assets/postup-B8Mqubck.js                                     2.24 kB │ gzip:  1.13 kB
 node_modules/.nitro/vite/services/ssr/assets/realizations-Dr51KyS3.js                               2.32 kB │ gzip:  1.08 kB
 node_modules/.nitro/vite/services/ssr/assets/motion-primitives-CpT4Mb44.js                          3.26 kB │ gzip:  1.13 kB
 node_modules/.nitro/vite/services/ssr/assets/projects-DRqhdbtm.js                                   3.81 kB │ gzip:  1.50 kB
-node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DmpR_nyN.js                 3.94 kB │ gzip:  0.91 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-RqpJOt1u.js                 3.94 kB │ gzip:  0.91 kB
 node_modules/.nitro/vite/services/ssr/index.js                                                      4.55 kB │ gzip:  1.99 kB
 node_modules/.nitro/vite/services/ssr/assets/postup-CYKP7Uip.js                                     5.03 kB │ gzip:  1.77 kB
 node_modules/.nitro/vite/services/ssr/assets/faq-DmRi_uhQ.js                                        5.29 kB │ gzip:  2.43 kB
-node_modules/.nitro/vite/services/ssr/assets/cookies-DjSCYkwX.js                                    5.52 kB │ gzip:  1.67 kB
+node_modules/.nitro/vite/services/ssr/assets/cookies-SK5t4lbq.js                                    5.52 kB │ gzip:  1.67 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-dyg0lotq.js                             5.64 kB │ gzip:  2.15 kB
-node_modules/.nitro/vite/services/ssr/assets/preco-chatbot-CRhf3qpU.js                              6.13 kB │ gzip:  2.03 kB
+node_modules/.nitro/vite/services/ssr/assets/preco-chatbot-Cxh9gP59.js                              6.13 kB │ gzip:  2.03 kB
 node_modules/.nitro/vite/services/ssr/assets/sluzby-BJII4HG_.js                                     6.94 kB │ gzip:  2.28 kB
-node_modules/.nitro/vite/services/ssr/assets/BrandMark-BmjNOfrj.js                                  7.82 kB │ gzip:  3.31 kB
 node_modules/.nitro/vite/services/ssr/assets/cennik-CUQDPeAn.js                                     9.23 kB │ gzip:  2.91 kB
-node_modules/.nitro/vite/services/ssr/assets/ochrana-udajov-BJk1iIYJ.js                            11.49 kB │ gzip:  3.55 kB
-node_modules/.nitro/vite/services/ssr/assets/farby-C0K6e2-t.js                                     12.27 kB │ gzip:  3.50 kB
+node_modules/.nitro/vite/services/ssr/assets/ochrana-udajov-DzQS7_qb.js                            11.49 kB │ gzip:  3.56 kB
+node_modules/.nitro/vite/services/ssr/assets/farby-CWxTLwqs.js                                     12.27 kB │ gzip:  3.50 kB
 node_modules/.nitro/vite/services/ssr/assets/projekty._slug-C6nMW51I.js                            13.84 kB │ gzip:  3.68 kB
-node_modules/.nitro/vite/services/ssr/assets/kontakt-BKuA4lvk.js                                   15.21 kB │ gzip:  4.55 kB
-node_modules/.nitro/vite/services/ssr/assets/projekty.index-2Xtkn83I.js                            15.34 kB │ gzip:  3.89 kB
-node_modules/.nitro/vite/services/ssr/assets/router-CNl0kXjl.js                                    59.68 kB │ gzip: 15.50 kB
-node_modules/.nitro/vite/services/ssr/assets/tanstack-DaokJmvB.js                                  64.34 kB │ gzip: 15.92 kB
-node_modules/.nitro/vite/services/ssr/assets/PremiumLanding-DFb3QaaY.js                            73.88 kB │ gzip: 18.95 kB
+node_modules/.nitro/vite/services/ssr/assets/kontakt-BiuvWio6.js                                   15.21 kB │ gzip:  4.55 kB
+node_modules/.nitro/vite/services/ssr/assets/projekty.index-BGEzPF8V.js                            15.34 kB │ gzip:  3.89 kB
+node_modules/.nitro/vite/services/ssr/assets/router-D41WCwdR.js                                    59.86 kB │ gzip: 15.56 kB
+node_modules/.nitro/vite/services/ssr/assets/tanstack-BFHw87bV.js                                  64.34 kB │ gzip: 15.93 kB
+node_modules/.nitro/vite/services/ssr/assets/PremiumLanding-DTU4JF6t.js                            73.88 kB │ gzip: 18.95 kB
 
-[32m✓ built in 846ms[39m
+[32m✓ built in 894ms[39m
 [start] [nitro] Building [[35mNitro[39m] [2m(preset: `vercel`, compatibility: `2026-08-02`)[22m
 [success] [nitro] Generated public [36m.vercel/output/static[39m
 [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
@@ -277,13 +283,13 @@ computing gzip size...
 .vercel/output/functions/__server.func/_libs/lucide-react.mjs      37.45 kB │ gzip:   6.95 kB
 .vercel/output/functions/__server.func/_libs/gsap2.mjs            116.27 kB │ gzip:  31.26 kB
 .vercel/output/functions/__server.func/_libs/gsap.mjs             148.26 kB │ gzip:  38.19 kB
-.vercel/output/functions/__server.func/_ssr/vendor.mjs            178.71 kB │ gzip:  43.95 kB
-.vercel/output/functions/__server.func/_chunks/vendor.mjs         204.20 kB │ gzip:  50.73 kB
+.vercel/output/functions/__server.func/_ssr/vendor.mjs            172.41 kB │ gzip:  41.06 kB
+.vercel/output/functions/__server.func/_chunks/vendor.mjs         204.33 kB │ gzip:  50.80 kB
 .vercel/output/functions/__server.func/tanstack+[...].mjs         376.28 kB │ gzip:  88.24 kB
 .vercel/output/functions/__server.func/_chunks/motion.mjs         417.94 kB │ gzip: 104.88 kB
 .vercel/output/functions/__server.func/_libs/react+react-dom.mjs  459.00 kB │ gzip:  88.56 kB
 
-[32m✓ built in 508ms[39m
+[32m✓ built in 560ms[39m
 [info] Generated [36m.vercel/output/nitro.json[39m
 [success] [nitro] You can preview this build using `npx vite preview`
 [success] [nitro] You can deploy this build using `npx nitro deploy --prebuilt`
