@@ -1,6 +1,6 @@
 export const siteConfig = {
   brand: "Môj Chatbot",
-  visualVersion: "taste-system-20260723-v7",
+  visualVersion: "lime-white-identity-20260802-v1",
   title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
   description:
     "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
