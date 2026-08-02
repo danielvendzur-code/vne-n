@@ -44,3 +44,14 @@ test("the scoped final identity wins over legacy peach selectors", async () => {
   assert.match(css, /\.premium-footer/);
   assert.doesNotMatch(css, forbiddenWarm);
 });
+
+test("the emergency widget fallback cannot reintroduce the old orange brand", async () => {
+  const loader = await read("public/widget-loader.js");
+
+  assert.match(loader, new RegExp(singleLinePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(loader, /color: "#b9ed4d"/);
+  assert.match(loader, /background: "#ffffff"/);
+  assert.match(loader, /color: "#0b2f20"/);
+  assert.doesNotMatch(loader, forbiddenWarm);
+  assert.doesNotMatch(loader, /sparkle|M12 3\.2/);
+});
