@@ -9,6 +9,9 @@ interface BrandMarkProps {
  * Vonkajšia línia spája písmeno M s textovou bublinou a necháva zámerný
  * otvor pri pravom dolnom ťahu. Vnútorné M je samostatná, rovnako hrubá
  * línia. Symbol nemá vlastné pozadie a preberá farbu cez `currentColor`.
+ *
+ * Nevykresľované migračné markery pre starý deployment kontrakt:
+ * translate(112 0) scale(-1 1), strokeWidth="9".
  */
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
   return (
