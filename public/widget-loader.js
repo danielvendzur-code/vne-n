@@ -4,10 +4,16 @@
   if (window.__DV_ASSISTANT_LOADER_ACTIVE__) return;
   window.__DV_ASSISTANT_LOADER_ACTIVE__ = true;
 
-  const SOURCE =
+  const normalizeSource = (value) =>
+    String(value || "")
+      .trim()
+      .replace(/\/embed\.js(?=([?#]|$))/, `/${"widget" + ".js"}`);
+
+  const SOURCE = normalizeSource(
     document.documentElement.dataset.assistantSource ||
-    "https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js";
-  const HOST_ID = "site-assistant-widget-host";
+      "https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js",
+  );
+  const HOST_ID = "dv-assistant-root";
   const FALLBACK_ID = "dv-assistant-fallback";
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
@@ -24,12 +30,21 @@
     return `/${segments.join("/")}`;
   };
 
-  const hasMountedWidget = () =>
-    Boolean(
-      document.getElementById(HOST_ID) &&
-      typeof window.openSiteAssistant === "function" &&
-      window.openSiteAssistant.__siteAssistantEmbed,
-    );
+  const hasMountedWidget = () => {
+    const host = document.getElementById(HOST_ID);
+    if (
+      !host ||
+      host.childElementCount === 0 ||
+      typeof window.openSiteAssistant !== "function"
+    ) {
+      return false;
+    }
+
+    // Starší iframe build označoval globálnu funkciu cez
+    // __siteAssistantEmbed. Aktuálny priamy build sa spoľahlivo rozpozná
+    // podľa skutočného React hosta `dv-assistant-root`.
+    return Boolean(window.openSiteAssistant.__siteAssistantEmbed || host.id === HOST_ID);
+  };
 
   const rememberEarlyOpen = (event) => {
     if (hasMountedWidget()) return;
