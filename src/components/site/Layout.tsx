@@ -44,6 +44,7 @@ import "./ProfessionalHarmonyFinal.css";
 import "./HeroMotionSafety.css";
 import "./SecondHalfPremiumFinal.css";
 import "./SecondHalfCorrectionsFinal.css";
+import "./SecondHalfVisualQAFinal.css";
 // Tento import musí zostať posledný kvôli existujúcemu deployment kontraktu.
 // Finálne vrstvy používajú cielene vyššiu scoped špecificitu.
 import "./LimeWhiteBrandFinal.css";
