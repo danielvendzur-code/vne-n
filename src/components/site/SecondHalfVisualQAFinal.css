@@ -1,14 +1,36 @@
 /* Final corrections identified by desktop and mobile visual QA. */
 
+/* Anchored sections stop below the floating navigation instead of hiding
+   their heading underneath it. */
+html:root body .site-theme-white-green .lp-page section[id] {
+  scroll-margin-top: 7.5rem !important;
+}
+
+/* Keyboard navigation belongs to the same identity as every other action. */
+html:root body .site-theme-white-green .skip-link {
+  color: var(--sh-forest, #0b2f20) !important;
+  border: 1px solid rgba(144, 205, 47, 0.45) !important;
+  border-radius: 0.85rem !important;
+  background: var(--sh-lime, #d9ff78) !important;
+  box-shadow: 0 18px 38px -25px rgba(11, 47, 32, 0.4) !important;
+}
+
+html:root body .site-theme-white-green .skip-link:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--sh-green-dark, #126d41) !important;
+  background: var(--sh-green-dark, #126d41) !important;
+}
+
 /* Featured project copy: one clean column with the project number used as a
    quiet watermark instead of stealing width from the title. */
 @media (min-width: 900px) {
   html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy {
     display: flex !important;
     flex-direction: column !important;
-    justify-content: flex-end !important;
+    justify-content: center !important;
     align-items: flex-start !important;
     min-width: 0 !important;
+    padding-block: clamp(4.5rem, 7vw, 7rem) !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy > span {
@@ -41,6 +63,10 @@
   html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy small {
     max-width: 18rem !important;
   }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy b {
+    margin-top: 1.45rem !important;
+  }
 }
 
 /* One icon, placed where the eye expects it on every breakpoint. */
@@ -71,6 +97,47 @@ html:root body .site-theme-white-green .lp-page .lp-value .lp-comparison-body li
 
 html:root body .site-theme-white-green .lp-page .lp-value .lp-comparison-body[data-mode="without"] li svg {
   color: #7b5454 !important;
+}
+
+/* FAQ controls use one disciplined circular plus instead of the inherited
+   luminous bars. */
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.11) !important;
+  border-radius: 50% !important;
+  background: var(--sh-sage) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::before,
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 0.82rem !important;
+  height: 1.5px !important;
+  border-radius: 999px !important;
+  background: var(--sh-green-dark) !important;
+  transform: translate(-50%, -50%) !important;
+  transition: transform 340ms var(--sh-ease), opacity 240ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after {
+  transform: translate(-50%, -50%) rotate(90deg) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item[data-open="true"] h3 button i::after {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) rotate(0deg) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item[data-open="true"] h3 button i {
+  border-color: rgba(144, 205, 47, 0.44) !important;
+  background: var(--sh-lime) !important;
 }
 
 /* Process rail and nodes use the approved brand colours only. */
@@ -121,9 +188,18 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-final-email {
 }
 
 @media (max-width: 640px) {
+  html:root body .site-theme-white-green .lp-page section[id] {
+    scroll-margin-top: 6rem !important;
+  }
+
   html:root body .site-theme-white-green .lp-page .lp-caps-row-head .lp-caps-count {
     grid-column: 3 !important;
     grid-row: 1 !important;
     align-self: center !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
   }
 }
