@@ -17,11 +17,11 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 const errorPanelStyle = {
-  border: "1px solid rgba(255,199,157,.2)",
+  border: "1px solid rgba(11,47,32,.14)",
   borderRadius: "1.35rem",
   padding: "clamp(1.7rem, 5vw, 3rem)",
-  background: "#12100e",
-  boxShadow: "0 30px 90px rgba(0,0,0,.58)",
+  background: "#ffffff",
+  boxShadow: "0 30px 90px -54px rgba(11,47,32,.48)",
 } as const;
 
 function NotFoundComponent() {
@@ -29,15 +29,15 @@ function NotFoundComponent() {
     <div
       className="flex min-h-screen items-center justify-center px-4"
       style={{
-        backgroundColor: "#0a0908",
+        backgroundColor: "#ffffff",
         backgroundImage:
-          "radial-gradient(circle at 82% 12%, rgba(255,199,157,.11), transparent 30rem)",
+          "radial-gradient(circle at 82% 12%, rgba(217,255,120,.3), transparent 30rem)",
       }}
     >
       <div className="max-w-lg text-center" style={errorPanelStyle}>
         <p
           style={{
-            color: "#ffc79d",
+            color: "#19834f",
             fontSize: "0.73rem",
             fontWeight: 800,
             letterSpacing: "0.14em",
@@ -49,7 +49,7 @@ function NotFoundComponent() {
         <h1
           className="mt-4"
           style={{
-            color: "#faf5ef",
+            color: "#0b2f20",
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2.35rem, 7vw, 4rem)",
             fontWeight: 560,
@@ -59,21 +59,21 @@ function NotFoundComponent() {
         >
           Odkaz sa nenašiel.
         </h1>
-        <p className="mt-5 text-sm" style={{ color: "#c9beb4", lineHeight: 1.65 }}>
+        <p className="mt-5 text-sm" style={{ color: "#536159", lineHeight: 1.65 }}>
           Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez hlavnú navigáciu.
         </p>
         <a
           href={import.meta.env.BASE_URL}
           className="mt-8 inline-flex min-h-13 items-center justify-center"
           style={{
-            backgroundColor: "#ffc79d",
-            color: "#0a0908",
-            border: "1px solid #ffc79d",
+            backgroundColor: "#d9ff78",
+            color: "#0b2f20",
+            border: "1px solid rgba(127,178,26,.3)",
             borderRadius: "0.9rem",
             padding: "0.9rem 1.45rem",
             fontSize: "0.9rem",
             fontWeight: 800,
-            boxShadow: "0 18px 42px -30px rgba(255,199,157,.9)",
+            boxShadow: "0 18px 42px -30px rgba(86,132,0,.55)",
           }}
         >
           Späť na úvod
@@ -94,14 +94,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div
       className="flex min-h-screen items-center justify-center px-4"
-      style={{ backgroundColor: "#0a0908" }}
+      style={{ backgroundColor: "#ffffff" }}
     >
       <div className="max-w-md text-center" style={errorPanelStyle}>
-        <p style={{ color: "#ffc79d", fontSize: ".72rem", fontWeight: 800 }}>MÔJ CHATBOT</p>
-        <h1 className="mt-3 text-xl font-semibold" style={{ color: "#faf5ef" }}>
+        <p style={{ color: "#19834f", fontSize: ".72rem", fontWeight: 800 }}>MÔJ CHATBOT</p>
+        <h1 className="mt-3 text-xl font-semibold" style={{ color: "#0b2f20" }}>
           Stránka sa nenačítala
         </h1>
-        <p className="mt-2 text-sm" style={{ color: "#c9beb4" }}>
+        <p className="mt-2 text-sm" style={{ color: "#536159" }}>
           Niečo sa pokazilo. Skúste obnoviť obsah alebo sa vráťte na úvod.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -112,7 +112,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               reset();
             }}
             className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
-            style={{ backgroundColor: "#ffc79d", color: "#0a0908", border: "1px solid #ffc79d" }}
+            style={{
+              backgroundColor: "#d9ff78",
+              color: "#0b2f20",
+              border: "1px solid rgba(127,178,26,.3)",
+            }}
           >
             Skúsiť znova
           </button>
@@ -120,9 +124,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             href={import.meta.env.BASE_URL}
             className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
             style={{
-              border: "1px solid rgba(255,199,157,.2)",
-              color: "#faf5ef",
-              background: "#15120f",
+              border: "1px solid rgba(11,47,32,.14)",
+              color: "#0b2f20",
+              background: "#f5f9f2",
             }}
           >
             Späť na úvod
@@ -135,7 +139,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
 const publicOrigin = SITE_ORIGIN.replace(/\/$/, "");
 const defaultAssistantEmbedUrl =
-  "https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js";
+  "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js";
 
 const safeAssistantEmbedUrl = (() => {
   const candidate = import.meta.env.VITE_ASSISTANT_EMBED_URL?.trim();
@@ -243,7 +247,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
       },
       { name: "author", content: "Tím Môj Chatbot" },
-      { name: "theme-color", content: "#0a0908" },
+      { name: "theme-color", content: "#ffffff" },
       { property: "og:site_name", content: "Môj Chatbot" },
       { property: "og:locale", content: "sk_SK" },
       { property: "og:title", content: "Môj Chatbot — pripravené dopyty priamo z webu" },

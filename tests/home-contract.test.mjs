@@ -33,7 +33,7 @@ test("client landing layer is authoritative and pricing stays off the homepage",
     layout.indexOf('import "./MatteUiFinal.css"') <
       layout.indexOf('import "./FinalUserCorrection.css"'),
   );
-  // The client landing layer is the final visual authority.
+  // Historical layers retain their order; the approved lime-white layer is final.
   assert.ok(
     layout.indexOf('import "./FinalUserCorrection.css"') <
       layout.indexOf('import "./BrandSystemFinal.css"'),
@@ -47,9 +47,13 @@ test("client landing layer is authoritative and pricing stays off the homepage",
     layout.indexOf('import "./ClientLandingFinal.css"') <
       layout.indexOf('import "./SiteFinish.css"'),
   );
+  assert.ok(
+    layout.indexOf('import "./TeamMotionUpgrade.css"') <
+      layout.indexOf('import "./LimeWhiteBrandFinal.css"'),
+  );
   assert.equal(
     layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./TeamMotionUpgrade.css"'),
+    layout.indexOf('import "./LimeWhiteBrandFinal.css"'),
   );
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);
@@ -488,4 +492,21 @@ test("collaboration timelines animate and respect reduced motion", async () => {
 
   assert.match(css, /animation-timeline: view\(\)/);
   assert.match(css, /prefers-reduced-motion: reduce/);
+});
+
+test("the white forest lime system is the final brand authority", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const css = await read("src/components/site/LimeWhiteBrandFinal.css");
+  const mark = await read("src/components/BrandMark.tsx");
+
+  assert.match(layout, /LimeWhiteBrandFinal\.css/);
+  assert.match(css, /--brand-primary: #b9ed4d/);
+  assert.match(css, /--brand-forest: #0b2f20/);
+  assert.match(css, /--brand-yellow: #ffe38a/);
+  assert.match(css, /background:\s*#ffffff\s*!important/);
+  assert.match(css, /\.lp-hero-pick[\s\S]*background: #d9ff78 !important/);
+  assert.match(css, /data-active="true"[\s\S]*background: #0b2f20 !important/);
+  assert.match(mark, /viewBox="0 0 112 112"/);
+  assert.match(mark, /translate\(112 0\) scale\(-1 1\)/);
+  assert.match(mark, /strokeWidth="9"/);
 });

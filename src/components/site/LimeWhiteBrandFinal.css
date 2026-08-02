@@ -87,8 +87,7 @@ html body::before {
   background:
     radial-gradient(circle at 7% 6%, rgba(217, 255, 120, 0.22), transparent 26rem),
     radial-gradient(circle at 92% 12%, rgba(255, 227, 138, 0.2), transparent 27rem),
-    radial-gradient(circle at 62% 82%, rgba(25, 131, 79, 0.07), transparent 32rem),
-    #ffffff !important;
+    radial-gradient(circle at 62% 82%, rgba(25, 131, 79, 0.07), transparent 32rem), #ffffff !important;
   transform: none !important;
   animation: none !important;
 }
@@ -188,8 +187,7 @@ html body .site-menu-drawer {
   color: #ffffff !important;
   border: 1px solid rgba(217, 255, 120, 0.16) !important;
   background:
-    radial-gradient(circle at 92% 8%, rgba(217, 255, 120, 0.13), transparent 24rem),
-    #0b2f20 !important;
+    radial-gradient(circle at 92% 8%, rgba(217, 255, 120, 0.13), transparent 24rem), #0b2f20 !important;
   box-shadow: 0 36px 120px -42px rgba(4, 23, 14, 0.72) !important;
 }
 
@@ -329,7 +327,9 @@ html body .winner-final__primary {
   box-shadow: 0 20px 46px -28px rgba(86, 132, 0, 0.64) !important;
 }
 
-html body :is(
+html
+  body
+  :is(
     .lp-hero-cta--primary,
     .lp-assistant-cta,
     .lp-final-cta,
@@ -354,7 +354,9 @@ html body .winner-final__secondary {
   box-shadow: 0 16px 40px -34px rgba(11, 47, 32, 0.5) !important;
 }
 
-html body :is(.lp-hero-cta--secondary, .sp-button--ghost, .winner-final__secondary):is(
+html
+  body
+  :is(.lp-hero-cta--secondary, .sp-button--ghost, .winner-final__secondary):is(
     :hover,
     :focus-visible
   ) {
@@ -392,7 +394,9 @@ html body .sp-chip-row .chip {
   box-shadow: 0 10px 28px -26px rgba(11, 47, 32, 0.6) !important;
 }
 
-html body :is(
+html
+  body
+  :is(
     .lp-hero-pick,
     [data-chip-kind],
     .chip,
@@ -409,8 +413,12 @@ html body :is(
 }
 
 html body :is(.lp-hero-pick, [data-chip-kind], .chip, .lp-chip, .lp-caps-chip)[data-active="true"],
-html body :is(.lp-hero-pick, [data-chip-kind], .chip, .lp-chip, .lp-caps-chip)[data-selected="true"],
-html body :is(.lp-hero-pick, [data-chip-kind], .chip, .lp-chip, .lp-caps-chip)[aria-pressed="true"] {
+html
+  body
+  :is(.lp-hero-pick, [data-chip-kind], .chip, .lp-chip, .lp-caps-chip)[data-selected="true"],
+html
+  body
+  :is(.lp-hero-pick, [data-chip-kind], .chip, .lp-chip, .lp-caps-chip)[aria-pressed="true"] {
   color: #d9ff78 !important;
   border-color: #0b2f20 !important;
   background: #0b2f20 !important;
@@ -465,12 +473,17 @@ html body .rz-page h3 {
   color: #0b2f20 !important;
 }
 
-html body :is(.lp-heading, .derat-story__heading, .sp-page, .cookies-page, .contact-page, .rz-page) em {
+html
+  body
+  :is(.lp-heading, .derat-story__heading, .sp-page, .cookies-page, .contact-page, .rz-page)
+  em {
   color: #19834f !important;
   -webkit-text-fill-color: #19834f !important;
 }
 
-html body :is(
+html
+  body
+  :is(
     .lp-comparison,
     .lp-project-card,
     .lp-caps-detail,
@@ -492,7 +505,9 @@ html body :is(
   box-shadow: var(--brand-shadow) !important;
 }
 
-html body :is(
+html
+  body
+  :is(
     .lp-project-card,
     .sp-project-card > a,
     .rz-card,
@@ -531,8 +546,7 @@ html body .lp-switch-thumb {
 html body .lp-comparison-body {
   color: #0b2f20 !important;
   background:
-    radial-gradient(circle at 95% 5%, rgba(217, 255, 120, 0.22), transparent 15rem),
-    #ffffff !important;
+    radial-gradient(circle at 95% 5%, rgba(217, 255, 120, 0.22), transparent 15rem), #ffffff !important;
 }
 
 html body .lp-comparison-body[data-mode="with"] {
@@ -562,8 +576,7 @@ html body .sp-page--process .sp-section:first-of-type {
   color: #ffffff !important;
   background:
     radial-gradient(circle at 86% 12%, rgba(217, 255, 120, 0.11), transparent 25rem),
-    radial-gradient(circle at 12% 88%, rgba(255, 227, 138, 0.08), transparent 23rem),
-    #0b2f20 !important;
+    radial-gradient(circle at 12% 88%, rgba(255, 227, 138, 0.08), transparent 23rem), #0b2f20 !important;
 }
 
 html body .lp-process :is(h2, h3, .lp-step-num),
@@ -621,7 +634,9 @@ html body .sp-step-node {
 html body .lp-process-list > li[data-reached="true"] .lp-step-node,
 html body .sp-timeline-item[data-reached="true"] .sp-step-node {
   background: #d9ff78 !important;
-  box-shadow: 0 0 0 7px rgba(217, 255, 120, 0.1), 0 0 28px rgba(217, 255, 120, 0.5) !important;
+  box-shadow:
+    0 0 0 7px rgba(217, 255, 120, 0.1),
+    0 0 28px rgba(217, 255, 120, 0.5) !important;
 }
 
 html body .lp-process .lp-final-card {
@@ -661,8 +676,7 @@ html body .premium-footer {
   color: #ffffff !important;
   border-top: 1px solid rgba(217, 255, 120, 0.12) !important;
   background:
-    radial-gradient(circle at 10% 0%, rgba(217, 255, 120, 0.1), transparent 28rem),
-    #082719 !important;
+    radial-gradient(circle at 10% 0%, rgba(217, 255, 120, 0.1), transparent 28rem), #082719 !important;
 }
 
 html body .premium-footer :is(h2, h3, b, strong, .premium-footer-brand) {

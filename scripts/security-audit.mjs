@@ -113,6 +113,7 @@ const brandIndex = layout.indexOf('import "./BrandSystemFinal.css"');
 const clientIndex = layout.indexOf('import "./ClientLandingFinal.css"');
 const finishIndex = layout.indexOf('import "./SiteFinish.css"');
 const teamMotionIndex = layout.indexOf('import "./TeamMotionUpgrade.css"');
+const limeWhiteIndex = layout.indexOf('import "./LimeWhiteBrandFinal.css"');
 const lastStyleImport = layout.lastIndexOf('import "./');
 if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
 if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
@@ -123,6 +124,7 @@ if (brandIndex === -1) fail("BrandSystemFinal.css is not imported");
 if (clientIndex === -1) fail("ClientLandingFinal.css is not imported");
 if (finishIndex === -1) fail("SiteFinish.css is not imported");
 if (teamMotionIndex === -1) fail("TeamMotionUpgrade.css is not imported");
+if (limeWhiteIndex === -1) fail("LimeWhiteBrandFinal.css is not imported");
 if (
   previousIndex >= winnerIndex ||
   winnerIndex >= tasteIndex ||
@@ -142,8 +144,11 @@ if (clientIndex >= finishIndex) {
 if (finishIndex >= teamMotionIndex) {
   fail("TeamMotionUpgrade.css must load after SiteFinish.css");
 }
-if (teamMotionIndex !== lastStyleImport) {
-  fail("TeamMotionUpgrade.css must be the final component style import");
+if (teamMotionIndex >= limeWhiteIndex) {
+  fail("LimeWhiteBrandFinal.css must load after TeamMotionUpgrade.css");
+}
+if (limeWhiteIndex !== lastStyleImport) {
+  fail("LimeWhiteBrandFinal.css must be the final component style import");
 }
 if (layout.includes("HomeConversionUpgrade")) {
   fail("Removed homepage pricing section is still mounted in Layout");
@@ -156,6 +161,22 @@ if (/<AnimatePresence|<motion\./.test(layout)) {
 }
 for (const token of ["LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
   if (layout.includes(token)) fail(`Removed liquid runtime is still mounted: ${token}`);
+}
+
+const limeWhiteCss = await read("src/components/site/LimeWhiteBrandFinal.css");
+for (const token of [
+  "--brand-primary: #b9ed4d",
+  "--brand-forest: #0b2f20",
+  "--brand-yellow: #ffe38a",
+  "html body .brand-mark",
+  ".lp-hero-pick",
+  ".lp-process",
+  "prefers-reduced-motion",
+]) {
+  if (!limeWhiteCss.includes(token)) fail(`Lime white brand system is missing ${token}`);
+}
+if (!/background:\s*#ffffff\s*!important/.test(limeWhiteCss)) {
+  fail("Lime white brand system does not preserve a true-white base");
 }
 
 const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");
