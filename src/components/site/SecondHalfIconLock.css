@@ -1,0 +1,20 @@
+/* Draw the FAQ state directly in the control background. This is immune to
+   legacy pseudo-element rules loaded earlier in the stylesheet stack. */
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i {
+  background:
+    linear-gradient(var(--sh-green-dark), var(--sh-green-dark)) center / 0.82rem 1.5px no-repeat,
+    linear-gradient(var(--sh-green-dark), var(--sh-green-dark)) center / 1.5px 0.82rem no-repeat,
+    var(--sh-sage) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::before,
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item[data-open="true"] h3 button i {
+  background:
+    linear-gradient(var(--sh-green-dark), var(--sh-green-dark)) center / 0.82rem 1.5px no-repeat,
+    var(--sh-lime) !important;
+}
