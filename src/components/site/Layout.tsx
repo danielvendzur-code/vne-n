@@ -38,10 +38,11 @@ import "./ClientLandingFinal.css";
 import "./SiteFinish.css";
 import "./MobileTimelineRepair.css";
 import "./TeamMotionUpgrade.css";
-import "./LimeWhiteBrandFinal.css";
-// Táto vrstva má vlastný koreň a vyššiu špecificitu než staré peach/charcoal
-// experimenty. Je jedinou konečnou autoritou farieb verejného webu.
+// Vyššia scoped špecificita odstráni staré peach/charcoal pravidlá.
 import "./WhiteGreenIdentityLock.css";
+// Chránený posledný import ostáva finálnou kompatibilnou vrstvou. Obe vrstvy
+// používajú tú istú výhradne bielo-zelenú paletu.
+import "./LimeWhiteBrandFinal.css";
 
 /**
  * Povrchy, ktoré po celom webe reagujú na kurzor jemným značkovým svetlom.
