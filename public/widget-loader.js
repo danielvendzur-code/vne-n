@@ -11,7 +11,7 @@
 
   const SOURCE = normalizeSource(
     document.documentElement.dataset.assistantSource ||
-      "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
+      "https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js",
   );
   const HOST_ID = "dv-assistant-root";
   const FALLBACK_ID = "dv-assistant-fallback";
