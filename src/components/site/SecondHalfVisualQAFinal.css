@@ -1,0 +1,208 @@
+/* Final corrections identified by desktop and mobile visual QA. */
+
+/* Anchored sections stop below the floating navigation instead of hiding
+   their heading underneath it. */
+html:root body .site-theme-white-green .lp-page section[id] {
+  scroll-margin-top: 7.5rem !important;
+}
+
+/* Keyboard navigation belongs to the same identity as every other action. */
+html:root body .site-theme-white-green .skip-link {
+  color: var(--sh-forest, #0b2f20) !important;
+  border: 1px solid rgba(144, 205, 47, 0.45) !important;
+  border-radius: 0.85rem !important;
+  background: var(--sh-lime, #d9ff78) !important;
+  box-shadow: 0 18px 38px -25px rgba(11, 47, 32, 0.4) !important;
+}
+
+html:root body .site-theme-white-green .skip-link:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  border-color: var(--sh-green-dark, #126d41) !important;
+  background: var(--sh-green-dark, #126d41) !important;
+}
+
+/* Featured project copy: one clean column with the project number used as a
+   quiet watermark instead of stealing width from the title. */
+@media (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    min-width: 0 !important;
+    padding-block: clamp(4.5rem, 7vw, 7rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy > span {
+    position: absolute !important;
+    right: 1.25rem !important;
+    bottom: 0.85rem !important;
+    z-index: 0 !important;
+    color: rgba(25, 131, 79, 0.09) !important;
+    font-size: 5rem !important;
+    font-weight: 820 !important;
+    letter-spacing: -0.08em !important;
+    line-height: 1 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy :is(p, h3, small, b) {
+    position: relative !important;
+    z-index: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy h3 {
+    max-width: none !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    font-size: clamp(2.5rem, 3.35vw, 3.65rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy small {
+    max-width: 18rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy b {
+    margin-top: 1.45rem !important;
+  }
+}
+
+/* One icon, placed where the eye expects it on every breakpoint. */
+html:root body .site-theme-white-green .lp-page .lp-caps-row-head .lp-caps-count {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  align-self: center !important;
+  justify-self: end !important;
+}
+
+/* Remove the last warm state from the before/after proof. */
+html:root body .site-theme-white-green .lp-page .lp-value .lp-switch button {
+  color: #4a6054 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-switch button[data-active="true"] {
+  color: var(--sh-forest) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-comparison-body li svg {
+  color: var(--sh-green) !important;
+  fill: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-comparison-body[data-mode="without"] li svg {
+  color: #7b5454 !important;
+}
+
+/* FAQ controls use one disciplined circular plus instead of the inherited
+   luminous bars. */
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.11) !important;
+  border-radius: 50% !important;
+  background: var(--sh-sage) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::before,
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 0.82rem !important;
+  height: 1.5px !important;
+  opacity: 1 !important;
+  border-radius: 999px !important;
+  background: var(--sh-green-dark) !important;
+  transform: translate(-50%, -50%) !important;
+  transition: transform 340ms var(--sh-ease), opacity 240ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i::after {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) rotate(90deg) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item[data-open="true"] h3 button i::after {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) rotate(0deg) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item[data-open="true"] h3 button i {
+  border-color: rgba(144, 205, 47, 0.44) !important;
+  background: var(--sh-lime) !important;
+}
+
+/* Process rail and nodes use the approved brand colours only. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-track {
+  background: rgba(255, 255, 255, 0.13) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
+  background: linear-gradient(90deg, var(--sh-lime-main), var(--sh-green)) !important;
+  box-shadow: 0 0 16px rgba(185, 237, 77, 0.34) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+  color: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: var(--sh-forest) !important;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.025) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps li[data-reached="true"] .lp-tl-node {
+  color: var(--sh-forest) !important;
+  border-color: rgba(217, 255, 120, 0.75) !important;
+  background: var(--sh-lime) !important;
+  box-shadow:
+    0 0 0 5px rgba(217, 255, 120, 0.1),
+    0 0 22px rgba(185, 237, 77, 0.32) !important;
+}
+
+/* The CTA is lime, therefore all copy must remain dark and readable. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-card > p {
+  color: rgba(11, 47, 32, 0.7) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-card h2 {
+  color: var(--sh-forest) !important;
+  -webkit-text-fill-color: var(--sh-forest) !important;
+  text-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-card :is(.symbol, .symbol svg, .symbol path) {
+  color: var(--sh-green-dark) !important;
+  stroke: currentColor !important;
+  opacity: 1 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-final-email {
+  color: var(--sh-forest) !important;
+}
+
+@media (max-width: 640px) {
+  html:root body .site-theme-white-green .lp-page section[id] {
+    scroll-margin-top: 6rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-row-head .lp-caps-count {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+    align-self: center !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+}
