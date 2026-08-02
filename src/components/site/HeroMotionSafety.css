@@ -17,3 +17,25 @@ html:root body .site-theme-white-green .lp-page .lp-hero-line > em {
   min-height: 1.02em !important;
   line-height: 1 !important;
 }
+
+/* Motion still runs first. This only prevents a slow desktop hydration from
+   leaving inline initial states visible forever. */
+@media (min-width: 981px) and (prefers-reduced-motion: no-preference) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-copy > .lp-hero-context,
+  html:root body .site-theme-white-green .lp-page .lp-hero-line > span,
+  html:root body .site-theme-white-green .lp-page .lp-hero-line > em,
+  html:root body .site-theme-white-green .lp-page .lp-hero-lead,
+  html:root body .site-theme-white-green .lp-page .lp-actions,
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof,
+  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+    animation: h-hero-finalize 0.01s linear 1.8s forwards !important;
+  }
+}
+
+@keyframes h-hero-finalize {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: none;
+  }
+}
