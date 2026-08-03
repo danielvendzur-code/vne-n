@@ -482,7 +482,9 @@ function Hero({ variant }: { variant: LandingVariant }) {
   return (
     <section className="lp-hero" id="uvod" data-variant={variant}>
       <div className="lp-hero-glide" aria-hidden="true">
-        <GlideField className="glide-field--hero" radius={142} />
+        {/* Väčší dosah aj sila — pri pôvodnom nastavení bola reakcia na
+            bielom podklade sotva badateľná. */}
+        <GlideField className="glide-field--hero" radius={190} intensity={1.15} />
       </div>
       <div className="lp-hero-glow" aria-hidden="true" />
       <div className="container-page lp-hero-grid">

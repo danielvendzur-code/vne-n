@@ -126,13 +126,16 @@ html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field__can
 /* Vinieta bola tmavá — na bielom hero z nej bol sivý závoj. Ostáva len
    jemné stmavnutie k okrajom, aby pole nekončilo ostrou hranou. */
 html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field__vignette {
+  /* Pole musí ostať živé aj tam, kde sa kurzor naozaj pohybuje. Pôvodné
+     stmievanie do 44 % šírky ho zhaslo cez celú ľavú polovicu, takže
+     reakcia na myš bola prakticky mimo obrazu. */
   background: linear-gradient(
       90deg,
-      #ffffff 0%,
-      rgba(255, 255, 255, 0.72) 14%,
-      rgba(255, 255, 255, 0) 44%
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.28) 10%,
+      rgba(255, 255, 255, 0) 22%
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.6), transparent 26%, transparent 74%, #ffffff)
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 16%, transparent 82%, #ffffff)
       !important;
 }
 
