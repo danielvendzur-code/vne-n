@@ -483,3 +483,64 @@ html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node {
   color: rgba(255, 255, 255, 0.82) !important;
   background: rgba(255, 255, 255, 0.06) !important;
 }
+
+/* Číslo v uzle časovej osi. Staršie vrstvy mu nastavujú bielu cez `b`,
+   takže na dosiahnutom limetkovom uzle malo kontrast 1,13:1. Tu dostáva
+   farbu priamo podľa stavu kroku. */
+html:root body .site-theme-white-green .lp-page .lp-timeline .lp-tl-steps li .lp-tl-node b {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-timeline
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-node
+  b {
+  color: #0b2f20 !important;
+}
+
+/* Poradové číslo v prehľade možností malo na svetlozelenej 4,35:1. */
+html:root body .site-theme-white-green .lp-page .lp-caps-num {
+  color: #0f6a3e !important;
+}
+
+/* ---------------------------------------------------------------------
+   9. Úzke obrazovky
+   Dva stĺpce pilulek sa na telefóne nezmestili — dlhšie popisy pretekali
+   cez okraj. Pod 560 px ide výber pod seba a sekcie majú menší nádych.
+   --------------------------------------------------------------------- */
+@media (max-width: 560px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-picker {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+    min-height: 3rem !important;
+    font-size: 0.86rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page > section {
+    padding-block: clamp(3.5rem, 11vw, 5rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page > section[data-index]::before {
+    right: 4vw;
+    font-size: 42vw;
+  }
+
+  html:root body .site-theme-white-green .premium-footer-main {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 2.4rem !important;
+  }
+}
+
+/* Popis pilulky sa vždy zmestí — dlhé slová sa zalomia namiesto toho,
+   aby pretiekli cez okraj. */
+html:root body .site-theme-white-green .lp-page .lp-hero-pick .lp-hero-pick-label {
+  min-width: 0 !important;
+  overflow-wrap: anywhere !important;
+}
