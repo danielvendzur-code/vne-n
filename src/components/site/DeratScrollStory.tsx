@@ -215,7 +215,10 @@ export function DeratScrollStory() {
         transition={reducedMotion ? { duration: 0 } : { duration: 0.68, ease: [0.16, 1, 0.3, 1] }}
       >
         <div>
-          <p className="derat-story__kicker">Príklad realizácie · DERAT</p>
+          <p className="derat-story__kicker">
+            <b className="lp-eyebrow-num">01</b>
+            Príklad realizácie · DERAT
+          </p>
           <h2 id="derat-story-title">Kalkulačka, ktorá z návštevníka spraví pripravený dopyt.</h2>
         </div>
         <div className="derat-story__intro">
