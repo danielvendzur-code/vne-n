@@ -2,7 +2,7 @@
 html body .lp-page .lp-hero-cta--primary {
   border: 0 !important;
   color: #fff !important;
-  background: #ffc79d !important;
+  background: #b3e9d0 !important;
   background-image: none !important;
   box-shadow: none !important;
   transform: none !important;
@@ -13,7 +13,7 @@ html body .lp-page .lp-hero-cta--primary {
 
 html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
   color: #fff !important;
-  background: #b27d51 !important;
+  background: #51b285 !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -21,14 +21,14 @@ html body .lp-page .lp-hero-cta--primary:is(:hover, :focus-visible) {
 html body .lp-page .lp-assistant-cta {
   border: 0 !important;
   color: #fff !important;
-  background: #ffc79d !important;
+  background: #b3e9d0 !important;
   background-image: none !important;
   box-shadow: none !important;
 }
 
 html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
   color: #fff !important;
-  background: #b27d51 !important;
+  background: #51b285 !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -67,7 +67,7 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
     border: 0 !important;
     /* Pill, so it matches the sliding thumb inside it. */
     border-radius: 999px !important;
-    background: #271910 !important;
+    background: #10271c !important;
     box-shadow: none !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -94,7 +94,7 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
   }
 
   html body .lp-page .lp-switch--clean button:not([data-active="true"]):is(:hover, :focus-visible) {
-    color: #faf6f3 !important;
+    color: #f3faf7 !important;
     background: transparent !important;
   }
 
@@ -147,7 +147,7 @@ html body .lp-page .lp-assistant-cta:is(:hover, :focus-visible) {
 
   html body .lp-page .lp-chip[data-active="true"] {
     color: #fff !important;
-    background: #b27d51 !important;
+    background: #51b285 !important;
     background-image: none !important;
   }
 

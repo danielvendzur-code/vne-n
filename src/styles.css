@@ -13,26 +13,26 @@
   --surface-raised: #1c1814;
   --surface-muted: #12100e;
 
-  --text-primary: #faf5ef;
+  --text-primary: #effaf5;
   --text-secondary: #c9beb4;
   --text-light: #988b80;
 
-  --primary: #ffc79d;
-  --primary-hover: #f0a873;
-  --primary-soft: rgba(255, 199, 157, 0.14);
+  --primary: #b3e9d0;
+  --primary-hover: #87dcb4;
+  --primary-soft: rgba(179, 233, 208, 0.14);
   --primary-foreground: #0a0908;
   --primary-dark: #0a0908;
 
-  --accent: #ffc79d;
-  --accent-hover: #f0a873;
-  --accent-soft: rgba(255, 199, 157, 0.12);
+  --accent: #b3e9d0;
+  --accent-hover: #87dcb4;
+  --accent-soft: rgba(179, 233, 208, 0.12);
   --accent-foreground: #0a0908;
 
-  --highlight: #ffd7b8;
-  --highlight-soft: rgba(255, 215, 184, 0.14);
+  --highlight: #c8efdd;
+  --highlight-soft: rgba(200, 239, 221, 0.14);
 
-  --border: rgba(255, 231, 213, 0.11);
-  --border-strong: rgba(255, 199, 157, 0.24);
+  --border: rgba(222, 246, 235, 0.11);
+  --border-strong: rgba(179, 233, 208, 0.24);
 
   --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.035);
   --shadow-dialog: 0 30px 90px rgba(0, 0, 0, 0.48);
@@ -221,11 +221,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid rgba(244, 241, 232, 0.16);
+  border: 1px solid rgba(232, 244, 238, 0.16);
   border-radius: 999px;
   padding: 0.5rem 0.95rem;
   color: #ccd3c8;
-  background: rgba(244, 241, 232, 0.025);
+  background: rgba(232, 244, 238, 0.025);
   font-size: 0.78rem;
   font-weight: 620;
   letter-spacing: 0.012em;
@@ -286,12 +286,12 @@ button.chip {
   a.chip:hover,
   button.chip:hover {
     color: var(--text-primary);
-    border-color: rgba(255, 199, 157, 0.52);
-    background: rgba(255, 199, 157, 0.11);
+    border-color: rgba(179, 233, 208, 0.52);
+    background: rgba(179, 233, 208, 0.11);
     transform: translateY(-2px);
     box-shadow:
       inset 0 1px rgba(255, 255, 255, 0.09),
-      0 12px 26px -20px rgba(255, 199, 157, 0.65);
+      0 12px 26px -20px rgba(179, 233, 208, 0.65);
   }
 }
 
@@ -466,8 +466,8 @@ button.chip {
     to right,
     var(--highlight) 0%,
     var(--highlight) var(--val, 50%),
-    rgba(243, 239, 230, 0.2) var(--val, 50%),
-    rgba(243, 239, 230, 0.2) 100%
+    rgba(230, 243, 237, 0.2) var(--val, 50%),
+    rgba(230, 243, 237, 0.2) 100%
   );
 }
 .slider-dark::-webkit-slider-thumb {
@@ -480,8 +480,8 @@ button.chip {
   border-top: 1px solid var(--border);
   background:
     url("./assets/forest-grain.svg") repeat,
-    radial-gradient(circle at 8% 0%, rgba(201, 170, 112, 0.06), transparent 30rem),
-    radial-gradient(circle at 92% 100%, rgba(255, 199, 157, 0.055), transparent 28rem),
+    radial-gradient(circle at 8% 0%, rgba(112, 201, 159, 0.06), transparent 30rem),
+    radial-gradient(circle at 92% 100%, rgba(179, 233, 208, 0.055), transparent 28rem),
     var(--background-soft);
 }
 

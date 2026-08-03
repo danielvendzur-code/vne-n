@@ -70,9 +70,9 @@
 }
 
 .site-menu-brand .brand-symbol {
-  --brand-symbol-shell: #f2efe6;
-  --brand-symbol-face: #bc7352;
-  --brand-symbol-signal: #c9aa70;
+  --brand-symbol-shell: #e6f2ec;
+  --brand-symbol-face: #52bc8b;
+  --brand-symbol-signal: #70c99f;
   --brand-symbol-accent: #7fa58f;
 }
 
@@ -191,7 +191,7 @@
   color: var(--text-primary);
   background:
     url("../../assets/forest-grain.svg") repeat,
-    linear-gradient(145deg, #30241c 0%, #1b1410 48%, #100b08 100%);
+    linear-gradient(145deg, #1c3027 0%, #101b16 48%, #100b08 100%);
   box-shadow: -26px 0 78px rgba(0, 0, 0, 0.48);
   transform: translate3d(102%, 0, 0);
   transition: transform 520ms cubic-bezier(0.34, 1.42, 0.64, 1);

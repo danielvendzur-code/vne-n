@@ -4,12 +4,12 @@
    Loaded last, so it settles the palette for the whole site. Three
    The shared landing and assistant palette has one interactive family:
 
-     #FFC79D  primary, and the logo
-     #CBBCaf  warm secondary text
-     #F0A873  hover accent
+     #b3e9d0  primary, and the logo
+     #afcbbe  warm secondary text
+     #87dcb4  hover accent
      #0A0908  background
 
-   The one thing the brief could not anticipate: #FFC79D is a light
+   The one thing the brief could not anticipate: #b3e9d0 is a light
    colour. White text on it measures 1.51:1, which is unreadable, so
    anything sitting ON the primary uses the dark base instead at
    strong contrast. Hover fills follow the same rule.
@@ -17,14 +17,14 @@
 
 :root,
 html body {
-  --brand-primary: #ffc79d;
-  --brand-secondary: #cbbcaf;
-  --brand-accent: #f0a873;
+  --brand-primary: #b3e9d0;
+  --brand-secondary: #afcbbe;
+  --brand-accent: #87dcb4;
   --brand-bg: #0a0908;
   --brand-surface: #12100e;
-  --brand-raised: #191511;
-  --brand-line: rgba(255, 199, 157, 0.17);
-  --brand-ink: #faf5ef;
+  --brand-raised: #111915;
+  --brand-line: rgba(179, 233, 208, 0.17);
+  --brand-ink: #effaf5;
   --brand-ink-dim: #c9beb4;
   /* text that sits on a filled primary or accent */
   --brand-on-fill: #0a0908;
@@ -46,8 +46,8 @@ body::before {
   pointer-events: none;
   opacity: 0.5;
   background-image:
-    radial-gradient(circle at 18% 12%, rgba(255, 199, 157, 0.05), transparent 42%),
-    radial-gradient(circle at 84% 78%, rgba(240, 168, 115, 0.04), transparent 46%),
+    radial-gradient(circle at 18% 12%, rgba(179, 233, 208, 0.05), transparent 42%),
+    radial-gradient(circle at 84% 78%, rgba(135, 220, 180, 0.04), transparent 46%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
   background-size:
     auto,
@@ -139,6 +139,6 @@ html body :is(.btn-primary, .lp-cta, .premium-cta) :is(svg, span, b) {
 
 /* ---- focus, in the shared peach accent ------------------------------- */
 html body :is(a, button, input, textarea, select, summary):focus-visible {
-  outline: 3px solid rgba(255, 199, 157, 0.88) !important;
+  outline: 3px solid rgba(179, 233, 208, 0.88) !important;
   outline-offset: 3px !important;
 }

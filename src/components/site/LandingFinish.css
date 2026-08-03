@@ -7,17 +7,17 @@
 
 .lp-page {
   /* Teplá paleta prejazdov. Modrá sa na webe nevyskytuje nikde. */
-  --lp-hover: #ffb078;
-  --lp-hover-soft: rgba(255, 176, 120, 0.14);
-  --lp-spot: rgba(255, 199, 157, 0.16);
-  --lp-spot-strong: rgba(255, 199, 157, 0.26);
+  --lp-hover: #0f6a3e;
+  --lp-hover-soft: rgba(25, 131, 79, 0.14);
+  --lp-spot: rgba(25, 131, 79, 0.16);
+  --lp-spot-strong: rgba(25, 131, 79, 0.26);
   --lp-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Striedavé podklady sekcií — vďaka nim je na prvý pohľad vidieť,
      že sa človek posunul o sekciu ďalej. */
-  --lp-band-a: #0a0806;
-  --lp-band-b: #120c08;
-  --lp-band-c: #0d0906;
+  --lp-band-a: #ffffff;
+  --lp-band-b: #f5f9f2;
+  --lp-band-c: #ffffff;
 }
 
 /* --------------------------------------------------------------------------
@@ -44,9 +44,9 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 199, 157, 0.34) 22%,
-    rgba(255, 199, 157, 0.5) 50%,
-    rgba(255, 199, 157, 0.34) 78%,
+    rgba(25, 131, 79, 0.34) 22%,
+    rgba(25, 131, 79, 0.5) 50%,
+    rgba(25, 131, 79, 0.34) 78%,
     transparent
   );
   pointer-events: none;
@@ -64,7 +64,7 @@
   transform: translateX(-50%);
   background: radial-gradient(
     ellipse 60% 100% at 50% 0%,
-    rgba(255, 199, 157, 0.075),
+    rgba(25, 131, 79, 0.075),
     transparent 72%
   );
   pointer-events: none;
@@ -75,7 +75,7 @@
 }
 
 .lp-portfolio {
-  color: #f6efe7 !important;
+  color: #0b2f20 !important;
   background: var(--lp-band-a) !important;
 }
 
@@ -95,30 +95,30 @@
    2. Nadpisy sekcií — výraznejší nábeh a lepšia čitateľnosť
    -------------------------------------------------------------------------- */
 .lp-page .lp-heading h2 {
-  color: #fdf7f0 !important;
+  color: #0b2f20 !important;
 }
 
 .lp-page .lp-heading h2 em {
-  color: #ffc79d !important;
+  color: #19834f !important;
   font-style: normal;
 }
 
 .lp-page .lp-heading-copy {
   max-width: 46rem;
-  color: #cfc3b7 !important;
+  color: #536159 !important;
   font-size: clamp(0.95rem, 1.1vw, 1.05rem);
   line-height: 1.68;
 }
 
 .lp-page .lp-eyebrow {
-  color: #ffc79d !important;
+  color: #19834f !important;
 }
 
 .lp-page .lp-eyebrow i {
   width: 2.1rem;
   height: 2px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #ffc79d, rgba(255, 199, 157, 0)) !important;
+  background: linear-gradient(90deg, #19834f, rgba(25, 131, 79, 0)) !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -280,12 +280,12 @@
    -------------------------------------------------------------------------- */
 .lp-portfolio .lp-heading h2,
 .lp-portfolio .lp-project-copy h3 {
-  color: #fdf7f0 !important;
+  color: #0b2f20 !important;
 }
 
 .lp-portfolio .lp-heading-copy,
 .lp-portfolio .lp-project-copy small {
-  color: #cfc3b7 !important;
+  color: #536159 !important;
 }
 
 .lp-project-grid {
@@ -306,10 +306,10 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border: 1px solid rgba(255, 231, 213, 0.11) !important;
+  border: 1px solid rgba(11, 47, 32, 0.11) !important;
   border-radius: 1.15rem !important;
-  color: #f6efe7 !important;
-  background: linear-gradient(168deg, #1a120c, #100b08) !important;
+  color: #0b2f20 !important;
+  background: linear-gradient(168deg, #ffffff, #ffffff) !important;
   box-shadow: 0 26px 62px -46px rgba(0, 0, 0, 0.95) !important;
   text-decoration: none;
   transition:
@@ -322,10 +322,10 @@
   .lp-project > a:hover,
   .lp-project > a:focus-visible {
     transform: translateY(-6px);
-    border-color: rgba(255, 199, 157, 0.46) !important;
+    border-color: rgba(25, 131, 79, 0.46) !important;
     box-shadow:
       0 34px 76px -44px rgba(0, 0, 0, 0.98),
-      0 0 46px -20px rgba(255, 199, 157, 0.4) !important;
+      0 0 46px -20px rgba(25, 131, 79, 0.4) !important;
   }
 }
 
@@ -333,7 +333,7 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 16 / 10;
-  background: #17100b !important;
+  background: #edf6e7 !important;
 }
 
 .lp-project-media::before {
@@ -341,7 +341,7 @@
   position: absolute;
   z-index: 1;
   inset: 0;
-  background: linear-gradient(110deg, #17100b 22%, #241811 38%, #17100b 54%);
+  background: linear-gradient(110deg, #edf6e7 22%, #edf6e7 38%, #edf6e7 54%);
   background-size: 220% 100%;
   animation: lp-skeleton 1.35s linear infinite;
   transition: opacity 300ms ease;
@@ -384,10 +384,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: 1px solid rgba(255, 199, 157, 0.28);
+  border: 1px solid rgba(25, 131, 79, 0.28);
   border-radius: 999px;
   padding: 0.34rem 0.7rem;
-  color: #ffe3c9;
+  color: #0b2f20;
   background: rgba(16, 11, 8, 0.78);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -417,14 +417,14 @@
   position: absolute;
   top: 1.4rem;
   right: 1.4rem;
-  color: #8f8377 !important;
+  color: #748078 !important;
   font-size: 0.7rem;
   font-weight: 760;
 }
 
 .lp-project-copy p {
   margin: 0 2.5rem 0.6rem 0;
-  color: #ffc79d !important;
+  color: #19834f !important;
   font-size: 0.67rem;
   font-weight: 780;
   letter-spacing: 0.07em;
@@ -450,7 +450,7 @@
   gap: 0.45rem;
   margin-top: auto;
   padding-top: 1.15rem;
-  color: #ffc79d;
+  color: #19834f;
   font-size: 0.78rem;
   font-weight: 720;
 }
@@ -472,15 +472,15 @@
   align-items: center;
   gap: 0.6rem;
   margin-top: 1.1rem;
-  border: 1px solid rgba(255, 231, 213, 0.11) !important;
+  border: 1px solid rgba(11, 47, 32, 0.11) !important;
   border-radius: 1rem !important;
   padding: 0.9rem 1.05rem;
-  background: rgba(255, 199, 157, 0.035) !important;
+  background: rgba(25, 131, 79, 0.035) !important;
 }
 
 .lp-live-tools > span {
   margin-right: auto;
-  color: #b0a397 !important;
+  color: #748078 !important;
   font-size: 0.68rem;
   font-weight: 760;
   letter-spacing: 0.07em;
@@ -491,11 +491,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  border: 1px solid rgba(255, 199, 157, 0.2);
+  border: 1px solid rgba(25, 131, 79, 0.2);
   border-radius: 0.6rem;
   padding: 0.5rem 0.75rem;
-  color: #f6efe7 !important;
-  background: rgba(255, 199, 157, 0.06) !important;
+  color: #0b2f20 !important;
+  background: rgba(25, 131, 79, 0.06) !important;
   font-size: 0.75rem;
   font-weight: 700;
   text-decoration: none;
@@ -509,9 +509,9 @@
 @media (hover: hover) and (pointer: fine) {
   .lp-live-tools a:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 199, 157, 0.55) !important;
-    color: #0f0a07 !important;
-    background: #ffc79d !important;
+    border-color: rgba(25, 131, 79, 0.55) !important;
+    color: #0b2f20 !important;
+    background: #19834f !important;
   }
 }
 
@@ -560,7 +560,7 @@
 }
 
 .lp-timeline-track {
-  background: rgba(255, 231, 213, 0.13);
+  background: rgba(11, 47, 32, 0.13);
 }
 
 .lp-timeline-fill {
@@ -569,8 +569,8 @@
   /* Hodnotu zapisuje motion cez premennú, takže tá istá čiara funguje
      vodorovne aj zvislo — stačí zmeniť os v mediálnom dotaze. */
   transform: scaleX(var(--tl-progress));
-  background: linear-gradient(90deg, #ffc79d, #f0a873);
-  box-shadow: 0 0 16px rgba(255, 199, 157, 0.45);
+  background: linear-gradient(90deg, #19834f, #0f6a3e);
+  box-shadow: 0 0 16px rgba(25, 131, 79, 0.45);
 }
 
 .lp-timeline-fill[data-static="true"] {
@@ -602,9 +602,9 @@
   width: var(--node);
   height: var(--node);
   border-radius: 50%;
-  color: #8f8377;
-  background: #100b08;
-  box-shadow: 0 0 0 2px rgba(255, 231, 213, 0.16);
+  color: #748078;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(11, 47, 32, 0.16);
   font-size: 0.92rem;
   font-weight: 760;
   transition:
@@ -615,11 +615,11 @@
 }
 
 .lp-tl-steps li[data-reached="true"] .lp-tl-node {
-  color: #12100e;
-  background: #ffc79d;
+  color: #0b2f20;
+  background: #19834f;
   box-shadow:
-    0 0 0 2px rgba(255, 199, 157, 0.55),
-    0 0 22px rgba(255, 199, 157, 0.5);
+    0 0 0 2px rgba(25, 131, 79, 0.55),
+    0 0 22px rgba(25, 131, 79, 0.5);
   transform: scale(1.06);
 }
 
@@ -627,9 +627,9 @@
   width: 100%;
   height: 100%;
   padding: clamp(1.1rem, 2vw, 1.5rem);
-  border: 1px solid rgba(255, 231, 213, 0.09);
+  border: 1px solid rgba(11, 47, 32, 0.09);
   border-radius: 1.1rem;
-  background: rgba(255, 199, 157, 0.022);
+  background: rgba(25, 131, 79, 0.022);
   opacity: 0.55;
   transform: translateY(8px);
   transition:
@@ -642,8 +642,8 @@
 .lp-tl-steps li[data-reached="true"] .lp-tl-card {
   opacity: 1;
   transform: translateY(0);
-  border-color: rgba(255, 199, 157, 0.22);
-  background: rgba(255, 199, 157, 0.05);
+  border-color: rgba(25, 131, 79, 0.22);
+  background: rgba(25, 131, 79, 0.05);
 }
 
 .lp-tl-icon {
@@ -652,18 +652,18 @@
   width: 2.4rem;
   height: 2.4rem;
   margin-bottom: 0.95rem;
-  border: 1px solid rgba(255, 199, 157, 0.2);
+  border: 1px solid rgba(25, 131, 79, 0.2);
   border-radius: 0.8rem;
-  color: #ffc79d;
-  background: rgba(255, 199, 157, 0.07);
+  color: #19834f;
+  background: rgba(25, 131, 79, 0.07);
   transition:
     border-color 460ms ease,
     background-color 460ms ease;
 }
 
 .lp-tl-steps li[data-reached="true"] .lp-tl-icon {
-  border-color: rgba(255, 199, 157, 0.42);
-  background: rgba(255, 199, 157, 0.13);
+  border-color: rgba(25, 131, 79, 0.42);
+  background: rgba(25, 131, 79, 0.13);
 }
 
 .lp-tl-icon svg {
@@ -673,7 +673,7 @@
 
 .lp-tl-num {
   display: block;
-  color: #ffc79d;
+  color: #19834f;
   font-size: 0.65rem;
   font-weight: 780;
   letter-spacing: 0.11em;
@@ -682,7 +682,7 @@
 
 .lp-tl-card h3 {
   margin: 0.42rem 0 0;
-  color: #fdf7f0;
+  color: #0b2f20;
   font-size: clamp(1.05rem, 1.5vw, 1.22rem);
   letter-spacing: -0.03em;
   line-height: 1.2;
@@ -690,7 +690,7 @@
 
 .lp-tl-card p {
   margin: 0.5rem 0 0;
-  color: #cfc3b7;
+  color: #536159;
   font-size: 0.88rem;
   line-height: 1.6;
 }
@@ -702,8 +702,8 @@
   gap: 0.45rem;
   margin-top: 0.75rem;
   padding-top: 0.7rem;
-  border-top: 1px solid rgba(255, 199, 157, 0.14);
-  color: #ffc79d;
+  border-top: 1px solid rgba(25, 131, 79, 0.14);
+  color: #19834f;
   font-size: 0.8rem;
   line-height: 1.5;
 }
@@ -733,7 +733,7 @@
   .lp-timeline-fill {
     transform-origin: center top;
     transform: scaleY(var(--tl-progress));
-    background: linear-gradient(180deg, #ffc79d, #f0a873);
+    background: linear-gradient(180deg, #19834f, #0f6a3e);
   }
 
   .lp-tl-steps {
@@ -778,7 +778,7 @@ html:root body .lp-page .lp-hero {
   min-height: auto !important;
   padding-block: clamp(1.6rem, 3.2vw, 2.8rem) clamp(3.4rem, 6vw, 5.5rem) !important;
   background:
-    radial-gradient(ellipse 70% 55% at 70% 8%, rgba(255, 199, 157, 0.11), transparent 70%),
+    radial-gradient(ellipse 70% 55% at 70% 8%, rgba(25, 131, 79, 0.11), transparent 70%),
     var(--lp-band-a) !important;
 }
 
@@ -819,7 +819,7 @@ html body .lp-page .lp-hero-glide .glide-field__canvas {
 html body .lp-page .lp-hero-stage::before {
   filter: none !important;
   -webkit-filter: none !important;
-  background: radial-gradient(circle, rgba(255, 199, 157, 0.13), transparent 72%) !important;
+  background: radial-gradient(circle, rgba(25, 131, 79, 0.13), transparent 72%) !important;
 }
 
 /* Farebný filter na náhľadoch realizácií sa navyše animoval pri
@@ -858,11 +858,11 @@ html body .lp-page .lp-project > a:focus-visible .lp-project-media img {
   align-items: center;
   gap: 0.55rem;
   margin: 0 0 1.4rem;
-  border: 1px solid rgba(255, 199, 157, 0.24);
+  border: 1px solid rgba(25, 131, 79, 0.24);
   border-radius: 999px;
   padding: 0.42rem 0.85rem;
-  color: #ffc79d !important;
-  background: rgba(255, 199, 157, 0.06);
+  color: #19834f !important;
+  background: rgba(25, 131, 79, 0.06);
   font-size: 0.7rem;
   font-weight: 760;
   letter-spacing: 0.1em;
@@ -919,13 +919,13 @@ html body .lp-page .lp-project > a:focus-visible .lp-project-media img {
 }
 
 .lp-hero h1 em {
-  color: #ffc79d;
+  color: #19834f;
 }
 
 .lp-hero-lead {
   max-width: 34rem;
   margin: 1.6rem 0 0;
-  color: #d4c8bc !important;
+  color: #536159 !important;
   font-size: clamp(1rem, 1.25vw, 1.12rem);
   line-height: 1.66;
 }
@@ -951,19 +951,19 @@ html body .lp-page .lp-project > a:focus-visible .lp-project-media img {
 .lp-hero-proof svg {
   width: 1rem;
   height: 1rem;
-  color: #ffc79d;
+  color: #19834f;
 }
 
 /* --------------------------------------------------------------------------
    7. Porovnanie a možnosti — čitateľnosť
    -------------------------------------------------------------------------- */
 .lp-page .lp-comparison-copy h3 {
-  color: #fdf7f0 !important;
+  color: #0b2f20 !important;
 }
 
 .lp-page .lp-comparison-copy span,
 .lp-page .lp-comparison-body li {
-  color: #d4c8bc !important;
+  color: #536159 !important;
 }
 
 /* Značka pri položke bola plný kruh vo farbe, ktorá sa zhodovala
@@ -979,31 +979,31 @@ html:root body .lp-page .lp-comparison-body li svg {
 }
 
 html:root body .lp-page .lp-comparison-body[data-mode="with"] li svg {
-  color: #0f0a07 !important;
-  background: #ffc79d !important;
+  color: #0b2f20 !important;
+  background: #19834f !important;
 }
 
 html:root body .lp-page .lp-comparison-body[data-mode="without"] li svg {
   color: #ffb4a8 !important;
-  background: rgba(255, 122, 106, 0.16) !important;
+  background: rgba(200, 60, 60, 0.16) !important;
 }
 
 .lp-page .lp-caps-row-head h3 {
-  color: #fdf7f0 !important;
+  color: #0b2f20 !important;
 }
 
 .lp-page .lp-caps-row-head p,
 .lp-page .lp-caps-detail-copy p,
 .lp-page .lp-caps-detail-spec dd {
-  color: #cfc3b7 !important;
+  color: #536159 !important;
 }
 
 .lp-page .lp-faq-item h3 button {
-  color: #fdf7f0 !important;
+  color: #0b2f20 !important;
 }
 
 .lp-page .lp-faq-body p {
-  color: #cfc3b7 !important;
+  color: #536159 !important;
 }
 
 /* --------------------------------------------------------------------------

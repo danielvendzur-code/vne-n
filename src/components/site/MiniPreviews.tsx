@@ -14,7 +14,12 @@ function usePalette(accent?: string) {
   return {
     accent: a,
     accentSoft: `color-mix(in oklab, ${a} 20%, transparent)`,
-    accentInk: accent ? `color-mix(in oklab, ${a} 26%, #100b08)` : "#100b08",
+    // Tmavá lesná zo značkovej palety. Predtým tu bola teplá čierna
+    // `#100b08`, ktorá do bielo-zelenej identity vnášala hnedý nádych.
+    accentInk: accent ? `color-mix(in oklab, ${a} 26%, #0b2f20)` : "#0b2f20",
+    // Akcent je limetková — ako výplň sedí, ako písmo má na svetlom
+    // podklade 1,37:1. Na text preto ide stmavená verzia.
+    accentText: accent ? `color-mix(in oklab, ${a} 34%, #0b2f20)` : "#0f6a3e",
   };
 }
 
@@ -40,7 +45,7 @@ function Chip({
         lineHeight: 1.2,
         whiteSpace: "nowrap",
         border: `1px solid ${active ? "transparent" : "var(--border-strong)"}`,
-        color: active ? "#100b08" : "var(--text-secondary)",
+        color: active ? "#0b2f20" : "var(--text-secondary)",
         background: active ? accent : "transparent",
         boxShadow: active ? `0 6px 16px -10px ${accent}` : "none",
       }}
@@ -97,7 +102,7 @@ export function AssistantMini({ compact, accent }: MiniProps) {
 }
 
 export function CalculatorMini({ compact, accent }: MiniProps) {
-  const { accent: a } = usePalette(accent);
+  const { accent: a, accentText } = usePalette(accent);
   return (
     <div className={compact ? "p-3.5" : "p-4"} style={{ backgroundColor: "var(--surface)" }}>
       <div className="mb-3 grid grid-cols-2 gap-2">
@@ -120,13 +125,13 @@ export function CalculatorMini({ compact, accent }: MiniProps) {
           >
             Orientačný rozsah
           </div>
-          <div className="text-lg font-semibold tabular-nums" style={{ color: a }}>
+          <div className="text-lg font-semibold tabular-nums" style={{ color: accentText }}>
             1 240 – 1 480 €
           </div>
         </div>
         <span
           className="rounded-lg px-3 py-1.5 text-[11px] font-semibold"
-          style={{ backgroundColor: a, color: "#100b08" }}
+          style={{ backgroundColor: a, color: "#0b2f20" }}
         >
           Prepočítať
         </span>
@@ -153,7 +158,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
             className="grid h-8 w-8 place-items-center rounded-lg text-xs font-semibold"
             style={{
               border: `1px solid ${i === 1 ? "transparent" : "var(--border-strong)"}`,
-              color: i === 1 ? "#100b08" : "var(--text-secondary)",
+              color: i === 1 ? "#0b2f20" : "var(--text-secondary)",
               background: i === 1 ? a : "transparent",
               boxShadow: i === 1 ? `0 6px 16px -10px ${a}` : "none",
             }}
@@ -169,7 +174,9 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
         Farba
       </div>
       <div className="mb-3 flex gap-2">
-        {[a, "#b28662", "#c9b48a", "#aaa49d"].map((c, i) => (
+        {/* Vzorkovník bol hnedo-oranžový, čo je jediná farba, ktorá sa do
+            bielo-zelenej identity nehodí. Teraz drží zelený rad. */}
+        {[a, "#19834f", "#0b2f20", "#aaa49d"].map((c, i) => (
           <span
             key={c}
             className="h-6 w-6 rounded-full"
@@ -187,7 +194,7 @@ export function ConfiguratorMini({ compact, accent }: MiniProps) {
       >
         <span style={{ color: "var(--text-light)" }}>Výber</span>
         <span className="font-semibold" style={{ color: "var(--text-primary)" }}>
-          Variant B · modrá
+          Variant B · zelená
         </span>
       </div>
     </div>

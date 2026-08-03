@@ -111,19 +111,19 @@
     width: 100% !important;
     min-width: 0 !important;
     padding: 17px 15px 16px !important;
-    border: 1px solid rgba(255, 199, 157, 0.18) !important;
+    border: 1px solid rgba(179, 233, 208, 0.18) !important;
     border-radius: 18px !important;
     text-align: left !important;
     background:
-      radial-gradient(circle at 88% 0%, rgba(255, 199, 157, 0.08), transparent 45%), #12100e !important;
+      radial-gradient(circle at 88% 0%, rgba(179, 233, 208, 0.08), transparent 45%), #12100e !important;
     box-shadow: 0 20px 48px -40px rgba(0, 0, 0, 0.96) !important;
     overflow: hidden !important;
   }
 
   html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-body,
   html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step {
-    border-color: rgba(255, 199, 157, 0.32) !important;
-    box-shadow: 0 22px 56px -42px rgba(255, 199, 157, 0.35) !important;
+    border-color: rgba(179, 233, 208, 0.32) !important;
+    box-shadow: 0 22px 56px -42px rgba(179, 233, 208, 0.35) !important;
   }
 
   /* Nodes sit beside the step label, not in the vertical centre of tall cards. */
@@ -149,8 +149,8 @@
     background: #100b08 !important;
     box-shadow:
       0 0 0 4px #0a0908,
-      0 0 0 6px rgba(255, 199, 157, 0.1),
-      0 0 20px rgba(255, 199, 157, 0.4) !important;
+      0 0 0 6px rgba(179, 233, 208, 0.1),
+      0 0 20px rgba(179, 233, 208, 0.4) !important;
   }
 
   html:root body .lp-page .lp-step-icon {

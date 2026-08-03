@@ -1,0 +1,389 @@
+/* =====================================================================
+   MÔJ CHATBOT — DOROVNANIE PLÔCH NA BIELO-ZELENÚ IDENTITU
+
+   WhiteGreenIdentityLock.css prefarbil text na tmavú lesnú, ale časť
+   plôch pod ním ostala z pôvodnej tmavej témy. Staršie vrstvy
+   (ClientLandingFinal.css, FinalUserCorrection.css, preco-chatbot.css)
+   ich držia cez `!important` na selektore `html:root body`, ktorý nová
+   vrstva na týchto konkrétnych triedach neprebila. Výsledok: tmavá
+   lesná na takmer čiernej — na /sluzby, /postup, /preco-chatbot a
+   /cennik sa nedali prečítať celé sekcie.
+
+   Táto vrstva sa načítava ako posledná a dorovnáva len to, čo ostalo:
+   povrchy na bielu a šalviovú, text na plných výplniach na dostatočný
+   kontrast a posledné zvyšky broskyňovej.
+
+   Paleta je prevzatá z WhiteGreenIdentityLock.css — žiadne nové farby.
+   ===================================================================== */
+
+/* Zoznam selektorov kopíruje WhiteGreenIdentityLock.css — token sa tam
+   deklaruje aj na `.lp-page`, `.sp-page` a spol., takže samotné
+   `.site-theme-white-green` by malo nižšiu špecificitu a neprebilo by ho. */
+html:root body .site-theme-white-green,
+html:root body .site-theme-white-green .lp-page,
+html:root body .site-theme-white-green .sp-page,
+html:root body .site-theme-white-green .contact-page,
+html:root body .site-theme-white-green .cookies-page,
+html:root body .site-theme-white-green .rz-page {
+  /* Tmavá lesná ostáva len tam, kde je zámerná: pätička, časová os
+     spolupráce a plné smaragdové tlačidlá. Všetko ostatné je svetlé. */
+  --sr-ink: #0b2f20;
+  --sr-secondary: #4c5a52;
+  --sr-light: #5f6d65;
+  --sr-line: rgba(11, 47, 32, 0.13);
+  --sr-emerald: #19834f;
+
+  /* `--text-light: #748078` má na bielej 4,12:1. Drobné popisky v
+     ukážkach nástrojov ho používajú v 10 px, kde norma žiada 4,5:1.
+     Stmavenie o dva tóny drží rovnaký tlmený dojem a spĺňa AA. */
+  --text-light: #5f6d65;
+}
+
+/* ---------------------------------------------------------------------
+   1. Podstránky — hero a sekcie
+   `html:root body :is(.sp-hero, …)` v ClientLandingFinal.css kreslil
+   `linear-gradient(140deg, #0a0908, #15110e 62%, #0d0b09)`. Pod ním mal
+   nadpis kontrast 1,38:1.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green :is(.sp-hero, .cookies-page .sp-hero) {
+  border-bottom: 1px solid var(--sr-line) !important;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(185, 237, 77, 0.18), transparent 32rem),
+    radial-gradient(circle at 4% 92%, rgba(25, 131, 79, 0.07), transparent 28rem),
+    #ffffff !important;
+}
+
+html:root body .site-theme-white-green :is(.sp-section, .cookies-contact) {
+  background:
+    radial-gradient(circle at 90% 3%, rgba(25, 131, 79, 0.05), transparent 30rem),
+    #ffffff !important;
+}
+
+html:root body .site-theme-white-green :is(.sp-section--soft, .cookies-section) {
+  background:
+    radial-gradient(circle at 88% 0%, rgba(185, 237, 77, 0.14), transparent 27rem),
+    #f5f9f2 !important;
+}
+
+/* Karty na podstránkach. */
+html:root body .site-theme-white-green :is(.sp-service, .sp-project-card > a, .cookies-card) {
+  border-color: var(--sr-line) !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(185, 237, 77, 0.16), transparent 44%),
+    #ffffff !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  :is(.sp-service:hover, .sp-project-card > a:hover, .sp-project-card > a:focus-visible) {
+  border-color: rgba(25, 131, 79, 0.34) !important;
+}
+
+/* Bloky „Najsilnejšie je to dokopy" a záverečné CTA na podstránkach.
+   Farbu nedržal `background-color`, ale prechod
+   `linear-gradient(150deg, #191511, #0d0b09)`, takže ho bolo treba
+   prebiť celou skratkou `background`. */
+html:root body .site-theme-white-green :is(.sp-combine, .sp-cta) {
+  border-color: var(--sr-line) !important;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(185, 237, 77, 0.2), transparent 45%),
+    #ffffff !important;
+}
+
+html:root body .site-theme-white-green :is(.sp-combine, .sp-cta) :is(h2, h3, b, strong) {
+  color: var(--sr-ink) !important;
+}
+
+html:root body .site-theme-white-green :is(.sp-combine, .sp-cta) :is(p, li, span:not([class*="button"])) {
+  color: var(--sr-secondary) !important;
+}
+
+html:root body .site-theme-white-green .sp-cta > p:first-of-type {
+  color: #0f6a3e !important;
+}
+
+/* Tlmené popisky na podstránkach boli svetlošedé na takmer bielej. */
+html:root body .site-theme-white-green :is(.sp-service-index, .sp-service-row > span, .sp-step-label),
+html:root body .site-theme-white-green .sp-project-top > span:first-child {
+  color: var(--sr-light) !important;
+}
+
+/* ---------------------------------------------------------------------
+   2. /cennik — sekcia „Čo potrebujeme od klienta"
+   `.winner-upgrade` mala `background-color: #1c1511`, takže 62 px nadpis
+   v tmavej lesnej mal kontrast 1,24:1.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .winner-upgrade {
+  background-color: #f5f9f2 !important;
+  background-image: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(185, 237, 77, 0.22),
+    transparent 62%
+  ) !important;
+}
+
+html:root body .site-theme-white-green .winner-upgrade :is(h2, h3) {
+  color: var(--sr-ink) !important;
+}
+
+html:root body .site-theme-white-green .winner-upgrade :is(p, li, .winner-upgrade__eyebrow) {
+  color: var(--sr-secondary) !important;
+}
+
+/* Stužka „Najčastejšia voľba" ostala broskyňová. */
+html:root body .site-theme-white-green :is(.winner-package__ribbon, .winner-package--featured)::before {
+  color: var(--sr-ink) !important;
+  background: #d9ff78 !important;
+}
+
+/* ---------------------------------------------------------------------
+   3. /preco-chatbot — karty a zoznam „Komu to dáva zmysel"
+   preco-chatbot.css kreslí `#1f140c` a `#2a1c12`, FinalUserCorrection.css
+   ich prebíja na `#131210`. Nadpisy na nich mali 1,29:1.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .why-page .why-card,
+html:root body .site-theme-white-green .sp-page .why-card {
+  border: 1px solid var(--sr-line) !important;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .why-page .why-card--accent {
+  border-color: rgba(25, 131, 79, 0.28) !important;
+  background: #f5f9f2 !important;
+}
+
+html:root body .site-theme-white-green .why-page .why-card :is(h3, b, strong) {
+  color: var(--sr-ink) !important;
+}
+
+html:root body .site-theme-white-green .why-page .why-card p {
+  color: var(--sr-secondary) !important;
+}
+
+html:root body .site-theme-white-green .why-page .why-fit-list li {
+  border: 1px solid var(--sr-line) !important;
+  color: var(--sr-secondary) !important;
+  background: #ffffff !important;
+}
+
+/* Ikony v kartách boli broskyňové na hnedom krúžku. */
+html:root body .site-theme-white-green .why-page .why-card :is(svg, .why-card__icon) {
+  color: var(--sr-emerald) !important;
+}
+
+html:root body .site-theme-white-green .why-page :is(.why-card__icon, .why-fit-list li)::before {
+  background: rgba(25, 131, 79, 0.12) !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Štítky (chips)
+   Vlastná plocha ostala `#1a1815`, text bol prefarbený na `#355044`.
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  :is(.chip, .lp-chip, .lp-caps-chip, .lp-filter, .sp-chip-row .chip, [data-chip-kind]):not(
+    [data-active="true"]
+  ) {
+  border: 1px solid var(--sr-line) !important;
+  color: var(--sr-ink) !important;
+  background: #ffffff !important;
+}
+
+/* ---------------------------------------------------------------------
+   5. Text na plných výplniach
+   --------------------------------------------------------------------- */
+/* Smaragdové tlačidlo malo popis v `#c7d9ce` — 4,33:1, tesne pod normou. */
+html:root body .site-theme-white-green :is(.lp-button-light, .lp-hero-pick[data-active="true"]),
+html:root
+  body
+  .site-theme-white-green
+  :is(.lp-button-light, .lp-hero-pick[data-active="true"])
+  :is(span, b, svg, .lp-button-content) {
+  color: #ffffff !important;
+}
+
+/* Prepínač „S chatbotom / Bez chatbota".
+   Neaktívny popis mal `#cdd6d2` na takmer bielej dráhe — 1,48:1.
+   Selektor musí niesť aj `.lp-page` a `[data-active]`, inak ho prebije
+   pôvodné pravidlo z ClientLandingFinal.css. */
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-switch
+  > button[data-active="false"]
+  .lp-control-label,
+html:root body .site-theme-white-green .lp-page .lp-switch > button[data-active="false"],
+html:root body .site-theme-white-green .lp-page .lp-control-label {
+  color: var(--sr-secondary) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-switch
+  > button[data-active="true"]
+  .lp-control-label {
+  color: var(--sr-ink) !important;
+}
+
+/* Číslo kroku v časovej osi. Neskoršia vrstva prefarbila dosiahnutý uzol
+   na limetkový a číslo na ňom ostalo biele — 1,13:1. Uzol tu dostáva
+   jednu istú dvojicu farieb: smaragdová plocha, biele číslo. */
+html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node,
+html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node b {
+  color: #4c5a52 !important;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-tl-steps li[data-reached="true"] .lp-tl-node,
+html:root body .site-theme-white-green .lp-tl-steps li[data-reached="true"] .lp-tl-node b {
+  color: #ffffff !important;
+  background: #19834f !important;
+}
+
+/* Popisok nad zoznamom živých nástrojov mal 4,12:1 pri 12 px. */
+html:root body .site-theme-white-green .lp-page :is(.lp-live-tools, .rz-tools) > span,
+html:root body .site-theme-white-green .rz-page :is(.lp-live-tools, .rz-tools) > span,
+html:root body .site-theme-white-green :is(.lp-live-tools, .rz-tools) > span {
+  color: #4c5a52 !important;
+}
+
+/* Ukážky rozhraní mali cez spodnú polovicu tmavú clonu — tá dávala
+   zmysel, kým sedeli na tmavej karte. Na bielej z nich robila
+   zašednutú plochu, na ktorej sa popisky prestali dať čítať. */
+html:root body .site-theme-white-green .sp-project-visual {
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .sp-project-visual::after {
+  background: linear-gradient(to top, rgba(11, 47, 32, 0.06), transparent 48%) !important;
+}
+
+/* Plávajúce tlačidlo asistenta stojí na tmavej lesnej. */
+html:root body #dv-assistant-fallback :is(small, span small),
+html:root body .cw-launcher :is(small, span small) {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* ---------------------------------------------------------------------
+   6. /projekty — realizácie
+   --------------------------------------------------------------------- */
+/* Doména sedí na tmavej clone nad snímkou webu, takže patrí biely text. */
+html:root body .site-theme-white-green .rz-domain {
+  color: #ffffff !important;
+}
+
+/* Limetková ako text na bielej má 1,37:1 — na písmo patrí smaragdová. */
+html:root body .site-theme-white-green :is(.rz-type, .rz-open, .rz-price, .rz-tools-label) {
+  color: var(--sr-emerald) !important;
+}
+
+html:root body .site-theme-white-green .lp-live-tools > span,
+html:root body .site-theme-white-green .rz-tools > span {
+  color: var(--sr-secondary) !important;
+  background: transparent !important;
+}
+
+/* Smaragdové odznaky niesli sekundárnu zelenú — 1,37:1. */
+html:root body .site-theme-white-green :is(.rz-badge, .lp-live-tools a, .rz-tools a) :is(b, strong) {
+  color: var(--sr-ink) !important;
+}
+
+/* ---------------------------------------------------------------------
+   7. /kontakt
+   --------------------------------------------------------------------- */
+/* Druhé tlačidlo bolo biele na bielom — 1:1. */
+html:root body .site-theme-white-green .contact-page .contact-assistant,
+html:root body .site-theme-white-green .contact-page .contact-assistant :is(span, b) {
+  color: var(--sr-ink) !important;
+}
+
+html:root body .site-theme-white-green .contact-page .contact-assistant {
+  border: 1px solid var(--sr-line) !important;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .contact-page .contact-assistant svg {
+  color: var(--sr-emerald) !important;
+}
+
+html:root body .site-theme-white-green .contact-page .contact-or span {
+  color: var(--sr-secondary) !important;
+}
+
+/* Popisok kroku mal broskyňovú plochu a pieskový text. */
+html:root body .site-theme-white-green .contact-card-head > span {
+  color: #0f6a3e !important;
+  background: rgba(25, 131, 79, 0.1) !important;
+}
+
+/* Karta formulára držala tmavý prechod z pôvodnej témy. */
+html:root body .site-theme-white-green :is(.contact-page, .contact-card, .contact-expect) {
+  border-color: var(--sr-line) !important;
+}
+
+html:root body .site-theme-white-green .contact-page {
+  background:
+    radial-gradient(circle at 96% 8%, rgba(185, 237, 77, 0.16), transparent 34rem),
+    radial-gradient(circle at 4% 82%, rgba(25, 131, 79, 0.05), transparent 30rem),
+    #ffffff !important;
+}
+
+html:root body .site-theme-white-green :is(.contact-card, .contact-expect) {
+  background:
+    radial-gradient(circle at 92% 8%, rgba(185, 237, 77, 0.16), transparent 45%),
+    #ffffff !important;
+}
+
+/* Riadky s adresami mali tmavú plochu z pôvodnej témy. */
+html:root body .site-theme-white-green .contact-details a {
+  border: 1px solid var(--sr-line) !important;
+  color: var(--sr-ink) !important;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .contact-details a em {
+  color: var(--sr-light) !important;
+}
+
+html:root body .site-theme-white-green .contact-details a[data-primary="true"] {
+  border-color: rgba(25, 131, 79, 0.34) !important;
+  background: rgba(25, 131, 79, 0.07) !important;
+}
+
+html:root body .site-theme-white-green .contact-details a[data-primary="true"] em {
+  color: #0f6a3e !important;
+}
+
+/* ---------------------------------------------------------------------
+   8. Posledné zvyšky broskyňovej
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green :is(.sp-page, .cookies-page, .contact-page) {
+  background-image:
+    radial-gradient(circle at 90% 3%, rgba(25, 131, 79, 0.05), transparent 30rem),
+    radial-gradient(circle at 4% 94%, rgba(185, 237, 77, 0.1), transparent 27rem) !important;
+}
+
+html body .site-menu-drawer {
+  scrollbar-color: rgba(25, 131, 79, 0.38) transparent;
+}
+
+html body .cw-launcher:hover,
+html body .cw-launcher:focus-visible,
+html body #dv-assistant-fallback:hover,
+html body #dv-assistant-fallback:focus-visible {
+  box-shadow:
+    0 22px 44px -20px rgba(11, 47, 32, 0.34),
+    0 0 0 1px rgba(25, 131, 79, 0.34) !important;
+}
+
+/* Rozostrené pozadie menu na mobile bolo takmer čierne. */
+@media (max-width: 900px) {
+  html body .site-theme-white-green :is(.site-menu-backdrop, .lp-project-domain) {
+    background-color: rgba(11, 47, 32, 0.82) !important;
+  }
+}

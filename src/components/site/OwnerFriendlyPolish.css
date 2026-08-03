@@ -7,8 +7,8 @@ html body .lp-chip,
 html body .sp-hero-chips .chip,
 html body .sp-chip-row .chip {
   border: 0 !important;
-  color: #e1d6cc !important;
-  background: #1c130d !important;
+  color: #cce1d7 !important;
+  background: #0d1c15 !important;
   background-image: none !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
   transform: none !important;
@@ -29,7 +29,7 @@ html body .sp-hero-chips .chip:focus-visible,
 html body .sp-chip-row .chip:focus-visible {
   border: 0 !important;
   color: #ffffff !important;
-  background: #281b12 !important;
+  background: #12281e !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
   transform: none !important;
 }
@@ -38,10 +38,10 @@ html body .lp-hero-pick[data-active="true"],
 html body .lp-chip[data-active="true"] {
   border: 0 !important;
   color: #ffffff !important;
-  background: linear-gradient(145deg, #57321a, #311e11) !important;
+  background: linear-gradient(145deg, #1a573b, #113122) !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.09),
-    inset 0 0 0 1px rgba(245, 183, 121, 0.08) !important;
+    inset 0 0 0 1px rgba(143, 223, 186, 0.08) !important;
   transform: none !important;
 }
 
@@ -70,7 +70,7 @@ html body .lp-chip::after {
 html body .lp-hero-pick-icon,
 html body .lp-chip-icon {
   border: 0 !important;
-  color: #f7c695 !important;
+  color: #a7e5c8 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -136,8 +136,8 @@ html body .winner-final__secondary::after {
   background: radial-gradient(
     circle 92px at var(--spot-x) var(--spot-y),
     rgba(255, 255, 255, 0.2) 0,
-    rgba(244, 179, 115, 0.13) 32%,
-    rgba(255, 199, 157, 0.045) 54%,
+    rgba(138, 221, 182, 0.13) 32%,
+    rgba(179, 233, 208, 0.045) 54%,
     transparent 72%
   ) !important;
   transform: none !important;
@@ -181,7 +181,7 @@ html body .winner-trust__item:hover,
 html body .winner-prep__item:hover,
 html body .winner-package:hover {
   border-color: transparent !important;
-  background-color: #1e140e !important;
+  background-color: #0e1e17 !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
   transform: none !important;
 }
@@ -190,7 +190,7 @@ html body .winner-package[data-featured="true"] {
   border-color: transparent !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 30px 70px -58px rgba(255, 199, 157, 0.7) !important;
+    0 30px 70px -58px rgba(179, 233, 208, 0.7) !important;
 }
 
 html body .winner-package__price,
@@ -239,7 +239,7 @@ html body .lp-comparison-body {
   border-radius: 24px !important;
   padding: clamp(2rem, 4vw, 3.5rem) !important;
   background:
-    radial-gradient(circle at 92% 8%, rgba(255, 199, 157, 0.1), transparent 25rem), #140d08 !important;
+    radial-gradient(circle at 92% 8%, rgba(179, 233, 208, 0.1), transparent 25rem), #140d08 !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     0 34px 80px -62px rgba(0, 0, 0, 0.95) !important;

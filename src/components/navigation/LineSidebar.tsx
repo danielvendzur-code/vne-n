@@ -43,9 +43,9 @@ const falloffCurves: Record<Falloff, (progress: number) => number> = {
 /** React Bits LineSidebar, adapted to render semantic, keyboard-accessible links. */
 export function LineSidebar({
   items,
-  accentColor = "#bc7352",
-  textColor = "#f2efe6",
-  markerColor = "rgba(242, 239, 230, 0.22)",
+  accentColor = "#52bc8b",
+  textColor = "#e6f2ec",
+  markerColor = "rgba(230, 242, 236, 0.22)",
   showIndex = true,
   showMarker = true,
   proximityRadius = 110,

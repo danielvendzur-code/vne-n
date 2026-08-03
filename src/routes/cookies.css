@@ -2,7 +2,7 @@
   position: relative;
   min-height: 100%;
   background:
-    radial-gradient(circle at 86% 8%, rgba(229, 174, 119, 0.055), transparent 30rem),
+    radial-gradient(circle at 86% 8%, rgba(129, 219, 177, 0.055), transparent 30rem),
     linear-gradient(180deg, rgba(255, 255, 255, 0.008), transparent 24rem);
 }
 
@@ -12,13 +12,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid rgba(229, 174, 119, 0.23);
+  border: 1px solid rgba(129, 219, 177, 0.23);
   border-radius: 999px;
   padding: 11px 17px;
-  color: #faf8f5;
+  color: #f5faf8;
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.1), transparent 52%),
-    rgba(229, 174, 119, 0.075);
+    rgba(129, 219, 177, 0.075);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.075);
   font-size: 0.78rem;
   font-weight: 750;
@@ -32,7 +32,7 @@
 .cookies-settings-button svg {
   width: 16px;
   height: 16px;
-  color: #e5ae77;
+  color: #81dbb1;
 }
 
 .cookies-section {
@@ -48,12 +48,12 @@
 .cookies-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(242, 227, 211, 0.13);
+  border: 1px solid rgba(211, 242, 228, 0.13);
   border-radius: 28px;
   padding: clamp(20px, 4vw, 30px);
   background:
     radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.07), transparent 36%),
-    linear-gradient(145deg, rgba(52, 31, 17, 0.8), rgba(24, 13, 6, 0.9));
+    linear-gradient(145deg, rgba(17, 52, 36, 0.8), rgba(24, 13, 6, 0.9));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.055),
     0 24px 58px -42px rgba(7, 3, 1, 0.86);
@@ -66,7 +66,7 @@
   border-radius: inherit;
   background: radial-gradient(
     circle at var(--spot-x, 25%) var(--spot-y, 12%),
-    rgba(229, 174, 119, 0.06),
+    rgba(129, 219, 177, 0.06),
     transparent 42%
   );
   opacity: 0;
@@ -83,12 +83,12 @@
   height: 48px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(229, 174, 119, 0.22);
+  border: 1px solid rgba(129, 219, 177, 0.22);
   border-radius: 17px;
   color: #9c9185;
   background:
     radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.13), transparent 48%),
-    rgba(229, 174, 119, 0.075);
+    rgba(129, 219, 177, 0.075);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
 }
 
@@ -99,7 +99,7 @@
 
 .cookies-card__kicker {
   margin: 20px 0 8px;
-  color: #e5ae77;
+  color: #81dbb1;
   font-size: 0.65rem;
   font-weight: 780;
   letter-spacing: 0.105em;
@@ -108,7 +108,7 @@
 
 .cookies-card h2 {
   margin: 0;
-  color: #faf6f3;
+  color: #f3faf7;
   font-family: var(--font-display);
   font-size: clamp(1.35rem, 3vw, 2rem);
   font-weight: 520;
@@ -128,7 +128,7 @@
   display: grid;
   gap: 0;
   margin: 24px 0 0;
-  border-top: 1px solid rgba(242, 227, 211, 0.1);
+  border-top: 1px solid rgba(211, 242, 228, 0.1);
 }
 
 .cookies-list > div {
@@ -136,7 +136,7 @@
   grid-template-columns: minmax(7rem, 0.34fr) minmax(0, 1fr);
   gap: 18px;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(242, 227, 211, 0.08);
+  border-bottom: 1px solid rgba(211, 242, 228, 0.08);
 }
 
 .cookies-list dt,
@@ -150,23 +150,23 @@
 
 .cookies-list dd {
   margin: 0;
-  color: #faf8f5;
+  color: #f5faf8;
   font-size: 0.75rem;
   line-height: 1.5;
 }
 
 .cookies-status {
   margin-top: 24px;
-  border: 1px solid rgba(229, 174, 119, 0.15);
+  border: 1px solid rgba(129, 219, 177, 0.15);
   border-radius: 19px;
   padding: 16px;
-  background: rgba(229, 174, 119, 0.045);
+  background: rgba(129, 219, 177, 0.045);
 }
 
 .cookies-status b {
   display: block;
   margin-top: 5px;
-  color: #faf8f5;
+  color: #f5faf8;
   font-size: 0.82rem;
   font-weight: 760;
 }
@@ -183,7 +183,7 @@
 }
 
 .cookies-contact {
-  border-top: 1px solid rgba(242, 227, 211, 0.09);
+  border-top: 1px solid rgba(211, 242, 228, 0.09);
   padding: 20px 0 28px;
 }
 
@@ -202,7 +202,7 @@
 }
 
 .cookies-contact a {
-  color: #e3cfbb;
+  color: #bbe3d0;
   transition: color 200ms ease;
 }
 
@@ -225,13 +225,13 @@
 
 @media (hover: hover) and (pointer: fine) {
   .cookies-settings-button:hover {
-    border-color: rgba(229, 174, 119, 0.42);
+    border-color: rgba(129, 219, 177, 0.42);
     background:
       radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.15), transparent 52%),
-      rgba(229, 174, 119, 0.11);
+      rgba(129, 219, 177, 0.11);
     box-shadow:
       inset 0 1px rgba(255, 255, 255, 0.1),
-      0 18px 34px -26px rgba(156, 103, 60, 0.72);
+      0 18px 34px -26px rgba(60, 156, 111, 0.72);
     transform: translateY(-2px);
   }
 
@@ -242,14 +242,14 @@
   .cookies-contact a:hover,
   .premium-footer-privacy a:hover,
   .premium-footer-privacy button:hover {
-    color: #faf8f5;
+    color: #f5faf8;
   }
 }
 
 .cookies-settings-button:focus-visible,
 .premium-footer-privacy a:focus-visible,
 .premium-footer-privacy button:focus-visible {
-  outline: 2px solid rgba(229, 174, 119, 0.85);
+  outline: 2px solid rgba(129, 219, 177, 0.85);
   outline-offset: 3px;
 }
 
