@@ -5,9 +5,13 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 const forbiddenWarm =
   /#ffc79d|#f0a873|#f3a75a|#e58a5b|#f4c9a8|#ffe38a|255\s*,\s*199\s*,\s*157|240\s*,\s*168\s*,\s*115/i;
+// Kresba odmeraná z originálu loga. Predchádzajúca mala plytší zárez V
+// a takmer dvojnásobne hrubý ťah.
 const outerPath =
-  "M93 84V23C93 13 81 9 74 16L56 34L38 16C31 9 19 13 19 23V70C19 81 27 89 38 89H47V104L63 89H78";
-const innerPath = "M36 69V43L51 58C54 61 58 61 61 58L76 43V69";
+  "M96.6 85.5C100.8 84.6 103.6 82.4 103.6 79.9V12.4C103.6 7.2 99.2 4.5 95.4 6.4L59.5 34.5" +
+  "C57.9 36.1 54.1 36.1 52.5 34.5L18.3 6.4C14.5 4.5 8.5 7.2 8.5 12.4V78.5" +
+  "C8.5 81.4 11 83.7 14.2 83.7H30.2L30.5 105.5L52.9 83.7H85.3C86.8 83.7 88 82.6 88 81.2V29.2";
+const innerPath = "M24 71.2V29.2L52.5 55.4C54.1 57 57.9 57 59.5 55.4L88 29.2";
 const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 test("the public brand uses the approved option 1 geometry", async () => {
@@ -15,17 +19,20 @@ test("the public brand uses the approved option 1 geometry", async () => {
   const exported = await read("public/brand/logo.svg");
   const favicon = await read("public/favicon.svg");
 
-  assert.match(component, new RegExp(escape(outerPath)));
-  assert.match(component, new RegExp(escape(innerPath)));
+  // Dlhá cesta je v zdroji rozdelená na viac reťazcov, aby sa riadky
+  // zmestili — pred porovnaním sa spoje zlepia späť.
+  const joined = component.replace(/"\s*\+\s*\n?\s*"/g, "");
+  assert.match(joined, new RegExp(escape(outerPath)));
+  assert.match(joined, new RegExp(escape(innerPath)));
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
-  assert.match(component, /strokeWidth="8\.5"/);
+  assert.match(component, /strokeWidth="4\.3"/);
 
   for (const asset of [exported, favicon]) {
     assert.equal((asset.match(/<path\b/g) ?? []).length, 2);
     assert.match(asset, new RegExp(escape(outerPath)));
     assert.match(asset, new RegExp(escape(innerPath)));
     assert.match(asset, /stroke="#B9ED4D"/);
-    assert.match(asset, /stroke-width="8\.5"/);
+    assert.match(asset, /stroke-width="4\.3"/);
   }
 
   // Favicon navyše sedí na tmavej lesnej dlaždici. Samotný limetkový ťah

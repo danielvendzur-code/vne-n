@@ -364,7 +364,7 @@ test("website chips use one crisp green interaction system", async () => {
   assert.match(css, /The icon is an icon, never an icon tile/);
 });
 
-test("landing anchors, one-shot reveals and source integrity stay intact", async () => {
+test("landing anchors, two-way reveals and source integrity stay intact", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const realization = await read("src/components/site/DeratScrollStory.tsx");
   const primitives = await read("src/components/site/motion-primitives.tsx");
@@ -383,12 +383,13 @@ test("landing anchors, one-shot reveals and source integrity stay intact", async
   assert.match(realization, /id="pripadova-studia"/);
   assert.doesNotMatch(realization, /id="realizacie"/);
 
-  // Odhaľovanie sa spúšťa raz. Opakované spúšťanie pri každom prechode
-  // cez sekciu bolo hlavným zdrojom sekania pri scrollovaní.
-  assert.doesNotMatch(landing, /once: false/);
-  assert.doesNotMatch(primitives, /once: false/);
-  assert.doesNotMatch(realization, /once: false/);
-  assert.match(primitives, /once: true/);
+  // Odhaľovanie je obojsmerné — pri scrollovaní späť hore obsah odchádza.
+  // Sekanie, kvôli ktorému tu kedysi bolo `once: true`, spôsoboval filter
+  // cez celé pole v hero, nie tieto animácie.
+  assert.doesNotMatch(landing, /once: true/);
+  assert.doesNotMatch(primitives, /once: true/);
+  assert.doesNotMatch(realization, /once: true/);
+  assert.match(primitives, /once: false/);
 
   assert.doesNotMatch(finalCorrection, /^(?:<<<<<<<|=======|>>>>>>>)(?: .*)?$/m);
 });
@@ -508,8 +509,11 @@ test("the white forest lime system is the final brand authority", async () => {
   assert.match(css, /\.lp-hero-pick[\s\S]*background: #d9ff78 !important/);
   assert.match(css, /data-active="true"[\s\S]*background: #0b2f20 !important/);
   assert.match(mark, /viewBox="0 0 112 112"/);
-  assert.match(mark, /translate\(112 0\) scale\(-1 1\)/);
-  assert.match(mark, /strokeWidth="9"/);
+  // Predtým tu stáli „migračné markery" — reťazce v komentári, ktoré sa
+  // nikdy nevykresľovali a po premeraní loga prestali platiť. Kontrolujú
+  // sa skutočné hodnoty: dva ťahy a hrúbka odmeraná z originálu.
+  assert.equal((mark.match(/<path\b/g) ?? []).length, 2);
+  assert.match(mark, /strokeWidth="4\.3"/);
 });
 
 test("no orange survives anywhere in the styled sources", async () => {

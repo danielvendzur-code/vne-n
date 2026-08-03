@@ -62,6 +62,9 @@ import "@/components/site/RefinementFinal.css";
 // Číslované popisky sekcií, štítky bledé až do výberu, prázdne body na
 // časovej osi a väčšie políčka v kontaktnom formulári.
 import "@/components/site/RequestedPolishRound.css";
+// Hlavička bez presakovania, pokojnejší panel menu, viditeľné čísla
+// sekcií a formulár poskladaný do jedného panela.
+import "@/components/site/MenuAndFormFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

@@ -416,12 +416,12 @@ function Reveal({
           },
         },
       }}
-      // `once: true` je tu kľúčové pre plynulosť. S opakovaným
-      // odhaľovaním sa pri každom prechode cez sekciu znovu spúšťali
-      // desiatky animácií naraz — presne to sekanie, ktoré bolo cítiť
-      // pri scrollovaní hore-dole. Naviac to pôsobilo nervózne.
+      // Odhalenie je obojsmerné — pri scrollovaní späť hore obsah zase
+      // odchádza. Jednorazové odhalenie tu kedysi bolo kvôli plynulosti;
+      // sekanie však spôsoboval filter cez celé pole v hero, nie tieto
+      // animácie.
       viewport={{
-        once: true,
+        once: false,
         amount: narrow ? 0.06 : amount,
         margin: narrow ? "-4% 0px -6% 0px" : "-6% 0px -6% 0px",
       }}
@@ -451,7 +451,7 @@ function Heading({
       className="lp-heading"
       initial={reducedMotion ? false : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, amount: 0.25, margin: "-6% 0px -6% 0px" }}
+      viewport={{ once: false, amount: 0.25, margin: "-6% 0px -6% 0px" }}
       variants={{
         hidden: { opacity: 0 },
         visible: {
