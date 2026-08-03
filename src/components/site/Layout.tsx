@@ -54,6 +54,9 @@ import "@/components/site/GreenInteractionVisualCorrection.css";
 // Dorovnáva plochy, ktoré ostali z tmavej témy pod novým tmavozeleným
 // textom — inak sú celé sekcie podstránok nečitateľné.
 import "@/components/site/SurfaceContrastRepair.css";
+// Hlavička, ukazovateľ priebehu, interaktívne pole v hero, jednotné
+// štítky a rytmus sekcií na domovskej stránke.
+import "@/components/site/HeroRhythmFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

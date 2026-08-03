@@ -334,10 +334,10 @@ html:root body .lp-page .lp-hero-glow {
 
 html:root body .lp-page .lp-hero-glide .glide-field,
 html:root body .lp-page .lp-hero-glide .glide-field--hero {
-  --glide-base: 250 242 233 !important;
-  --glide-active: 255 199 157 !important;
-  --glide-secondary: 205 153 116 !important;
-  --glide-impact: 255 225 204 !important;
+  --glide-base: 234 249 242 !important;
+  --glide-active: 179 233 208 !important;
+  --glide-secondary: 116 205 163 !important;
+  --glide-impact: 215 244 230 !important;
   background:
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 77% 31%, rgba(179, 233, 208, 0.07), transparent 35%),

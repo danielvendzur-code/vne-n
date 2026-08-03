@@ -39,10 +39,10 @@
   --lp-surface-soft: #0c281b;
   --lp-surface: #113424;
   --lp-surface-raised: #194732;
-  --lp-liquid-white: 250 244 236;
-  --lp-liquid-mint: 255 199 157;
-  --lp-liquid-blue: 240 168 115;
-  --lp-liquid-coral: 216 128 88;
+  --lp-liquid-white: 236 250 243;
+  --lp-liquid-mint: 179 233 208;
+  --lp-liquid-blue: 135 220 180;
+  --lp-liquid-coral: 95 209 156;
 }
 
 :root .lp-page .lp-hero {

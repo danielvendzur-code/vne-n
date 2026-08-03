@@ -61,11 +61,13 @@ type BurstState = {
   touch: boolean;
 };
 
+/** Záloha, ak sa premenné z CSS nedajú prečítať. Rovnaká zelená rodina
+    ako zvyšok identity — predtým tu ostali teplé tóny z tmavej témy. */
 const DEFAULT_PALETTE: Palette = {
-  base: [242, 239, 230],
-  active: [111, 151, 132],
-  secondary: [201, 170, 112],
-  impact: [188, 115, 82],
+  base: [200, 219, 206],
+  active: [25, 131, 79],
+  secondary: [11, 47, 32],
+  impact: [133, 205, 106],
 };
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));

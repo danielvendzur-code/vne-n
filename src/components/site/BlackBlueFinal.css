@@ -86,10 +86,10 @@ body {
   --lp-surface-soft: #130e0a;
   --lp-surface: #0e1813;
   --lp-surface-raised: #16231d;
-  --lp-liquid-white: 250 244 236;
-  --lp-liquid-mint: 255 199 157;
-  --lp-liquid-blue: 240 168 115;
-  --lp-liquid-coral: 216 128 88;
+  --lp-liquid-white: 236 250 243;
+  --lp-liquid-mint: 179 233 208;
+  --lp-liquid-blue: 135 220 180;
+  --lp-liquid-coral: 95 209 156;
   color: var(--lp-ink);
   background: #090705 !important;
 }
@@ -856,10 +856,10 @@ body {
   --lp-surface-soft: #130e0a;
   --lp-surface: #0e1813;
   --lp-surface-raised: #16231d;
-  --lp-liquid-white: 250 244 236;
-  --lp-liquid-mint: 255 199 157;
-  --lp-liquid-blue: 240 168 115;
-  --lp-liquid-coral: 216 128 88;
+  --lp-liquid-white: 236 250 243;
+  --lp-liquid-mint: 179 233 208;
+  --lp-liquid-blue: 135 220 180;
+  --lp-liquid-coral: 95 209 156;
 }
 
 :root .lp-page .lp-button-primary,

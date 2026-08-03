@@ -1,0 +1,485 @@
+/* =====================================================================
+   MÔJ CHATBOT — HLAVIČKA, HERO A RYTMUS SEKCIÍ
+
+   Rieši, čo bolo na hotovom webe vidieť:
+   - obsah presvital cez hlavičku a vykúkal ponad ňu, takže lišta pôsobila,
+     že sa pri scrollovaní hýbe,
+   - ukazovateľ prečítanej časti bol 3 px pásik bez dráhy schovaný za
+     pilulkou hlavičky,
+   - interaktívne pole v hero sekcii síce reagovalo na myš aj klik, ale
+     malo farby a krytie z tmavej témy, takže na bielej nebolo vidieť nič,
+   - štítky mali tri rôzne tvary a prepínač mal štvorcové tlačidlá,
+   - sekcie oddeľovala vlásočnica cez desatinu šírky.
+
+   Vzorom je štvrtá sekcia: vlastný pás, číslo vo vodoznaku, popiska,
+   nadpis. Tento súbor z toho robí systém pre celú domovskú stránku.
+   ===================================================================== */
+
+html:root body .site-theme-white-green {
+  --hr-ink: #0b2f20;
+  --hr-emerald: #19834f;
+  --hr-lime: #d9ff78;
+  --hr-line: rgba(11, 47, 32, 0.1);
+  --hr-band-soft: #f4f8f1;
+
+  /* Výška lišty aj s odsadením — používa ju maska hlavičky, ukazovateľ
+     priebehu aj odskok pri prechode na sekciu. */
+  --hr-header: 78px;
+}
+
+/* ---------------------------------------------------------------------
+   1. Hlavička drží tvar
+   Pilulka bola priehľadná na 88 %, takže cez ňu presvital text, a nad ňou
+   ostával 8 px pruh, v ktorom bolo vidieť prebiehajúci obsah. Oboje
+   pôsobilo, akoby sa menu pri scrollovaní hýbalo.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header {
+  isolation: isolate;
+}
+
+html:root body .site-theme-white-green .site-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 -22px 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.96) 58%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+html:root body .site-theme-white-green .site-header-bar {
+  border: 1px solid var(--hr-line) !important;
+  /* Nepriehľadná — obsah pod ňou už nepresvitá. */
+  background: #ffffff !important;
+  box-shadow: 0 10px 30px -22px rgba(11, 47, 32, 0.42) !important;
+}
+
+/* Kotva sekcie sa už neschová pod lištu. */
+html {
+  scroll-padding-top: calc(var(--hr-header, 78px) + 1.25rem);
+}
+
+/* ---------------------------------------------------------------------
+   2. Ukazovateľ prečítanej časti
+   Sedí na spodnej hrane hlavičky a má vlastnú dráhu, takže je zjavný aj
+   na začiatku, keď je vyplnený kúsok.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-progress-track {
+  position: fixed;
+  z-index: 70;
+  top: calc(var(--hr-header) - 3px);
+  right: 0;
+  left: 0;
+  height: 3px;
+  overflow: hidden;
+  pointer-events: none;
+  background: rgba(11, 47, 32, 0.09);
+}
+
+html:root body .site-theme-white-green .lp-progress {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform-origin: 0 50% !important;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(90deg, var(--hr-emerald), #b9ed4d 62%, var(--hr-lime)) !important;
+  box-shadow: 0 0 14px rgba(25, 131, 79, 0.34);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .lp-progress-track {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. Hero — pole reaguje na myš aj klik a konečne to vidieť
+   Pole bolo celý čas živé, len malo krytie 0,48 a takmer bielu základnú
+   farbu, takže na bielom podklade nebolo čo zbadať. K tomu ho prekrývala
+   tmavá vinieta z pôvodnej témy.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field,
+html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field--hero {
+  /* Pokojná mriežka je svetlá šalvia — na bielej ju vidno, ale neruší.
+     Pod kurzorom prejde do smaragdovej, klik rozbehne limetkovú vlnu. */
+  --glide-base: 200 219 206 !important;
+  --glide-active: 25 131 79 !important;
+  --glide-secondary: 11 47 32 !important;
+  --glide-impact: 133 205 106 !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-glide {
+  opacity: 1 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field__canvas {
+  opacity: 1 !important;
+}
+
+/* Vinieta bola tmavá — na bielom hero z nej bol sivý závoj. Ostáva len
+   jemné stmavnutie k okrajom, aby pole nekončilo ostrou hranou. */
+html:root body .site-theme-white-green .lp-page .lp-hero-glide .glide-field__vignette {
+  background: linear-gradient(
+      90deg,
+      #ffffff 0%,
+      rgba(255, 255, 255, 0.72) 14%,
+      rgba(255, 255, 255, 0) 44%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6), transparent 26%, transparent 74%, #ffffff)
+      !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Jeden tvar štítku na celom webe
+   Popiska nad nadpisom mala pomlčku odtrhnutú od textu, výber v hero mal
+   tri rôzne vzhľady naraz a prepínač mal hranaté tlačidlá.
+   --------------------------------------------------------------------- */
+/* Popiska: čiarka a text držia spolu ako jeden celok. */
+html:root body .site-theme-white-green .lp-page .lp-eyebrow,
+html:root body .site-theme-white-green .sp-page .sp-eyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  margin-bottom: 1rem !important;
+  color: #0f6a3e !important;
+  font-size: 0.72rem !important;
+  font-weight: 780 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-eyebrow > i {
+  flex: 0 0 auto !important;
+  width: 1.6rem !important;
+  height: 2px !important;
+  border-radius: 2px !important;
+  background: linear-gradient(90deg, var(--hr-emerald), #b9ed4d) !important;
+}
+
+/* Výber riešenia v hero: rovnaká pilulka pre všetky štyri, rozdiel robí
+   len výplň vybranej. */
+html:root body .site-theme-white-green .lp-page .lp-hero-picker {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.55rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+  min-height: 3.15rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  padding: 0.7rem 0.9rem !important;
+  border: 1px solid var(--hr-line) !important;
+  border-radius: 999px !important;
+  color: var(--hr-ink) !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  font-size: 0.82rem !important;
+  font-weight: 620 !important;
+  line-height: 1.25 !important;
+  text-align: left !important;
+  transition:
+    border-color 220ms var(--ease-smooth, ease),
+    background-color 220ms var(--ease-smooth, ease),
+    transform 220ms var(--ease-smooth, ease) !important;
+}
+
+/* Ikona a popis stoja vedľa seba. Staršia vrstva ich skladala pod seba
+   a text centrovala, takže každá pilulka vyzerala inak vysoká. */
+html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick .lp-hero-pick-label {
+  flex: 1 1 auto !important;
+  text-align: left !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick .lp-hero-pick-icon {
+  flex: 0 0 auto !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  border-radius: 999px !important;
+  color: var(--hr-emerald) !important;
+  background: rgba(25, 131, 79, 0.1) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-active="true"] {
+  border-color: transparent !important;
+  color: var(--hr-ink) !important;
+  background: var(--hr-lime) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon {
+  color: var(--hr-ink) !important;
+  background: rgba(11, 47, 32, 0.14) !important;
+}
+
+/* Popis vybranej pilulky dedil bielu z pôvodnej tmavej témy — na
+   limetkovej mal kontrast 1,13:1. */
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-hero-pick[data-active="true"]
+  :is(.lp-hero-pick-label, .lp-hero-pick-plus, span, b) {
+  color: var(--hr-ink) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-pick:not([data-active="true"]):hover {
+    border-color: rgba(25, 131, 79, 0.34) !important;
+    background: #f4f8f1 !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+/* Prepínač „Bez chatbota / S chatbotom": jedna dráha, dve pilulky. */
+html:root body .site-theme-white-green .lp-page .lp-switch {
+  display: inline-grid !important;
+  position: relative !important;
+  grid-auto-flow: column !important;
+  grid-auto-columns: 1fr !important;
+  gap: 0 !important;
+  padding: 0.3rem !important;
+  border: 1px solid var(--hr-line) !important;
+  border-radius: 999px !important;
+  background: var(--hr-band-soft) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch > button {
+  position: relative !important;
+  z-index: 1 !important;
+  min-height: 2.6rem !important;
+  padding: 0 1.25rem !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  transition: color 220ms var(--ease-smooth, ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch > button .lp-control-label {
+  font-size: 0.84rem !important;
+  font-weight: 660 !important;
+}
+
+/* Bežec sa presúva pod vybranou možnosťou. */
+html:root body .site-theme-white-green .lp-page .lp-switch .lp-switch-thumb {
+  position: absolute !important;
+  z-index: 0 !important;
+  top: 0.3rem !important;
+  bottom: 0.3rem !important;
+  left: 0.3rem !important;
+  width: calc(50% - 0.3rem) !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  box-shadow: 0 6px 16px -12px rgba(11, 47, 32, 0.5) !important;
+  transition: transform 320ms var(--ease-smooth, cubic-bezier(0.16, 1, 0.3, 1)) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch[data-mode="with"] .lp-switch-thumb {
+  transform: translateX(100%) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-switch
+  > button[data-active="true"]
+  .lp-control-label {
+  color: var(--hr-ink) !important;
+}
+
+/* Ostatné štítky na webe dostanú ten istý tvar. */
+html:root
+  body
+  .site-theme-white-green
+  :is(.chip, .lp-chip, .lp-caps-chip, .lp-filter, [data-chip-kind], .sp-chip-row .chip) {
+  border-radius: 999px !important;
+}
+
+/* ---------------------------------------------------------------------
+   5. Rytmus sekcií
+   Každá sekcia domovskej stránky má vlastný pás, vodoznak s poradovým
+   číslom a poriadne odsadenie. Vlásočnica cez desatinu šírky zmizla.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page > section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(5.5rem, 8.5vw, 8.5rem) !important;
+}
+
+/* Vodoznak s číslom sekcie. */
+html:root body .site-theme-white-green .lp-page > section[data-band]::before {
+  content: attr(data-index);
+  position: absolute;
+  z-index: -1;
+  right: 2.5vw;
+  bottom: -0.2em;
+  color: rgba(11, 47, 32, 0.032);
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: min(31vw, 29rem);
+  font-weight: 820;
+  letter-spacing: -0.1em;
+  line-height: 0.8;
+  pointer-events: none;
+}
+
+/* Striedanie plôch dáva hranu, ktorú je vidieť bez toho, aby si ju
+   človek musel hľadať. */
+html:root body .site-theme-white-green .lp-page > section[data-band="light"] {
+  border-top: 1px solid var(--hr-line);
+  background:
+    radial-gradient(circle at 86% 6%, rgba(217, 255, 120, 0.2), transparent 30rem),
+    #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-page > section[data-band="soft"] {
+  border-top: 1px solid var(--hr-line);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(25, 131, 79, 0.07), transparent 30rem),
+    var(--hr-band-soft) !important;
+}
+
+html:root body .site-theme-white-green .lp-page > section[data-band="forest"]::before {
+  color: rgba(255, 255, 255, 0.04);
+}
+
+/* Hero nemá hornú hranu — nadväzuje priamo na hlavičku. */
+html:root body .site-theme-white-green .lp-page > section.lp-hero {
+  border-top: 0;
+}
+
+/* ---------------------------------------------------------------------
+   6. Nadpisy sekcií sa nelámu do stĺpca
+   „Kalkulačka, ktorá z návštevníka spraví pripravený dopyt." sa lámalo do
+   šiestich riadkov v úzkom stĺpci, kým vpravo ostávalo prázdno.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-heading h2,
+html:root body .site-theme-white-green .lp-page .derat-story__heading h2 {
+  max-width: 24ch !important;
+  font-size: clamp(2.2rem, 3.6vw, 3.4rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.045em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-heading-copy {
+  max-width: 46ch !important;
+}
+
+/* Popiska aj nadpis v paneli porovnania mali vlastnú šírku, takže nadpis
+   pretekal do štítkov vedľa. */
+html:root body .site-theme-white-green .lp-page .lp-comparison-copy h3 {
+  max-width: 14ch !important;
+  font-size: clamp(1.9rem, 2.6vw, 2.6rem) !important;
+  line-height: 1.05 !important;
+}
+
+/* Vodoznak sa číta z poradia sekcie, nie z natvrdo zapísanej hodnoty
+   v staršej vrstve — inak by šiesta sekcia niesla číslo štyri. */
+html:root body .site-theme-white-green .lp-page > section[data-index]::before {
+  content: attr(data-index) !important;
+}
+
+/* ---------------------------------------------------------------------
+   7. Pätička
+   Blok so značkou bol rad vedľa seba, takže z troch viet vznikli tri
+   úzke stĺpce lámané po dvoch slovách. Teraz je to jeden stĺpec so
+   značkou a vedľa neho tri zoznamy odkazov.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .premium-footer-main {
+  display: grid !important;
+  grid-template-columns: minmax(16rem, 1.15fr) repeat(3, minmax(10rem, 0.62fr)) !important;
+  align-items: start !important;
+  gap: clamp(2.5rem, 5vw, 4.5rem) !important;
+  padding-block: clamp(3.5rem, 6vw, 5.5rem) clamp(2rem, 3vw, 3rem) !important;
+}
+
+html:root body .site-theme-white-green .premium-footer-brand {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.9rem !important;
+  max-width: 24rem !important;
+}
+
+html:root body .site-theme-white-green .premium-footer-brand p {
+  max-width: 24rem !important;
+  font-size: 0.86rem !important;
+  line-height: 1.62 !important;
+}
+
+html:root body .site-theme-white-green .premium-footer-brand .premium-footer-note,
+html:root body .site-theme-white-green .premium-footer-brand .premium-footer-founder {
+  border: 0 !important;
+  font-size: 0.82rem !important;
+}
+
+html:root body .site-theme-white-green .premium-footer-label {
+  margin-bottom: 1rem !important;
+  border: 0 !important;
+  color: rgba(255, 255, 255, 0.56) !important;
+  font-size: 0.68rem !important;
+  font-weight: 780 !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .premium-footer-links {
+  display: grid !important;
+  gap: 0.7rem !important;
+}
+
+/* Spodný riadok mal za odkazmi tmavé obdĺžniky z pôvodnej témy. */
+html:root body .site-theme-white-green .premium-footer-bottom {
+  align-items: center !important;
+  padding-block: 1.4rem 1.8rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+html:root body .site-theme-white-green .premium-footer-privacy :is(a, button) {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Záverečná karta sedela príliš nízko a pod ňou ostal prázdny pás. */
+html:root body .site-theme-white-green .lp-page .lp-final-card {
+  margin-bottom: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page > section.lp-process {
+  padding-bottom: clamp(4rem, 6vw, 6rem) !important;
+}
+
+/* ---------------------------------------------------------------------
+   8. Časová os — farby uzlov
+   Uzol je limetkový s tmavým číslom; nedosiahnutý ostáva prázdny
+   s bielym číslom. Rovnaká dvojica ako na tlačidlách.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-tl-steps li[data-reached="true"] .lp-tl-node {
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+}
+
+html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node {
+  color: rgba(255, 255, 255, 0.82) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}

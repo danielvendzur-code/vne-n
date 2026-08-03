@@ -201,6 +201,10 @@ export function DeratScrollStory() {
       ref={rootRef}
       id="pripadova-studia"
       className="derat-story"
+      // Prvá sekcia pod hero — pás aj vodoznak si berie z rovnakého
+      // systému ako ostatné sekcie domovskej stránky.
+      data-band="light"
+      data-index="01"
       aria-labelledby="derat-story-title"
     >
       <motion.header

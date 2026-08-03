@@ -1,8 +1,8 @@
 .glide-field {
-  --glide-base: 250 242 233;
-  --glide-active: 255 199 157;
-  --glide-secondary: 205 153 116;
-  --glide-impact: 255 225 204;
+  --glide-base: 234 249 242;
+  --glide-active: 179 233 208;
+  --glide-secondary: 116 205 163;
+  --glide-impact: 215 244 230;
   position: absolute;
   inset: 0;
   overflow: hidden;

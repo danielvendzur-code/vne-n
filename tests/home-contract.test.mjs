@@ -580,6 +580,16 @@ test("no orange survives anywhere in the styled sources", async () => {
         const [r, g, b] = [+match[1], +match[2], +match[3]];
         if (isWarm(r, g, b)) offenders.push(`${path}:${index + 1} ${match[0]})`);
       }
+      // Zápis bez čiarok — tak sa deklarujú premenné, ktoré si číta
+      // interaktívne pole v hero (`--glide-active: 255 199 157`).
+      for (const match of line.matchAll(
+        /:\s*(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*(?:!important)?\s*;/g,
+      )) {
+        const [r, g, b] = [+match[1], +match[2], +match[3]];
+        if (r > 255 || g > 255 || b > 255) continue;
+        if (isWarm(r, g, b))
+          offenders.push(`${path}:${index + 1} ${match[1]} ${match[2]} ${match[3]}`);
+      }
     });
   }
 

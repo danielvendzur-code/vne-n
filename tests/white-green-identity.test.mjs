@@ -27,6 +27,11 @@ test("the public brand uses the approved option 1 geometry", async () => {
     assert.match(asset, /stroke="#B9ED4D"/);
     assert.match(asset, /stroke-width="8\.5"/);
   }
+
+  // Favicon navyše sedí na tmavej lesnej dlaždici. Samotný limetkový ťah
+  // sa na svetlom paneli prehliadača stráca, pri 16 px úplne.
+  assert.match(favicon, /<rect[^>]*fill="#0b2f20"/);
+  assert.doesNotMatch(exported, /<rect\b/);
 });
 
 test("the approved option 1 layer fixes contrast and removes warm legacy states", async () => {

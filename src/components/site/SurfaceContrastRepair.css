@@ -233,16 +233,21 @@ html:root
 /* Číslo kroku v časovej osi. Neskoršia vrstva prefarbila dosiahnutý uzol
    na limetkový a číslo na ňom ostalo biele — 1,13:1. Uzol tu dostáva
    jednu istú dvojicu farieb: smaragdová plocha, biele číslo. */
-html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node,
-html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node b {
+html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node {
   color: #4c5a52 !important;
   background: #ffffff !important;
 }
 
-html:root body .site-theme-white-green .lp-tl-steps li[data-reached="true"] .lp-tl-node,
-html:root body .site-theme-white-green .lp-tl-steps li[data-reached="true"] .lp-tl-node b {
+html:root body .site-theme-white-green .lp-tl-steps li[data-reached="true"] .lp-tl-node {
   color: #ffffff !important;
   background: #19834f !important;
+}
+
+/* Číslo dedí farbu uzla a nemá vlastnú plochu. S `background` na `b` sa
+   cezeň vykreslil biely obdĺžnik a z číslic ostali zvislé pásiky. */
+html:root body .site-theme-white-green .lp-tl-steps li .lp-tl-node b {
+  color: inherit !important;
+  background: none !important;
 }
 
 /* Popisok nad zoznamom živých nástrojov mal 4,12:1 pri 12 px. */
