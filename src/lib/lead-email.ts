@@ -44,18 +44,18 @@ const escapeHtml = (value: string) =>
 function row(label: string, value: string | undefined) {
   if (!value) return "";
   return `<tr>
-      <td style="padding:6px 14px 6px 0;color:#8a7f75;font-size:13px;white-space:nowrap;vertical-align:top">${escapeHtml(label)}</td>
-      <td style="padding:6px 0;color:#1a1512;font-size:14px">${escapeHtml(value)}</td>
+      <td style="padding:6px 14px 6px 0;color:#5f6d65;font-size:13px;white-space:nowrap;vertical-align:top">${escapeHtml(label)}</td>
+      <td style="padding:6px 0;color:#0b2f20;font-size:14px">${escapeHtml(value)}</td>
     </tr>`;
 }
 
 /** E-mail pre mňa — všetko, čo zákazník vyplnil, na jednom mieste. */
 function internalHtml(lead: LeadPayload) {
   const note = lead.note ? escapeHtml(lead.note).replaceAll("\n", "<br>") : "bez poznámky";
-  return `<!doctype html><html lang="sk"><body style="margin:0;background:#f6f2ee;padding:24px;font-family:-apple-system,Segoe UI,Roboto,sans-serif">
+  return `<!doctype html><html lang="sk"><body style="margin:0;background:#f5f9f2;padding:24px;font-family:-apple-system,Segoe UI,Roboto,sans-serif">
   <div style="max-width:620px;margin:0 auto;background:#fff;border-radius:14px;padding:28px">
-    <p style="margin:0 0 4px;color:#c2803f;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">Nový dopyt z webu</p>
-    <h1 style="margin:0 0 20px;color:#1a1512;font-size:22px">${escapeHtml(lead.name)}</h1>
+    <p style="margin:0 0 4px;color:#0f6a3e;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">Nový dopyt z webu</p>
+    <h1 style="margin:0 0 20px;color:#0b2f20;font-size:22px">${escapeHtml(lead.name)}</h1>
     <table style="width:100%;border-collapse:collapse">
       ${row("E-mail", lead.email)}
       ${row("Telefón", lead.phone)}
@@ -67,36 +67,36 @@ function internalHtml(lead: LeadPayload) {
       ${row("Termín", lead.timeline)}
       ${row("Zdroj", lead.source)}
     </table>
-    <p style="margin:22px 0 6px;color:#8a7f75;font-size:13px">Poznámka</p>
-    <div style="padding:14px 16px;border-radius:10px;background:#f6f2ee;color:#1a1512;font-size:14px;line-height:1.6">${note}</div>
-    <p style="margin:22px 0 0;color:#8a7f75;font-size:12px">Odpovedať sa dá priamo na túto správu — pôjde zákazníkovi.</p>
+    <p style="margin:22px 0 6px;color:#5f6d65;font-size:13px">Poznámka</p>
+    <div style="padding:14px 16px;border-radius:10px;background:#f5f9f2;color:#0b2f20;font-size:14px;line-height:1.6">${note}</div>
+    <p style="margin:22px 0 0;color:#5f6d65;font-size:12px">Odpovedať sa dá priamo na túto správu — pôjde zákazníkovi.</p>
   </div></body></html>`;
 }
 
 /** Automatické poďakovanie pre zákazníka s kópiou jeho zadania. */
 function replyHtml(lead: LeadPayload) {
   const note = lead.note ? escapeHtml(lead.note).replaceAll("\n", "<br>") : "";
-  return `<!doctype html><html lang="sk"><body style="margin:0;background:#f6f2ee;padding:24px;font-family:-apple-system,Segoe UI,Roboto,sans-serif">
+  return `<!doctype html><html lang="sk"><body style="margin:0;background:#f5f9f2;padding:24px;font-family:-apple-system,Segoe UI,Roboto,sans-serif">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:14px;padding:28px">
-    <p style="margin:0 0 4px;color:#c2803f;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">Ďakujem za zadanie</p>
-    <h1 style="margin:0 0 14px;color:#1a1512;font-size:22px;line-height:1.25">Váš dopyt mi prišiel.</h1>
-    <p style="margin:0 0 16px;color:#4a423c;font-size:15px;line-height:1.65">
+    <p style="margin:0 0 4px;color:#0f6a3e;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">Ďakujem za zadanie</p>
+    <h1 style="margin:0 0 14px;color:#0b2f20;font-size:22px;line-height:1.25">Váš dopyt mi prišiel.</h1>
+    <p style="margin:0 0 16px;color:#4c5a52;font-size:15px;line-height:1.65">
       Dobrý deň${lead.name ? `, ${escapeHtml(lead.name.split(" ")[0])}` : ""},<br>
       ďakujem za správu. Pozriem sa na ňu a ozveme sa s odporúčaným riešením,
       rozsahom aj cenou zvyčajne do jedného pracovného dňa.
     </p>
     ${
       note
-        ? `<p style="margin:0 0 6px;color:#8a7f75;font-size:13px">Čo ste poslali</p>
-           <div style="padding:14px 16px;border-radius:10px;background:#f6f2ee;color:#1a1512;font-size:14px;line-height:1.6">${note}</div>`
+        ? `<p style="margin:0 0 6px;color:#5f6d65;font-size:13px">Čo ste poslali</p>
+           <div style="padding:14px 16px;border-radius:10px;background:#f5f9f2;color:#0b2f20;font-size:14px;line-height:1.6">${note}</div>`
         : ""
     }
-    <p style="margin:20px 0 0;color:#4a423c;font-size:14px;line-height:1.6">
+    <p style="margin:20px 0 0;color:#4c5a52;font-size:14px;line-height:1.6">
       Ak chcete niečo doplniť, stačí odpovedať na tento e-mail.
     </p>
-    <p style="margin:22px 0 0;color:#8a7f75;font-size:13px">
+    <p style="margin:22px 0 0;color:#5f6d65;font-size:13px">
       Tím Môj Chatbot<br>
-      <a href="https://mojchatbot.sk" style="color:#c2803f">mojchatbot.sk</a>
+      <a href="https://mojchatbot.sk" style="color:#0f6a3e">mojchatbot.sk</a>
     </p>
   </div></body></html>`;
 }

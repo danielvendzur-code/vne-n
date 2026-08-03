@@ -51,6 +51,9 @@ import "./LimeWhiteBrandFinal.css";
 // interaction states and adds the restrained paper texture.
 import "@/components/site/GreenTextureInteractionsFinal.css";
 import "@/components/site/GreenInteractionVisualCorrection.css";
+// Dorovnáva plochy, ktoré ostali z tmavej témy pod novým tmavozeleným
+// textom — inak sú celé sekcie podstránok nečitateľné.
+import "@/components/site/SurfaceContrastRepair.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

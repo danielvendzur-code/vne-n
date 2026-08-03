@@ -2,10 +2,10 @@
 
 .cookie-banner,
 .cookie-modal {
-  --cookie-bg: rgba(31, 17, 8, 0.94);
-  --cookie-border: rgba(242, 227, 211, 0.16);
-  --cookie-soft: rgba(250, 246, 243, 0.055);
-  --cookie-accent: #e5ae77;
+  --cookie-bg: rgba(9, 30, 20, 0.94);
+  --cookie-border: rgba(211, 242, 228, 0.16);
+  --cookie-soft: rgba(243, 250, 247, 0.055);
+  --cookie-accent: #81dbb1;
   --cookie-accent-strong: #9c9185;
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -23,8 +23,8 @@
   padding: 18px;
   background:
     radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.095), transparent 42%),
-    radial-gradient(circle at 92% 18%, rgba(229, 174, 119, 0.075), transparent 44%),
-    linear-gradient(145deg, rgba(59, 35, 19, 0.95), rgba(24, 13, 6, 0.965));
+    radial-gradient(circle at 92% 18%, rgba(129, 219, 177, 0.075), transparent 44%),
+    linear-gradient(145deg, rgba(19, 59, 40, 0.95), rgba(24, 13, 6, 0.965));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.08),
     0 26px 70px -30px rgba(7, 3, 1, 0.82);
@@ -37,7 +37,7 @@
   position: absolute;
   inset: auto 22px 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(229, 174, 119, 0.36), transparent);
+  background: linear-gradient(90deg, transparent, rgba(129, 219, 177, 0.36), transparent);
   pointer-events: none;
 }
 
@@ -53,11 +53,11 @@
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  border: 1px solid rgba(229, 174, 119, 0.22);
+  border: 1px solid rgba(129, 219, 177, 0.22);
   color: var(--cookie-accent-strong);
   background:
     radial-gradient(circle at 35% 18%, rgba(255, 255, 255, 0.13), transparent 48%),
-    rgba(229, 174, 119, 0.075);
+    rgba(129, 219, 177, 0.075);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
 }
 
@@ -84,7 +84,7 @@
 
 .cookie-banner__head h2 {
   margin: 0;
-  color: #faf6f3;
+  color: #f3faf7;
   font-size: 1rem;
   font-weight: 760;
   letter-spacing: -0.025em;
@@ -129,16 +129,16 @@
   color: #1b0e06;
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35), transparent 48%),
-    linear-gradient(135deg, #9c9185, #e5ae77 55%, #ce9567);
+    linear-gradient(135deg, #9c9185, #81dbb1 55%, #67ce9e);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.38),
-    0 14px 30px -22px rgba(191, 129, 79, 0.86);
+    0 14px 30px -22px rgba(79, 191, 139, 0.86);
 }
 
 .cookie-button--quiet {
-  border-color: rgba(242, 227, 211, 0.16);
-  color: #f3ede6;
-  background: rgba(250, 246, 243, 0.035);
+  border-color: rgba(211, 242, 228, 0.16);
+  color: #e6f3ed;
+  background: rgba(243, 250, 247, 0.035);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.045);
 }
 
@@ -149,7 +149,7 @@
   gap: 4px;
   margin: 8px 0 -4px;
   padding: 5px 2px;
-  color: #cfbdab;
+  color: #abcfbe;
   font-size: 0.68rem;
   font-weight: 700;
   transition: color 220ms ease;
@@ -192,8 +192,8 @@
   padding: clamp(20px, 4vw, 28px);
   background:
     radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.085), transparent 37%),
-    radial-gradient(circle at 92% 8%, rgba(229, 174, 119, 0.08), transparent 38%),
-    linear-gradient(145deg, rgba(58, 35, 19, 0.985), rgba(24, 13, 6, 0.995));
+    radial-gradient(circle at 92% 8%, rgba(129, 219, 177, 0.08), transparent 38%),
+    linear-gradient(145deg, rgba(19, 58, 40, 0.985), rgba(24, 13, 6, 0.995));
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.08),
     0 36px 110px -36px rgba(5, 2, 0, 0.94);
@@ -220,7 +220,7 @@
 
 .cookie-modal__head h2 {
   margin: 0;
-  color: #faf6f3;
+  color: #f3faf7;
   font-size: clamp(1.15rem, 3vw, 1.45rem);
   font-weight: 770;
   letter-spacing: -0.035em;
@@ -232,10 +232,10 @@
   height: 40px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(242, 227, 211, 0.14);
+  border: 1px solid rgba(211, 242, 228, 0.14);
   border-radius: 14px;
-  color: #d8cbbe;
-  background: rgba(250, 246, 243, 0.035);
+  color: #bed8cc;
+  background: rgba(243, 250, 247, 0.035);
   transition:
     transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 220ms ease,
@@ -266,18 +266,18 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 13px;
-  border: 1px solid rgba(242, 227, 211, 0.13);
+  border: 1px solid rgba(211, 242, 228, 0.13);
   border-radius: 20px;
   padding: 14px;
   background:
-    linear-gradient(135deg, rgba(250, 246, 243, 0.045), rgba(229, 174, 119, 0.016)),
+    linear-gradient(135deg, rgba(243, 250, 247, 0.045), rgba(129, 219, 177, 0.016)),
     rgba(27, 14, 6, 0.62);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.045);
 }
 
 .cookie-category[data-locked="true"] {
   background:
-    linear-gradient(135deg, rgba(250, 246, 243, 0.035), transparent), rgba(27, 14, 6, 0.5);
+    linear-gradient(135deg, rgba(243, 250, 247, 0.035), transparent), rgba(27, 14, 6, 0.5);
 }
 
 .cookie-category__icon {
@@ -304,7 +304,7 @@
 
 .cookie-category__copy h3 {
   margin: 0;
-  color: #f8f3ed;
+  color: #edf8f3;
   font-size: 0.86rem;
   font-weight: 760;
   letter-spacing: -0.015em;
@@ -330,7 +330,7 @@
   height: 34px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(229, 174, 119, 0.25);
+  border: 1px solid rgba(129, 219, 177, 0.25);
   border-radius: 50%;
   color: #1b0e06;
   background: var(--cookie-accent);
@@ -362,9 +362,9 @@
   position: relative;
   width: 48px;
   height: 28px;
-  border: 1px solid rgba(242, 227, 211, 0.17);
+  border: 1px solid rgba(211, 242, 228, 0.17);
   border-radius: 999px;
-  background: rgba(250, 246, 243, 0.055);
+  background: rgba(243, 250, 247, 0.055);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   transition:
     border-color 260ms ease,
@@ -389,15 +389,15 @@
 }
 
 .cookie-switch input:checked + span {
-  border-color: rgba(229, 174, 119, 0.48);
-  background: rgba(229, 174, 119, 0.19);
+  border-color: rgba(129, 219, 177, 0.48);
+  background: rgba(129, 219, 177, 0.19);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.09);
 }
 
 .cookie-switch input:checked + span::after {
   transform: translateX(20px);
-  background: #e5ae77;
-  box-shadow: 0 3px 12px rgba(193, 129, 77, 0.42);
+  background: #81dbb1;
+  box-shadow: 0 3px 12px rgba(77, 193, 139, 0.42);
 }
 
 .cookie-switch b {
@@ -421,7 +421,7 @@
   align-items: center;
   gap: 4px;
   padding: 4px 1px;
-  color: #cfbdab;
+  color: #abcfbe;
   font-size: 0.68rem;
   font-weight: 700;
 }
@@ -432,7 +432,7 @@
   gap: 9px;
   margin-top: 18px;
   padding-top: 16px;
-  border-top: 1px solid rgba(242, 227, 211, 0.1);
+  border-top: 1px solid rgba(211, 242, 228, 0.1);
 }
 
 .cookie-button:focus-visible,
@@ -440,7 +440,7 @@
 .cookie-modal__close:focus-visible,
 .cookie-modal__policy a:focus-visible,
 .cookie-switch input:focus-visible + span {
-  outline: 2px solid rgba(229, 174, 119, 0.86);
+  outline: 2px solid rgba(129, 219, 177, 0.86);
   outline-offset: 3px;
 }
 
@@ -452,22 +452,22 @@
   .cookie-button--primary:hover {
     background:
       radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.44), transparent 48%),
-      linear-gradient(135deg, #9c9185, #ebba88 55%, #d4a373);
+      linear-gradient(135deg, #9c9185, #93e0bc 55%, #73d4a7);
     box-shadow:
       inset 0 1px rgba(255, 255, 255, 0.46),
-      0 18px 34px -22px rgba(191, 129, 79, 0.92);
+      0 18px 34px -22px rgba(79, 191, 139, 0.92);
   }
 
   .cookie-button--quiet:hover,
   .cookie-modal__close:hover {
-    border-color: rgba(229, 174, 119, 0.34);
-    color: #faf5f0;
-    background: rgba(229, 174, 119, 0.075);
+    border-color: rgba(129, 219, 177, 0.34);
+    color: #f0faf5;
+    background: rgba(129, 219, 177, 0.075);
   }
 
   .cookie-banner__settings:hover,
   .cookie-modal__policy a:hover {
-    color: #f2e3d3;
+    color: #d3f2e4;
   }
 
   .cookie-banner__settings:hover svg,
@@ -587,7 +587,7 @@
     grid-template-columns: auto 1fr;
     align-items: center;
     justify-items: start;
-    border-top: 1px solid rgba(242, 227, 211, 0.09);
+    border-top: 1px solid rgba(211, 242, 228, 0.09);
     padding-top: 10px;
   }
 

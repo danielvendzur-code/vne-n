@@ -97,7 +97,7 @@ export function Nav() {
               : "color-mix(in oklab, var(--surface) 74%, transparent)",
             border: "1px solid var(--border)",
             boxShadow: scrolled
-              ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(242, 239, 230, 0.04) inset"
+              ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(230, 242, 236, 0.04) inset"
               : "0 10px 30px rgba(0, 0, 0, 0.16)",
           }}
         >
@@ -198,8 +198,8 @@ export function Nav() {
                   items={drawerItems}
                   onItemClick={closeMenu}
                   accentColor="#d9ff78"
-                  textColor="#fcfaf7"
-                  markerColor="rgba(252, 250, 247, 0.2)"
+                  textColor="#f7fcfa"
+                  markerColor="rgba(247, 252, 250, 0.2)"
                   markerLength={48}
                   maxShift={20}
                   itemGap={18}

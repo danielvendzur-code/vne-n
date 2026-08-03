@@ -59,7 +59,7 @@ body {
   opacity: 0;
   background: radial-gradient(
     30rem circle at var(--spot-x, 50%) var(--spot-y, 20%),
-    rgba(244, 241, 232, 0.05),
+    rgba(232, 244, 238, 0.05),
     transparent 44%
   );
   transition: opacity 260ms ease;

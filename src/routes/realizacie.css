@@ -19,10 +19,10 @@
   flex-direction: column;
   width: 100%;
   overflow: hidden;
-  border: 1px solid rgba(255, 231, 213, 0.11);
+  border: 1px solid rgba(11, 47, 32, 0.11);
   border-radius: 1.2rem;
   color: var(--text-primary);
-  background: linear-gradient(168deg, #1a120c, #100b08);
+  background: linear-gradient(168deg, #ffffff, #ffffff);
   box-shadow: 0 26px 62px -46px rgba(0, 0, 0, 0.95);
   text-decoration: none;
   transition:
@@ -41,7 +41,7 @@
   pointer-events: none;
   background: radial-gradient(
     20rem 20rem at var(--spot-x) var(--spot-y),
-    rgba(255, 199, 157, 0.16),
+    rgba(25, 131, 79, 0.16),
     transparent 68%
   );
   transition: opacity 380ms ease;
@@ -55,10 +55,10 @@
   .rz-card:hover,
   .rz-card:focus-visible {
     transform: translateY(-6px);
-    border-color: rgba(255, 199, 157, 0.46);
+    border-color: rgba(25, 131, 79, 0.46);
     box-shadow:
       0 34px 76px -44px rgba(0, 0, 0, 0.98),
-      0 0 46px -20px rgba(255, 199, 157, 0.4);
+      0 0 46px -20px rgba(25, 131, 79, 0.4);
   }
 
   .rz-card:hover .rz-shot img {
@@ -75,7 +75,7 @@
   display: block;
   overflow: hidden;
   aspect-ratio: 16 / 10;
-  background: #17100b;
+  background: #edf6e7;
 }
 
 .rz-shot img {
@@ -94,10 +94,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: 1px solid rgba(255, 199, 157, 0.28);
+  border: 1px solid rgba(25, 131, 79, 0.28);
   border-radius: 999px;
   padding: 0.32rem 0.68rem;
-  color: #ffe3c9;
+  color: #0b2f20;
   background: rgba(16, 11, 8, 0.82);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -123,7 +123,7 @@
 }
 
 .rz-type {
-  color: #ffc79d;
+  color: #19834f;
   font-size: 0.67rem;
   font-weight: 780;
   letter-spacing: 0.07em;
@@ -150,7 +150,7 @@
   gap: 0.45rem;
   margin-top: auto;
   padding-top: 1.2rem;
-  color: #ffc79d;
+  color: #19834f;
   font-size: 0.78rem;
   font-weight: 720;
 }
@@ -162,10 +162,10 @@
 /* Živé nástroje */
 .rz-tools {
   margin-top: clamp(1.6rem, 3vw, 2.4rem);
-  border: 1px solid rgba(255, 231, 213, 0.11);
+  border: 1px solid rgba(11, 47, 32, 0.11);
   border-radius: 1.2rem;
   padding: clamp(1.1rem, 2vw, 1.5rem);
-  background: rgba(255, 199, 157, 0.035);
+  background: rgba(25, 131, 79, 0.035);
 }
 
 .rz-tools-label {
@@ -189,11 +189,11 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.2rem 0.6rem;
-  border: 1px solid rgba(255, 199, 157, 0.18);
+  border: 1px solid rgba(25, 131, 79, 0.18);
   border-radius: 0.85rem;
   padding: 0.75rem 0.9rem;
   color: var(--text-primary);
-  background: rgba(255, 199, 157, 0.05);
+  background: rgba(25, 131, 79, 0.05);
   text-decoration: none;
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -216,14 +216,14 @@
 .rz-tools-list svg {
   grid-row: 1 / span 2;
   grid-column: 2;
-  color: #ffc79d;
+  color: #19834f;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .rz-tools-list a:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 199, 157, 0.5);
-    background: rgba(255, 199, 157, 0.1);
+    border-color: rgba(25, 131, 79, 0.5);
+    background: rgba(25, 131, 79, 0.1);
   }
 }
 
@@ -235,7 +235,7 @@
 }
 
 .rz-demo-title em {
-  color: #ffc79d;
+  color: #19834f;
   font-style: normal;
 }
 

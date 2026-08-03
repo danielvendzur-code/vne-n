@@ -5,13 +5,13 @@
 :root {
   --taste-font: "Segoe UI Variable", "Aptos", "Inter Tight", ui-sans-serif, system-ui, sans-serif;
   --taste-bg: #0d0805;
-  --taste-surface: #1d140e;
-  --taste-surface-hover: #291c14;
-  --taste-surface-active: #492c19;
-  --taste-text: #fbf8f5;
+  --taste-surface: #0e1d16;
+  --taste-surface-hover: #14291f;
+  --taste-surface-active: #194933;
+  --taste-text: #f5fbf8;
   --taste-muted: #b0a89e;
-  --taste-blue: #e29455;
-  --taste-blue-soft: #edbc8a;
+  --taste-blue: #65d29f;
+  --taste-blue-soft: #96e1be;
 }
 
 html body {
@@ -86,13 +86,13 @@ html body .lp-button-quiet {
 
 html body .lp-button-primary {
   color: #ffffff !important;
-  background: #df8840 !important;
+  background: #52cd94 !important;
 }
 
 html body .lp-button-primary:hover,
 html body .lp-button-primary:focus-visible {
   color: #ffffff !important;
-  background: #e79552 !important;
+  background: #66d3a0 !important;
 }
 
 html body .lp-button-quiet {
@@ -121,8 +121,8 @@ html body .sp-chip-row .chip {
   min-height: 48px !important;
   border: 0 !important;
   border-radius: 16px !important;
-  color: #dad0c6 !important;
-  background: #20160f !important;
+  color: #c6dad1 !important;
+  background: #0f2018 !important;
   background-image: none !important;
   box-shadow: none !important;
   filter: none !important;
@@ -143,7 +143,7 @@ html body .sp-chip-row .chip:hover,
 html body .sp-chip-row .chip:focus-visible {
   border: 0 !important;
   color: #ffffff !important;
-  background: #2c1f16 !important;
+  background: #162c22 !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -154,7 +154,7 @@ html body .sp-hero-chips .chip[aria-pressed="true"],
 html body .sp-chip-row .chip[aria-pressed="true"] {
   border: 0 !important;
   color: #ffffff !important;
-  background: #5a351c !important;
+  background: #1c5a3d !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -174,7 +174,7 @@ html body .lp-chip-icon {
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #f2c393 !important;
+  color: #a1e4c5 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -199,7 +199,7 @@ html body .lp-chip-label {
 
 html body .lp-hero-pick-plus {
   border: 0 !important;
-  color: #b4a391 !important;
+  color: #91b4a4 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -219,7 +219,7 @@ html body .lp-assistant-answer > svg {
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #eebe8d !important;
+  color: #99e2c0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -233,7 +233,7 @@ html body .lp-solution-icon,
 html body .lp-capability-icon {
   border: 0 !important;
   border-radius: 0 !important;
-  color: #f2c393 !important;
+  color: #a1e4c5 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -299,7 +299,7 @@ html body .lp-switch {
   padding: 5px !important;
   border: 0 !important;
   border-radius: 999px !important;
-  background: #1d140e !important;
+  background: #0e1d16 !important;
   box-shadow: none !important;
 }
 
@@ -311,7 +311,7 @@ html body .lp-switch button {
 
 html body .lp-switch-liquid {
   border: 0 !important;
-  background: #825129 !important;
+  background: #298258 !important;
   box-shadow: none !important;
 }
 
@@ -353,7 +353,7 @@ html body .lp-chip:focus-visible,
 html body .lp-switch button:focus-visible,
 html body .lp-solution-cta:focus-visible,
 html body .lp-assistant-cta:focus-visible {
-  outline: 2px solid rgba(240, 186, 131, 0.85) !important;
+  outline: 2px solid rgba(147, 224, 188, 0.85) !important;
   outline-offset: 3px !important;
 }
 

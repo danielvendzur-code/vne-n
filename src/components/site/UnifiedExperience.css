@@ -75,9 +75,9 @@
 }
 
 [data-drag-target="true"] {
-  border-color: rgba(229, 174, 119, 0.52) !important;
+  border-color: rgba(129, 219, 177, 0.52) !important;
   color: var(--text-primary) !important;
-  background: rgba(229, 174, 119, 0.1) !important;
+  background: rgba(129, 219, 177, 0.1) !important;
   transform: translateY(-2px) scale(1.015) !important;
 }
 
@@ -104,14 +104,14 @@
     ),
     linear-gradient(
       135deg,
-      rgba(250, 246, 243, 0.075),
-      rgba(229, 174, 119, 0.022) 48%,
-      rgba(185, 135, 95, 0.07)
+      rgba(243, 250, 247, 0.075),
+      rgba(129, 219, 177, 0.022) 48%,
+      rgba(95, 185, 143, 0.07)
     ),
-    rgba(34, 18, 8, 0.82);
+    rgba(9, 33, 22, 0.82);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 -1px rgba(229, 174, 119, 0.025),
+    inset 0 -1px rgba(129, 219, 177, 0.025),
     0 16px 30px -28px rgba(7, 3, 1, 0.9);
 }
 
@@ -119,19 +119,19 @@
   width: 0.48rem;
   min-width: 0.48rem;
   height: 0.48rem;
-  background: #e5ae77;
+  background: #81dbb1;
   box-shadow:
-    0 0 0 0.28rem rgba(229, 174, 119, 0.09),
-    0 0 18px rgba(229, 174, 119, 0.18);
+    0 0 0 0.28rem rgba(129, 219, 177, 0.09),
+    0 0 18px rgba(129, 219, 177, 0.18);
 }
 
 :root .lp-page .lp-chip-icon {
   width: 2rem;
   height: 2rem;
   margin-left: 0.12rem;
-  border: 1px solid rgba(242, 227, 211, 0.2);
+  border: 1px solid rgba(211, 242, 228, 0.2);
   border-radius: 50%;
-  background: rgba(250, 246, 243, 0.035);
+  background: rgba(243, 250, 247, 0.035);
 }
 
 :root .lp-page .lp-chip-icon svg {
@@ -145,7 +145,7 @@
 }
 
 :root .lp-page .lp-chip[data-active="true"]::before {
-  background: #73350c;
+  background: #1d6242;
   box-shadow: 0 0 0 0.28rem rgba(27, 14, 6, 0.09);
 }
 
@@ -182,8 +182,8 @@
         rgba(255, 255, 255, 0.17),
         transparent 44%
       ),
-      linear-gradient(135deg, rgba(229, 174, 119, 0.12), rgba(185, 135, 95, 0.08)),
-      rgba(43, 23, 10, 0.92) !important;
+      linear-gradient(135deg, rgba(129, 219, 177, 0.12), rgba(95, 185, 143, 0.08)),
+      rgba(12, 41, 27, 0.92) !important;
   }
 }
 

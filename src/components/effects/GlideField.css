@@ -12,7 +12,7 @@
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 76% 28%, rgb(var(--glide-active) / 0.055), transparent 34%),
     radial-gradient(circle at 36% 76%, rgb(var(--glide-secondary) / 0.04), transparent 31%),
-    linear-gradient(145deg, #090807, #100e0c 54%, #17120f);
+    linear-gradient(145deg, #090807, #100e0c 54%, #0f1713);
 }
 
 .glide-field__canvas {
@@ -38,7 +38,7 @@
     url("../../assets/forest-grain.svg") repeat,
     radial-gradient(circle at 77% 31%, rgb(var(--glide-active) / 0.065), transparent 35%),
     radial-gradient(circle at 38% 79%, rgb(var(--glide-secondary) / 0.045), transparent 30%),
-    linear-gradient(145deg, #090807, #100e0c 54%, #17120f);
+    linear-gradient(145deg, #090807, #100e0c 54%, #0f1713);
 }
 
 /* Pole sa doľava stráca. Predtým to robila CSS maska, ktorá si pri
@@ -86,7 +86,7 @@
       url("../../assets/forest-grain.svg") repeat,
       radial-gradient(circle at 76% 24%, rgb(var(--glide-active) / 0.055), transparent 35%),
       radial-gradient(circle at 30% 78%, rgb(var(--glide-secondary) / 0.035), transparent 32%),
-      linear-gradient(150deg, #090807, #100e0c 54%, #17120f);
+      linear-gradient(150deg, #090807, #100e0c 54%, #0f1713);
   }
 
   .glide-field--hero .glide-field__canvas {

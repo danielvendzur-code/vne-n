@@ -167,7 +167,7 @@ const limeWhiteCss = await read("src/components/site/LimeWhiteBrandFinal.css");
 for (const token of [
   "--brand-primary: #b9ed4d",
   "--brand-forest: #0b2f20",
-  "--brand-yellow: #ffe38a",
+  "--brand-yellow: #a4e5c7",
   "html body .brand-mark",
   ".lp-hero-pick",
   ".lp-process",
@@ -181,7 +181,7 @@ if (!/background:\s*#ffffff\s*!important/.test(limeWhiteCss)) {
 
 const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");
 for (const token of [
-  "--wf-blue: #f3a75a",
+  "--wf-blue: #76d7aa",
   ".spotlight-surface",
   '.lp-hero-pick[data-active="true"]',
   ".lp-switch",
@@ -268,7 +268,7 @@ if (/inset 3px 0 0|mix-blend-mode|lp-bloom-dot/i.test(correctionCss))
 const clientCss = await read("src/components/site/ClientLandingFinal.css");
 for (const token of [
   "CLIENT LANDING",
-  "--brand-primary: #ffc79d",
+  "--brand-primary: #b3e9d0",
   "The icon is an icon, never an icon tile",
   "@keyframes client-chip-confirm",
   ".page-transition",

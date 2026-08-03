@@ -74,12 +74,12 @@ test("decorative hover blobs are removed from quiet actions and chips", async ()
   assert.match(tasteCss, /background: none !important/);
 });
 
-test("website chips use a warm selected glow without an icon plate", async () => {
+test("website chips use a green selected glow without an icon plate", async () => {
   const css = await read("src/components/site/ClientLandingFinal.css");
-  assert.match(css, /--chip-accent: #ffc79d/);
+  assert.match(css, /--chip-accent: #b3e9d0/);
   assert.match(css, /\.lp-hero-pick-icon,[\s\S]*background: transparent !important/);
   assert.match(css, /\.lp-hero-pick-icon,[\s\S]*border-radius: 0 !important/);
-  assert.match(css, /0 0 36px -8px rgba\(255, 199, 157, 0\.72\)/);
+  assert.match(css, /0 0 36px -8px rgba\(179, 233, 208, 0\.72\)/);
   assert.match(css, /animation: client-chip-confirm 420ms/);
   assert.match(css, /@keyframes client-chip-confirm/);
   assert.doesNotMatch(css, /#19345d|#245fae|#3979ec|#4db6ac|#7b8fa6/);
@@ -207,10 +207,11 @@ test("primary buttons keep readable ink on the light brand colour", async () => 
   const contact = await read("src/routes/kontakt.tsx");
   const finish = await read("src/components/site/SiteFinish.css");
 
-  // Biely popis na svetlej marhuľovej mal kontrast 1,51:1.
+  // Biely popis na svetlej výplni mal kontrast 1,51:1. Tmavá lesná
+  // zo značkovej palety má na limetkovej 12,4:1.
   assert.match(finish, /\.contact-page \.contact-submit,/);
   assert.match(finish, /\.sp-page \.sp-button--primary,/);
-  assert.match(finish, /color: #12100e !important/);
+  assert.match(finish, /color: #0b2f20 !important/);
 
   // Odosielacie tlačidlo je obyčajné, bez preletujúceho bieleho kruhu.
   assert.doesNotMatch(contact, /approved-sweep-action/);
@@ -345,7 +346,7 @@ test("Pages workflow validates the live Taste build", async () => {
   assert.match(workflow, /live_smoke=success/);
 });
 
-test("website chips use one crisp warm interaction system", async () => {
+test("website chips use one crisp green interaction system", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const pointer = await read("src/components/site/LiquidSurfacePointer.tsx");
   const css = await read("src/components/site/ClientLandingFinal.css");
@@ -359,7 +360,7 @@ test("website chips use one crisp warm interaction system", async () => {
   assert.doesNotMatch(pointer, /"\.lp-hero-pick"/);
   assert.doesNotMatch(pointer, /"\.lp-chip"/);
   assert.match(css, /solution picker \/ chips/);
-  assert.match(css, /background: rgba\(255, 199, 157, 0\.13\) !important/);
+  assert.match(css, /background: rgba\(242, 251, 247, 0\.026\) !important/);
   assert.match(css, /The icon is an icon, never an icon tile/);
 });
 
@@ -502,11 +503,85 @@ test("the white forest lime system is the final brand authority", async () => {
   assert.match(layout, /LimeWhiteBrandFinal\.css/);
   assert.match(css, /--brand-primary: #b9ed4d/);
   assert.match(css, /--brand-forest: #0b2f20/);
-  assert.match(css, /--brand-yellow: #ffe38a/);
+  assert.match(css, /--brand-yellow: #a4e5c7/);
   assert.match(css, /background:\s*#ffffff\s*!important/);
   assert.match(css, /\.lp-hero-pick[\s\S]*background: #d9ff78 !important/);
   assert.match(css, /data-active="true"[\s\S]*background: #0b2f20 !important/);
   assert.match(mark, /viewBox="0 0 112 112"/);
   assert.match(mark, /translate\(112 0\) scale\(-1 1\)/);
   assert.match(mark, /strokeWidth="9"/);
+});
+
+test("no orange survives anywhere in the styled sources", async () => {
+  // Zákazka znela jednoznačne: oranžová, broskyňová a hnedá sa na weby
+  // nevracajú. Test prejde všetky štýlované zdroje a zachytí každý
+  // zápis farby, ktorý padne do teplého odtieňa.
+  const { readdir } = await import("node:fs/promises");
+
+  const hue = (r, g, b) => {
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const d = max - min;
+    if (!d) return { h: 0, s: 0, l: max / 255 };
+    let h;
+    if (max === r) h = ((g - b) / d) % 6;
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h = h * 60;
+    if (h < 0) h += 360;
+    const l = (max + min) / 2 / 255;
+    return { h, s: d / 255 / (1 - Math.abs(2 * l - 1)), l };
+  };
+  const isWarm = (r, g, b) => {
+    const { h, s, l } = hue(r, g, b);
+    return h >= 10 && h <= 55 && s > 0.18 && l > 0.07;
+  };
+
+  // `/farby` je interná ukážka pomenovaných palet, nie verejná identita.
+  const skip = new Set(["src/routes/farby.tsx", "src/routes/farby.css"]);
+  const files = [];
+  const walk = async (dir) => {
+    for (const entry of await readdir(new URL(`../${dir}`, import.meta.url), {
+      withFileTypes: true,
+    })) {
+      const path = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) await walk(path);
+      else if (/\.(css|ts|tsx)$/.test(entry.name) && !skip.has(path)) files.push(path);
+    }
+  };
+  await walk("src");
+
+  const offenders = [];
+  for (const path of files) {
+    const source = await read(path);
+    let inComment = false;
+    source.split("\n").forEach((line, index) => {
+      // komentáre smú citovať pôvodné hodnoty, inak by sa nedalo
+      // vysvetliť, čo sa a prečo menilo
+      const opens = line.lastIndexOf("/*");
+      const closes = line.lastIndexOf("*/");
+      const wasInComment = inComment;
+      if (opens > closes) inComment = true;
+      else if (closes > opens) inComment = false;
+      if (wasInComment || inComment) return;
+      if (/^\s*(\/\*|\*|\/\/)/.test(line)) return;
+      for (const match of line.matchAll(/#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b/g)) {
+        const v =
+          match[1].length === 3
+            ? match[1]
+                .split("")
+                .map((c) => c + c)
+                .join("")
+            : match[1];
+        const [r, g, b] = [v.slice(0, 2), v.slice(2, 4), v.slice(4, 6)].map((x) => parseInt(x, 16));
+        if (isWarm(r, g, b)) offenders.push(`${path}:${index + 1} ${match[0]}`);
+      }
+      for (const match of line.matchAll(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g)) {
+        const [r, g, b] = [+match[1], +match[2], +match[3]];
+        if (isWarm(r, g, b)) offenders.push(`${path}:${index + 1} ${match[0]})`);
+      }
+    });
+  }
+
+  assert.deepEqual(offenders, [], `teplé farby ostali na ${offenders.length} miestach`);
 });

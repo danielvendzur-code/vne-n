@@ -2,7 +2,7 @@
 
 .premium-footer-founder {
   margin-top: 0.9rem;
-  color: color-mix(in srgb, var(--text-secondary) 88%, #ffc79d 12%);
+  color: color-mix(in srgb, var(--text-secondary) 88%, #b3e9d0 12%);
   font-size: 0.82rem;
   line-height: 1.55;
 }
@@ -61,10 +61,10 @@
   height: auto !important;
   margin-left: calc(var(--timeline-rail-width) / -2) !important;
   transform-origin: top center !important;
-  background: linear-gradient(180deg, #ffc79d 0%, #d9bd83 52%, #bc7352 100%) !important;
+  background: linear-gradient(180deg, #b3e9d0 0%, #83d9b1 52%, #52bc8b 100%) !important;
   box-shadow:
-    0 0 28px rgba(255, 199, 157, 0.48),
-    0 0 64px rgba(188, 115, 82, 0.18) !important;
+    0 0 28px rgba(179, 233, 208, 0.48),
+    0 0 64px rgba(82, 188, 139, 0.18) !important;
 }
 
 .lp-process-list > li,
@@ -105,15 +105,15 @@
   position: relative;
   overflow: hidden;
   padding: clamp(1.4rem, 3vw, 2.25rem) !important;
-  border: 1px solid rgba(255, 199, 157, 0.14) !important;
+  border: 1px solid rgba(179, 233, 208, 0.14) !important;
   border-radius: 1.45rem !important;
   background:
     radial-gradient(
       circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgba(255, 199, 157, 0.11),
+      rgba(179, 233, 208, 0.11),
       transparent 42%
     ),
-    linear-gradient(145deg, rgba(35, 26, 20, 0.96), rgba(18, 13, 10, 0.98)) !important;
+    linear-gradient(145deg, rgba(20, 35, 28, 0.96), rgba(18, 13, 10, 0.98)) !important;
   box-shadow: 0 26px 70px -52px rgba(0, 0, 0, 0.9) !important;
   transition:
     border-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -139,8 +139,8 @@
 
 .lp-process-list > li[data-reached="true"] .lp-step-body,
 .sp-timeline-item[data-reached="true"] .sp-step {
-  border-color: rgba(255, 199, 157, 0.3) !important;
-  box-shadow: 0 30px 90px -58px rgba(255, 199, 157, 0.42) !important;
+  border-color: rgba(179, 233, 208, 0.3) !important;
+  box-shadow: 0 30px 90px -58px rgba(179, 233, 208, 0.42) !important;
 }
 
 .lp-process-list > li[data-reached="true"] .lp-step-body::before,
@@ -161,13 +161,13 @@
   width: 24px !important;
   height: 24px !important;
   margin: 0 !important;
-  border: 2px solid rgba(255, 199, 157, 0.38) !important;
+  border: 2px solid rgba(179, 233, 208, 0.38) !important;
   border-radius: 999px !important;
   background: #100b08 !important;
   transform: translate(-50%, -50%) !important;
   box-shadow:
     0 0 0 5px #100b08,
-    0 0 0 6px rgba(255, 199, 157, 0.08) !important;
+    0 0 0 6px rgba(179, 233, 208, 0.08) !important;
   transition:
     border-color 320ms ease,
     box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -179,8 +179,8 @@
   width: 12px;
   height: 12px;
   border-radius: inherit;
-  background: #ffc79d;
-  box-shadow: 0 0 18px rgba(255, 199, 157, 0.72);
+  background: #b3e9d0;
+  box-shadow: 0 0 18px rgba(179, 233, 208, 0.72);
   opacity: 0;
   transform: scale(0.12);
   transition:
@@ -190,11 +190,11 @@
 
 .lp-process-list > li[data-reached="true"] .lp-step-node,
 .sp-timeline-item[data-reached="true"] .sp-step-node {
-  border-color: #ffc79d !important;
+  border-color: #b3e9d0 !important;
   box-shadow:
     0 0 0 5px #100b08,
-    0 0 0 8px rgba(255, 199, 157, 0.1),
-    0 0 30px rgba(255, 199, 157, 0.5) !important;
+    0 0 0 8px rgba(179, 233, 208, 0.1),
+    0 0 30px rgba(179, 233, 208, 0.5) !important;
 }
 
 .lp-process-list > li[data-reached="true"] .lp-step-node > i,
@@ -213,10 +213,10 @@
   width: 52px !important;
   height: 52px !important;
   margin: 0 !important;
-  border: 1px solid rgba(255, 199, 157, 0.2) !important;
+  border: 1px solid rgba(179, 233, 208, 0.2) !important;
   border-radius: 999px !important;
   background: #17100c !important;
-  color: #d8b99c !important;
+  color: #9cd8bc !important;
   transform: translate(-50%, -50%) scale(0.72) !important;
   opacity: 0;
   transition:
@@ -226,7 +226,7 @@
 }
 
 .lp-process-list > li[data-reached="true"] .lp-step-icon {
-  color: #ffc79d !important;
+  color: #b3e9d0 !important;
   opacity: 1;
   transform: translate(-50%, -50%) scale(1) !important;
 }
@@ -238,7 +238,7 @@
   margin-top: 1rem !important;
   padding-top: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.09);
-  color: #e7d2bf !important;
+  color: #bfe7d4 !important;
   font-size: 0.82rem !important;
   font-weight: 650;
   line-height: 1.5;
@@ -249,7 +249,7 @@
   width: 16px;
   height: 16px;
   margin-top: 0.16rem;
-  color: #ffc79d;
+  color: #b3e9d0;
 }
 
 .lp-final-card {

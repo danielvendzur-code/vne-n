@@ -76,7 +76,7 @@
 
   .derat-story__mobile-slide + .derat-story__mobile-slide {
     padding-top: 3rem;
-    border-top: 1px solid rgba(250, 248, 245, 0.12);
+    border-top: 1px solid rgba(245, 250, 248, 0.12);
   }
 
   .derat-story__mobile-slide figure {
@@ -84,9 +84,9 @@
     overflow: hidden;
     aspect-ratio: 3 / 4;
     margin: 0;
-    border: 1px solid rgba(242, 227, 211, 0.16);
+    border: 1px solid rgba(211, 242, 228, 0.16);
     border-radius: 1.4rem;
-    background: #251b15;
+    background: #15251e;
     box-shadow:
       0 1.8rem 4rem -2.2rem rgba(0, 0, 0, 0.72),
       inset 0 1px rgba(255, 255, 255, 0.04);

@@ -7,8 +7,8 @@
   padding-inline: 1rem !important;
   border: 1px solid var(--wr-line-strong) !important;
   border-radius: var(--wr-radius-md) !important;
-  color: #eee5dc !important;
-  background: #1d150f !important;
+  color: #dceee6 !important;
+  background: #0f1d16 !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -24,9 +24,9 @@
 
 .lp-page .lp-assistant-cta:hover,
 .lp-page .lp-assistant-cta:focus-visible {
-  border-color: #715742 !important;
+  border-color: #42715b !important;
   color: #ffffff !important;
-  background: #231811 !important;
+  background: #11231b !important;
   transform: none !important;
   box-shadow: none !important;
 }
@@ -36,10 +36,10 @@
 .lp-page .lp-chip {
   min-height: 54px !important;
   padding: 10px 13px !important;
-  border: 1px solid #483427 !important;
+  border: 1px solid #274839 !important;
   border-radius: 14px !important;
-  color: #ded3c9 !important;
-  background: #1e150f !important;
+  color: #c9ded4 !important;
+  background: #0f1e17 !important;
   background-image: none !important;
   box-shadow: none !important;
   transform: none !important;
@@ -61,26 +61,26 @@
 .lp-page .lp-hero-pick:focus-visible,
 .lp-page .lp-chip:hover,
 .lp-page .lp-chip:focus-visible {
-  border-color: #765b45 !important;
+  border-color: #45765f !important;
   color: #ffffff !important;
-  background: #261a12 !important;
+  background: #12261d !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 .lp-page .lp-hero-pick[data-active="true"],
 .lp-page .lp-chip[data-active="true"] {
-  border-color: rgba(245, 184, 123, 0.76) !important;
+  border-color: rgba(145, 223, 187, 0.76) !important;
   color: #ffffff !important;
-  background: #372315 !important;
+  background: #153727 !important;
   background-image: none !important;
-  box-shadow: 0 0 0 1px rgba(255, 199, 157, 0.08) !important;
+  box-shadow: 0 0 0 1px rgba(179, 233, 208, 0.08) !important;
   transform: none !important;
 }
 
 .lp-page .lp-hero-pick-icon,
 .lp-page .lp-chip-icon {
-  color: #e8b98a !important;
+  color: #93dfbc !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -89,7 +89,7 @@
 
 .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon,
 .lp-page .lp-chip[data-active="true"] .lp-chip-icon {
-  color: #f8cda2 !important;
+  color: #b2e9cf !important;
 }
 
 /* The arrow remains as a quiet directional cue. */
@@ -104,7 +104,7 @@
 
 .lp-page .lp-hero-pick:hover .lp-hero-pick-plus,
 .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-plus {
-  color: #f9d4af !important;
+  color: #bcecd6 !important;
 }
 
 /* Restore and strengthen the cursor-following flashlight on "Chcem takéto riešenie". */
@@ -114,10 +114,10 @@
   position: relative !important;
   isolation: isolate !important;
   overflow: hidden !important;
-  border: 1px solid #5d4433 !important;
-  color: #fef6ed !important;
-  background: #1f140d !important;
-  box-shadow: 0 16px 36px -30px rgba(255, 199, 157, 0.78) !important;
+  border: 1px solid #335d49 !important;
+  color: #f0fbf6 !important;
+  background: #0d1f17 !important;
+  box-shadow: 0 16px 36px -30px rgba(179, 233, 208, 0.78) !important;
 }
 
 .lp-page .lp-solution-cta::before {
@@ -132,9 +132,9 @@
   background: radial-gradient(
     circle at var(--liquid-x) var(--liquid-y),
     rgba(255, 255, 255, 0.76) 0,
-    rgba(249, 213, 177, 0.5) 10%,
-    rgba(255, 199, 157, 0.34) 24%,
-    rgba(255, 199, 157, 0.12) 40%,
+    rgba(190, 236, 215, 0.5) 10%,
+    rgba(179, 233, 208, 0.34) 24%,
+    rgba(179, 233, 208, 0.12) 40%,
     transparent 62%
   ) !important;
   filter: blur(1px) !important;
@@ -154,8 +154,8 @@
   opacity: 0 !important;
   border-radius: inherit !important;
   box-shadow:
-    inset 0 0 0 1px rgba(247, 198, 149, 0.62),
-    inset 0 0 22px rgba(255, 199, 157, 0.12) !important;
+    inset 0 0 0 1px rgba(167, 229, 200, 0.62),
+    inset 0 0 22px rgba(179, 233, 208, 0.12) !important;
   transition: opacity 160ms ease !important;
 }
 
@@ -179,10 +179,10 @@
 
 .lp-page .lp-solution-cta:hover,
 .lp-page .lp-solution-cta:focus-visible {
-  border-color: #f5b97d !important;
+  border-color: #93dfbc !important;
   color: #ffffff !important;
-  background: #2a1b11 !important;
-  box-shadow: 0 18px 42px -27px rgba(255, 199, 157, 0.95) !important;
+  background: #112a1e !important;
+  box-shadow: 0 18px 42px -27px rgba(179, 233, 208, 0.95) !important;
   transform: none !important;
 }
 

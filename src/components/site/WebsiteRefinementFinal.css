@@ -7,16 +7,16 @@
   --wr-bg: #0c0806;
   --wr-bg-soft: #140d09;
   --wr-panel: #17100c;
-  --wr-panel-raised: #1f150f;
-  --wr-panel-active: #2f1e12;
-  --wr-line: #34271e;
-  --wr-line-strong: #5a4435;
-  --wr-text: #fbf8f5;
+  --wr-panel-raised: #0f1f18;
+  --wr-panel-active: #122f21;
+  --wr-line: #1e342a;
+  --wr-line-strong: #355a49;
+  --wr-text: #f5fbf8;
   --wr-muted: #b6afa6;
   --wr-faint: #8b8074;
-  --wr-blue: #ffc79d;
-  --wr-blue-soft: rgba(255, 199, 157, 0.14);
-  --wr-blue-line: rgba(245, 184, 123, 0.68);
+  --wr-blue: #b3e9d0;
+  --wr-blue-soft: rgba(179, 233, 208, 0.14);
+  --wr-blue-line: rgba(145, 223, 187, 0.68);
   --wr-radius-xl: 24px;
   --wr-radius-lg: 20px;
   --wr-radius-md: 15px;
@@ -94,7 +94,7 @@ body {
 }
 
 .lp-eyebrow i {
-  background: #8c6749 !important;
+  background: #498c6d !important;
 }
 
 .lp-heading-copy,
@@ -169,7 +169,7 @@ body {
   border: 1px solid var(--wr-line-strong) !important;
   border-radius: 999px !important;
   color: var(--wr-text) !important;
-  background: #211711 !important;
+  background: #11211a !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -227,7 +227,7 @@ body {
 .cookies-settings-button:focus-visible {
   border-color: var(--wr-blue-line) !important;
   color: #ffffff !important;
-  background: #2b1d13 !important;
+  background: #132b20 !important;
   transform: none !important;
   box-shadow: none !important;
 }
@@ -238,11 +238,11 @@ body {
 .lp-assistant-cta,
 .sp-button--primary,
 .contact-submit {
-  border-color: #f4ae68 !important;
+  border-color: #81dbb1 !important;
   color: #ffffff !important;
-  background: #e58a40 !important;
+  background: #57ce96 !important;
   background-image: none !important;
-  box-shadow: 0 14px 32px -24px rgba(255, 199, 157, 0.8) !important;
+  box-shadow: 0 14px 32px -24px rgba(179, 233, 208, 0.8) !important;
 }
 
 .site-consultation-cta:hover,
@@ -251,20 +251,20 @@ body {
 .lp-assistant-cta:hover,
 .sp-button--primary:hover,
 .contact-submit:hover {
-  background: #ed9f51 !important;
+  background: #6ad4a3 !important;
 }
 
 /* Hero: quieter background, stable composition, no floating decorative plate. */
 .lp-hero {
   min-height: calc(100svh - 4rem) !important;
-  border-bottom: 1px solid #241a13 !important;
+  border-bottom: 1px solid #13241c !important;
   background:
-    radial-gradient(circle at 84% 22%, rgba(255, 199, 157, 0.09), transparent 31rem), var(--wr-bg) !important;
+    radial-gradient(circle at 84% 22%, rgba(179, 233, 208, 0.09), transparent 31rem), var(--wr-bg) !important;
 }
 
 .lp-hero-glow {
   opacity: 0.45 !important;
-  background: radial-gradient(circle, rgba(255, 199, 157, 0.1), transparent 72%) !important;
+  background: radial-gradient(circle, rgba(179, 233, 208, 0.1), transparent 72%) !important;
   filter: blur(34px) !important;
 }
 
@@ -320,8 +320,8 @@ body {
   isolation: isolate !important;
   overflow: hidden !important;
   border: 1px solid var(--wr-line) !important;
-  color: #ddd3c9 !important;
-  background: #1d150f !important;
+  color: #c9ddd4 !important;
+  background: #0f1d16 !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -363,16 +363,16 @@ body {
 .lp-hero-pick[data-active="true"].is-border-tracing,
 .lp-chip[data-active="true"].is-border-tracing {
   animation: none !important;
-  background: #1d150f !important;
+  background: #0f1d16 !important;
 }
 
 .lp-hero-pick:hover,
 .lp-hero-pick:focus-visible,
 .lp-chip:hover,
 .lp-chip:focus-visible {
-  border-color: #715742 !important;
+  border-color: #42715b !important;
   color: #ffffff !important;
-  background: #231811 !important;
+  background: #11231b !important;
   transform: none !important;
   box-shadow: none !important;
 }
@@ -391,7 +391,7 @@ body {
 .lp-chip-icon {
   width: 20px !important;
   height: 20px !important;
-  color: #e3b587 !important;
+  color: #8cdeb8 !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -400,7 +400,7 @@ body {
 
 .lp-hero-pick[data-active="true"] .lp-hero-pick-icon,
 .lp-chip[data-active="true"] .lp-chip-icon {
-  color: #f7c695 !important;
+  color: #a7e5c8 !important;
   transform: none !important;
 }
 
@@ -419,7 +419,7 @@ body {
   padding: 13px 14px !important;
   border: 1px solid var(--wr-line) !important;
   border-radius: var(--wr-radius-md) !important;
-  color: #dcd1c5 !important;
+  color: #c5dcd1 !important;
   background: #160f0a !important;
   background-image: none !important;
   box-shadow: none !important;
@@ -428,7 +428,7 @@ body {
 }
 
 .lp-assistant-answer svg {
-  color: #f2bc85 !important;
+  color: #96e1be !important;
   filter: none !important;
 }
 
@@ -473,7 +473,7 @@ body {
   /* Intentionally not reset: this is the one liquid-glass control kept on the site. */
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.11),
-    0 18px 40px -34px rgba(255, 199, 157, 0.78) !important;
+    0 18px 40px -34px rgba(179, 233, 208, 0.78) !important;
 }
 
 /* Solution cards are clean matte blocks. */
@@ -505,14 +505,14 @@ body {
 }
 
 .lp-solution-pill:hover {
-  border-color: #584436 !important;
-  background: #1c140e !important;
+  border-color: #365848 !important;
+  background: #0e1c15 !important;
   transform: none !important;
   box-shadow: none !important;
 }
 
 .lp-solution-pill > svg {
-  color: #e8b683 !important;
+  color: #8ddeb8 !important;
   filter: none !important;
 }
 
@@ -535,10 +535,10 @@ body {
   min-height: 46px !important;
   margin-top: auto !important;
   padding: 0 1.05rem !important;
-  border: 1px solid #564032 !important;
+  border: 1px solid #325645 !important;
   border-radius: 999px !important;
-  color: #faf3eb !important;
-  background: #1f150e !important;
+  color: #ecf9f3 !important;
+  background: #0e1f17 !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -562,8 +562,8 @@ body {
   background: radial-gradient(
     circle at var(--liquid-x) var(--liquid-y),
     rgba(255, 255, 255, 0.34) 0,
-    rgba(244, 174, 104, 0.24) 18%,
-    rgba(255, 199, 157, 0.08) 34%,
+    rgba(129, 219, 177, 0.24) 18%,
+    rgba(179, 233, 208, 0.08) 34%,
     transparent 58%
   ) !important;
   transform: scale(0.72) !important;
@@ -581,7 +581,7 @@ body {
   border-radius: inherit !important;
   pointer-events: none !important;
   opacity: 0 !important;
-  box-shadow: inset 0 0 0 1px rgba(245, 187, 128, 0.52) !important;
+  box-shadow: inset 0 0 0 1px rgba(149, 224, 189, 0.52) !important;
   transition: opacity 180ms ease !important;
 }
 
@@ -605,11 +605,11 @@ body {
 
 .lp-solution-cta:hover,
 .lp-solution-cta:focus-visible {
-  border-color: #f5b677 !important;
+  border-color: #8edeb9 !important;
   color: #ffffff !important;
-  background: #281a11 !important;
+  background: #11281d !important;
   transform: none !important;
-  box-shadow: 0 15px 34px -28px rgba(255, 199, 157, 0.95) !important;
+  box-shadow: 0 15px 34px -28px rgba(179, 233, 208, 0.95) !important;
 }
 
 /* Capability rows: ordered, matte and visually quiet. */
@@ -657,7 +657,7 @@ body {
 }
 
 .lp-caps-num {
-  color: #a88970 !important;
+  color: #70a88e !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -677,7 +677,7 @@ body {
 
 .lp-caps-detail-inner {
   margin-top: 14px !important;
-  border: 1px solid #463225 !important;
+  border: 1px solid #254637 !important;
   border-radius: var(--wr-radius-lg) !important;
   background: #170f0a !important;
   background-image: none !important;
@@ -701,16 +701,16 @@ body {
   min-height: 44px !important;
   margin-top: 1rem !important;
   padding-inline: 1rem !important;
-  border-color: #5a4435 !important;
-  color: #f4eae0 !important;
-  background: #211711 !important;
+  border-color: #355a49 !important;
+  color: #e0f4eb !important;
+  background: #11211a !important;
 }
 
 .lp-caps-input {
-  border: 1px solid #49372b !important;
+  border: 1px solid #2b493b !important;
   border-radius: 10px !important;
-  color: #d7c9bb !important;
-  background: #1d140e !important;
+  color: #bbd7ca !important;
+  background: #0e1d16 !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -725,7 +725,7 @@ body {
 }
 
 .lp-caps-note button {
-  color: #f7c38f !important;
+  color: #a2e4c5 !important;
 }
 
 /* Remaining cards use the same quiet matte language. */
@@ -788,8 +788,8 @@ body {
 .lp-process-list > li:hover,
 .sp-service:hover,
 .sp-project-card > a:hover {
-  border-color: #584436 !important;
-  background: #1c140e !important;
+  border-color: #365848 !important;
+  background: #0e1c15 !important;
   transform: none !important;
   box-shadow: none !important;
 }
@@ -799,8 +799,8 @@ body {
 .lp-final-email,
 .premium-footer a {
   border-color: var(--wr-line) !important;
-  color: #e0d4c8 !important;
-  background: #1c140e !important;
+  color: #c8e0d5 !important;
+  background: #0e1c15 !important;
   background-image: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
@@ -811,7 +811,7 @@ body {
 .lp-page :where(a, button, input, textarea, [tabindex]):focus-visible,
 .sp-page :where(a, button, input, textarea, [tabindex]):focus-visible,
 .contact-page :where(a, button, input, textarea, [tabindex]):focus-visible {
-  outline: 2px solid #f5bb80 !important;
+  outline: 2px solid #95e0bd !important;
   outline-offset: 3px !important;
   box-shadow: none !important;
 }
