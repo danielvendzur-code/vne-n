@@ -434,10 +434,13 @@ function Reveal({
 
 function Heading({
   eyebrow,
+  index,
   children,
   copy,
 }: {
   eyebrow: string;
+  /** Poradie sekcie. Stojí na mieste, kde bola predtým krátka čiarka. */
+  index?: string;
   children: ReactNode;
   copy?: string;
 }) {
@@ -461,7 +464,7 @@ function Heading({
       }}
     >
       <motion.p className="lp-eyebrow" variants={sequenceItem}>
-        <i />
+        {index ? <b className="lp-eyebrow-num">{index}</b> : null}
         {eyebrow}
       </motion.p>
       <motion.h2 variants={sequenceItem}>{children}</motion.h2>
@@ -615,6 +618,7 @@ function ValueSection() {
       <div className="container-page">
         <Heading
           eyebrow="Rozdiel v praxi"
+          index="02"
           copy="Chatbot odpovie hneď, opýta sa na to podstatné a pošle vám hotový dopyt."
         >
           Menej zisťovania. <em>Viac pripravených dopytov.</em>
@@ -856,6 +860,7 @@ function Capabilities() {
       <div className="container-page">
         <Heading
           eyebrow="Čo všetko vieme postaviť"
+          index="04"
           copy="Vyberte, čo je najbližšie k vašej situácii — po rozkliknutí uvidíte, čo nástroj robí, aké vstupy zbiera a čo z neho dostanete."
         >
           Ak sa to dá opísať pravidlami, <em>dá sa to postaviť.</em>
@@ -890,6 +895,7 @@ function Realizations() {
       <div className="container-page">
         <Heading
           eyebrow="Vybrané realizácie"
+          index="03"
           copy="Každý náhľad je web, ktorý naozaj beží na vlastnej doméne. Kliknite a pozrite si ho živý."
         >
           Reálne weby. <em>Žiadne generické makety.</em>
@@ -1000,6 +1006,7 @@ function FaqSection() {
         <div className="lp-faq-side">
           <Heading
             eyebrow="Časté otázky"
+            index="05"
             copy="Ak tu odpoveď nie je, napíšte nám — alebo sa spýtajte priamo chatbota v rohu obrazovky."
           >
             Všetko, čo firmy <em>zaujíma najskôr.</em>
@@ -1059,9 +1066,10 @@ function ProcessTimeline() {
       <ol className="lp-tl-steps">
         {process.map(({ icon: Icon, title, copy, result }, index) => (
           <li key={title} data-reached={reducedMotion || index < reached}>
-            <span className="lp-tl-node" aria-hidden="true">
-              <b>{index + 1}</b>
-            </span>
+            {/* Prázdny bod, ktorý sa vyplní, keď k nemu dôjde koľaj.
+                Číslo kroku už stojí v karte pod ním („Krok 01"), takže
+                v uzle bolo zbytočné — a na malom krúžku sa aj zle čítalo. */}
+            <span className="lp-tl-node" aria-hidden="true" />
             <div className="lp-tl-card">
               <span className="lp-tl-icon" aria-hidden="true">
                 <Icon />
@@ -1090,6 +1098,7 @@ function ProcessAndCta() {
         <div>
           <Heading
             eyebrow="Ako spolupráca prebieha"
+            index="06"
             copy="Od prvých otázok po nasadenie máte vždy jasný ďalší krok."
           >
             Krátko, zrozumiteľne <em>a bez chaosu.</em>

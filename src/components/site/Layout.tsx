@@ -59,6 +59,9 @@ import "@/components/site/SurfaceContrastRepair.css";
 import "@/components/site/HeroRhythmFinal.css";
 // Jedna škála zaoblení, rámov, tieňov a čiar pre všetky komponenty.
 import "@/components/site/RefinementFinal.css";
+// Číslované popisky sekcií, štítky bledé až do výberu, prázdne body na
+// časovej osi a väčšie políčka v kontaktnom formulári.
+import "@/components/site/RequestedPolishRound.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
