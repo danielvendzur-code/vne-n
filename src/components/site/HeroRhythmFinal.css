@@ -544,3 +544,21 @@ html:root body .site-theme-white-green .lp-page .lp-hero-pick .lp-hero-pick-labe
   min-width: 0 !important;
   overflow-wrap: anywhere !important;
 }
+
+/* Nadpis v hero sa nesmie dostať pod kartu s výberom. Dlhší text klientskej
+   verzie („ako bude pracovať.") pretekal do jej ľavého okraja. */
+html:root body .site-theme-white-green .lp-page .lp-hero-copy h1 {
+  max-width: 100% !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-copy h1 .lp-hero-line {
+  display: block !important;
+  max-width: 100% !important;
+}
+
+@media (min-width: 1051px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-copy h1 {
+    font-size: clamp(2.6rem, 4.1vw, 3.9rem) !important;
+    line-height: 1.04 !important;
+  }
+}
