@@ -168,7 +168,7 @@ const structuredData = JSON.stringify({
       alternateName: "Moj Chatbot",
       url: `${publicOrigin}/`,
       logo: `${publicOrigin}/brand/logo.svg`,
-      image: `${publicOrigin}/og/og-home.jpg`,
+      image: `${publicOrigin}/og/og-home.png`,
       email: `mailto:${siteConfig.contact.email}`,
       telephone: siteConfig.contact.phoneHref,
       description:
@@ -259,7 +259,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       {
         property: "og:image",
-        content: `${publicOrigin}/og/og-home.jpg`,
+        content: `${publicOrigin}/og/og-home.png`,
       },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -271,7 +271,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         name: "twitter:image",
-        content: `${publicOrigin}/og/og-home.jpg`,
+        content: `${publicOrigin}/og/og-home.png`,
       },
     ],
     links: [

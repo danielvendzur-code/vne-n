@@ -1,0 +1,259 @@
+/* =====================================================================
+   MÔJ CHATBOT — ZJEDNOTENIE KOMPONENTOV
+
+   Web mal správne farby, ale každý komponent si držal vlastné zaoblenie,
+   vlastnú hrúbku rámu a vlastný tieň — z diaľky to nedržalo pokope.
+   Táto vrstva zavádza jednu škálu a nasadzuje ju na karty, tlačidlá,
+   štítky, čiary aj panel menu.
+
+   Načítava sa ako posledná, takže platí to, čo je tu.
+   ===================================================================== */
+
+html:root body .site-theme-white-green {
+  /* Jedna škála zaoblení. Väčší prvok = väčší polomer, nikdy naopak. */
+  --rf-radius-chip: 999px;
+  --rf-radius-control: 0.9rem;
+  --rf-radius-card: 1.25rem;
+  --rf-radius-panel: 1.75rem;
+
+  /* Jeden rám a jeden tieň pre celý web. */
+  --rf-line: rgba(11, 47, 32, 0.11);
+  --rf-line-strong: rgba(11, 47, 32, 0.18);
+  --rf-shadow-card: 0 18px 44px -34px rgba(11, 47, 32, 0.42);
+  --rf-shadow-lift: 0 26px 56px -34px rgba(11, 47, 32, 0.34);
+
+  /* Čiary sú jeden prvok značky: krátky limetkovo-smaragdový ťah. */
+  --rf-rule: linear-gradient(90deg, #19834f, #b9ed4d);
+}
+
+/* ---------------------------------------------------------------------
+   1. Karty
+   Rovnaké zaoblenie, rovnaký rám, rovnaký tieň. Rozdiel medzi kartami
+   robí obsah, nie náhodné hodnoty z rôznych vrstiev.
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  :is(
+    .lp-assistant-card,
+    .lp-comparison,
+    .lp-project > a,
+    .rz-card,
+    .sp-service,
+    .sp-project-card > a,
+    .cookies-card,
+    .why-card,
+    .contact-card,
+    .contact-expect,
+    .winner-package,
+    .lp-faq-item
+  ) {
+  border: 1px solid var(--rf-line) !important;
+  border-radius: var(--rf-radius-card) !important;
+  box-shadow: var(--rf-shadow-card) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    :is(.lp-project > a, .rz-card, .sp-service, .sp-project-card > a, .cookies-card):hover {
+    border-color: rgba(25, 131, 79, 0.32) !important;
+    box-shadow: var(--rf-shadow-lift) !important;
+  }
+}
+
+/* Väčšie plochy majú väčší polomer, aby škála dávala zmysel. */
+html:root
+  body
+  .site-theme-white-green
+  :is(.lp-final-card, .sp-cta, .sp-combine, .lp-timeline, .contact-card) {
+  border-radius: var(--rf-radius-panel) !important;
+}
+
+/* ---------------------------------------------------------------------
+   2. Tlačidlá
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  :is(.lp-button, .sp-button, .contact-submit, .contact-assistant, .winner-package a) {
+  border-radius: var(--rf-radius-chip) !important;
+  font-weight: 660 !important;
+  letter-spacing: -0.005em !important;
+}
+
+html:root body .site-theme-white-green :is(.lp-button, .sp-button, .contact-submit) {
+  min-height: 3.15rem !important;
+  padding-inline: 1.5rem !important;
+}
+
+/* Druhé tlačidlo je vždy obrys, nikdy plná plocha — inak dve rovnako
+   silné výzvy súperia o pozornosť. */
+html:root
+  body
+  .site-theme-white-green
+  :is(.lp-hero-cta--secondary, .sp-button--ghost, .contact-assistant) {
+  border: 1px solid var(--rf-line-strong) !important;
+  color: #0b2f20 !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    :is(.lp-hero-cta--secondary, .sp-button--ghost, .contact-assistant):hover {
+    border-color: rgba(25, 131, 79, 0.42) !important;
+    background: #f4f8f1 !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. Čiary
+   Na webe boli tri druhy oddeľovačov: sivá vlásočnica, tmavý pruh a
+   krátka limetková čiarka. Ostáva posledná — je to prvok značky.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page :is(hr, .lp-rule, .lp-heading::after) {
+  height: 2px !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  background: var(--rf-rule) !important;
+  opacity: 0.55 !important;
+}
+
+/* Vnútorné deliace čiary v kartách sú jemné a rovnaké všade. */
+html:root
+  body
+  .site-theme-white-green
+  :is(.lp-tl-result, .contact-success-note, .sp-service-row, .winner-prep li) {
+  border-top-color: var(--rf-line) !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Panel menu
+   Zavieracie tlačidlo bolo takmer čierne a každý riadok kreslil dve
+   čiary naraz — vlastnú značku aj oddeľovač medzi riadkami.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-menu-drawer {
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--rf-radius-panel) 0 0 var(--rf-radius-panel) !important;
+  background:
+    radial-gradient(circle at 88% 4%, rgba(185, 237, 77, 0.14), transparent 26rem),
+    linear-gradient(165deg, #133a28 0%, #0b2f20 46%, #08251a 100%) !important;
+}
+
+/* Zavieracie tlačidlo drží ten istý pár farieb ako hlavná výzva:
+   limetková plocha, tmavá lesná na texte aj na krížiku. Ikona ostávala
+   svetlosivá — na limetkovej mala kontrast 1,9:1. */
+html:root body .site-theme-white-green .site-menu-close {
+  min-height: 2.5rem !important;
+  padding: 0 0.95rem !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--rf-radius-chip) !important;
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+  box-shadow: none !important;
+  font-size: 0.8rem !important;
+  font-weight: 660 !important;
+}
+
+html:root body .site-theme-white-green .site-menu-close :is(svg, span) {
+  color: #0b2f20 !important;
+  stroke: currentColor !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .site-menu-close:hover {
+    background: #c7f256 !important;
+  }
+}
+
+/* Jedna čiara na riadok. Oddeľovač medzi položkami zdvojoval značku
+   a z navigácie robil mriežku čiarok. */
+html:root body .site-theme-white-green .rb-line-sidebar__item::after {
+  content: none !important;
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__marker {
+  height: 2px !important;
+  border-radius: 2px !important;
+  transition:
+    background-color 260ms var(--ease-smooth, ease),
+    opacity 260ms var(--ease-smooth, ease) !important;
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__item:hover .rb-line-sidebar__marker,
+html:root body .site-theme-white-green .rb-line-sidebar__item:focus-within .rb-line-sidebar__marker {
+  background: var(--rf-rule) !important;
+  opacity: 1 !important;
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__index {
+  color: rgba(255, 255, 255, 0.42) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__item:hover .rb-line-sidebar__index {
+  color: #d9ff78 !important;
+}
+
+/* Riešenia v menu sedia v rovnakých kartách ako zvyšok webu. */
+html:root body .site-theme-white-green .site-menu-solution {
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  border-radius: var(--rf-radius-card) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  box-shadow: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .site-menu-solution:hover {
+    border-color: rgba(217, 255, 120, 0.42) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+}
+
+html:root body .site-theme-white-green .site-menu-solution-icon {
+  border-radius: var(--rf-radius-control) !important;
+  color: #d9ff78 !important;
+  background: rgba(217, 255, 120, 0.14) !important;
+}
+
+html:root body .site-theme-white-green .site-menu-eyebrow {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 0.68rem !important;
+  font-weight: 780 !important;
+  letter-spacing: 0.16em !important;
+}
+
+/* ---------------------------------------------------------------------
+   5. Hranice sekcií
+   Popri striedaní plôch dostane každý prechod jemný svetelný šev, takže
+   je zlom vidieť aj tam, kde na seba narazia dve svetlé plochy.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page > section[data-band]::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(25, 131, 79, 0.22) 22%,
+    rgba(185, 237, 77, 0.42) 50%,
+    rgba(25, 131, 79, 0.22) 78%,
+    transparent
+  );
+  opacity: 0.75;
+}
+
+html:root body .site-theme-white-green .lp-page > section.lp-hero::after {
+  content: none;
+}

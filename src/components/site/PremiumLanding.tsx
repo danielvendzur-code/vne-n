@@ -342,7 +342,13 @@ const process = [
 function AnimatedPageProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 150, damping: 28, mass: 0.22 });
-  return <motion.div className="lp-progress" style={{ scaleX }} aria-hidden="true" />;
+  // Dráha okolo výplne — bez nej nebolo na začiatku stránky čo vidieť
+  // a pásik splýval s pozadím pod hlavičkou.
+  return (
+    <div className="lp-progress-track" aria-hidden="true">
+      <motion.div className="lp-progress" style={{ scaleX }} />
+    </div>
+  );
 }
 
 function PageProgress() {
@@ -476,7 +482,9 @@ function Hero({ variant }: { variant: LandingVariant }) {
   return (
     <section className="lp-hero" id="uvod" data-variant={variant}>
       <div className="lp-hero-glide" aria-hidden="true">
-        <GlideField className="glide-field--hero" radius={142} />
+        {/* Väčší dosah aj sila — pri pôvodnom nastavení bola reakcia na
+            bielom podklade sotva badateľná. */}
+        <GlideField className="glide-field--hero" radius={190} intensity={1.15} />
       </div>
       <div className="lp-hero-glow" aria-hidden="true" />
       <div className="container-page lp-hero-grid">
@@ -603,7 +611,7 @@ function ValueSection() {
   const swipeStart = useRef<number | null>(null);
 
   return (
-    <section className="lp-value" id="nastroje">
+    <section className="lp-value" id="nastroje" data-band="soft" data-index="02">
       <div className="container-page">
         <Heading
           eyebrow="Rozdiel v praxi"
@@ -844,7 +852,7 @@ function CapabilityGroup({
 
 function Capabilities() {
   return (
-    <section className="lp-caps" id="moznosti">
+    <section className="lp-caps" id="moznosti" data-band="soft" data-index="04">
       <div className="container-page">
         <Heading
           eyebrow="Čo všetko vieme postaviť"
@@ -878,7 +886,7 @@ function Capabilities() {
 
 function Realizations() {
   return (
-    <section className="lp-portfolio" id="realizacie">
+    <section className="lp-portfolio" id="realizacie" data-band="light" data-index="03">
       <div className="container-page">
         <Heading
           eyebrow="Vybrané realizácie"
@@ -987,7 +995,7 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
 
 function FaqSection() {
   return (
-    <section className="lp-faq" id="otazky">
+    <section className="lp-faq" id="otazky" data-band="light" data-index="05">
       <div className="container-page lp-faq-grid">
         <div className="lp-faq-side">
           <Heading
@@ -1020,8 +1028,11 @@ function FaqSection() {
 function ProcessTimeline() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
+  // Os sa plní, kým prechádza obrazovkou, a je hotová skôr, než z nej
+  // odíde. S pôvodným rozsahom sa posledný krok rozsvietil až vtedy, keď
+  // už bola koľaj dávno nad horným okrajom.
   const { progress, reached } = useTimelineProgress(wrapRef, {
-    offset: ["start 0.82", "end 0.62"],
+    offset: ["start 0.95", "end 0.85"],
     count: process.length,
   });
 
@@ -1074,7 +1085,7 @@ function ProcessAndCta() {
   const magneticFinal = useMagnetic<HTMLAnchorElement>(0.12);
 
   return (
-    <section className="lp-process" id="spolupraca">
+    <section className="lp-process" id="spolupraca" data-band="forest" data-index="06">
       <div className="container-page lp-process-grid">
         <div>
           <Heading

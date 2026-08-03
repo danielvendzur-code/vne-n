@@ -28,7 +28,7 @@ function withBrand(title: string): string {
  */
 export function seo({ title, description, path, noindex }: SeoOptions) {
   const canonical = path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`;
-  const image = `${SITE_URL}/og/og-home.jpg`;
+  const image = `${SITE_URL}/og/og-home.png`;
   const fullTitle = withBrand(title);
 
   return {
