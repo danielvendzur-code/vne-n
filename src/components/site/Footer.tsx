@@ -15,9 +15,6 @@ export function Footer() {
           <p className="premium-footer-note">
             Napíšte nám, s čím má web pomôcť. Ozveme sa zvyčajne do jedného pracovného dňa.
           </p>
-          <p className="premium-footer-founder">
-            Zodpovedná osoba: {siteConfig.team.responsibleRole}.
-          </p>
         </div>
 
         <div>

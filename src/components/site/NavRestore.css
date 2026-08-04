@@ -25,9 +25,23 @@ html:root body .site-theme-white-green .site-brand-lockup {
   gap: 0.72rem !important;
 }
 
-html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-symbol {
-  width: 42px !important;
-  height: 42px !important;
+/* Trieda je `brand-mark`, nie `brand-symbol` — predošlé pravidlo preto
+   nikdy nezabralo a značka ostala na 34 px. */
+html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark {
+  width: 40px !important;
+  height: 40px !important;
+  flex: 0 0 auto !important;
+}
+
+/* Názov má tesný riadok, aby jeho rámček sedel na text — inak sa optický
+   stred slova nezhoduje so stredom značky. */
+html:root body .site-theme-white-green .site-brand-name {
+  display: block !important;
+  line-height: 1 !important;
+}
+
+html:root body .site-theme-white-green .site-brand-lockup {
+  align-items: center !important;
 }
 
 html:root body .site-theme-white-green .site-brand-name {

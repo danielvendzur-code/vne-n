@@ -10,8 +10,12 @@ interface BrandMarkProps {
  * pixely sa naprahovali, odčítali sa stredy ťahov na vodorovných aj
  * zvislých rezoch a z nich sa poskladala cesta. Predchádzajúca verzia
  * mala rovnakú myšlienku, ale nesedeli proporcie — mala plytší zárez V,
- * užšie vnútorné M a takmer dvojnásobne hrubý ťah (8,5 oproti 4,3 na
- * plátne 112), takže pri malých veľkostiach zalievala vnútro.
+ * užšie vnútorné M a takmer dvojnásobne hrubý ťah (8,5 na plátne 112),
+ * takže pri malých veľkostiach zalievala vnútro.
+ *
+ * Ťah je 6,2 na plátne 112. Pri 4,3 vychádzal v hlavičke na 1,3 px a
+ * značka sa strácala; 8,5 zase zalieva vnútorné M. 6,2 dá pri 40 px
+ * v hlavičke 2,2 px — plný ťah, ktorý drží aj vo favicone.
  *
  * Vonkajší ťah: dolný koniec pravého tiahla, hore po pravej strane,
  * zárez V, ľavá strana, dno bubliny, chvost a späť hore po pravej
@@ -39,14 +43,14 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       <path
         d={OUTER}
         stroke="currentColor"
-        strokeWidth="4.3"
+        strokeWidth="6.2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d={INNER}
         stroke="currentColor"
-        strokeWidth="4.3"
+        strokeWidth="6.2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

@@ -446,9 +446,10 @@ test("the public website is team-first and uses one brand contact", async () => 
   // z formulára aj tak stále chodí na značkovú adresu — to drží
   // podmienka na `lead` vyššie.
   assert.match(footer, /contact\.emailPersonal/);
-  // V pätičke stojí funkcia, nie meno zakladateľa.
+  // V pätičke nestojí ani meno zakladateľa, ani jeho funkcia — blok
+  // s osobou bol na želanie odstránený celý.
   assert.doesNotMatch(footer, /Tím vedie/);
-  assert.match(footer, /Zodpovedná osoba/);
+  assert.doesNotMatch(footer, /Zodpovedná osoba/);
 });
 
 test("final correction restores the comparison and removes chip ornaments", async () => {
@@ -520,7 +521,8 @@ test("the white forest lime system is the final brand authority", async () => {
   // nikdy nevykresľovali a po premeraní loga prestali platiť. Kontrolujú
   // sa skutočné hodnoty: dva ťahy a hrúbka odmeraná z originálu.
   assert.equal((mark.match(/<path\b/g) ?? []).length, 2);
-  assert.match(mark, /strokeWidth="4\.3"/);
+  // Ťah zhrubol zo 4,3 na 6,2 — pri 4,3 vychádzal v hlavičke na 1,3 px.
+  assert.match(mark, /strokeWidth="6\.2"/);
 });
 
 test("no orange survives anywhere in the styled sources", async () => {
