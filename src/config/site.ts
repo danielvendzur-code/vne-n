@@ -8,11 +8,13 @@ export const siteConfig = {
     label: "Tím Môj Chatbot",
     founder: "Daniel Vendžúr",
     founderRole: "zakladateľ a produktový dizajnér",
+    /** V pätičke stojí funkcia, nie meno. */
+    responsibleRole: "produktový dizajnér tímu Môj Chatbot",
   },
   contact: {
     /** Jediná verejná kontaktná adresa značky na celom webe. */
     email: "info@mojchatbot.sk",
-    /** Zakladateľská adresa ostáva iba ako interný údaj; na webe sa nezobrazuje. */
+    /** Druhá adresa, na ktorú sa dá písať priamo. */
     emailPersonal: "daniel@vendzur.sk",
     phoneLabel: "+421 948 699 433",
     phoneHref: "+421948699433",

@@ -232,7 +232,7 @@ export function Nav() {
                   ))}
                 </div>
                 <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
-                  Pozrieť živé weby tímu Môj Chatbot <ArrowRight size={16} aria-hidden="true" />
+                  Pozrieť živé weby <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               </aside>
             </div>

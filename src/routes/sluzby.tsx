@@ -7,7 +7,7 @@ import { breadcrumbJsonLd, seo } from "@/lib/seo";
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
     ...seo({
-      title: "Čo tvorím — chatboty, kalkulačky a konfigurátory na mieru",
+      title: "Čo tvoríme — chatboty, kalkulačky a konfigurátory na mieru",
       description:
         "Chatboty, ľubovoľné kalkulačky a krokové konfigurátory. Každý nástroj môže fungovať samostatne alebo priamo v chatbote — vždy podľa logiky vašej služby.",
       path: "/sluzby",
@@ -27,17 +27,19 @@ const services = [
     id: "chatbot",
     icon: Bot,
     name: "Chatbot a dopytový asistent",
-    intro: "Zákazníka prevedie otázkami a pripraví použiteľné zadanie pre firmu.",
-    when: "Zadanie je zakaždým iné a potrebujete pochopiť situáciu skôr, než pripravíte ponuku.",
-    inputChips: ["Vlastné otázky", "Reakcie na odpovede", "Fotky a prílohy", "Kontakt"],
+    intro:
+      "Poradí zákazníkovi s výberom, odpovie na otázky o produkte a namiesto prázdneho formulára pošle firme hotový dopyt.",
+    when: "Napríklad e-shop, kde si zákazník nevie vybrať veľkosť, variant alebo doplnok — chatbot ho prevedie ponukou a rovno navrhne, čo sa k výberu hodí (upsell). Alebo služba, kde je každé zadanie iné a treba pochopiť situáciu skôr, než pripravíte ponuku.",
+    inputChips: ["Poradenstvo pri výbere", "Odporúčanie doplnkov", "Fotky a prílohy", "Kontakt"],
     output: "Prehľadný dopyt s odpoveďami a kontaktom — pripravený na prvú konkrétnu odpoveď.",
   },
   {
     id: "kalkulacka",
     icon: Calculator,
     name: "Kalkulačka na mieru",
-    intro: "Cena, spotreba, návratnosť alebo iný výsledok podľa vašich pravidiel.",
-    when: "Výsledok sa dá odvodiť z reálnych vstupov a cenníka či pravidiel vášho podnikania.",
+    intro:
+      "Zákazník zadá pár čísel a hneď vidí cenu, spotrebu alebo návratnosť — počítanú podľa vášho cenníka, nie odhadom.",
+    when: "Napríklad plot na metre, materiál na plochu, splátky z ceny alebo úspora po investícii. Všade, kde dnes cenu počítate ručne a zákazník na ňu čaká.",
     inputChips: ["Rozmery a výmera", "Množstvo a typ", "Doprava a montáž", "Vlastné premenné"],
     output: "Presný výsledok, orientačný rozsah alebo ponuka pripravená na odoslanie.",
   },
@@ -45,8 +47,9 @@ const services = [
     id: "konfigurator",
     icon: SlidersHorizontal,
     name: "Konfigurátor na mieru",
-    intro: "Produkt alebo služba poskladané krok za krokom z dostupných možností.",
-    when: "Ponuka má viac variantov a klient sa v nej sám nezorientuje.",
+    intro:
+      "Zákazník si poskladá produkt krok za krokom a vy dostanete špecifikáciu, s ktorou sa dá rovno pracovať.",
+    when: "Napríklad nábytok na mieru, balík služieb alebo produkt s desiatkami kombinácií, v ktorých sa zákazník sám nevyzná.",
     inputChips: ["Typ a materiál", "Rozmer a farba", "Doplnky", "Montáž a doprava"],
     output: "Konkrétna konfigurácia pripravená na výrobu alebo cenovú ponuku.",
   },
@@ -56,13 +59,13 @@ function ServicesPage() {
   return (
     <div className="sp-page">
       <PageIntro
-        eyebrow="Čo tvorím"
+        eyebrow="Čo tvoríme"
         title={
           <>
             Chatbot, kalkulačka, konfigurátor. <em>Samostatne aj spolu.</em>
           </>
         }
-        lead="Každý nástroj skladám podľa služieb, cien a procesu konkrétnej firmy. Kalkulačku či konfigurátor viem nasadiť samostatne — alebo ich vložiť priamo do plynulého rozhovoru s chatbotom."
+        lead="Chatbot poradí s výberom, odpovie na otázky a odporučí doplnok navyše. Kalkulačka spočíta cenu podľa vašich pravidiel. Konfigurátor poskladá produkt krok za krokom. Každý nástroj staviame podľa služieb, cien a procesu konkrétnej firmy — samostatne alebo všetko v jednom rozhovore."
       >
         <div className="sp-hero-chips">
           <span className="chip" data-tone="coral">
