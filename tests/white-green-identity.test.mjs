@@ -5,17 +5,17 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 const forbiddenWarm =
   /#ffc79d|#f0a873|#f3a75a|#e58a5b|#f4c9a8|#ffe38a|255\s*,\s*199\s*,\s*157|240\s*,\s*168\s*,\s*115/i;
-// Kresba podľa originálu loga. Predošlá verzia mala vonkajší ťah otvorený:
-// začínal pahýľom pri pravom dolnom rohu a končil zvislicou vybiehajúcou
-// z dolnej hrany, takže vpravo bola dvojitá čiara a vnútorné M malo len
-// ľavé rameno. Teraz je bublina zavretá a vnútorné M má obe ramená.
+// Kresba obtiahnutá z dodaného originálu meraním pixelov, nie odhadom.
+// Stavba je zámerne nesúmerná: ľavé rameno vnútorného M končí voľne,
+// pravé pokračuje k dolnej hrane a patrí vonkajšiemu ťahu.
 const outerPath =
-  "M8.5 12.4C8.5 7.2 14.5 4.5 18.3 6.4L52.5 34.5" +
-  "C54.1 36.1 57.9 36.1 59.5 34.5L95.4 6.4" +
-  "C99.2 4.5 103.6 7.2 103.6 12.4V79.9" +
-  "C103.6 82.6 101.4 84.8 98.7 84.8H52.9L30.5 105.5L30.2 84.8H13.4" +
-  "C10.7 84.8 8.5 82.6 8.5 79.9Z";
-const innerPath = "M24 71.2V29.2L52.5 55.4C54.1 57 57.9 57 59.5 55.4L88 29.2V71.2";
+  "M92.9 81.1C97.4 80.8 100.6 78.6 100.6 75.6V12.6" +
+  "C100.6 7.9 96.4 5.3 93 7.6L59.9 36.7" +
+  "C58 38.5 55 38.5 53.1 36.7L20 7.6" +
+  "C16.6 5.3 12.4 7.9 12.4 12.6V76.1" +
+  "C12.4 78.9 14.7 81.1 17.5 81.1H31.7L33.5 104.5L57.5 81.1H80.9" +
+  "C82.9 81.1 84.6 79.5 84.6 77.5V32.9";
+const innerPath = "M28.6 65.1V32.9L53.4 57.5C55.1 59.2 57.9 59.2 59.6 57.5L84.6 32.9";
 const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 test("the public brand uses the approved option 1 geometry", async () => {
@@ -29,15 +29,15 @@ test("the public brand uses the approved option 1 geometry", async () => {
   assert.match(joined, new RegExp(escape(outerPath)));
   assert.match(joined, new RegExp(escape(innerPath)));
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
-  // Ťah 7,2 zodpovedá hrúbke originálu v prepočte na túto šírku bubliny.
-  assert.match(component, /strokeWidth="7\.2"/);
+  // Ťah 7,0 dal najvyšší prekryv s originálom (76,9 %).
+  assert.match(component, /strokeWidth="7"/);
 
   for (const asset of [exported, favicon]) {
     assert.equal((asset.match(/<path\b/g) ?? []).length, 2);
     assert.match(asset, new RegExp(escape(outerPath)));
     assert.match(asset, new RegExp(escape(innerPath)));
     assert.match(asset, /stroke="#B9ED4D"/);
-    assert.match(asset, /stroke-width="7\.2"/);
+    assert.match(asset, /stroke-width="7"/);
   }
 
   // Favicon navyše sedí na tmavej lesnej dlaždici. Samotný limetkový ťah

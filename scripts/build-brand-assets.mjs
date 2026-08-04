@@ -90,15 +90,11 @@ const SECONDARY = "#4c5a52";
     Musia sedieť s `src/components/BrandMark.tsx`; kontrolu drží test
     `the public brand uses the approved option 1 geometry`. */
 const MARK_PATHS = [
-  "M8.5 12.4C8.5 7.2 14.5 4.5 18.3 6.4L52.5 34.5" +
-    "C54.1 36.1 57.9 36.1 59.5 34.5L95.4 6.4" +
-    "C99.2 4.5 103.6 7.2 103.6 12.4V79.9" +
-    "C103.6 82.6 101.4 84.8 98.7 84.8H52.9L30.5 105.5L30.2 84.8H13.4" +
-    "C10.7 84.8 8.5 82.6 8.5 79.9Z",
-  "M24 71.2V29.2L52.5 55.4C54.1 57 57.9 57 59.5 55.4L88 29.2V71.2",
+  "M92.9 81.1C97.4 80.8 100.6 78.6 100.6 75.6V12.6C100.6 7.9 96.4 5.3 93 7.6L59.9 36.7C58 38.5 55 38.5 53.1 36.7L20 7.6C16.6 5.3 12.4 7.9 12.4 12.6V76.1C12.4 78.9 14.7 81.1 17.5 81.1H31.7L33.5 104.5L57.5 81.1H80.9C82.9 81.1 84.6 79.5 84.6 77.5V32.9",
+  "M28.6 65.1V32.9L53.4 57.5C55.1 59.2 57.9 59.2 59.6 57.5L84.6 32.9",
 ];
 
-const mark = (stroke, width = 7.2) =>
+const mark = (stroke, width = 7) =>
   MARK_PATHS.map(
     (d) =>
       `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`,
