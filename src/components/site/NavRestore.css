@@ -33,11 +33,33 @@ html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-ma
   flex: 0 0 auto !important;
 }
 
-/* Názov má tesný riadok, aby jeho rámček sedel na text — inak sa optický
-   stred slova nezhoduje so stredom značky. */
+/* Značka, názov a doména pod ním — rovnaká zostava ako v origináli.
+   Tesné riadkovanie drží optický stred bloku na strede symbolu. */
+html:root body .site-theme-white-green .site-header .site-brand-copy {
+  display: grid !important;
+  gap: 0.12rem !important;
+  min-width: 0 !important;
+}
+
 html:root body .site-theme-white-green .site-brand-name {
   display: block !important;
   line-height: 1 !important;
+}
+
+html:root body .site-theme-white-green .site-header .site-brand-domain {
+  display: block !important;
+  color: #4c5a52 !important;
+  font-size: 0.72rem !important;
+  font-weight: 560 !important;
+  letter-spacing: 0.055em !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+}
+
+@media (max-width: 420px) {
+  html:root body .site-theme-white-green .site-header .site-brand-domain {
+    display: none !important;
+  }
 }
 
 html:root body .site-theme-white-green .site-brand-lockup {

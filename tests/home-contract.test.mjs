@@ -521,8 +521,8 @@ test("the white forest lime system is the final brand authority", async () => {
   // nikdy nevykresľovali a po premeraní loga prestali platiť. Kontrolujú
   // sa skutočné hodnoty: dva ťahy a hrúbka odmeraná z originálu.
   assert.equal((mark.match(/<path\b/g) ?? []).length, 2);
-  // Ťah zhrubol zo 4,3 na 6,2 — pri 4,3 vychádzal v hlavičke na 1,3 px.
-  assert.match(mark, /strokeWidth="6\.2"/);
+  // Ťah 7,2 zodpovedá hrúbke originálu v prepočte na túto šírku bubliny.
+  assert.match(mark, /strokeWidth="7\.2"/);
 });
 
 test("no orange survives anywhere in the styled sources", async () => {

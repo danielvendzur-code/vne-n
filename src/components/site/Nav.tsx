@@ -107,7 +107,11 @@ export function Nav() {
             aria-label="Môj Chatbot — domov"
           >
             <BrandMark size={34} />
-            <span className="site-brand-name">Môj Chatbot</span>
+            {/* Značka aj doména pod ňou — rovnaká zostava ako v origináli. */}
+            <span className="site-brand-copy">
+              <span className="site-brand-name">Môj Chatbot</span>
+              <small className="site-brand-domain">mojchatbot.sk</small>
+            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">

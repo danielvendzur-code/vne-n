@@ -150,9 +150,28 @@ html:root body .site-theme-white-green .lp-page .lp-switch-thumb {
   backface-visibility: hidden !important;
 }
 
+/* Prepínač sedí v pružnom stĺpci a dopĺňal výšku, ktorú stratil panel pod
+   ním: pri „Bez chatbota" je text kratší, panel sa zmenšil o 15 px a
+   prepínač sa o toľko natiahol. Výška je preto pevná a prepínač sa
+   neroztiahne. */
+html:root body .site-theme-white-green .lp-page .lp-comparison > .lp-switch {
+  flex: 0 0 auto !important;
+  height: 3.5rem !important;
+  min-height: 3.5rem !important;
+  max-height: 3.5rem !important;
+  align-self: stretch !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch > button {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding-block: 0 !important;
+}
+
 /* Panel pod prepínačom má pevnú výšku, takže sa pri prepnutí nezotrasie. */
 html:root body .site-theme-white-green .lp-page .lp-comparison-body {
-  min-height: 16.5rem !important;
+  /* Vyšší z oboch stavov, aby sa panel pri prepnutí nezmenšil. */
+  min-height: 21rem !important;
   align-content: start !important;
 }
 
