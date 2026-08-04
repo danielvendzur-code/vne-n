@@ -96,7 +96,7 @@ const MARK_PATHS = [
   "M24 71.2V29.2L52.5 55.4C54.1 57 57.9 57 59.5 55.4L88 29.2",
 ];
 
-const mark = (stroke, width = 4.3) =>
+const mark = (stroke, width = 6.2) =>
   MARK_PATHS.map(
     (d) =>
       `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`,
@@ -112,7 +112,7 @@ function iconSvg(size, { inset = 0.2, radius = 0.223, background = FOREST } = {}
   const offset = box * inset;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${box} ${box}">
   <rect width="${box}" height="${box}" rx="${box * radius}" fill="${background}"/>
-  <g transform="translate(${offset} ${offset}) scale(${scale})">${mark(LIME, 5.4)}</g>
+  <g transform="translate(${offset} ${offset}) scale(${scale})">${mark(LIME, 7)}</g>
 </svg>`;
 }
 
@@ -135,7 +135,7 @@ function ogSvg() {
 
   <g transform="translate(96 84) scale(0.62)">
     <rect width="112" height="112" rx="25" fill="${FOREST}"/>
-    <g transform="translate(22.4 22.4) scale(0.6)">${mark(LIME, 5.4)}</g>
+    <g transform="translate(22.4 22.4) scale(0.6)">${mark(LIME, 7)}</g>
   </g>
   <text x="184" y="146" font-family="Inter Tight, Inter, -apple-system, Segoe UI, sans-serif"
         font-size="34" font-weight="680" fill="${FOREST}" letter-spacing="-0.5">Môj Chatbot</text>

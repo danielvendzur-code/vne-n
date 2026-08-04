@@ -25,14 +25,15 @@ test("the public brand uses the approved option 1 geometry", async () => {
   assert.match(joined, new RegExp(escape(outerPath)));
   assert.match(joined, new RegExp(escape(innerPath)));
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
-  assert.match(component, /strokeWidth="4\.3"/);
+  // Ťah zhrubol zo 4,3 na 6,2 — pri 4,3 vychádzal v hlavičke na 1,3 px.
+  assert.match(component, /strokeWidth="6\.2"/);
 
   for (const asset of [exported, favicon]) {
     assert.equal((asset.match(/<path\b/g) ?? []).length, 2);
     assert.match(asset, new RegExp(escape(outerPath)));
     assert.match(asset, new RegExp(escape(innerPath)));
     assert.match(asset, /stroke="#B9ED4D"/);
-    assert.match(asset, /stroke-width="4\.3"/);
+    assert.match(asset, /stroke-width="6\.2"/);
   }
 
   // Favicon navyše sedí na tmavej lesnej dlaždici. Samotný limetkový ťah
