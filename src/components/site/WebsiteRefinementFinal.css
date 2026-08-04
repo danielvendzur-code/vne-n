@@ -731,7 +731,6 @@ body {
 /* Remaining cards use the same quiet matte language. */
 .lp-project > a,
 .lp-faq-item,
-.lp-process-list > li,
 .lp-final-card,
 .premium-footer,
 .sp-hero,
@@ -755,8 +754,6 @@ body {
 .lp-project > a::after,
 .lp-faq-item::before,
 .lp-faq-item::after,
-.lp-process-list > li::before,
-.lp-process-list > li::after,
 .lp-final-card::before,
 .lp-final-card::after,
 .premium-footer::before,
@@ -785,7 +782,6 @@ body {
 
 .lp-project > a:hover,
 .lp-faq-item:hover,
-.lp-process-list > li:hover,
 .sp-service:hover,
 .sp-project-card > a:hover {
   border-color: #365848 !important;

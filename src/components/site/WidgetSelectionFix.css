@@ -8,12 +8,6 @@
   initial-value: 0deg;
 }
 
-@keyframes cw-selection-orbit {
-  to {
-    --cw-selection-angle: 360deg;
-  }
-}
-
 /* Remove the previous clip-path border. On the first step it reused the
    row-card chevron pseudo-element and could appear displaced or top-heavy. */
 

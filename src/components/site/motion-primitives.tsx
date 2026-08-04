@@ -1,52 +1,105 @@
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useNarrowViewport, useReducedMotion } from "@/hooks/useReducedMotion";
 import "./Subpage.css";
 
-export const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+export const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+/**
+ * Pohybový slovník celého webu. Predtým mala každá sekcia vlastné číslo
+ * (0,58 – 0,94 s), takže sa web nehýbal jednou rýchlosťou. Tri trvania
+ * stačia na všetko a držia sa toho, čo je zvykom na produktových weboch:
+ * odchod je kratší než príchod, aby scrollovanie hore nepôsobilo ťažko.
+ */
+export const MOTION = {
+  fast: 0.22,
+  base: 0.42,
+  slow: 0.64,
+  stagger: 0.055,
+} as const;
 
 export const staggerParent: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: MOTION.stagger, delayChildren: 0.05 } },
 };
 
 export const staggerChild: Variants = {
-  hidden: { y: 22, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.68, ease: premiumEase } },
+  hidden: { y: 14, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: MOTION.base, ease: premiumEase } },
 };
 
 type RevealDirection = "up" | "left" | "right";
 
+/**
+ * Jediné odhalenie na celom webe. Domovská stránka mala donedávna
+ * vlastnú kópiu s inými číslami; obe sú teraz tu, vrátane úzkeho
+ * zobrazenia, kde bočný posun v 390 px stĺpci vyzeral trhane.
+ */
 export function Reveal({
   children,
   className = "",
   direction = "up",
   delay = 0,
-  distance = 36,
+  distance = 28,
   amount = 0.18,
   as: Tag = "div",
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
   direction?: RevealDirection;
   delay?: number;
   distance?: number;
+  /** Aká časť prvku musí byť vidieť, než sa spustí odhalenie. */
   amount?: number;
   as?: "div" | "section" | "article" | "li" | "span";
+  "data-open"?: boolean;
 }) {
   const reducedMotion = useReducedMotion();
-  const x = direction === "left" ? -distance : direction === "right" ? distance : 0;
-  const y = direction === "up" ? Math.min(distance, 28) : 0;
+  const narrow = useNarrowViewport();
   const Component = motion[Tag];
+
+  // Pri vypnutých animáciách sa obsah vykreslí bez akýchkoľvek stavov.
+  // Nesmie tu ostať `hidden` bez cieľa — obsah by ostal neviditeľný.
+  if (reducedMotion) {
+    return (
+      <Component className={className} {...rest}>
+        {children}
+      </Component>
+    );
+  }
+
+  const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
+  const y = direction === "up" ? Math.min(distance, 14) : 0;
 
   return (
     <Component
       className={className}
-      initial={reducedMotion ? false : { opacity: 0, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      // Obojsmerné: pri scrollovaní späť hore obsah zase odchádza.
-      viewport={{ once: false, amount, margin: "-6% 0px -6% 0px" }}
-      transition={{ duration: 0.72, delay, ease: premiumEase }}
+      // Obojsmerné: pri scrollovaní späť hore obsah zase odchádza. Trvanie
+      // odchodu sedí v `initial`, lebo práve doň sa prvok vracia, keď
+      // opustí zorné pole — a odchod má byť kratší než príchod.
+      initial={{
+        opacity: 0,
+        x,
+        y,
+        transition: { duration: MOTION.fast, ease: premiumEase },
+      }}
+      whileInView={{
+        opacity: 1,
+        x: 0,
+        y: 0,
+        transition: {
+          duration: MOTION.base,
+          delay: narrow ? Math.min(delay, 0.06) : delay,
+          ease: premiumEase,
+        },
+      }}
+      viewport={{
+        once: false,
+        amount: narrow ? 0.06 : amount,
+        margin: narrow ? "-4% 0px -6% 0px" : "-6% 0px -6% 0px",
+      }}
+      {...rest}
     >
       {children}
     </Component>
@@ -116,52 +169,5 @@ export function CtaBand({
         <div className="sp-cta-actions">{children}</div>
       </div>
     </Reveal>
-  );
-}
-
-/**
- * Section heading with kicker line, big display title and optional lead —
- * the same rhythm the landing page uses, portable to every subpage.
- */
-export function SectionHeading({
-  eyebrow,
-  children,
-  copy,
-  align = "left",
-}: {
-  eyebrow: string;
-  children: ReactNode;
-  copy?: string;
-  align?: "left" | "center";
-}) {
-  const reducedMotion = useReducedMotion();
-
-  return (
-    <motion.div
-      className="sp-heading"
-      data-align={align}
-      initial={reducedMotion ? false : "hidden"}
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.28, margin: "-8% 0px -8% 0px" }}
-      variants={{
-        hidden: { opacity: 0, x: -30 },
-        visible: {
-          opacity: 1,
-          x: 0,
-          transition: { duration: 0.7, ease: premiumEase, staggerChildren: 0.09 },
-        },
-      }}
-    >
-      <motion.p className="sp-eyebrow" variants={staggerChild}>
-        <i />
-        {eyebrow}
-      </motion.p>
-      <motion.h2 variants={staggerChild}>{children}</motion.h2>
-      {copy ? (
-        <motion.p className="sp-heading-copy" variants={staggerChild}>
-          {copy}
-        </motion.p>
-      ) : null}
-    </motion.div>
   );
 }

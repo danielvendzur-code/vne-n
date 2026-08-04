@@ -669,14 +669,6 @@ body {
   background: var(--interactive) !important;
 }
 
-.lp-process-list li {
-  border-top-color: rgba(245, 250, 248, 0.1) !important;
-}
-
-.lp-process-list li > svg {
-  color: var(--interactive) !important;
-}
-
 .lp-final-card {
   border: 1px solid rgba(146, 223, 187, 0.18) !important;
   border-radius: 22px !important;
@@ -718,17 +710,6 @@ body {
 .premium-footer-links button:hover,
 .premium-footer-links button:focus-visible {
   color: var(--interactive) !important;
-}
-
-.cookie-banner,
-.cookie-settings-dialog,
-.cookie-modal,
-[class*="cookie-consent"] {
-  border-color: rgba(146, 223, 187, 0.18) !important;
-  background: rgba(8, 29, 19, 0.94) !important;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.52) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  backdrop-filter: blur(24px) saturate(140%);
 }
 
 /* Universal interaction quality */

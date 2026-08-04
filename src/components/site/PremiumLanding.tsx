@@ -3,10 +3,9 @@ import { useRef, useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
-  MotionConfig,
-  useMotionValueEvent,
   useScroll,
   useSpring,
+  useTransform,
   type Variants,
 } from "motion/react";
 import {
@@ -35,16 +34,15 @@ import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { liveTools as liveToolLinks, realizations } from "@/data/realizations";
 import { useMagnetic } from "@/hooks/useMagnetic";
-import { useNarrowViewport, useReducedMotion } from "@/hooks/useReducedMotion";
-import { useSpotlight } from "@/hooks/useSpotlight";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useTimelineProgress } from "@/hooks/useTimelineProgress";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import { MOTION, premiumEase, Reveal } from "./motion-primitives";
 import "./PremiumLanding.css";
 import "./LandingFinish.css";
 
 type ComparisonMode = "without" | "with";
 type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
-type RevealDirection = "up" | "left" | "right";
 
 /**
  * Domovská stránka má dve verzie textu.
@@ -56,27 +54,29 @@ type RevealDirection = "up" | "left" | "right";
  */
 export type LandingVariant = "public" | "client";
 
-const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const heroSequence: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.085, delayChildren: 0.08 } },
+  visible: { transition: { staggerChildren: MOTION.stagger, delayChildren: 0.06 } },
 };
 
+// Riadok nadpisu sa posúva o 24 px, nie o celú svoju výšku. Text letiaci
+// cez 112 % vlastnej výšky je efekt z portfólia; web, ktorý má predať
+// službu, potrebuje nadpis čitateľný hneď.
 const heroLine: Variants = {
-  hidden: { y: "112%", opacity: 0 },
+  hidden: { y: 24, opacity: 0 },
   visible: {
-    y: "0%",
+    y: 0,
     opacity: 1,
-    transition: { duration: 0.82, ease: premiumEase },
+    transition: { duration: MOTION.slow, ease: premiumEase },
   },
 };
 
 const sequenceItem: Variants = {
-  hidden: { y: 26, opacity: 0 },
+  hidden: { y: 14, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: { duration: 0.78, ease: premiumEase },
+    transition: { duration: MOTION.base, ease: premiumEase },
   },
 };
 
@@ -316,7 +316,7 @@ const process = [
   {
     icon: MessageCircle,
     title: "Úvodný brief",
-    copy: "Spoločne pomenujete cieľ, najčastejšie otázky zákazníkov a údaje, ktoré má riešenie zbierať.",
+    copy: "Spoločne pomenujeme cieľ, najčastejšie otázky zákazníkov a údaje, ktoré má riešenie zbierať.",
     result: "Výstup: jasný rozsah prvej verzie a zoznam podkladov.",
   },
   {
@@ -356,82 +356,6 @@ function PageProgress() {
   return reducedMotion ? null : <AnimatedPageProgress />;
 }
 
-function Reveal({
-  children,
-  className = "",
-  direction = "up",
-  delay = 0,
-  distance = 38,
-  amount = 0.18,
-  ...rest
-}: {
-  children: ReactNode;
-  className?: string;
-  direction?: RevealDirection;
-  delay?: number;
-  distance?: number;
-  /** Aká časť prvku musí byť vidieť, než sa spustí odhalenie. */
-  amount?: number;
-  "data-open"?: boolean;
-}) {
-  const reducedMotion = useReducedMotion();
-  const narrow = useNarrowViewport();
-  // Na mobile sa všetko odhaľuje nahor. Bočný posun v 390 px stĺpci
-  // vyzeral trhane a časť prvkov prišla mimo obrazovky.
-  const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
-  const y = narrow ? 18 : direction === "up" ? Math.min(distance, 26) : 0;
-  const enterDuration = narrow ? 0.58 : 0.82;
-
-  // Pri vypnutých animáciách sa obsah vykreslí bez akýchkoľvek stavov.
-  // Predtým tu ostal `variants` s `hidden: { opacity: 0 }` a bez cieľa,
-  // do ktorého by sa animovalo — takže realizácie, možnosti aj otázky
-  // ostali pre týchto návštevníkov trvalo neviditeľné.
-  if (reducedMotion) {
-    return (
-      <div className={className} {...rest}>
-        {children}
-      </div>
-    );
-  }
-
-  return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      variants={{
-        // Jemné priblíženie k posunu — prvok akoby prišiel spoza roviny
-        // stránky namiesto toho, aby len skočil zdola. Scale aj opacity
-        // aj transform rieši grafická karta, takže to nič nestojí.
-        hidden: { opacity: 0, x, y, scale: narrow ? 1 : 0.985 },
-        visible: {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          transition: {
-            duration: enterDuration,
-            delay: narrow ? Math.min(delay, 0.06) : delay,
-            ease: premiumEase,
-          },
-        },
-      }}
-      // Odhalenie je obojsmerné — pri scrollovaní späť hore obsah zase
-      // odchádza. Jednorazové odhalenie tu kedysi bolo kvôli plynulosti;
-      // sekanie však spôsoboval filter cez celé pole v hero, nie tieto
-      // animácie.
-      viewport={{
-        once: false,
-        amount: narrow ? 0.06 : amount,
-        margin: narrow ? "-4% 0px -6% 0px" : "-6% 0px -6% 0px",
-      }}
-      {...rest}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 function Heading({
   eyebrow,
   index,
@@ -459,7 +383,11 @@ function Heading({
           // Nadpis nabieha po častiach: najprv linka s popiskom, potom
           // samotný nadpis, nakoniec veta pod ním. Rodič sa len odkryje,
           // pohyb si robí každá časť sama — inak by sa posun zdvojil.
-          transition: { duration: 0.4, ease: premiumEase, staggerChildren: 0.11 },
+          transition: {
+            duration: MOTION.fast,
+            ease: premiumEase,
+            staggerChildren: MOTION.stagger,
+          },
         },
       }}
     >
@@ -541,7 +469,9 @@ function Hero({ variant }: { variant: LandingVariant }) {
           initial={reducedMotion ? false : { opacity: 0, x: 54, scale: 0.975 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={
-            reducedMotion ? { duration: 0 } : { duration: 0.94, delay: 0.16, ease: premiumEase }
+            reducedMotion
+              ? { duration: 0 }
+              : { duration: MOTION.slow, delay: 0.12, ease: premiumEase }
           }
         >
           <div className="lp-assistant-card">
@@ -585,7 +515,9 @@ function Hero({ variant }: { variant: LandingVariant }) {
                 initial={reducedMotion ? false : { opacity: 0, x: 9, filter: "blur(4px)" }}
                 animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                 exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: -7, filter: "blur(3px)" }}
-                transition={reducedMotion ? { duration: 0 } : { duration: 0.22, ease: premiumEase }}
+                transition={
+                  reducedMotion ? { duration: 0 } : { duration: MOTION.fast, ease: premiumEase }
+                }
               >
                 <Check />
                 <span>{heroTools[activeTool].text}</span>
@@ -602,6 +534,43 @@ function Hero({ variant }: { variant: LandingVariant }) {
             </button>
           </div>
         </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Pás s dôkazom hneď pod hero. Čísla sa čítajú z tých istých údajov, aké
+ * vykresľujú sekcie nižšie, takže nemôžu zostarnúť.
+ *
+ * Zámerne bez animovaného počítadla — pri troch weboch pôsobí odpočet ako
+ * snaha nafúknuť malé číslo. A zámerne bez ceny: tá z domovskej stránky
+ * odišla už skôr a `scripts/security-audit.mjs` na to dohliada.
+ */
+const proofPoints = [
+  { value: String(realizations.length), label: "reálne weby, ktoré si viete otvoriť" },
+  { value: String(liveToolLinks.length), label: "živé nástroje na vyskúšanie v prehliadači" },
+  { value: "do 1 dňa", label: "zvyčajná odpoveď na zadanie" },
+  { value: `${process.length} kroky`, label: "od úvodného briefu po nasadenie" },
+];
+
+function ProofStrip() {
+  return (
+    <section className="lp-proof" aria-label="Čísla o službe">
+      <div className="container-page lp-proof-grid">
+        {proofPoints.map(({ value, label }, index) => (
+          <Reveal
+            className="lp-proof-item"
+            key={label}
+            as="div"
+            distance={16}
+            amount={0.4}
+            delay={Math.min(index * MOTION.stagger, 0.16)}
+          >
+            <b>{value}</b>
+            <span>{label}</span>
+          </Reveal>
+        ))}
       </div>
     </section>
   );
@@ -674,7 +643,9 @@ function ValueSection() {
               initial={reducedMotion ? false : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
-              transition={reducedMotion ? { duration: 0 } : { duration: 0.24, ease: premiumEase }}
+              transition={
+                reducedMotion ? { duration: 0 } : { duration: MOTION.fast, ease: premiumEase }
+              }
             >
               <div className="lp-comparison-copy">
                 <h3>{active.title}</h3>
@@ -748,7 +719,9 @@ function CapabilityGroup({
             initial={reducedMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={reducedMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
-            transition={reducedMotion ? { duration: 0 } : { duration: 0.34, ease: premiumEase }}
+            transition={
+              reducedMotion ? { duration: 0 } : { duration: MOTION.base, ease: premiumEase }
+            }
             style={{ overflow: "hidden" }}
           >
             <div className="lp-caps-chips" role="group" aria-label={title}>
@@ -795,7 +768,7 @@ function CapabilityGroup({
                     filter: "blur(0px)",
                     transition: reducedMotion
                       ? { duration: 0 }
-                      : { duration: 0.3, ease: premiumEase },
+                      : { duration: MOTION.base, ease: premiumEase },
                   }}
                   exit={
                     reducedMotion
@@ -804,7 +777,7 @@ function CapabilityGroup({
                           opacity: 0,
                           x: -8,
                           filter: "blur(3px)",
-                          transition: { duration: 0.15, ease: premiumEase },
+                          transition: { duration: MOTION.fast, ease: premiumEase },
                         }
                   }
                 >
@@ -989,7 +962,9 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
             initial={reducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={reducedMotion ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
-            transition={reducedMotion ? { duration: 0 } : { duration: 0.4, ease: premiumEase }}
+            transition={
+              reducedMotion ? { duration: 0 } : { duration: MOTION.base, ease: premiumEase }
+            }
           >
             <p>{answer}</p>
           </motion.div>
@@ -1125,36 +1100,22 @@ function ProcessAndCta() {
 }
 
 /**
- * Povrchy, ktoré reagujú na kurzor teplým svetlom. Jeden poslucháč na
- * celej stránke obslúži všetky — je to lacnejšie než listener na každej
- * karte a hlavne to nezávisí od toho, kedy sa ktorá sekcia vykreslí.
+ * Svetlo pod kurzorom aj `MotionConfig` sedia v `SiteLayout` a platia pre
+ * celý web. Domovská stránka si ich donedávna zakladala ešte raz, vnorene
+ * — so zoznamom povrchov, ktorý bol podmnožinou toho vonkajšieho.
  */
-const SPOTLIGHT_TARGETS = [
-  ".lp-assistant-card",
-  ".lp-project > a",
-  ".lp-caps-row-head",
-  ".lp-faq-item",
-  ".lp-final-card",
-  ".lp-comparison-body",
-  ".lp-tl-card",
-  ".lp-live-tools a",
-].join(", ");
-
 export function PremiumLanding({ variant = "public" }: { variant?: LandingVariant }) {
-  const pageRef = useSpotlight<HTMLDivElement>(SPOTLIGHT_TARGETS);
-
   return (
-    <MotionConfig reducedMotion="user">
-      <div className="lp-page" data-variant={variant} ref={pageRef}>
-        <PageProgress />
-        <Hero variant={variant} />
-        <DeratScrollStory />
-        <ValueSection />
-        <Realizations />
-        <Capabilities />
-        <FaqSection />
-        <ProcessAndCta />
-      </div>
-    </MotionConfig>
+    <div className="lp-page" data-variant={variant}>
+      <PageProgress />
+      <Hero variant={variant} />
+      <ProofStrip />
+      <DeratScrollStory />
+      <ValueSection />
+      <Realizations />
+      <Capabilities />
+      <FaqSection />
+      <ProcessAndCta />
+    </div>
   );
 }

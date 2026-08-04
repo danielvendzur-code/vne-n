@@ -65,6 +65,9 @@ import "@/components/site/RequestedPolishRound.css";
 // Hlavička bez presakovania, pokojnejší panel menu, viditeľné čísla
 // sekcií a formulár poskladaný do jedného panela.
 import "@/components/site/MenuAndFormFinal.css";
+// Jedna škála priestoru, jeden slovník pohybu a z nich odvodené mriežky,
+// miery nadpisov a predely medzi sekciami.
+import "@/components/site/SystemFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

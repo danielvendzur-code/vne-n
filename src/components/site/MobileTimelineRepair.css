@@ -67,12 +67,10 @@
     display: none !important;
   }
 
-  html:root body .lp-page .lp-process-list,
   html:root body .sp-page--process .sp-timeline {
     gap: 1rem !important;
   }
 
-  html:root body .lp-page .lp-process-list::before,
   html:root body .sp-page--process .sp-timeline::before,
   html:root body .lp-page .lp-timeline-progress,
   html:root body .sp-page--process .sp-timeline-progress {
@@ -81,10 +79,7 @@
     margin-left: -1px !important;
   }
 
-  /* The list item is layout only. It must never look like another card. */
-  html:root body .lp-page .lp-process-list > li,
   html:root body .sp-page--process .sp-timeline-item,
-  html:root body .lp-page .lp-process-list > li[data-reached="true"],
   html:root body .sp-page--process .sp-timeline-item[data-reached="true"] {
     display: grid !important;
     grid-template-columns: 27px minmax(0, 1fr) !important;
@@ -100,10 +95,6 @@
     overflow: visible !important;
   }
 
-  /* The inner body is the single visible card. */
-  html:root body .lp-page .lp-process-list > li .lp-step-body,
-  html:root body .lp-page .lp-process-list > li[data-side="left"] .lp-step-body,
-  html:root body .lp-page .lp-process-list > li[data-side="right"] .lp-step-body,
   html:root body .sp-page--process .sp-timeline-item .sp-step,
   html:root body .sp-page--process .sp-timeline-item[data-side="left"] .sp-step,
   html:root body .sp-page--process .sp-timeline-item[data-side="right"] .sp-step {
@@ -120,15 +111,13 @@
     overflow: hidden !important;
   }
 
-  html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-body,
   html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step {
     border-color: rgba(179, 233, 208, 0.32) !important;
     box-shadow: 0 22px 56px -42px rgba(179, 233, 208, 0.35) !important;
   }
 
-  /* Nodes sit beside the step label, not in the vertical centre of tall cards. */
-  html:root body .lp-page .lp-step-node,
-  html:root body .sp-page--process .sp-step-node {
+  /* Nodes sit beside the step label,
+html:root body .sp-page--process .sp-step-node{
     left: var(--timeline-axis) !important;
     top: 27px !important;
     width: 17px !important;
@@ -138,14 +127,12 @@
     box-shadow: 0 0 0 4px #0a0908 !important;
   }
 
-  html:root body .lp-page .lp-step-node > i,
-  html:root body .sp-page--process .sp-step-node > i {
+  html:root body .sp-page--process .sp-step-node > i{
     width: 7px !important;
     height: 7px !important;
   }
 
-  html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-node,
-  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step-node {
+  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step-node{
     background: #100b08 !important;
     box-shadow:
       0 0 0 4px #0a0908,
@@ -170,8 +157,7 @@
     text-transform: uppercase !important;
   }
 
-  html:root body .lp-page .lp-step-body h3,
-  html:root body .sp-page--process .sp-step h2 {
+  html:root body .sp-page--process .sp-step h2{
     max-width: 100% !important;
     margin: 0 !important;
     font-size: clamp(1.24rem, 5.7vw, 1.48rem) !important;
@@ -183,8 +169,7 @@
     text-wrap: pretty !important;
   }
 
-  html:root body .lp-page .lp-step-body > p:not(.lp-step-result),
-  html:root body .sp-page--process .sp-step > p:not(.sp-step-label) {
+  html:root body .sp-page--process .sp-step > p:not(.sp-step-label){
     max-width: 100% !important;
     margin: 0.68rem 0 0 !important;
     font-size: 0.91rem !important;

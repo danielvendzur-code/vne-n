@@ -622,12 +622,6 @@ html:root body .site-theme-white-green :is(.lp-timeline-progress, .sp-timeline-p
   box-shadow: 0 0 28px rgba(217, 255, 120, 0.36) !important;
 }
 
-html:root body .site-theme-white-green :is(.lp-step-body, .sp-step) {
-  color: #ffffff !important;
-  border-color: rgba(217, 255, 120, 0.16) !important;
-  background: rgba(255, 255, 255, 0.055) !important;
-}
-
 html:root body .site-theme-white-green :is(.lp-step-result, .lp-step-result span) {
   color: #dce9df !important;
   border-color: rgba(255, 255, 255, 0.13) !important;

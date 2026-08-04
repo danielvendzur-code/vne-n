@@ -274,24 +274,6 @@ html:root body .lp-page .lp-eyebrow::after {
   background-color: var(--brand-primary) !important;
 }
 
-html:root
-  body
-  .lp-page
-  :is(
-    .lp-hero-lead,
-    .lp-heading-copy,
-    .lp-caps-row-head p,
-    .lp-caps-detail-copy p,
-    .lp-caps-detail-spec dd,
-    .lp-caps-note p,
-    .lp-faq-body p,
-    .lp-process-list li p,
-    .lp-final-card p,
-    .derat-story p
-  ) {
-  color: var(--brand-ink-dim) !important;
-}
-
 html:root body .lp-page .lp-heading,
 html:root body .lp-page .lp-heading-copy,
 html:root body .lp-page .lp-eyebrow {
@@ -312,7 +294,10 @@ html:root
     .lp-faq-list,
     .lp-faq-item,
     .lp-final-card,
-    .lp-process-list > li
+    .lp-project,
+    .lp-proof-item,
+    .lp-live-tools,
+    .lp-caps-note
   ) {
   animation-name: none !important;
   animation-timeline: auto !important;
@@ -765,58 +750,6 @@ html:root body .lp-page .lp-timeline-progress {
   box-shadow: 0 0 16px rgba(179, 233, 208, 0.34) !important;
 }
 
-html:root body .lp-page .lp-process-list > li {
-  border: 1px solid rgba(222, 246, 235, 0.09) !important;
-  background: #12100e !important;
-  box-shadow: none !important;
-  opacity: 1 !important;
-  filter: none !important;
-  transition:
-    opacity 420ms var(--client-ease),
-    transform 420ms var(--client-ease),
-    border-color 420ms var(--client-ease),
-    box-shadow 420ms var(--client-ease),
-    filter 420ms var(--client-ease) !important;
-}
-
-html:root body .lp-page .lp-process-list > li:not([data-reached="true"]) .lp-step-body {
-  opacity: 0.76 !important;
-  transition: opacity 360ms var(--client-ease) !important;
-}
-
-html:root body .lp-page .lp-process-list > li:not([data-reached="true"]) .lp-step-icon {
-  opacity: 0.58 !important;
-}
-
-html:root body .lp-page .lp-process-list > li[data-reached="true"] {
-  border-color: rgba(179, 233, 208, 0.2) !important;
-  opacity: 1 !important;
-  filter: none !important;
-  box-shadow: 0 24px 58px -48px rgba(179, 233, 208, 0.46) !important;
-}
-
-html:root body .lp-page .lp-step-node {
-  border: 1px solid rgba(179, 233, 208, 0.24) !important;
-  background: #0a0908 !important;
-  box-shadow: 0 0 0 5px #0a0908 !important;
-}
-
-html:root body .lp-page .lp-step-node i {
-  background: rgba(179, 233, 208, 0.26) !important;
-}
-
-html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-node {
-  border-color: var(--brand-primary) !important;
-  background: var(--brand-primary) !important;
-  box-shadow:
-    0 0 0 5px #0a0908,
-    0 0 24px rgba(179, 233, 208, 0.52) !important;
-}
-
-html:root body .lp-page .lp-process-list > li[data-reached="true"] .lp-step-node i {
-  background: var(--brand-on-fill) !important;
-}
-
 html:root body .lp-page .lp-step-icon {
   color: var(--brand-primary) !important;
   border-color: transparent !important;
@@ -1107,10 +1040,6 @@ html:root body .contact-kicker i {
     border-radius: 15px !important;
   }
 
-  html:root body .lp-page .lp-process-list > li {
-    padding: 20px 18px !important;
-  }
-
   html:root body .lp-page .lp-timeline-wrap {
     padding-left: 38px !important;
   }
@@ -1118,10 +1047,6 @@ html:root body .contact-kicker i {
   html:root body .lp-page .lp-timeline-wrap::before,
   html:root body .lp-page .lp-timeline-progress {
     left: 8px !important;
-  }
-
-  html:root body .lp-page .lp-step-node {
-    left: -38px !important;
   }
 }
 
@@ -1155,8 +1080,7 @@ html:root body .contact-kicker i {
     animation: none !important;
   }
 
-  html:root body .lp-page .lp-switch-thumb,
-  html:root body .lp-page .lp-process-list > li {
+  html:root body .lp-page .lp-switch-thumb {
     transition: none !important;
   }
 }

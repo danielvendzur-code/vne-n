@@ -1,0 +1,452 @@
+/* =====================================================================
+   MÔJ CHATBOT — SÚSTAVA
+
+   Predošlé vrstvy riešili jednotlivé chyby. Táto rieši to, čo ich
+   spôsobovalo: web nemal spoločnú škálu. V CSS bolo dvanásť rôznych
+   `padding-block` pre sekcie a vyše štrnásť rôznych `gap: clamp(...)`,
+   takže raz stránka dýchala a inde bola tesná bez pravidla.
+
+   Tu je jedna škála priestoru, jeden slovník pohybu a z nich odvodené
+   mriežky, miery nadpisov a predely medzi sekciami.
+
+   Importuje sa posledná, takže má právo prepísať staršie vrstvy.
+   ===================================================================== */
+
+:root {
+  /* Škála priestoru. Každý ďalší krok je zhruba 1,5-násobok
+     predchádzajúceho — to je dosť na to, aby boli rozdiely viditeľné,
+     a málo na to, aby bolo z čoho vyberať. */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  /* Odsadenie sekcie a medzera medzi stĺpcami. Odvodené od šírky okna,
+     takže na telefóne nie je sekcia prehnane vysoká. */
+  --sp-section: clamp(5rem, 8vw, 8rem);
+  --sp-section-tight: clamp(3rem, 5vw, 4.5rem);
+  --sp-gutter: clamp(2.5rem, 6vw, 6rem);
+
+  /* Slovník pohybu. Tri trvania na celý web namiesto rozptylu
+     0,15 – 0,94 s. Odchod je zámerne kratší než príchod — scrollovanie
+     späť hore tak nepôsobí ťažko. */
+  --motion-fast: 220ms;
+  --motion-base: 420ms;
+  --motion-slow: 640ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------------------------------------------------------------------
+   1. Rytmus sekcií z jednej hodnoty
+   --------------------------------------------------------------------- */
+/* `clip` namiesto `hidden`: obe orežú vodoznak, ale `hidden` z prvku
+   spraví posuvnú oblasť. Lepiaci stĺpec sa potom počíta voči nej, a keďže
+   sa tá nikdy neposúva, `top: 7.5rem` len odtlačilo nadpis o 120 px nižšie
+   — preto bola v otázkach vľavo diera. Zoznam v `:is()` je tu zámerne
+   rovnaký ako vo vrstve, ktorá `hidden` nastavuje, aby ju táto prebila. */
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  > section:is(.lp-hero, .lp-proof, .derat-story, .lp-value, .lp-portfolio, .lp-caps, .lp-faq, .lp-process) {
+  overflow: clip !important;
+  padding-block: var(--sp-section) !important;
+}
+
+/* ---------------------------------------------------------------------
+   2. Pás s dôkazom pod hero
+   Tenký prúžok so štyrmi číslami. Nie je to plnohodnotná sekcia, takže
+   si berie tesné odsadenie a nemá vlastný vodoznak.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page > section.lp-proof {
+  padding-block: var(--sp-6) !important;
+  border-top: 1px solid rgba(11, 47, 32, 0.08);
+  border-bottom: 1px solid rgba(11, 47, 32, 0.08);
+  background: #f7faf4;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-5) var(--sp-6);
+}
+
+html:root body .site-theme-white-green .lp-page .lp-proof-item {
+  display: grid;
+  gap: var(--sp-2);
+  align-content: start;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-proof-item + .lp-proof-item {
+  padding-left: var(--sp-6);
+  border-left: 1px solid rgba(11, 47, 32, 0.1);
+}
+
+html:root body .site-theme-white-green .lp-page .lp-proof-item b {
+  color: #0b2f20;
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-weight: 620;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-proof-item span {
+  max-width: 22ch;
+  color: #4c5a52;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-proof-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-proof-item:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. Miera nadpisov
+   Displejové nadpisy sedeli v stĺpcoch širokých ~380 px, takže z jednej
+   vety vzniklo päť riadkov po dvoch slovách. Miera v `ch` drží riadok
+   v rozumnej dĺžke a `text-wrap: balance` dorovná riadky medzi sebou,
+   takže posledný neostane osamotený.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-heading h2,
+html:root body .site-theme-white-green .lp-page .derat-story__heading h2 {
+  max-width: 20ch !important;
+  /* O stupeň menší displej. Pri 52 px sa do stĺpca zmestí desať znakov
+     na riadok, takže z každej vety vznikol stĺpec dvojslovných riadkov.
+     Zámerne tu nie je `text-wrap: balance` — ten dorovnáva riadky na
+     rovnakú dĺžku, čo pri nadpise na štyri riadky vyrobí ešte kratšie. */
+  font-size: clamp(2.05rem, 3.15vw, 3.1rem) !important;
+  text-wrap: pretty;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-heading-copy,
+html:root body .site-theme-white-green .lp-page .derat-story__intro p {
+  max-width: 44ch !important;
+  text-wrap: pretty;
+}
+
+html:root body .site-theme-white-green .lp-page :is(h3, h4) {
+  text-wrap: balance;
+}
+
+/* Krátka čiarka pod každým nadpisom. Presne tá, ktorú sme raz
+   odstraňovali z popisiek — tu ostala v inej vrstve. */
+html:root body .site-theme-white-green .lp-page .lp-heading::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Stĺpec s nadpisom v porovnaní mal 18 rem, takže sa nadpis lámal po
+   dvoch slovách, kým vpravo ostávalo miesto. */
+html:root body .site-theme-white-green .lp-page .lp-value > .container-page {
+  grid-template-columns: minmax(23rem, 0.85fr) minmax(0, 1.15fr) !important;
+  gap: var(--sp-gutter) !important;
+}
+
+/* Panel porovnania: nadpis mal 14 znakov miery v stĺpci širokom 296 px,
+   takže sa lámal na tri riadky, a `min-height: 24rem` pod ním nechávala
+   pás prázdna. Výška ostáva pevná, aby panel pri prepnutí neposkakoval,
+   len bližšie k tomu, čo v ňom naozaj je. */
+html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.72fr) !important;
+  min-height: 19rem !important;
+  gap: var(--sp-6) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-copy h3 {
+  max-width: 18ch !important;
+  font-size: clamp(1.7rem, 2.2vw, 2.2rem) !important;
+}
+
+/* Zvýraznená časť nadpisu v lesnom páse mala zelenú z bielych sekcií.
+   Na tmavom podklade z toho vyšlo 3,05 : 1 — tesne nad hranicou pre veľký
+   text a v skutočnosti sotva čitateľné. Limetková je tam aj tak doma. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-heading h2 em {
+  color: #d9ff78 !important;
+  background: none !important;
+  -webkit-text-fill-color: #d9ff78 !important;
+}
+
+/* Popiska nad hero sa na širokej obrazovke zmestí do jedného riadku. */
+html:root body .site-theme-white-green .lp-page .lp-hero-context {
+  max-width: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Otázky: lepiaci stĺpec a zarovnaná základňa
+   Stĺpec s nadpisom bol úzky (19 rem), takže sa nadpis lámal, a zoznam
+   vedľa začínal vyššie než on.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-faq-grid {
+  grid-template-columns: minmax(26rem, 0.9fr) minmax(0, 1.1fr) !important;
+  align-items: start !important;
+  gap: var(--sp-gutter) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-side {
+  position: sticky !important;
+  top: 7.5rem !important;
+  /* Bez tohto by lepiaci stĺpec ostal vysoký ako celá mriežka a nemal
+     by sa v čom posúvať. */
+  align-self: start !important;
+}
+
+html:root body .site-theme-white-green .lp-page :is(.lp-faq-side, .lp-faq-list) > *:first-child {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 1024px) {
+  html:root body .site-theme-white-green .lp-page .lp-faq-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-faq-side {
+    position: static !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   5. Realizácie: poradové číslo prestalo prekrývať názov
+   Neskoršia vrstva presunula číslo do mriežky (`grid-row`), ale nezrušila
+   `position: absolute` zo staršej — číslo tak ostalo mimo toku a sadlo si
+   na „Koverta" aj „WEBKO".
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-project-copy > span {
+  position: static !important;
+  align-self: start !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-copy p {
+  /* Pravý odstup patril k pôvodnému číslu v rohu. */
+  margin-right: 0 !important;
+}
+
+/* Prvá karta je iná: číslo je na nej zámerne veľký tichý vodoznak v rohu,
+   takže tam absolútne umiestnenie patrí. */
+@media (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy > span {
+    position: absolute !important;
+  }
+
+  /* Stĺpec s textom mal 17 rem, z toho po odsadení ostalo ~150 px — do
+     toho sa nezmestil ani názov „Môj Plot". */
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) > a {
+    grid-template-columns: minmax(0, 1fr) minmax(21rem, 0.78fr) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-project:nth-child(1) .lp-project-copy h3 {
+    font-size: clamp(2.1rem, 2.85vw, 3rem) !important;
+  }
+
+  /* Jediné anglické slovo na celom webe. */
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-copy::before {
+    content: "VYBRANÉ" !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   6. Panel „Nie je tu to, čo hľadáte?"
+   Jediný čiarkovaný rám na webe, s ikonou osamotenou vľavo a textom na
+   stred. Teraz je to rovnaká karta ako všetko ostatné.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-caps-note {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: var(--sp-4) var(--sp-5) !important;
+  margin-top: var(--sp-7) !important;
+  padding: var(--sp-5) !important;
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  border-radius: 1.25rem !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 44px -40px rgba(11, 47, 32, 0.45) !important;
+  text-align: left !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-note > svg {
+  width: 1.35rem !important;
+  height: 1.35rem !important;
+  color: #19834f !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-note__body {
+  display: flex !important;
+  /* Staršia vrstva stavia obsah do stĺpca a na stred, takže veta aj
+     tlačidlo skončili uprostred panela. */
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: var(--sp-4) !important;
+  width: 100% !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-note__body p {
+  margin: 0 !important;
+  color: #0b2f20 !important;
+  font-size: 1.02rem !important;
+  font-weight: 560 !important;
+  text-align: left !important;
+}
+
+/* ---------------------------------------------------------------------
+   7. Predel, ktorý drží
+   Tvrdá hrana medzi bielou a lesnou plochou pôsobila ako zlom. Lesný pás
+   sa teraz podkladá pod predchádzajúcu sekciu a hore je zaoblený.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page > section[data-band="forest"] {
+  margin-top: calc(-1 * var(--sp-5));
+  border-top: 0 !important;
+  border-radius: 2.5rem 2.5rem 0 0;
+  padding-top: calc(var(--sp-section) + var(--sp-5)) !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .site-theme-white-green .lp-page > section[data-band="forest"] {
+    border-radius: 1.75rem 1.75rem 0 0;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   8. Paralax vodoznakov
+   Veľké číslo sekcie sa počas prechodu obrazovkou posunie o ±44 px.
+   Beží to na časovej osi scrollu, nie v JavaScripte, takže to nestojí
+   ani jeden snímok navyše. Prehliadače bez podpory ukážu číslo staticky.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    html:root body .site-theme-white-green .lp-page > section[data-band]::before {
+      animation: sf-watermark-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes sf-watermark-drift {
+  from {
+    transform: translateY(44px);
+  }
+
+  to {
+    transform: translateY(-44px);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   9. Prechod medzi stránkami
+   Doteraz to bolo len zosvetlenie. Krátky posun nadol dá zmene stránky
+   smer. Výplň zámerne nie je `both` — po dobehnutí sa `translate` vráti
+   na `none`, aby stránka neostala natrvalo blokom, voči ktorému by sa
+   umiestňovali pevné vrstvy.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html:root body .page-transition {
+    animation: sf-page-in var(--motion-base) var(--motion-ease) backwards !important;
+  }
+}
+
+@keyframes sf-page-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   10. Výber štítku má viditeľné potvrdenie
+   `green-selection-pop` menil mierku štítku, takže po kliknutí poskočil —
+   presne to, čo sme raz odstraňovali. Namiesto toho z okraja vybehne
+   prstenec a zhasne. Štítok pritom nezmení ani polohu, ani veľkosť.
+   --------------------------------------------------------------------- */
+html:root body .lp-page :is(.lp-chip, .lp-hero-pick) {
+  position: relative !important;
+}
+
+html:root body .lp-page :is(.lp-chip, .lp-hero-pick)[data-selected="true"]::after,
+html:root body .lp-page :is(.lp-chip, .lp-hero-pick)[data-active="true"]::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  border-radius: inherit !important;
+  pointer-events: none !important;
+  background: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:root body .lp-page :is(.lp-chip, .lp-hero-pick)[data-selected="true"]::after,
+  html:root body .lp-page :is(.lp-chip, .lp-hero-pick)[data-active="true"]::after {
+    animation: sf-selection-ring var(--motion-slow) var(--motion-ease) both !important;
+  }
+}
+
+@keyframes sf-selection-ring {
+  from {
+    box-shadow: 0 0 0 0 rgba(25, 131, 79, 0.5);
+  }
+
+  to {
+    box-shadow: 0 0 0 9px rgba(25, 131, 79, 0);
+  }
+}
+
+/* Štítok sa nikdy neposúva — mení sa len farba a prstenec okolo neho. */
+html:root body .lp-page :is(.lp-chip, .lp-hero-pick) {
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease) !important;
+}
+
+/* ---------------------------------------------------------------------
+   11. Jednotné trvania pre stavy komponentov
+   Karty, tlačidlá a odkazy mali každý vlastné číslo medzi 80 a 420 ms.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green
+  .lp-page
+  :is(.lp-project > a, .lp-caps-row-head, .lp-faq-item, .lp-tl-card, .lp-live-tools a, .lp-button) {
+  transition:
+    border-color var(--motion-fast) var(--motion-ease),
+    background-color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-base) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease) !important;
+}
+
+/* ---------------------------------------------------------------------
+   12. Odsadenia sekcií z tokenov
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-heading + * {
+  margin-top: var(--sp-7) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-rows {
+  gap: var(--sp-3) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-list {
+  gap: var(--sp-3) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-live-tools {
+  margin-top: var(--sp-7) !important;
+  gap: var(--sp-3) !important;
+}

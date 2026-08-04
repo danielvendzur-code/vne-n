@@ -589,7 +589,6 @@ html body .sp-page--process .sp-section:first-of-type :is(p, li) {
   color: #c7d9ce !important;
 }
 
-html body .lp-process-list::before,
 html body .sp-timeline::before {
   background: rgba(255, 255, 255, 0.16) !important;
 }
@@ -600,7 +599,6 @@ html body .sp-timeline-progress {
   box-shadow: 0 0 28px rgba(217, 255, 120, 0.42) !important;
 }
 
-html body .lp-step-body,
 html body .sp-step {
   color: #ffffff !important;
   border: 1px solid rgba(217, 255, 120, 0.15) !important;
@@ -608,7 +606,6 @@ html body .sp-step {
   box-shadow: 0 28px 70px -50px rgba(0, 0, 0, 0.72) !important;
 }
 
-html body .lp-process-list > li[data-reached="true"] .lp-step-body,
 html body .sp-timeline-item[data-reached="true"] .sp-step {
   border-color: rgba(217, 255, 120, 0.42) !important;
   background: rgba(217, 255, 120, 0.075) !important;
@@ -625,13 +622,11 @@ html body .sp-step-label svg {
   color: #d9ff78 !important;
 }
 
-html body .lp-step-node,
 html body .sp-step-node {
   border-color: #0b2f20 !important;
   background: #54715f !important;
 }
 
-html body .lp-process-list > li[data-reached="true"] .lp-step-node,
 html body .sp-timeline-item[data-reached="true"] .sp-step-node {
   background: #d9ff78 !important;
   box-shadow:
