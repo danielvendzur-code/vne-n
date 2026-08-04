@@ -4,9 +4,6 @@
    - Hlavička pri scrollovaní hore presakovala: maska mala rozostrenie
      pozadia a mäkký spodný okraj, cez ktorý bolo vidieť prebiehajúci
      obsah. Teraz je to pevný pás, ktorý končí ostro.
-   - Panel menu dostal pokojnejší tvar: bez odsadených značiek pri
-     každom riadku, s výraznejším aktívnym stavom a s výzvou na kontakt
-     na konci.
    - Vodoznak s číslom sekcie bol na svetlom páse takmer neviditeľný,
      takže číslo bolo vidieť len na tmavej šiestej sekcii.
    - Popiska nad hero sa lámala tak, že na druhom riadku ostalo osamotené
@@ -32,97 +29,6 @@ html:root body .site-theme-white-green .site-header::before {
 /* Nič spod hlavičky sa nesmie kresliť cezeň. */
 html:root body .site-theme-white-green .site-header {
   background: #ffffff !important;
-}
-
-/* ---------------------------------------------------------------------
-   2. Panel menu
-   --------------------------------------------------------------------- */
-html:root body .site-theme-white-green .site-menu-drawer {
-  border-radius: 0 !important;
-  background:
-    radial-gradient(circle at 84% -6%, rgba(185, 237, 77, 0.16), transparent 24rem),
-    #0b2f20 !important;
-}
-
-html:root body .site-theme-white-green .site-menu-head {
-  padding-block: 1.35rem !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Navigácia: celý riadok je plocha na klik, bez čiarok pred ním. */
-html:root body .site-theme-white-green .rb-line-sidebar--markers {
-  padding-left: 0 !important;
-}
-
-html:root body .site-theme-white-green .rb-line-sidebar__marker {
-  display: none !important;
-}
-
-html:root body .site-theme-white-green .rb-line-sidebar__item {
-  transform: none !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
-}
-
-html:root body .site-theme-white-green .rb-line-sidebar__item:last-child {
-  border-bottom: 0 !important;
-}
-
-html:root body .site-theme-white-green .rb-line-sidebar__label {
-  display: flex !important;
-  align-items: baseline !important;
-  gap: 0.9rem !important;
-  padding: 0.85rem 0.9rem !important;
-  border-radius: 0.9rem !important;
-  color: #ffffff !important;
-  font-size: 1.12rem !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.02em !important;
-  transition:
-    background-color 220ms var(--ease-smooth, ease),
-    padding-left 220ms var(--ease-smooth, ease) !important;
-}
-
-html:root body .site-theme-white-green .rb-line-sidebar__index {
-  flex: 0 0 auto !important;
-  color: rgba(217, 255, 120, 0.72) !important;
-  font-size: 0.7rem !important;
-  font-weight: 760 !important;
-  letter-spacing: 0.1em !important;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html:root body .site-theme-white-green .rb-line-sidebar__label:hover {
-    padding-left: 1.35rem !important;
-    background: rgba(255, 255, 255, 0.07) !important;
-  }
-
-  html:root body .site-theme-white-green .rb-line-sidebar__label:hover .rb-line-sidebar__index {
-    color: #d9ff78 !important;
-  }
-}
-
-html:root body .site-theme-white-green .rb-line-sidebar__label:focus-visible {
-  background: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Výzva na kontakt na konci panela. */
-html:root body .site-theme-white-green .site-menu-footer {
-  padding-top: 1.4rem !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-html:root body .site-theme-white-green .site-menu-project-link {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 0.55rem !important;
-  min-height: 3rem !important;
-  margin-top: 0.4rem !important;
-  padding: 0 1.3rem !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  color: #0b2f20 !important;
-  background: #d9ff78 !important;
-  font-weight: 680 !important;
 }
 
 /* ---------------------------------------------------------------------
@@ -218,7 +124,13 @@ html:root body .site-theme-white-green .contact-card .contact-fields-two > label
 }
 
 html:root body .site-theme-white-green .contact-card form > label:focus-within > span,
-html:root body .site-theme-white-green .contact-card .contact-fields-two > label:focus-within > span {
+html:root
+  body
+  .site-theme-white-green
+  .contact-card
+  .contact-fields-two
+  > label:focus-within
+  > span {
   color: #0f6a3e !important;
 }
 

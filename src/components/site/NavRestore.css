@@ -1,0 +1,254 @@
+/* =====================================================================
+   MÔJ CHATBOT — NAVIGÁCIA SPÄŤ NA PÔVODNÚ PODOBU
+
+   Panel menu sa v posledných kolách postupne rozpadol: neskoršie vrstvy
+   ho zúžili na 560 px, zrovnali rohy a zrušili odsadené značky pri
+   riadkoch, takže dvojstĺpcová stavba z `BrandMenuV2.css` sa zliala do
+   jedného úzkeho stĺpca.
+
+   Táto vrstva vracia geometriu a správanie, ktoré tam boli predtým, a
+   pridáva k nim tri nové požiadavky: väčšia značka, o stupeň väčšia
+   horná navigácia a zavieracie tlačidlo, ktoré nie je zelené.
+
+   Mení výhradne hlavičku a menu.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Značka je väčšia a čitateľnejšia
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header-bar {
+  min-height: 66px !important;
+  padding-inline: clamp(0.9rem, 1.6vw, 1.35rem) !important;
+}
+
+html:root body .site-theme-white-green .site-brand-lockup {
+  gap: 0.72rem !important;
+}
+
+html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-symbol {
+  width: 42px !important;
+  height: 42px !important;
+}
+
+html:root body .site-theme-white-green .site-brand-name {
+  font-size: 1.16rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* ---------------------------------------------------------------------
+   2. Horná navigácia o stupeň sebavedomejšia
+   Väčší text, viac miesta medzi položkami a poriadna klikateľná plocha —
+   bez toho, aby z hlavičky bol pás.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-nav-link {
+  padding-block: 0.85rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 620 !important;
+}
+
+@media (min-width: 1024px) {
+  html:root body .site-theme-white-green .site-header nav[aria-label="Rýchla navigácia"] {
+    gap: 2.35rem !important;
+  }
+}
+
+html:root body .site-theme-white-green .site-consultation-cta {
+  min-height: 2.6rem !important;
+  padding-inline: 1.15rem !important;
+  font-size: 0.9rem !important;
+}
+
+html:root body .site-theme-white-green .site-menu-toggle {
+  min-height: 2.6rem !important;
+  padding-inline: 0.95rem !important;
+  font-size: 0.9rem !important;
+}
+
+/* ---------------------------------------------------------------------
+   3. Panel menu späť na pôvodnú šírku a tvar
+   `BrandMenuV2.css` ho kreslil ako 48rem široký panel s dvoma stĺpcami.
+   Neskoršie vrstvy ho stlačili na 560 px, čím sa mriežka zliala.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-menu-drawer {
+  width: min(52rem, 96vw) !important;
+  max-width: min(52rem, 96vw) !important;
+  border-radius: 1.75rem 0 0 1.75rem !important;
+}
+
+@media (max-width: 620px) {
+  html:root body .site-theme-white-green .site-menu-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* Dva stĺpce sa riadia šírkou panela, nie šírkou okna — panel je široký
+   52 rem aj na 1200 px obrazovke. */
+html:root body .site-theme-white-green .site-menu-grid {
+  display: grid !important;
+  grid-template-columns: minmax(14rem, 0.88fr) minmax(16rem, 1.12fr) !important;
+  gap: clamp(2rem, 4vw, 3.4rem) !important;
+  align-items: start !important;
+}
+
+@media (max-width: 860px) {
+  html:root body .site-theme-white-green .site-menu-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1.9rem !important;
+  }
+}
+
+html:root body .site-theme-white-green .site-menu-services {
+  padding-left: clamp(1.2rem, 2.6vw, 2.1rem) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+@media (max-width: 860px) {
+  html:root body .site-theme-white-green .site-menu-services {
+    padding: 1.4rem 0 0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-left: 0 !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4. Riadky navigácie majú späť odsadené značky
+   Značka pri riadku bola pôvodná mechanika `LineSidebar`: čiarka rastie
+   a riadok sa posunie za ňou. Predošlé kolo ju skrylo a nahradilo
+   podfarbením celého riadku, čo z menu spravilo obyčajný zoznam.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .rb-line-sidebar--markers {
+  padding-left: 0 !important;
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__marker {
+  display: block !important;
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__item {
+  border-bottom: 0 !important;
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__label {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 0.8rem !important;
+  padding: 0.42rem 0 !important;
+  border-radius: 0 !important;
+  color: #f7fcfa !important;
+  font-size: 1.22rem !important;
+  font-weight: 640 !important;
+  letter-spacing: -0.022em !important;
+  background: none !important;
+  transition: color 240ms var(--ease-smooth, ease) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .rb-line-sidebar__label:hover {
+    padding-left: 0 !important;
+    color: #d9ff78 !important;
+    background: none !important;
+  }
+}
+
+html:root body .site-theme-white-green .rb-line-sidebar__label:focus-visible {
+  background: none !important;
+  outline-offset: 4px !important;
+}
+
+/* ---------------------------------------------------------------------
+   5. „Zavrieť" nie je zelené
+   Limetková ho stavala na roveň hlavnej výzve. Teraz je to pokojné
+   svetlé tlačidlo na tmavom paneli — dobre viditeľné, ale nesúperí.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-menu-close {
+  min-height: 2.7rem !important;
+  padding: 0 1.05rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 999px !important;
+  color: #f7fcfa !important;
+  background: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: none !important;
+  font-size: 0.86rem !important;
+  font-weight: 620 !important;
+}
+
+html:root body .site-theme-white-green .site-menu-close :is(svg, span) {
+  color: #f7fcfa !important;
+  stroke: currentColor !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .site-menu-close:hover {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    background: rgba(255, 255, 255, 0.16) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   6. Odkaz na realizácie je zase odkaz, nie tlačidlo
+   Predošlé kolo z neho spravilo plnú kapsulu, takže v paneli súperil
+   s hlavnou výzvou dole.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-menu-project-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  min-height: 0 !important;
+  margin-top: 1.15rem !important;
+  padding: 0.35rem 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #d9ff78 !important;
+  background: none !important;
+  box-shadow: none !important;
+  font-size: 0.84rem !important;
+  font-weight: 680 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .site-menu-project-link:hover {
+    color: #ffffff !important;
+    background: none !important;
+  }
+}
+
+/* Hlavná výzva v pätičke panela: tmavý text na limetkovej, aby sa dal
+   prečítať. Dvojriadkový popis mal krytie, cez ktoré nebolo vidieť. */
+html:root body .site-theme-white-green .site-menu-cta {
+  border: 0 !important;
+  border-radius: 1.3rem !important;
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .site-menu-drawer .site-menu-cta :is(span, small, svg) {
+  color: #0b2f20 !important;
+  -webkit-text-fill-color: #0b2f20 !important;
+  opacity: 1 !important;
+}
+
+html:root body .site-theme-white-green .site-menu-drawer .site-menu-cta small {
+  color: rgba(11, 47, 32, 0.72) !important;
+  -webkit-text-fill-color: rgba(11, 47, 32, 0.72) !important;
+  font-weight: 620 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .site-menu-cta:hover {
+    background: #c7f256 !important;
+  }
+}
+
+/* Značka v hlavičke panela nesie tú istú váhu ako v hlavičke webu. */
+html:root body .site-theme-white-green .site-menu-brand > span {
+  font-size: 1rem !important;
+  font-weight: 720 !important;
+}
+
+html:root body .site-theme-white-green .site-menu-brand small {
+  font-size: 0.74rem !important;
+}

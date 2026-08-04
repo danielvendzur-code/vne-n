@@ -20,7 +20,6 @@ import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as CennikRouteImport } from './routes/cennik'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
-import { Route as ProjektySlugRouteImport } from './routes/projekty.$slug'
 import { Route as ApiLeadRouteImport } from './routes/api.lead'
 
 const SluzbyRoute = SluzbyRouteImport.update({
@@ -78,11 +77,6 @@ const ProjektyIndexRoute = ProjektyIndexRouteImport.update({
   path: '/projekty/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjektySlugRoute = ProjektySlugRouteImport.update({
-  id: '/projekty/$slug',
-  path: '/projekty/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiLeadRoute = ApiLeadRouteImport.update({
   id: '/api/lead',
   path: '/api/lead',
@@ -101,7 +95,6 @@ export interface FileRoutesByFullPath {
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
-  '/projekty/$slug': typeof ProjektySlugRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
 export interface FileRoutesByTo {
@@ -116,7 +109,6 @@ export interface FileRoutesByTo {
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
-  '/projekty/$slug': typeof ProjektySlugRoute
   '/projekty': typeof ProjektyIndexRoute
 }
 export interface FileRoutesById {
@@ -132,7 +124,6 @@ export interface FileRoutesById {
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
-  '/projekty/$slug': typeof ProjektySlugRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
 export interface FileRouteTypes {
@@ -149,7 +140,6 @@ export interface FileRouteTypes {
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
-    | '/projekty/$slug'
     | '/projekty/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -164,7 +154,6 @@ export interface FileRouteTypes {
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
-    | '/projekty/$slug'
     | '/projekty'
   id:
     | '__root__'
@@ -179,7 +168,6 @@ export interface FileRouteTypes {
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
-    | '/projekty/$slug'
     | '/projekty/'
   fileRoutesById: FileRoutesById
 }
@@ -195,7 +183,6 @@ export interface RootRouteChildren {
   PrecoChatbotRoute: typeof PrecoChatbotRoute
   SluzbyRoute: typeof SluzbyRoute
   ApiLeadRoute: typeof ApiLeadRoute
-  ProjektySlugRoute: typeof ProjektySlugRoute
   ProjektyIndexRoute: typeof ProjektyIndexRoute
 }
 
@@ -278,13 +265,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjektyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projekty/$slug': {
-      id: '/projekty/$slug'
-      path: '/projekty/$slug'
-      fullPath: '/projekty/$slug'
-      preLoaderRoute: typeof ProjektySlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/lead': {
       id: '/api/lead'
       path: '/api/lead'
@@ -307,7 +287,6 @@ const rootRouteChildren: RootRouteChildren = {
   PrecoChatbotRoute: PrecoChatbotRoute,
   SluzbyRoute: SluzbyRoute,
   ApiLeadRoute: ApiLeadRoute,
-  ProjektySlugRoute: ProjektySlugRoute,
   ProjektyIndexRoute: ProjektyIndexRoute,
 }
 export const routeTree = rootRouteImport

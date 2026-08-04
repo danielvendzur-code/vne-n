@@ -20,7 +20,9 @@ const packages = [
   {
     icon: Bot,
     title: "AI chatbot na mieru",
-    price: "od 350 €",
+    price: "350 €",
+    priceNote: "jednorazovo",
+    monthly: "10 € / mesiac",
     badge: "Najčastejšia voľba",
     copy: "Odpovede podľa podkladov firmy, zber kontaktu a odovzdanie dopytu s celým kontextom.",
     features: [
@@ -33,7 +35,9 @@ const packages = [
   {
     icon: Calculator,
     title: "Chatbot s výpočtom",
-    price: "podľa logiky",
+    price: "od 400 €",
+    priceNote: "jednorazovo",
+    monthly: "10 € / mesiac",
     badge: null,
     copy: "Cena, spotreba, návratnosť alebo rozsah služby vypočítaný z reálnych vstupov zákazníka.",
     features: [
@@ -46,7 +50,9 @@ const packages = [
   {
     icon: SlidersHorizontal,
     title: "Chatbot s konfigurátorom",
-    price: "podľa rozsahu",
+    price: "od 400 €",
+    priceNote: "jednorazovo",
+    monthly: "10 € / mesiac",
     badge: null,
     copy: "Výber modelu, rozmerov, variantov a doplnkov v jednom plynulom rozhraní bez chaotického formulára.",
     features: [
@@ -116,43 +122,54 @@ export function HomeConversionUpgrade() {
         </div>
 
         <div className="winner-packages">
-          {packages.map(({ icon: Icon, title, price, badge, copy, features }) => (
-            <article
-              className="winner-package spotlight-surface"
-              key={title}
-              data-featured={!!badge}
-            >
-              {badge ? <span className="winner-package__badge">{badge}</span> : null}
-              <div className="winner-package__top">
-                <span className="winner-package__icon" aria-hidden="true">
-                  <Icon />
-                </span>
-                <span className="winner-package__price">{price}</span>
-              </div>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-              <ul>
-                {features.map((feature) => (
-                  <li key={feature}>
-                    <Check aria-hidden="true" /> {feature}
-                  </li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                className="winner-package__cta spotlight-surface"
-                onClick={() =>
-                  openSiteAssistant({
-                    source: "pricing-package",
-                    entry: "builder",
-                    category: title,
-                  })
-                }
-              >
-                Získať návrh riešenia <ArrowRight aria-hidden="true" />
-              </button>
-            </article>
-          ))}
+          {packages.map(
+            ({ icon: Icon, title, price, priceNote, monthly, badge, copy, features }) => (
+              <article className="winner-package" key={title} data-featured={!!badge}>
+                {/* Odznak stojí v hornom riadku pri ikone, takže nadpisy
+                  všetkých troch kariet začínajú na rovnakej výške. */}
+                <div className="winner-package__top">
+                  <span className="winner-package__icon" aria-hidden="true">
+                    <Icon />
+                  </span>
+                  {badge ? <span className="winner-package__badge">{badge}</span> : null}
+                </div>
+                <h3>{title}</h3>
+                {/* Jednorazová cena a mesačný poplatok stoja oddelene, aby
+                  bolo na prvý pohľad jasné, čo je čo. Žiadna hviezdička. */}
+                <div className="winner-package__pricing">
+                  <span className="winner-package__price">
+                    {price}
+                    <small>{priceNote}</small>
+                  </span>
+                  <span className="winner-package__monthly">
+                    + {monthly}
+                    <small>prevádzka a údržba</small>
+                  </span>
+                </div>
+                <p>{copy}</p>
+                <ul>
+                  {features.map((feature) => (
+                    <li key={feature}>
+                      <Check aria-hidden="true" /> {feature}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  className="winner-package__cta"
+                  onClick={() =>
+                    openSiteAssistant({
+                      source: "pricing-package",
+                      entry: "builder",
+                      category: title,
+                    })
+                  }
+                >
+                  Získať návrh riešenia <ArrowRight aria-hidden="true" />
+                </button>
+              </article>
+            ),
+          )}
         </div>
 
         <div className="winner-prep">

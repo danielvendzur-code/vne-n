@@ -69,8 +69,11 @@ export function useSpotlight<T extends HTMLElement>(selector?: string) {
         target,
         x: xRatio * 100,
         y: yRatio * 100,
-        tiltX: (0.5 - yRatio) * 5.2,
-        tiltY: (xRatio - 0.5) * 6.4,
+        // Náklon je zámerne malý. Pri 5,2° / 6,4° sa karta v hero pri
+        // prejdení myšou viditeľne odlepila od svojho miesta; teraz je to
+        // náznak hĺbky, ktorý si človek skôr vycíti, než všimne.
+        tiltX: (0.5 - yRatio) * 1.8,
+        tiltY: (xRatio - 0.5) * 2.2,
       };
       if (!frame) frame = window.requestAnimationFrame(flush);
     };

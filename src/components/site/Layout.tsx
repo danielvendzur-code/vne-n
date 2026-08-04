@@ -68,6 +68,10 @@ import "@/components/site/MenuAndFormFinal.css";
 // Jedna škála priestoru, jeden slovník pohybu a z nich odvodené mriežky,
 // miery nadpisov a predely medzi sekciami.
 import "@/components/site/SystemFinal.css";
+// Vracia pôvodnú stavbu panela menu a zväčšuje značku aj hornú navigáciu.
+import "@/components/site/NavRestore.css";
+// Časová os na počítači, dva typy štítkov, prepínač, cenník, kontakt.
+import "@/components/site/RoundFixes.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

@@ -539,43 +539,6 @@ function Hero({ variant }: { variant: LandingVariant }) {
   );
 }
 
-/**
- * Pás s dôkazom hneď pod hero. Čísla sa čítajú z tých istých údajov, aké
- * vykresľujú sekcie nižšie, takže nemôžu zostarnúť.
- *
- * Zámerne bez animovaného počítadla — pri troch weboch pôsobí odpočet ako
- * snaha nafúknuť malé číslo. A zámerne bez ceny: tá z domovskej stránky
- * odišla už skôr a `scripts/security-audit.mjs` na to dohliada.
- */
-const proofPoints = [
-  { value: String(realizations.length), label: "reálne weby, ktoré si viete otvoriť" },
-  { value: String(liveToolLinks.length), label: "živé nástroje na vyskúšanie v prehliadači" },
-  { value: "do 1 dňa", label: "zvyčajná odpoveď na zadanie" },
-  { value: `${process.length} kroky`, label: "od úvodného briefu po nasadenie" },
-];
-
-function ProofStrip() {
-  return (
-    <section className="lp-proof" aria-label="Čísla o službe">
-      <div className="container-page lp-proof-grid">
-        {proofPoints.map(({ value, label }, index) => (
-          <Reveal
-            className="lp-proof-item"
-            key={label}
-            as="div"
-            distance={16}
-            amount={0.4}
-            delay={Math.min(index * MOTION.stagger, 0.16)}
-          >
-            <b>{value}</b>
-            <span>{label}</span>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function ValueSection() {
   const [mode, setMode] = useState<ComparisonMode>("with");
   const active = comparisons[mode];
@@ -1041,10 +1004,12 @@ function ProcessTimeline() {
       <ol className="lp-tl-steps">
         {process.map(({ icon: Icon, title, copy, result }, index) => (
           <li key={title} data-reached={reducedMotion || index < reached}>
-            {/* Prázdny bod, ktorý sa vyplní, keď k nemu dôjde koľaj.
-                Číslo kroku už stojí v karte pod ním („Krok 01"), takže
-                v uzle bolo zbytočné — a na malom krúžku sa aj zle čítalo. */}
-            <span className="lp-tl-node" aria-hidden="true" />
+            {/* Uzol na koľaji. Na širokej obrazovke je to plný krúžok
+                s poradovým číslom — tak vyzeral, kým fungoval najlepšie.
+                Na mobile ostáva prázdny bod, ktorý sa vyplní. */}
+            <span className="lp-tl-node" aria-hidden="true">
+              <b>{index + 1}</b>
+            </span>
             <div className="lp-tl-card">
               <span className="lp-tl-icon" aria-hidden="true">
                 <Icon />
@@ -1109,7 +1074,6 @@ export function PremiumLanding({ variant = "public" }: { variant?: LandingVarian
     <div className="lp-page" data-variant={variant}>
       <PageProgress />
       <Hero variant={variant} />
-      <ProofStrip />
       <DeratScrollStory />
       <ValueSection />
       <Realizations />

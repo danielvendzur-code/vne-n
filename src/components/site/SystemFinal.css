@@ -155,6 +155,15 @@ html:root body .site-theme-white-green .lp-page .lp-value > .container-page {
   gap: var(--sp-gutter) !important;
 }
 
+/* Pod 900 px sa 23 rem minimum nezmestí a druhý stĺpec by sa stlačil na
+   pár pixelov — celé porovnanie by z obrazovky zmizlo. */
+@media (max-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-value > .container-page {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: var(--sp-6) !important;
+  }
+}
+
 /* Panel porovnania: nadpis mal 14 znakov miery v stĺpci širokom 296 px,
    takže sa lámal na tri riadky, a `min-height: 24rem` pod ním nechávala
    pás prázdna. Výška ostáva pevná, aby panel pri prepnutí neposkakoval,

@@ -402,9 +402,11 @@ test("realizations are real live websites, not invented case studies", async () 
   for (const domain of ["mojplot.sk", "koverta.sk", "webko.sk"]) {
     assert.match(realizations, new RegExp(domain.replace(".", "\\.")));
   }
-  // Vzorové rozhrania ostávajú, ale sú označené ako ukážky, nie realizácie.
-  assert.match(projectsRoute, /Vzorové rozhrania/);
-  assert.match(projectsRoute, /nie sú nasadené firemné projekty/);
+  // Vzorové rozhrania boli na želanie odstránené celé — v realizáciách
+  // majú stáť len weby a nástroje, ktoré naozaj bežia. Predtým tu bola
+  // podmienka opačná: ukážky smeli ostať, ak boli takto označené.
+  assert.doesNotMatch(projectsRoute, /Vzorové rozhrani/);
+  assert.doesNotMatch(projectsRoute, /nie sú nasadené firemné projekty/);
   assert.match(landing, /realizations\.map/);
   assert.doesNotMatch(landing, /Ukážka 0/);
 });
