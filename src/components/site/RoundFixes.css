@@ -1,0 +1,864 @@
+/* =====================================================================
+   MÔJ CHATBOT — VYŽIADANÉ ÚPRAVY
+
+   Časová os na počítači späť do pôvodnej podoby, dva typy štítkov
+   a tlačidiel namiesto šiestich, opravené vrstvenie prepínača, cenník
+   s jednorazovou aj mesačnou cenou, hutnejšie sekcie a nový kontaktný
+   formulár.
+
+   Importuje sa posledná.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Časová os na počítači späť na pôvodnú stavbu
+   Uzol bol zmenšený na 1,05 rem prázdny bod, ale riadok mriežky ostal
+   2,6 rem vysoký — bodka sa tak vznášala nad kartou bez spojenia s ňou.
+   Na širokej obrazovke je to zase plný krúžok s číslom kroku, ktorý sedí
+   priamo na koľaji. Mobil ostáva na prázdnych bodoch.
+   --------------------------------------------------------------------- */
+@media (min-width: 721px) {
+  html:root body .site-theme-white-green .lp-page .lp-timeline {
+    --node: 2.75rem;
+    --rail: 2px;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-tl-steps li {
+    grid-template-rows: var(--node) auto !important;
+    gap: 1.35rem !important;
+    justify-items: center !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-tl-steps li .lp-tl-node {
+    display: grid !important;
+    place-items: center !important;
+    width: var(--node) !important;
+    height: var(--node) !important;
+    padding: 0 !important;
+    border: 2px solid rgba(255, 255, 255, 0.22) !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    box-shadow: none !important;
+    transition:
+      color 420ms var(--motion-ease, ease),
+      border-color 420ms var(--motion-ease, ease),
+      background-color 420ms var(--motion-ease, ease),
+      box-shadow 420ms var(--motion-ease, ease) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-timeline .lp-tl-steps li .lp-tl-node b {
+    color: rgba(255, 255, 255, 0.72) !important;
+    font-size: 0.95rem !important;
+    font-weight: 740 !important;
+    font-style: normal !important;
+    background: none !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-tl-steps li[data-reached="true"] .lp-tl-node {
+    border-color: #d9ff78 !important;
+    background: #d9ff78 !important;
+    box-shadow: 0 0 0 6px rgba(217, 255, 120, 0.14) !important;
+  }
+
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-timeline
+    .lp-tl-steps
+    li[data-reached="true"]
+    .lp-tl-node
+    b {
+    color: #0b2f20 !important;
+  }
+}
+
+/* Na mobile uzol číslo nenesie — os je zvislá a číslo kroku stojí
+   v karte vedľa nej. */
+@media (max-width: 720px) {
+  html:root body .site-theme-white-green .lp-page .lp-tl-node b {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   2. Dva typy štítkov a tlačidiel
+
+   A — základná zelená: svetlá plocha, na prejdenie myšou tmavne.
+   B — prémiová výzva: ostáva ako je, aj s baterkou pod kurzorom.
+
+   Všetko ostatné, čo si za tie kolá vypestovalo vlastný vzhľad, sa
+   vracia k typu A.
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  :is(
+    .lp-chip,
+    .lp-hero-pick,
+    .sp-page .chip,
+    .lp-caps-detail-cta,
+    .lp-faq-ask,
+    .site-menu-project-link,
+    .winner-package__cta,
+    .rz-tools-list a,
+    .sp-button--ghost
+  ) {
+  border-radius: 999px !important;
+}
+
+/* Typ A v pokoji. */
+html:root
+  body
+  .site-theme-white-green
+  :is(
+    .lp-caps-detail-cta,
+    .lp-faq-ask,
+    .winner-package__cta,
+    .sp-button--ghost,
+    .lp-caps-note__body button
+  ) {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  min-height: 3rem !important;
+  padding-inline: 1.35rem !important;
+  border: 1px solid rgba(25, 131, 79, 0.26) !important;
+  color: #0b2f20 !important;
+  background: #e8f9c4 !important;
+  box-shadow: none !important;
+  font-size: 0.9rem !important;
+  font-weight: 640 !important;
+  transition:
+    background-color var(--motion-fast, 220ms) var(--motion-ease, ease),
+    border-color var(--motion-fast, 220ms) var(--motion-ease, ease),
+    color var(--motion-fast, 220ms) var(--motion-ease, ease) !important;
+}
+
+/* Typ A po prejdení myšou: plynule tmavne. */
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    :is(
+      .lp-caps-detail-cta,
+      .lp-faq-ask,
+      .winner-package__cta,
+      .sp-button--ghost,
+      .lp-caps-note__body button
+    ):is(:hover, :focus-visible) {
+    border-color: #0f6a3e !important;
+    color: #ffffff !important;
+    background: #0f6a3e !important;
+  }
+}
+
+/* Zvyšné vzhľady, ktoré sa nabalili po ceste: preč. Baterka ostáva len
+   tam, kde ju vyberáme zámerne (bod 3). */
+html:root
+  body
+  .site-theme-white-green
+  :is(
+    .lp-caps-detail-cta,
+    .lp-faq-ask,
+    .winner-package__cta,
+    .sp-button--ghost,
+    .lp-caps-note__body button
+  )::before,
+html:root
+  body
+  .site-theme-white-green
+  :is(
+    .lp-caps-detail-cta,
+    .lp-faq-ask,
+    .winner-package__cta,
+    .sp-button--ghost,
+    .lp-caps-note__body button
+  )::after {
+  content: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   3. Baterka pod kurzorom len na hlavných výzvach
+   Bola na kartách realizácií, na skupinách možností, na položkách otázok
+   aj na kartách časovej osi — teda takmer všade, čím prestala byť
+   výnimočná. Ostáva na hero výzve, na záverečnej karte a na kartách
+   realizácií, ktoré sú samy o sebe hlavnou akciou sekcie.
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  :is(.lp-caps-row-head, .lp-faq-item, .lp-tl-card)::after {
+  opacity: 0 !important;
+  background: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Prepínač „Bez chatbota / S chatbotom"
+   Za bielou aktívnou plochou presvitala zelená stopa: bežec mal iné
+   zaoblenie než dráha a tlačidlá si kreslili vlastné pozadie.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-switch {
+  position: relative !important;
+  isolation: isolate !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  padding: 0.28rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  border-radius: 999px !important;
+  background: #eef5e6 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch::before,
+html:root body .site-theme-white-green .lp-page .lp-switch::after {
+  content: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch-thumb {
+  position: absolute !important;
+  z-index: 0 !important;
+  top: 0.28rem !important;
+  bottom: 0.28rem !important;
+  left: 0.28rem !important;
+  width: calc(50% - 0.28rem) !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 14px -8px rgba(11, 47, 32, 0.45) !important;
+  transition: transform 320ms var(--motion-ease, ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch[data-mode="with"] .lp-switch-thumb {
+  transform: translateX(100%) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch > button {
+  position: relative !important;
+  z-index: 1 !important;
+  min-height: 2.7rem !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  /* Tlačidlá nekreslia nič — plochu drží iba bežec pod nimi. */
+  background: none !important;
+  box-shadow: none !important;
+  transition: color var(--motion-fast, 220ms) var(--motion-ease, ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch > button::before,
+html:root body .site-theme-white-green .lp-page .lp-switch > button::after {
+  content: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch .lp-control-label {
+  color: rgba(11, 47, 32, 0.6) !important;
+  font-size: 0.9rem !important;
+  font-weight: 620 !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-switch
+  > button[data-active="true"]
+  .lp-control-label {
+  color: #0b2f20 !important;
+  font-weight: 700 !important;
+}
+
+/* ---------------------------------------------------------------------
+   5. „Rozdiel v praxi" — jasná postupnosť
+   Body boli rozhádzané: nadpis panela vľavo, zoznam vpravo bez väzby.
+   Teraz je to jeden stĺpec pod druhým s očíslovanými bodmi, takže je
+   vidieť, že ide o postupnosť, nie o náhodné výroky.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+  grid-template-columns: minmax(0, 1fr) !important;
+  min-height: 0 !important;
+  gap: var(--sp-5, 1.5rem) !important;
+  padding: clamp(1.6rem, 3vw, 2.4rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-copy h3 {
+  max-width: 22ch !important;
+  font-size: clamp(1.6rem, 2vw, 2rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body ul {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.7rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  counter-reset: lp-step !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body li {
+  counter-increment: lp-step !important;
+  display: grid !important;
+  grid-template-columns: 1.6rem minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 0.6rem !important;
+  min-height: 0 !important;
+  padding: 0.85rem 0.95rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.1) !important;
+  border-radius: 1rem !important;
+  background: #f6faf1 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+}
+
+/* Poradie kroku je vidieť aj bez ikony — druhý bod sa predtým strácal. */
+html:root body .site-theme-white-green .lp-page .lp-comparison-body li::before {
+  content: counter(lp-step, decimal-leading-zero) !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 1.6rem !important;
+  height: 1.6rem !important;
+  border-radius: 50% !important;
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+  font-size: 0.7rem !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.02em !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-comparison-body[data-mode="without"]
+  li::before {
+  color: rgba(11, 47, 32, 0.66) !important;
+  background: rgba(11, 47, 32, 0.08) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body li svg {
+  display: none !important;
+}
+
+@media (max-width: 860px) {
+  html:root body .site-theme-white-green .lp-page .lp-comparison-body ul {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   6. Náhľad prvej realizácie
+   Snímka Môj Plot vypĺňala rám na 39 rem výšky, takže bola orezaná
+   agresívnejšie než Koverta a Webko. Teraz drží podobnú váhu.
+   --------------------------------------------------------------------- */
+@media (min-width: 900px) {
+  /* Prvá karta stojí na celej šírke nad ostatnými dvoma. Predtým bola
+     vysoká 39 rem v úzkom stĺpci, takže sa široká snímka orezala oveľa
+     agresívnejšie než pri Koverte a Webku. */
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) {
+    grid-column: span 12 !important;
+    grid-row: auto !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(n + 2) {
+    grid-column: span 6 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) > a {
+    grid-template-columns: minmax(0, 1.3fr) minmax(19rem, 0.7fr) !important;
+    min-height: 24rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-media {
+    min-height: 24rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:nth-child(1) .lp-project-media img {
+    object-fit: cover !important;
+    /* Snímka webu má to podstatné hore. */
+    object-position: center top !important;
+  }
+
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-portfolio
+    .lp-project:nth-child(1)
+    .lp-project-copy {
+    padding-block: clamp(2rem, 3.5vw, 3rem) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   7. „Čo to prinesie webu" — menej prázdna
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .sp-page .sp-section {
+  padding-block: clamp(3.2rem, 5.5vw, 5rem) !important;
+}
+
+html:root body .site-theme-white-green .sp-page .sp-heading {
+  margin-bottom: clamp(1.6rem, 3vw, 2.4rem) !important;
+}
+
+html:root body .site-theme-white-green .sp-page .sp-hero {
+  padding-block: clamp(4rem, 7vw, 6.5rem) clamp(2rem, 3.5vw, 3rem) !important;
+}
+
+/* ---------------------------------------------------------------------
+   8. Cenník — jednorazová cena a mesačný poplatok oddelene
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .winner-packages {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr)) !important;
+  align-items: stretch !important;
+  gap: clamp(1rem, 2vw, 1.5rem) !important;
+}
+
+html:root body .site-theme-white-green .winner-package {
+  position: relative !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.65rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  border-radius: 1.6rem !important;
+  padding: clamp(1.5rem, 2.4vw, 2rem) !important;
+  background: #ffffff !important;
+  box-shadow: 0 26px 60px -52px rgba(11, 47, 32, 0.5) !important;
+}
+
+html:root body .site-theme-white-green .winner-package[data-featured="true"] {
+  border-color: rgba(25, 131, 79, 0.34) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217, 255, 120, 0.28), transparent 20rem), #ffffff !important;
+  box-shadow: 0 34px 74px -50px rgba(11, 47, 32, 0.55) !important;
+}
+
+html:root body .site-theme-white-green .winner-package__badge {
+  position: static !important;
+  align-self: center !important;
+  width: auto !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  padding: 0.32rem 0.75rem !important;
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+  font-size: 0.68rem !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .winner-package__top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.75rem !important;
+  min-height: 2.8rem !important;
+  margin: 0 !important;
+}
+
+html:root body .site-theme-white-green .winner-package__icon {
+  display: grid !important;
+  place-items: center !important;
+  width: 2.8rem !important;
+  height: 2.8rem !important;
+  border-radius: 0.95rem !important;
+  color: #0f6a3e !important;
+  background: #eef7e3 !important;
+}
+
+html:root body .site-theme-white-green .winner-package h3 {
+  margin: 0.15rem 0 0 !important;
+  color: #0b2f20 !important;
+  font-size: 1.32rem !important;
+  font-weight: 660 !important;
+  letter-spacing: -0.03em !important;
+  text-wrap: balance !important;
+}
+
+/* Dva riadky ceny: veľký jednorazový údaj a pod ním mesačný poplatok
+   ako samostatný, jasne označený riadok. */
+html:root body .site-theme-white-green .winner-package__pricing {
+  display: grid !important;
+  gap: 0.35rem !important;
+  margin: 0.55rem 0 0.3rem !important;
+  padding: 0.85rem 1rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.1) !important;
+  border-radius: 1.05rem !important;
+  background: #f6faf1 !important;
+}
+
+html:root body .site-theme-white-green .winner-package__price {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 0.5rem !important;
+  color: #0b2f20 !important;
+  font-size: 1.72rem !important;
+  font-weight: 660 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1 !important;
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+html:root body .site-theme-white-green .winner-package__price small {
+  color: #4c5a52 !important;
+  font-size: 0.74rem !important;
+  font-weight: 620 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .winner-package__monthly {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 0.5rem !important;
+  padding-top: 0.5rem !important;
+  border-top: 1px solid rgba(11, 47, 32, 0.1) !important;
+  color: #0f6a3e !important;
+  font-size: 1rem !important;
+  font-weight: 680 !important;
+}
+
+html:root body .site-theme-white-green .winner-package__monthly small {
+  color: #4c5a52 !important;
+  font-size: 0.74rem !important;
+  font-weight: 560 !important;
+}
+
+html:root body .site-theme-white-green .winner-package > p {
+  margin: 0 !important;
+  color: #4c5a52 !important;
+  font-size: 0.92rem !important;
+  line-height: 1.55 !important;
+}
+
+html:root body .site-theme-white-green .winner-package ul {
+  display: grid !important;
+  gap: 0.42rem !important;
+  margin: 0.25rem 0 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+html:root body .site-theme-white-green .winner-package li {
+  display: grid !important;
+  grid-template-columns: 1rem minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 0.55rem !important;
+  color: #2f3d35 !important;
+  font-size: 0.88rem !important;
+}
+
+html:root body .site-theme-white-green .winner-package li svg {
+  width: 1rem !important;
+  height: 1rem !important;
+  margin-top: 0.15rem !important;
+  color: #19834f !important;
+}
+
+html:root body .site-theme-white-green .winner-package__cta {
+  justify-content: center !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  padding-top: 0 !important;
+}
+
+/* Karty dôvery a podkladov držia ten istý tvar. */
+html:root body .site-theme-white-green :is(.winner-trust__item, .winner-prep__item, .winner-final) {
+  border-radius: 1.4rem !important;
+}
+
+/* ---------------------------------------------------------------------
+   9. „Ako to prebieha" — kroky nie sú bledé
+   --------------------------------------------------------------------- */
+/* Os bola stlačená do 736 px, takže na karty ostalo po 319 px a okolo
+   nich pol obrazovky bielej plochy. */
+html:root body .site-theme-white-green .sp-page--process .sp-timeline-wrap {
+  max-width: min(64rem, 100%) !important;
+  margin-inline: auto !important;
+}
+
+html:root body .site-theme-white-green .sp-page--process .sp-timeline {
+  gap: clamp(1.2rem, 2.4vw, 2rem) !important;
+  padding-left: 0 !important;
+}
+
+html:root body .site-theme-white-green .sp-page--process .sp-timeline-item {
+  min-height: 0 !important;
+}
+
+html:root body .site-theme-white-green .sp-page--process .sp-step h3 {
+  max-width: 20ch !important;
+  font-size: clamp(1.35rem, 1.9vw, 1.7rem) !important;
+  line-height: 1.1 !important;
+}
+
+html:root body .site-theme-white-green .sp-page--process .sp-step {
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  border-radius: 1.35rem !important;
+  padding: clamp(1.15rem, 2vw, 1.6rem) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217, 255, 120, 0.2), transparent 16rem), #f7faf3 !important;
+  box-shadow: 0 22px 50px -48px rgba(11, 47, 32, 0.5) !important;
+}
+
+html:root body .site-theme-white-green .sp-page--process .sp-step-label {
+  color: #0f6a3e !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .sp-page--process .sp-step-node {
+  border-color: rgba(25, 131, 79, 0.34) !important;
+  background: #ffffff !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .sp-page--process
+  .sp-timeline-item[data-reached="true"]
+  .sp-step-node {
+  border-color: #19834f !important;
+  background: #d9ff78 !important;
+  box-shadow: 0 0 0 6px rgba(217, 255, 120, 0.18) !important;
+}
+
+/* ---------------------------------------------------------------------
+   10. Kontakt — formulár a údaje
+   Polia boli vtesnané do úzkych kolóniek a e-mail s telefónom stáli
+   v drobných kapsulách, do ktorých sa text ledva zmestil.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .contact-card {
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  border-radius: 1.75rem !important;
+  padding: clamp(1.5rem, 3vw, 2.5rem) !important;
+  background: #ffffff !important;
+  box-shadow: 0 34px 80px -62px rgba(11, 47, 32, 0.55) !important;
+}
+
+html:root body .site-theme-white-green .contact-card form {
+  display: grid !important;
+  gap: 1.05rem !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+}
+
+html:root body .site-theme-white-green .contact-card .contact-fields-two {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1.05rem !important;
+}
+
+html:root body .site-theme-white-green .contact-card form > label,
+html:root body .site-theme-white-green .contact-card .contact-fields-two > label {
+  display: grid !important;
+  gap: 0.42rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+}
+
+html:root body .site-theme-white-green .contact-card form > label > span,
+html:root body .site-theme-white-green .contact-card .contact-fields-two > label > span {
+  margin: 0 !important;
+  color: #0b2f20 !important;
+  font-size: 0.82rem !important;
+  font-weight: 660 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+html:root body .site-theme-white-green .contact-card form :is(input, textarea, select) {
+  width: 100% !important;
+  min-height: 3.2rem !important;
+  padding: 0.85rem 1.05rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.16) !important;
+  border-radius: 1rem !important;
+  color: #0b2f20 !important;
+  background: #f8fbf5 !important;
+  box-shadow: none !important;
+  font-size: 1rem !important;
+  transition:
+    border-color var(--motion-fast, 220ms) var(--motion-ease, ease),
+    background-color var(--motion-fast, 220ms) var(--motion-ease, ease) !important;
+}
+
+html:root body .site-theme-white-green .contact-card form textarea {
+  min-height: 9rem !important;
+  line-height: 1.55 !important;
+  resize: vertical !important;
+}
+
+html:root body .site-theme-white-green .contact-card form :is(input, textarea, select):focus {
+  border-color: #19834f !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(25, 131, 79, 0.14) !important;
+  outline: none !important;
+}
+
+html:root body .site-theme-white-green .contact-card form > label:focus-within,
+html:root body .site-theme-white-green .contact-card .contact-fields-two > label:focus-within {
+  background: none !important;
+}
+
+html:root body .site-theme-white-green .contact-card form :is(input, textarea)::placeholder {
+  color: rgba(11, 47, 32, 0.38) !important;
+}
+
+html:root body .site-theme-white-green .contact-card .contact-submit {
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 3.4rem !important;
+  margin-top: 0.2rem !important;
+  border-radius: 999px !important;
+  font-size: 1rem !important;
+}
+
+@media (max-width: 620px) {
+  html:root body .site-theme-white-green .contact-card .contact-fields-two {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  html:root body .site-theme-white-green .contact-card form :is(input, textarea, select) {
+    font-size: 16px !important;
+  }
+}
+
+/* Kontaktné údaje ako plnohodnotné riadky, nie drobné kapsule. */
+html:root body .site-theme-white-green .contact-details {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0.6rem !important;
+  margin-top: clamp(1.6rem, 3vw, 2.2rem) !important;
+}
+
+html:root body .site-theme-white-green .contact-details > :is(a, span) {
+  display: grid !important;
+  grid-template-columns: 2.75rem minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 0.9rem !important;
+  width: 100% !important;
+  min-height: 4rem !important;
+  padding: 0.85rem 1.15rem !important;
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  border-radius: 1.15rem !important;
+  color: #0b2f20 !important;
+  background: #ffffff !important;
+  font-size: 1.05rem !important;
+  font-weight: 620 !important;
+  letter-spacing: -0.01em !important;
+  white-space: normal !important;
+  transition:
+    border-color var(--motion-fast, 220ms) var(--motion-ease, ease),
+    background-color var(--motion-fast, 220ms) var(--motion-ease, ease) !important;
+}
+
+html:root body .site-theme-white-green .contact-details > span {
+  color: #4c5a52 !important;
+  background: #f6faf1 !important;
+  font-size: 0.94rem !important;
+  font-weight: 560 !important;
+}
+
+html:root body .site-theme-white-green .contact-details svg {
+  width: 2.75rem !important;
+  height: 2.4rem !important;
+  padding: 0.6rem !important;
+  border-radius: 0.85rem !important;
+  color: #0f6a3e !important;
+  background: #eef7e3 !important;
+}
+
+html:root body .site-theme-white-green .contact-details a[data-primary="true"] {
+  border-color: rgba(25, 131, 79, 0.3) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217, 255, 120, 0.26), transparent 14rem), #ffffff !important;
+}
+
+/* Popiska „hlavná adresa" sa presunula pod adresu, aby ju nestláčala. */
+html:root body .site-theme-white-green .contact-details a em {
+  grid-column: 2 !important;
+  margin: 0 !important;
+  color: #4c5a52 !important;
+  font-size: 0.76rem !important;
+  font-style: normal !important;
+  font-weight: 560 !important;
+}
+
+html:root body .site-theme-white-green .contact-details a[data-primary="true"] {
+  grid-template-rows: auto auto !important;
+  align-items: start !important;
+  padding-block: 1rem !important;
+}
+
+html:root body .site-theme-white-green .contact-details a[data-primary="true"] svg {
+  grid-row: 1 / span 2 !important;
+  align-self: center !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .contact-details > a:hover {
+    border-color: rgba(25, 131, 79, 0.44) !important;
+    background: #f6faf1 !important;
+  }
+}
+
+/* Nadpis mal 6,4 rem v stĺpci širokom 470 px, takže sa lámal na päť
+   riadkov po dvoch slovách. */
+html:root body .site-theme-white-green .contact-grid {
+  grid-template-columns: minmax(24rem, 0.95fr) minmax(0, 1.05fr) !important;
+  align-items: start !important;
+  gap: clamp(2.5rem, 5vw, 5rem) !important;
+  min-height: 0 !important;
+}
+
+html:root body .site-theme-white-green .contact-intro h1 {
+  max-width: 16ch !important;
+  font-size: clamp(2.6rem, 4vw, 4rem) !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.05em !important;
+}
+
+@media (max-width: 900px) {
+  html:root body .site-theme-white-green .contact-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Súhlas: políčko a text v jednom riadku, nie pod sebou. */
+html:root body .site-theme-white-green .contact-consent {
+  display: grid !important;
+  grid-template-columns: 1.25rem minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 0.7rem !important;
+  margin-top: 0.4rem !important;
+  color: #2f3d35 !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
+}
+
+html:root body .site-theme-white-green .contact-consent input[type="checkbox"] {
+  width: 1.25rem !important;
+  min-height: 1.25rem !important;
+  height: 1.25rem !important;
+  margin: 0.1rem 0 0 !important;
+  padding: 0 !important;
+  border-radius: 0.4rem !important;
+  accent-color: #19834f !important;
+}
+
+html:root body .site-theme-white-green .contact-expect {
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  border-radius: 1.35rem !important;
+  padding: clamp(1.15rem, 2vw, 1.5rem) !important;
+  background: #f6faf1 !important;
+}

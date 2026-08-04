@@ -22,12 +22,6 @@ const routes = [
   "/cookies",
   "/ochrana-udajov",
   "/farby",
-  "/projekty/ukazka-01",
-  "/projekty/ukazka-02",
-  "/projekty/ukazka-03",
-  "/projekty/ukazka-04",
-  "/projekty/ukazka-05",
-  "/projekty/ukazka-06",
 ];
 
 await rm(output, { recursive: true, force: true });

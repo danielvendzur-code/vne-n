@@ -1,18 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, ExternalLink, MessageCircle } from "lucide-react";
-import { AssistantMini, CalculatorMini, ConfiguratorMini } from "@/components/site/MiniPreviews";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
-import { projects, type PreviewType } from "@/data/projects";
 import { liveTools, realizations } from "@/data/realizations";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo, SITE_URL } from "@/lib/seo";
 import "./realizacie.css";
-
-const previewByType = {
-  assistant: AssistantMini,
-  calculator: CalculatorMini,
-  configurator: ConfiguratorMini,
-} satisfies Record<PreviewType, typeof AssistantMini>;
 
 const realizationsJsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -119,61 +111,6 @@ function ProjectsPage() {
               ))}
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      <section className="sp-section sp-section--soft">
-        <div className="container-page">
-          <Reveal amount={0.3}>
-            <p className="sp-eyebrow">
-              <i />
-              Vzorové rozhrania
-            </p>
-            <h2 className="rz-demo-title">
-              Chcete si nástroj <em>osahať?</em>
-            </h2>
-            <p className="rz-demo-lead">
-              Nasledujúce ukážky nie sú nasadené firemné projekty — sú to vzorové rozhrania, na
-              ktorých si viete predstaviť nástroj vo vlastnej službe.
-            </p>
-          </Reveal>
-
-          <div className="sp-project-grid" style={{ marginTop: "2.2rem" }}>
-            {projects.map((project, index) => {
-              const Preview = previewByType[project.previewType];
-              return (
-                <Reveal
-                  className="sp-project-card"
-                  key={project.slug}
-                  delay={(index % 3) * 0.06}
-                  amount={0.2}
-                >
-                  <Link
-                    to="/projekty/$slug"
-                    params={{ slug: project.slug }}
-                    style={{ "--card-accent": "var(--primary)" } as React.CSSProperties}
-                  >
-                    <div className="sp-project-visual" aria-hidden="true">
-                      <Preview compact />
-                    </div>
-                    <div className="sp-project-top">
-                      <span>
-                        <i aria-hidden="true" />
-                        {project.label}
-                      </span>
-                      <ArrowUpRight aria-hidden="true" />
-                    </div>
-                    <h3>{project.title}</h3>
-                    <p className="sp-project-cat">{project.category}</p>
-                    <p>{project.shortDescription}</p>
-                    <span className="sp-project-foot">
-                      Otvoriť ukážku <ArrowRight aria-hidden="true" size={14} />
-                    </span>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
         </div>
       </section>
 

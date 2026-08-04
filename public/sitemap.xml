@@ -31,30 +31,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mojchatbot.sk/projekty/ukazka-01</loc>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://mojchatbot.sk/projekty/ukazka-02</loc>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://mojchatbot.sk/projekty/ukazka-03</loc>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://mojchatbot.sk/projekty/ukazka-04</loc>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://mojchatbot.sk/projekty/ukazka-05</loc>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://mojchatbot.sk/projekty/ukazka-06</loc>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://mojchatbot.sk/cookies</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
