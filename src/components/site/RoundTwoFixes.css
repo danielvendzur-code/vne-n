@@ -1,0 +1,246 @@
+/* =====================================================================
+   MÔJ CHATBOT — DRUHÉ KOLO OPRÁV
+
+   Jeden tvar pre všetky štítky a tlačidlá, pokojná hlavička pri
+   scrollovaní na telefóne, zarovnaná časová os na mobile, užší a svetlejší
+   panel menu na počítači, prepínač bez preskakovania a menej prázdna
+   naprieč sekciami.
+
+   Importuje sa posledná.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Jeden tvar: kapsula ako „Nezáväzná konzultácia"
+   Tlačidlá v hero, výzva v asistentovi aj tlačidlá na podstránkach mali
+   16 px zaoblenie, takže vedľa kapsúl v hlavičke pôsobili ako iný systém.
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  :is(
+    .lp-button,
+    .lp-hero-cta,
+    .lp-assistant-cta,
+    .lp-button-light,
+    .lp-button-primary,
+    .lp-button-quiet,
+    .lp-solution-cta,
+    .lp-caps-detail-cta,
+    .lp-faq-ask,
+    .lp-chip,
+    .lp-hero-pick,
+    .sp-button,
+    .sp-button--primary,
+    .sp-button--ghost,
+    .sp-page .chip,
+    .contact-submit,
+    .contact-assistant,
+    .winner-package__cta,
+    .winner-final__primary,
+    .winner-final__secondary,
+    .rz-tools-list a,
+    .site-consultation-cta,
+    .site-menu-cta,
+    .site-menu-close,
+    .lp-caps-note__body button
+  ) {
+  border-radius: 999px !important;
+}
+
+/* Tie dva držali vlastné zaoblenie z vrstvy s vyššou špecifickosťou. */
+html:root body .site-theme-white-green .lp-page :is(.lp-button, .lp-button-light),
+html:root body .site-theme-white-green .lp-page .lp-final-card .lp-button-light {
+  border-radius: 999px !important;
+}
+
+/* Poradové čísla sú krúžky, nie zaoblené štvorčeky — rovnako ako uzly
+   na časovej osi. */
+html:root body .site-theme-white-green .lp-page .lp-caps-num,
+html:root body .site-theme-white-green :is(.lp-caps-num, .winner-package__icon) {
+  border-radius: 50% !important;
+}
+
+/* ---------------------------------------------------------------------
+   2. Hlavička na telefóne pri scrollovaní neseká
+   Pás mal rozostrenie pozadia a prechod farby na každom scrollovacom
+   evente. Na mobile to znamenalo prekreslenie celej šírky obrazovky pri
+   každom snímku — odtiaľ to trhanie a preblikávanie.
+   --------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  html:root body .site-theme-white-green .site-header-bar {
+    background-color: #ffffff !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 6px 20px -16px rgba(11, 47, 32, 0.5) !important;
+    transition: none !important;
+  }
+
+  html:root body .site-theme-white-green .site-header::before {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Pás sa nesmie prekresľovať spolu s obsahom pod ním. */
+  html:root body .site-theme-white-green .site-header {
+    will-change: auto !important;
+    contain: paint !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. Časová os na mobile: bod sedí na čiare
+   Uzol bol zmenšený z 2,3 rem na 1,05 rem, ale ostal zarovnaný na začiatok
+   pôvodného stĺpca — jeho stred tak minul koľaj o desať pixelov.
+   --------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  html:root body .site-theme-white-green .lp-page .lp-tl-steps li .lp-tl-node {
+    margin-left: calc((var(--node, 2.3rem) - 1.05rem) / 2) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4. Panel menu na počítači: užší a svetlejší
+   --------------------------------------------------------------------- */
+@media (min-width: 861px) {
+  html:root body .site-theme-white-green .site-menu-drawer {
+    width: min(46rem, 92vw) !important;
+    max-width: min(46rem, 92vw) !important;
+    background:
+      radial-gradient(circle at 88% 0%, rgba(217, 255, 120, 0.14), transparent 22rem),
+      linear-gradient(168deg, #1a4c34 0%, #143b28 52%, #10321f 100%) !important;
+  }
+
+  html:root body .site-theme-white-green .site-menu-grid {
+    /* Položky ako „Chatboty a riešenia" sa musia zmestiť na jeden riadok. */
+    grid-template-columns: minmax(12.5rem, 0.92fr) minmax(13rem, 1.08fr) !important;
+    gap: clamp(1.4rem, 2.6vw, 2rem) !important;
+  }
+
+  html:root body .site-theme-white-green .rb-line-sidebar__label {
+    font-size: 1.02rem !important;
+  }
+
+  html:root body .site-theme-white-green .site-menu-content {
+    padding-block: clamp(1.5rem, 3vh, 2.4rem) 1.5rem !important;
+  }
+}
+
+html:root body .site-theme-white-green .site-menu-backdrop {
+  background: rgba(6, 22, 15, 0.52) !important;
+}
+
+/* ---------------------------------------------------------------------
+   5. Prepínač nepreskakuje a nemení veľkosť
+   Aktívna položka menila hrúbku písma zo 620 na 700, čím sa zmenila šírka
+   textu a celý riadok sa posunul. Váha ostáva rovnaká, mení sa len farba.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-switch .lp-control-label,
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-switch
+  > button[data-active="true"]
+  .lp-control-label {
+  font-weight: 660 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch-thumb {
+  will-change: transform !important;
+  backface-visibility: hidden !important;
+}
+
+/* Panel pod prepínačom má pevnú výšku, takže sa pri prepnutí nezotrasie. */
+html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+  min-height: 16.5rem !important;
+  align-content: start !important;
+}
+
+@media (max-width: 860px) {
+  html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+    min-height: 24rem !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   6. Menej prázdna nad obsahom
+   Sekcie mali odsadenie až 8 rem hore aj dole a nadpis od obsahu delili
+   ďalšie 3 rem. Na telefóne z toho vznikla polovica obrazovky prázdna.
+   --------------------------------------------------------------------- */
+:root {
+  --sp-section: clamp(3.25rem, 5.5vw, 5.5rem);
+}
+
+html:root body .site-theme-white-green .lp-page .lp-heading + * {
+  margin-top: var(--sp-6) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero {
+  padding-block: clamp(2.25rem, 4vw, 4rem) clamp(3rem, 5vw, 5rem) !important;
+  min-height: 0 !important;
+}
+
+html:root body .site-theme-white-green .sp-page .sp-hero {
+  padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 2.5vw, 2.25rem) !important;
+  min-height: 0 !important;
+}
+
+html:root body .site-theme-white-green .sp-page .sp-section {
+  padding-block: clamp(2.5rem, 4.5vw, 4rem) !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .site-theme-white-green .lp-page .lp-timeline {
+    margin-top: 1.75rem !important;
+  }
+
+  html:root body .site-theme-white-green .sp-page .sp-service-list {
+    gap: 1.1rem !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   7. „Ako to prebieha" na telefóne nie je tmavé
+   Mobilná vrstva kreslila kroky na takmer čiernom podklade, na ktorom
+   mali tmavozelené nadpisy kontrast pod hranicou čitateľnosti. Karta má
+   teraz ten istý svetlý podklad ako na počítači.
+   --------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  html:root body .site-theme-white-green .sp-page--process .sp-timeline-item .sp-step,
+  html:root
+    body
+    .site-theme-white-green
+    .sp-page--process
+    .sp-timeline-item[data-side="left"]
+    .sp-step,
+  html:root
+    body
+    .site-theme-white-green
+    .sp-page--process
+    .sp-timeline-item[data-side="right"]
+    .sp-step {
+    border: 1px solid rgba(11, 47, 32, 0.12) !important;
+    border-radius: 1.25rem !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(217, 255, 120, 0.22), transparent 14rem), #f7faf3 !important;
+    box-shadow: 0 18px 40px -40px rgba(11, 47, 32, 0.5) !important;
+  }
+
+  html:root body .site-theme-white-green .sp-page--process .sp-step :is(h3, h2) {
+    color: #0b2f20 !important;
+  }
+
+  html:root body .site-theme-white-green .sp-page--process .sp-step p {
+    color: #4c5a52 !important;
+  }
+
+  html:root body .site-theme-white-green .sp-page--process .sp-step-label {
+    color: #0f6a3e !important;
+  }
+
+  html:root body .site-theme-white-green .sp-page--process .sp-step .chip {
+    color: #0b2f20 !important;
+    border-color: rgba(25, 131, 79, 0.24) !important;
+    background: #ffffff !important;
+  }
+}

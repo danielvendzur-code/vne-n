@@ -89,7 +89,9 @@ jobs:
           test -f pages-dist/build-meta.json
           grep -Fq "Váš web odpovie" pages-dist/index.html
           test -f pages-dist/cennik/index.html
-          grep -Fq "od 350 €" pages-dist/cennik/index.html
+          # Cena AI chatbota je 350 € jednorazovo; „od" patrí k drahším balíkom.
+          grep -Fq "350 €" pages-dist/cennik/index.html
+          grep -Fq "10 € / mesiac" pages-dist/cennik/index.html
           grep -Fq "Čo potrebujeme od klienta" pages-dist/cennik/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
@@ -156,7 +158,7 @@ jobs:
           }
 
           fetch_with_retry "/" "Váš web odpovie"
-          fetch_with_retry "/cennik" "od 350 €"
+          fetch_with_retry "/cennik" "350 €"
           fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
           fetch_with_retry "/sluzby" ""
           fetch_with_retry "/sluzby/" ""

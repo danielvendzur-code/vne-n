@@ -72,6 +72,9 @@ import "@/components/site/SystemFinal.css";
 import "@/components/site/NavRestore.css";
 // Časová os na počítači, dva typy štítkov, prepínač, cenník, kontakt.
 import "@/components/site/RoundFixes.css";
+// Jeden tvar pre všetky štítky, pokojná hlavička na mobile, užšie menu,
+// zarovnaná os na telefóne a menej prázdnych plôch.
+import "@/components/site/RoundTwoFixes.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

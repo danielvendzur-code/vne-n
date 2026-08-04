@@ -442,8 +442,13 @@ test("the public website is team-first and uses one brand contact", async () => 
   assert.match(lead, /thankYouSent/);
   assert.match(lead, /autoReplySent/);
   assert.match(contact, /thankYouSent/);
-  assert.doesNotMatch(footer, /contact\.emailPersonal/);
-  assert.match(footer, /Tím vedie/);
+  // Druhá adresa je na želanie v pätičke ako priamy kontakt. Dopyt
+  // z formulára aj tak stále chodí na značkovú adresu — to drží
+  // podmienka na `lead` vyššie.
+  assert.match(footer, /contact\.emailPersonal/);
+  // V pätičke stojí funkcia, nie meno zakladateľa.
+  assert.doesNotMatch(footer, /Tím vedie/);
+  assert.match(footer, /Zodpovedná osoba/);
 });
 
 test("final correction restores the comparison and removes chip ornaments", async () => {
