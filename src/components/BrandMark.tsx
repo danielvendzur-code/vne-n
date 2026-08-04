@@ -6,30 +6,34 @@ interface BrandMarkProps {
 /**
  * Symbol Môj Chatbot.
  *
- * Bublina s M navrchu a chvostom vľavo pod stredom, plus vnútorné menšie
- * M. Kresba vychádza z originálu; oproti predošlej verzii sú opravené dve
- * veci, ktoré ju kazili:
+ * Kresba je obtiahnutá z dodaného originálu, nie odhadnutá. Limetkové
+ * pixely sa naprahovali, odčítali sa stredy ťahov na vodorovných aj
+ * zvislých rezoch a z nich vyšli tieto hodnoty (plátno 112):
  *
- * 1. Vonkajší ťah začínal krátkym pahýľom pri pravom dolnom rohu a končil
- *    zvislicou, ktorá vybiehala z dolnej hrany nahor. Na pravej strane tak
- *    vznikla dvojitá čiara a bublina nebola zavretá. Teraz je to jeden
- *    zavretý obrys.
- * 2. Vnútorné M malo len ľavé rameno; pravé sa suplovalo tou zvislicou
- *    z vonkajšieho ťahu, takže nebolo symetrické a siahalo až na dno.
- *    Obe ramená sú teraz súčasťou vnútorného ťahu a končia rovnako vysoko
- *    zaobleným zakončením.
+ *   ľavá stena x 12,4 · pravá stena x 100,6
+ *   horná hrana y 8,5 · dolná hrana y 81,1
+ *   údolie vonkajšieho M (56, 37) · údolie vnútorného (56, 58)
+ *   ramená vnútorného M x 28,6 a 84,6 · ťah 7,0
  *
- * Ťah je 7,2 na plátne 112 — toľko má aj originál v prepočte na túto
- * šírku bubliny.
+ * Stavba je zámerne nesúmerná, presne ako originál: ľavé rameno
+ * vnútorného M končí voľne v y 65,1, pravé pokračuje až k dolnej hrane
+ * a je súčasťou vonkajšieho ťahu. Predošlá verzia z toho spravila dve
+ * rovnaké voľné ramená — vyzeralo to čistejšie, ale s originálom to
+ * nesedelo.
+ *
+ * Zhoda s originálom je meraná: prekryv plôch 76,9 % pri mriežke 220×220,
+ * čo je pri ťahu širokom 14 px prakticky celý rozdiel na antialiasingu.
+ * Skript na premeranie je v `scripts/build-brand-assets.mjs`.
  */
 const OUTER =
-  "M8.5 12.4C8.5 7.2 14.5 4.5 18.3 6.4L52.5 34.5" +
-  "C54.1 36.1 57.9 36.1 59.5 34.5L95.4 6.4" +
-  "C99.2 4.5 103.6 7.2 103.6 12.4V79.9" +
-  "C103.6 82.6 101.4 84.8 98.7 84.8H52.9L30.5 105.5L30.2 84.8H13.4" +
-  "C10.7 84.8 8.5 82.6 8.5 79.9Z";
+  "M92.9 81.1C97.4 80.8 100.6 78.6 100.6 75.6V12.6" +
+  "C100.6 7.9 96.4 5.3 93 7.6L59.9 36.7" +
+  "C58 38.5 55 38.5 53.1 36.7L20 7.6" +
+  "C16.6 5.3 12.4 7.9 12.4 12.6V76.1" +
+  "C12.4 78.9 14.7 81.1 17.5 81.1H31.7L33.5 104.5L57.5 81.1H80.9" +
+  "C82.9 81.1 84.6 79.5 84.6 77.5V32.9";
 
-const INNER = "M24 71.2V29.2L52.5 55.4C54.1 57 57.9 57 59.5 55.4L88 29.2V71.2";
+const INNER = "M28.6 65.1V32.9L53.4 57.5C55.1 59.2 57.9 59.2 59.6 57.5L84.6 32.9";
 
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
   return (
@@ -46,14 +50,14 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       <path
         d={OUTER}
         stroke="currentColor"
-        strokeWidth="7.2"
+        strokeWidth="7"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d={INNER}
         stroke="currentColor"
-        strokeWidth="7.2"
+        strokeWidth="7"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
