@@ -25,7 +25,6 @@
   margin-top: clamp(2.5rem, 6vw, 5rem);
 }
 
-.lp-process-list,
 .sp-timeline {
   position: relative;
   display: grid;
@@ -35,9 +34,6 @@
   list-style: none;
 }
 
-/* Both rails and every node use the same axis variable. The negative margin
-   centers the physical rail width on that coordinate; Motion owns only scaleY. */
-.lp-process-list::before,
 .sp-timeline::before {
   content: "";
   position: absolute;
@@ -67,7 +63,6 @@
     0 0 64px rgba(82, 188, 139, 0.18) !important;
 }
 
-.lp-process-list > li,
 .sp-timeline-item {
   position: relative;
   display: grid !important;
@@ -80,27 +75,22 @@
   box-shadow: none !important;
 }
 
-.lp-process-list > li[data-side="left"] .lp-step-body,
 .sp-timeline-item[data-side="left"] .sp-step {
   grid-column: 1;
 }
 
-.lp-process-list > li[data-side="right"] .lp-step-body,
 .sp-timeline-item[data-side="right"] .sp-step {
   grid-column: 3;
 }
 
-.lp-process-list > li[data-side="left"] .lp-step-body,
 .sp-timeline-item[data-side="left"] .sp-step {
   text-align: right;
 }
 
-.lp-process-list > li[data-side="right"] .lp-step-body,
 .sp-timeline-item[data-side="right"] .sp-step {
   text-align: left;
 }
 
-.lp-step-body,
 .sp-step {
   position: relative;
   overflow: hidden;
@@ -121,7 +111,6 @@
     transform 320ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.lp-step-body::before,
 .sp-step::before {
   content: "";
   position: absolute;
@@ -137,21 +126,18 @@
   transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.lp-process-list > li[data-reached="true"] .lp-step-body,
 .sp-timeline-item[data-reached="true"] .sp-step {
   border-color: rgba(179, 233, 208, 0.3) !important;
   box-shadow: 0 30px 90px -58px rgba(179, 233, 208, 0.42) !important;
 }
 
-.lp-process-list > li[data-reached="true"] .lp-step-body::before,
 .sp-timeline-item[data-reached="true"] .sp-step::before {
   transform: translateX(120%);
 }
 
 /* The shell stays dark. Its own inner dot fills only when the growing rail
-   reaches this node, so every point completes independently. */
-.lp-step-node,
-.sp-step-node {
+   reaches this node,
+.sp-step-node{
   position: absolute !important;
   z-index: 4;
   left: var(--timeline-axis) !important;
@@ -173,8 +159,7 @@
     box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.lp-step-node > i,
-.sp-step-node > i {
+.sp-step-node > i{
   display: block;
   width: 12px;
   height: 12px;
@@ -188,8 +173,7 @@
     opacity 180ms ease;
 }
 
-.lp-process-list > li[data-reached="true"] .lp-step-node,
-.sp-timeline-item[data-reached="true"] .sp-step-node {
+.sp-timeline-item[data-reached="true"] .sp-step-node{
   border-color: #b3e9d0 !important;
   box-shadow:
     0 0 0 5px #100b08,
@@ -197,8 +181,7 @@
     0 0 30px rgba(179, 233, 208, 0.5) !important;
 }
 
-.lp-process-list > li[data-reached="true"] .lp-step-node > i,
-.sp-timeline-item[data-reached="true"] .sp-step-node > i {
+.sp-timeline-item[data-reached="true"] .sp-step-node > i{
   opacity: 1;
   transform: scale(1);
 }
@@ -223,12 +206,6 @@
     opacity 380ms ease,
     transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
     color 320ms ease !important;
-}
-
-.lp-process-list > li[data-reached="true"] .lp-step-icon {
-  color: #b3e9d0 !important;
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1) !important;
 }
 
 .lp-step-result {
@@ -301,16 +278,12 @@
     --timeline-axis: 18px;
   }
 
-  .lp-process-list > li,
   .sp-timeline-item {
     grid-template-columns: 42px minmax(0, 1fr) !important;
     min-height: 0;
   }
 
-  .lp-process-list > li .lp-step-body,
   .sp-timeline-item .sp-step,
-  .lp-process-list > li[data-side="left"] .lp-step-body,
-  .lp-process-list > li[data-side="right"] .lp-step-body,
   .sp-timeline-item[data-side="left"] .sp-step,
   .sp-timeline-item[data-side="right"] .sp-step {
     grid-column: 2 !important;
@@ -326,7 +299,6 @@
   .lp-project-media img,
   .lp-caps-row,
   .lp-faq-item,
-  .lp-step-body::before,
   .sp-step::before {
     animation: none !important;
     transition: none !important;
@@ -334,7 +306,6 @@
     filter: none !important;
   }
 
-  .lp-step-node > i,
   .sp-step-node > i {
     opacity: 1;
     transform: scale(1);

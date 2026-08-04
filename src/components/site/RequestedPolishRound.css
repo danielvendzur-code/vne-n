@@ -1,0 +1,216 @@
+/* =====================================================================
+   MÔJ CHATBOT — VYŽIADANÉ ÚPRAVY
+
+   1. Krátke čiarky pred popiskami sekcií preč, na ich mieste je číslo
+      sekcie.
+   2. Štítky sú v pokoji bledé; tmavá výplň patrí až vybranej možnosti.
+   3. Uzol na časovej osi je prázdny bod, ktorý sa vyplní — bez čísla.
+   4. Políčka v kontaktnom formulári sú väčšie a nedotýkajú sa okrajov.
+
+   Načítava sa ako posledná vrstva.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Popiska sekcie: číslo namiesto čiarky
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-eyebrow > i,
+html:root body .site-theme-white-green .sp-page .sp-eyebrow > i,
+html:root body .site-theme-white-green .lp-page .lp-eyebrow::before,
+html:root body .site-theme-white-green .lp-page .lp-hero-context::before,
+html:root body .site-theme-white-green .sp-page .sp-eyebrow::before {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-eyebrow-num {
+  display: inline-grid !important;
+  place-items: center !important;
+  min-width: 1.9rem !important;
+  height: 1.55rem !important;
+  padding: 0 0.45rem !important;
+  border-radius: 0.55rem !important;
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+  font-size: 0.74rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* V tmavom páse sedí číslo na limetkovej rovnako — kontrast 12,4:1. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-eyebrow-num {
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+}
+
+/* Popiska nad hero mala vlastnú čiarku kreslenú pseudo-prvkom. */
+html:root body .site-theme-white-green .lp-page .lp-hero-context {
+  padding-left: 0 !important;
+}
+
+/* ---------------------------------------------------------------------
+   2. Štítky
+   Tmavozelená výplň je stav po kliknutí. V pokoji ostáva biela pilulka
+   s tmavým textom, nech je zrejmé, že sa dá vybrať.
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip, .lp-caps-chip, .lp-filter, .chip, [data-chip-kind]):not(
+    [data-active="true"]
+  ):not([aria-pressed="true"]) {
+  border: 1px solid rgba(11, 47, 32, 0.12) !important;
+  color: #0b2f20 !important;
+  background: #ffffff !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip, .lp-caps-chip, .lp-filter, .chip, [data-chip-kind]):not(
+    [data-active="true"]
+  ):not([aria-pressed="true"])
+  :is(span, b, small) {
+  color: #0b2f20 !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip, .lp-caps-chip, .lp-filter, .chip, [data-chip-kind]):not(
+    [data-active="true"]
+  ):not([aria-pressed="true"])
+  .lp-hero-pick-icon {
+  color: #19834f !important;
+  background: rgba(25, 131, 79, 0.1) !important;
+}
+
+/* Vybraná možnosť: tmavá lesná plocha, biely popis. */
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip, .lp-caps-chip, .lp-filter, .chip, [data-chip-kind]):is(
+    [data-active="true"],
+    [aria-pressed="true"]
+  ) {
+  border-color: transparent !important;
+  color: #ffffff !important;
+  background: #0b2f20 !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  :is(.lp-hero-pick, .lp-chip, .lp-caps-chip, .lp-filter, .chip, [data-chip-kind]):is(
+    [data-active="true"],
+    [aria-pressed="true"]
+  )
+  :is(span, b, small, .lp-hero-pick-label) {
+  color: #ffffff !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-hero-pick:is([data-active="true"], [aria-pressed="true"])
+  .lp-hero-pick-icon {
+  color: #d9ff78 !important;
+  background: rgba(217, 255, 120, 0.16) !important;
+}
+
+/* ---------------------------------------------------------------------
+   3. Časová os — prázdne body, ktoré sa vypĺňajú
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-tl-steps li .lp-tl-node {
+  width: 1.05rem !important;
+  height: 1.05rem !important;
+  padding: 0 !important;
+  border: 2px solid rgba(255, 255, 255, 0.34) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition:
+    background-color 420ms var(--ease-smooth, ease),
+    border-color 420ms var(--ease-smooth, ease),
+    box-shadow 420ms var(--ease-smooth, ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-steps li[data-reached="true"] .lp-tl-node {
+  border-color: #d9ff78 !important;
+  background: #d9ff78 !important;
+  box-shadow: 0 0 0 5px rgba(217, 255, 120, 0.16) !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Kontaktný formulár
+   Políčka boli nízke a karta sa na telefóne dotýkala okrajov obrazovky.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .contact-page .contact-card {
+  padding: clamp(1.4rem, 5vw, 2.4rem) !important;
+}
+
+html:root body .site-theme-white-green .contact-card :is(input, textarea, select) {
+  width: 100% !important;
+  min-height: 3.4rem !important;
+  padding: 0.9rem 1.05rem !important;
+  border-radius: 0.85rem !important;
+  font-size: 1rem !important;
+  /* Bez toho by odsadenie rozšírilo políčko za okraj karty. */
+  box-sizing: border-box !important;
+}
+
+html:root body .site-theme-white-green .contact-card textarea {
+  min-height: 9.5rem !important;
+  line-height: 1.55 !important;
+}
+
+html:root body .site-theme-white-green .contact-card form > label > span,
+html:root body .site-theme-white-green .contact-card .contact-fields-two > label > span {
+  display: block !important;
+  margin-bottom: 0.45rem !important;
+  font-size: 0.84rem !important;
+}
+
+html:root body .site-theme-white-green .contact-card :is(form, .contact-fields-two) {
+  min-width: 0 !important;
+}
+
+html:root body .site-theme-white-green .contact-card form > label {
+  display: block !important;
+  min-width: 0 !important;
+  margin-bottom: 1.05rem !important;
+}
+
+/* Stránka drží bezpečný okraj aj na úzkych displejoch. */
+@media (max-width: 640px) {
+  html:root body .site-theme-white-green .contact-page .container-page {
+    padding-inline: max(1.1rem, env(safe-area-inset-left)) max(1.1rem, env(safe-area-inset-right)) !important;
+  }
+
+  html:root body .site-theme-white-green .contact-card :is(input, textarea, select) {
+    /* 16 px je hranica, pod ktorou Safari pri zameraní priblíži stránku. */
+    font-size: 16px !important;
+  }
+
+  html:root body .site-theme-white-green .contact-card .contact-fields-two {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Popiska prvej sekcie žije vo vlastnom komponente, ale nesie to isté
+   číslo aj tvar ako ostatné. */
+html:root body .site-theme-white-green .lp-page .derat-story__kicker {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__kicker::before {
+  content: none !important;
+}

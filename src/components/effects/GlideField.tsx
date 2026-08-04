@@ -306,12 +306,11 @@ export function GlideField({
     const motionDisabled = reducedMotion || Boolean(connection?.saveData);
     const pointerMotionEnabled = !motionDisabled && hasFinePointer;
     const burstEnabled = !motionDisabled;
-    const isAmbient = className.includes("glide-field--ambient");
     // Pole je jemná textúra na pozadí, nie hlavný obsah. Menej bodiek
     // znamená menšiu plochu na prekreslenie — a práve prekresľovanie
     // canvasu pri scrollovaní zrážalo hero sekciu pod 20 snímok
     // za sekundu (nameraných 73 ms na snímok oproti 33 ms bez neho).
-    const maxParticles = isAmbient ? (coarse ? 1600 : 3600) : coarse ? 2400 : 6000;
+    const maxParticles = coarse ? 2400 : 6000;
     const palette = readPalette(root);
 
     let bounds = root.getBoundingClientRect();

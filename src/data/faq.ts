@@ -10,11 +10,11 @@ export const faqs: FaqEntry[] = [
   },
   {
     q: "Čo odo mňa potrebujete na začiatku?",
-    a: "Stačí odkaz na web alebo popis ponuky, najčastejšie otázky, cenník či pravidlá výpočtu a informácia, kam majú chodiť dopyty. Z toho pripravím logiku, texty, rozloženie aj prvý prototyp.",
+    a: "Stačí odkaz na web alebo popis ponuky, najčastejšie otázky, cenník či pravidlá výpočtu a informácia, kam majú chodiť dopyty. Z toho pripravíme logiku, texty, rozloženie aj prvý prototyp.",
   },
   {
     q: "Ako rýchlo viem mať nástroj na webe?",
-    a: "Návrh otázok a logiky pripravím v priebehu dní. Presný termín nasadenia závisí od rozsahu a prepojení; harmonogram dostanete spolu s cenou ešte pred začiatkom vývoja.",
+    a: "Návrh otázok a logiky pripravíme v priebehu dní. Presný termín nasadenia závisí od rozsahu a prepojení; harmonogram dostanete spolu s cenou ešte pred začiatkom vývoja.",
   },
   {
     q: "Musím kvôli tomu prerábať celý web?",
@@ -30,7 +30,7 @@ export const faqs: FaqEntry[] = [
   },
   {
     q: "Čo keď sa zmení cenník alebo ponuka?",
-    a: "Logiku navrhujem tak, aby sa pravidlá dali upravovať bez prerábania celého nástroja. Rozsah následnej údržby a spôsob aktualizácií si dohodneme vopred podľa toho, ako často sa vaša ponuka mení.",
+    a: "Logiku navrhujeme tak, aby sa pravidlá dali upravovať bez prerábania celého nástroja. Rozsah následnej údržby a spôsob aktualizácií si dohodneme vopred podľa toho, ako často sa vaša ponuka mení.",
   },
   {
     q: "Ako sa riešia osobné údaje a GDPR?",
@@ -38,6 +38,6 @@ export const faqs: FaqEntry[] = [
   },
   {
     q: "Viem si riešenie vyskúšať ešte pred spoluprácou?",
-    a: "Áno. Na webe sú živé nástroje aj interaktívne demá. Pri konkrétnom projekte najprv pripravím logiku a prvý návrh rozhrania, aby bol rozsah jasný ešte pred finálnym nasadením.",
+    a: "Áno. Na webe sú živé nástroje aj interaktívne demá. Pri konkrétnom projekte najprv pripravíme logiku a prvý návrh rozhrania, aby bol rozsah jasný ešte pred finálnym nasadením.",
   },
 ];

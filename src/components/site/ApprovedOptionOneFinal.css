@@ -413,20 +413,17 @@ html:root
   color: #c7d9ce !important;
 }
 
-html:root body .site-theme-white-green .lp-step-body,
-html:root body .site-theme-white-green .sp-step {
+html:root body .site-theme-white-green .sp-step{
   color: #ffffff !important;
   border-color: rgba(217, 255, 120, 0.16) !important;
   background: rgba(255, 255, 255, 0.055) !important;
 }
 
-html:root body .site-theme-white-green .lp-step-body :is(h3, strong),
-html:root body .site-theme-white-green .sp-step :is(h3, strong) {
+html:root body .site-theme-white-green .sp-step :is(h3, strong){
   color: #ffffff !important;
 }
 
-html:root body .site-theme-white-green .lp-step-node,
-html:root body .site-theme-white-green .sp-step-node {
+html:root body .site-theme-white-green .sp-step-node{
   background: #d9ff78 !important;
   box-shadow: 0 0 0 7px rgba(217, 255, 120, 0.09) !important;
 }

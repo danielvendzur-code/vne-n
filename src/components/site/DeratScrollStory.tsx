@@ -211,11 +211,14 @@ export function DeratScrollStory() {
         className="container-page derat-story__heading"
         initial={reducedMotion ? false : { opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.24, margin: "-7% 0px -8% 0px" }}
+        viewport={{ once: false, amount: 0.24, margin: "-7% 0px -8% 0px" }}
         transition={reducedMotion ? { duration: 0 } : { duration: 0.68, ease: [0.16, 1, 0.3, 1] }}
       >
         <div>
-          <p className="derat-story__kicker">Príklad realizácie · DERAT</p>
+          <p className="derat-story__kicker">
+            <b className="lp-eyebrow-num">01</b>
+            Príklad realizácie · DERAT
+          </p>
           <h2 id="derat-story-title">Kalkulačka, ktorá z návštevníka spraví pripravený dopyt.</h2>
         </div>
         <div className="derat-story__intro">
@@ -272,7 +275,7 @@ export function DeratScrollStory() {
             key={frame.src}
             initial={reducedMotion ? false : { opacity: 0, y: 26, scale: 0.985 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.18, margin: "-4% 0px -8% 0px" }}
+            viewport={{ once: false, amount: 0.18, margin: "-4% 0px -8% 0px" }}
             transition={
               reducedMotion
                 ? { duration: 0 }

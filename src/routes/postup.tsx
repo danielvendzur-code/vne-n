@@ -121,7 +121,8 @@ function Timeline() {
             data-side={index % 2 === 0 ? "left" : "right"}
             initial={reducedMotion ? false : { opacity: 0, x: index % 2 === 0 ? -64 : 64, y: 20 }}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true, amount: 0.28, margin: "-6% 0px -10% 0px" }}
+            // Obojsmerné ako zvyšok webu — pri scrollovaní hore krok zase odíde.
+            viewport={{ once: false, amount: 0.28, margin: "-6% 0px -10% 0px" }}
             transition={
               reducedMotion
                 ? { duration: 0 }

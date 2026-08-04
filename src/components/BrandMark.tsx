@@ -4,15 +4,26 @@ interface BrandMarkProps {
 }
 
 /**
- * Schválený symbol Môj Chatbot — verzia 1.
+ * Symbol Môj Chatbot.
  *
- * Vonkajšia línia spája písmeno M s textovou bublinou a necháva zámerný
- * otvor pri pravom dolnom ťahu. Vnútorné M je samostatná, rovnako hrubá
- * línia. Symbol nemá vlastné pozadie a preberá farbu cez `currentColor`.
+ * Kresba je odmeraná priamo z originálu (neónová verzia loga): jasné
+ * pixely sa naprahovali, odčítali sa stredy ťahov na vodorovných aj
+ * zvislých rezoch a z nich sa poskladala cesta. Predchádzajúca verzia
+ * mala rovnakú myšlienku, ale nesedeli proporcie — mala plytší zárez V,
+ * užšie vnútorné M a takmer dvojnásobne hrubý ťah (8,5 oproti 4,3 na
+ * plátne 112), takže pri malých veľkostiach zalievala vnútro.
  *
- * Nevykresľované migračné markery pre starý deployment kontrakt:
- * translate(112 0) scale(-1 1), strokeWidth="9".
+ * Vonkajší ťah: dolný koniec pravého tiahla, hore po pravej strane,
+ * zárez V, ľavá strana, dno bubliny, chvost a späť hore po pravej
+ * stene. Vnútorný ťah: ľavá zvislica a druhé, menšie V.
  */
+const OUTER =
+  "M96.6 85.5C100.8 84.6 103.6 82.4 103.6 79.9V12.4C103.6 7.2 99.2 4.5 95.4 6.4L59.5 34.5" +
+  "C57.9 36.1 54.1 36.1 52.5 34.5L18.3 6.4C14.5 4.5 8.5 7.2 8.5 12.4V78.5" +
+  "C8.5 81.4 11 83.7 14.2 83.7H30.2L30.5 105.5L52.9 83.7H85.3C86.8 83.7 88 82.6 88 81.2V29.2";
+
+const INNER = "M24 71.2V29.2L52.5 55.4C54.1 57 57.9 57 59.5 55.4L88 29.2";
+
 export function BrandMark({ size = 34, className }: BrandMarkProps) {
   return (
     <svg
@@ -26,16 +37,16 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       fill="none"
     >
       <path
-        d="M93 84V23C93 13 81 9 74 16L56 34L38 16C31 9 19 13 19 23V70C19 81 27 89 38 89H47V104L63 89H78"
+        d={OUTER}
         stroke="currentColor"
-        strokeWidth="8.5"
+        strokeWidth="4.3"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M36 69V43L51 58C54 61 58 61 61 58L76 43V69"
+        d={INNER}
         stroke="currentColor"
-        strokeWidth="8.5"
+        strokeWidth="4.3"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

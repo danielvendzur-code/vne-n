@@ -86,13 +86,17 @@ const LIME_BRIGHT = "#d9ff78";
 const SOFT = "#f5f9f2";
 const SECONDARY = "#4c5a52";
 
-/** Obe ťahy symbolu — jediný zdroj pravdy pre všetky výstupy. */
+/** Obe ťahy symbolu — jediný zdroj pravdy pre všetky výstupy.
+    Musia sedieť s `src/components/BrandMark.tsx`; kontrolu drží test
+    `the public brand uses the approved option 1 geometry`. */
 const MARK_PATHS = [
-  "M93 84V23C93 13 81 9 74 16L56 34L38 16C31 9 19 13 19 23V70C19 81 27 89 38 89H47V104L63 89H78",
-  "M36 69V43L51 58C54 61 58 61 61 58L76 43V69",
+  "M96.6 85.5C100.8 84.6 103.6 82.4 103.6 79.9V12.4C103.6 7.2 99.2 4.5 95.4 6.4L59.5 34.5" +
+    "C57.9 36.1 54.1 36.1 52.5 34.5L18.3 6.4C14.5 4.5 8.5 7.2 8.5 12.4V78.5" +
+    "C8.5 81.4 11 83.7 14.2 83.7H30.2L30.5 105.5L52.9 83.7H85.3C86.8 83.7 88 82.6 88 81.2V29.2",
+  "M24 71.2V29.2L52.5 55.4C54.1 57 57.9 57 59.5 55.4L88 29.2",
 ];
 
-const mark = (stroke, width = 8.5) =>
+const mark = (stroke, width = 4.3) =>
   MARK_PATHS.map(
     (d) =>
       `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`,
@@ -108,7 +112,7 @@ function iconSvg(size, { inset = 0.2, radius = 0.223, background = FOREST } = {}
   const offset = box * inset;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${box} ${box}">
   <rect width="${box}" height="${box}" rx="${box * radius}" fill="${background}"/>
-  <g transform="translate(${offset} ${offset}) scale(${scale})">${mark(LIME, 9)}</g>
+  <g transform="translate(${offset} ${offset}) scale(${scale})">${mark(LIME, 5.4)}</g>
 </svg>`;
 }
 
@@ -131,7 +135,7 @@ function ogSvg() {
 
   <g transform="translate(96 84) scale(0.62)">
     <rect width="112" height="112" rx="25" fill="${FOREST}"/>
-    <g transform="translate(22.4 22.4) scale(0.6)">${mark(LIME, 9)}</g>
+    <g transform="translate(22.4 22.4) scale(0.6)">${mark(LIME, 5.4)}</g>
   </g>
   <text x="184" y="146" font-family="Inter Tight, Inter, -apple-system, Segoe UI, sans-serif"
         font-size="34" font-weight="680" fill="${FOREST}" letter-spacing="-0.5">Môj Chatbot</text>

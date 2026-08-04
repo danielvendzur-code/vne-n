@@ -62,7 +62,8 @@ body {
   --lp-surface-raised: #122c20;
 }
 
-/* Shared glass surface: pointer-aware light, crisp top reflection and controlled depth. */
+/* Shared glass surface: pointer-aware light,
+crisp top reflection and controlled depth. */
 .site-header-bar,
 .site-menu-drawer,
 .site-menu-solution,
@@ -75,7 +76,6 @@ body {
 .lp-caps-detail-inner,
 .lp-project > a,
 .lp-faq-item,
-.lp-process-list > li,
 .lp-final-card,
 .premium-footer,
 .sp-hero,
@@ -118,7 +118,6 @@ body {
 .lp-caps-detail-inner::after,
 .lp-project > a::after,
 .lp-faq-item::after,
-.lp-process-list > li::after,
 .lp-final-card::after,
 .sp-service::after,
 .sp-combine::after,
@@ -148,7 +147,6 @@ body {
 .lp-caps-detail-inner > *,
 .lp-project > a > *,
 .lp-faq-item > *,
-.lp-process-list > li > *,
 .lp-final-card > *,
 .sp-service > *,
 .sp-combine > *,
@@ -963,40 +961,6 @@ body {
   color: var(--al-muted) !important;
 }
 
-.lp-process-list {
-  gap: 12px !important;
-}
-
-.lp-process-list > li {
-  border: 1px solid rgba(201, 239, 221, 0.17) !important;
-  border-radius: 22px !important;
-  padding: 1.2rem 1.35rem !important;
-  background-color: rgba(20, 13, 9, 0.64) !important;
-  transition:
-    border-color 360ms ease,
-    transform 460ms var(--al-ease),
-    box-shadow 460ms ease !important;
-}
-
-.lp-process-list > li:hover {
-  border-color: rgba(165, 229, 199, 0.52) !important;
-  transform: translateX(6px) !important;
-  box-shadow: 0 20px 44px -34px rgba(179, 233, 208, 0.76) !important;
-}
-
-.lp-process-list > li > span,
-.lp-process-list > li > svg {
-  color: #9ee3c3 !important;
-}
-
-.lp-process-list h3 {
-  color: #ffffff !important;
-}
-
-.lp-process-list p {
-  color: var(--al-muted) !important;
-}
-
 .lp-final-card {
   overflow: hidden !important;
   border: 1px solid rgba(184, 235, 211, 0.4) !important;
@@ -1484,7 +1448,6 @@ body {
   .lp-project > a,
   .lp-project-media img,
   .lp-faq-item,
-  .lp-process-list > li,
   .sp-service,
   .sp-step,
   .sp-combine,
@@ -1496,7 +1459,6 @@ body {
   }
 
   .lp-solution-pill,
-  .lp-process-list > li,
   .lp-project > a,
   .sp-service,
   .sp-step,

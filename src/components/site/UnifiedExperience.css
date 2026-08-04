@@ -16,36 +16,6 @@
   }
 }
 
-@keyframes vendzur-tab-fill-left {
-  0% {
-    opacity: 0.35;
-    transform: translateX(0) scaleX(0.12);
-  }
-  65% {
-    opacity: 1;
-    transform: translateX(0) scaleX(1.035);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) scaleX(1);
-  }
-}
-
-@keyframes vendzur-tab-fill-right {
-  0% {
-    opacity: 0.35;
-    transform: translateX(100%) scaleX(0.12);
-  }
-  65% {
-    opacity: 1;
-    transform: translateX(100%) scaleX(1.035);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(100%) scaleX(1);
-  }
-}
-
 /* No side-to-side liquid slab. Every active fill grows from its own centre. */
 :root .lp-page .lp-chip-liquid,
 :root .lp-page .lp-switch-liquid,

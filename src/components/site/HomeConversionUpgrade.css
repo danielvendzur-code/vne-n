@@ -4,53 +4,6 @@
   gap: 2.25rem !important;
 }
 
-.lp-page .lp-process-list {
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  gap: 12px !important;
-}
-
-.lp-page .lp-process-list > li {
-  /* Výška podľa obsahu — pevných 180 px nechávalo pod textom prázdnu
-     plochu. Kartu skladá vodorovný layout v poslednej vrstve. */
-  min-height: 0 !important;
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: 18px !important;
-  padding: 1.2rem !important;
-  border: 1px solid #213c2f !important;
-  border-radius: 18px !important;
-  background: #160f0a !important;
-  box-shadow: none !important;
-}
-
-.lp-page .lp-process-list > li > span {
-  grid-column: 1 / -1;
-  color: #93877a !important;
-}
-
-.lp-page .lp-process-list > li > svg {
-  color: #b3e9d0 !important;
-}
-
-.lp-page .lp-process-list > li h3 {
-  color: #ffffff !important;
-}
-
-.lp-page .lp-process-list > li p {
-  color: #b5aea5 !important;
-}
-
 .lp-page .lp-final-card {
   display: none !important;
-}
-
-@media (max-width: 860px) {
-  .lp-page .lp-process-list {
-    grid-template-columns: 1fr !important;
-  }
-
-  .lp-page .lp-process-list > li {
-    min-height: 0 !important;
-  }
 }
