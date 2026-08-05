@@ -37,7 +37,7 @@ import { useMagnetic } from "@/hooks/useMagnetic";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useTimelineProgress } from "@/hooks/useTimelineProgress";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import { MOTION, premiumEase, Reveal } from "./motion-primitives";
+import { MOTION, premiumEase, Reveal, wipeUp } from "./motion-primitives";
 import "./PremiumLanding.css";
 import "./LandingFinish.css";
 
@@ -395,7 +395,8 @@ function Heading({
         {index ? <b className="lp-eyebrow-num">{index}</b> : null}
         {eyebrow}
       </motion.p>
-      <motion.h2 variants={sequenceItem}>{children}</motion.h2>
+      {/* Nadpis sa zotrie zdola nahor, zvyšok len nabehne. */}
+      <motion.h2 variants={wipeUp}>{children}</motion.h2>
       {copy ? (
         <motion.p className="lp-heading-copy" variants={sequenceItem}>
           {copy}
@@ -414,8 +415,26 @@ function Hero({ variant }: { variant: LandingVariant }) {
   const reducedMotion = useReducedMotion();
   const copy = heroCopy[variant];
 
+  // Hero neodchádza ako celok. Text stúpa o niečo rýchlejšie než karta
+  // a oba plynú preč — dva rôzne rýchlosti dajú scéne hĺbku. Hodnoty
+  // idú cez pružinu, takže pohyb nekopíruje trhanie kolieska myši.
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
+  // Pri vypnutých animáciách sa hodnoty nesmú odpojiť, len zrovnať.
+  // Odpojenie nechá v elemente poslednú zapísanú hodnotu, a keď ju stihla
+  // zapísať ešte nedomeraná pružina, hero ostane natrvalo priehľadné.
+  const copyY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -110]);
+  const stageY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -58]);
+  const fade = useTransform(smooth, [0, 0.75], [1, reducedMotion ? 1 : 0]);
+  const drift = { y: copyY, opacity: fade };
+  const stageDrift = { y: stageY, opacity: fade };
+
   return (
-    <section className="lp-hero" id="uvod" data-variant={variant}>
+    <section className="lp-hero" id="uvod" data-variant={variant} ref={heroRef}>
       <div className="lp-hero-glide" aria-hidden="true">
         {/* Väčší dosah aj sila — pri pôvodnom nastavení bola reakcia na
             bielom podklade sotva badateľná. */}
@@ -428,6 +447,7 @@ function Hero({ variant }: { variant: LandingVariant }) {
           variants={heroSequence}
           initial={reducedMotion ? false : "hidden"}
           animate="visible"
+          style={drift}
         >
           <motion.p className="lp-hero-context" variants={sequenceItem}>
             {copy.context}
@@ -477,6 +497,7 @@ function Hero({ variant }: { variant: LandingVariant }) {
               ? { duration: 0 }
               : { duration: MOTION.slow, delay: 0.12, ease: premiumEase }
           }
+          style={stageDrift}
         >
           <div className="lp-assistant-card">
             <p>Vyberte, čo má web robiť</p>

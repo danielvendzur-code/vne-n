@@ -28,6 +28,22 @@ export const staggerChild: Variants = {
   visible: { y: 0, opacity: 1, transition: { duration: MOTION.base, ease: premiumEase } },
 };
 
+/**
+ * Nadpis sa neodkrýva len priehľadnosťou — zotrie sa zdola nahor.
+ * `clip-path` beží na kompozítore rovnako ako `opacity`, takže to nič
+ * nestojí, a text pôsobí, akoby vystúpil spoza hrany, nie akoby sa
+ * zjavil z ničoho.
+ */
+export const wipeUp: Variants = {
+  hidden: { opacity: 0, y: 18, clipPath: "inset(0 0 100% 0)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    clipPath: "inset(0 0 -12% 0)",
+    transition: { duration: MOTION.slow, ease: premiumEase },
+  },
+};
+
 type RevealDirection = "up" | "left" | "right";
 
 /**
@@ -61,11 +77,20 @@ export function Reveal({
 
   // Pri vypnutých animáciách sa obsah vykreslí bez akýchkoľvek stavov.
   // Nesmie tu ostať `hidden` bez cieľa — obsah by ostal neviditeľný.
+  //
+  // Vykresľuje sa čistý element, nie pohybový. Server o voľbe návštevníka
+  // nevie, takže do HTML pošle východiskový stav `opacity: 0`. Pohybová
+  // knižnica si zapísané hodnoty drží a zapisuje ich do DOM sama, mimo
+  // Reactu — keby tu ostal ten istý typ komponentu, prepísala by aj náš
+  // `style` a otázky, karty realizácií či záverečná karta by pre človeka
+  // s vypnutými animáciami ostali natrvalo neviditeľné. Zmena typu
+  // element vymení za nový, takže po starom zápise neostane stopa.
   if (reducedMotion) {
+    const Plain = Tag;
     return (
-      <Component className={className} {...rest}>
+      <Plain className={className} style={{ opacity: 1, transform: "none" }} {...rest}>
         {children}
-      </Component>
+      </Plain>
     );
   }
 

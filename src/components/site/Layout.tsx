@@ -75,6 +75,8 @@ import "@/components/site/RoundFixes.css";
 // Jeden tvar pre všetky štítky, pokojná hlavička na mobile, užšie menu,
 // zarovnaná os na telefóne a menej prázdnych plôch.
 import "@/components/site/RoundTwoFixes.css";
+// Značka v tmavej zeleni chatbota a pohyb viazaný na polohu scrollu.
+import "@/components/site/ScrollMotionFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

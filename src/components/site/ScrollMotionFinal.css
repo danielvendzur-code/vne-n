@@ -1,0 +1,297 @@
+/* =====================================================================
+   MÔJ CHATBOT — POHYB PRI SCROLLOVANÍ
+
+   Vrstva pridáva pohyb, ktorý je viazaný na polohu scrollu, nie len
+   spustený pri vstupe do zorného poľa. Beží cez `animation-timeline:
+   view()`, teda mimo hlavného vlákna — prehliadač si to rieši sám a pri
+   scrollovaní to nestojí ani snímok navyše.
+
+   Prehliadače bez podpory nedostanú nič navyše; základné odhaľovanie
+   pri vstupe drží Motion a to funguje všade.
+
+   Značka má na svetlých plochách tmavú zeleň, rovnakú ako chatbot;
+   limetková ostáva tam, kde je pod ňou tmavý podklad.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Značka v tmavej zeleni
+   Limetková na bielej hlavičke bola svetlejšia než čokoľvek okolo nej
+   a v malej veľkosti sa strácala. Tmavá zeleň je tá istá, akú používa
+   ikona chatbota na svetlom podklade.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .brand-mark {
+  color: #19834f !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible)
+    .brand-mark {
+    color: #0f6a3e !important;
+  }
+}
+
+/* Na tmavých plochách ostáva svetlá — inak by zmizla. */
+html:root body .site-theme-white-green .site-menu-drawer .brand-mark,
+html:root body .site-theme-white-green .premium-footer .brand-mark,
+html:root body .site-theme-white-green .lp-process .brand-mark,
+html:root body .site-theme-white-green .lp-final-card .brand-mark {
+  color: #d9ff78 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    .site-menu-drawer
+    .site-menu-brand:is(:hover, :focus-visible)
+    .brand-mark {
+    color: #ffffff !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   2. Náhľady realizácií majú hĺbku
+   Snímka sa vnútri rámu posúva pomalšie než stránka. Je to jeden
+   z mála efektov, ktorý mozog číta ako priestor, nie ako ozdobu.
+   Rám je orezaný, takže posun nikde nevytŕča.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* Rám aj odkaz okolo neho majú `overflow: hidden`, takže sú oba samy
+       o sebe posuvnou oblasťou — `view()` na obrázku by sa meralo voči
+       nim a obrázok sa v nich nikdy nepohne. Dráha preto vzniká na celej
+       karte, ktorá orezaná nie je, a obrázok si ju vypýta menom. */
+    html:root body .site-theme-white-green .lp-page .lp-project {
+      view-timeline-name: --sm-media;
+    }
+
+    html:root body .site-theme-white-green .lp-page .lp-project-media img {
+      /* Obrázok je o 18 % vyšší než rám — presne o toľko, o koľko sa
+         posunie, takže rám nikdy neostane odkrytý. Posúva sa vlastnosťou
+         `translate`, nie `transform`, aby priblíženie pri prejazde myšou
+         (`scale`) ostalo funkčné a obe sa poskladali. */
+      height: 118% !important;
+      animation: sm-media-parallax linear both;
+      animation-timeline: --sm-media;
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes sm-media-parallax {
+  from {
+    translate: 0 -15%;
+  }
+
+  to {
+    translate: 0 0%;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. Karty sa usadia, kým prechádzajú obrazovkou
+   Prídu o kúsok nižšie a zľahka zmenšené a usadia sa podľa toho, kde
+   presne sú — nie na spínač pri vstupe. Pri scrollovaní späť hore sa
+   pohyb prehrá odzadu, lebo je viazaný na polohu, nie na čas.
+
+   Časová os tu zámerne nie je: jej karty sa už rozsvecujú postupne podľa
+   toho, kam dorástla koľaj. Druhá animácia by to prebila.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* Všetky rozsahy končia vo fáze `entry`, nie `cover`. Prvky na konci
+       stránky sa do `cover` nikdy nedostanú — pod nimi už nie je čo
+       scrollovať — a ostali by natrvalo priesvitné. */
+    html:root body .site-theme-white-green .lp-page .lp-caps-row-head {
+      animation: sm-settle-soft linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 70%;
+    }
+
+    html:root
+      body
+      .site-theme-white-green
+      :is(.winner-package, .winner-trust__item, .winner-prep__item) {
+      animation: sm-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 62%;
+    }
+
+    /* Karty stoja vedľa seba, takže majú rovnakú polohu a usadili by sa
+       naraz. Posunutý rozsah im dá poradie zľava doprava. */
+    html:root
+      body
+      .site-theme-white-green
+      :is(.winner-package, .winner-trust__item, .winner-prep__item):nth-child(2) {
+      animation-range: entry 9% entry 74%;
+    }
+
+    html:root
+      body
+      .site-theme-white-green
+      :is(.winner-package, .winner-trust__item, .winner-prep__item):nth-child(3) {
+      animation-range: entry 18% entry 86%;
+    }
+
+    html:root body .site-theme-white-green .premium-footer-main > * {
+      animation: sm-settle-soft linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+@keyframes sm-settle {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(0.985);
+    filter: blur(3px);
+  }
+
+  60% {
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes sm-settle-soft {
+  from {
+    opacity: 0.25;
+    transform: translate3d(0, 16px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4. Lesný pás sa otvorí
+   Zaoblenie hore rastie, kým pás vstupuje do zorného poľa — predel medzi
+   svetlou a tmavou plochou tak nevznikne skokom, ale sa rozvinie.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) and (min-width: 721px) {
+  @supports (animation-timeline: view()) {
+    html:root body .site-theme-white-green .lp-page > section[data-band="forest"] {
+      animation: sm-band-open linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+  }
+}
+
+/* Na telefóne je pokojový stav 1,75 rem, takže má vlastný cieľ — inak by
+   animácia zaoblenie po dobehnutí zväčšila. */
+@media (prefers-reduced-motion: no-preference) and (max-width: 720px) {
+  @supports (animation-timeline: view()) {
+    html:root body .site-theme-white-green .lp-page > section[data-band="forest"] {
+      animation: sm-band-open-narrow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+  }
+}
+
+@keyframes sm-band-open {
+  from {
+    border-radius: 7rem 7rem 0 0;
+  }
+
+  to {
+    border-radius: 2.5rem 2.5rem 0 0;
+  }
+}
+
+@keyframes sm-band-open-narrow {
+  from {
+    border-radius: 4.5rem 4.5rem 0 0;
+  }
+
+  to {
+    border-radius: 1.75rem 1.75rem 0 0;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   5. Číslo sekcie sa pri prechode rozjasní
+   Vodoznak už paralaxuje; teraz aj mierne pribúda na sile, keď je sekcia
+   naprostred obrazovky, a zase ustúpi. Je to na hranici viditeľnosti —
+   presne tam patrí.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    html:root body .site-theme-white-green .lp-page > section[data-band]::before {
+      animation:
+        sf-watermark-drift linear both,
+        sm-watermark-breathe linear both;
+      animation-timeline: view(), view();
+      animation-range:
+        entry 0% exit 100%,
+        entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes sm-watermark-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   6. Ukazovateľ priebehu je vidieť
+   Pásik pod hlavičkou mal 2 px a takmer žiadny kontrast. Trocha hrubší
+   a s vlastnou dráhou je z neho použiteľná informácia.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-progress-track {
+  height: 3px !important;
+  background: rgba(11, 47, 32, 0.07) !important;
+}
+
+html:root body .site-theme-white-green .lp-progress {
+  background: linear-gradient(90deg, #19834f, #b9ed4d 62%, #d9ff78) !important;
+  box-shadow: 0 0 10px rgba(185, 237, 77, 0.45) !important;
+}
+
+/* ---------------------------------------------------------------------
+   7. Odkazy a karty reagujú na kurzor jedným pohybom
+   Doteraz sa niektoré dvíhali, iné nie. Zdvih je malý a všade rovnaký.
+   --------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html:root
+    body
+    .site-theme-white-green
+    :is(.lp-project > a, .winner-package, .rz-card, .sp-service):hover {
+    transform: translate3d(0, -3px, 0) !important;
+  }
+
+  /* Karta časovej osi sa dvíha až vtedy, keď k nej koľaj dorástla —
+     inak by prejazd myšou prebil jej vlastný posun a karta by skočila. */
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-tl-steps
+    li[data-reached="true"]
+    .lp-tl-card:hover {
+    transform: translate3d(0, -3px, 0) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project > a:hover .lp-project-domain {
+    transform: translate3d(0, -2px, 0) !important;
+  }
+}
