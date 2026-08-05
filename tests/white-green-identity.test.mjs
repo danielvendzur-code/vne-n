@@ -36,12 +36,16 @@ test("the public brand uses the approved option 1 geometry", async () => {
     assert.equal((asset.match(/<path\b/g) ?? []).length, 2);
     assert.match(asset, new RegExp(escape(outerPath)));
     assert.match(asset, new RegExp(escape(innerPath)));
-    assert.match(asset, /stroke="#B9ED4D"/);
     assert.match(asset, /stroke-width="7"/);
   }
 
-  // Favicon navyše sedí na tmavej lesnej dlaždici. Samotný limetkový ťah
-  // sa na svetlom paneli prehliadača stráca, pri 16 px úplne.
+  // Farba ťahu sa riadi podkladom, nie súborom. Predtým tu bola limetková
+  // pre oba súbory; exportované logo však vyhľadávače kreslia na bielu,
+  // kde sa limetková stráca, takže má tmavú zeleň chatbota. Favicon sedí
+  // na tmavej lesnej dlaždici a limetkovú si preto ponecháva.
+  assert.match(exported, /stroke="#19834F"/);
+  assert.match(favicon, /stroke="#B9ED4D"/);
+
   assert.match(favicon, /<rect[^>]*fill="#0b2f20"/);
   assert.doesNotMatch(exported, /<rect\b/);
 });
