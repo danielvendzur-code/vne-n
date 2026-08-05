@@ -80,10 +80,11 @@ html:root body .site-theme-white-green :is(.lp-caps-num, .winner-package__icon) 
     backdrop-filter: none !important;
   }
 
-  /* Pás sa nesmie prekresľovať spolu s obsahom pod ním. */
+  /* Tu bolo `contain: paint`. Panel menu je potomkom hlavičky, takže ho
+     to orezalo na výšku lišty — menu sa otvorilo, ale bolo z neho vidieť
+     len horný pruh. Proti sekaniu stačí zrušené rozostrenie a prechod. */
   html:root body .site-theme-white-green .site-header {
     will-change: auto !important;
-    contain: paint !important;
   }
 }
 
@@ -262,4 +263,63 @@ html:root body .site-theme-white-green .sp-page .sp-section {
     border-color: rgba(25, 131, 79, 0.24) !important;
     background: #ffffff !important;
   }
+}
+
+/* ---------------------------------------------------------------------
+   8. Prvý štítok v hero nie je tmavý, kým naň niekto neklikol
+   Karta ukazuje odpoveď pre prvý nástroj, ale samotný štítok mal plnú
+   tmavozelenú výplň už pri načítaní — vyzeralo to, akoby návštevník už
+   niečo vybral. Do prvého kliknutia má preto svetlý stav; farbu dostane
+   až po skutočnom výbere.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-preview="true"] {
+  color: #0b2f20 !important;
+  border-color: rgba(25, 131, 79, 0.28) !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-hero-pick[data-preview="true"]
+  .lp-hero-pick-label {
+  color: #0b2f20 !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-hero-pick[data-preview="true"]
+  .lp-hero-pick-icon {
+  color: #19834f !important;
+  background: rgba(217, 255, 120, 0.3) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-preview="true"]::after {
+  content: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   9. Nápis pri značke
+   Menší rozostup názvu a domény, doména dostane pokojnejšiu farbu
+   a väčší preklad — bližšie k originálnej zostave loga.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header .site-brand-copy {
+  gap: 0.2rem !important;
+}
+
+html:root body .site-theme-white-green .site-brand-name {
+  font-size: 1.2rem !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.03em !important;
+}
+
+html:root body .site-theme-white-green .site-header .site-brand-domain {
+  color: #6b7a72 !important;
+  font-size: 0.7rem !important;
+  font-weight: 520 !important;
+  letter-spacing: 0.11em !important;
 }

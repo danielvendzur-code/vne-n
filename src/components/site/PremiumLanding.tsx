@@ -407,6 +407,10 @@ function Heading({
 
 function Hero({ variant }: { variant: LandingVariant }) {
   const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
+  // Kým návštevník neklikol, žiadny štítok nie je vybraný. Karta ukazuje
+  // prvú odpoveď, ale plnú tmavú výplň dostane štítok až po kliknutí —
+  // inak to vyzerá, akoby už niečo zvolil.
+  const [picked, setPicked] = useState(false);
   const reducedMotion = useReducedMotion();
   const copy = heroCopy[variant];
 
@@ -485,13 +489,15 @@ function Hero({ variant }: { variant: LandingVariant }) {
                       type="button"
                       key={key}
                       className="lp-hero-pick"
-                      data-active={activeTool === key}
-                      aria-pressed={activeTool === key}
+                      data-active={picked && activeTool === key}
+                      aria-pressed={picked && activeTool === key}
                       data-chip-kind="hero"
-                      data-selected={activeTool === key}
+                      data-selected={picked && activeTool === key}
+                      data-preview={!picked && activeTool === key}
                       onPointerDown={(event) => event.stopPropagation()}
                       onClick={(event) => {
                         event.stopPropagation();
+                        setPicked(true);
                         setActiveTool(key);
                       }}
                     >
