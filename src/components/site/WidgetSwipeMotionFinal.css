@@ -93,63 +93,55 @@
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* The mark visibly draws when it first appears and redraws more slowly on
-   deliberate hover. The inner path follows the outer path with a short delay. */
-.cw-widget :is(.cw-launcher, .cw-panel-head__mascot) .brand-mark path {
-  stroke-dasharray: 420;
+/* Exact logo draw. BrandMark normalises each path to pathLength=1, so no
+   guessed 330/420-unit dash can swallow the animation. */
+.cw-widget
+  :is(.cw-launcher, .cw-panel-head__mascot)
+  .brand-mark
+  :is(.brand-mark__outer, .brand-mark__inner) {
+  stroke-dasharray: 1 !important;
   stroke-dashoffset: 0;
-  animation: mc-widget-logo-intro 860ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  opacity: 1;
   will-change: stroke-dashoffset, opacity;
 }
 
 .cw-widget
   :is(.cw-launcher, .cw-panel-head__mascot)
-  .brand-mark
-  path:nth-of-type(2) {
-  animation-delay: 120ms !important;
+  .brand-mark__outer {
+  animation: mc-widget-logo-trace 500ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .cw-widget
-  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible)
+  :is(.cw-launcher, .cw-panel-head__mascot)
+  .brand-mark__inner {
+  animation: mc-widget-logo-trace 280ms cubic-bezier(0.22, 1, 0.36, 1) 370ms both !important;
+}
+
+.cw-widget
+  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible, :active)
   .brand-mark {
-  animation: mc-widget-logo-settle 760ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  animation: mc-widget-logo-settle 680ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .cw-widget
-  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible)
-  .brand-mark
-  path {
-  animation: mc-widget-logo-redraw 760ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible, :active)
+  .brand-mark__outer {
+  animation: mc-widget-logo-trace 520ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .cw-widget
-  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible)
-  .brand-mark
-  path:nth-of-type(2) {
-  animation-delay: 100ms !important;
+  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible, :active)
+  .brand-mark__inner {
+  animation: mc-widget-logo-trace 290ms cubic-bezier(0.22, 1, 0.36, 1) 380ms both !important;
 }
 
-@keyframes mc-widget-logo-intro {
+@keyframes mc-widget-logo-trace {
   0% {
-    stroke-dashoffset: 420;
+    stroke-dashoffset: 1;
     opacity: 0.18;
   }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes mc-widget-logo-redraw {
-  0% {
-    stroke-dashoffset: 420;
-    opacity: 0.28;
-  }
-  72% {
-    opacity: 1;
+  34% {
+    opacity: 0.82;
   }
   100% {
     stroke-dashoffset: 0;
@@ -158,17 +150,12 @@
 }
 
 @keyframes mc-widget-logo-settle {
-  0% {
-    transform: scale(1) rotate(0deg);
-  }
-  45% {
-    transform: scale(1.055) rotate(-1.8deg);
-  }
-  75% {
-    transform: scale(0.99) rotate(0.7deg);
-  }
+  0%,
   100% {
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
+  }
+  48% {
+    transform: scale(1.035);
   }
 }
 
@@ -228,9 +215,10 @@
   .cw-widget
     :is(.cw-launcher, .cw-panel-head__mascot)
     .brand-mark
-    path,
+    :is(.brand-mark__outer, .brand-mark__inner),
   .cw-widget .cw-panel-head__actions button svg {
     animation: none !important;
     transition: none !important;
+    stroke-dashoffset: 0 !important;
   }
 }
