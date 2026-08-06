@@ -43,9 +43,8 @@ test("the public brand uses the approved option 1 geometry", async () => {
   // zostalo čitateľné v Google výsledkoch, záložkách aj svetlom browser UI.
   assert.match(exported, /stroke="#19834F"/);
   assert.match(favicon, /stroke="#19834F"/);
-
+  assert.match(exported, /<rect[^>]*fill="#FFFFFF"/);
   assert.match(favicon, /<rect[^>]*fill="#FFFFFF"/);
-  assert.doesNotMatch(exported, /<rect\b/);
 });
 
 test("the approved option 1 layer fixes contrast and removes warm legacy states", async () => {
