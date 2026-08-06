@@ -5,39 +5,43 @@ export interface FaqEntry {
 
 export const faqs: FaqEntry[] = [
   {
-    q: "Ako sa určí rozsah projektu?",
-    a: "Rozsah závisí od počtu otázok, pravidiel, krokov a prepojení. Po krátkom zadaní dostanete konkrétny návrh prvej verzie, termín aj pevnú cenu vopred — bez skrytých položiek.",
+    q: "Od čoho závisí cena?",
+    a: "Najmä od toho, koľko vecí má chatbot robiť. Jednoduché odpovede a zber kontaktov stoja menej než výpočet ceny, výber produktu, objednávky alebo prepojenie s firemným systémom. Presnú cenu dostanete vopred.",
   },
   {
     q: "Čo odo mňa potrebujete na začiatku?",
-    a: "Stačí odkaz na web alebo popis ponuky, najčastejšie otázky, cenník či pravidlá výpočtu a informácia, kam majú chodiť dopyty. Z toho pripravíme logiku, texty, rozloženie aj prvý prototyp.",
+    a: "Stačí odkaz na web, popis ponuky, najčastejšie otázky zákazníkov a informácia, kam majú chodiť dopyty alebo objednávky. Ostatné si prejdeme spolu.",
   },
   {
-    q: "Ako rýchlo viem mať nástroj na webe?",
-    a: "Návrh otázok a logiky pripravíme v priebehu dní. Presný termín nasadenia závisí od rozsahu a prepojení; harmonogram dostanete spolu s cenou ešte pred začiatkom vývoja.",
+    q: "Ako rýchlo môže byť chatbot na webe?",
+    a: "Jednoduchšie riešenie vieme pripraviť v priebehu dní. Pri výpočtoch, veľkom výbere produktov alebo viacerých prepojeniach dostanete presný termín spolu s cenou ešte pred začiatkom.",
   },
   {
     q: "Musím kvôli tomu prerábať celý web?",
-    a: "Nie. Nástroj sa vloží do existujúcej stránky ako samostatný widget a dizajn sa prispôsobí vašim farbám, typografii a rozloženiu. Vo väčšine prípadov stačí vložiť krátky kód.",
+    a: "Nie. Chatbot sa pridá na existujúci web a prispôsobí sa jeho farbám, písmu a štýlu. Vo väčšine prípadov netreba meniť ostatné časti stránky.",
   },
   {
-    q: "Z čoho chatbot odpovedá a čo ak si niečo vymyslí?",
-    a: "Obsah a hranice odpovedí sa nastavia z vašich overených podkladov. Pri citlivej alebo neznámej otázke chatbot nemá hádať — požiada o kontakt alebo odovzdá konverzáciu človeku aj s kontextom.",
+    q: "Funguje to aj pre e-shop?",
+    a: "Áno. Chatbot môže poradiť s produktom, ukázať stav objednávky, pripraviť zmenu alebo zrušenie a zozbierať údaje k vráteniu či reklamácii. Rozsah sa nastaví podľa vášho e-shopu.",
   },
   {
-    q: "Kam budú chodiť dopyty?",
-    a: "Štandardne na e-mail aj s odpoveďami zákazníka, výpočtom a kontaktom. Podľa potreby sa môžu zapisovať do kalendára, Google tabuľky, CRM alebo interného systému.",
+    q: "Z čoho chatbot odpovedá?",
+    a: "Používa vaše texty, cenník, ponuku a pravidlá. Keď odpoveď nepozná alebo ide o citlivú otázku, nemá hádať — vypýta si kontakt alebo pošle otázku človeku.",
+  },
+  {
+    q: "Kam budú chodiť dopyty a objednávky?",
+    a: "Najčastejšie na e-mail aj so všetkými odpoveďami a kontaktom. Môžu sa zapisovať aj do kalendára, tabuľky alebo systému, ktorý už vo firme používate.",
   },
   {
     q: "Čo keď sa zmení cenník alebo ponuka?",
-    a: "Logiku navrhujeme tak, aby sa pravidlá dali upravovať bez prerábania celého nástroja. Rozsah následnej údržby a spôsob aktualizácií si dohodneme vopred podľa toho, ako často sa vaša ponuka mení.",
+    a: "Ceny, produkty a odpovede sa dajú upraviť. Vopred si dohodneme, kto bude zmeny robiť a čo bude zahrnuté v mesačnej starostlivosti.",
   },
   {
-    q: "Ako sa riešia osobné údaje a GDPR?",
-    a: "Zbierajú sa iba údaje potrebné na vybavenie dopytu. Súhlas, informačné texty, miesto uloženia a odosielanie údajov sa nastavia podľa konkrétneho procesu a webu klienta.",
+    q: "Ako sa riešia osobné údaje?",
+    a: "Zbierajú sa iba údaje potrebné na vybavenie dopytu, objednávky alebo reklamácie. Súhlas a informačné texty sa nastavia podľa toho, čo chatbot na vašom webe robí.",
   },
   {
-    q: "Viem si riešenie vyskúšať ešte pred spoluprácou?",
-    a: "Áno. Na webe sú živé nástroje aj interaktívne demá. Pri konkrétnom projekte najprv pripravíme logiku a prvý návrh rozhrania, aby bol rozsah jasný ešte pred finálnym nasadením.",
+    q: "Môžem si riešenie najprv vyskúšať?",
+    a: "Áno. Najprv dostanete vlastnú ukážku. Vyskúšate si otázky, výber, výpočet aj výsledok a až potom sa riešenie pridá na váš web.",
   },
 ];
