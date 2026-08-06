@@ -46,6 +46,13 @@ function setText(selector: string, text: string): void {
   if (element) element.textContent = text;
 }
 
+function setResultText(element: HTMLElement, text: string): void {
+  const icon = element.querySelector("svg");
+  element.replaceChildren();
+  if (icon) element.append(icon);
+  element.append(document.createTextNode(` ${text}`));
+}
+
 function selectedHeroIndex(): number {
   const choices = Array.from(document.querySelectorAll<HTMLElement>(".lp-hero-pick"));
   const selected = choices.findIndex(
@@ -83,7 +90,7 @@ function prepareVisibleCopy(): void {
     const result = card.querySelector<HTMLElement>(".lp-tl-result");
     if (title) title.textContent = step.title;
     if (copy) copy.textContent = step.copy;
-    if (result) result.textContent = step.result;
+    if (result) setResultText(result, step.result);
   });
 }
 
