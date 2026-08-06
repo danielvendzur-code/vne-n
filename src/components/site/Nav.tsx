@@ -248,11 +248,7 @@ export function Nav() {
           </div>
 
           <div className="site-menu-footer">
-            <button
-              className="site-menu-cta"
-              type="button"
-              onClick={() => openMenuChatbot()}
-            >
+            <button className="site-menu-cta" type="button" onClick={() => openMenuChatbot()}>
               <span>
                 <small>Neviete, čo vybrať?</small>
                 Vyskladať riešenie krok za krokom
