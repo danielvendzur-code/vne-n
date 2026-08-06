@@ -146,7 +146,10 @@ export function HomeConversionUpgrade() {
 
         <div className="winner-packages">
           {packages.map(
-            ({ icon: Icon, title, price, priceNote, monthly, badge, copy, features, preset }, index) => (
+            (
+              { icon: Icon, title, price, priceNote, monthly, badge, copy, features, preset },
+              index,
+            ) => (
               <Reveal
                 as="article"
                 className="winner-package"
