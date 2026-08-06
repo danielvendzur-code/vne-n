@@ -8,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import type { AssistantPreset } from "@/types/assistant";
 import "./Nav.css";
 import "./BrandMenuV2.css";
 
@@ -21,24 +22,29 @@ const drawerItems: LineSidebarItem[] = [
   { label: "Kontakt", href: "/kontakt" },
 ];
 
-const menuSolutions = [
+const menuSolutions: Array<{
+  icon: typeof Bot;
+  title: string;
+  copy: string;
+  preset: AssistantPreset;
+}> = [
   {
     icon: Bot,
-    title: "AI chatbot na mieru",
-    copy: "Odpovede, kvalifikácia a pripravený dopyt 24/7.",
-    mode: "assistant" as const,
+    title: "Chatbot",
+    copy: "Odpovie zákazníkom, poradí im a pošle vám pripravený dopyt.",
+    preset: "inquiry",
   },
   {
     icon: Calculator,
     title: "Chatbot s kalkulačkou",
-    copy: "Zákazník vyberie možnosti a chatbot hneď vypočíta cenu či spotrebu.",
-    mode: "calculator" as const,
+    copy: "Vypočíta cenu, spotrebu alebo rozsah podľa vašich pravidiel.",
+    preset: "calculator",
   },
   {
     icon: SlidersHorizontal,
     title: "Chatbot s konfigurátorom",
-    copy: "Chatbot prevedie výberom produktu a odošle kompletnú špecifikáciu.",
-    mode: "calculator" as const,
+    copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov.",
+    preset: "product",
   },
 ];
 
@@ -69,13 +75,13 @@ export function Nav() {
     };
   }, [open]);
 
-  const openMenuAssistant = (mode: "assistant" | "calculator", category?: string) => {
+  const openMenuChatbot = (preset?: AssistantPreset, category?: string) => {
     closeMenu();
     window.setTimeout(
       () =>
         openSiteAssistant({
           source: "sidebar-solution",
-          entry: mode === "calculator" ? "builder" : undefined,
+          preset,
           category,
         }),
       360,
@@ -107,7 +113,6 @@ export function Nav() {
             aria-label="Môj Chatbot — domov"
           >
             <BrandMark size={34} />
-            {/* Značka aj doména pod ňou — rovnaká zostava ako v origináli. */}
             <span className="site-brand-copy">
               <span className="site-brand-name">Môj Chatbot</span>
               <small className="site-brand-domain">mojchatbot.sk</small>
@@ -181,7 +186,7 @@ export function Nav() {
               <BrandMark size={44} />
               <span>
                 Môj Chatbot
-                <small>chatboty a konverzné nástroje na mieru</small>
+                <small>chatboty pre e-shopy aj firmy so službami</small>
               </span>
             </Link>
             <button
@@ -212,17 +217,17 @@ export function Nav() {
               </div>
 
               <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
-                <p className="site-menu-eyebrow">Chatboty</p>
+                <p className="site-menu-eyebrow">Vyberte riešenie</p>
                 <p className="site-menu-services-intro">
-                  Vyberte najbližší typ. Asistent pripraví krátke zadanie bez zbytočného formulára.
+                  Kliknite na najbližšiu možnosť. Chatbot sa otvorí s pripraveným prvým krokom.
                 </p>
                 <div className="site-menu-solution-list">
-                  {menuSolutions.map(({ icon: Icon, title, copy, mode }) => (
+                  {menuSolutions.map(({ icon: Icon, title, copy, preset }) => (
                     <button
                       type="button"
                       className="site-menu-solution"
                       key={title}
-                      onClick={() => openMenuAssistant(mode, title)}
+                      onClick={() => openMenuChatbot(preset, title)}
                     >
                       <span className="site-menu-solution-icon">
                         <Icon size={17} aria-hidden="true" />
@@ -246,11 +251,11 @@ export function Nav() {
             <button
               className="site-menu-cta"
               type="button"
-              onClick={() => openMenuAssistant("assistant")}
+              onClick={() => openMenuChatbot()}
             >
               <span>
-                <small>Máte konkrétny nápad?</small>
-                Prejdime si ho spolu
+                <small>Neviete, čo vybrať?</small>
+                Vyskladať riešenie krok za krokom
               </span>
               <ArrowUpRight size={20} />
             </button>
