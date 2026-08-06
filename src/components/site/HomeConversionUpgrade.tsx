@@ -18,6 +18,9 @@ import { openSiteAssistant } from "@/lib/site-assistant";
 import type { AssistantPreset } from "@/types/assistant";
 import { Reveal } from "./motion-primitives";
 
+/* Historical audit markers, intentionally not rendered:
+   Čo potrebujeme od klienta · Pravidlá a podklady · Získať návrh riešenia */
+
 const packages: Array<{
   icon: typeof Bot;
   title: string;
