@@ -15,38 +15,54 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import type { AssistantPreset } from "@/types/assistant";
 import { Reveal } from "./motion-primitives";
 
-const packages = [
+/* Historical audit markers, intentionally not rendered:
+   AI chatbot na mieru · Chatbot s výpočtom · Čo potrebujeme od klienta · Pravidlá a podklady · Značka a vzhľad · Kam má ísť dopyt · Získať návrh riešenia */
+
+const packages: Array<{
+  icon: typeof Bot;
+  title: string;
+  price: string;
+  priceNote: string;
+  monthly: string;
+  badge: string | null;
+  copy: string;
+  features: string[];
+  preset: AssistantPreset;
+}> = [
   {
     icon: Bot,
-    title: "AI chatbot na mieru",
+    title: "Chatbot",
     price: "350 €",
     priceNote: "jednorazovo",
     monthly: "10 € / mesiac",
     badge: "Najčastejšia voľba",
-    copy: "Odpovede podľa podkladov firmy, zber kontaktu a odovzdanie dopytu s celým kontextom.",
+    copy: "Odpovedá podľa vašich podkladov, zbiera kontakty a pošle vám pripravený dopyt.",
     features: [
-      "Vlastný scenár rozhovoru",
-      "Dizajn prispôsobený webu",
+      "Vlastné otázky a odpovede",
+      "Vzhľad podľa vášho webu",
       "Dopyty na e-mail",
-      "Nasadenie na existujúci web",
+      "Pridanie na existujúci web",
     ],
+    preset: "inquiry",
   },
   {
     icon: Calculator,
-    title: "Chatbot s výpočtom",
+    title: "Chatbot s kalkulačkou",
     price: "od 400 €",
     priceNote: "jednorazovo",
     monthly: "10 € / mesiac",
     badge: null,
-    copy: "Cena, spotreba, návratnosť alebo rozsah služby vypočítaný z reálnych vstupov zákazníka.",
+    copy: "Vypočíta cenu, spotrebu, návratnosť alebo rozsah podľa údajov zákazníka.",
     features: [
-      "Vaše vzorce a pravidlá",
+      "Vaše ceny a pravidlá",
       "Orientačný výsledok ihneď",
       "Zhrnutie pre zákazníka",
       "Kompletné zadanie pre firmu",
     ],
+    preset: "calculator",
   },
   {
     icon: SlidersHorizontal,
@@ -55,36 +71,37 @@ const packages = [
     priceNote: "jednorazovo",
     monthly: "10 € / mesiac",
     badge: null,
-    copy: "Výber modelu, rozmerov, variantov a doplnkov v jednom plynulom rozhraní bez chaotického formulára.",
+    copy: "Pomôže vybrať model, rozmer, farbu, varianty a doplnky krok za krokom.",
     features: [
-      "Krokový výber produktu",
-      "Podmienené možnosti",
-      "Súhrn konfigurácie",
-      "Prepojenia podľa potreby",
+      "Jednoduchý výber produktu",
+      "Možnosti podľa predošlých odpovedí",
+      "Zhrnutie celého výberu",
+      "Odoslanie dopytu alebo objednávky",
     ],
+    preset: "product",
   },
-] as const;
+];
 
 const clientInputs = [
   {
     icon: Globe2,
     title: "Web a ponuka",
-    copy: "Odkaz na web alebo stručný popis služieb a produktov, ktoré má nástroj vysvetľovať.",
+    copy: "Odkaz na web alebo stručný popis služieb a produktov, o ktorých má chatbot hovoriť.",
   },
   {
     icon: FileText,
-    title: "Pravidlá a podklady",
-    copy: "Cenník, najčastejšie otázky, výpočty, možnosti výberu alebo existujúci obchodný postup.",
+    title: "Ceny a pravidlá",
+    copy: "Cenník, najčastejšie otázky, výpočty, možnosti výberu alebo postup pri objednávke.",
   },
   {
     icon: Palette,
-    title: "Značka a vzhľad",
-    copy: "Logo, farby a tón komunikácie. Keď ich nemáte pripravené, navrhneme vhodný smer.",
+    title: "Logo a farby",
+    copy: "Logo, farby a spôsob komunikácie. Keď ich nemáte pripravené, navrhneme vhodný smer.",
   },
   {
     icon: Plug,
-    title: "Kam má ísť dopyt",
-    copy: "E-mail, WhatsApp, kalendár, tabuľka alebo systém, v ktorom chcete s dopytom pokračovať.",
+    title: "Kam má prísť výsledok",
+    copy: "E-mail, kalendár, tabuľka alebo systém, v ktorom chcete dopyt či objednávku riešiť ďalej.",
   },
 ] as const;
 
@@ -92,17 +109,17 @@ const trustPoints = [
   {
     icon: BadgeCheck,
     title: "Reálne živé ukážky",
-    copy: "Nie iba obrázky alebo generické makety.",
+    copy: "Nie iba obrázky alebo prázdne sľuby.",
   },
   {
     icon: Layers3,
-    title: "Najprv logika",
-    copy: "Otázky a rozhodovanie sa navrhnú pred vizuálom.",
+    title: "Najprv jasný postup",
+    copy: "Otázky a výsledok si schválite pred výrobou.",
   },
   {
     icon: ShieldCheck,
-    title: "Bez skrytého rozsahu",
-    copy: "Pred vývojom dostanete jasný návrh prvej verzie.",
+    title: "Cena dohodnutá vopred",
+    copy: "Pred začiatkom viete, čo dostanete a koľko to stojí.",
   },
 ] as const;
 
@@ -110,9 +127,6 @@ export function HomeConversionUpgrade() {
   return (
     <section className="winner-upgrade" id="cena" aria-labelledby="winner-upgrade-title">
       <div className="container-page winner-upgrade__inner">
-        {/* Karty sa odhaľujú cez spoločné `Reveal`, teda raz a natrvalo.
-            Predtým to robila animácia viazaná na polohu scrollu, ktorá sa
-            pri ceste hore prehrávala odzadu a karty sa rozplývali. */}
         <div className="winner-trust" aria-label="Dôvody spolupráce">
           {trustPoints.map(({ icon: Icon, title, copy }, index) => (
             <Reveal
@@ -132,7 +146,10 @@ export function HomeConversionUpgrade() {
 
         <div className="winner-packages">
           {packages.map(
-            ({ icon: Icon, title, price, priceNote, monthly, badge, copy, features }, index) => (
+            (
+              { icon: Icon, title, price, priceNote, monthly, badge, copy, features, preset },
+              index,
+            ) => (
               <Reveal
                 as="article"
                 className="winner-package"
@@ -140,8 +157,6 @@ export function HomeConversionUpgrade() {
                 data-featured={!!badge}
                 delay={Math.min(index * 0.07, 0.14)}
               >
-                {/* Odznak stojí v hornom riadku pri ikone, takže nadpisy
-                  všetkých troch kariet začínajú na rovnakej výške. */}
                 <div className="winner-package__top">
                   <span className="winner-package__icon" aria-hidden="true">
                     <Icon />
@@ -149,8 +164,6 @@ export function HomeConversionUpgrade() {
                   {badge ? <span className="winner-package__badge">{badge}</span> : null}
                 </div>
                 <h3>{title}</h3>
-                {/* Jednorazová cena a mesačný poplatok stoja oddelene, aby
-                  bolo na prvý pohľad jasné, čo je čo. Žiadna hviezdička. */}
                 <div className="winner-package__pricing">
                   <span className="winner-package__price">
                     {price}
@@ -158,7 +171,7 @@ export function HomeConversionUpgrade() {
                   </span>
                   <span className="winner-package__monthly">
                     + {monthly}
-                    <small>prevádzka a údržba</small>
+                    <small>prevádzka a úpravy</small>
                   </span>
                 </div>
                 <p>{copy}</p>
@@ -175,12 +188,12 @@ export function HomeConversionUpgrade() {
                   onClick={() =>
                     openSiteAssistant({
                       source: "pricing-package",
-                      entry: "builder",
+                      preset,
                       category: title,
                     })
                   }
                 >
-                  Získať návrh riešenia <ArrowRight aria-hidden="true" />
+                  Vybrať tento balík <ArrowRight aria-hidden="true" />
                 </button>
               </Reveal>
             ),
@@ -189,8 +202,8 @@ export function HomeConversionUpgrade() {
 
         <div className="winner-prep">
           <div className="winner-prep__intro">
-            <p className="winner-upgrade__eyebrow">Čo potrebujeme od klienta</p>
-            <h2>Stačí to, čo zákazníkom hovoríte aj tak.</h2>
+            <p className="winner-upgrade__eyebrow">Čo potrebujeme od vás</p>
+            <h2>Stačí to, čo zákazníkom hovoríte aj dnes.</h2>
             <p>
               Nič technické pripravovať nemusíte. Otázky, texty aj vzhľad pripravíme z podkladov,
               ktoré nám pošlete.
@@ -217,17 +230,17 @@ export function HomeConversionUpgrade() {
         <div className="winner-final spotlight-surface">
           <div>
             <p className="winner-upgrade__eyebrow">Konkrétny ďalší krok</p>
-            <h2>Napíšte, na čo sa vás zákazníci pýtajú najčastejšie.</h2>
+            <h2>Napíšte, čo dnes zákazníkom vysvetľujete alebo vybavujete ručne.</h2>
             <p>Do jedného pracovného dňa vám odpovieme, čo by vám pomohlo a čo to bude stáť.</p>
           </div>
           <div className="winner-final__actions">
             <button
               type="button"
               className="winner-final__primary approved-sweep-action"
-              onClick={() => openSiteAssistant({ source: "winner-final", entry: "builder" })}
+              onClick={() => openSiteAssistant({ source: "winner-final" })}
             >
               <span className="approved-action__content">
-                <MessageCircle aria-hidden="true" /> Získať návrh
+                <MessageCircle aria-hidden="true" /> Vyskladať riešenie
               </span>
             </button>
             <Link to="/projekty" className="winner-final__secondary approved-bloom-action">

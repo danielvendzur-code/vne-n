@@ -1,15 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Bot, Calculator, MessageCircle, SlidersHorizontal } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Calculator,
+  MessageCircle,
+  PackageSearch,
+  SlidersHorizontal,
+} from "lucide-react";
 import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
+import type { AssistantPreset } from "@/types/assistant";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
     ...seo({
-      title: "Čo tvoríme — chatboty, kalkulačky a konfigurátory na mieru",
+      title: "Chatboty pre e-shopy aj firmy so službami",
       description:
-        "Chatboty, ľubovoľné kalkulačky a krokové konfigurátory. Každý nástroj môže fungovať samostatne alebo priamo v chatbote — vždy podľa logiky vašej služby.",
+        "Chatbot, výpočet ceny, výber produktu, sledovanie objednávky, zrušenie, vrátenie alebo reklamácia. Riešenie na mieru pre váš web.",
       path: "/sluzby",
     }),
     scripts: [
@@ -22,36 +30,59 @@ export const Route = createFileRoute("/sluzby")({
   component: ServicesPage,
 });
 
-const services = [
+const services: Array<{
+  id: string;
+  icon: typeof Bot;
+  name: string;
+  intro: string;
+  when: string;
+  inputChips: string[];
+  output: string;
+  preset: AssistantPreset;
+}> = [
   {
     id: "chatbot",
     icon: Bot,
-    name: "Chatbot a dopytový asistent",
+    name: "Chatbot",
     intro:
-      "Poradí zákazníkovi s výberom, odpovie na otázky o produkte a namiesto prázdneho formulára pošle firme hotový dopyt.",
-    when: "Napríklad e-shop, kde si zákazník nevie vybrať veľkosť, variant alebo doplnok — chatbot ho prevedie ponukou a rovno navrhne, čo sa k výberu hodí (upsell). Alebo služba, kde je každé zadanie iné a treba pochopiť situáciu skôr, než pripravíte ponuku.",
-    inputChips: ["Poradenstvo pri výbere", "Odporúčanie doplnkov", "Fotky a prílohy", "Kontakt"],
-    output: "Prehľadný dopyt s odpoveďami a kontaktom — pripravený na prvú konkrétnu odpoveď.",
+      "Odpovie zákazníkom, vysvetlí ponuku, odporučí ďalší krok a pošle vám kontakt aj s tým, čo človek potrebuje.",
+    when: "Hodí sa firmám so službami aj e-shopom, ktoré stále odpovedajú na rovnaké otázky alebo dostávajú dopyty bez dôležitých údajov.",
+    inputChips: ["Otázky zákazníka", "Potreba", "Fotky", "Kontakt"],
+    output: "Jasná odpoveď pre zákazníka a pripravený dopyt pre vás.",
+    preset: "inquiry",
   },
   {
     id: "kalkulacka",
     icon: Calculator,
-    name: "Kalkulačka na mieru",
+    name: "Chatbot s kalkulačkou",
     intro:
-      "Zákazník zadá pár čísel a hneď vidí cenu, spotrebu alebo návratnosť — počítanú podľa vášho cenníka, nie odhadom.",
-    when: "Napríklad plot na metre, materiál na plochu, splátky z ceny alebo úspora po investícii. Všade, kde dnes cenu počítate ručne a zákazník na ňu čaká.",
-    inputChips: ["Rozmery a výmera", "Množstvo a typ", "Doprava a montáž", "Vlastné premenné"],
-    output: "Presný výsledok, orientačný rozsah alebo ponuka pripravená na odoslanie.",
+      "Zákazník zadá rozmery, množstvo alebo ďalšie údaje a hneď dostane orientačnú cenu, spotrebu alebo rozsah.",
+    when: "Hodí sa tam, kde dnes cenu počítate ručne: ploty, montáž, doprava, materiál, výroba na mieru, splátky alebo návratnosť.",
+    inputChips: ["Rozmery", "Množstvo", "Doplnky", "Doprava"],
+    output: "Výsledok podľa vašich pravidiel a rovnaké údaje pripravené pre ponuku.",
+    preset: "calculator",
   },
   {
     id: "konfigurator",
     icon: SlidersHorizontal,
-    name: "Konfigurátor na mieru",
+    name: "Chatbot s konfigurátorom",
     intro:
-      "Zákazník si poskladá produkt krok za krokom a vy dostanete špecifikáciu, s ktorou sa dá rovno pracovať.",
-    when: "Napríklad nábytok na mieru, balík služieb alebo produkt s desiatkami kombinácií, v ktorých sa zákazník sám nevyzná.",
-    inputChips: ["Typ a materiál", "Rozmer a farba", "Doplnky", "Montáž a doprava"],
-    output: "Konkrétna konfigurácia pripravená na výrobu alebo cenovú ponuku.",
+      "Prevedie zákazníka výberom produktu alebo služby krok za krokom. Človek sa nestratí ani pri veľkom počte možností.",
+    when: "Hodí sa pre nábytok, ploty, technické výrobky, balíky služieb, veľkosti, farby, materiály a doplnky.",
+    inputChips: ["Typ", "Rozmer", "Farba", "Doplnky"],
+    output: "Hotový výber pripravený na cenovú ponuku, výrobu alebo objednávku.",
+    preset: "product",
+  },
+  {
+    id: "eshop",
+    icon: PackageSearch,
+    name: "Chatbot pre e-shop",
+    intro:
+      "Pomôže pred nákupom aj po ňom. Poradí s produktom, ukáže stav objednávky a pripraví zmenu, zrušenie, vrátenie alebo reklamáciu.",
+    when: "Hodí sa e-shopom, ktoré chcú odbremeniť podporu a nechcú, aby zákazník hľadal číslo objednávky, formulár alebo správny e-mail.",
+    inputChips: ["Číslo objednávky", "Stav doručenia", "Dôvod zmeny", "Fotky reklamácie"],
+    output: "Zákazník vie, čo sa deje, a podpora dostane kompletnú požiadavku.",
+    preset: "inquiry",
   },
 ];
 
@@ -62,20 +93,23 @@ function ServicesPage() {
         eyebrow="Čo tvoríme"
         title={
           <>
-            Chatbot, kalkulačka, konfigurátor. <em>Samostatne aj spolu.</em>
+            Chatboty pre e-shopy <em>aj firmy so službami.</em>
           </>
         }
-        lead="Chatbot poradí s výberom, odpovie na otázky a odporučí doplnok navyše. Kalkulačka spočíta cenu podľa vašich pravidiel. Konfigurátor poskladá produkt krok za krokom. Každý nástroj staviame podľa služieb, cien a procesu konkrétnej firmy — samostatne alebo všetko v jednom rozhovore."
+        lead="Chatbot môže iba odpovedať, počítať cenu, pomáhať s výberom alebo riešiť objednávky a reklamácie. Najčastejšie spojíme viac vecí do jedného jednoduchého rozhovoru."
       >
         <div className="sp-hero-chips">
           <span className="chip" data-tone="coral">
-            <Bot /> Chatboty
+            <Bot /> Odpovede a dopyty
           </span>
           <span className="chip" data-tone="gold">
-            <Calculator /> Kalkulačky
+            <Calculator /> Výpočet ceny
           </span>
           <span className="chip">
-            <SlidersHorizontal /> Konfigurátory
+            <SlidersHorizontal /> Výber produktu
+          </span>
+          <span className="chip">
+            <PackageSearch /> Objednávky a reklamácie
           </span>
         </div>
       </PageIntro>
@@ -91,14 +125,28 @@ function ServicesPage() {
                     <service.icon aria-hidden="true" />
                     <h2>{service.name}</h2>
                     <p>{service.intro}</p>
+                    <button
+                      type="button"
+                      className="sp-button sp-button--primary"
+                      onClick={() =>
+                        openSiteAssistant({
+                          source: `services-${service.id}`,
+                          preset: service.preset,
+                          category: service.name,
+                        })
+                      }
+                    >
+                      Vybrať {service.name.toLocaleLowerCase("sk")}{" "}
+                      <ArrowRight aria-hidden="true" />
+                    </button>
                   </div>
                   <div className="sp-service-rows">
                     <div className="sp-service-row">
-                      <span>Kedy dáva zmysel</span>
+                      <span>Kedy sa hodí</span>
                       <p>{service.when}</p>
                     </div>
                     <div className="sp-service-row">
-                      <span>Vstup od zákazníka</span>
+                      <span>Čo zadá zákazník</span>
                       <div className="sp-chip-row">
                         {service.inputChips.map((chip) => (
                           <span className="chip" key={chip}>
@@ -108,7 +156,7 @@ function ServicesPage() {
                       </div>
                     </div>
                     <div className="sp-service-row">
-                      <span>Výstup pre firmu</span>
+                      <span>Čo dostanete vy</span>
                       <p>{service.output}</p>
                     </div>
                   </div>
@@ -120,16 +168,20 @@ function ServicesPage() {
           <Reveal delay={0.08} amount={0.3}>
             <div className="sp-combine">
               <div>
-                <h3>Najsilnejšie je to dokopy.</h3>
+                <h3>Najlepšie riešenie často spája viac vecí.</h3>
                 <p>
-                  Kalkulačku aj konfigurátor viem vložiť priamo do rozhovoru s chatbotom. Zákazník
-                  prejde od otázky k výpočtu bez toho, aby opustil jedno okno — a vám príde jeden
-                  kompletný dopyt.
+                  Chatbot môže najprv odpovedať, potom vypočítať cenu, pomôcť s výberom a nakoniec
+                  poslať dopyt alebo objednávku. Zákazník zostane v jednom rozhovore a nemusí hľadať
+                  ďalšie stránky ani formuláre.
                 </p>
               </div>
-              <Link to="/projekty" className="sp-button sp-button--ghost">
-                Pozrieť ukážky <ArrowRight aria-hidden="true" />
-              </Link>
+              <button
+                type="button"
+                className="sp-button sp-button--ghost"
+                onClick={() => openSiteAssistant({ source: "services-combined" })}
+              >
+                Vyskladať riešenie <ArrowRight aria-hidden="true" />
+              </button>
             </div>
           </Reveal>
         </div>
@@ -137,16 +189,16 @@ function ServicesPage() {
 
       <section className="sp-section">
         <CtaBand
-          kicker="Neviete, čo je pre vás vhodné?"
-          title="Opíšte situáciu. Poradím konkrétny typ nástroja."
-          lead="Stačí pár viet o tom, čo robíte a čo vás na tom najviac zdržuje. Odpoviem, čo by vám pomohlo."
+          kicker="Neviete, čo sa hodí práve vám?"
+          title="Vyberte si základ alebo stručne opíšte svoju firmu."
+          lead="Chatbot pripraví prvý výber. Potom sa ozvem s konkrétnym návrhom pre váš web."
         >
           <button
             type="button"
             className="sp-button sp-button--primary"
             onClick={() => openSiteAssistant({ source: "services-cta" })}
           >
-            <MessageCircle aria-hidden="true" /> Nájsť riešenie
+            <MessageCircle aria-hidden="true" /> Vyskladať riešenie
           </button>
           <Link to="/kontakt" className="sp-button sp-button--ghost">
             Radšej napíšem e-mail <ArrowRight aria-hidden="true" />

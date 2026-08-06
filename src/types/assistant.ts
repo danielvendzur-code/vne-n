@@ -6,7 +6,7 @@ export type AssistantEntry =
   | "advisor"
   | "booking";
 
-export type AssistantPreset = "calculator" | "inquiry" | "advisor" | "booking";
+export type AssistantPreset = "calculator" | "product" | "inquiry" | "advisor" | "booking";
 
 export type InterestId = "chatbot" | "calcbot" | "product" | "booking" | "custom";
 
