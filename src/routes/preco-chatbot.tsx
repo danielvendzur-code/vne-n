@@ -6,6 +6,7 @@ import {
   Filter,
   MessageCircle,
   MousePointerClick,
+  PackageCheck,
   TrendingUp,
 } from "lucide-react";
 import { PageIntro, Reveal } from "@/components/site/motion-primitives";
@@ -16,9 +17,9 @@ import "./preco-chatbot.css";
 export const Route = createFileRoute("/preco-chatbot")({
   head: () => ({
     ...seo({
-      title: "Ako chatbot pomôže vášmu webu — viac dopytov z rovnakej návštevnosti",
+      title: "Ako chatbot pomôže e-shopu alebo firme so službami",
       description:
-        "Väčšina návštevníkov odíde bez otázky. Chatbot odpovie hneď, vypočíta cenu a odovzdá vám dopyt aj s kontextom. Pozrite si, čo to zmení na vašom webe.",
+        "Chatbot odpovie hneď, pomôže s výberom, vypočíta cenu a pripraví dopyt, objednávku alebo reklamáciu. Pozrite si, čo zmení na vašom webe.",
       path: "/preco-chatbot",
     }),
     scripts: [
@@ -34,44 +35,50 @@ export const Route = createFileRoute("/preco-chatbot")({
 const problems = [
   {
     icon: MousePointerClick,
-    title: "Návštevník nenájde odpoveď a odíde",
-    copy: "Cenník je všeobecný, otázka je konkrétna. Namiesto písania e-mailu zavrie kartu a pozrie sa ku konkurencii.",
+    title: "Zákazník nenájde odpoveď a odíde",
+    copy: "Má konkrétnu otázku, no na stránke nájde iba všeobecný text. Namiesto písania e-mailu sa pozrie inde.",
   },
   {
     icon: Clock3,
     title: "Odpoveď príde neskoro",
-    copy: "Kým sa dostanete k e-mailu, zákazník už väčšinou oslovil niekoho ďalšieho. Rýchlosť prvej odpovede rozhoduje.",
+    copy: "Kým sa dostanete k správe, zákazník už môže riešiť ponuku, objednávku alebo termín s niekým iným.",
   },
   {
     icon: Filter,
-    title: "Z formulára príde holý kontakt",
-    copy: "Meno a e-mail bez rozsahu, lokality či termínu. Nasleduje niekoľko správ, kým vôbec viete, či sa dopyt oplatí.",
+    title: "Príde kontakt bez dôležitých údajov",
+    copy: "Neviete, čo človek potrebuje, aký má rozmer, rozpočet, číslo objednávky ani termín. Všetko musíte zisťovať znova.",
   },
 ];
 
 const outcomes = [
   {
     icon: MessageCircle,
-    title: "Odpovie v sekunde, aj o polnoci",
-    copy: "Chatbot pozná vaše služby, cenník a podmienky. Odpovedá presne podľa podkladov, ktoré mu dáte — nič si nevymýšľa.",
+    title: "Odpovie hneď, aj mimo pracovného času",
+    copy: "Chatbot používa vaše služby, produkty, ceny a pravidlá. Keď odpoveď nepozná, vypýta si kontakt namiesto hádania.",
   },
   {
     icon: TrendingUp,
-    title: "Z otázky spraví výpočet",
-    copy: "Kalkulačka alebo konfigurátor prevedie zákazníka pár otázkami a ukáže mu orientačnú cenu či rozsah ešte na webe.",
+    title: "Pomôže s cenou alebo výberom",
+    copy: "Zákazník zadá potrebné údaje a dostane orientačnú cenu, vhodný produkt alebo odporúčaný ďalší krok.",
+  },
+  {
+    icon: PackageCheck,
+    title: "Pomôže aj po objednávke",
+    copy: "V e-shope môže ukázať stav doručenia a pripraviť zmenu, zrušenie, vrátenie alebo reklamáciu.",
   },
   {
     icon: FileCheck2,
-    title: "Dopyt príde aj s kontextom",
-    copy: "Dostanete službu, vstupy, lokalitu aj kontakt v jednej správe. Môžete rovno potvrdiť termín namiesto zisťovania údajov.",
+    title: "Vám príde všetko v jednej správe",
+    copy: "Dostanete odpovede, výber, fotografie aj kontakt. Môžete rovno pokračovať ponukou alebo vybavením požiadavky.",
   },
 ];
 
 const fits = [
+  "E-shopy, ktoré riešia veľa otázok o produktoch a objednávkach",
   "Služby, kde sa cena počíta podľa rozmerov alebo rozsahu",
-  "Produkty s variantmi, kde si zákazník nevie vybrať sám",
-  "Weby, na ktoré chodia ľudia, ale dopytov je málo",
-  "Firmy, ktoré odpovedajú stále na tie isté otázky",
+  "Produkty s variantmi, pri ktorých sa zákazník nevie rozhodnúť",
+  "Firmy, ktoré stále odpovedajú na rovnaké otázky",
+  "Weby s návštevnosťou, ale malým počtom dopytov alebo objednávok",
 ];
 
 function WhyChatbotPage() {
@@ -81,17 +88,17 @@ function WhyChatbotPage() {
         eyebrow="Prínos pre web"
         title={
           <>
-            Rovnaká návštevnosť. <em>Viac dopytov.</em>
+            Menej čakania. <em>Viac vybavených zákazníkov.</em>
           </>
         }
-        lead="Ľudia neodídu preto, že by nemali záujem. Odídu preto, že nedostali odpoveď dosť rýchlo."
+        lead="Chatbot pomôže pred nákupom aj po ňom. Odpovie, vypočíta, poradí a pripraví údaje, ktoré potrebujete na ďalší krok."
       />
 
       <section className="sp-section why-problem" aria-labelledby="why-problem-title">
         <div className="container-page">
           <div className="sp-heading">
             <h2 id="why-problem-title">
-              Kde weby <em>strácajú dopyty.</em>
+              Kde weby <em>strácajú zákazníkov.</em>
             </h2>
           </div>
 
@@ -116,7 +123,7 @@ function WhyChatbotPage() {
         <div className="container-page">
           <div className="sp-heading">
             <h2 id="why-outcome-title">
-              Čo sa zmení, keď je na webe <em>asistent.</em>
+              Čo sa zmení, keď je na webe <em>chatbot.</em>
             </h2>
           </div>
 
@@ -154,9 +161,9 @@ function WhyChatbotPage() {
             <button
               type="button"
               className="sp-button sp-button--primary"
-              onClick={() => openSiteAssistant({ source: "why-page", entry: "builder" })}
+              onClick={() => openSiteAssistant({ source: "why-page" })}
             >
-              Chcem takéto riešenie
+              Vyskladať riešenie
             </button>
             <Link to="/projekty" className="sp-button sp-button--ghost">
               Pozrieť realizácie
