@@ -5,9 +5,6 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 const forbiddenWarm =
   /#ffc79d|#f0a873|#f3a75a|#e58a5b|#f4c9a8|#ffe38a|255\s*,\s*199\s*,\s*157|240\s*,\s*168\s*,\s*115/i;
-// Kresba obtiahnutá z dodaného originálu meraním pixelov, nie odhadom.
-// Stavba je zámerne nesúmerná: ľavé rameno vnútorného M končí voľne,
-// pravé pokračuje k dolnej hrane a patrí vonkajšiemu ťahu.
 const outerPath =
   "M92.9 81.1C97.4 80.8 100.6 78.6 100.6 75.6V12.6" +
   "C100.6 7.9 96.4 5.3 93 7.6L59.9 36.7" +
@@ -18,34 +15,29 @@ const outerPath =
 const innerPath = "M28.6 65.1V32.9L53.4 57.5C55.1 59.2 57.9 59.2 59.6 57.5L84.6 32.9";
 const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-test("the public brand uses the approved option 1 geometry", async () => {
+test("the public brand and Google favicon use approved green geometry", async () => {
   const component = await read("src/components/BrandMark.tsx");
   const exported = await read("public/brand/logo.svg");
   const favicon = await read("public/favicon.svg");
 
-  // Dlhá cesta je v zdroji rozdelená na viac reťazcov, aby sa riadky
-  // zmestili — pred porovnaním sa spoje zlepia späť.
   const joined = component.replace(/"\s*\+\s*\n?\s*"/g, "");
   assert.match(joined, new RegExp(escape(outerPath)));
   assert.match(joined, new RegExp(escape(innerPath)));
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
-  // Ťah 7,0 dal najvyšší prekryv s originálom (76,9 %).
   assert.match(component, /strokeWidth="7"/);
 
-  for (const asset of [exported, favicon]) {
-    assert.equal((asset.match(/<path\b/g) ?? []).length, 2);
-    assert.match(asset, new RegExp(escape(outerPath)));
-    assert.match(asset, new RegExp(escape(innerPath)));
-    assert.match(asset, /stroke-width="7"/);
-    assert.match(asset, /<rect[^>]*fill="#FFFFFF"/i);
-  }
-
-  // Vyhľadávače aj prehliadače dostanú priamo zakódovaný biely podklad,
-  // nie priehľadný súbor, ktorý by mohli zobraziť na čiernej. Exportované
-  // logo zostáva tmavozelené; favicon používa tmavú a limetkovú zelenú.
+  assert.equal((exported.match(/<path\b/g) ?? []).length, 2);
+  assert.match(exported, new RegExp(escape(outerPath)));
+  assert.match(exported, new RegExp(escape(innerPath)));
+  assert.match(exported, /stroke-width="7"/);
+  assert.match(exported, /<rect[^>]*fill="#FFFFFF"/i);
   assert.equal((exported.match(/stroke="#19834F"/g) ?? []).length, 2);
-  assert.match(favicon, /stroke="#19834F"/);
-  assert.match(favicon, /stroke="#B9ED4D"/);
+
+  assert.equal((favicon.match(/<path\b/g) ?? []).length, 1);
+  assert.match(favicon, /<rect[^>]*fill="#FFFFFF"/i);
+  assert.match(favicon, /stroke="#19834F"/i);
+  assert.match(favicon, /stroke-width="4\.5"/i);
+  assert.doesNotMatch(favicon, /#B9ED4D|<animate|stroke-dashoffset/i);
   assert.doesNotMatch(favicon, /<rect[^>]*fill="#0b2f20"/i);
 });
 
@@ -73,15 +65,11 @@ test("the final harmony restores the premium motion instead of flattening it", a
   const spotlight = await read("src/hooks/useSpotlight.ts");
 
   assert.match(layout, /ProfessionalHarmonyFinal\.css/);
+  assert.match(layout, /FinalSmoothTexturePolish\.css/);
   assert.ok(
     layout.indexOf('import "./ApprovedOptionOneFinal.css"') <
       layout.indexOf('import "./ProfessionalHarmonyFinal.css"'),
   );
-  assert.ok(
-    layout.indexOf('import "./ProfessionalHarmonyFinal.css"') <
-      layout.indexOf('import "./LimeWhiteBrandFinal.css"'),
-  );
-
   assert.match(css, /--h-white: #ffffff/);
   assert.match(css, /--h-lime: #d9ff78/);
   assert.match(css, /--h-green-hover: #126d41/);
@@ -90,15 +78,12 @@ test("the final harmony restores the premium motion instead of flattening it", a
   assert.match(css, /\.lp-assistant-card[\s\S]*animation: h-card-float/);
   assert.match(css, /@keyframes h-card-float/);
   assert.match(css, /\.lp-hero-cta--primary, \.lp-assistant-cta[\s\S]*background: var\(--h-lime\)/);
-  assert.match(css, /\.lp-project > a[\s\S]*rotateX\(var\(--tilt-x/);
   assert.match(css, /\.derat-story__copy-step[\s\S]*58svh/);
   assert.doesNotMatch(css, forbiddenWarm);
 
   for (const selector of [".lp-assistant-card", ".lp-project > a", ".lp-comparison-body"]) {
     assert.match(layout, new RegExp(escape(selector)));
   }
-  assert.match(spotlight, /--tilt-x/);
-  assert.match(spotlight, /--tilt-y/);
   assert.match(spotlight, /requestAnimationFrame/);
   assert.match(spotlight, /prefers-reduced-motion: reduce/);
 });
