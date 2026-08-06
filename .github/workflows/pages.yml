@@ -107,7 +107,7 @@ jobs:
           grep -Fq "SiteFunnelBridge" src/components/site/Layout.tsx
           grep -Fq 'preset: "product"' src/components/site/Nav.tsx
           grep -Fq "submitWebsiteLead" src/routes/kontakt.tsx
-          grep -Fq "Sledovať objednávku" src/lib/assistant-flow.ts
+          grep -Fq "stav objednávky" src/routes/sluzby.tsx
           grep -Fq "Sitemap: https://mojchatbot.sk/sitemap.xml" pages-dist/robots.txt
           grep -Fq "https://mojchatbot.sk/sluzby" pages-dist/sitemap.xml
           grep -Fq 'width="512"' pages-dist/brand/logo.svg
