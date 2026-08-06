@@ -61,6 +61,7 @@ import "@/components/site/RoundFixes.css";
 import "@/components/site/RoundTwoFixes.css";
 import "@/components/site/ScrollMotionFinal.css";
 import "@/components/site/FunnelLayoutFinal.css";
+import "./FinalSmoothTexturePolish.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
