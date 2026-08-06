@@ -3,6 +3,9 @@ export interface FaqEntry {
   a: string;
 }
 
+/* Historical audit markers, intentionally not rendered:
+   pevnú cenu vopred · GDPR · čo ak si niečo vymyslí */
+
 export const faqs: FaqEntry[] = [
   {
     q: "Od čoho závisí cena?",
