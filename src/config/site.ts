@@ -1,20 +1,17 @@
 export const siteConfig = {
   brand: "Môj Chatbot",
-  visualVersion: "taste-system-20260723-v7",
-  title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
+  visualVersion: "taste-system-20260806-v8",
+  title: "Môj Chatbot — chatboty pre e-shopy aj firmy so službami",
   description:
-    "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
+    "Chatboty na mieru pre e-shopy aj firmy so službami. Odpovede, výpočet ceny, výber produktu, objednávky, reklamácie a pripravené dopyty.",
   team: {
     label: "Tím Môj Chatbot",
     founder: "Daniel Vendžúr",
     founderRole: "zakladateľ a produktový dizajnér",
-    /** V pätičke stojí funkcia, nie meno. */
     responsibleRole: "produktový dizajnér tímu Môj Chatbot",
   },
   contact: {
-    /** Jediná verejná kontaktná adresa značky na celom webe. */
     email: "info@mojchatbot.sk",
-    /** Druhá adresa, na ktorú sa dá písať priamo. */
     emailPersonal: "daniel@vendzur.sk",
     phoneLabel: "+421 948 699 433",
     phoneHref: "+421948699433",
@@ -22,9 +19,9 @@ export const siteConfig = {
   nav: [],
 
   /**
-   * Identifikačné údaje právneho prevádzkovateľa webu a dodávateľa služby.
-   * Meno zakladateľa nie je náhradou za obchodné údaje. Pred komerčným
-   * spustením treba doplniť presný subjekt, adresu, IČO a registráciu.
+   * Pred komerčným spustením treba doplniť subjekt, ktorý službu skutočne
+   * predáva a vystavuje faktúry. Údaje nesmú patriť inej firme iba kvôli
+   * dôveryhodnosti stránky.
    */
   legal: {
     operator: "Daniel Vendžúr",
