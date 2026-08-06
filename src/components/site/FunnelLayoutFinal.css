@@ -1,0 +1,53 @@
+/* Final spacing and interaction corrections requested for the sales pages. */
+
+/* The header already occupies real document height. The former hero padding
+   added a second large empty band above every subpage title. */
+.sp-hero-inner {
+  padding-top: clamp(1.5rem, 3.8vh, 2.8rem) !important;
+  padding-bottom: clamp(2.5rem, 5.8vh, 4.25rem) !important;
+}
+
+/* Keep the main home message and choice card visibly above the fold. */
+.lp-hero-grid {
+  padding-top: clamp(1rem, 2.8vh, 2.2rem) !important;
+  padding-bottom: clamp(2.5rem, 5.4vh, 4.25rem) !important;
+  translate: 0 clamp(-1.15rem, -1.8vh, -0.5rem);
+}
+
+/* The choice card must stay stable while the pointer moves across it. */
+.lp-assistant-card {
+  transform: translateY(-50%) !important;
+  rotate: 0deg !important;
+  scale: 1 !important;
+  transform-style: flat !important;
+  will-change: auto !important;
+  transition-property: border-color, box-shadow, background-color !important;
+}
+
+.lp-assistant-card:hover,
+.lp-assistant-card:focus-within {
+  transform: translateY(-50%) !important;
+  rotate: 0deg !important;
+  scale: 1 !important;
+}
+
+.sp-service-head .sp-button {
+  width: fit-content;
+  margin-top: 1.15rem;
+}
+
+@media (max-width: 760px) {
+  .sp-hero-inner {
+    padding-top: 1.15rem !important;
+    padding-bottom: 2.4rem !important;
+  }
+
+  .lp-hero-grid {
+    translate: 0 -0.35rem;
+    padding-top: 0.75rem !important;
+  }
+
+  .sp-service-head .sp-button {
+    width: 100%;
+  }
+}
