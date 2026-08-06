@@ -44,9 +44,9 @@ const services: Array<{
     id: "chatbot",
     icon: Bot,
     name: "Chatbot",
-    intro: "Odpovie zákazníkom, vysvetlí ponuku, odporučí ďalší krok a pošle vám kontakt aj s tým, čo človek potrebuje.",
-    when:
-      "Hodí sa firmám so službami aj e-shopom, ktoré stále odpovedajú na rovnaké otázky alebo dostávajú dopyty bez dôležitých údajov.",
+    intro:
+      "Odpovie zákazníkom, vysvetlí ponuku, odporučí ďalší krok a pošle vám kontakt aj s tým, čo človek potrebuje.",
+    when: "Hodí sa firmám so službami aj e-shopom, ktoré stále odpovedajú na rovnaké otázky alebo dostávajú dopyty bez dôležitých údajov.",
     inputChips: ["Otázky zákazníka", "Potreba", "Fotky", "Kontakt"],
     output: "Jasná odpoveď pre zákazníka a pripravený dopyt pre vás.",
     preset: "inquiry",
@@ -55,9 +55,9 @@ const services: Array<{
     id: "kalkulacka",
     icon: Calculator,
     name: "Chatbot s kalkulačkou",
-    intro: "Zákazník zadá rozmery, množstvo alebo ďalšie údaje a hneď dostane orientačnú cenu, spotrebu alebo rozsah.",
-    when:
-      "Hodí sa tam, kde dnes cenu počítate ručne: ploty, montáž, doprava, materiál, výroba na mieru, splátky alebo návratnosť.",
+    intro:
+      "Zákazník zadá rozmery, množstvo alebo ďalšie údaje a hneď dostane orientačnú cenu, spotrebu alebo rozsah.",
+    when: "Hodí sa tam, kde dnes cenu počítate ručne: ploty, montáž, doprava, materiál, výroba na mieru, splátky alebo návratnosť.",
     inputChips: ["Rozmery", "Množstvo", "Doplnky", "Doprava"],
     output: "Výsledok podľa vašich pravidiel a rovnaké údaje pripravené pre ponuku.",
     preset: "calculator",
@@ -66,9 +66,9 @@ const services: Array<{
     id: "konfigurator",
     icon: SlidersHorizontal,
     name: "Chatbot s konfigurátorom",
-    intro: "Prevedie zákazníka výberom produktu alebo služby krok za krokom. Človek sa nestratí ani pri veľkom počte možností.",
-    when:
-      "Hodí sa pre nábytok, ploty, technické výrobky, balíky služieb, veľkosti, farby, materiály a doplnky.",
+    intro:
+      "Prevedie zákazníka výberom produktu alebo služby krok za krokom. Človek sa nestratí ani pri veľkom počte možností.",
+    when: "Hodí sa pre nábytok, ploty, technické výrobky, balíky služieb, veľkosti, farby, materiály a doplnky.",
     inputChips: ["Typ", "Rozmer", "Farba", "Doplnky"],
     output: "Hotový výber pripravený na cenovú ponuku, výrobu alebo objednávku.",
     preset: "product",
@@ -77,9 +77,9 @@ const services: Array<{
     id: "eshop",
     icon: PackageSearch,
     name: "Chatbot pre e-shop",
-    intro: "Pomôže pred nákupom aj po ňom. Poradí s produktom, ukáže stav objednávky a pripraví zmenu, zrušenie, vrátenie alebo reklamáciu.",
-    when:
-      "Hodí sa e-shopom, ktoré chcú odbremeniť podporu a nechcú, aby zákazník hľadal číslo objednávky, formulár alebo správny e-mail.",
+    intro:
+      "Pomôže pred nákupom aj po ňom. Poradí s produktom, ukáže stav objednávky a pripraví zmenu, zrušenie, vrátenie alebo reklamáciu.",
+    when: "Hodí sa e-shopom, ktoré chcú odbremeniť podporu a nechcú, aby zákazník hľadal číslo objednávky, formulár alebo správny e-mail.",
     inputChips: ["Číslo objednávky", "Stav doručenia", "Dôvod zmeny", "Fotky reklamácie"],
     output: "Zákazník vie, čo sa deje, a podpora dostane kompletnú požiadavku.",
     preset: "inquiry",
