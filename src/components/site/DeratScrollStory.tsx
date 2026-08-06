@@ -211,7 +211,7 @@ export function DeratScrollStory() {
         className="container-page derat-story__heading"
         initial={reducedMotion ? false : { opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.24, margin: "-7% 0px -8% 0px" }}
+        viewport={{ once: true, amount: 0.24, margin: "-7% 0px -8% 0px" }}
         transition={reducedMotion ? { duration: 0 } : { duration: 0.68, ease: [0.16, 1, 0.3, 1] }}
       >
         <div>
@@ -275,7 +275,7 @@ export function DeratScrollStory() {
             key={frame.src}
             initial={reducedMotion ? false : { opacity: 0, y: 26, scale: 0.985 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: false, amount: 0.18, margin: "-4% 0px -8% 0px" }}
+            viewport={{ once: true, amount: 0.18, margin: "-4% 0px -8% 0px" }}
             transition={
               reducedMotion
                 ? { duration: 0 }

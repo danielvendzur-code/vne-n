@@ -375,7 +375,10 @@ function Heading({
       className="lp-heading"
       initial={reducedMotion ? false : "hidden"}
       whileInView="visible"
-      viewport={{ once: false, amount: 0.25, margin: "-6% 0px -6% 0px" }}
+      // Jednosmerné, rovnako ako zvyšok webu: nadpis sa odhalí raz
+      // a ostane. Pri obojsmernom nastavení sa pri scrollovaní hore
+      // prehrával znova a text bol v polovici obrazovky neviditeľný.
+      viewport={{ once: true, amount: 0.25, margin: "-6% 0px -6% 0px" }}
       variants={{
         hidden: { opacity: 0 },
         visible: {

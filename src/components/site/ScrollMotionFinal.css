@@ -92,87 +92,17 @@ html:root body .site-theme-white-green .lp-final-card .brand-mark {
 }
 
 /* ---------------------------------------------------------------------
-   3. Karty sa usadia, kým prechádzajú obrazovkou
-   Prídu o kúsok nižšie a zľahka zmenšené a usadia sa podľa toho, kde
-   presne sú — nie na spínač pri vstupe. Pri scrollovaní späť hore sa
-   pohyb prehrá odzadu, lebo je viazaný na polohu, nie na čas.
+   3. Usadenie kariet tu zámerne nie je
 
-   Časová os tu zámerne nie je: jej karty sa už rozsvecujú postupne podľa
-   toho, kam dorástla koľaj. Druhá animácia by to prebila.
+   Pôvodne sa cenníkové karty, hlavičky možností a stĺpce päty usadzovali
+   cez `animation-timeline: view()`. Taká animácia je zo svojej podstaty
+   obojsmerná — pri scrollovaní späť hore sa prehrá odzadu a karta sa
+   znova rozplynie. Presne to na webe pôsobilo ako chyba.
+
+   Odhaľovanie preto robí pohybová knižnica a robí ho raz. Na tejto
+   časovej osi ostáva len to, čo nič neskrýva: paralax, zaoblenie pásu
+   a vodoznak.
    --------------------------------------------------------------------- */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    /* Všetky rozsahy končia vo fáze `entry`, nie `cover`. Prvky na konci
-       stránky sa do `cover` nikdy nedostanú — pod nimi už nie je čo
-       scrollovať — a ostali by natrvalo priesvitné. */
-    html:root body .site-theme-white-green .lp-page .lp-caps-row-head {
-      animation: sm-settle-soft linear both;
-      animation-timeline: view();
-      animation-range: entry 5% entry 70%;
-    }
-
-    html:root
-      body
-      .site-theme-white-green
-      :is(.winner-package, .winner-trust__item, .winner-prep__item) {
-      animation: sm-settle linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 62%;
-    }
-
-    /* Karty stoja vedľa seba, takže majú rovnakú polohu a usadili by sa
-       naraz. Posunutý rozsah im dá poradie zľava doprava. */
-    html:root
-      body
-      .site-theme-white-green
-      :is(.winner-package, .winner-trust__item, .winner-prep__item):nth-child(2) {
-      animation-range: entry 9% entry 74%;
-    }
-
-    html:root
-      body
-      .site-theme-white-green
-      :is(.winner-package, .winner-trust__item, .winner-prep__item):nth-child(3) {
-      animation-range: entry 18% entry 86%;
-    }
-
-    html:root body .site-theme-white-green .premium-footer-main > * {
-      animation: sm-settle-soft linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 55%;
-    }
-  }
-}
-
-@keyframes sm-settle {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 26px, 0) scale(0.985);
-    filter: blur(3px);
-  }
-
-  60% {
-    filter: blur(0);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-    filter: blur(0);
-  }
-}
-
-@keyframes sm-settle-soft {
-  from {
-    opacity: 0.25;
-    transform: translate3d(0, 16px, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 /* ---------------------------------------------------------------------
    4. Lesný pás sa otvorí

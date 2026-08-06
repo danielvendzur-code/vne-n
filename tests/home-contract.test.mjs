@@ -364,7 +364,7 @@ test("website chips use one crisp green interaction system", async () => {
   assert.match(css, /The icon is an icon, never an icon tile/);
 });
 
-test("landing anchors, two-way reveals and source integrity stay intact", async () => {
+test("landing anchors, one-way reveals and source integrity stay intact", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const realization = await read("src/components/site/DeratScrollStory.tsx");
   const primitives = await read("src/components/site/motion-primitives.tsx");
@@ -383,13 +383,16 @@ test("landing anchors, two-way reveals and source integrity stay intact", async 
   assert.match(realization, /id="pripadova-studia"/);
   assert.doesNotMatch(realization, /id="realizacie"/);
 
-  // Odhaľovanie je obojsmerné — pri scrollovaní späť hore obsah odchádza.
-  // Sekanie, kvôli ktorému tu kedysi bolo `once: true`, spôsoboval filter
-  // cez celé pole v hero, nie tieto animácie.
-  assert.doesNotMatch(landing, /once: true/);
-  assert.doesNotMatch(primitives, /once: true/);
-  assert.doesNotMatch(realization, /once: true/);
-  assert.match(primitives, /once: false/);
+  // Odhaľovanie je jednosmerné. Predtým tu bola opačná podmienka:
+  // obsah sa pri odchode zo zorného poľa vracal do skrytého stavu.
+  // Pri scrollovaní späť hore sa preto odhaľovanie prehrávalo znova a
+  // keďže cesta hore býva rýchlejšia než samotné odhalenie, nadpisy aj
+  // otázky boli v polovici obrazovky priehľadné až neviditeľné.
+  // Čo raz bolo vidieť, ostáva vidieť.
+  assert.match(primitives, /once: true/);
+  assert.doesNotMatch(landing, /once: false/);
+  assert.doesNotMatch(primitives, /once: false/);
+  assert.doesNotMatch(realization, /once: false/);
 
   assert.doesNotMatch(finalCorrection, /^(?:<<<<<<<|=======|>>>>>>>)(?: .*)?$/m);
 });
