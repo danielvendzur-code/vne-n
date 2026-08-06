@@ -1,0 +1,103 @@
+/* Final requested motion and texture pass. Loaded last. */
+
+html:root body .site-theme-white-green main::before {
+  opacity: 0.075 !important;
+}
+
+/* The hero choice card keeps the pointer flashlight, but never tilts or floats. */
+html:root body .site-theme-white-green .lp-page .lp-assistant-card,
+html:root body .site-theme-white-green .lp-page .lp-assistant-card:hover,
+html:root body .site-theme-white-green .lp-page .lp-assistant-card:focus-within,
+html:root body .site-theme-white-green .lp-page .lp-assistant-card[data-spot="on"] {
+  animation: none !important;
+  transform: translate3d(0, -50%, 0) !important;
+  rotate: 0deg !important;
+  scale: 1 !important;
+  transform-style: flat !important;
+  backface-visibility: hidden !important;
+  will-change: auto !important;
+  background:
+    radial-gradient(
+      circle at var(--spot-x, 82%) var(--spot-y, 10%),
+      rgba(217, 255, 120, 0.5) 0,
+      rgba(185, 237, 77, 0.22) 15%,
+      rgba(234, 246, 223, 0.1) 32%,
+      transparent 54%
+    ),
+    rgba(255, 255, 255, 0.95) !important;
+  transition:
+    border-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 160ms linear !important;
+}
+
+/* Thin contour lines only in the deliberate dark-green process section. */
+html:root body .site-theme-white-green .lp-page .lp-process {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -8% -4% !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  opacity: 0.13 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='360' viewBox='0 0 560 360'%3E%3Cg fill='none' stroke='%23d9ff78' stroke-width='1.15' stroke-linecap='round' opacity='.9'%3E%3Cpath d='M-35 65C45 18 129 21 205 60s146 40 216 2 132-35 190 0'/%3E%3Cpath d='M-40 94C44 48 124 48 199 84s149 39 222 3 137-30 194 7'/%3E%3Cpath d='M-34 126C35 88 110 82 181 111s148 38 224 7 145-24 205 19'/%3E%3Cpath d='M-31 159C39 126 109 118 178 142s146 34 224 10 148-14 211 30'/%3E%3Cpath d='M-26 194C49 163 119 157 185 178s140 29 216 10 145-6 204 37'/%3E%3Cpath d='M-20 229C56 203 126 199 191 215s136 24 207 10 140 2 197 43'/%3E%3Cpath d='M-17 266C57 245 126 244 190 256s134 20 202 10 134 10 190 49'/%3E%3Cpath d='M3 305C70 289 132 291 193 300s127 16 191 10 125 17 178 53'/%3E%3C/g%3E%3C/svg%3E") !important;
+  background-position: center !important;
+  background-size: 560px 360px !important;
+  mix-blend-mode: screen !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Keep common interactions on compositor-friendly properties. */
+html:root body .site-theme-white-green :is(
+  .lp-button,
+  .lp-hero-pick,
+  .lp-chip,
+  .lp-caps-chip,
+  .lp-filter,
+  .lp-faq-item,
+  .site-consultation-cta,
+  .site-menu-cta
+) {
+  backface-visibility: hidden !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:root body .site-theme-white-green .page-transition {
+  animation: mc-page-enter 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes mc-page-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 980px) {
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card,
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card:hover,
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card:focus-within,
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card[data-spot="on"] {
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .page-transition {
+    animation: none !important;
+  }
+}
