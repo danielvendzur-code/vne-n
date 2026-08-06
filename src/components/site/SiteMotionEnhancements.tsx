@@ -35,7 +35,9 @@ const findChoiceSection = (): HTMLElement | null => {
   return (
     copy?.closest<HTMLElement>(
       "section, article, [data-section], .lp-section, .lp-funnel, .lp-assistant-card",
-    ) ?? copy?.parentElement?.parentElement ?? null
+    ) ??
+    copy?.parentElement?.parentElement ??
+    null
   );
 };
 
@@ -75,7 +77,10 @@ export function SiteMotionEnhancements() {
       if (image.complete) {
         markLoaded();
       } else {
-        void image.decode().then(markLoaded).catch(() => undefined);
+        void image
+          .decode()
+          .then(markLoaded)
+          .catch(() => undefined);
       }
 
       cleanups.push(() => {
@@ -210,7 +215,8 @@ export function SiteMotionEnhancements() {
 
     const onPointerMove = (event: PointerEvent) => {
       const element = event.target instanceof Element ? event.target : null;
-      const target = element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
+      const target =
+        element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
       if (!target) return;
       activeTarget = target;
       pointerX = event.clientX;
@@ -220,7 +226,8 @@ export function SiteMotionEnhancements() {
 
     const onPointerLeave = (event: PointerEvent) => {
       const element = event.target instanceof Element ? event.target : null;
-      const target = element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
+      const target =
+        element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
       if (target && event.relatedTarget instanceof Node && target.contains(event.relatedTarget)) {
         return;
       }
