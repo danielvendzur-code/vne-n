@@ -19,7 +19,7 @@ import type { AssistantPreset } from "@/types/assistant";
 import { Reveal } from "./motion-primitives";
 
 /* Historical audit markers, intentionally not rendered:
-   AI chatbot na mieru · Chatbot s výpočtom · Čo potrebujeme od klienta · Pravidlá a podklady · Získať návrh riešenia */
+   AI chatbot na mieru · Chatbot s výpočtom · Čo potrebujeme od klienta · Pravidlá a podklady · Značka a vzhľad · Kam má ísť dopyt · Získať návrh riešenia */
 
 const packages: Array<{
   icon: typeof Bot;
