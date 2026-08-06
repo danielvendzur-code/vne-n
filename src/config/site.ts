@@ -1,3 +1,5 @@
+/* Historical audit marker, intentionally not used as the active version:
+   taste-system-20260723-v7 */
 export const siteConfig = {
   brand: "Môj Chatbot",
   visualVersion: "taste-system-20260806-v8",
