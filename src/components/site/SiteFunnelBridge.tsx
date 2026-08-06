@@ -140,7 +140,9 @@ export function SiteFunnelBridge(): null {
         openSiteAssistant({
           source: "capability-choice",
           preset: capabilityPreset(capabilityButton),
-          category: capabilityButton.closest(".lp-caps-detail")?.querySelector("h4")?.textContent ?? undefined,
+          category:
+            capabilityButton.closest(".lp-caps-detail")?.querySelector("h4")?.textContent ??
+            undefined,
         });
         return;
       }
