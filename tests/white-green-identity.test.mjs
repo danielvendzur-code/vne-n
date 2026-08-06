@@ -33,10 +33,15 @@ test("the public brand and Google favicon use approved green geometry", async ()
   assert.match(exported, /<rect[^>]*fill="#FFFFFF"/i);
   assert.equal((exported.match(/stroke="#19834F"/g) ?? []).length, 2);
 
-  assert.equal((favicon.match(/<path\b/g) ?? []).length, 1);
-  assert.match(favicon, /<rect[^>]*fill="#FFFFFF"/i);
-  assert.match(favicon, /stroke="#19834F"/i);
-  assert.match(favicon, /stroke-width="4\.5"/i);
+  assert.equal((favicon.match(/<path\b/g) ?? []).length, 2);
+  assert.match(favicon, new RegExp(escape(outerPath)));
+  assert.match(favicon, new RegExp(escape(innerPath)));
+  assert.match(
+    favicon,
+    /<rect[^>]*x="3"[^>]*y="3"[^>]*width="106"[^>]*height="106"[^>]*rx="29"[^>]*fill="#FFFFFF"/i,
+  );
+  assert.equal((favicon.match(/stroke="#19834F"/g) ?? []).length, 2);
+  assert.match(favicon, /stroke-width="7"/i);
   assert.doesNotMatch(favicon, /#B9ED4D|<animate|stroke-dashoffset/i);
   assert.doesNotMatch(favicon, /<rect[^>]*fill="#0b2f20"/i);
 });
@@ -66,6 +71,7 @@ test("the final harmony restores the premium motion instead of flattening it", a
 
   assert.match(layout, /ProfessionalHarmonyFinal\.css/);
   assert.match(layout, /FinalSmoothTexturePolish\.css/);
+  assert.match(layout, /WidgetSwipeMotionFinal\.css/);
   assert.ok(
     layout.indexOf('import "./ApprovedOptionOneFinal.css"') <
       layout.indexOf('import "./ProfessionalHarmonyFinal.css"'),
@@ -81,7 +87,12 @@ test("the final harmony restores the premium motion instead of flattening it", a
   assert.match(css, /\.derat-story__copy-step[\s\S]*58svh/);
   assert.doesNotMatch(css, forbiddenWarm);
 
-  for (const selector of [".lp-assistant-card", ".lp-project > a", ".lp-comparison-body"]) {
+  for (const selector of [
+    ".lp-assistant-card",
+    ".lp-hero-pick",
+    ".lp-project > a",
+    ".lp-comparison-body",
+  ]) {
     assert.match(layout, new RegExp(escape(selector)));
   }
   assert.match(spotlight, /requestAnimationFrame/);

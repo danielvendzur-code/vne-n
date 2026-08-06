@@ -31,6 +31,33 @@ html:root body .site-theme-white-green .lp-page .lp-assistant-card[data-spot="on
     background-color 160ms linear !important;
 }
 
+/* The individual "Vyberte, čo má web robiť" options use the same flashlight
+   language as "Pozrieť realizácie", without any physical tilt. */
+html:root body .site-theme-white-green .lp-page .lp-hero-pick,
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:hover,
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:focus-visible,
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-spot="on"] {
+  animation: none !important;
+  transform: translate3d(0, 0, 0) !important;
+  rotate: 0deg !important;
+  scale: 1 !important;
+  transform-style: flat !important;
+  backface-visibility: hidden !important;
+  will-change: auto !important;
+  background:
+    radial-gradient(
+      230px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(217, 255, 120, 0.34) 0,
+      rgba(185, 237, 77, 0.14) 28%,
+      transparent 66%
+    ),
+    #ffffff !important;
+  transition:
+    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 160ms linear !important;
+}
+
 /* Thin contour lines only in the deliberate dark-green process section. */
 html:root body .site-theme-white-green .lp-page .lp-process {
   position: relative !important;

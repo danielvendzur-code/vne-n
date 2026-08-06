@@ -62,9 +62,11 @@ import "@/components/site/RoundTwoFixes.css";
 import "@/components/site/ScrollMotionFinal.css";
 import "@/components/site/FunnelLayoutFinal.css";
 import "./FinalSmoothTexturePolish.css";
+import "./WidgetSwipeMotionFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
+  ".lp-hero-pick",
   ".lp-hero-cta--secondary",
   ".lp-comparison",
   ".lp-comparison-body",
