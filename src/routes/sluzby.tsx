@@ -136,7 +136,7 @@ function ServicesPage() {
                         })
                       }
                     >
-                      Vybrať {service.name.toLocaleLowerCase("sk")} {" "}
+                      Vybrať {service.name.toLocaleLowerCase("sk")}{" "}
                       <ArrowRight aria-hidden="true" />
                     </button>
                   </div>
