@@ -4,6 +4,24 @@
   "installCommand": "npm ci",
   "framework": null,
   "regions": ["fra1"],
+  "rewrites": [
+    {
+      "source": "/ukazka-api/chat",
+      "destination": "https://moj-chatbot-backend-f07xtau46-danielvendzur-codes-projects.vercel.app/api/coffeeChat"
+    },
+    {
+      "source": "/ukazka/:slug",
+      "destination": "https://kava-chatbot-backend-f5umzo593-danielvendzur-codes-projects.vercel.app/ukazka/:slug"
+    },
+    {
+      "source": "/ukazka/:slug/",
+      "destination": "https://kava-chatbot-backend-f5umzo593-danielvendzur-codes-projects.vercel.app/ukazka/:slug/"
+    },
+    {
+      "source": "/coffee-:path*",
+      "destination": "https://kava-chatbot-backend-f5umzo593-danielvendzur-codes-projects.vercel.app/coffee-:path*"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -17,6 +35,17 @@
           "value": "max-age=63072000; includeSubDomains; preload"
         }
       ]
+    },
+    {
+      "source": "/ukazka/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/ukazka-api/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
     },
     {
       "source": "/assets/(.*)",
