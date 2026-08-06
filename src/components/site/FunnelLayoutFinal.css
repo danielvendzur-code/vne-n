@@ -11,7 +11,7 @@
 .lp-hero-grid {
   padding-top: clamp(1rem, 2.8vh, 2.2rem) !important;
   padding-bottom: clamp(2.5rem, 5.4vh, 4.25rem) !important;
-  translate: 0 clamp(-1.15rem, -1.8vh, -0.5rem);
+  translate: 0 -1rem;
 }
 
 /* The choice card must stay stable while the pointer moves across it. */
