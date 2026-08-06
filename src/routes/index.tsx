@@ -18,27 +18,28 @@ const faqJsonLd = JSON.stringify({
 const serviceJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
+  name: "Môj Chatbot — chatboty pre e-shopy aj firmy so službami",
   url: `${SITE_URL}/`,
+  logo: `${SITE_URL}/brand/logo.svg`,
+  image: `${SITE_URL}/og/og-home.png`,
   email: siteConfig.contact.email,
   telephone: siteConfig.contact.phoneHref,
   areaServed: "SK",
   description:
-    "Chatboty na mieru — od jednoduchých asistentov po chatboty s kalkulačkou, konfigurátorom alebo rezerváciami, ktoré pripravujú použiteľné dopyty.",
+    "Chatboty na mieru, ktoré odpovedajú zákazníkom, počítajú cenu, pomáhajú s výberom a riešia dopyty, objednávky alebo reklamácie.",
   founder: { "@type": "Person", name: siteConfig.team.founder },
   knowsAbout: [
-    "chatboty",
-    "AI asistenti",
-    "cenové kalkulačky",
-    "produktové konfigurátory",
-    "konverzia webu",
+    "chatbot pre e-shop",
+    "chatbot pre služby",
+    "výpočet ceny na webe",
+    "výber produktu",
+    "sledovanie objednávky",
+    "zrušenie objednávky",
+    "vrátenie tovaru a reklamácie",
+    "pripravené dopyty",
   ],
 });
 
-/**
- * Zoznam reálnych realizácií — Google z neho v obohatených výsledkoch
- * vie ukázať, že za webom stoja skutočné nasadené projekty.
- */
 const portfolioJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -55,9 +56,9 @@ const portfolioJsonLd = JSON.stringify({
 export const Route = createFileRoute("/")({
   head: () => ({
     ...seo({
-      title: "Môj Chatbot — chatboty, kalkulačky a konfigurátory na mieru",
+      title: "Chatbot pre e-shop aj služby — Môj Chatbot",
       description:
-        "Chatbot na mieru, ktorý odpovie zákazníkovi hneď a vám pošle pripravený dopyt. Kalkulačky, konfigurátory a AI asistenti pre firemné weby na Slovensku.",
+        "Chatbot na mieru pre e-shopy aj firmy so službami. Odpovie zákazníkom, vypočíta cenu, pomôže s výberom a pripraví dopyt, objednávku alebo reklamáciu.",
       path: "/",
     }),
     scripts: [
