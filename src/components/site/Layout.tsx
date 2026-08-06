@@ -64,6 +64,7 @@ import "@/components/site/FunnelLayoutFinal.css";
 import "./FinalSmoothTexturePolish.css";
 import "./WidgetSwipeMotionFinal.css";
 import "./VisibilityAndBrandMotionFinal.css";
+import "./InteractionRegressionRepair.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
@@ -73,6 +74,7 @@ const SPOTLIGHT_SURFACES = [
   ".lp-comparison-body",
   ".lp-caps-row",
   ".lp-caps-row-head",
+  ".lp-chip",
   ".lp-caps-detail",
   ".lp-project > a",
   ".lp-faq-item",

@@ -1,0 +1,65 @@
+/* Narrow regression repair: capability selection and pointer flashlight only. */
+
+html:root body .site-theme-white-green .lp-caps .lp-chip {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+}
+
+html:root body .site-theme-white-green .lp-caps .lp-chip[data-selected="true"],
+html:root body .site-theme-white-green .lp-caps .lp-chip[data-active="true"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #0b2f20 !important;
+  background: #0b2f20 !important;
+  background-image: none !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(217, 255, 120, 0.2),
+    0 16px 34px -24px rgba(11, 47, 32, 0.68) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-caps
+  .lp-chip[data-selected="true"]
+  :is(.lp-chip-label, span, b),
+html:root
+  body
+  .site-theme-white-green
+  .lp-caps
+  .lp-chip[data-active="true"]
+  :is(.lp-chip-label, span, b) {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    .lp-caps
+    .lp-chip:not([data-selected="true"]):not([data-active="true"]):is(:hover, :focus-visible) {
+    color: #0b2f20 !important;
+    -webkit-text-fill-color: #0b2f20 !important;
+    border-color: rgba(25, 131, 79, 0.38) !important;
+    background:
+      radial-gradient(
+        220px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        rgba(217, 255, 120, 0.58) 0%,
+        rgba(185, 237, 77, 0.24) 34%,
+        rgba(255, 255, 255, 0.96) 72%
+      ),
+      #ffffff !important;
+    box-shadow:
+      0 15px 34px -26px rgba(25, 131, 79, 0.56),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .lp-caps .lp-chip {
+    transition-duration: 1ms !important;
+  }
+}
