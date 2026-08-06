@@ -29,69 +29,69 @@ html:root body .site-theme-white-green [data-choice-no-tilt="true"] {
   filter: none !important;
 }
 
-/* A visible two-stage draw on first render, then a slower redraw on hover.
-   The animation targets both the navigation lockup and the large menu lockup. */
+/* The two physical paths are normalised to pathLength=1. The outer path draws
+   first and the inner M follows immediately, so the mark reads as one deliberate
+   pen movement rather than two unrelated lines. */
 .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand) .brand-mark {
   overflow: visible;
   transform-box: fill-box;
   transform-origin: center;
 }
 
-.site-theme-white-green :is(.site-brand-lockup, .site-menu-brand) .brand-mark path {
-  stroke-dasharray: 420;
+.site-theme-white-green
+  :is(.site-brand-lockup, .site-menu-brand)
+  .brand-mark
+  :is(.brand-mark__outer, .brand-mark__inner) {
+  stroke-dasharray: 1;
   stroke-dashoffset: 0;
-  animation: mc-brand-draw-in 920ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
   will-change: stroke-dashoffset, opacity;
 }
 
 .site-theme-white-green
   :is(.site-brand-lockup, .site-menu-brand)
-  .brand-mark
-  path:nth-of-type(2) {
-  animation-delay: 140ms !important;
+  .brand-mark__outer {
+  animation: mc-brand-trace 520ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .site-theme-white-green
-  :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible)
+  :is(.site-brand-lockup, .site-menu-brand)
+  .brand-mark__inner {
+  animation: mc-brand-trace 290ms cubic-bezier(0.22, 1, 0.36, 1) 390ms both !important;
+}
+
+.site-theme-white-green
+  :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible, :active)
   .brand-mark {
-  animation: mc-brand-mark-settle 820ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  animation: mc-brand-mark-settle 720ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .site-theme-white-green
-  :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible)
-  .brand-mark
-  path {
-  animation: mc-brand-redraw 820ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible, :active)
+  .brand-mark__outer,
+body[data-site-menu-open="true"]
+  .site-theme-white-green
+  .site-menu-brand
+  .brand-mark__outer {
+  animation: mc-brand-trace 540ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .site-theme-white-green
-  :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible)
-  .brand-mark
-  path:nth-of-type(2) {
-  animation-delay: 110ms !important;
+  :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible, :active)
+  .brand-mark__inner,
+body[data-site-menu-open="true"]
+  .site-theme-white-green
+  .site-menu-brand
+  .brand-mark__inner {
+  animation: mc-brand-trace 300ms cubic-bezier(0.22, 1, 0.36, 1) 400ms both !important;
 }
 
-@keyframes mc-brand-draw-in {
+@keyframes mc-brand-trace {
   0% {
-    stroke-dashoffset: 420;
-    opacity: 0.18;
+    stroke-dashoffset: 1;
+    opacity: 0.2;
   }
-  68% {
-    opacity: 1;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes mc-brand-redraw {
-  0% {
-    stroke-dashoffset: 420;
-    opacity: 0.28;
-  }
-  72% {
-    opacity: 1;
+  34% {
+    opacity: 0.82;
   }
   100% {
     stroke-dashoffset: 0;
@@ -100,23 +100,21 @@ html:root body .site-theme-white-green [data-choice-no-tilt="true"] {
 }
 
 @keyframes mc-brand-mark-settle {
-  0% {
-    transform: scale(1) rotate(0deg);
-  }
-  42% {
-    transform: scale(1.055) rotate(-1.8deg);
-  }
-  72% {
-    transform: scale(0.99) rotate(0.7deg);
-  }
+  0%,
   100% {
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
+  }
+  48% {
+    transform: scale(1.026);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand) .brand-mark,
-  .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand) .brand-mark path {
+  .site-theme-white-green
+    :is(.site-brand-lockup, .site-menu-brand)
+    .brand-mark
+    :is(.brand-mark__outer, .brand-mark__inner) {
     animation: none !important;
     stroke-dashoffset: 0 !important;
   }
