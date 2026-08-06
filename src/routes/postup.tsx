@@ -21,45 +21,45 @@ import "./postup.css";
 const steps = [
   {
     icon: Search,
-    label: "Krok 01 · Zorientovanie",
-    title: "Pozrieme si web, služby a obchodný proces.",
-    copy: "Zistíme, čo zákazníci potrebujú vedieť a ktoré údaje firma dnes zisťuje ručne.",
+    label: "Krok 01 · Spoznanie firmy",
+    title: "Pozrieme si váš web, ponuku a otázky zákazníkov.",
+    copy: "Zistíme, čo ľudia najčastejšie hľadajú, kde odchádzajú a čo dnes musíte riešiť ručne. Platí to pre e-shopy aj firmy so službami.",
     chips: ["Bez záväzku", "Stačí odkaz na web"],
   },
   {
     icon: Workflow,
-    label: "Krok 02 · Návrh logiky",
-    title: "Navrhneme otázky, vetvenie a výpočty.",
-    copy: "Spoločne odsúhlasíme kroky, možnosti, cenové pravidlá a výsledok pre zákazníka ešte pred vývojom.",
-    chips: ["Mapa otázok", "Cenové pravidlá", "Schválenie vopred"],
+    label: "Krok 02 · Návrh",
+    title: "Určíme, čo má chatbot robiť a čo má poslať vám.",
+    copy: "Spoločne vyberieme otázky, odpovede, výpočty, možnosti produktov, objednávky alebo termíny. Všetko uvidíte ešte pred výrobou.",
+    chips: ["Jasný postup", "Ukážka vopred", "Vaše schválenie"],
   },
   {
     icon: Palette,
-    label: "Krok 03 · Dizajn",
-    title: "Rozhranie zladíme s vašou značkou.",
-    copy: "Nástroj prevezme farby, typografiu a tón komunikácie webu, aby nepôsobil ako cudzí doplnok.",
-    chips: ["Vaše farby", "Mobil aj desktop"],
+    label: "Krok 03 · Vzhľad a texty",
+    title: "Chatbot bude vyzerať a hovoriť ako vaša firma.",
+    copy: "Použijeme vaše farby, logo a spôsob komunikácie. Texty napíšeme jednoducho, aby im zákazník rozumel bez vysvetľovania.",
+    chips: ["Vaše farby a logo", "Počítač aj mobil"],
   },
   {
     icon: Code2,
-    label: "Krok 04 · Vývoj a test",
-    title: "Riešenie postavíme a otestujeme.",
-    copy: "Preveríme logiku, výpočty aj správanie na počítači a mobile. Pred nasadením dostanete živý testovací odkaz.",
-    chips: ["Testovací odkaz", "Reálne scenáre"],
+    label: "Krok 04 · Výroba a skúška",
+    title: "Chatbot postavíme a preveríme na reálnych situáciách.",
+    copy: "Vyskúšame otázky, výpočty, výber produktov, objednávky aj odosielanie dopytov. Pred spustením dostanete odkaz na vlastnú ukážku.",
+    chips: ["Vlastná ukážka", "Reálne situácie"],
   },
   {
     icon: PlugZap,
     label: "Krok 05 · Prepojenie",
-    title: "Dopyty prepojíme s vašimi systémami.",
-    copy: "E-mail, kalendár, tabuľka, CRM alebo vlastné API dostanú údaje bez ručného prepisovania.",
-    chips: ["E-mail", "Kalendár", "Tabuľka", "CRM / API"],
+    title: "Výsledky pošleme tam, kde ich už dnes riešite.",
+    copy: "Dopyt, objednávka, rezervácia alebo reklamácia môže prísť e-mailom, do kalendára, tabuľky alebo vášho firemného systému.",
+    chips: ["E-mail", "Kalendár", "Tabuľka", "Firemný systém"],
   },
   {
     icon: CalendarCheck,
-    label: "Krok 06 · Nasadenie",
-    title: "Widget nasadíme a doladíme podľa prevádzky.",
-    copy: "Vo väčšine prípadov stačí jeden riadok kódu. Po spustení skontrolujeme funkčnosť a upravíme detaily podľa reálnych reakcií.",
-    chips: ["Jeden riadok kódu", "Podpora po spustení"],
+    label: "Krok 06 · Spustenie",
+    title: "Chatbota pridáme na web a skontrolujeme prvé výsledky.",
+    copy: "Web netreba prerábať. Po spustení preveríme, či všetko funguje, a podľa skutočných otázok zákazníkov doladíme detaily.",
+    chips: ["Bez prerábania webu", "Pomoc po spustení"],
   },
 ];
 
@@ -67,7 +67,7 @@ const processJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "Ako prebieha spolupráca s tímom Môj Chatbot",
-  description: "Šesť krokov od analýzy po nasadenie chatbota, kalkulačky alebo konfigurátora.",
+  description: "Šesť krokov od prvého rozhovoru po spustenie chatbota pre e-shop alebo firmu so službami.",
   step: steps.map((step, index) => ({
     "@type": "HowToStep",
     position: index + 1,
@@ -81,7 +81,7 @@ export const Route = createFileRoute("/postup")({
     ...seo({
       title: "Ako prebieha spolupráca — Môj Chatbot",
       description:
-        "Šesť jasných krokov od úvodného briefu po nasadenie a zlepšovanie nástroja na webe.",
+        "Šesť jasných krokov od prvého rozhovoru po spustenie chatbota pre e-shop alebo firmu so službami.",
       path: "/postup",
     }),
     scripts: [
@@ -121,7 +121,6 @@ function Timeline() {
             data-side={index % 2 === 0 ? "left" : "right"}
             initial={reducedMotion ? false : { opacity: 0, x: index % 2 === 0 ? -64 : 64, y: 20 }}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
-            // Jednosmerné ako zvyšok webu — čo raz bolo vidieť, ostáva vidieť.
             viewport={{ once: true, amount: 0.28, margin: "-6% 0px -10% 0px" }}
             transition={
               reducedMotion
@@ -161,14 +160,14 @@ function ProcessPage() {
         eyebrow="Spolupráca"
         title={
           <>
-            Od prvých otázok <em>po živé riešenie na vašom webe.</em>
+            Od prvého rozhovoru <em>po chatbota na vašom webe.</em>
           </>
         }
-        lead="Šesť krokov s jasným výstupom. Vždy viete, čo sa práve deje, čo schvaľujete a čo bude nasledovať."
+        lead="Rovnaký jasný postup platí pre chatbot na otázky, výpočet ceny, výber produktu, objednávky, reklamácie aj rezervácie. Vždy viete, čo sa práve robí a čo bude nasledovať."
       >
         <div className="sp-hero-chips">
-          <span className="chip">Logika schválená pred vývojom</span>
-          <span className="chip">Testovací odkaz pred nasadením</span>
+          <span className="chip">Pre e-shopy aj služby</span>
+          <span className="chip">Vlastná ukážka pred spustením</span>
           <span className="chip">Bez prerábania webu</span>
         </div>
       </PageIntro>
@@ -179,16 +178,16 @@ function ProcessPage() {
       </section>
       <section className="sp-section">
         <CtaBand
-          kicker="Zaujíma vás niektorý krok?"
-          title="Napíšte konkrétnu otázku. Odpovieme konkrétne."
-          lead="Po krátkom zadaní pripravíme návrh prvého kroku, otázok a logiky pre vašu službu."
+          kicker="Chcete vedieť, čo by fungovalo u vás?"
+          title="Vyberte si riešenie alebo stručne opíšte svoju firmu."
+          lead="Chatbot vám pripraví prvý výber. Potom sa ozvem s konkrétnym návrhom pre váš web."
         >
           <button
             type="button"
             className="sp-button sp-button--primary"
             onClick={() => openSiteAssistant({ source: "process-cta" })}
           >
-            <MessageCircle aria-hidden="true" /> Nájsť riešenie
+            <MessageCircle aria-hidden="true" /> Vyskladať riešenie
           </button>
           <Link to="/kontakt" className="sp-button sp-button--ghost">
             Prejsť na kontakt <ArrowRight aria-hidden="true" />
