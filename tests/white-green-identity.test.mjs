@@ -37,14 +37,16 @@ test("the public brand uses the approved option 1 geometry", async () => {
     assert.match(asset, new RegExp(escape(outerPath)));
     assert.match(asset, new RegExp(escape(innerPath)));
     assert.match(asset, /stroke-width="7"/);
+    assert.match(asset, /<rect[^>]*fill="#FFFFFF"/i);
   }
 
-  // Export aj favicon používajú tmavú zeleň na bielom podklade, aby logo
-  // zostalo čitateľné v Google výsledkoch, záložkách aj svetlom browser UI.
-  assert.match(exported, /stroke="#19834F"/);
+  // Vyhľadávače aj prehliadače dostanú priamo zakódovaný biely podklad,
+  // nie priehľadný súbor, ktorý by mohli zobraziť na čiernej. Exportované
+  // logo zostáva tmavozelené; favicon používa tmavú a limetkovú zelenú.
+  assert.equal((exported.match(/stroke="#19834F"/g) ?? []).length, 2);
   assert.match(favicon, /stroke="#19834F"/);
-  assert.match(exported, /<rect[^>]*fill="#FFFFFF"/);
-  assert.match(favicon, /<rect[^>]*fill="#FFFFFF"/);
+  assert.match(favicon, /stroke="#B9ED4D"/);
+  assert.doesNotMatch(favicon, /<rect[^>]*fill="#0b2f20"/i);
 });
 
 test("the approved option 1 layer fixes contrast and removes warm legacy states", async () => {
