@@ -21,9 +21,8 @@ interface BrandMarkProps {
  * rovnaké voľné ramená — vyzeralo to čistejšie, ale s originálom to
  * nesedelo.
  *
- * Zhoda s originálom je meraná: prekryv plôch 76,9 % pri mriežke 220×220,
- * čo je pri ťahu širokom 14 px prakticky celý rozdiel na antialiasingu.
- * Skript na premeranie je v `scripts/build-brand-assets.mjs`.
+ * `pathLength={1}` normalizuje obe trajektórie. Animácia tak používa presný
+ * priebeh 0 → 1 bez odhadu dĺžky SVG cesty a funguje rovnako pri každej veľkosti.
  */
 const OUTER =
   "M92.9 81.1C97.4 80.8 100.6 78.6 100.6 75.6V12.6" +
@@ -48,14 +47,18 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       fill="none"
     >
       <path
+        className="brand-mark__outer"
         d={OUTER}
+        pathLength={1}
         stroke="currentColor"
         strokeWidth="7"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
+        className="brand-mark__inner"
         d={INNER}
+        pathLength={1}
         stroke="currentColor"
         strokeWidth="7"
         strokeLinecap="round"
