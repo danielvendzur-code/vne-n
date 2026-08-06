@@ -67,7 +67,8 @@ const processJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "Ako prebieha spolupráca s tímom Môj Chatbot",
-  description: "Šesť krokov od prvého rozhovoru po spustenie chatbota pre e-shop alebo firmu so službami.",
+  description:
+    "Šesť krokov od prvého rozhovoru po spustenie chatbota pre e-shop alebo firmu so službami.",
   step: steps.map((step, index) => ({
     "@type": "HowToStep",
     position: index + 1,
