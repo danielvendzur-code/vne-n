@@ -1,5 +1,11 @@
 import { useRef, useState, type RefObject } from "react";
-import { useMotionValueEvent, useScroll, useSpring, type MotionValue } from "motion/react";
+import {
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+  type MotionValue,
+} from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface Options {
@@ -30,22 +36,29 @@ export function useTimelineProgress(
     target,
     offset: offset as unknown as Parameters<typeof useScroll>[0]["offset"],
   });
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 26, mass: 0.3 });
+  const spring = useSpring(scrollYProgress, { stiffness: 120, damping: 26, mass: 0.3 });
+  // Čiara ukazuje, kam sa človek dostal, nie kde práve je. Rastie preto
+  // len nahor; keby sa pri ceste späť sťahovala, os by sa rozpadala pred
+  // očami a už rozsvietené kroky by pod sebou nemali čiaru.
+  const progress = useMotionValue(reducedMotion ? 1 : 0);
   const [reached, setReached] = useState(reducedMotion ? count : 0);
   const lastReached = useRef(reducedMotion ? count : 0);
 
-  useMotionValueEvent(progress, "change", (value) => {
+  useMotionValueEvent(spring, "change", (value) => {
     if (reducedMotion) return;
+    if (value > progress.get()) progress.set(value);
+
     let next = 0;
     for (let index = 0; index < count; index += 1) {
       if (value >= (index + 0.5) / count) next += 1;
       else break;
     }
-    // Bez tejto podmienky by React prekresľoval pri každom snímku.
-    if (next !== lastReached.current) {
-      lastReached.current = next;
-      setReached(next);
-    }
+    // Rozsvietené kroky sa už nezhasínajú. Predtým sa počet rátal nanovo
+    // v oboch smeroch, takže pri scrollovaní späť hore karty krokov zase
+    // stmavli na 55 % — hotový text pôsobil, akoby mizol.
+    if (next <= lastReached.current) return;
+    lastReached.current = next;
+    setReached(next);
   });
 
   return { progress, reached: reducedMotion ? count : reached };

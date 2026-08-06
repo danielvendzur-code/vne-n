@@ -15,6 +15,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
+import { Reveal } from "./motion-primitives";
 
 const packages = [
   {
@@ -109,22 +110,36 @@ export function HomeConversionUpgrade() {
   return (
     <section className="winner-upgrade" id="cena" aria-labelledby="winner-upgrade-title">
       <div className="container-page winner-upgrade__inner">
+        {/* Karty sa odhaľujú cez spoločné `Reveal`, teda raz a natrvalo.
+            Predtým to robila animácia viazaná na polohu scrollu, ktorá sa
+            pri ceste hore prehrávala odzadu a karty sa rozplývali. */}
         <div className="winner-trust" aria-label="Dôvody spolupráce">
-          {trustPoints.map(({ icon: Icon, title, copy }) => (
-            <article className="winner-trust__item spotlight-surface" key={title}>
+          {trustPoints.map(({ icon: Icon, title, copy }, index) => (
+            <Reveal
+              as="article"
+              className="winner-trust__item spotlight-surface"
+              key={title}
+              delay={Math.min(index * 0.07, 0.14)}
+            >
               <Icon aria-hidden="true" />
               <div>
                 <h3>{title}</h3>
                 <p>{copy}</p>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
 
         <div className="winner-packages">
           {packages.map(
-            ({ icon: Icon, title, price, priceNote, monthly, badge, copy, features }) => (
-              <article className="winner-package" key={title} data-featured={!!badge}>
+            ({ icon: Icon, title, price, priceNote, monthly, badge, copy, features }, index) => (
+              <Reveal
+                as="article"
+                className="winner-package"
+                key={title}
+                data-featured={!!badge}
+                delay={Math.min(index * 0.07, 0.14)}
+              >
                 {/* Odznak stojí v hornom riadku pri ikone, takže nadpisy
                   všetkých troch kariet začínajú na rovnakej výške. */}
                 <div className="winner-package__top">
@@ -167,7 +182,7 @@ export function HomeConversionUpgrade() {
                 >
                   Získať návrh riešenia <ArrowRight aria-hidden="true" />
                 </button>
-              </article>
+              </Reveal>
             ),
           )}
         </div>
@@ -182,14 +197,19 @@ export function HomeConversionUpgrade() {
             </p>
           </div>
           <div className="winner-prep__grid">
-            {clientInputs.map(({ icon: Icon, title, copy }) => (
-              <article className="winner-prep__item spotlight-surface" key={title}>
+            {clientInputs.map(({ icon: Icon, title, copy }, index) => (
+              <Reveal
+                as="article"
+                className="winner-prep__item spotlight-surface"
+                key={title}
+                delay={Math.min(index * 0.06, 0.18)}
+              >
                 <Icon aria-hidden="true" />
                 <div>
                   <h3>{title}</h3>
                   <p>{copy}</p>
                 </div>
-              </article>
+              </Reveal>
             ))}
           </div>
         </div>

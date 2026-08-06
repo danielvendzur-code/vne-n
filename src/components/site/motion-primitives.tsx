@@ -69,7 +69,8 @@ export function Reveal({
   /** Aká časť prvku musí byť vidieť, než sa spustí odhalenie. */
   amount?: number;
   as?: "div" | "section" | "article" | "li" | "span";
-  "data-open"?: boolean;
+  /** Dátové atribúty prechádzajú na element, aby si CSS vedelo siahnuť na stav. */
+  [dataAttribute: `data-${string}`]: unknown;
 }) {
   const reducedMotion = useReducedMotion();
   const narrow = useNarrowViewport();
@@ -100,15 +101,13 @@ export function Reveal({
   return (
     <Component
       className={className}
-      // Obojsmerné: pri scrollovaní späť hore obsah zase odchádza. Trvanie
-      // odchodu sedí v `initial`, lebo práve doň sa prvok vracia, keď
-      // opustí zorné pole — a odchod má byť kratší než príchod.
-      initial={{
-        opacity: 0,
-        x,
-        y,
-        transition: { duration: MOTION.fast, ease: premiumEase },
-      }}
+      // Jednosmerné. Predtým sa obsah pri odchode zo zorného poľa vracal
+      // do skrytého stavu, takže pri scrollovaní späť hore sa odhaľovanie
+      // prehrávalo znova — a keďže scrollovanie hore je rýchlejšie než
+      // samotné odhalenie, nadpisy aj otázky boli v polovici obrazovky
+      // priehľadné alebo úplne neviditeľné. Čo raz bolo vidieť, ostáva
+      // vidieť.
+      initial={{ opacity: 0, x, y }}
       whileInView={{
         opacity: 1,
         x: 0,
@@ -120,7 +119,7 @@ export function Reveal({
         },
       }}
       viewport={{
-        once: false,
+        once: true,
         amount: narrow ? 0.06 : amount,
         margin: narrow ? "-4% 0px -6% 0px" : "-6% 0px -6% 0px",
       }}
