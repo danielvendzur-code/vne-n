@@ -1,10 +1,10 @@
-/* Final widget motion pass — compositor-only Tinder swipe and real close/reset states. */
+/* Final widget motion pass — slower, smoother Tinder swipe and real close/reset states. */
 
 .cw-widget .cw-panel {
   transform-origin: 88% 96%;
   backface-visibility: hidden;
   will-change: transform, opacity;
-  animation: mc-widget-panel-in 230ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  animation: mc-widget-panel-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .cw-widget .cw-panel[data-state="closing"] {
@@ -34,8 +34,8 @@
   }
 }
 
-/* Both screens remain mounted. One leaves like a Tinder card while the other
-   arrives from the opposite side; only transform and opacity are animated. */
+/* Both screens remain mounted. The longer easing gives the outgoing card time
+   to read as a deliberate swipe instead of an abrupt tab replacement. */
 .cw-widget .cw-panel-body {
   position: relative !important;
   isolation: isolate;
@@ -59,8 +59,8 @@
   transform-origin: 50% 86%;
   will-change: transform, opacity;
   transition:
-    transform 390ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 190ms ease !important;
+    transform 620ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .cw-widget
@@ -69,7 +69,7 @@
 .cw-widget
   .cw-panel-body[data-direction="backward"]
   .cw-mode-view[data-view="assistant"]:not([data-active="true"]) {
-  transform: translate3d(-108%, 0, 0) rotate(-3.5deg) scale(0.985);
+  transform: translate3d(-104%, 0, 0) rotate(-2.4deg) scale(0.99);
 }
 
 .cw-widget
@@ -78,7 +78,7 @@
 .cw-widget
   .cw-panel-body[data-direction="backward"]
   .cw-mode-view[data-view="calculator"]:not([data-active="true"]) {
-  transform: translate3d(108%, 0, 0) rotate(3.5deg) scale(0.985);
+  transform: translate3d(104%, 0, 0) rotate(2.4deg) scale(0.99);
 }
 
 .cw-widget .cw-mode-view[data-active="true"] {
@@ -88,23 +88,87 @@
   transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
 }
 
-/* The brand mark redraws quickly on deliberate hover, not continuously. */
+.cw-widget :is(.cw-tabs__glass, .cw-tabs__thumb) {
+  transition-duration: 560ms !important;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* The mark visibly draws when it first appears and redraws more slowly on
+   deliberate hover. The inner path follows the outer path with a short delay. */
+.cw-widget :is(.cw-launcher, .cw-panel-head__mascot) .brand-mark path {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 0;
+  animation: mc-widget-logo-intro 860ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  will-change: stroke-dashoffset, opacity;
+}
+
+.cw-widget
+  :is(.cw-launcher, .cw-panel-head__mascot)
+  .brand-mark
+  path:nth-of-type(2) {
+  animation-delay: 120ms !important;
+}
+
+.cw-widget
+  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible)
+  .brand-mark {
+  animation: mc-widget-logo-settle 760ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
 .cw-widget
   :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible)
   .brand-mark
   path {
-  stroke-dasharray: 360;
-  animation: mc-widget-logo-redraw 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: mc-widget-logo-redraw 760ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+.cw-widget
+  :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible)
+  .brand-mark
+  path:nth-of-type(2) {
+  animation-delay: 100ms !important;
+}
+
+@keyframes mc-widget-logo-intro {
+  0% {
+    stroke-dashoffset: 420;
+    opacity: 0.18;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
 }
 
 @keyframes mc-widget-logo-redraw {
-  from {
-    stroke-dashoffset: 360;
-    opacity: 0.62;
+  0% {
+    stroke-dashoffset: 420;
+    opacity: 0.28;
   }
-  to {
+  72% {
+    opacity: 1;
+  }
+  100% {
     stroke-dashoffset: 0;
     opacity: 1;
+  }
+}
+
+@keyframes mc-widget-logo-settle {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  45% {
+    transform: scale(1.055) rotate(-1.8deg);
+  }
+  75% {
+    transform: scale(0.99) rotate(0.7deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
   }
 }
 
@@ -157,6 +221,10 @@
   .cw-widget .cw-panel,
   .cw-widget .cw-panel[data-state="closing"],
   .cw-widget .cw-mode-view,
+  .cw-widget :is(.cw-tabs__glass, .cw-tabs__thumb),
+  .cw-widget
+    :is(.cw-launcher, .cw-panel-head__mascot)
+    .brand-mark,
   .cw-widget
     :is(.cw-launcher, .cw-panel-head__mascot)
     .brand-mark

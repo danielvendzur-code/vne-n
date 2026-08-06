@@ -63,6 +63,7 @@ import "@/components/site/ScrollMotionFinal.css";
 import "@/components/site/FunnelLayoutFinal.css";
 import "./FinalSmoothTexturePolish.css";
 import "./WidgetSwipeMotionFinal.css";
+import "./VisibilityAndBrandMotionFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
