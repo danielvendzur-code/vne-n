@@ -5,6 +5,7 @@ import { useSpotlight } from "@/hooks/useSpotlight";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
+import { SiteFunnelBridge } from "./SiteFunnelBridge";
 import "./SitePolish.css";
 import "./MineralTheme.css";
 import "./MineralThemePolish.css";
@@ -47,36 +48,19 @@ import "./SecondHalfCorrectionsFinal.css";
 import "./SecondHalfVisualQAFinal.css";
 import "./SecondHalfIconLock.css";
 import "./LimeWhiteBrandFinal.css";
-// Final authority: removes the remaining warm accent, restores tactile
-// interaction states and adds the restrained paper texture.
 import "@/components/site/GreenTextureInteractionsFinal.css";
 import "@/components/site/GreenInteractionVisualCorrection.css";
-// Dorovnáva plochy, ktoré ostali z tmavej témy pod novým tmavozeleným
-// textom — inak sú celé sekcie podstránok nečitateľné.
 import "@/components/site/SurfaceContrastRepair.css";
-// Hlavička, ukazovateľ priebehu, interaktívne pole v hero, jednotné
-// štítky a rytmus sekcií na domovskej stránke.
 import "@/components/site/HeroRhythmFinal.css";
-// Jedna škála zaoblení, rámov, tieňov a čiar pre všetky komponenty.
 import "@/components/site/RefinementFinal.css";
-// Číslované popisky sekcií, štítky bledé až do výberu, prázdne body na
-// časovej osi a väčšie políčka v kontaktnom formulári.
 import "@/components/site/RequestedPolishRound.css";
-// Hlavička bez presakovania, pokojnejší panel menu, viditeľné čísla
-// sekcií a formulár poskladaný do jedného panela.
 import "@/components/site/MenuAndFormFinal.css";
-// Jedna škála priestoru, jeden slovník pohybu a z nich odvodené mriežky,
-// miery nadpisov a predely medzi sekciami.
 import "@/components/site/SystemFinal.css";
-// Vracia pôvodnú stavbu panela menu a zväčšuje značku aj hornú navigáciu.
 import "@/components/site/NavRestore.css";
-// Časová os na počítači, dva typy štítkov, prepínač, cenník, kontakt.
 import "@/components/site/RoundFixes.css";
-// Jeden tvar pre všetky štítky, pokojná hlavička na mobile, užšie menu,
-// zarovnaná os na telefóne a menej prázdnych plôch.
 import "@/components/site/RoundTwoFixes.css";
-// Značka v tmavej zeleni chatbota a pohyb viazaný na polohu scrollu.
 import "@/components/site/ScrollMotionFinal.css";
+import "@/components/site/FunnelLayoutFinal.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
@@ -111,6 +95,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         style={{ backgroundColor: "var(--background)" }}
       >
         <SiteMotionEnhancements key={`motion-${pathname}`} />
+        <SiteFunnelBridge key={`funnel-${pathname}`} />
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>
