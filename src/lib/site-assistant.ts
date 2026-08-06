@@ -17,6 +17,10 @@ function normalizeContext(context?: SiteAssistantContext): OpenSiteAssistantOpti
     return { entry: context.entry, preset: context.preset };
   }
 
+  if (context?.preset) {
+    return { entry: "builder", preset: context.preset };
+  }
+
   if (context?.source?.includes("project")) {
     return { entry: "inquiry", preset: "inquiry" };
   }
@@ -34,7 +38,7 @@ export function openSiteAssistant(context?: SiteAssistantContext): void {
     return;
   }
 
-  // The stable external loader listens to this event even before its iframe is ready.
+  // The external chatbot listens to this event even before its script is ready.
   window.dispatchEvent(
     new CustomEvent<OpenSiteAssistantOptions>(SITE_ASSISTANT_OPEN_EVENT, {
       detail: options,
