@@ -110,10 +110,7 @@ export function ToolCalculator({
   }, [interest]);
 
   const featureLabels = useMemo(
-    () =>
-      FEATURES.filter((option) => features.includes(option.id)).map(
-        (option) => option.label,
-      ),
+    () => FEATURES.filter((option) => features.includes(option.id)).map((option) => option.label),
     [features],
   );
 
@@ -160,10 +157,7 @@ export function ToolCalculator({
   };
 
   const summaryRows: Array<[string, string]> = [
-    [
-      "Riešenie",
-      interest === "custom" ? "Riešenie na mieru" : labelOf(INTERESTS, interest),
-    ],
+    ["Riešenie", interest === "custom" ? "Riešenie na mieru" : labelOf(INTERESTS, interest)],
     ["Odvetvie", labelOf(INDUSTRIES, industry)],
     ["Funkcie", featureLabels.length ? featureLabels.join(", ") : "—"],
     ["Spustenie", labelOf(TIMELINES, timeline)],
