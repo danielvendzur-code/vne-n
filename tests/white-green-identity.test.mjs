@@ -25,7 +25,7 @@ test("the public brand uses the supplied one-stroke mark and Google favicon stay
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
   assert.match(component, /className="brand-mark__stroke"/);
   assert.match(component, /pathLength=\{1\}/);
-  assert.match(component, /strokeWidth="4\.5"/);
+  assert.match(component, /strokeWidth="5\.5"/);
   assert.match(component, /d="M0 0"[\s\S]*stroke="none"[\s\S]*style=\{\{ display: "none" \}\}/);
   assert.match(component, /M24 71\.2L24\.003 32\.706/);
   assert.match(component, /L96\.6 85\.5/);
@@ -72,11 +72,13 @@ test("the final harmony restores the premium motion instead of flattening it", a
   const layout = await read("src/components/site/Layout.tsx");
   const css = await read("src/components/site/ProfessionalHarmonyFinal.css");
   const spotlight = await read("src/hooks/useSpotlight.ts");
+  const mobile = await read("src/components/site/MobileMotionRestoreFinal.css");
 
   assert.match(layout, /ProfessionalHarmonyFinal\.css/);
   assert.match(layout, /FinalSmoothTexturePolish\.css/);
   assert.match(layout, /WidgetSwipeMotionFinal\.css/);
   assert.match(layout, /LaunchReadyFinal\.css/);
+  assert.match(layout, /MobileMotionRestoreFinal\.css/);
   assert.ok(
     layout.indexOf('import "./ApprovedOptionOneFinal.css"') <
       layout.indexOf('import "./ProfessionalHarmonyFinal.css"'),
@@ -90,6 +92,8 @@ test("the final harmony restores the premium motion instead of flattening it", a
   assert.match(css, /@keyframes h-card-float/);
   assert.match(css, /\.lp-hero-cta--primary, \.lp-assistant-cta[\s\S]*background: var\(--h-lime\)/);
   assert.match(css, /\.derat-story__copy-step[\s\S]*58svh/);
+  assert.match(mobile, /mobile-surface-reveal/);
+  assert.match(mobile, /mobile-hero-stage-arrive/);
   assert.doesNotMatch(css, forbiddenWarm);
 
   for (const selector of [

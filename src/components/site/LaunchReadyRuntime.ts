@@ -4,6 +4,25 @@ import type { AssistantPreset } from "@/types/assistant";
 const HERO_PICK = ".lp-hero-pick";
 const SMALL_FLASHLIGHT_TARGETS =
   ".lp-hero-pick[data-choice-flashlight], .lp-chip[data-choice-flashlight]";
+const MOBILE_MOTION_SELECTOR = [
+  ".lp-heading",
+  ".lp-comparison",
+  ".lp-project",
+  ".lp-live-tools",
+  ".lp-caps-row",
+  ".lp-faq-item",
+  ".lp-tl-card",
+  ".lp-final-card",
+  ".derat-story__mobile-slide",
+  ".sp-hero",
+  ".sp-service",
+  ".sp-project-card",
+  ".sp-detail-block",
+  ".sp-cta",
+  ".rz-card",
+  ".contact-card",
+  ".contact-expect",
+].join(", ");
 
 function presetFromHeroChoice(button: HTMLElement): AssistantPreset {
   const label = (button.textContent ?? "").toLocaleLowerCase("sk");
@@ -23,15 +42,90 @@ function normalizeChoiceFlashlight(): void {
   }
 }
 
+function installMobileMotion() {
+  const mobile = window.matchMedia("(max-width: 820px)");
+  const registered = new WeakSet<Element>();
+  let intersection: IntersectionObserver | null = null;
+
+  const ensureObserver = () => {
+    if (intersection || !mobile.matches) return;
+    intersection = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const element = entry.target as HTMLElement;
+          element.dataset.mobileMotion = "seen";
+          intersection?.unobserve(element);
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -7% 0px" },
+    );
+  };
+
+  const prepare = (root: ParentNode = document) => {
+    if (!mobile.matches) return;
+    ensureObserver();
+    if (!intersection) return;
+
+    const candidates: HTMLElement[] = [];
+    if (root instanceof HTMLElement && root.matches(MOBILE_MOTION_SELECTOR)) {
+      candidates.push(root);
+    }
+    candidates.push(...Array.from(root.querySelectorAll<HTMLElement>(MOBILE_MOTION_SELECTOR)));
+
+    candidates.forEach((element, index) => {
+      if (registered.has(element)) return;
+      registered.add(element);
+      element.dataset.mobileMotion = "pending";
+      element.style.setProperty("--mobile-motion-delay", `${(index % 4) * 55}ms`);
+      intersection?.observe(element);
+    });
+  };
+
+  const resetForDesktop = () => {
+    document.querySelectorAll<HTMLElement>("[data-mobile-motion]").forEach((element) => {
+      element.removeAttribute("data-mobile-motion");
+      element.style.removeProperty("--mobile-motion-delay");
+    });
+    intersection?.disconnect();
+    intersection = null;
+  };
+
+  const onMediaChange = () => {
+    if (mobile.matches) prepare();
+    else resetForDesktop();
+  };
+
+  mobile.addEventListener("change", onMediaChange);
+  prepare();
+
+  return {
+    prepare,
+    disconnect() {
+      mobile.removeEventListener("change", onMediaChange);
+      intersection?.disconnect();
+    },
+  };
+}
+
 function installLaunchReadyRuntime(): void {
   if (document.documentElement.dataset.launchReadyRuntime === "true") return;
   document.documentElement.dataset.launchReadyRuntime = "true";
 
+  const mobileMotion = installMobileMotion();
   const normalizeSoon = () => {
-    window.requestAnimationFrame(() => window.requestAnimationFrame(normalizeChoiceFlashlight));
+    window.requestAnimationFrame(() =>
+      window.requestAnimationFrame(() => {
+        normalizeChoiceFlashlight();
+        mobileMotion.prepare();
+      }),
+    );
   };
   normalizeSoon();
-  window.setTimeout(normalizeChoiceFlashlight, 180);
+  window.setTimeout(() => {
+    normalizeChoiceFlashlight();
+    mobileMotion.prepare();
+  }, 180);
 
   const observer = new MutationObserver((records) => {
     if (

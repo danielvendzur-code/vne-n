@@ -24,7 +24,7 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
         d={ONE_STROKE}
         pathLength={1}
         stroke="currentColor"
-        strokeWidth="4.5"
+        strokeWidth="5.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
