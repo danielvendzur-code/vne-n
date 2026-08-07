@@ -61,12 +61,12 @@ import "@/components/site/RoundFixes.css";
 import "@/components/site/RoundTwoFixes.css";
 import "@/components/site/ScrollMotionFinal.css";
 import "@/components/site/FunnelLayoutFinal.css";
-import "./FinalSmoothTexturePolish.css";
-import "./WidgetSwipeMotionFinal.css";
-import "./VisibilityAndBrandMotionFinal.css";
-import "./InteractionRegressionRepair.css";
-import "./LaunchReadyFinal.css";
-import "./LaunchReadyRuntime";
+import "@/components/site/FinalSmoothTexturePolish.css";
+import "@/components/site/WidgetSwipeMotionFinal.css";
+import "@/components/site/VisibilityAndBrandMotionFinal.css";
+import "@/components/site/InteractionRegressionRepair.css";
+import "@/components/site/LaunchReadyFinal.css";
+import "@/components/site/LaunchReadyRuntime";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",

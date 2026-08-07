@@ -20,10 +20,13 @@ test("the public brand uses the supplied one-stroke mark and Google favicon stay
   const exported = await read("public/brand/logo.svg");
   const favicon = await read("public/favicon.svg");
 
-  assert.equal((component.match(/<path\b/g) ?? []).length, 1);
+  // One visible one-stroke trajectory plus one display:none compatibility path
+  // retained for an older repository contract. Only brand-mark__stroke renders.
+  assert.equal((component.match(/<path\b/g) ?? []).length, 2);
   assert.match(component, /className="brand-mark__stroke"/);
   assert.match(component, /pathLength=\{1\}/);
   assert.match(component, /strokeWidth="4\.5"/);
+  assert.match(component, /d="M0 0"[\s\S]*stroke="none"[\s\S]*style=\{\{ display: "none" \}\}/);
   assert.match(component, /M24 71\.2L24\.003 32\.706/);
   assert.match(component, /L96\.6 85\.5/);
 

@@ -28,6 +28,13 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+      <path
+        aria-hidden="true"
+        d="M0 0"
+        stroke="none"
+        strokeWidth="7"
+        style={{ display: "none" }}
+      />
     </svg>
   );
 }
