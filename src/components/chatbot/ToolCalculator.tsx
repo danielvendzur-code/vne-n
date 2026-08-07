@@ -110,7 +110,10 @@ export function ToolCalculator({
   }, [interest]);
 
   const featureLabels = useMemo(
-    () => FEATURES.filter((option) => features.includes(option.id)).map((option) => option.label),
+    () =>
+      FEATURES.filter((option) => features.includes(option.id)).map(
+        (option) => option.label,
+      ),
     [features],
   );
 
@@ -157,7 +160,10 @@ export function ToolCalculator({
   };
 
   const summaryRows: Array<[string, string]> = [
-    ["Riešenie", interest === "custom" ? "Riešenie na mieru" : labelOf(INTERESTS, interest)],
+    [
+      "Riešenie",
+      interest === "custom" ? "Riešenie na mieru" : labelOf(INTERESTS, interest),
+    ],
     ["Odvetvie", labelOf(INDUSTRIES, industry)],
     ["Funkcie", featureLabels.length ? featureLabels.join(", ") : "—"],
     ["Spustenie", labelOf(TIMELINES, timeline)],
@@ -172,7 +178,8 @@ export function ToolCalculator({
           </span>
           <h3>Návrh je pripravený</h3>
           <p>
-            Ďakujem, <b>{lead.name.trim()}</b>. Máte pripravené riešenie podľa zvoleného typu a funkcií.
+            Ďakujem, <b>{lead.name.trim()}</b>. Máte pripravené riešenie podľa zvoleného typu a
+            funkcií.
           </p>
           <div className="cw-thanks__grid">
             <div>
