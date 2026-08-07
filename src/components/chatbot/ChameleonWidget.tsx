@@ -7,14 +7,8 @@ import {
   useState,
 } from "react";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
-import {
-  installSiteAssistantGlobal,
-  SITE_ASSISTANT_OPEN_EVENT,
-} from "../../lib/site-assistant";
-import type {
-  AssistantPreset,
-  OpenSiteAssistantOptions,
-} from "../../types/assistant";
+import { installSiteAssistantGlobal, SITE_ASSISTANT_OPEN_EVENT } from "../../lib/site-assistant";
+import type { AssistantPreset, OpenSiteAssistantOptions } from "../../types/assistant";
 import { AssistantConversation } from "./AssistantConversation";
 import { BubbleLogo } from "./BubbleLogo";
 import { ToolCalculator } from "./ToolCalculator";
@@ -49,10 +43,8 @@ export function ChameleonWidget(): JSX.Element {
   const [isClosing, setIsClosing] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
   const [mode, setMode] = useState<WidgetMode>("assistant");
-  const [transitionDirection, setTransitionDirection] =
-    useState<SwipeDirection>("forward");
-  const [actionAnimating, setActionAnimating] =
-    useState<ActionAnimation>(null);
+  const [transitionDirection, setTransitionDirection] = useState<SwipeDirection>("forward");
+  const [actionAnimating, setActionAnimating] = useState<ActionAnimation>(null);
   const [teaserVisible, setTeaserVisible] = useState(false);
   const [teaserDismissed, setTeaserDismissed] = useState(false);
   const [resetToken, setResetToken] = useState(0);
@@ -116,34 +108,28 @@ export function ChameleonWidget(): JSX.Element {
 
   useFocusTrap(panelRef, isOpen && !isClosing, close);
 
-  const switchMode = useCallback(
-    (nextMode: WidgetMode) => {
-      if (nextMode === mode) return;
-      setTransitionDirection(nextMode === "calculator" ? "forward" : "backward");
-      setMode(nextMode);
-    },
-    [mode],
-  );
+  const switchMode = useCallback((nextMode: WidgetMode) => {
+    if (nextMode === mode) return;
+    setTransitionDirection(nextMode === "calculator" ? "forward" : "backward");
+    setMode(nextMode);
+  }, [mode]);
 
-  const open = useCallback(
-    (nextMode: WidgetMode, nextPreset: AssistantPreset | null = null) => {
-      if (closeTimerRef.current !== null) {
-        window.clearTimeout(closeTimerRef.current);
-        closeTimerRef.current = null;
-      }
-      openRef.current = true;
-      closingRef.current = false;
-      setTransitionDirection(nextMode === "calculator" ? "forward" : "backward");
-      setMode(nextMode);
-      setPreset(nextPreset);
-      setResetToken((value) => value + 1);
-      setTeaserVisible(false);
-      setHasOpened(true);
-      setIsClosing(false);
-      setIsOpen(true);
-    },
-    [],
-  );
+  const open = useCallback((nextMode: WidgetMode, nextPreset: AssistantPreset | null = null) => {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    openRef.current = true;
+    closingRef.current = false;
+    setTransitionDirection(nextMode === "calculator" ? "forward" : "backward");
+    setMode(nextMode);
+    setPreset(nextPreset);
+    setResetToken((value) => value + 1);
+    setTeaserVisible(false);
+    setHasOpened(true);
+    setIsClosing(false);
+    setIsOpen(true);
+  }, []);
 
   const beginSwipe = (
     event: ReactPointerEvent<HTMLElement>,
@@ -169,10 +155,7 @@ export function ChameleonWidget(): JSX.Element {
 
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
-    if (
-      Math.abs(dx) < SWIPE_THRESHOLD_PX ||
-      Math.abs(dx) <= Math.abs(dy) * 1.15
-    ) {
+    if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) <= Math.abs(dy) * 1.15) {
       return;
     }
 
@@ -191,9 +174,7 @@ export function ChameleonWidget(): JSX.Element {
       const directPreset =
         options?.preset ?? (isPreset(options?.entry) ? options.entry : undefined);
       const calculatorEntry =
-        options?.entry === "builder" ||
-        options?.entry === "calculator" ||
-        Boolean(directPreset);
+        options?.entry === "builder" || options?.entry === "calculator" || Boolean(directPreset);
       open(calculatorEntry ? "calculator" : "assistant", directPreset ?? null);
     };
 
@@ -256,15 +237,11 @@ export function ChameleonWidget(): JSX.Element {
           >
             ×
           </button>
-          <button
-            type="button"
-            className="cw-teaser__content"
-            onClick={() => open("calculator")}
-          >
+          <button type="button" className="cw-teaser__content" onClick={() => open("calculator")}>
             <strong>Vyskladajte si asistenta na počkanie</strong>
             <span className="cw-teaser__copy">
-              Otvorte <b>konfigurátor</b> — návrh riešenia máte do minúty.{" "}
-              <b>AI asistent</b> poradí ďalší krok.
+              Otvorte <b>konfigurátor</b> — návrh riešenia máte do minúty. <b>AI asistent</b> poradí
+              ďalší krok.
             </span>
           </button>
         </aside>
@@ -307,17 +284,14 @@ export function ChameleonWidget(): JSX.Element {
             <div className="cw-panel-head__title">
               <b id="chameleon-widget-title">Môj Chatbot</b>
               <span className="cw-panel-head__meta">
-                <i /> {mode === "assistant" ? "AI asistent" : "Konfigurátor"} ·
-                online
+                <i /> {mode === "assistant" ? "AI asistent" : "Konfigurátor"} · online
               </span>
             </div>
             <div className="cw-panel-head__actions">
               <button
                 type="button"
                 data-testid="widget-reset"
-                data-action-animating={
-                  actionAnimating === "reset" ? "reset" : undefined
-                }
+                data-action-animating={actionAnimating === "reset" ? "reset" : undefined}
                 aria-label="Resetovať aktuálnu obrazovku"
                 title="Resetovať"
                 onClick={reset}
@@ -328,9 +302,7 @@ export function ChameleonWidget(): JSX.Element {
                 type="button"
                 className="cw-panel-head__close"
                 data-testid="widget-close"
-                data-action-animating={
-                  actionAnimating === "close" ? "close" : undefined
-                }
+                data-action-animating={actionAnimating === "close" ? "close" : undefined}
                 aria-label="Zavrieť asistenta"
                 title="Zavrieť"
                 onClick={close}
@@ -345,9 +317,7 @@ export function ChameleonWidget(): JSX.Element {
             className="cw-tabs"
             aria-label="Režim asistenta"
             data-mode={mode}
-            onPointerDown={(event) =>
-              beginSwipe(event, tabSwipeStartRef, true)
-            }
+            onPointerDown={(event) => beginSwipe(event, tabSwipeStartRef, false)}
             onPointerUp={(event) => finishSwipe(event, tabSwipeStartRef)}
             onPointerCancel={() => {
               tabSwipeStartRef.current = null;
@@ -378,9 +348,7 @@ export function ChameleonWidget(): JSX.Element {
             className="cw-panel-body"
             data-mode={mode}
             data-direction={transitionDirection}
-            onPointerDown={(event) =>
-              beginSwipe(event, bodySwipeStartRef, false)
-            }
+            onPointerDown={(event) => beginSwipe(event, bodySwipeStartRef, false)}
             onPointerUp={(event) => finishSwipe(event, bodySwipeStartRef)}
             onPointerCancel={() => {
               bodySwipeStartRef.current = null;

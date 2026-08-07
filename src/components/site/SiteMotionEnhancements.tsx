@@ -59,9 +59,7 @@ export function SiteMotionEnhancements() {
   useEffect(() => {
     const cleanups: Array<() => void> = [];
 
-    const images = Array.from(
-      document.querySelectorAll<HTMLImageElement>(".lp-project-media img"),
-    );
+    const images = Array.from(document.querySelectorAll<HTMLImageElement>(".lp-project-media img"));
     images.forEach((image, index) => {
       const media = image.closest<HTMLElement>(".lp-project-media");
       const markLoaded = () => {
@@ -77,10 +75,7 @@ export function SiteMotionEnhancements() {
       if (image.complete) {
         markLoaded();
       } else {
-        void image
-          .decode()
-          .then(markLoaded)
-          .catch(() => undefined);
+        void image.decode().then(markLoaded).catch(() => undefined);
       }
 
       cleanups.push(() => {
@@ -176,24 +171,9 @@ export function SiteMotionEnhancements() {
         z-index: 1;
       }
 
-      .site-brand-lockup:hover .brand-mark path,
-      .site-brand-lockup:focus-visible .brand-mark path {
-        stroke-dasharray: 360;
-        animation: mc-logo-redraw 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
-      }
-
-      @keyframes mc-logo-redraw {
-        from { stroke-dashoffset: 360; opacity: 0.7; }
-        to { stroke-dashoffset: 0; opacity: 1; }
-      }
-
       @media (prefers-reduced-motion: reduce) {
         [data-choice-flashlight="true"]::before {
           transition: none;
-        }
-
-        .site-brand-lockup .brand-mark path {
-          animation: none !important;
         }
       }
     `;
@@ -215,8 +195,7 @@ export function SiteMotionEnhancements() {
 
     const onPointerMove = (event: PointerEvent) => {
       const element = event.target instanceof Element ? event.target : null;
-      const target =
-        element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
+      const target = element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
       if (!target) return;
       activeTarget = target;
       pointerX = event.clientX;
@@ -226,8 +205,7 @@ export function SiteMotionEnhancements() {
 
     const onPointerLeave = (event: PointerEvent) => {
       const element = event.target instanceof Element ? event.target : null;
-      const target =
-        element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
+      const target = element?.closest<HTMLElement>('[data-choice-flashlight="true"]') ?? null;
       if (target && event.relatedTarget instanceof Node && target.contains(event.relatedTarget)) {
         return;
       }
@@ -238,9 +216,10 @@ export function SiteMotionEnhancements() {
       const choiceSection = findChoiceSection();
       if (choiceSection) {
         choiceSection.dataset.choiceExperience = "true";
+        choiceSection.dataset.choiceFlashlight = "true";
         choiceTargets(choiceSection).forEach((target) => {
           target.dataset.choiceNoTilt = "true";
-          target.dataset.choiceFlashlight = "true";
+          target.removeAttribute("data-choice-flashlight");
           target.style.setProperty("--tilt-x", "0deg");
           target.style.setProperty("--tilt-y", "0deg");
         });
