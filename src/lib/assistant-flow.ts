@@ -18,10 +18,7 @@ export const QUESTIONS: Record<StepId, [title: string, subtitle: string]> = {
     "Zobrazujem iba doplnky, ktoré dávajú zmysel pre vybraný typ riešenia.",
   ],
   timeline: ["Kedy to chcete mať hotové?", "Vyberte približný termín."],
-  contact: [
-    "Kam vám môžem poslať ďalší krok?",
-    "Ozvem sa do jedného pracovného dňa.",
-  ],
+  contact: ["Kam vám môžem poslať ďalší krok?", "Ozvem sa do jedného pracovného dňa."],
 };
 
 export type InterestOption = {
