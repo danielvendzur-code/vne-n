@@ -1,0 +1,220 @@
+/* Final widget authority: solid white surfaces, one option geometry and one logo motion. */
+
+/* The web brand and widget brand use the same one-stroke weight and motion. */
+html:root body .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand) .brand-mark__stroke,
+html:root body .cw-widget .brand-mark__stroke {
+  stroke-width: 6.25 !important;
+  stroke-dasharray: 1 !important;
+  stroke-dashoffset: 0;
+  opacity: 1;
+  animation: mc-logo-handdraw-intro 2.55s cubic-bezier(0.34, 0.04, 0.16, 1) both !important;
+  will-change: stroke-dashoffset, opacity;
+}
+
+html:root body .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible, :active) .brand-mark__stroke,
+html:root body .cw-widget :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible, :active) .brand-mark__stroke {
+  animation: mc-logo-handdraw-hover 3.15s cubic-bezier(0.34, 0.04, 0.16, 1) both !important;
+}
+
+@keyframes mc-logo-handdraw-intro {
+  0% { stroke-dashoffset: 1; opacity: 0.08; }
+  8% { opacity: 0.48; }
+  34% { stroke-dashoffset: 0.72; opacity: 0.9; }
+  70% { stroke-dashoffset: 0.24; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes mc-logo-handdraw-hover {
+  0% { stroke-dashoffset: 1; opacity: 0.06; }
+  7% { opacity: 0.42; }
+  30% { stroke-dashoffset: 0.76; opacity: 0.88; }
+  66% { stroke-dashoffset: 0.28; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* No liquid glass in the assistant shell. */
+html:root body .cw-widget :is(
+  .cw-panel,
+  .cw-panel-head,
+  .cw-panel-body,
+  .cw-mode-view,
+  .cw-calculator,
+  .cw-calc-body,
+  .cw-scroll-shell,
+  .cw-tabs,
+  .cw-launcher,
+  .cw-panel-head__mascot
+) {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+html:root body .cw-widget .cw-panel {
+  background: #ffffff !important;
+  border-color: rgba(11, 47, 32, 0.14) !important;
+  box-shadow: 0 28px 72px -36px rgba(11, 47, 32, 0.34) !important;
+}
+
+html:root body .cw-widget :is(.cw-panel-head, .cw-panel-body, .cw-mode-view, .cw-calculator, .cw-calc-body, .cw-scroll-shell) {
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+html:root body .cw-widget :is(.cw-launcher, .cw-panel-head__mascot) {
+  color: #19834f !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid rgba(25, 131, 79, 0.22) !important;
+  box-shadow:
+    0 16px 34px -22px rgba(11, 47, 32, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.96) !important;
+}
+
+html:root body .cw-widget .cw-panel-head__beam,
+html:root body .cw-widget .cw-tabs__glass {
+  display: none !important;
+}
+
+html:root body .cw-widget .cw-tabs {
+  padding: 4px !important;
+  border: 1px solid rgba(11, 47, 32, 0.1) !important;
+  background: #f3f7f4 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .cw-widget .cw-tabs > button {
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .cw-widget .cw-tabs > button[data-active="true"] {
+  color: #0b2f20 !important;
+  border-color: rgba(25, 131, 79, 0.2) !important;
+  background: #ffffff !important;
+  box-shadow: 0 5px 14px -10px rgba(11, 47, 32, 0.38) !important;
+}
+
+/* Question 3 is the reference: every selectable answer uses the same compact pill. */
+html:root body .cw-widget .cw-calculator :is(.cw-rows, .cw-grid, .cw-list) {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  width: 100% !important;
+}
+
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard) {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  padding: 6px 36px 6px 10px !important;
+  gap: 8px !important;
+  border: 1px solid rgba(11, 47, 32, 0.14) !important;
+  border-radius: 999px !important;
+  color: #0b2f20 !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  text-align: left !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard):is(:hover, :focus-visible) {
+  color: #0b2f20 !important;
+  border-color: rgba(25, 131, 79, 0.4) !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 22px -19px rgba(11, 47, 32, 0.48) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Selection is outline + green check only. Never fill the chip green. */
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"],
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"]:is(:hover, :focus-visible) {
+  color: #0b2f20 !important;
+  border-color: #19834f !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: inset 0 0 0 1px rgba(25, 131, 79, 0.13) !important;
+}
+
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"]::after {
+  content: "✓" !important;
+  position: absolute !important;
+  right: 10px !important;
+  top: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 20px !important;
+  height: 20px !important;
+  border: 1px solid rgba(25, 131, 79, 0.28) !important;
+  border-radius: 50% !important;
+  color: #19834f !important;
+  background: #edf8f1 !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  line-height: 1 !important;
+  transform: translateY(-50%) !important;
+}
+
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard__body, .cw-opt__body, .cw-vcard) > :is(span, small),
+html:root body .cw-widget .cw-calculator .cw-vcard > span,
+html:root body .cw-widget .cw-calculator .cw-opt__radio {
+  display: none !important;
+}
+
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard__body b, .cw-scard b, .cw-opt__body b, .cw-vcard b) {
+  overflow: hidden !important;
+  color: #0b2f20 !important;
+  font-size: 12.4px !important;
+  font-weight: 700 !important;
+  line-height: 1.14 !important;
+  text-overflow: ellipsis !important;
+}
+
+html:root body .cw-widget .cw-calculator :is(.cw-rowcard__icon, .cw-scard__icon) {
+  flex: 0 0 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  color: #19834f !important;
+  background: #f0f8f3 !important;
+}
+
+/* Selecting an industry must not suddenly make the step taller. */
+html:root body .cw-widget .cw-industry-tip {
+  display: none !important;
+}
+
+@media (max-width: 520px) {
+  html:root body .cw-widget .cw-calculator :is(.cw-rows, .cw-grid, .cw-list) {
+    gap: 6px !important;
+  }
+
+  html:root body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard) {
+    height: 45px !important;
+    min-height: 45px !important;
+    padding-inline: 8px 34px !important;
+  }
+
+  html:root body .cw-widget .cw-calculator :is(.cw-rowcard__body b, .cw-scard b, .cw-opt__body b, .cw-vcard b) {
+    font-size: 11.8px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand) .brand-mark__stroke,
+  html:root body .cw-widget .brand-mark__stroke {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
