@@ -1,0 +1,438 @@
+/* Launch-ready authority: one visual language, no regressions from historical layers. */
+
+/* Exact hand-drawn mark. The SVG is one physical path, so hover follows the
+   supplied drawing from the M at the lower-left and finishes on the right. */
+html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark__stroke {
+  stroke-dasharray: 1 !important;
+  stroke-dashoffset: 0 !important;
+  opacity: 1 !important;
+  animation: none !important;
+  will-change: stroke-dashoffset, opacity;
+}
+
+html:root body .site-theme-white-green .site-header .site-brand-lockup:is(:hover, :focus-visible) .brand-mark__stroke {
+  animation: launch-brand-draw 2.85s cubic-bezier(0.22, 0.68, 0.18, 1) both !important;
+}
+
+@keyframes launch-brand-draw {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0.08;
+  }
+  7% {
+    opacity: 0.72;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Hero decision card: keep the existing composition, only move it down enough
+   to sit fully inside the hero. No tilt/fade. */
+@media (min-width: 901px) {
+  html:root body .site-theme-white-green .lp-hero .lp-assistant-card {
+    top: 56% !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    transform: translate3d(0, -50%, 0) !important;
+  }
+}
+
+/* Flashlight belongs to the large decision surface, not to every small chip. */
+html:root body .site-theme-white-green .lp-hero .lp-assistant-card[data-choice-flashlight="true"]::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+  opacity: 1 !important;
+  background: radial-gradient(
+    310px circle at var(--choice-flash-x, 50%) var(--choice-flash-y, 50%),
+    rgba(217, 255, 120, 0.23),
+    rgba(185, 237, 77, 0.09) 34%,
+    transparent 68%
+  ) !important;
+}
+
+html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip)[data-choice-flashlight="true"]::before {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  background: none !important;
+}
+
+/* One rounded control geometry across hero choices, capability chips and live
+   demo links. */
+html:root body .site-theme-white-green :is(
+  .lp-hero-pick,
+  .lp-chip,
+  .lp-live-tools a,
+  .lp-caps-detail-cta,
+  .lp-caps-note button,
+  .lp-faq-ask
+) {
+  min-height: 44px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(11, 47, 32, 0.14) !important;
+  padding: 0.68rem 1rem !important;
+  box-shadow: none !important;
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-caps-note button {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  margin-top: 0.55rem !important;
+  color: #0b2f20 !important;
+  background: #ffffff !important;
+  text-decoration: none !important;
+}
+
+/* Selected means selected. No pale hover state is allowed to overwrite it. */
+html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip)[data-selected="true"],
+html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip)[data-active="true"],
+html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip)[data-selected="true"]:is(:hover, :focus-visible),
+html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip)[data-active="true"]:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #0b2f20 !important;
+  background: #0b2f20 !important;
+  background-color: #0b2f20 !important;
+  background-image: none !important;
+  box-shadow: 0 12px 24px -20px rgba(11, 47, 32, 0.72) !important;
+  transform: translate3d(0, -1px, 0) !important;
+}
+
+html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip)[data-selected="true"] *,
+html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip)[data-active="true"] * {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green :is(.lp-hero-pick, .lp-chip):not([data-selected="true"]):not([data-active="true"]):hover {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border-color: #126d41 !important;
+    background: #126d41 !important;
+    background-image: none !important;
+    box-shadow: 0 12px 24px -20px rgba(11, 47, 32, 0.64) !important;
+    transform: translate3d(0, -1px, 0) !important;
+  }
+
+  html:root body .site-theme-white-green :is(.lp-live-tools a, .lp-caps-detail-cta, .lp-caps-note button, .lp-faq-ask):hover {
+    color: #ffffff !important;
+    border-color: #126d41 !important;
+    background: #126d41 !important;
+    transform: translate3d(0, -2px, 0) !important;
+  }
+}
+
+/* Timeline: stronger progress, clearer reached states and a real mobile rail. */
+html:root body .site-theme-white-green .lp-process .lp-timeline {
+  position: relative !important;
+  margin-top: clamp(2rem, 4vw, 3rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-timeline-rail {
+  position: absolute !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-timeline-track,
+html:root body .site-theme-white-green .lp-process .lp-timeline-fill {
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 999px !important;
+  transform-origin: left center !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-timeline-track {
+  background: rgba(255, 255, 255, 0.16) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-timeline-fill {
+  background: linear-gradient(90deg, #d9ff78 0%, #b9ed4d 48%, #62ce91 100%) !important;
+  box-shadow: 0 0 18px rgba(185, 237, 77, 0.34) !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-tl-node {
+  position: relative !important;
+  z-index: 2 !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 2px solid rgba(217, 255, 120, 0.38) !important;
+  color: rgba(255, 255, 255, 0.68) !important;
+  background: #0b2f20 !important;
+  box-shadow: 0 0 0 5px rgba(11, 47, 32, 0.92) !important;
+  transition:
+    transform 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 260ms ease,
+    background-color 260ms ease,
+    border-color 260ms ease,
+    box-shadow 360ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-node {
+  color: #0b2f20 !important;
+  border-color: #d9ff78 !important;
+  background: #d9ff78 !important;
+  box-shadow:
+    0 0 0 5px rgba(11, 47, 32, 0.9),
+    0 0 0 8px rgba(217, 255, 120, 0.12),
+    0 0 24px rgba(217, 255, 120, 0.24) !important;
+  transform: scale(1.06) !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-tl-card {
+  border: 1px solid rgba(255, 255, 255, 0.11) !important;
+  border-radius: 1.25rem !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+  box-shadow: 0 18px 42px -34px rgba(0, 0, 0, 0.7) !important;
+  transition:
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 320ms ease,
+    background-color 320ms ease,
+    box-shadow 320ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
+  border-color: rgba(217, 255, 120, 0.26) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: 0 24px 54px -38px rgba(0, 0, 0, 0.76) !important;
+  transform: translate3d(0, -3px, 0) !important;
+}
+
+@media (min-width: 821px) {
+  html:root body .site-theme-white-green .lp-process .lp-timeline-rail {
+    top: 18px !important;
+    left: calc(12.5% - 18px) !important;
+    right: calc(12.5% - 18px) !important;
+    height: 4px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-timeline-fill {
+    transform: scaleX(var(--tl-progress, 0)) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-steps {
+    position: relative !important;
+    z-index: 1 !important;
+    display: grid !important;
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr)) !important;
+    gap: 0.85rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-steps > li {
+    display: grid !important;
+    grid-template-rows: 38px auto !important;
+    gap: 1rem !important;
+    min-width: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-node {
+    width: 38px !important;
+    height: 38px !important;
+    margin-inline: auto !important;
+    border-radius: 50% !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-card {
+    min-height: 100% !important;
+    padding: 1rem !important;
+  }
+}
+
+@media (max-width: 820px) {
+  html:root body .site-theme-white-green .lp-process .lp-timeline {
+    margin-top: 1.6rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-timeline-rail {
+    top: 18px !important;
+    bottom: 18px !important;
+    left: 18px !important;
+    width: 4px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-timeline-track,
+  html:root body .site-theme-white-green .lp-process .lp-timeline-fill {
+    transform-origin: center top !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-timeline-fill {
+    transform: scaleY(var(--tl-progress, 0)) !important;
+    background: linear-gradient(180deg, #d9ff78 0%, #b9ed4d 48%, #62ce91 100%) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-steps {
+    position: relative !important;
+    z-index: 1 !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.9rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-steps > li {
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 0.85rem !important;
+    min-width: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-node {
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-card {
+    min-width: 0 !important;
+    padding: 1rem 1rem 1.05rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-card h3 {
+    font-size: 1.05rem !important;
+    line-height: 1.18 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-process .lp-tl-card p {
+    font-size: 0.82rem !important;
+    line-height: 1.48 !important;
+  }
+}
+
+/* Embedded configurator: compact enough to work as a tool, not a long form. */
+html:root body .cw-widget .cw-rows,
+html:root body .cw-widget .cw-grid,
+html:root body .cw-widget .cw-list {
+  gap: 6px !important;
+}
+
+html:root body .cw-widget .cw-rowcard {
+  min-height: 54px !important;
+  padding: 7px 11px !important;
+  border-radius: 1rem !important;
+}
+
+html:root body .cw-widget .cw-rowcard__body b {
+  font-size: 13.5px !important;
+  line-height: 1.16 !important;
+}
+
+html:root body .cw-widget .cw-rowcard__body > span {
+  font-size: 11px !important;
+  line-height: 1.28 !important;
+}
+
+html:root body .cw-widget .cw-scard {
+  min-height: 48px !important;
+  padding: 7px 10px !important;
+  border-radius: 999px !important;
+}
+
+html:root body .cw-widget .cw-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+html:root body .cw-widget .cw-opt {
+  min-height: 46px !important;
+  padding: 7px 10px !important;
+  border-radius: 999px !important;
+}
+
+html:root body .cw-widget .cw-opt__body b {
+  font-size: 12.2px !important;
+  line-height: 1.16 !important;
+}
+
+html:root body .cw-widget .cw-opt__body > span {
+  display: none !important;
+}
+
+html:root body .cw-widget .cw-vcard {
+  min-height: 56px !important;
+  padding: 8px 11px !important;
+  border-radius: 1rem !important;
+}
+
+html:root body .cw-widget .cw-vcard b {
+  font-size: 13.5px !important;
+  line-height: 1.16 !important;
+}
+
+html:root body .cw-widget .cw-vcard > span {
+  font-size: 10.8px !important;
+  line-height: 1.28 !important;
+}
+
+html:root body .cw-widget .cw-q {
+  font-size: clamp(1.18rem, 4vw, 1.34rem) !important;
+  line-height: 1.08 !important;
+}
+
+html:root body .cw-widget .cw-q-sub {
+  margin-top: 0.3rem !important;
+  font-size: 11.5px !important;
+  line-height: 1.35 !important;
+}
+
+html:root body .cw-widget .cw-calc-body {
+  padding-block: 10px !important;
+}
+
+html:root body .cw-widget .cw-next {
+  min-height: 50px !important;
+  font-size: 15px !important;
+}
+
+/* Embedded launcher/header one-stroke animation: deliberate and hand drawn. */
+html:root body .cw-widget :is(.cw-launcher, .cw-panel-head__mascot) .brand-mark__stroke {
+  stroke-dasharray: 1 !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
+
+html:root body .cw-widget :is(.cw-launcher, .cw-panel-head__mascot):is(:hover, :focus-visible) .brand-mark__stroke {
+  animation: launch-widget-logo-draw 2.65s cubic-bezier(0.22, 0.68, 0.18, 1) both !important;
+}
+
+@keyframes launch-widget-logo-draw {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0.08;
+  }
+  8% {
+    opacity: 0.72;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .brand-mark__stroke,
+  html:root body .cw-widget .brand-mark__stroke {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}

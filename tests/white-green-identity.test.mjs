@@ -15,16 +15,17 @@ const outerPath =
 const innerPath = "M28.6 65.1V32.9L53.4 57.5C55.1 59.2 57.9 59.2 59.6 57.5L84.6 32.9";
 const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-test("the public brand and Google favicon use approved green geometry", async () => {
+test("the public brand uses the supplied one-stroke mark and Google favicon stays approved", async () => {
   const component = await read("src/components/BrandMark.tsx");
   const exported = await read("public/brand/logo.svg");
   const favicon = await read("public/favicon.svg");
 
-  const joined = component.replace(/"\s*\+\s*\n?\s*"/g, "");
-  assert.match(joined, new RegExp(escape(outerPath)));
-  assert.match(joined, new RegExp(escape(innerPath)));
-  assert.equal((component.match(/<path\b/g) ?? []).length, 2);
-  assert.match(component, /strokeWidth="7"/);
+  assert.equal((component.match(/<path\b/g) ?? []).length, 1);
+  assert.match(component, /className="brand-mark__stroke"/);
+  assert.match(component, /pathLength=\{1\}/);
+  assert.match(component, /strokeWidth="4\.5"/);
+  assert.match(component, /M24 71\.2L24\.003 32\.706/);
+  assert.match(component, /L96\.6 85\.5/);
 
   assert.equal((exported.match(/<path\b/g) ?? []).length, 2);
   assert.match(exported, new RegExp(escape(outerPath)));
@@ -72,6 +73,7 @@ test("the final harmony restores the premium motion instead of flattening it", a
   assert.match(layout, /ProfessionalHarmonyFinal\.css/);
   assert.match(layout, /FinalSmoothTexturePolish\.css/);
   assert.match(layout, /WidgetSwipeMotionFinal\.css/);
+  assert.match(layout, /LaunchReadyFinal\.css/);
   assert.ok(
     layout.indexOf('import "./ApprovedOptionOneFinal.css"') <
       layout.indexOf('import "./ProfessionalHarmonyFinal.css"'),
