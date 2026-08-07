@@ -75,7 +75,10 @@ export function SiteMotionEnhancements() {
       if (image.complete) {
         markLoaded();
       } else {
-        void image.decode().then(markLoaded).catch(() => undefined);
+        void image
+          .decode()
+          .then(markLoaded)
+          .catch(() => undefined);
       }
 
       cleanups.push(() => {

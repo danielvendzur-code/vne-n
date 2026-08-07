@@ -27,8 +27,7 @@ const ACTION_ANIMATION_MS = 520;
 const SWIPE_THRESHOLD_PX = 54;
 
 const reducedMotion = (): boolean =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const isInteractiveSwipeTarget = (target: EventTarget | null): boolean =>
   target instanceof Element &&
@@ -108,11 +107,14 @@ export function ChameleonWidget(): JSX.Element {
 
   useFocusTrap(panelRef, isOpen && !isClosing, close);
 
-  const switchMode = useCallback((nextMode: WidgetMode) => {
-    if (nextMode === mode) return;
-    setTransitionDirection(nextMode === "calculator" ? "forward" : "backward");
-    setMode(nextMode);
-  }, [mode]);
+  const switchMode = useCallback(
+    (nextMode: WidgetMode) => {
+      if (nextMode === mode) return;
+      setTransitionDirection(nextMode === "calculator" ? "forward" : "backward");
+      setMode(nextMode);
+    },
+    [mode],
+  );
 
   const open = useCallback((nextMode: WidgetMode, nextPreset: AssistantPreset | null = null) => {
     if (closeTimerRef.current !== null) {
