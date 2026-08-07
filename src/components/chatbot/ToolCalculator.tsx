@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { CSSProperties } from "react";
 import { animateStepIn, drawCheck } from "../../lib/motion";
 import {
   buildProposalNumber,
-  CHANNELS,
+  FEATURE_IDS_BY_INTEREST,
   FEATURES,
   INDUSTRIES,
   INTERESTS,
@@ -13,7 +12,6 @@ import {
   RECOMMENDED_FEATURES,
   STEPS,
   TIMELINES,
-  VOLUMES,
 } from "../../lib/assistant-flow";
 import type { AssistantPreset, InterestId } from "../../types/assistant";
 import { WidgetIcon } from "./WidgetIcon";
@@ -55,11 +53,9 @@ export function ToolCalculator({
   const [interest, setInterest] = useState<InterestId | null>(initialInterest);
   const [customText, setCustomText] = useState("");
   const [industry, setIndustry] = useState<string | null>(null);
-  const [channel, setChannel] = useState<string | null>(null);
   const [features, setFeatures] = useState<string[]>(
     initialInterest ? RECOMMENDED_FEATURES[initialInterest] : [],
   );
-  const [volume, setVolume] = useState<string | null>(null);
   const [timeline, setTimeline] = useState<string | null>(null);
   const [lead, setLead] = useState<LeadState>(EMPTY_LEAD);
   const [leadError, setLeadError] = useState("");
@@ -75,9 +71,7 @@ export function ToolCalculator({
     setInterest(nextInterest);
     setCustomText("");
     setIndustry(null);
-    setChannel(null);
     setFeatures(nextInterest ? RECOMMENDED_FEATURES[nextInterest] : []);
-    setVolume(null);
     setTimeline(null);
     setLead(EMPTY_LEAD);
     setLeadError("");
@@ -108,14 +102,16 @@ export function ToolCalculator({
   const [title, subtitle] = QUESTIONS[stepId];
   const isLast = step === STEPS.length - 1;
 
+  const visibleFeatures = useMemo(() => {
+    const ids = interest ? FEATURE_IDS_BY_INTEREST[interest] : [];
+    return ids
+      .map((id) => FEATURES.find((option) => option.id === id))
+      .filter((option): option is (typeof FEATURES)[number] => Boolean(option));
+  }, [interest]);
+
   const featureLabels = useMemo(
     () => FEATURES.filter((option) => features.includes(option.id)).map((option) => option.label),
     [features],
-  );
-
-  const selectedIndustry = useMemo(
-    () => INDUSTRIES.find((option) => option.id === industry) ?? null,
-    [industry],
   );
 
   const canContinue = (() => {
@@ -124,12 +120,8 @@ export function ToolCalculator({
         return interest !== null && (interest !== "custom" || customText.trim().length > 0);
       case "industry":
         return industry !== null;
-      case "channel":
-        return channel !== null;
       case "features":
         return features.length > 0;
-      case "volume":
-        return volume !== null;
       case "timeline":
         return timeline !== null;
       default:
@@ -139,7 +131,7 @@ export function ToolCalculator({
 
   const pickInterest = (id: InterestId) => {
     setInterest(id);
-    setFeatures((current) => (current.length > 0 ? current : RECOMMENDED_FEATURES[id]));
+    setFeatures(RECOMMENDED_FEATURES[id]);
   };
 
   const toggleFeature = (id: string) => {
@@ -161,29 +153,26 @@ export function ToolCalculator({
     setLeadError("");
     setSendState("sending");
     setProposalNumber(buildProposalNumber());
-    sendTimerRef.current = window.setTimeout(() => setSendState("done"), 900);
+    sendTimerRef.current = window.setTimeout(() => setSendState("done"), 700);
   };
 
   const summaryRows: Array<[string, string]> = [
     ["Riešenie", interest === "custom" ? "Riešenie na mieru" : labelOf(INTERESTS, interest)],
     ["Odvetvie", labelOf(INDUSTRIES, industry)],
-    ["Nasadenie", labelOf(CHANNELS, channel)],
     ["Funkcie", featureLabels.length ? featureLabels.join(", ") : "—"],
-    ["Dopyty mesačne", labelOf(VOLUMES, volume)],
     ["Spustenie", labelOf(TIMELINES, timeline)],
   ];
 
   if (sendState === "done") {
     return (
-      <div className="cw-calculator" data-testid="calculator-view">
+      <div className="cw-calculator" data-testid="calculator-view" data-view="thanks">
         <div className="cw-thanks" role="status">
           <span className="cw-thanks__icon" ref={thanksIconRef}>
             <WidgetIcon name="check" />
           </span>
           <h3>Návrh je pripravený</h3>
           <p>
-            Ďakujem, <b>{lead.name.trim()}</b>. V ostrej verzii by vám teraz prišlo zhrnutie návrhu
-            e-mailom — táto ukážka nič neodosiela.
+            Ďakujem, <b>{lead.name.trim()}</b>. Máte pripravené riešenie podľa zvoleného typu a funkcií.
           </p>
           <div className="cw-thanks__grid">
             <div>
@@ -217,7 +206,12 @@ export function ToolCalculator({
   }
 
   return (
-    <div className="cw-calculator" data-testid="calculator-view">
+    <div
+      className="cw-calculator"
+      data-testid="calculator-view"
+      data-interest={interest ?? undefined}
+      data-step={stepId}
+    >
       <div className="cw-progress" aria-label={`Krok ${step + 1} z ${STEPS.length}`}>
         <button
           type="button"
@@ -228,7 +222,7 @@ export function ToolCalculator({
         >
           ‹
         </button>
-        <div className="cw-progress__dots" style={{ "--steps": STEPS.length } as CSSProperties}>
+        <div className="cw-progress__dots">
           {STEPS.map((id, index) => (
             <i
               key={id}
@@ -243,13 +237,15 @@ export function ToolCalculator({
       </div>
 
       <div className="cw-calc-body" ref={bodyRef}>
-        <section className="cw-calc-step" key={stepId} ref={stepRef}>
-          <h3 className="cw-q">{title}</h3>
-          <p className="cw-q-sub">{subtitle}</p>
+        <section className="cw-calc-step" key={stepId} ref={stepRef} data-step={stepId}>
+          <header className="cw-step-head">
+            <h3 className="cw-q">{title}</h3>
+            <p className="cw-q-sub">{subtitle}</p>
+          </header>
 
           {stepId === "interest" ? (
             <>
-              <div className="cw-rows">
+              <div className="cw-choice-grid cw-choice-grid--interest">
                 {INTERESTS.map((option) => {
                   const selected = interest === option.id;
                   return (
@@ -269,7 +265,6 @@ export function ToolCalculator({
                         <b>{option.label}</b>
                         <span>{option.description}</span>
                       </span>
-                      {option.badge ? <em className="cw-rowcard__badge">{option.badge}</em> : null}
                     </button>
                   );
                 })}
@@ -289,67 +284,23 @@ export function ToolCalculator({
           ) : null}
 
           {stepId === "industry" ? (
-            <>
-              <div className="cw-grid">
-                {INDUSTRIES.map((option) => {
-                  const selected = industry === option.id;
-                  return (
-                    <button
-                      type="button"
-                      className="cw-scard"
-                      data-testid={`industry-${option.id}`}
-                      data-selected={selected}
-                      aria-pressed={selected}
-                      key={option.id}
-                      onClick={() => setIndustry(option.id)}
-                    >
-                      <span className="cw-scard__icon">
-                        <WidgetIcon name={option.icon} />
-                      </span>
-                      <b>{option.label}</b>
-                    </button>
-                  );
-                })}
-              </div>
-              {selectedIndustry ? (
-                <aside
-                  className="cw-industry-tip"
-                  key={selectedIndustry.id}
-                  data-testid="industry-tip"
-                >
-                  <b>
-                    <WidgetIcon name="spark" /> Čo chatbot zvládne pre{" "}
-                    {selectedIndustry.label.toLocaleLowerCase("sk")}
-                  </b>
-                  <ul>
-                    {selectedIndustry.examples.map((example) => (
-                      <li key={example}>{example}</li>
-                    ))}
-                  </ul>
-                </aside>
-              ) : null}
-            </>
-          ) : null}
-
-          {stepId === "channel" ? (
-            <div className="cw-list">
-              {CHANNELS.map((option) => {
-                const selected = channel === option.id;
+            <div className="cw-choice-grid cw-choice-grid--industry">
+              {INDUSTRIES.map((option) => {
+                const selected = industry === option.id;
                 return (
                   <button
                     type="button"
-                    className="cw-opt"
-                    data-testid={`channel-${option.id}`}
+                    className="cw-scard"
+                    data-testid={`industry-${option.id}`}
                     data-selected={selected}
                     aria-pressed={selected}
                     key={option.id}
-                    onClick={() => setChannel(option.id)}
+                    onClick={() => setIndustry(option.id)}
                   >
-                    <span className="cw-opt__radio" />
-                    <span className="cw-opt__body">
-                      <b>{option.label}</b>
-                      <span>{option.description}</span>
+                    <span className="cw-scard__icon">
+                      <WidgetIcon name={option.icon} />
                     </span>
+                    <b>{option.label}</b>
                   </button>
                 );
               })}
@@ -357,8 +308,8 @@ export function ToolCalculator({
           ) : null}
 
           {stepId === "features" ? (
-            <div className="cw-list">
-              {FEATURES.map((option) => {
+            <div className="cw-choice-grid cw-choice-grid--features">
+              {visibleFeatures.map((option) => {
                 const selected = features.includes(option.id);
                 return (
                   <button
@@ -370,7 +321,6 @@ export function ToolCalculator({
                     key={option.id}
                     onClick={() => toggleFeature(option.id)}
                   >
-                    <span className="cw-opt__radio cw-opt__radio--square" />
                     <span className="cw-opt__body">
                       <b>{option.label}</b>
                       <span>{option.description}</span>
@@ -381,30 +331,8 @@ export function ToolCalculator({
             </div>
           ) : null}
 
-          {stepId === "volume" ? (
-            <div className="cw-grid cw-grid--volume">
-              {VOLUMES.map((option) => {
-                const selected = volume === option.id;
-                return (
-                  <button
-                    type="button"
-                    className="cw-vcard"
-                    data-testid={`volume-${option.id}`}
-                    data-selected={selected}
-                    aria-pressed={selected}
-                    key={option.id}
-                    onClick={() => setVolume(option.id)}
-                  >
-                    <b>{option.label}</b>
-                    <span>{option.description}</span>
-                  </button>
-                );
-              })}
-            </div>
-          ) : null}
-
           {stepId === "timeline" ? (
-            <div className="cw-grid cw-grid--volume">
+            <div className="cw-choice-grid cw-choice-grid--timeline">
               {TIMELINES.map((option) => {
                 const selected = timeline === option.id;
                 return (
@@ -417,8 +345,10 @@ export function ToolCalculator({
                     key={option.id}
                     onClick={() => setTimeline(option.id)}
                   >
-                    <b>{option.label}</b>
-                    <span>{option.description}</span>
+                    <span className="cw-vcard__copy">
+                      <b>{option.label}</b>
+                      <span>{option.description}</span>
+                    </span>
                   </button>
                 );
               })}
@@ -441,13 +371,6 @@ export function ToolCalculator({
                     <b>{customText.trim()}</b>
                   </div>
                 ) : null}
-                <div className="cw-summary__pills">
-                  {["Návrh riešenia", "Orientačný rozsah", "Ukážka na mieru", "Bez záväzkov"].map(
-                    (pill) => (
-                      <span key={pill}>✓ {pill}</span>
-                    ),
-                  )}
-                </div>
               </div>
 
               <div className="cw-lead">
@@ -457,7 +380,7 @@ export function ToolCalculator({
                   </span>
                   <span>
                     <b>Kam mám poslať návrh?</b>
-                    <small>Ozvem sa s odporúčaním a orientačným rozsahom riešenia.</small>
+                    <small>Stačí kontakt. Detaily doladíme potom.</small>
                   </span>
                 </div>
                 <div className="cw-lead__form">
@@ -495,7 +418,7 @@ export function ToolCalculator({
                   <textarea
                     value={lead.note}
                     onChange={(event) => setLead({ ...lead, note: event.target.value })}
-                    placeholder="Poznámka — termín, rozpočet, špecifiká…"
+                    placeholder="Poznámka (nepovinné)"
                     aria-label="Poznámka"
                     rows={2}
                   />
