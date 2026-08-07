@@ -20,12 +20,10 @@ test("the public brand uses the supplied one-stroke mark and Google favicon stay
   const exported = await read("public/brand/logo.svg");
   const favicon = await read("public/favicon.svg");
 
-  // One visible one-stroke trajectory plus one display:none compatibility path
-  // retained for an older repository contract. Only brand-mark__stroke renders.
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
   assert.match(component, /className="brand-mark__stroke"/);
   assert.match(component, /pathLength=\{1\}/);
-  assert.match(component, /strokeWidth="5\.5"/);
+  assert.match(component, /strokeWidth="6\.25"/);
   assert.match(component, /d="M0 0"[\s\S]*stroke="none"[\s\S]*style=\{\{ display: "none" \}\}/);
   assert.match(component, /M24 71\.2L24\.003 32\.706/);
   assert.match(component, /L96\.6 85\.5/);
@@ -73,12 +71,14 @@ test("the final harmony restores the premium motion instead of flattening it", a
   const css = await read("src/components/site/ProfessionalHarmonyFinal.css");
   const spotlight = await read("src/hooks/useSpotlight.ts");
   const mobile = await read("src/components/site/MobileMotionRestoreFinal.css");
+  const solid = await read("src/components/site/SolidWidgetLogoFinal.css");
 
   assert.match(layout, /ProfessionalHarmonyFinal\.css/);
   assert.match(layout, /FinalSmoothTexturePolish\.css/);
   assert.match(layout, /WidgetSwipeMotionFinal\.css/);
   assert.match(layout, /LaunchReadyFinal\.css/);
   assert.match(layout, /MobileMotionRestoreFinal\.css/);
+  assert.match(layout, /SolidWidgetLogoFinal\.css/);
   assert.ok(
     layout.indexOf('import "./ApprovedOptionOneFinal.css"') <
       layout.indexOf('import "./ProfessionalHarmonyFinal.css"'),
@@ -94,6 +94,9 @@ test("the final harmony restores the premium motion instead of flattening it", a
   assert.match(css, /\.derat-story__copy-step[\s\S]*58svh/);
   assert.match(mobile, /mobile-surface-reveal/);
   assert.match(mobile, /mobile-hero-stage-arrive/);
+  assert.match(solid, /mc-logo-handdraw-hover/);
+  assert.match(solid, /background: #ffffff !important/);
+  assert.match(solid, /border-color: #19834f !important/);
   assert.doesNotMatch(css, forbiddenWarm);
 
   for (const selector of [
