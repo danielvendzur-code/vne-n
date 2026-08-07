@@ -23,7 +23,7 @@ test("the public brand uses the supplied one-stroke mark and Google favicon stay
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
   assert.match(component, /className="brand-mark__stroke"/);
   assert.match(component, /pathLength=\{1\}/);
-  assert.match(component, /strokeWidth="6\.25"/);
+  assert.match(component, /strokeWidth="7\.25"/);
   assert.match(component, /d="M0 0"[\s\S]*stroke="none"[\s\S]*style=\{\{ display: "none" \}\}/);
   assert.match(component, /M24 71\.2L24\.003 32\.706/);
   assert.match(component, /L96\.6 85\.5/);
@@ -96,7 +96,7 @@ test("the final harmony restores the premium motion instead of flattening it", a
   assert.match(mobile, /mobile-hero-stage-arrive/);
   assert.match(solid, /mc-logo-handdraw-hover/);
   assert.match(solid, /background: #ffffff !important/);
-  assert.match(solid, /border-color: #19834f !important/);
+  assert.match(solid, /border-color: #0b2f20 !important/);
   assert.doesNotMatch(css, forbiddenWarm);
 
   for (const selector of [
