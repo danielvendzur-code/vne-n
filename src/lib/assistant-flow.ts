@@ -18,7 +18,10 @@ export const QUESTIONS: Record<StepId, [title: string, subtitle: string]> = {
     "Zobrazujem iba doplnky, ktoré dávajú zmysel pre vybraný typ riešenia.",
   ],
   timeline: ["Kedy to chcete mať hotové?", "Vyberte približný termín."],
-  contact: ["Kam vám môžem poslať ďalší krok?", "Ozvem sa do jedného pracovného dňa."],
+  contact: [
+    "Kam vám môžem poslať ďalší krok?",
+    "Ozvem sa do jedného pracovného dňa.",
+  ],
 };
 
 export type InterestOption = {
@@ -79,28 +82,110 @@ export type FeatureOption = {
 };
 
 export const FEATURES: FeatureOption[] = [
-  { id: "cena", label: "Počítať cenu", description: "Podľa rozmerov, množstva alebo vašich pravidiel." },
-  { id: "varianty", label: "Konfigurovať produkt alebo službu", description: "Varianty, rozmery, materiál a doplnky." },
-  { id: "advisor", label: "Odporúčať vhodný produkt", description: "Vyberie z ponuky podľa potrieb zákazníka." },
-  { id: "compare", label: "Porovnať produkty alebo varianty", description: "Ukáže rozdiely a pomôže s rozhodnutím." },
-  { id: "tracking", label: "Sledovať objednávku", description: "Stav platby, expedície a doručenia." },
-  { id: "order-change", label: "Zmeniť alebo zrušiť objednávku", description: "Overí údaje a pripraví požiadavku." },
-  { id: "returns", label: "Riešiť vrátenie a reklamáciu", description: "Zozbiera objednávku, dôvod a fotografie." },
-  { id: "stock-alert", label: "Upozorniť na dostupnosť alebo cenu", description: "Upozorní zákazníka na sklad alebo zmenu ceny." },
-  { id: "cart-recovery", label: "Uložiť rozpracovaný výber", description: "Zákazník sa môže vrátiť bez začínania odznova." },
-  { id: "rezervacie", label: "Rezervovať termíny", description: "Konzultáciu alebo službu zapíše do kalendára." },
-  { id: "fotky", label: "Prijímať fotky a prílohy", description: "Podklady k odhadu, návrhu alebo reklamácii." },
-  { id: "payment", label: "Poslať platobný odkaz alebo zálohu", description: "Bezpečný ďalší krok k objednávke." },
-  { id: "document", label: "Vytvoriť ponuku alebo PDF zhrnutie", description: "Pripraví prehľad pre zákazníka aj firmu." },
-  { id: "handoff", label: "Odovzdať rozhovor človeku", description: "Kolega dostane celý kontext konverzácie." },
-  { id: "tabulka", label: "Zapisovať do tabuľky alebo CRM", description: "Každý dopyt uloží na správne miesto." },
-  { id: "jazyky", label: "Komunikovať v cudzom jazyku", description: "Automaticky použije jazyk zákazníka." },
+  {
+    id: "cena",
+    label: "Počítať cenu",
+    description: "Podľa rozmerov, množstva alebo vašich pravidiel.",
+  },
+  {
+    id: "varianty",
+    label: "Konfigurovať produkt alebo službu",
+    description: "Varianty, rozmery, materiál a doplnky.",
+  },
+  {
+    id: "advisor",
+    label: "Odporúčať vhodný produkt",
+    description: "Vyberie z ponuky podľa potrieb zákazníka.",
+  },
+  {
+    id: "compare",
+    label: "Porovnať produkty alebo varianty",
+    description: "Ukáže rozdiely a pomôže s rozhodnutím.",
+  },
+  {
+    id: "tracking",
+    label: "Sledovať objednávku",
+    description: "Stav platby, expedície a doručenia.",
+  },
+  {
+    id: "order-change",
+    label: "Zmeniť alebo zrušiť objednávku",
+    description: "Overí údaje a pripraví požiadavku.",
+  },
+  {
+    id: "returns",
+    label: "Riešiť vrátenie a reklamáciu",
+    description: "Zozbiera objednávku, dôvod a fotografie.",
+  },
+  {
+    id: "stock-alert",
+    label: "Upozorniť na dostupnosť alebo cenu",
+    description: "Upozorní zákazníka na sklad alebo zmenu ceny.",
+  },
+  {
+    id: "cart-recovery",
+    label: "Uložiť rozpracovaný výber",
+    description: "Zákazník sa môže vrátiť bez začínania odznova.",
+  },
+  {
+    id: "rezervacie",
+    label: "Rezervovať termíny",
+    description: "Konzultáciu alebo službu zapíše do kalendára.",
+  },
+  {
+    id: "fotky",
+    label: "Prijímať fotky a prílohy",
+    description: "Podklady k odhadu, návrhu alebo reklamácii.",
+  },
+  {
+    id: "payment",
+    label: "Poslať platobný odkaz alebo zálohu",
+    description: "Bezpečný ďalší krok k objednávke.",
+  },
+  {
+    id: "document",
+    label: "Vytvoriť ponuku alebo PDF zhrnutie",
+    description: "Pripraví prehľad pre zákazníka aj firmu.",
+  },
+  {
+    id: "handoff",
+    label: "Odovzdať rozhovor človeku",
+    description: "Kolega dostane celý kontext konverzácie.",
+  },
+  {
+    id: "tabulka",
+    label: "Zapisovať do tabuľky alebo CRM",
+    description: "Každý dopyt uloží na správne miesto.",
+  },
+  {
+    id: "jazyky",
+    label: "Komunikovať v cudzom jazyku",
+    description: "Automaticky použije jazyk zákazníka.",
+  },
 ];
 
 export const FEATURE_IDS_BY_INTEREST: Record<InterestId, string[]> = {
-  chatbot: ["tracking", "order-change", "returns", "handoff", "tabulka", "jazyky", "stock-alert", "rezervacie"],
+  chatbot: [
+    "tracking",
+    "order-change",
+    "returns",
+    "handoff",
+    "tabulka",
+    "jazyky",
+    "stock-alert",
+    "rezervacie",
+  ],
   calcbot: ["cena", "document", "payment", "fotky", "tabulka", "rezervacie", "handoff"],
-  product: ["varianty", "advisor", "compare", "stock-alert", "cart-recovery", "payment", "document", "tabulka"],
+  product: [
+    "varianty",
+    "advisor",
+    "compare",
+    "stock-alert",
+    "cart-recovery",
+    "payment",
+    "document",
+    "tabulka",
+  ],
   booking: ["rezervacie", "payment", "jazyky", "tabulka", "handoff", "document"],
   custom: ["handoff", "document", "tabulka", "jazyky", "fotky", "rezervacie", "payment"],
 };
@@ -122,8 +207,16 @@ export type TimelineOption = {
 export const TIMELINES: TimelineOption[] = [
   { id: "asap", label: "Čo najskôr", description: "Začnem, len čo pošlete podklady." },
   { id: "mesiac", label: "Do mesiaca", description: "Máme priestor všetko doladiť." },
-  { id: "kvartal", label: "Za dva až tri mesiace", description: "Rozdelíme to na menšie kroky." },
-  { id: "rozhliadam", label: "Len sa pozerám", description: "Najprv si chcete ujasniť možnosti." },
+  {
+    id: "kvartal",
+    label: "Za dva až tri mesiace",
+    description: "Rozdelíme to na menšie kroky.",
+  },
+  {
+    id: "rozhliadam",
+    label: "Len sa pozerám",
+    description: "Najprv si chcete ujasniť možnosti.",
+  },
 ];
 
 export const PRESET_TO_INTEREST: Record<AssistantPreset, InterestId> = {
