@@ -69,6 +69,7 @@ import "@/components/site/LaunchReadyFinal.css";
 import "@/components/site/MobileMotionRestoreFinal.css";
 import "@/components/site/SolidWidgetLogoFinal.css";
 import "@/components/site/DarkGreenDominantFinal.css";
+import "@/components/site/DarkChipFinal.css";
 import "@/components/site/LaunchReadyRuntime";
 
 const SPOTLIGHT_SURFACES = [
