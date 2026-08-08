@@ -1,5 +1,4 @@
-/* Final launch palette. Forest is the resting interaction colour; lime is hover/accent only.
-   This layer deliberately uses production-level specificity so historical theme files cannot win. */
+/* Unified interaction palette. One medium brand green, one restrained sage hover. */
 
 :root,
 html body,
@@ -7,19 +6,19 @@ html body .site-theme-white-green,
 html body .lp-page,
 html body .sp-page,
 html body .cookies-page {
-  --brand-primary: #0b2f20 !important;
-  --brand-primary-strong: #0b2f20 !important;
-  --brand-primary-bright: #d9ff78 !important;
-  --primary: #0b2f20 !important;
-  --primary-hover: #d9ff78 !important;
-  --primary-soft: rgba(11, 47, 32, 0.1) !important;
-  --cta-blue: #0b2f20 !important;
-  --cta-blue-hover: #d9ff78 !important;
-  --chip-accent: #0b2f20 !important;
-  --chip-bg-hover: #d9ff78 !important;
+  --brand-primary: #19834f !important;
+  --brand-primary-strong: #19834f !important;
+  --brand-primary-bright: #d6e7ce !important;
+  --primary: #19834f !important;
+  --primary-hover: #d6e7ce !important;
+  --primary-soft: rgba(25, 131, 79, 0.1) !important;
+  --cta-blue: #19834f !important;
+  --cta-blue-hover: #d6e7ce !important;
+  --chip-accent: #19834f !important;
+  --chip-bg-hover: #d6e7ce !important;
 }
 
-/* The website mark stays emerald. The chatbot mark uses the exact same colour. */
+/* Website and chatbot use exactly the same visible logo green. */
 html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark,
 html:root body .site-theme-white-green .site-menu-brand .brand-mark,
 html:root body .site-theme-white-green .cw-widget .cw-launcher,
@@ -31,7 +30,7 @@ html:root body .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand)
   color: #19834f !important;
 }
 
-/* Primary controls on light surfaces: forest at rest, lime only on hover/focus. */
+/* Primary controls: brand green at rest, restrained sage on hover. */
 html:root body .site-theme-white-green .site-consultation-cta,
 html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary,
 html:root body .site-theme-white-green .lp-page .lp-assistant-cta,
@@ -40,14 +39,13 @@ html:root body .site-theme-white-green .lp-page .lp-faq-ask,
 html:root body .site-theme-white-green .contact-submit,
 html:root body .site-theme-white-green .sp-page .sp-cta {
   color: #ffffff !important;
-  border-color: #0b2f20 !important;
-  background: #0b2f20 !important;
-  background-color: #0b2f20 !important;
+  border-color: #19834f !important;
+  background: #19834f !important;
+  background-color: #19834f !important;
   background-image: none !important;
-  box-shadow: 0 16px 34px -22px rgba(11, 47, 32, 0.64) !important;
+  box-shadow: 0 16px 34px -22px rgba(25, 131, 79, 0.46) !important;
 }
 
-/* Historical liquid/radial layers may still exist, but cannot recolour the resting CTA. */
 html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary::after,
 html:root body .site-theme-white-green .lp-page .lp-assistant-cta::after {
   background: transparent !important;
@@ -61,28 +59,27 @@ html:root body .site-theme-white-green .lp-page .lp-assistant-cta::after {
   html:root body .site-theme-white-green .lp-page .lp-faq-ask:is(:hover, :focus-visible),
   html:root body .site-theme-white-green .contact-submit:is(:hover, :focus-visible),
   html:root body .site-theme-white-green .sp-page .sp-cta:is(:hover, :focus-visible) {
-    color: #0b2f20 !important;
-    border-color: #d9ff78 !important;
-    background: #d9ff78 !important;
-    background-color: #d9ff78 !important;
+    color: #173126 !important;
+    border-color: #b9d2ae !important;
+    background: #d6e7ce !important;
+    background-color: #d6e7ce !important;
     background-image: none !important;
   }
 }
 
 html:root body .site-theme-white-green .lp-progress {
-  background: linear-gradient(90deg, #0b2f20, #19834f, #d9ff78) !important;
-  box-shadow: 0 0 12px rgba(11, 47, 32, 0.22) !important;
+  background: linear-gradient(90deg, #19834f, #4fa879, #8fc4a4) !important;
+  box-shadow: 0 0 12px rgba(25, 131, 79, 0.2) !important;
 }
 
-/* Selected capability chips remain forest and readable. */
 html:root body .site-theme-white-green .lp-page .lp-chip[data-selected="true"],
 html:root body .site-theme-white-green .lp-page .lp-chip[data-active="true"],
 html:root body .site-theme-white-green .lp-page .lp-chip[aria-pressed="true"] {
   color: #ffffff !important;
-  border-color: #d9ff78 !important;
-  background: #0b2f20 !important;
+  border-color: rgba(214, 231, 206, 0.92) !important;
+  background: #19834f !important;
   background-image: none !important;
-  box-shadow: inset 0 0 0 1px rgba(217, 255, 120, 0.3) !important;
+  box-shadow: inset 0 0 0 1px rgba(214, 231, 206, 0.26) !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-chip[data-selected="true"] *,
@@ -91,19 +88,18 @@ html:root body .site-theme-white-green .lp-page .lp-chip[aria-pressed="true"] * 
   color: inherit !important;
 }
 
-/* Widget primary actions follow the same forest -> lime rule. */
 html:root body .site-theme-white-green .cw-widget :is(.cw-next, .cw-submit):not(:disabled),
 html:root body .site-theme-white-green .cw-widget .cw-tabs > button[data-active="true"] {
   color: #ffffff !important;
-  background: #0b2f20 !important;
-  border-color: #0b2f20 !important;
+  background: #19834f !important;
+  border-color: #19834f !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   html:root body .site-theme-white-green .cw-widget :is(.cw-next, .cw-submit):not(:disabled):hover,
   html:root body .site-theme-white-green .cw-widget .cw-tabs > button[data-active="true"]:hover {
-    color: #0b2f20 !important;
-    background: #d9ff78 !important;
-    border-color: #d9ff78 !important;
+    color: #173126 !important;
+    background: #d6e7ce !important;
+    border-color: #b9d2ae !important;
   }
 }
