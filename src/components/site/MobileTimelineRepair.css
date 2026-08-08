@@ -1,235 +1,239 @@
-/* Mobile timeline — single authoritative implementation below 880px.
-   Replaces the old layered repairs with one vertical rail, one node and one card per step. */
+/* Process timeline — single authoritative implementation for desktop and mobile.
+   One connector, one progress fill, one node and one reveal card per step. */
 
-@media (max-width: 880px) {
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
-    --mobile-node: 34px;
-    --mobile-axis: 16px;
-    position: relative !important;
-    width: 100% !important;
-    margin: 2.2rem 0 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-  }
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
+  --tl-green: #19834f;
+  --tl-soft: #dcefd4;
+  --tl-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative !important;
+  width: 100% !important;
+  margin: clamp(2rem, 4vw, 3rem) 0 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
 
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-rail {
+  position: absolute !important;
+  z-index: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process :is(.lp-timeline-track, .lp-timeline-fill) {
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 999px !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-track {
+  background: rgba(25, 131, 79, 0.14) !important;
+  box-shadow: inset 0 0 0 1px rgba(25, 131, 79, 0.04) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
+  --tl-progress: 0;
+  background: linear-gradient(90deg, var(--tl-green) 0%, #4fa879 70%, var(--tl-soft) 100%) !important;
+  box-shadow: 0 0 14px rgba(25, 131, 79, 0.22) !important;
+  will-change: transform !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill[data-static="true"] {
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
+  position: relative !important;
+  z-index: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+  z-index: 3 !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 2px solid rgba(25, 131, 79, 0.36) !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 5px #f5f9f2 !important;
+  opacity: 1 !important;
+  transform: scale(0.94) !important;
+  transition:
+    color 360ms ease,
+    background-color 360ms ease,
+    border-color 360ms ease,
+    box-shadow 500ms var(--tl-ease),
+    transform 500ms var(--tl-ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-node {
+  color: #ffffff !important;
+  border-color: var(--tl-green) !important;
+  background: var(--tl-green) !important;
+  box-shadow:
+    0 0 0 5px #f5f9f2,
+    0 0 0 7px rgba(220, 239, 212, 0.72),
+    0 12px 28px -18px rgba(25, 131, 79, 0.56) !important;
+  transform: scale(1) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
+  position: relative !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(25, 131, 79, 0.09) !important;
+  border-radius: 22px !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: 0 18px 42px -34px rgba(25, 131, 79, 0.28) !important;
+  opacity: 0.38 !important;
+  transform: translateY(18px) scale(0.985) !important;
+  filter: saturate(0.88) !important;
+  transition:
+    opacity 640ms var(--tl-ease),
+    transform 640ms var(--tl-ease),
+    filter 640ms ease,
+    border-color 520ms ease,
+    box-shadow 620ms var(--tl-ease),
+    background-color 520ms ease !important;
+  will-change: opacity, transform !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
+  border-color: rgba(25, 131, 79, 0.24) !important;
+  background: linear-gradient(145deg, #ffffff 0%, #fbfef9 76%, #f4faf0 100%) !important;
+  box-shadow:
+    0 24px 54px -38px rgba(25, 131, 79, 0.4),
+    inset 0 0 0 1px rgba(220, 239, 212, 0.22) !important;
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: saturate(1) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon {
+  transition:
+    color 420ms ease,
+    background-color 420ms ease,
+    border-color 420ms ease,
+    transform 520ms var(--tl-ease) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-icon {
+  color: #ffffff !important;
+  border-color: var(--tl-green) !important;
+  background: var(--tl-green) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Desktop: horizontal connector drawn across the centres of the four nodes. */
+@media (min-width: 881px) {
   html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-rail {
-    position: absolute !important;
-    z-index: 0 !important;
-    top: 17px !important;
-    right: auto !important;
-    bottom: 17px !important;
-    left: var(--mobile-axis) !important;
-    width: 3px !important;
-    height: auto !important;
-    margin: 0 !important;
-    pointer-events: none !important;
-    transform: none !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process :is(.lp-timeline-track, .lp-timeline-fill) {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 3px !important;
-    height: 100% !important;
-    border-radius: 999px !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-track {
-    background: rgba(11, 47, 32, 0.14) !important;
-    box-shadow: inset 0 0 0 1px rgba(11, 47, 32, 0.03) !important;
+    top: 19px !important;
+    left: calc(12.5% - 19px) !important;
+    right: calc(12.5% - 19px) !important;
+    width: auto !important;
+    height: 3px !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
-    --tl-progress: 0;
-    transform-origin: center top !important;
-    transform: scaleY(var(--tl-progress)) !important;
-    background: linear-gradient(180deg, #0b2f20 0%, #19834f 74%, #d9ff78 100%) !important;
-    box-shadow: 0 0 12px rgba(25, 131, 79, 0.22) !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill[data-static="true"] {
-    transform: none !important;
+    transform-origin: left center !important;
+    transform: scaleX(var(--tl-progress)) !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
+    display: grid !important;
+    grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr)) !important;
+    grid-template-rows: none !important;
+    gap: clamp(0.9rem, 1.8vw, 1.45rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li {
     position: relative !important;
-    z-index: 1 !important;
+    display: grid !important;
+    grid-template-rows: 40px auto !important;
+    justify-items: center !important;
+    gap: 1rem !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: 0 auto !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
+    padding: 1.15rem 1.1rem 1.2rem !important;
+  }
+}
+
+/* Mobile/tablet: the same progress value draws one vertical line downward. */
+@media (max-width: 880px) {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
+    --mobile-node: 36px;
+    --mobile-axis: 18px;
+    margin-top: 1.8rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-rail {
+    top: 18px !important;
+    right: auto !important;
+    bottom: 18px !important;
+    left: var(--mobile-axis) !important;
+    width: 3px !important;
+    height: auto !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
+    transform-origin: center top !important;
+    transform: scaleY(var(--tl-progress)) !important;
+    background: linear-gradient(180deg, var(--tl-green) 0%, #4fa879 70%, var(--tl-soft) 100%) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     grid-template-rows: none !important;
-    gap: 18px !important;
+    gap: 16px !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style: none !important;
   }
 
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li,
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li {
     position: relative !important;
     display: block !important;
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 0 !important;
     margin: 0 !important;
     padding: 0 0 0 58px !important;
     border: 0 !important;
     background: transparent !important;
     box-shadow: none !important;
-    transform: none !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
     position: absolute !important;
-    z-index: 3 !important;
-    top: 18px !important;
-    right: auto !important;
+    top: 17px !important;
     left: 0 !important;
-    display: grid !important;
-    place-items: center !important;
     width: var(--mobile-node) !important;
     height: var(--mobile-node) !important;
     margin: 0 !important;
-    border: 2px solid rgba(11, 47, 32, 0.42) !important;
-    border-radius: 50% !important;
-    color: #0b2f20 !important;
-    background: #ffffff !important;
-    box-shadow: 0 0 0 5px #f5f9f2 !important;
-    opacity: 1 !important;
-    transform: none !important;
-    transition:
-      color 360ms ease,
-      background-color 360ms ease,
-      border-color 360ms ease,
-      box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 420ms cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node b {
-    font-size: 0.78rem !important;
-    font-weight: 820 !important;
-    line-height: 1 !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-node {
-    color: #ffffff !important;
-    border-color: #0b2f20 !important;
-    background: #0b2f20 !important;
-    box-shadow:
-      0 0 0 5px #f5f9f2,
-      0 0 0 7px rgba(217, 255, 120, 0.58),
-      0 8px 22px -13px rgba(11, 47, 32, 0.7) !important;
-    animation: mobile-timeline-node-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card,
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 18px 17px 17px !important;
-    overflow: hidden !important;
-    border: 1px solid rgba(11, 47, 32, 0.11) !important;
-    border-radius: 22px !important;
-    color: #0b2f20 !important;
-    background: #ffffff !important;
-    background-image: none !important;
-    box-shadow: 0 18px 42px -34px rgba(11, 47, 32, 0.42) !important;
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    transition:
-      border-color 420ms ease,
-      box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1),
-      background-color 420ms ease !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
-    border-color: rgba(11, 47, 32, 0.28) !important;
-    background: linear-gradient(145deg, #ffffff 0%, #fbfef8 72%, #f4ffd7 145%) !important;
-    box-shadow:
-      0 22px 50px -34px rgba(11, 47, 32, 0.5),
-      inset 0 0 0 1px rgba(217, 255, 120, 0.16) !important;
-    animation: mobile-timeline-card-enter 600ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
+    padding: 17px 16px 16px !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon {
-    display: grid !important;
-    place-items: center !important;
     width: 38px !important;
     height: 38px !important;
-    margin: 0 0 12px !important;
-    border: 1px solid rgba(11, 47, 32, 0.12) !important;
-    border-radius: 13px !important;
-    color: #19834f !important;
-    background: #eef8f1 !important;
-    box-shadow: none !important;
-    transition:
-      color 360ms ease,
-      background-color 360ms ease,
-      border-color 360ms ease !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-icon {
-    color: #d9ff78 !important;
-    border-color: #0b2f20 !important;
-    background: #0b2f20 !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon svg {
-    width: 18px !important;
-    height: 18px !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-num {
-    display: block !important;
-    margin: 0 !important;
-    color: #19834f !important;
-    font-size: 0.66rem !important;
-    font-weight: 820 !important;
-    letter-spacing: 0.12em !important;
-    line-height: 1.2 !important;
-    text-transform: uppercase !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card h3 {
-    margin: 6px 0 0 !important;
-    color: #0b2f20 !important;
-    font-family: "Inter Tight", Inter, sans-serif !important;
-    font-size: clamp(1.24rem, 5.4vw, 1.52rem) !important;
-    font-weight: 690 !important;
-    letter-spacing: -0.038em !important;
-    line-height: 1.08 !important;
-    text-wrap: balance !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card > p:not(.lp-tl-result) {
-    margin: 10px 0 0 !important;
-    color: #536159 !important;
-    font-size: 0.92rem !important;
-    line-height: 1.52 !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card .lp-tl-result {
-    display: grid !important;
-    grid-template-columns: 18px minmax(0, 1fr) !important;
-    align-items: start !important;
-    gap: 8px !important;
-    margin: 14px 0 0 !important;
-    padding: 12px 0 0 !important;
-    border-top: 1px solid rgba(11, 47, 32, 0.11) !important;
-    color: #19834f !important;
-    font-size: 0.8rem !important;
-    font-weight: 680 !important;
-    line-height: 1.45 !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result svg {
-    width: 16px !important;
-    height: 16px !important;
-    margin-top: 1px !important;
+    margin-bottom: 12px !important;
   }
 }
 
@@ -238,33 +242,23 @@
     gap: 14px !important;
   }
 
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li,
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li {
     padding-left: 54px !important;
   }
 
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card,
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
     padding: 16px 15px 15px !important;
     border-radius: 20px !important;
   }
 }
 
-@keyframes mobile-timeline-node-enter {
-  0% { transform: scale(0.82); }
-  62% { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-
-@keyframes mobile-timeline-card-enter {
-  0% { opacity: 0.84; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  html:root body .site-theme-white-green .lp-page .lp-process :is(.lp-tl-node, .lp-tl-card) {
-    animation: none !important;
-    transition: none !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon {
+    opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
+    transition: none !important;
   }
 }
