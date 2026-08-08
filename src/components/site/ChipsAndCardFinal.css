@@ -1,0 +1,154 @@
+/* =====================================================================
+   MÔJ CHATBOT — KARTA VÝBERU A ŠTÍTKY
+
+   Štyri opravy, ktoré spolu držia: karta výberu v hero, reakcia štítkov
+   na kurzor, druhotné tlačidlá a jedno číslo sekcie s nečitateľnou
+   farbou.
+
+   Importuje sa posledná.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Karta „Vyberte, čo má web robiť" nesmie byť pod hlavičkou
+   Karta si niesla `translateY(-50%)` z čias, keď bola ukotvená naprosto
+   a to posunutie ju vracalo na stred. Odvtedy stojí v bežnom toku, takže
+   ju tá istá polovica ťahala o 215 px hore — presne za lepiacu hlavičku,
+   ktorá zjedla nadpis karty. Zostáva tam, kam ju postaví mriežka.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-assistant-card,
+html:root body .site-theme-white-green .lp-page .lp-assistant-card:hover,
+html:root body .site-theme-white-green .lp-page .lp-assistant-card:focus-within,
+html:root body .site-theme-white-green .lp-page .lp-assistant-card[data-spot="on"] {
+  transform: none !important;
+}
+
+/* Nadpis karty je jej najdôležitejší riadok — má byť vidieť ako nadpis,
+   nie ako veta navyše. */
+html:root body .site-theme-white-green .lp-page .lp-assistant-card > p:first-child {
+  max-width: 16ch !important;
+  margin-bottom: 1.35rem !important;
+  color: #0b2f20 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.06 !important;
+}
+
+/* ---------------------------------------------------------------------
+   2. Štítky reagujú na kurzor bledozelenou
+   Doteraz sa nestalo nič — štítok bol biely pred prejazdom aj počas neho,
+   takže nebolo poznať, že sa dá kliknúť.
+   --------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    :is(.chip, .lp-chip, .sp-page .chip):is(:hover, :focus-visible) {
+    border-color: rgba(25, 131, 79, 0.34) !important;
+    color: #0b2f20 !important;
+    background: #eef9d5 !important;
+  }
+
+  /* Štítok v hero je tlačidlo, takže sa navyše zľahka nadvihne. Platí to
+     len dovtedy, kým naň niekto neklikol — vybraný štítok si drží svoju
+     tmavú výplň. */
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-hero-pick:not([data-selected="true"]):is(:hover, :focus-visible) {
+    border-color: rgba(25, 131, 79, 0.38) !important;
+    color: #0b2f20 !important;
+    background: #eef9d5 !important;
+    box-shadow: 0 12px 26px -20px rgba(25, 131, 79, 0.5) !important;
+    transform: translate3d(0, -2px, 0) !important;
+  }
+
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-hero-pick:not([data-selected="true"]):is(:hover, :focus-visible)
+    .lp-hero-pick-label {
+    color: #0b2f20 !important;
+  }
+}
+
+html:root body .site-theme-white-green :is(.chip, .lp-chip, .sp-page .chip) {
+  transition:
+    color 260ms ease,
+    border-color 260ms ease,
+    background-color 260ms ease !important;
+}
+
+/* ---------------------------------------------------------------------
+   3. Druhotné tlačidlá sú tmavé, bledozelené až pod kurzorom
+   Bledozelená výplň na bielom podklade splývala a vedľa limetkového
+   hlavného tlačidla pôsobila ako jeho nevydarená kópia. Tmavá lesná
+   plocha je jednoznačná druhá voľba a bledozelená ostáva odmenou za
+   prejazd kurzorom.
+
+   Trieda je v selektore dvakrát naschvál. Skoršia vrstva drží tú istú
+   bledozelenú s rovnakou špecifickosťou aj s `!important`, takže by o
+   poradí rozhodlo to, ktorý súbor skončí v zväzku neskôr — a na to sa
+   spoliehať nedá. Zopakovanie triedy je o jeden bod vyššie a tým je
+   hotovo.
+   --------------------------------------------------------------------- */
+html:root
+  body
+  .site-theme-white-green
+  :is(.sp-button--ghost, .lp-button-quiet, .winner-final__secondary):is(
+    .sp-button--ghost,
+    .lp-button-quiet,
+    .winner-final__secondary
+  ) {
+  border: 1px solid rgba(11, 47, 32, 0.9) !important;
+  color: #f2fbf5 !important;
+  background: #0b2f20 !important;
+  box-shadow: 0 16px 34px -26px rgba(11, 47, 32, 0.7) !important;
+  transition:
+    color 280ms ease,
+    border-color 280ms ease,
+    background-color 280ms ease,
+    box-shadow 280ms ease,
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  :is(.sp-button--ghost, .lp-button-quiet, .winner-final__secondary):is(
+    .sp-button--ghost,
+    .lp-button-quiet,
+    .winner-final__secondary
+  )
+  svg {
+  color: currentColor !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sp-button--ghost, .lp-button-quiet, .winner-final__secondary):is(
+      .sp-button--ghost,
+      .lp-button-quiet,
+      .winner-final__secondary
+    ):is(:hover, :focus-visible) {
+    border-color: rgba(25, 131, 79, 0.4) !important;
+    color: #0b2f20 !important;
+    background: #e8f9c4 !important;
+    transform: translate3d(0, -2px, 0) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4. Číslo sekcie v lesnom páse
+   Sekcia 06 je jediná na tmavom podklade, takže jej popiska zbelela —
+   a s ňou aj číslo v limetkovej pilulke. Biela na limetkovej má kontrast
+   1,5 : 1, čo je pod hranicou čitateľnosti pre kohokoľvek. Pilulka drží
+   tmavý text vždy, nech je pod ňou čokoľvek.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-eyebrow-num,
+html:root body .site-theme-white-green .lp-page .lp-process .lp-eyebrow-num,
+html:root body .site-theme-white-green .lp-page section[data-band="forest"] .lp-eyebrow-num {
+  color: #0b2f20 !important;
+}

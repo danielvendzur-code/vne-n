@@ -1015,6 +1015,7 @@ function ProcessTimeline() {
     <div
       className="lp-timeline"
       ref={wrapRef}
+      data-done={reducedMotion || reached >= process.length}
       style={{ "--steps": process.length } as React.CSSProperties}
     >
       {/* Koľaj a čiara, ktorá po nej narastá. Smer si vyberá CSS podľa
@@ -1024,16 +1025,30 @@ function ProcessTimeline() {
         {reducedMotion ? (
           <span className="lp-timeline-fill" data-static="true" />
         ) : (
-          <motion.span
-            className="lp-timeline-fill"
-            style={{ "--tl-progress": progress } as React.CSSProperties}
-          />
+          <>
+            <motion.span
+              className="lp-timeline-fill"
+              style={{ "--tl-progress": progress } as React.CSSProperties}
+            />
+            {/* Svetlo na čele čiary. Samotná výplň je len plocha, ktorá
+                rastie; bod na jej hrane dá pohybu smer a je z neho vidieť,
+                pokiaľ sa spolupráca posunula. Nesedí vo výplni, lebo tú
+                mierka roztiahne — má vlastnú polohu z tej istej hodnoty. */}
+            <motion.span
+              className="lp-timeline-head"
+              style={{ "--tl-progress": progress } as React.CSSProperties}
+            />
+          </>
         )}
       </div>
 
       <ol className="lp-tl-steps">
         {process.map(({ icon: Icon, title, copy, result }, index) => (
-          <li key={title} data-reached={reducedMotion || index < reached}>
+          <li
+            key={title}
+            data-reached={reducedMotion || index < reached}
+            style={{ "--step": index } as React.CSSProperties}
+          >
             {/* Uzol na koľaji. Na širokej obrazovke je to plný krúžok
                 s poradovým číslom — tak vyzeral, kým fungoval najlepšie.
                 Na mobile ostáva prázdny bod, ktorý sa vyplní. */}

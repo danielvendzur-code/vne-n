@@ -3,6 +3,7 @@ import {
   ArrowRight,
   BadgeCheck,
   Bot,
+  Boxes,
   Calculator,
   Check,
   FileText,
@@ -11,6 +12,7 @@ import {
   MessageCircle,
   Palette,
   Plug,
+  Rocket,
   ShieldCheck,
   SlidersHorizontal,
 } from "lucide-react";
@@ -81,6 +83,48 @@ const packages: Array<{
     preset: "product",
   },
 ];
+
+/**
+ * Zvýhodnenia nad rámec troch základných balíkov.
+ *
+ * Ceny sú tu naschvál na jednom mieste a v obyčajnom texte, aby sa dali
+ * zmeniť bez hľadania po komponente. Držia sa toho, čo stojí samotný
+ * nástroj: skúšobný mesiac je lacný preto, aby sa dalo začať bez rizika,
+ * nie preto, aby sa zľavňovala práca.
+ */
+const bundles = [
+  {
+    icon: Rocket,
+    title: "Prvý mesiac za 1 €",
+    price: "1 €",
+    priceNote: "prvý mesiac prevádzky",
+    then: "potom 10 € / mesiac",
+    copy: "Chatbot spustíme, mesiac ho sledujeme na skutočných otázkach a doladíme odpovede. Ak vám nesadne, prevádzku zrušíte a ďalej neplatíte nič.",
+    features: ["Bez viazanosti", "Ladenie podľa prvých otázok", "Zrušenie kedykoľvek"],
+  },
+  {
+    icon: Layers3,
+    title: "Druhý a ďalší nástroj",
+    price: "−25 %",
+    priceNote: "z ceny každého ďalšieho",
+    then: "chatbot od 260 € namiesto 350 €",
+    copy: "Keď už raz máme spracovanú vašu ponuku a pravidlá, druhý nástroj stojí menej práce. Platí pre tú istú firmu aj pre ďalšiu značku pod ňou.",
+    features: [
+      "Platí na kalkulačku aj konfigurátor",
+      "Spoločné podklady",
+      "Jeden termín nasadenia",
+    ],
+  },
+  {
+    icon: Boxes,
+    title: "Balík piatich nástrojov",
+    price: "1 250 €",
+    priceNote: "jednorazovo namiesto 1 750 €",
+    then: "35 € / mesiac za všetkých päť",
+    copy: "Pre firmy s viacerými službami, pobočkami alebo e-shopmi. Nástroje sa navrhnú spolu, takže si nekonkurujú a vedia si odovzdať zákazníka.",
+    features: ["Ušetríte 500 €", "Spoločné nastavenie", "Postupné spúšťanie"],
+  },
+] as const;
 
 const clientInputs = [
   {
@@ -198,6 +242,45 @@ export function HomeConversionUpgrade() {
               </Reveal>
             ),
           )}
+        </div>
+
+        <div className="winner-bundles">
+          <div className="winner-bundles__intro">
+            <p className="winner-upgrade__eyebrow">Zvýhodnenia</p>
+            <h2>Začať sa dá lacno a viac nástrojov vyjde lacnejšie.</h2>
+            <p>
+              Ceny nižšie platia k trom balíkom vyššie. Nič z toho nie je viazané na zmluvu — keď
+              prestane dávať zmysel, prevádzku zrušíte.
+            </p>
+          </div>
+          <div className="winner-bundles__grid">
+            {bundles.map(({ icon: Icon, title, price, priceNote, then, copy, features }, index) => (
+              <Reveal
+                as="article"
+                className="winner-bundle spotlight-surface"
+                key={title}
+                delay={Math.min(index * 0.07, 0.14)}
+              >
+                <span className="winner-bundle__icon" aria-hidden="true">
+                  <Icon />
+                </span>
+                <h3>{title}</h3>
+                <p className="winner-bundle__price">
+                  <b>{price}</b>
+                  <small>{priceNote}</small>
+                </p>
+                <p className="winner-bundle__then">{then}</p>
+                <p className="winner-bundle__copy">{copy}</p>
+                <ul>
+                  {features.map((feature) => (
+                    <li key={feature}>
+                      <Check aria-hidden="true" /> {feature}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            ))}
+          </div>
         </div>
 
         <div className="winner-prep">
