@@ -1,4 +1,5 @@
-/* Launch palette: forest green is primary; lime is hover/accent only. Text palette stays unchanged. */
+/* Final launch palette. Forest is the resting interaction colour; lime is hover/accent only.
+   This layer deliberately uses production-level specificity so historical theme files cannot win. */
 
 :root,
 html body,
@@ -18,97 +19,89 @@ html body .cookies-page {
   --chip-bg-hover: #d9ff78 !important;
 }
 
-html body .brand-mark {
-  color: #0b2f20 !important;
+/* The website mark stays emerald. The chatbot mark uses the exact same colour. */
+html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark,
+html:root body .site-theme-white-green .site-menu-brand .brand-mark,
+html:root body .site-theme-white-green .cw-widget .cw-launcher,
+html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot {
+  color: #19834f !important;
 }
 
-html body :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible) .brand-mark {
-  color: #0b2f20 !important;
+html:root body .site-theme-white-green :is(.site-brand-lockup, .site-menu-brand):is(:hover, :focus-visible) .brand-mark {
+  color: #19834f !important;
 }
 
-html body :is(
-  .site-consultation-cta,
-  .site-menu-cta,
-  .lp-hero-cta--primary,
-  .lp-assistant-cta,
-  .lp-final-cta,
-  .sp-cta,
-  .contact-submit
-) {
-  background: #0b2f20 !important;
+/* Primary controls on light surfaces: forest at rest, lime only on hover/focus. */
+html:root body .site-theme-white-green .site-consultation-cta,
+html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary,
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta,
+html:root body .site-theme-white-green .lp-page .lp-caps-note button,
+html:root body .site-theme-white-green .lp-page .lp-faq-ask,
+html:root body .site-theme-white-green .contact-submit,
+html:root body .site-theme-white-green .sp-page .sp-cta {
+  color: #ffffff !important;
   border-color: #0b2f20 !important;
+  background: #0b2f20 !important;
+  background-color: #0b2f20 !important;
+  background-image: none !important;
   box-shadow: 0 16px 34px -22px rgba(11, 47, 32, 0.64) !important;
 }
 
-html body :is(
-  .site-consultation-cta,
-  .site-menu-cta,
-  .lp-hero-cta--primary,
-  .lp-assistant-cta,
-  .lp-final-cta,
-  .sp-cta,
-  .contact-submit
-):is(:hover, :focus-visible) {
-  color: #0b2f20 !important;
-  background: #d9ff78 !important;
-  border-color: #d9ff78 !important;
+/* Historical liquid/radial layers may still exist, but cannot recolour the resting CTA. */
+html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary::after,
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta::after {
+  background: transparent !important;
 }
 
-html body .lp-progress {
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .site-consultation-cta:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .lp-page .lp-assistant-cta:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .lp-page .lp-caps-note button:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .lp-page .lp-faq-ask:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .contact-submit:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .sp-page .sp-cta:is(:hover, :focus-visible) {
+    color: #0b2f20 !important;
+    border-color: #d9ff78 !important;
+    background: #d9ff78 !important;
+    background-color: #d9ff78 !important;
+    background-image: none !important;
+  }
+}
+
+html:root body .site-theme-white-green .lp-progress {
   background: linear-gradient(90deg, #0b2f20, #19834f, #d9ff78) !important;
   box-shadow: 0 0 12px rgba(11, 47, 32, 0.22) !important;
 }
 
-/* Capability and choice chips: dark selection, lime hover. */
-html body .lp-chip[data-selected="true"],
-html body .lp-chip[data-active="true"],
-html body .lp-chip[aria-pressed="true"] {
+/* Selected capability chips remain forest and readable. */
+html:root body .site-theme-white-green .lp-page .lp-chip[data-selected="true"],
+html:root body .site-theme-white-green .lp-page .lp-chip[data-active="true"],
+html:root body .site-theme-white-green .lp-page .lp-chip[aria-pressed="true"] {
   color: #ffffff !important;
-  border-color: #0b2f20 !important;
+  border-color: #d9ff78 !important;
   background: #0b2f20 !important;
   background-image: none !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+  box-shadow: inset 0 0 0 1px rgba(217, 255, 120, 0.3) !important;
 }
 
-html body .lp-chip[data-selected="true"] *,
-html body .lp-chip[data-active="true"] *,
-html body .lp-chip[aria-pressed="true"] * {
+html:root body .site-theme-white-green .lp-page .lp-chip[data-selected="true"] *,
+html:root body .site-theme-white-green .lp-page .lp-chip[data-active="true"] *,
+html:root body .site-theme-white-green .lp-page .lp-chip[aria-pressed="true"] * {
   color: inherit !important;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  html body .lp-chip:not([data-selected="true"]):not([data-active="true"]):not([aria-pressed="true"]):hover {
-    background: #d9ff78 !important;
-    background-image: none !important;
-    border-color: rgba(11, 47, 32, 0.34) !important;
-  }
-}
-
-/* Selected chips remain forest even while hovered. */
-html body .lp-chip[data-selected="true"]:hover,
-html body .lp-chip[data-active="true"]:hover,
-html body .lp-chip[aria-pressed="true"]:hover {
+/* Widget primary actions follow the same forest -> lime rule. */
+html:root body .site-theme-white-green .cw-widget :is(.cw-next, .cw-submit):not(:disabled),
+html:root body .site-theme-white-green .cw-widget .cw-tabs > button[data-active="true"] {
   color: #ffffff !important;
   background: #0b2f20 !important;
   border-color: #0b2f20 !important;
 }
 
-/* Dark brand moments are made more deliberate without recolouring body copy. */
-html body :is(.lp-final-card, .site-menu-drawer)[data-tone="dark"],
-html body .lp-dark-section {
-  background-color: #0b2f20 !important;
-}
-
-/* Widget primary actions follow the same forest -> lime interaction rule. */
-html body .cw-widget :is(.cw-next, .cw-submit):not(:disabled),
-html body .cw-widget .cw-tabs > button[data-active="true"] {
-  background: #0b2f20 !important;
-  border-color: #0b2f20 !important;
-}
-
 @media (hover: hover) and (pointer: fine) {
-  html body .cw-widget :is(.cw-next, .cw-submit):not(:disabled):hover,
-  html body .cw-widget .cw-tabs > button[data-active="true"]:hover {
+  html:root body .site-theme-white-green .cw-widget :is(.cw-next, .cw-submit):not(:disabled):hover,
+  html:root body .site-theme-white-green .cw-widget .cw-tabs > button[data-active="true"]:hover {
     color: #0b2f20 !important;
     background: #d9ff78 !important;
     border-color: #d9ff78 !important;
