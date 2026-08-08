@@ -1,0 +1,102 @@
+/* Final chip rule: dark forest is the resting state; lime exists only as interaction hover/focus. */
+
+html body .lp-chip {
+  color: #ffffff !important;
+  border-color: #0b2f20 !important;
+  background: #0b2f20 !important;
+  background-image: none !important;
+  box-shadow: 0 10px 24px -22px rgba(11, 47, 32, 0.72) !important;
+}
+
+html body .lp-chip * {
+  color: inherit !important;
+}
+
+html body .lp-chip[data-selected="true"],
+html body .lp-chip[data-active="true"],
+html body .lp-chip[aria-pressed="true"] {
+  color: #ffffff !important;
+  border-color: #d9ff78 !important;
+  background: #0b2f20 !important;
+  background-image: none !important;
+  box-shadow: inset 0 0 0 1px rgba(217, 255, 120, 0.3) !important;
+}
+
+html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard) {
+  color: #ffffff !important;
+  border-color: #0b2f20 !important;
+  background: #0b2f20 !important;
+  background-image: none !important;
+  box-shadow: 0 10px 24px -22px rgba(11, 47, 32, 0.72) !important;
+}
+
+html body .cw-widget .cw-calculator :is(
+  .cw-rowcard__body b,
+  .cw-rowcard__body small,
+  .cw-scard b,
+  .cw-opt__body b,
+  .cw-opt__body > span,
+  .cw-vcard b,
+  .cw-vcard > span,
+  .cw-vcard__copy b,
+  .cw-vcard__copy > span
+) {
+  color: inherit !important;
+}
+
+html body .cw-widget .cw-calculator :is(.cw-rowcard__icon, .cw-scard__icon) {
+  color: #d9ff78 !important;
+  background: rgba(255, 255, 255, 0.09) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"] {
+  color: #ffffff !important;
+  border-color: #d9ff78 !important;
+  background: #0b2f20 !important;
+  background-image: none !important;
+  box-shadow: inset 0 0 0 1px rgba(217, 255, 120, 0.3) !important;
+}
+
+html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"]::after {
+  color: #0b2f20 !important;
+  border-color: #d9ff78 !important;
+  background: #d9ff78 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html body .lp-chip:hover,
+  html body .lp-chip:focus-visible,
+  html body .lp-chip[data-selected="true"]:hover,
+  html body .lp-chip[data-active="true"]:hover,
+  html body .lp-chip[aria-pressed="true"]:hover {
+    color: #0b2f20 !important;
+    border-color: #d9ff78 !important;
+    background: #d9ff78 !important;
+    background-image: none !important;
+    box-shadow: 0 14px 28px -20px rgba(11, 47, 32, 0.46) !important;
+  }
+
+  html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard):is(:hover, :focus-visible),
+  html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"]:is(:hover, :focus-visible) {
+    color: #0b2f20 !important;
+    border-color: #d9ff78 !important;
+    background: #d9ff78 !important;
+    background-image: none !important;
+    box-shadow: 0 14px 28px -20px rgba(11, 47, 32, 0.5) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard):is(:hover, :focus-visible) :is(.cw-rowcard__icon, .cw-scard__icon),
+  html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard)[data-selected="true"]:is(:hover, :focus-visible) :is(.cw-rowcard__icon, .cw-scard__icon) {
+    color: #0b2f20 !important;
+    background: rgba(11, 47, 32, 0.08) !important;
+    border-color: rgba(11, 47, 32, 0.12) !important;
+  }
+
+  html body .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"]:is(:hover, :focus-visible)::after {
+    color: #ffffff !important;
+    border-color: #0b2f20 !important;
+    background: #0b2f20 !important;
+  }
+}
