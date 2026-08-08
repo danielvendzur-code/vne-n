@@ -1,5 +1,4 @@
 /* Final interaction authority.
-   This layer deliberately owns only the user-approved interaction states:
    - primary CTA: green -> pale green hover
    - selectable website chips: white -> green hover/selected
    - live project actions: green -> pale green hover
@@ -20,9 +19,7 @@ html:root body .site-theme-white-green {
   --goal-pill: 999px;
 }
 
-/* ---------------------------------------------------------------
-   PRIMARY CTA — brand green at rest, pale green only on hover.
-   --------------------------------------------------------------- */
+/* Primary actions: green at rest, pale only on hover. */
 html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary,
 html:root body .site-theme-white-green .lp-page .lp-assistant-cta,
 html:root body .site-theme-white-green .lp-page .lp-caps-detail-cta,
@@ -63,11 +60,7 @@ html:root body .site-theme-white-green .sp-page .sp-button.sp-button--primary * 
   }
 }
 
-/* ---------------------------------------------------------------
-   SELECTABLE WEBSITE CHIPS.
-   Unselected = white. Hover = green. Selected = green.
-   No double ring, no pale selected fill.
-   --------------------------------------------------------------- */
+/* Selectable website chips: white -> green hover/selected, one pill geometry. */
 html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"],
 html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"] {
   min-height: 48px !important;
@@ -153,11 +146,10 @@ html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip
   }
 }
 
-/* ---------------------------------------------------------------
-   LIVE / PROJECT ACTIONS — same pill geometry, green -> pale hover.
-   --------------------------------------------------------------- */
+/* Live/project actions: same pill, green -> pale hover. */
 html:root body .site-theme-white-green .lp-page .lp-live-tools a,
 html:root body .site-theme-white-green .lp-page .lp-project-copy b,
+html:root body .site-theme-white-green .lp-page .derat-story__intro a,
 html:root body .site-theme-white-green .sp-page .rz-open {
   display: inline-flex !important;
   align-items: center !important;
@@ -179,6 +171,7 @@ html:root body .site-theme-white-green .sp-page .rz-open {
 
 html:root body .site-theme-white-green .lp-page .lp-live-tools a *,
 html:root body .site-theme-white-green .lp-page .lp-project-copy b *,
+html:root body .site-theme-white-green .lp-page .derat-story__intro a *,
 html:root body .site-theme-white-green .sp-page .rz-open * {
   color: inherit !important;
 }
@@ -186,6 +179,7 @@ html:root body .site-theme-white-green .sp-page .rz-open * {
 @media (hover: hover) and (pointer: fine) {
   html:root body .site-theme-white-green .lp-page .lp-live-tools a:is(:hover, :focus-visible),
   html:root body .site-theme-white-green .lp-page .lp-project > a:is(:hover, :focus-visible) .lp-project-copy b,
+  html:root body .site-theme-white-green .lp-page .derat-story__intro a:is(:hover, :focus-visible),
   html:root body .site-theme-white-green .sp-page .rz-card:is(:hover, :focus-visible) .rz-open {
     border-color: var(--goal-hover-border) !important;
     color: var(--goal-ink) !important;
@@ -196,10 +190,7 @@ html:root body .site-theme-white-green .sp-page .rz-open * {
   }
 }
 
-/* ---------------------------------------------------------------
-   CONFIGURATOR — deliberate exception.
-   White cards, selected by green outline and green check only.
-   --------------------------------------------------------------- */
+/* Configurator exception: white, selected only by outline/check. */
 html:root body .site-theme-white-green .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard) {
   border-radius: 18px !important;
   color: var(--goal-ink) !important;
@@ -238,11 +229,7 @@ html:root body .site-theme-white-green .cw-widget .cw-calculator :is(.cw-rowcard
   }
 }
 
-/* ---------------------------------------------------------------
-   ONE-STROKE LOGO.
-   Slightly faster overall, but the first part stays deliberate and the
-   last third completes decisively instead of slowing to a crawl.
-   --------------------------------------------------------------- */
+/* One-stroke logo: faster overall, calm start, decisive finish. */
 html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark .brand-mark__stroke,
 html:root body .site-theme-white-green .site-menu-brand .brand-mark .brand-mark__stroke,
 html:root body .site-theme-white-green .cw-widget .cw-launcher .brand-mark .brand-mark__stroke,
