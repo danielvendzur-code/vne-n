@@ -1,6 +1,6 @@
-/* Process timeline — compact scroll-driven staircase for desktop and mobile.
-   One line grows with scroll. Hollow dots fill only after the line reaches them,
-   then their card reveals once and stays visible. No visible numbering. */
+/* Process timeline — scroll-driven reveal with real dot positions.
+   Desktop uses a compact staggered stack. Mobile keeps the earlier straight stack.
+   The line grows continuously; a dot fills only after the line reaches its centre. */
 
 html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
   --tl-green: #19834f;
@@ -8,34 +8,22 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
   --tl-ink: #f5f8f5;
   --tl-muted: rgba(239, 245, 240, 0.68);
   --tl-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --tl-rail-top: 0px;
+  --tl-rail-bottom: 0px;
   position: relative !important;
   width: 100% !important;
   max-width: 780px !important;
-  margin: clamp(1.65rem, 3vw, 2.25rem) auto 0 !important;
+  margin: clamp(1.7rem, 3vw, 2.3rem) auto 0 !important;
   padding: 0 !important;
   overflow: visible !important;
 }
 
-html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
-  position: relative !important;
-  z-index: 2 !important;
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  gap: 0 !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  list-style: none !important;
-}
-
-/* The rail stays simple and vertical. Equal-height tracks keep the dot centres
-   aligned with the lightweight (i + .5) / count scroll thresholds. */
 html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-rail {
   position: absolute !important;
   z-index: 1 !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  left: 7px !important;
+  top: var(--tl-rail-top) !important;
+  bottom: var(--tl-rail-bottom) !important;
+  left: 6px !important;
   width: 2px !important;
   height: auto !important;
   margin: 0 !important;
@@ -59,7 +47,7 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-track {
 html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
   --tl-progress: 0;
   background: linear-gradient(180deg, #c9e7c7 0%, #75bb91 58%, #19834f 100%) !important;
-  box-shadow: 0 0 10px rgba(201, 231, 199, 0.16) !important;
+  box-shadow: 0 0 9px rgba(201, 231, 199, 0.14) !important;
   transform: scaleY(var(--tl-progress)) !important;
   will-change: transform !important;
 }
@@ -68,21 +56,32 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill[da
   transform: scaleY(1) !important;
 }
 
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
+  position: relative !important;
+  z-index: 2 !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li {
   position: relative !important;
   display: grid !important;
   grid-template-columns: 28px minmax(0, 1fr) !important;
   align-items: center !important;
-  height: 156px !important;
-  min-height: 156px !important;
+  min-height: 138px !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 7px 0 !important;
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
-/* Clean hollow waypoint. It gets a fill only after data-reached becomes true. */
+/* Clean waypoint: no number, no label, only a hollow dot. */
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
   grid-column: 1 !important;
   grid-row: 1 !important;
@@ -94,18 +93,18 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
   width: 14px !important;
   height: 14px !important;
   margin: 0 !important;
-  border: 2px solid rgba(201, 231, 199, 0.56) !important;
+  border: 2px solid rgba(201, 231, 199, 0.58) !important;
   border-radius: 50% !important;
   color: transparent !important;
-  background: transparent !important;
-  box-shadow: none !important;
+  background: #0b3928 !important;
+  box-shadow: 0 0 0 3px #0b3928 !important;
   opacity: 1 !important;
-  transform: scale(0.88) !important;
+  transform: scale(0.9) !important;
   transition:
-    background-color 320ms ease,
-    border-color 320ms ease,
-    box-shadow 440ms var(--tl-ease),
-    transform 440ms var(--tl-ease) !important;
+    background-color 260ms ease,
+    border-color 260ms ease,
+    box-shadow 360ms var(--tl-ease),
+    transform 360ms var(--tl-ease) !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node b,
@@ -117,13 +116,11 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[da
   border-color: var(--tl-pale) !important;
   background: var(--tl-pale) !important;
   box-shadow:
-    0 0 0 4px rgba(201, 231, 199, 0.09),
-    0 8px 20px -12px rgba(201, 231, 199, 0.42) !important;
+    0 0 0 3px #0b3928,
+    0 0 0 6px rgba(201, 231, 199, 0.08) !important;
   transform: scale(1) !important;
 }
 
-/* Cards form a restrained staircase. Each next card moves only a little farther
-   right, rather than jumping across the whole section. */
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
   grid-column: 2 !important;
   position: relative !important;
@@ -149,32 +146,30 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
   background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0)) !important;
   box-shadow: 0 18px 42px -36px rgba(0, 0, 0, 0.72) !important;
   opacity: 0 !important;
-  filter: blur(3px) saturate(0.9) !important;
-  transform: translate3d(14px, 10px, 0) scale(0.986) !important;
+  filter: blur(3px) saturate(0.92) !important;
+  transform: translate3d(12px, 9px, 0) scale(0.988) !important;
   transition:
-    opacity 540ms var(--tl-ease),
-    transform 600ms var(--tl-ease),
-    filter 460ms ease,
-    border-color 400ms ease,
-    box-shadow 500ms var(--tl-ease),
-    background-color 400ms ease !important;
+    opacity 520ms var(--tl-ease),
+    transform 580ms var(--tl-ease),
+    filter 420ms ease,
+    border-color 380ms ease,
+    box-shadow 460ms var(--tl-ease),
+    background-color 380ms ease !important;
   will-change: opacity, transform, filter !important;
 }
 
+/* Desktop: a restrained staircase, not four cards side by side. */
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li:nth-child(1) .lp-tl-card {
   margin-left: 0 !important;
 }
-
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li:nth-child(2) .lp-tl-card {
-  margin-left: 18px !important;
+  margin-left: 16px !important;
 }
-
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li:nth-child(3) .lp-tl-card {
-  margin-left: 36px !important;
+  margin-left: 32px !important;
 }
-
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li:nth-child(4) .lp-tl-card {
-  margin-left: 54px !important;
+  margin-left: 48px !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
@@ -201,11 +196,6 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon {
   border-radius: 10px !important;
   color: var(--tl-pale) !important;
   background: rgba(25, 131, 79, 0.08) !important;
-  transform: none !important;
-  transition:
-    color 340ms ease,
-    background-color 340ms ease,
-    border-color 340ms ease !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon svg {
@@ -259,57 +249,105 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result svg {
   color: var(--tl-pale) !important;
 }
 
-/* Mobile: same rail/reveal, but remove the staircase offset to preserve width. */
+/* Mobile: restore the previous straight vertical composition.
+   Only the line/dot/reveal mechanics are new. */
 @media (max-width: 760px) {
   html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
     max-width: none !important;
-    margin-top: 1.5rem !important;
+    margin-top: 1.8rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-rail {
+    left: 17px !important;
+    width: 2px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 17px !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li {
-    height: 168px !important;
-    min-height: 168px !important;
-    grid-template-columns: 24px minmax(0, 1fr) !important;
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 0 0 58px !important;
   }
 
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li .lp-tl-card {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+    position: absolute !important;
+    top: 21px !important;
+    left: 11px !important;
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li:nth-child(n) .lp-tl-card {
+    display: block !important;
     width: 100% !important;
-    margin-left: 0 !important;
-    padding: 13px 14px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 17px 16px 16px !important;
     border-radius: 20px !important;
-    transform: translate3d(12px, 8px, 0) scale(0.986) !important;
+    transform: translate3d(12px, 8px, 0) scale(0.988) !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
     transform: translate3d(0, 0, 0) scale(1) !important;
   }
-}
-
-@media (max-width: 480px) {
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li {
-    height: 174px !important;
-    min-height: 174px !important;
-  }
-
-  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
-    grid-template-columns: 30px minmax(0, 1fr) !important;
-    column-gap: 10px !important;
-    padding: 12px 12px 11px !important;
-    border-radius: 19px !important;
-  }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon {
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 9px !important;
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 0 12px !important;
+    border-radius: 11px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card h3 {
+    margin: 0 0 7px !important;
+    font-size: 1.04rem !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card > p:not(.lp-tl-result) {
-    font-size: 0.76rem !important;
+    margin: 0 !important;
+    font-size: 0.79rem !important;
+    line-height: 1.43 !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result {
-    font-size: 0.7rem !important;
+    margin-top: 12px !important;
+    padding-top: 10px !important;
+    font-size: 0.74rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
+    gap: 15px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li {
+    padding-left: 54px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-rail {
+    left: 15px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+    left: 9px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li:nth-child(n) .lp-tl-card {
+    padding: 16px 15px 15px !important;
+    border-radius: 18px !important;
   }
 }
 
