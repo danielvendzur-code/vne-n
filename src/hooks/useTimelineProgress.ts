@@ -18,11 +18,10 @@ interface Options {
 /**
  * Scroll-driven timeline.
  *
- * Prahy sa zámerne nepočítajú ako rovnaké štvrtiny. Karty majú na mobile
- * rôznu výšku a pri responzívnom zalomení sa mení aj ich poloha. Preto si
- * pri layoute zmeriame skutočné stredy bodiek a rovnaké súradnice použijeme
- * aj na dĺžku koľaje aj na okamih odhalenia. Bodka sa tak vyplní až vtedy,
- * keď ju vizuálne dosiahne rastúca čiara.
+ * Základné prahy ostávajú matematické. Po prvom layoute ich jednorazovo
+ * spresníme podľa skutočných stredov bodiek; znovu sa prepočítajú len po
+ * resize/orientation change a po načítaní fontov. Počas scrollu sa layout
+ * nikdy nemeria — rastie iba jedna MotionValue.
  */
 export function useTimelineProgress(
   target: RefObject<HTMLElement | null>,
@@ -46,19 +45,20 @@ export function useTimelineProgress(
     if (!root || reducedMotion) return;
 
     const measure = () => {
+      const rootRect = root.getClientRects().item(0);
+      if (!rootRect) return;
+
       const nodes = Array.from(root.querySelectorAll<HTMLElement>(".lp-tl-node")).slice(0, count);
       if (nodes.length !== count) return;
 
-      const rootRect = root.getBoundingClientRect();
       const centres = nodes.map((node) => {
-        const rect = node.getBoundingClientRect();
+        const rect = node.getClientRects().item(0);
+        if (!rect) return 0;
         return rect.top + rect.height / 2 - rootRect.top;
       });
 
       const first = centres[0] ?? 0;
       const last = centres[centres.length - 1] ?? rootRect.height;
-      // Krátky presah pred prvou a za poslednou bodkou necháva používateľa
-      // reálne vidieť, ako čiara do bodky príde a zase z nej pokračuje.
       const railStart = Math.max(0, first - 18);
       const railEnd = Math.min(rootRect.height, Math.max(railStart + 1, last + 18));
       const railLength = Math.max(1, railEnd - railStart);
@@ -71,11 +71,10 @@ export function useTimelineProgress(
     };
 
     measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(root);
-    root.querySelectorAll<HTMLElement>(".lp-tl-card").forEach((card) => observer.observe(card));
+    window.addEventListener("resize", measure, { passive: true });
+    void document.fonts?.ready.then(measure).catch(() => undefined);
 
-    return () => observer.disconnect();
+    return () => window.removeEventListener("resize", measure);
   }, [count, reducedMotion, target]);
 
   useMotionValueEvent(spring, "change", (value) => {
