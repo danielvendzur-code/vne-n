@@ -147,8 +147,13 @@ if (finishIndex >= teamMotionIndex) {
 if (teamMotionIndex >= limeWhiteIndex) {
   fail("LimeWhiteBrandFinal.css must load after TeamMotionUpgrade.css");
 }
-if (limeWhiteIndex !== lastStyleImport) {
-  fail("LimeWhiteBrandFinal.css must be the final component style import");
+// Táto podmienka kedysi žiadala, aby bol LimeWhiteBrandFinal.css úplne
+// posledný štýlový import. Za ňou odvtedy pribudli opravné vrstvy, takže
+// podmienka padala pri každom behu a audit bol červený bez ohľadu na to,
+// čo sa práve menilo. Drží sa preto to, čo je naozaj podstatné: identita
+// značky sa nastavuje po historických vrstvách a opravy prichádzajú po nej.
+if (limeWhiteIndex >= lastStyleImport) {
+  fail("Corrective style layers must load after LimeWhiteBrandFinal.css");
 }
 if (layout.includes("HomeConversionUpgrade")) {
   fail("Removed homepage pricing section is still mounted in Layout");

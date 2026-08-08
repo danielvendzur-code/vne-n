@@ -1,0 +1,155 @@
+/* =====================================================================
+   MÔJ CHATBOT — ZVÝHODNENIA
+
+   Blok pod tromi základnými balíkmi. Nie je to štvrtý balík, preto má
+   vlastný, tichší tvar: svetlejšia plocha, menšia cena a bez tlačidla.
+   Rozhodnutie sa robí vyššie; toto je odpoveď na otázku „a čo keď ich
+   chcem viac" alebo „a čo keď to nevyjde".
+   ===================================================================== */
+
+html:root body .site-theme-white-green .winner-bundles {
+  display: grid;
+  gap: clamp(1.6rem, 3vw, 2.4rem);
+  margin-top: clamp(2.6rem, 5vw, 4rem);
+}
+
+html:root body .site-theme-white-green .winner-bundles__intro {
+  max-width: 46rem;
+}
+
+html:root body .site-theme-white-green .winner-bundles__intro h2 {
+  margin: 0.6rem 0 0.75rem;
+  color: #0b2f20;
+  font-family: var(--font-display, "Inter Tight", Inter, sans-serif);
+  font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+  font-weight: 620;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+}
+
+html:root body .site-theme-white-green .winner-bundles__intro p:last-child {
+  margin: 0;
+  color: #4c5a52;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+html:root body .site-theme-white-green .winner-bundles__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  gap: clamp(0.9rem, 1.8vw, 1.35rem);
+}
+
+html:root body .site-theme-white-green .winner-bundle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  height: 100%;
+  padding: clamp(1.3rem, 2.2vw, 1.7rem);
+  border: 1px solid rgba(25, 131, 79, 0.16);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217, 255, 120, 0.24), transparent 15rem), #ffffff;
+  box-shadow: 0 24px 54px -46px rgba(11, 47, 32, 0.6);
+  transition:
+    border-color 320ms ease,
+    box-shadow 420ms ease,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html:root body .site-theme-white-green .winner-bundle:hover {
+    border-color: rgba(25, 131, 79, 0.34);
+    box-shadow: 0 30px 64px -44px rgba(11, 47, 32, 0.66);
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+html:root body .site-theme-white-green .winner-bundle__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid rgba(25, 131, 79, 0.2);
+  border-radius: 50%;
+  color: #19834f;
+  background: rgba(217, 255, 120, 0.32);
+}
+
+html:root body .site-theme-white-green .winner-bundle__icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+html:root body .site-theme-white-green .winner-bundle h3 {
+  margin: 0;
+  color: #0b2f20;
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Cena je tu údaj, nie odznak — preto bez plochy, len veľkosťou. */
+html:root body .site-theme-white-green .winner-bundle__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0.25rem 0 0;
+  flex-wrap: wrap;
+}
+
+html:root body .site-theme-white-green .winner-bundle__price b {
+  color: #0b2f20;
+  font-family: var(--font-display, "Inter Tight", Inter, sans-serif);
+  font-size: clamp(1.75rem, 3.4vw, 2.15rem);
+  font-weight: 660;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+html:root body .site-theme-white-green .winner-bundle__price small {
+  color: #4c5a52;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+html:root body .site-theme-white-green .winner-bundle__then {
+  margin: 0;
+  color: #0f6a3e;
+  font-size: 0.86rem;
+  font-weight: 660;
+}
+
+html:root body .site-theme-white-green .winner-bundle__copy {
+  margin: 0.35rem 0 0;
+  color: #4c5a52;
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+html:root body .site-theme-white-green .winner-bundle ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: auto 0 0;
+  padding: 0.95rem 0 0;
+  border-top: 1px solid rgba(11, 47, 32, 0.09);
+  list-style: none;
+}
+
+html:root body .site-theme-white-green .winner-bundle ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: #35443c;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+html:root body .site-theme-white-green .winner-bundle ul li svg {
+  flex: 0 0 auto;
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-top: 0.15rem;
+  color: #19834f;
+}

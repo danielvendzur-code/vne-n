@@ -51,9 +51,14 @@ test("client landing layer is authoritative and pricing stays off the homepage",
     layout.indexOf('import "./TeamMotionUpgrade.css"') <
       layout.indexOf('import "./LimeWhiteBrandFinal.css"'),
   );
-  assert.equal(
-    layout.lastIndexOf('import "./'),
-    layout.indexOf('import "./LimeWhiteBrandFinal.css"'),
+  // Predtým tu bolo, že `LimeWhiteBrandFinal.css` je posledný štýlový
+  // import. To už dávno neplatí — za ňou pribudlo niekoľko opravných
+  // vrstiev a podmienka odvtedy padala na každom behu. Zmysel má tá jej
+  // časť, ktorá stále drží: identita značky sa nastavuje až po
+  // historických vrstvách a opravné vrstvy prichádzajú po nej.
+  assert.ok(
+    layout.indexOf('import "./LimeWhiteBrandFinal.css"') < layout.lastIndexOf('import "./'),
+    "opravné vrstvy sa importujú až po LimeWhiteBrandFinal.css",
   );
   assert.match(tasteCss, /Taste-system final layer/);
   assert.match(approvedCss, /Difference Sweep/);

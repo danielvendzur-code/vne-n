@@ -64,6 +64,13 @@ import "@/components/site/FinalSmoothTexturePolish.css";
 import "@/components/site/WidgetSwipeMotionFinal.css";
 import "@/components/site/VisibilityAndBrandMotionFinal.css";
 import "@/components/site/InteractionRegressionRepair.css";
+// Časová os spolupráce: stopka medzi uzlom a kartou, svetlo na čele
+// koľaje a odhalenie kroku, ktoré je naozaj vidieť.
+import "./ProcessTimelineFinal.css";
+// Karta výberu v hero, reakcia štítkov na kurzor a tmavé druhotné tlačidlá.
+import "./ChipsAndCardFinal.css";
+// Zvýhodnené balíky a skúšobná prevádzka na cenníku.
+import "./OfferBundlesFinal.css";
 import "@/components/site/LaunchReadyFinal.css";
 import "@/components/site/MobileMotionRestoreFinal.css";
 import "@/components/site/SolidWidgetLogoFinal.css";

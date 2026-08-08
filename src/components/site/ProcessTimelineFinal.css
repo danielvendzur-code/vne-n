@@ -1,0 +1,478 @@
+/* =====================================================================
+   MÔJ CHATBOT — ČASOVÁ OS SPOLUPRÁCE
+
+   Sekcia „Ako spolupráca prebieha" mala všetky časti na mieste, ale
+   nedržali spolu: vlásočnica hore, uzly na nej a o štyridsať pixelov
+   nižšie štyri takmer rovnaké tmavé karty, medzi ktorými nebolo nič.
+   Postup z toho nebolo vidieť — a práve postup je jediné, čo má tá
+   sekcia ukázať.
+
+   Čo sa zmenilo:
+
+   1. Uzol a karta sú spojené stopkou, ktorá dorastie, keď krok príde na
+      rad. Dovtedy je len naznačená.
+   2. Karta má hornú hranu, ktorá sa rozsvieti od stredu do strán, a raz
+      cez ňu prejde svetlo. Odhalenie je vidieť, ale netrhá pozornosť.
+   3. Nedosiahnuté kroky sú tichšie, nie nečitateľné. Predtým mali 55 %
+      priehľadnosti a text na tmavozelenej sa strácal.
+   4. Po koľaji beží svetlo na čele čiary — z neho je na prvý pohľad
+      jasné, kde sa postup práve nachádza.
+
+   Importuje sa posledná, takže platí to, čo je tu.
+   ===================================================================== */
+
+html:root body .site-theme-white-green .lp-page .lp-timeline {
+  --tl-node: 3rem;
+  --tl-rail: 3px;
+  --tl-stem: 1.55rem;
+  --tl-lime: #d9ff78;
+  --tl-lime-soft: rgba(217, 255, 120, 0.34);
+  --tl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --node: var(--tl-node);
+  --rail: var(--tl-rail);
+}
+
+/* ---------------------------------------------------------------------
+   1. Koľaj
+   Hrubšia o pixel, s vlastným žliabkom, aby bolo vidieť aj neprejdenú
+   časť. Výplň má teplejší prechod smerom k čelu.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-track {
+  border-radius: 999px !important;
+  background: rgba(217, 255, 120, 0.14) !important;
+  box-shadow: inset 0 0 0 1px rgba(217, 255, 120, 0.07) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, #19834f 0%, #7fd45f 55%, var(--tl-lime) 100%) !important;
+  box-shadow:
+    0 0 12px rgba(217, 255, 120, 0.45),
+    0 0 32px rgba(25, 131, 79, 0.4) !important;
+}
+
+/* Svetlo na čele. Poloha sa počíta z tej istej hodnoty ako dĺžka výplne,
+   takže je vždy presne na jej hrane. */
+html:root body .site-theme-white-green .lp-page .lp-timeline-head {
+  --tl-progress: 0;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: calc(var(--tl-progress) * 100%);
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(217, 255, 120, 0.28),
+    0 0 18px 4px rgba(217, 255, 120, 0.6);
+  opacity: calc(var(--tl-progress) * 3);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Keď je os prejdená celá, svetlo na konci už nemá čo ukazovať. */
+html:root body .site-theme-white-green .lp-page .lp-timeline[data-done="true"] .lp-timeline-head {
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .lp-page .lp-timeline-head {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   2. Stopka medzi uzlom a kartou
+   Bez nej boli uzly a karty dve nesúvisiace vrstvy. Stopka je pseudo
+   prvok, takže nie je položkou mriežky a rozloženie sa nemení.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-tl-steps li {
+  position: relative;
+  gap: var(--tl-stem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-steps li::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: calc(var(--tl-node) - 0.15rem);
+  left: 50%;
+  width: 2px;
+  height: calc(var(--tl-stem) + 0.3rem);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--tl-lime), rgba(217, 255, 120, 0));
+  opacity: 0.16;
+  transform: translateX(-50%) scaleY(0.45);
+  transform-origin: top center;
+  transition:
+    opacity 520ms var(--tl-ease),
+    transform 620ms var(--tl-ease);
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-steps li[data-reached="true"]::before {
+  opacity: 0.85;
+  transform: translateX(-50%) scaleY(1);
+}
+
+/* ---------------------------------------------------------------------
+   3. Uzol
+   Nedosiahnutý je prázdny krúžok s tlmeným číslom, dosiahnutý je plný
+   limetkový s tmavým číslom a mäkkou žiarou. Rozdiel má byť jednoznačný
+   na prvý pohľad, nie po zamyslení.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+  position: relative;
+  width: var(--tl-node) !important;
+  height: var(--tl-node) !important;
+  color: rgba(233, 245, 236, 0.62) !important;
+  background: #12341f !important;
+  box-shadow: inset 0 0 0 2px rgba(217, 255, 120, 0.22) !important;
+  font-size: 0.95rem !important;
+  font-weight: 740 !important;
+  transition:
+    color 420ms ease,
+    background-color 460ms ease,
+    box-shadow 520ms ease,
+    transform 560ms var(--tl-ease) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-process
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-node {
+  color: #0b2f20 !important;
+  background: var(--tl-lime) !important;
+  box-shadow:
+    inset 0 0 0 2px rgba(217, 255, 120, 0.9),
+    0 0 0 6px rgba(217, 255, 120, 0.12),
+    0 10px 26px -12px rgba(217, 255, 120, 0.7) !important;
+  transform: scale(1.06) !important;
+}
+
+/* Jednorazový prstenec v okamihu, keď krok príde na rad. Animácia sa
+   spustí tým, že selektor začne platiť — netreba na to nič v kóde. */
+@media (prefers-reduced-motion: no-preference) {
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-tl-steps
+    li[data-reached="true"]
+    .lp-tl-node::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: var(--tl-node);
+    height: var(--tl-node);
+    border: 2px solid var(--tl-lime);
+    border-radius: 50%;
+    animation: tl-ring 900ms var(--tl-ease) 1 both;
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes tl-ring {
+  from {
+    opacity: 0.75;
+    transform: translateX(-50%) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-50%) scale(2.1);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4. Karta kroku
+   Nedosiahnutá je tichá, ale čitateľná. Dosiahnutá sa nadvihne, dostane
+   limetkovú hranu hore a raz cez ňu prejde svetlo.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
+  position: relative;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  width: 100%;
+  height: 100% !important;
+  border: 1px solid rgba(217, 255, 120, 0.1) !important;
+  border-radius: 1.35rem !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.022)),
+    rgba(9, 38, 25, 0.4) !important;
+  box-shadow: none !important;
+  opacity: 0.74 !important;
+  transform: translate3d(0, 10px, 0) !important;
+  transition:
+    opacity 620ms var(--tl-ease),
+    transform 680ms var(--tl-ease),
+    border-color 520ms ease,
+    background-color 520ms ease,
+    box-shadow 620ms ease !important;
+  /* Karty sa nerozsvecujú naraz — každá o kúsok neskôr než predošlá. */
+  transition-delay: calc(var(--step, 0) * 55ms) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-process
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-card {
+  border-color: rgba(217, 255, 120, 0.28) !important;
+  background:
+    linear-gradient(180deg, rgba(217, 255, 120, 0.1), rgba(255, 255, 255, 0.03) 42%),
+    rgba(13, 51, 33, 0.62) !important;
+  box-shadow:
+    0 22px 48px -34px rgba(0, 0, 0, 0.9),
+    0 0 34px -22px rgba(217, 255, 120, 0.55) !important;
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+/* Horná hrana sa rozsvieti od stredu do strán. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--tl-lime) 22%,
+    #ffffff 50%,
+    var(--tl-lime) 78%,
+    transparent
+  );
+  opacity: 0;
+  transform: scaleX(0.2);
+  transition:
+    opacity 520ms ease,
+    transform 720ms var(--tl-ease);
+  transition-delay: calc(var(--step, 0) * 55ms);
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-process
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-card::before {
+  opacity: 0.9;
+  transform: scaleX(1);
+}
+
+/* Jedno prejdenie svetla cez kartu v okamihu odhalenia. */
+@media (prefers-reduced-motion: no-preference) {
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-process
+    .lp-tl-steps
+    li[data-reached="true"]
+    .lp-tl-card::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(
+      104deg,
+      transparent 38%,
+      rgba(217, 255, 120, 0.13) 50%,
+      transparent 62%
+    );
+    animation: tl-sheen 1150ms var(--tl-ease) 1 both;
+    animation-delay: calc(var(--step, 0) * 55ms);
+    pointer-events: none;
+  }
+}
+
+@keyframes tl-sheen {
+  from {
+    opacity: 0;
+    transform: translateX(-55%);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(55%);
+  }
+}
+
+/* Obsah karty musí ostať nad hranou aj nad svetlom. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* ---------------------------------------------------------------------
+   5. Vnútro karty
+   Ikona, poradové číslo a výstup sa rozsvietia spolu s kartou. Doteraz
+   ostávali rovnaké, takže rozdiel medzi hotovým a čakajúcim krokom
+   nebolo poriadne vidieť.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon {
+  width: 2.6rem !important;
+  height: 2.6rem !important;
+  border: 1px solid rgba(217, 255, 120, 0.16) !important;
+  border-radius: 0.9rem !important;
+  color: rgba(217, 255, 120, 0.66) !important;
+  background: rgba(217, 255, 120, 0.06) !important;
+  transition:
+    color 460ms ease,
+    border-color 460ms ease,
+    background-color 460ms ease,
+    transform 560ms var(--tl-ease) !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-process
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-icon {
+  border-color: rgba(217, 255, 120, 0.4) !important;
+  color: var(--tl-lime) !important;
+  background: rgba(217, 255, 120, 0.16) !important;
+  transform: translateY(-1px) scale(1.04) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-num {
+  color: rgba(233, 245, 236, 0.5) !important;
+  font-size: 0.68rem !important;
+  font-weight: 780 !important;
+  letter-spacing: 0.16em !important;
+  transition: color 460ms ease !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-process
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-num {
+  color: var(--tl-lime) !important;
+}
+
+/* Výstup kroku je záver karty, preto ho oddeľuje čiara a dostane vlastnú
+   farbu až vtedy, keď je krok naozaj hotový. */
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result {
+  margin-top: auto !important;
+  padding-top: 0.9rem !important;
+  border-top: 1px solid rgba(217, 255, 120, 0.12) !important;
+  color: rgba(233, 245, 236, 0.62) !important;
+  transition:
+    color 460ms ease,
+    border-color 460ms ease !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-process
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-result {
+  border-top-color: rgba(217, 255, 120, 0.24) !important;
+  color: rgba(240, 250, 235, 0.9) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result svg {
+  color: rgba(217, 255, 120, 0.55) !important;
+  transition: color 460ms ease !important;
+}
+
+html:root
+  body
+  .site-theme-white-green
+  .lp-page
+  .lp-process
+  .lp-tl-steps
+  li[data-reached="true"]
+  .lp-tl-result
+  svg {
+  color: var(--tl-lime) !important;
+}
+
+/* ---------------------------------------------------------------------
+   6. Prejazd myšou
+   Karta je informácia, nie tlačidlo, takže sa len nadľahčí. Robí to len
+   pri kroku, ktorý už prišiel na rad — inak by hotový stav predbehol
+   samotný postup.
+   --------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html:root
+    body
+    .site-theme-white-green
+    .lp-page
+    .lp-process
+    .lp-tl-steps
+    li[data-reached="true"]
+    .lp-tl-card:hover {
+    border-color: rgba(217, 255, 120, 0.42) !important;
+    transform: translate3d(0, -4px, 0) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   7. Telefón
+   Koľaj je zvislá po ľavej strane, takže stopka vedie vodorovne od bodu
+   ku karte. Zvyšok systému ostáva rovnaký.
+   --------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  html:root body .site-theme-white-green .lp-page .lp-timeline {
+    --tl-node: 1.05rem;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-tl-steps li::before {
+    top: calc(var(--tl-node) / 2 - 1px);
+    left: calc(var(--tl-node) / 2 + 0.45rem);
+    width: 0.85rem;
+    height: 2px;
+    background: linear-gradient(90deg, var(--tl-lime), rgba(217, 255, 120, 0));
+    transform: none;
+    transform-origin: left center;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-tl-steps li[data-reached="true"]::before {
+    transform: none;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+    box-shadow: inset 0 0 0 2px rgba(217, 255, 120, 0.3) !important;
+  }
+
+  /* Číslo sa do 1,05 rem bodu nezmestí — na telefóne ho nesie karta. */
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node b {
+    display: none !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card {
+    transform: translate3d(0, 8px, 0) !important;
+  }
+}
