@@ -1,0 +1,101 @@
+/* Final goal lock.
+   This file exists only to beat historical high-specificity rules that previously
+   kept hero/capability chips white and disabled the approved logo drawing motion. */
+
+html:root body .site-theme-white-green {
+  --goal-green: #19834f;
+  --goal-hover: #c9e7c7;
+  --goal-hover-border: #a7d1ac;
+  --goal-ink: #173126;
+}
+
+/* Marketing choices: explicit attributes intentionally raise specificity above
+   the older white-chip repair layers. */
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-active][data-selected],
+html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"][data-active][data-selected] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: currentColor !important;
+  border-color: var(--goal-green) !important;
+  background: var(--goal-green) !important;
+  background-color: var(--goal-green) !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-active][data-selected] *,
+html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"][data-active][data-selected] * {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-active][data-selected] .lp-hero-pick-icon {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.13) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-active][data-selected]:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"][data-active][data-selected]:is(:hover, :focus-visible) {
+    color: var(--goal-ink) !important;
+    -webkit-text-fill-color: currentColor !important;
+    border-color: var(--goal-hover-border) !important;
+    background: var(--goal-hover) !important;
+    background-color: var(--goal-hover) !important;
+    background-image: none !important;
+    box-shadow: 0 14px 28px -22px rgba(25, 131, 79, 0.25) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-active][data-selected]:is(:hover, :focus-visible) .lp-hero-pick-icon {
+    color: var(--goal-ink) !important;
+    background: rgba(255, 255, 255, 0.48) !important;
+    border-color: rgba(25, 131, 79, 0.12) !important;
+  }
+}
+
+/* The approved mark draws once after load and redraws once on hover/focus.
+   Exact header selectors beat the old animation:none/launch-brand-draw locks. */
+html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark .brand-mark__stroke,
+html:root body .site-theme-white-green .site-menu-brand .brand-mark .brand-mark__stroke,
+html:root body .site-theme-white-green .cw-widget .cw-launcher .brand-mark .brand-mark__stroke,
+html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot .brand-mark .brand-mark__stroke {
+  stroke-width: 7.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  stroke-dasharray: 1 !important;
+  stroke-dashoffset: 1;
+  opacity: 0.12;
+  animation: goal-logo-intro 4.8s cubic-bezier(0.18, 0.72, 0.18, 1) 1 both !important;
+  will-change: stroke-dashoffset, opacity;
+}
+
+@keyframes goal-logo-intro {
+  0% { stroke-dashoffset: 1; opacity: 0.12; }
+  12% { opacity: 0.78; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes goal-logo-redraw {
+  0% { stroke-dashoffset: 1; opacity: 0.18; }
+  12% { opacity: 0.8; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .site-header .site-brand-lockup:is(:hover, :focus-visible) .brand-mark .brand-mark__stroke,
+  html:root body .site-theme-white-green .site-menu-brand:is(:hover, :focus-visible) .brand-mark .brand-mark__stroke,
+  html:root body .site-theme-white-green .cw-widget .cw-launcher:is(:hover, :focus-visible) .brand-mark .brand-mark__stroke,
+  html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot:is(:hover, :focus-visible) .brand-mark .brand-mark__stroke {
+    animation: goal-logo-redraw 3.8s cubic-bezier(0.18, 0.72, 0.18, 1) 1 both !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark .brand-mark__stroke,
+  html:root body .site-theme-white-green .site-menu-brand .brand-mark .brand-mark__stroke,
+  html:root body .site-theme-white-green .cw-widget :is(.cw-launcher, .cw-panel-head__mascot) .brand-mark .brand-mark__stroke {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+  }
+}
