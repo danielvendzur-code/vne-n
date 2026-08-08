@@ -1,6 +1,10 @@
-/* Final goal lock.
-   Loaded after historical layers so selection semantics, chip geometry and logo motion
-   are deterministic on desktop and mobile. */
+/* Final interaction authority.
+   This layer deliberately owns only the user-approved interaction states:
+   - primary CTA: green -> pale green hover
+   - selectable website chips: white -> green hover/selected
+   - live project actions: green -> pale green hover
+   - configurator cards: white, selected by green outline/check
+   - one-stroke logo: one smooth draw on load and again on hover/focus */
 
 @property --goal-logo-offset {
   syntax: "<number>";
@@ -13,26 +17,74 @@ html:root body .site-theme-white-green {
   --goal-hover: #c9e7c7;
   --goal-hover-border: #a7d1ac;
   --goal-ink: #173126;
-  --goal-chip-radius: 16px;
+  --goal-pill: 999px;
 }
 
-/* ------------------------------------------------------------------
-   SELECTABLE WEBSITE CHIPS
-   Unselected = white. Selected = green. Hover = pale green.
-   React renders data-selected="false", so every state selector must test the value,
-   not merely the presence of the attribute.
-   ------------------------------------------------------------------ */
+/* ---------------------------------------------------------------
+   PRIMARY CTA — brand green at rest, pale green only on hover.
+   --------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary,
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta,
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-cta,
+html:root body .site-theme-white-green .lp-page .lp-caps-note button,
+html:root body .site-theme-white-green .lp-page .lp-faq-ask,
+html:root body .site-theme-white-green .sp-page .sp-button.sp-button--primary,
+html:root body .site-theme-white-green .site-consultation-cta {
+  border-color: var(--goal-green) !important;
+  border-radius: var(--goal-pill) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: var(--goal-green) !important;
+  background-color: var(--goal-green) !important;
+  background-image: none !important;
+  box-shadow: 0 12px 28px -22px rgba(25, 131, 79, 0.42) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary *,
+html:root body .site-theme-white-green .lp-page :is(.lp-assistant-cta, .lp-caps-detail-cta, .lp-faq-ask) *,
+html:root body .site-theme-white-green .sp-page .sp-button.sp-button--primary * {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .site-theme-white-green .lp-page .lp-button.lp-hero-cta.lp-hero-cta--primary:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .lp-page :is(.lp-assistant-cta, .lp-caps-detail-cta, .lp-caps-note button, .lp-faq-ask):is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .sp-page .sp-button.sp-button--primary:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .site-consultation-cta:is(:hover, :focus-visible) {
+    border-color: var(--goal-hover-border) !important;
+    color: var(--goal-ink) !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: var(--goal-hover) !important;
+    background-color: var(--goal-hover) !important;
+    background-image: none !important;
+    box-shadow: 0 14px 30px -23px rgba(25, 131, 79, 0.25) !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+/* ---------------------------------------------------------------
+   SELECTABLE WEBSITE CHIPS.
+   Unselected = white. Hover = green. Selected = green.
+   No double ring, no pale selected fill.
+   --------------------------------------------------------------- */
 html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"],
 html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"] {
   min-height: 48px !important;
   border: 1px solid rgba(25, 131, 79, 0.24) !important;
-  border-radius: var(--goal-chip-radius) !important;
+  border-radius: var(--goal-pill) !important;
   color: var(--goal-ink) !important;
   -webkit-text-fill-color: currentColor !important;
   background: #ffffff !important;
   background-color: #ffffff !important;
   background-image: none !important;
-  box-shadow: 0 10px 24px -24px rgba(25, 131, 79, 0.24) !important;
+  box-shadow: none !important;
+  transition:
+    color 190ms ease,
+    background-color 190ms ease,
+    border-color 190ms ease,
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 220ms ease !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"] *,
@@ -43,50 +95,51 @@ html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capabil
 
 html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"] .lp-hero-pick-icon {
   color: var(--goal-green) !important;
-  border-color: rgba(25, 131, 79, 0.1) !important;
-  background: rgba(25, 131, 79, 0.07) !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
-html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-active="true"][data-selected="true"],
-html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"][data-active="true"][data-selected="true"] {
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-selected="true"],
+html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"][data-selected="true"] {
+  border-color: var(--goal-green) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: currentColor !important;
-  border-color: var(--goal-green) !important;
   background: var(--goal-green) !important;
   background-color: var(--goal-green) !important;
   background-image: none !important;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 12px 28px -23px rgba(25, 131, 79, 0.38) !important;
+  box-shadow: 0 12px 26px -23px rgba(25, 131, 79, 0.34) !important;
 }
 
-html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-active="true"][data-selected="true"] .lp-hero-pick-icon {
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-selected="true"] .lp-hero-pick-icon {
   color: #ffffff !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
-  background: rgba(255, 255, 255, 0.13) !important;
+  border: 0 !important;
+  background: transparent !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"]:not([data-selected="true"]):is(:hover, :focus-visible),
   html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"]:not([data-selected="true"]):is(:hover, :focus-visible) {
-    color: var(--goal-ink) !important;
+    border-color: var(--goal-green) !important;
+    color: #ffffff !important;
     -webkit-text-fill-color: currentColor !important;
-    border-color: var(--goal-hover-border) !important;
-    background: var(--goal-hover) !important;
-    background-color: var(--goal-hover) !important;
+    background: var(--goal-green) !important;
+    background-color: var(--goal-green) !important;
     background-image: none !important;
-    box-shadow: 0 14px 28px -22px rgba(25, 131, 79, 0.24) !important;
+    box-shadow: 0 12px 26px -23px rgba(25, 131, 79, 0.34) !important;
     transform: translateY(-1px) !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"]:not([data-selected="true"]):is(:hover, :focus-visible) .lp-hero-pick-icon {
-    color: var(--goal-ink) !important;
-    border-color: rgba(25, 131, 79, 0.12) !important;
-    background: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+    border: 0 !important;
+    background: transparent !important;
   }
 
-  html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"][data-selected="true"]:is(:hover, :focus-visible),
-  html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"][data-selected="true"]:is(:hover, :focus-visible) {
+  html:root body .site-theme-white-green .lp-page :is(.lp-hero-pick, .lp-chip)[data-selected="true"]:is(:hover, :focus-visible) {
+    border-color: var(--goal-green) !important;
+    color: #ffffff !important;
+    background: var(--goal-green) !important;
     transform: translateY(-1px) !important;
   }
 }
@@ -94,46 +147,68 @@ html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip
 @media (hover: none), (pointer: coarse) {
   html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip-kind="hero"]:not([data-selected="true"]):active,
   html:root body .site-theme-white-green .lp-page .lp-chip[data-chip-kind="capability"]:not([data-selected="true"]):active {
-    border-color: var(--goal-hover-border) !important;
-    background: var(--goal-hover) !important;
-    background-color: var(--goal-hover) !important;
+    border-color: var(--goal-green) !important;
+    color: #ffffff !important;
+    background: var(--goal-green) !important;
   }
 }
 
-/* Non-selectable live links use the same exact geometry, but remain brand green. */
-html:root body .site-theme-white-green .lp-page .lp-live-tools a {
-  min-height: 48px !important;
+/* ---------------------------------------------------------------
+   LIVE / PROJECT ACTIONS — same pill geometry, green -> pale hover.
+   --------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-live-tools a,
+html:root body .site-theme-white-green .lp-page .lp-project-copy b,
+html:root body .site-theme-white-green .sp-page .rz-open {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.42rem !important;
+  width: fit-content !important;
+  min-height: 44px !important;
+  padding: 0.58rem 0.92rem !important;
   border: 1px solid var(--goal-green) !important;
-  border-radius: var(--goal-chip-radius) !important;
+  border-radius: var(--goal-pill) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: currentColor !important;
   background: var(--goal-green) !important;
   background-color: var(--goal-green) !important;
   background-image: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-live-tools a *,
+html:root body .site-theme-white-green .lp-page .lp-project-copy b *,
+html:root body .site-theme-white-green .sp-page .rz-open * {
+  color: inherit !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:root body .site-theme-white-green .lp-page .lp-live-tools a:is(:hover, :focus-visible) {
-    color: var(--goal-ink) !important;
+  html:root body .site-theme-white-green .lp-page .lp-live-tools a:is(:hover, :focus-visible),
+  html:root body .site-theme-white-green .lp-page .lp-project > a:is(:hover, :focus-visible) .lp-project-copy b,
+  html:root body .site-theme-white-green .sp-page .rz-card:is(:hover, :focus-visible) .rz-open {
     border-color: var(--goal-hover-border) !important;
+    color: var(--goal-ink) !important;
+    -webkit-text-fill-color: currentColor !important;
     background: var(--goal-hover) !important;
     background-color: var(--goal-hover) !important;
     transform: translateY(-1px) !important;
   }
 }
 
-/* ------------------------------------------------------------------
-   EMBEDDED CONFIGURATOR CHIPS
-   White base, one shared shape, green outline + green check when selected.
-   ------------------------------------------------------------------ */
+/* ---------------------------------------------------------------
+   CONFIGURATOR — deliberate exception.
+   White cards, selected by green outline and green check only.
+   --------------------------------------------------------------- */
 html:root body .site-theme-white-green .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard) {
   border-radius: 18px !important;
   color: var(--goal-ink) !important;
   -webkit-text-fill-color: currentColor !important;
-  border-color: rgba(25, 131, 79, 0.2) !important;
+  border: 1px solid rgba(25, 131, 79, 0.2) !important;
   background: #ffffff !important;
   background-color: #ffffff !important;
   background-image: none !important;
+  box-shadow: 0 10px 24px -24px rgba(25, 131, 79, 0.24) !important;
 }
 
 html:root body .site-theme-white-green .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"],
@@ -143,9 +218,7 @@ html:root body .site-theme-white-green .cw-widget .cw-calculator :is(.cw-rowcard
   background: #ffffff !important;
   background-color: #ffffff !important;
   background-image: none !important;
-  box-shadow:
-    0 0 0 3px rgba(25, 131, 79, 0.08),
-    0 14px 30px -26px rgba(25, 131, 79, 0.3) !important;
+  box-shadow: 0 0 0 3px rgba(25, 131, 79, 0.07) !important;
 }
 
 html:root body .site-theme-white-green .cw-widget .cw-calculator :is(.cw-rowcard, .cw-scard, .cw-opt, .cw-vcard)[data-selected="true"]::after {
@@ -161,15 +234,15 @@ html:root body .site-theme-white-green .cw-widget .cw-calculator :is(.cw-rowcard
     border-color: var(--goal-hover-border) !important;
     background: var(--goal-hover) !important;
     background-color: var(--goal-hover) !important;
+    transform: translateY(-1px) !important;
   }
 }
 
-/* ------------------------------------------------------------------
-   LOGO MOTION
-   The old easing accelerated too early and decelerated too much at the end.
-   This explicit progression starts deliberately, then keeps accelerating through
-   the final third so the line never appears to stall before completion.
-   ------------------------------------------------------------------ */
+/* ---------------------------------------------------------------
+   ONE-STROKE LOGO.
+   Slightly faster overall, but the first part stays deliberate and the
+   last third completes decisively instead of slowing to a crawl.
+   --------------------------------------------------------------- */
 html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark .brand-mark__stroke,
 html:root body .site-theme-white-green .site-menu-brand .brand-mark .brand-mark__stroke,
 html:root body .site-theme-white-green .cw-widget .cw-launcher .brand-mark .brand-mark__stroke,
@@ -181,23 +254,23 @@ html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot .brand-
   stroke-dasharray: 1 !important;
   stroke-dashoffset: var(--goal-logo-offset) !important;
   opacity: 1 !important;
-  animation: goal-logo-intro 4.15s linear 1 both !important;
+  animation: goal-logo-intro 3.7s linear 1 both !important;
   will-change: stroke-dashoffset;
 }
 
 @keyframes goal-logo-intro {
   0% { --goal-logo-offset: 1; }
-  18% { --goal-logo-offset: 0.94; }
-  42% { --goal-logo-offset: 0.72; }
-  70% { --goal-logo-offset: 0.38; }
+  16% { --goal-logo-offset: 0.97; }
+  42% { --goal-logo-offset: 0.73; }
+  70% { --goal-logo-offset: 0.36; }
   100% { --goal-logo-offset: 0; }
 }
 
 @keyframes goal-logo-redraw {
   0% { --goal-logo-offset: 1; }
-  18% { --goal-logo-offset: 0.94; }
-  42% { --goal-logo-offset: 0.72; }
-  70% { --goal-logo-offset: 0.38; }
+  16% { --goal-logo-offset: 0.97; }
+  42% { --goal-logo-offset: 0.73; }
+  70% { --goal-logo-offset: 0.36; }
   100% { --goal-logo-offset: 0; }
 }
 
@@ -206,7 +279,7 @@ html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot .brand-
   html:root body .site-theme-white-green .site-menu-brand:is(:hover, :focus-visible) .brand-mark .brand-mark__stroke,
   html:root body .site-theme-white-green .cw-widget .cw-launcher:is(:hover, :focus-visible) .brand-mark .brand-mark__stroke,
   html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot:is(:hover, :focus-visible) .brand-mark .brand-mark__stroke {
-    animation: goal-logo-redraw 3.45s linear 1 both !important;
+    animation: goal-logo-redraw 3.05s linear 1 both !important;
   }
 }
 
