@@ -2,6 +2,12 @@
    This file exists only to beat historical high-specificity rules that previously
    kept hero/capability chips white and disabled the approved logo drawing motion. */
 
+@property --goal-logo-offset {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
 html:root body .site-theme-white-green {
   --goal-green: #19834f;
   --goal-hover: #c9e7c7;
@@ -53,32 +59,32 @@ html:root body .site-theme-white-green .lp-page .lp-hero .lp-hero-pick[data-chip
   }
 }
 
-/* The approved mark draws once after load and redraws once on hover/focus.
-   Exact header selectors beat the old animation:none/launch-brand-draw locks. */
+/* The historical layers use !important on stroke-dashoffset. Animating that
+   property directly therefore cannot work. We animate a registered custom
+   number instead and feed it into the important dash-offset declaration. */
 html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark .brand-mark__stroke,
 html:root body .site-theme-white-green .site-menu-brand .brand-mark .brand-mark__stroke,
 html:root body .site-theme-white-green .cw-widget .cw-launcher .brand-mark .brand-mark__stroke,
 html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot .brand-mark .brand-mark__stroke {
+  --goal-logo-offset: 1;
   stroke-width: 7.75 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
   stroke-dasharray: 1 !important;
-  stroke-dashoffset: 1;
-  opacity: 0.12;
+  stroke-dashoffset: var(--goal-logo-offset) !important;
+  opacity: 1 !important;
   animation: goal-logo-intro 4.8s cubic-bezier(0.18, 0.72, 0.18, 1) 1 both !important;
-  will-change: stroke-dashoffset, opacity;
+  will-change: stroke-dashoffset;
 }
 
 @keyframes goal-logo-intro {
-  0% { stroke-dashoffset: 1; opacity: 0.12; }
-  12% { opacity: 0.78; }
-  100% { stroke-dashoffset: 0; opacity: 1; }
+  0% { --goal-logo-offset: 1; }
+  100% { --goal-logo-offset: 0; }
 }
 
 @keyframes goal-logo-redraw {
-  0% { stroke-dashoffset: 1; opacity: 0.18; }
-  12% { opacity: 0.8; }
-  100% { stroke-dashoffset: 0; opacity: 1; }
+  0% { --goal-logo-offset: 1; }
+  100% { --goal-logo-offset: 0; }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -94,6 +100,7 @@ html:root body .site-theme-white-green .cw-widget .cw-panel-head__mascot .brand-
   html:root body .site-theme-white-green .site-header .site-brand-lockup .brand-mark .brand-mark__stroke,
   html:root body .site-theme-white-green .site-menu-brand .brand-mark .brand-mark__stroke,
   html:root body .site-theme-white-green .cw-widget :is(.cw-launcher, .cw-panel-head__mascot) .brand-mark .brand-mark__stroke {
+    --goal-logo-offset: 0;
     animation: none !important;
     stroke-dashoffset: 0 !important;
     opacity: 1 !important;
