@@ -257,6 +257,7 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result svg {
   html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
     --mobile-axis: 18px;
     --mobile-dot: 14px;
+    --mobile-dot-half: 7px;
     --mobile-card-left: 58px;
     max-width: none !important;
     margin-top: 1.8rem !important;
@@ -290,8 +291,8 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result svg {
     position: absolute !important;
     z-index: 1 !important;
     top: 28px !important;
-    left: calc(var(--mobile-axis) + (var(--mobile-dot) / 2)) !important;
-    width: calc(var(--mobile-card-left) - var(--mobile-axis) - (var(--mobile-dot) / 2)) !important;
+    left: calc(var(--mobile-axis) + var(--mobile-dot-half)) !important;
+    width: calc(var(--mobile-card-left) - var(--mobile-axis) - var(--mobile-dot-half)) !important;
     height: 1px !important;
     background: rgba(255, 255, 255, 0.11) !important;
     transform-origin: left center !important;
@@ -306,7 +307,7 @@ html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result svg {
   html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
     position: absolute !important;
     top: 21px !important;
-    left: calc(var(--mobile-axis) - (var(--mobile-dot) / 2)) !important;
+    left: calc(var(--mobile-axis) - var(--mobile-dot-half)) !important;
     width: var(--mobile-dot) !important;
     height: var(--mobile-dot) !important;
     box-sizing: border-box !important;
