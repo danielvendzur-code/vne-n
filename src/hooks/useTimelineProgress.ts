@@ -1,4 +1,4 @@
-import { useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import {
   useMotionValue,
   useMotionValueEvent,
@@ -18,14 +18,10 @@ interface Options {
 /**
  * Postupné odhaľovanie časovej osi podľa scrollu.
  *
- * Vracia jedinú hodnotu 0–1, ktorá nie je viazaná na os. Tá istá hodnota
- * poháňa vodorovnú čiaru na širokej obrazovke aj zvislú na mobile — CSS
- * si ju vezme cez premennú a rozhodne, ktorým smerom sa má ťahať.
- *
- * Krok sa rozsvieti, keď čiara prejde jeho stredom. Prahy sa nemerajú
- * z rozloženia, ale počítajú ako (i + 0.5) / count. Odpadá tým meranie
- * `getBoundingClientRect()` aj ResizeObserver, ktoré predtým museli
- * bežať pri každej zmene rozmerov.
+ * Jedna monotónna hodnota 0–1 kreslí čiaru. Prahy jednotlivých krokov sa
+ * po vyrenderovaní zmerajú priamo z reálnej polohy bodiek voči koľaji,
+ * takže bodka zmení stav až v momente, keď ju vizuálne dosiahne čiara —
+ * aj keď má niektorá karta viac textu alebo sa zmení šírka obrazovky.
  */
 export function useTimelineProgress(
   target: RefObject<HTMLElement | null>,
@@ -36,26 +32,69 @@ export function useTimelineProgress(
     target,
     offset: offset as unknown as Parameters<typeof useScroll>[0]["offset"],
   });
-  const spring = useSpring(scrollYProgress, { stiffness: 120, damping: 26, mass: 0.3 });
-  // Čiara ukazuje, kam sa človek dostal, nie kde práve je. Rastie preto
-  // len nahor; keby sa pri ceste späť sťahovala, os by sa rozpadala pred
-  // očami a už rozsvietené kroky by pod sebou nemali čiaru.
+  const spring = useSpring(scrollYProgress, { stiffness: 112, damping: 27, mass: 0.28 });
   const progress = useMotionValue(reducedMotion ? 1 : 0);
   const [reached, setReached] = useState(reducedMotion ? count : 0);
   const lastReached = useRef(reducedMotion ? count : 0);
+  const thresholds = useRef<number[]>([]);
+
+  useEffect(() => {
+    if (reducedMotion) return undefined;
+    const root = target.current;
+    if (!root) return undefined;
+
+    let frame = 0;
+
+    const measure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rail = root.querySelector<HTMLElement>(".lp-timeline-rail");
+        const nodes = Array.from(root.querySelectorAll<HTMLElement>(".lp-tl-node"));
+        if (!rail || nodes.length === 0) return;
+
+        const railRect = rail.getBoundingClientRect();
+        if (railRect.height <= 0) return;
+
+        thresholds.current = nodes.slice(0, count).map((node) => {
+          const nodeRect = node.getBoundingClientRect();
+          const center = nodeRect.top + nodeRect.height / 2;
+          return Math.min(1, Math.max(0, (center - railRect.top) / railRect.height));
+        });
+      });
+    };
+
+    measure();
+
+    const observer =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+    observer?.observe(root);
+    root.querySelectorAll<HTMLElement>(".lp-tl-card").forEach((card) => observer?.observe(card));
+    window.addEventListener("resize", measure, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer?.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [count, reducedMotion, target]);
 
   useMotionValueEvent(spring, "change", (value) => {
     if (reducedMotion) return;
-    if (value > progress.get()) progress.set(value);
+
+    const furthest = Math.max(progress.get(), value);
+    if (furthest > progress.get()) progress.set(furthest);
+
+    const measured = thresholds.current;
+    const fallback = Array.from({ length: count }, (_, index) => (index + 0.5) / count);
+    const activeThresholds = measured.length === count ? measured : fallback;
 
     let next = 0;
-    for (let index = 0; index < count; index += 1) {
-      if (value >= (index + 0.5) / count) next += 1;
+    for (const threshold of activeThresholds) {
+      if (furthest >= threshold) next += 1;
       else break;
     }
-    // Rozsvietené kroky sa už nezhasínajú. Predtým sa počet rátal nanovo
-    // v oboch smeroch, takže pri scrollovaní späť hore karty krokov zase
-    // stmavli na 55 % — hotový text pôsobil, akoby mizol.
+
+    // Odhalený krok ostáva odhalený aj pri scrollovaní späť hore.
     if (next <= lastReached.current) return;
     lastReached.current = next;
     setReached(next);
