@@ -37,7 +37,6 @@ import "./BrandSystemFinal.css";
 import "@/components/site/MobileControlPolish.css";
 import "./ClientLandingFinal.css";
 import "./SiteFinish.css";
-import "./MobileTimelineRepair.css";
 import "./TeamMotionUpgrade.css";
 import "./WhiteGreenIdentityLock.css";
 import "./ApprovedOptionOneFinal.css";
@@ -70,6 +69,7 @@ import "@/components/site/MobileMotionRestoreFinal.css";
 import "@/components/site/SolidWidgetLogoFinal.css";
 import "@/components/site/DarkGreenDominantFinal.css";
 import "@/components/site/DarkChipFinal.css";
+import "@/components/site/MobileTimelineRepair.css";
 import "@/components/site/LaunchReadyRuntime";
 
 const SPOTLIGHT_SURFACES = [
