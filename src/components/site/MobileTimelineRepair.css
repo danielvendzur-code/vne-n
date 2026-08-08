@@ -1,225 +1,270 @@
-/* Mobile timeline repair — authoritative only below 720 px.
-   Historical layers painted the list item as a second card and positioned
-   a second rail. This file reduces the component to one rail + one card. */
+/* Mobile timeline — single authoritative implementation below 880px.
+   Replaces the old layered repairs with one vertical rail, one node and one card per step. */
 
-@media (max-width: 720px) {
-  /* Compact sticky navigation so it does not cover the active step. */
-  html:root body .site-header {
-    padding-block: 5px !important;
-  }
-
-  html:root body .site-header > .container-page {
-    min-height: 50px !important;
-    padding-inline: 10px !important;
-  }
-
-  html:root body .site-header-bar {
-    min-height: 50px !important;
-    border-radius: 15px !important;
-    padding-inline: 10px !important;
-  }
-
-  html:root body .site-header .site-brand-lockup {
-    gap: 8px !important;
-  }
-
-  html:root body .site-header .site-brand-lockup .brand-mark {
-    width: 29px !important;
-    height: 29px !important;
-    flex: 0 0 29px !important;
-  }
-
-  html:root body .site-header .site-brand-name {
-    font-size: 0.78rem !important;
-    letter-spacing: -0.02em !important;
-  }
-
-  html:root body .site-header .site-menu-toggle {
-    width: 40px !important;
-    min-width: 40px !important;
-    height: 40px !important;
-    border: 0 !important;
-    border-radius: 12px !important;
-    background: transparent !important;
-  }
-
-  html:root body .lp-page .lp-process .container-page,
-  html:root body .sp-page--process .container-page {
-    padding-inline: 14px !important;
-  }
-
-  html:root body .lp-page .lp-process-grid {
-    gap: 2.4rem !important;
-  }
-
-  html:root body .lp-page .lp-timeline-wrap,
-  html:root body .sp-page--process .sp-timeline-wrap {
-    --timeline-axis: 10px;
-    margin-top: 1.65rem !important;
-    padding-left: 0 !important;
+@media (max-width: 880px) {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline {
+    --mobile-node: 34px;
+    --mobile-axis: 16px;
+    position: relative !important;
+    width: 100% !important;
+    margin: 2.2rem 0 0 !important;
+    padding: 0 !important;
     overflow: visible !important;
   }
 
-  /* Disable the obsolete wrapper rail; the list owns the only active rail. */
-  html:root body .lp-page .lp-timeline-wrap::before,
-  html:root body .sp-page--process .sp-timeline-wrap::before {
-    content: none !important;
-    display: none !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-rail {
+    position: absolute !important;
+    z-index: 0 !important;
+    top: 17px !important;
+    right: auto !important;
+    bottom: 17px !important;
+    left: var(--mobile-axis) !important;
+    width: 3px !important;
+    height: auto !important;
+    margin: 0 !important;
+    pointer-events: none !important;
+    transform: none !important;
   }
 
-  html:root body .sp-page--process .sp-timeline {
-    gap: 1rem !important;
+  html:root body .site-theme-white-green .lp-page .lp-process :is(.lp-timeline-track, .lp-timeline-fill) {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 3px !important;
+    height: 100% !important;
+    border-radius: 999px !important;
   }
 
-  html:root body .sp-page--process .sp-timeline::before,
-  html:root body .lp-page .lp-timeline-progress,
-  html:root body .sp-page--process .sp-timeline-progress {
-    left: var(--timeline-axis) !important;
-    width: 2px !important;
-    margin-left: -1px !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-track {
+    background: rgba(11, 47, 32, 0.14) !important;
+    box-shadow: inset 0 0 0 1px rgba(11, 47, 32, 0.03) !important;
   }
 
-  html:root body .sp-page--process .sp-timeline-item,
-  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill {
+    --tl-progress: 0;
+    transform-origin: center top !important;
+    transform: scaleY(var(--tl-progress)) !important;
+    background: linear-gradient(180deg, #0b2f20 0%, #19834f 74%, #d9ff78 100%) !important;
+    box-shadow: 0 0 12px rgba(25, 131, 79, 0.22) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-timeline-fill[data-static="true"] {
+    transform: none !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
+    position: relative !important;
+    z-index: 1 !important;
     display: grid !important;
-    grid-template-columns: 27px minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: none !important;
+    gap: 18px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] {
+    position: relative !important;
+    display: block !important;
     width: 100% !important;
     min-width: 0 !important;
     min-height: 0 !important;
-    gap: 0 !important;
-    padding: 0 !important;
+    margin: 0 !important;
+    padding: 0 0 0 58px !important;
     border: 0 !important;
-    border-radius: 0 !important;
     background: transparent !important;
     box-shadow: none !important;
-    overflow: visible !important;
+    transform: none !important;
   }
 
-  html:root body .sp-page--process .sp-timeline-item .sp-step,
-  html:root body .sp-page--process .sp-timeline-item[data-side="left"] .sp-step,
-  html:root body .sp-page--process .sp-timeline-item[data-side="right"] .sp-step {
-    grid-column: 2 !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    padding: 17px 15px 16px !important;
-    border: 1px solid rgba(179, 233, 208, 0.18) !important;
-    border-radius: 18px !important;
-    text-align: left !important;
-    background:
-      radial-gradient(circle at 88% 0%, rgba(179, 233, 208, 0.08), transparent 45%), #12100e !important;
-    box-shadow: 0 20px 48px -40px rgba(0, 0, 0, 0.96) !important;
-    overflow: hidden !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node {
+    position: absolute !important;
+    z-index: 3 !important;
+    top: 18px !important;
+    right: auto !important;
+    left: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    width: var(--mobile-node) !important;
+    height: var(--mobile-node) !important;
+    margin: 0 !important;
+    border: 2px solid rgba(11, 47, 32, 0.42) !important;
+    border-radius: 50% !important;
+    color: #0b2f20 !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 5px #f5f9f2 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition:
+      color 360ms ease,
+      background-color 360ms ease,
+      border-color 360ms ease,
+      box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step {
-    border-color: rgba(179, 233, 208, 0.32) !important;
-    box-shadow: 0 22px 56px -42px rgba(179, 233, 208, 0.35) !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-node b {
+    font-size: 0.78rem !important;
+    font-weight: 820 !important;
+    line-height: 1 !important;
   }
 
-  /* Nodes sit beside the step label,
-html:root body .sp-page--process .sp-step-node{
-    left: var(--timeline-axis) !important;
-    top: 27px !important;
-    width: 17px !important;
-    height: 17px !important;
-    border-width: 2px !important;
-    background: #100b08 !important;
-    box-shadow: 0 0 0 4px #0a0908 !important;
-  }
-
-  html:root body .sp-page--process .sp-step-node > i{
-    width: 7px !important;
-    height: 7px !important;
-  }
-
-  html:root body .sp-page--process .sp-timeline-item[data-reached="true"] .sp-step-node{
-    background: #100b08 !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-node {
+    color: #ffffff !important;
+    border-color: #0b2f20 !important;
+    background: #0b2f20 !important;
     box-shadow:
-      0 0 0 4px #0a0908,
-      0 0 0 6px rgba(179, 233, 208, 0.1),
-      0 0 20px rgba(179, 233, 208, 0.4) !important;
+      0 0 0 5px #f5f9f2,
+      0 0 0 7px rgba(217, 255, 120, 0.58),
+      0 8px 22px -13px rgba(11, 47, 32, 0.7) !important;
+    animation: mobile-timeline-node-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
   }
 
-  html:root body .lp-page .lp-step-icon {
-    display: none !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 18px 17px 17px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(11, 47, 32, 0.11) !important;
+    border-radius: 22px !important;
+    color: #0b2f20 !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    box-shadow: 0 18px 42px -34px rgba(11, 47, 32, 0.42) !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition:
+      border-color 420ms ease,
+      box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 420ms ease !important;
   }
 
-  html:root body .lp-page .lp-step-num,
-  html:root body .sp-page--process .sp-step-label {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.42rem !important;
-    margin: 0 0 0.62rem !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
+    border-color: rgba(11, 47, 32, 0.28) !important;
+    background: linear-gradient(145deg, #ffffff 0%, #fbfef8 72%, #f4ffd7 145%) !important;
+    box-shadow:
+      0 22px 50px -34px rgba(11, 47, 32, 0.5),
+      inset 0 0 0 1px rgba(217, 255, 120, 0.16) !important;
+    animation: mobile-timeline-card-enter 600ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon {
+    display: grid !important;
+    place-items: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 0 12px !important;
+    border: 1px solid rgba(11, 47, 32, 0.12) !important;
+    border-radius: 13px !important;
+    color: #19834f !important;
+    background: #eef8f1 !important;
+    box-shadow: none !important;
+    transition:
+      color 360ms ease,
+      background-color 360ms ease,
+      border-color 360ms ease !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-icon {
+    color: #d9ff78 !important;
+    border-color: #0b2f20 !important;
+    background: #0b2f20 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-num {
+    display: block !important;
+    margin: 0 !important;
+    color: #19834f !important;
     font-size: 0.66rem !important;
-    font-weight: 780 !important;
-    letter-spacing: 0.13em !important;
+    font-weight: 820 !important;
+    letter-spacing: 0.12em !important;
     line-height: 1.2 !important;
     text-transform: uppercase !important;
   }
 
-  html:root body .sp-page--process .sp-step h2{
-    max-width: 100% !important;
-    margin: 0 !important;
-    font-size: clamp(1.24rem, 5.7vw, 1.48rem) !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card h3 {
+    margin: 6px 0 0 !important;
+    color: #0b2f20 !important;
+    font-family: "Inter Tight", Inter, sans-serif !important;
+    font-size: clamp(1.24rem, 5.4vw, 1.52rem) !important;
     font-weight: 690 !important;
-    letter-spacing: -0.035em !important;
-    line-height: 1.1 !important;
-    overflow-wrap: anywhere !important;
-    word-break: normal !important;
-    text-wrap: pretty !important;
+    letter-spacing: -0.038em !important;
+    line-height: 1.08 !important;
+    text-wrap: balance !important;
   }
 
-  html:root body .sp-page--process .sp-step > p:not(.sp-step-label){
-    max-width: 100% !important;
-    margin: 0.68rem 0 0 !important;
-    font-size: 0.91rem !important;
-    line-height: 1.5 !important;
-    overflow-wrap: anywhere !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card > p:not(.lp-tl-result) {
+    margin: 10px 0 0 !important;
+    color: #536159 !important;
+    font-size: 0.92rem !important;
+    line-height: 1.52 !important;
   }
 
-  html:root body .lp-page .lp-step-result {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card .lp-tl-result {
     display: grid !important;
-    grid-template-columns: 15px minmax(0, 1fr) !important;
+    grid-template-columns: 18px minmax(0, 1fr) !important;
     align-items: start !important;
-    gap: 0.45rem !important;
-    margin-top: 0.82rem !important;
-    padding-top: 0.78rem !important;
-    font-size: 0.78rem !important;
+    gap: 8px !important;
+    margin: 14px 0 0 !important;
+    padding: 12px 0 0 !important;
+    border-top: 1px solid rgba(11, 47, 32, 0.11) !important;
+    color: #19834f !important;
+    font-size: 0.8rem !important;
     font-weight: 680 !important;
-    line-height: 1.42 !important;
-    overflow-wrap: anywhere !important;
+    line-height: 1.45 !important;
   }
 
-  html:root body .lp-page .lp-step-result svg {
-    width: 14px !important;
-    height: 14px !important;
-    margin-top: 0.12rem !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-result svg {
+    width: 16px !important;
+    height: 16px !important;
+    margin-top: 1px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps {
+    gap: 14px !important;
   }
 
-  html:root body .sp-page--process .sp-chip-row {
-    gap: 0.38rem !important;
-    margin-top: 0.9rem !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] {
+    padding-left: 54px !important;
   }
 
-  html:root body .sp-page--process .sp-chip-row .chip {
-    padding: 0.45rem 0.62rem !important;
-    font-size: 0.69rem !important;
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-card,
+  html:root body .site-theme-white-green .lp-page .lp-process .lp-tl-steps > li[data-reached="true"] .lp-tl-card {
+    padding: 16px 15px 15px !important;
+    border-radius: 20px !important;
   }
+}
 
-  /* Keep the launcher available without letting it cover most of a card. */
-  html:root body #site-assistant-widget-host {
-    right: 7px !important;
-    bottom: max(8px, env(safe-area-inset-bottom)) !important;
-    transform: scale(0.78) !important;
-    transform-origin: right bottom !important;
-  }
+@keyframes mobile-timeline-node-enter {
+  0% { transform: scale(0.82); }
+  62% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
 
-  html:root body #dv-assistant-fallback {
-    right: 10px !important;
-    bottom: max(10px, env(safe-area-inset-bottom)) !important;
-    min-height: 52px !important;
-    padding: 8px 11px !important;
-    transform: scale(0.88) !important;
-    transform-origin: right bottom !important;
+@keyframes mobile-timeline-card-enter {
+  0% { opacity: 0.84; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .site-theme-white-green .lp-page .lp-process :is(.lp-tl-node, .lp-tl-card) {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
   }
 }
