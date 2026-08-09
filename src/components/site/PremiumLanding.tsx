@@ -1003,56 +1003,76 @@ function FaqSection() {
 function ProcessTimeline() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  // Os sa plní, kým prechádza obrazovkou, a je hotová skôr, než z nej
-  // odíde. S pôvodným rozsahom sa posledný krok rozsvietil až vtedy, keď
-  // už bola koľaj dávno nad horným okrajom.
-  const { progress, reached } = useTimelineProgress(wrapRef, {
-    offset: ["start 0.95", "end 0.85"],
+  // Os sa plní, kým sekcia prechádza obrazovkou, a je hotová skôr, než z nej
+  // odíde. S pôvodným rozsahom sa posledný krok rozsvietil až vtedy, keď už
+  // bola koľaj dávno nad horným okrajom.
+  const { progress, reached, active } = useTimelineProgress(wrapRef, {
+    offset: ["start 0.95", "end 0.6"],
     count: process.length,
+    nodeSelector: ".lp-tl-node",
+    railSelector: ".lp-timeline-rail",
   });
 
   return (
     <div
       className="lp-timeline"
+      data-tl="story"
       ref={wrapRef}
       style={{ "--steps": process.length } as React.CSSProperties}
     >
-      {/* Koľaj a čiara, ktorá po nej narastá. Smer si vyberá CSS podľa
-          šírky obrazovky — na širokej doprava, na mobile nadol. */}
-      <div className="lp-timeline-rail" aria-hidden="true">
-        <span className="lp-timeline-track" />
-        {reducedMotion ? (
+      {/* Koľaj a čiara, ktorá po nej narastá. Smer si vyberá CSS podľa šírky
+          obrazovky — na počítači vodorovne cez celú sekciu, na mobile nadol.
+          Hodnotu drží jedna premenná, takže rovnaká čiara aj svetlo na jej
+          čele fungujú v oboch smeroch. */}
+      {reducedMotion ? (
+        <div className="lp-timeline-rail" aria-hidden="true">
+          <span className="lp-timeline-track" />
           <span className="lp-timeline-fill" data-static="true" />
-        ) : (
+        </div>
+      ) : (
+        <motion.div
+          className="lp-timeline-rail"
+          aria-hidden="true"
+          style={{ "--tl-progress": progress } as React.CSSProperties}
+        >
+          <span className="lp-timeline-track" />
           <motion.span
             className="lp-timeline-fill"
             style={{ "--tl-progress": progress } as React.CSSProperties}
           />
-        )}
-      </div>
+          <span className="lp-timeline-head" />
+        </motion.div>
+      )}
 
       <ol className="lp-tl-steps">
-        {process.map(({ icon: Icon, title, copy, result }, index) => (
-          <li key={title} data-reached={reducedMotion || index < reached}>
-            {/* Uzol na koľaji. Na širokej obrazovke je to plný krúžok
-                s poradovým číslom — tak vyzeral, kým fungoval najlepšie.
-                Na mobile ostáva prázdny bod, ktorý sa vyplní. */}
-            <span className="lp-tl-node" aria-hidden="true">
-              <b>{index + 1}</b>
-            </span>
-            <div className="lp-tl-card">
-              <span className="lp-tl-icon" aria-hidden="true">
-                <Icon />
+        {process.map(({ icon: Icon, title, copy, result }, index) => {
+          const done = reducedMotion || index < reached;
+          return (
+            <li
+              key={title}
+              data-reached={done}
+              // „active“ je krok, ku ktorému čiara práve dorástla — ostáva
+              // o stupeň jasnejší, kým ho nevystrieda ďalší.
+              data-state={done ? (index === active ? "active" : "done") : "pending"}
+              style={{ "--i": index } as React.CSSProperties}
+            >
+              <span className="lp-tl-node" aria-hidden="true">
+                <b>{`0${index + 1}`}</b>
               </span>
-              <span className="lp-tl-num">Krok 0{index + 1}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-              <p className="lp-tl-result">
-                <Check aria-hidden="true" /> {result}
-              </p>
-            </div>
-          </li>
-        ))}
+              <div className="lp-tl-card">
+                <span className="lp-tl-icon" aria-hidden="true">
+                  <Icon />
+                </span>
+                <span className="lp-tl-num">Krok 0{index + 1}</span>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+                <p className="lp-tl-result">
+                  <Check aria-hidden="true" /> {result}
+                </p>
+              </div>
+            </li>
+          );
+        })}
       </ol>
     </div>
   );

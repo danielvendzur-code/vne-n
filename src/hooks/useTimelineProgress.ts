@@ -13,20 +13,41 @@ interface Options {
   offset: [string, string];
   /** Koľko krokov je na časovej osi. */
   count: number;
+  /** Uzly, podľa ktorých sa spresnia prahy jednotlivých krokov. */
+  nodeSelector?: string;
+  /**
+   * Koľaj, ktorá určuje os. Keď je širšia než vyššia, os je vodorovná —
+   * na počítači tak tá istá logika obslúži aj štyri kroky vedľa seba.
+   */
+  railSelector?: string;
 }
+
+interface Timeline {
+  progress: MotionValue<number>;
+  /** Koľko krokov už čiara prešla. */
+  reached: number;
+  /** Index kroku, ktorý sa práve rozsvietil; -1 kým sa nezačalo. */
+  active: number;
+}
+
+/** Pružina sa k jednotke blíži asymptoticky, posledný prah preto potrebuje vôľu. */
+const EPSILON = 0.006;
+
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
 /**
  * Scroll-driven timeline.
  *
  * Základné prahy ostávajú matematické. Po prvom layoute ich jednorazovo
  * spresníme podľa skutočných stredov bodiek; znovu sa prepočítajú len po
- * resize/orientation change a po načítaní fontov. Počas scrollu sa layout
- * nikdy nemeria — rastie iba jedna MotionValue.
+ * resize/orientation change, po načítaní fontov a keď sekcia dostane skutočné
+ * rozmery (`content-visibility: auto` ju do prvého zobrazenia nerozkladá).
+ * Počas scrollu sa layout nikdy nemeria — rastie iba jedna MotionValue.
  */
 export function useTimelineProgress(
   target: RefObject<HTMLElement | null>,
-  { offset, count }: Options,
-): { progress: MotionValue<number>; reached: number } {
+  { offset, count, nodeSelector = ".lp-tl-node", railSelector }: Options,
+): Timeline {
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target,
@@ -42,40 +63,74 @@ export function useTimelineProgress(
 
   useLayoutEffect(() => {
     const root = target.current;
-    if (!root || reducedMotion) return;
+    // Meria sa aj pri obmedzenom pohybe: prahy vtedy nikto nečíta, ale koľaj
+    // musí aj v statickom obraze začínať v prvej bodke a končiť v poslednej.
+    if (!root) return;
 
     const measure = () => {
       const rootRect = root.getClientRects().item(0);
-      if (!rootRect) return;
+      if (!rootRect || rootRect.height < 1) return;
 
-      const nodes = Array.from(root.querySelectorAll<HTMLElement>(".lp-tl-node")).slice(0, count);
+      const nodes = Array.from(root.querySelectorAll<HTMLElement>(nodeSelector)).slice(0, count);
       if (nodes.length !== count) return;
 
-      const centres = nodes.map((node) => {
-        const rect = node.getClientRects().item(0);
-        if (!rect) return 0;
-        return rect.top + rect.height / 2 - rootRect.top;
-      });
+      const rects = nodes.map((node) => node.getClientRects().item(0));
+      if (rects.some((rect) => !rect)) return;
 
-      const first = centres[0] ?? 0;
-      const last = centres[centres.length - 1] ?? rootRect.height;
-      const railStart = Math.max(0, first - 18);
-      const railEnd = Math.min(rootRect.height, Math.max(railStart + 1, last + 18));
-      const railLength = Math.max(1, railEnd - railStart);
+      // Os si nevyberá mediálny dotaz v JS, ale skutočný tvar koľaje. Vodorovná
+      // koľaj na počítači a zvislá na mobile tak zdieľajú jeden výpočet.
+      const rail = railSelector ? root.querySelector<HTMLElement>(railSelector) : null;
+      const railRect = rail?.getClientRects().item(0) ?? null;
+      const horizontal = railRect ? railRect.width > railRect.height : false;
 
-      root.style.setProperty("--tl-rail-top", `${railStart}px`);
-      root.style.setProperty("--tl-rail-bottom", `${Math.max(0, rootRect.height - railEnd)}px`);
-      thresholds.current = centres.map((centre) =>
-        Math.min(1, Math.max(0, (centre - railStart) / railLength)),
+      const centres = rects.map((rect) =>
+        horizontal
+          ? rect!.left + rect!.width / 2 - rootRect.left
+          : rect!.top + rect!.height / 2 - rootRect.top,
       );
+
+      const span = horizontal ? rootRect.width : rootRect.height;
+      const first = centres[0] ?? 0;
+      const last = centres[centres.length - 1] ?? span;
+      const railStart = clamp01(Math.min(first, last) / span) * span;
+      const railEnd = Math.min(span, Math.max(railStart + 1, Math.max(first, last)));
+      const railLength = railEnd - railStart;
+
+      // Koľaj začína presne v strede prvej bodky a končí v strede poslednej,
+      // takže výplň dorazí k uzlu v ten istý moment, v ktorom sa rozsvieti.
+      root.style.setProperty("--tl-rail-start", `${railStart}px`);
+      root.style.setProperty("--tl-rail-end", `${Math.max(0, span - railEnd)}px`);
+      if (!horizontal) {
+        // Staršia mobilná vrstva pozná ešte pôvodné názvy.
+        root.style.setProperty("--tl-rail-top", `${railStart}px`);
+        root.style.setProperty("--tl-rail-bottom", `${Math.max(0, span - railEnd)}px`);
+      }
+
+      // Pružina sa k jednotke blíži asymptoticky, posledný uzol by sa preto pri
+      // presnom prahu 1 nikdy nerozsvietil. Strop 0,96 je vizuálne nerozoznateľný
+      // — čiara je v tej chvíli tesne pri bodke.
+      const measured = centres.map((centre) =>
+        Math.min(0.96, clamp01((centre - railStart) / railLength)),
+      );
+      // Ak sa kroky ešte neusadili, ostávame na matematickom rozdelení.
+      const usable = measured.some((value, index) => index > 0 && value > measured[index - 1]!);
+      if (usable) thresholds.current = measured;
     };
 
     measure();
+
+    const observer =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => measure());
+    observer?.observe(root);
+
     window.addEventListener("resize", measure, { passive: true });
     void document.fonts?.ready.then(measure).catch(() => undefined);
 
-    return () => window.removeEventListener("resize", measure);
-  }, [count, reducedMotion, target]);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [count, nodeSelector, railSelector, reducedMotion, target]);
 
   useMotionValueEvent(spring, "change", (value) => {
     if (reducedMotion) return;
@@ -86,7 +141,8 @@ export function useTimelineProgress(
 
     let next = 0;
     for (let index = 0; index < count; index += 1) {
-      if (furthest >= (thresholds.current[index] ?? (index + 0.5) / count)) next += 1;
+      const threshold = thresholds.current[index] ?? (index + 0.5) / count;
+      if (furthest >= threshold - EPSILON) next += 1;
       else break;
     }
 
@@ -95,5 +151,6 @@ export function useTimelineProgress(
     setReached(next);
   });
 
-  return { progress, reached: reducedMotion ? count : reached };
+  const settled = reducedMotion ? count : reached;
+  return { progress, reached: settled, active: settled - 1 };
 }

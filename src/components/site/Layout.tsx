@@ -71,6 +71,8 @@ import "@/components/site/DarkGreenDominantFinal.css";
 import "@/components/site/DarkChipFinal.css";
 import "@/components/site/MobileTimelineRepair.css";
 import "@/components/site/GoalLockFinal.css";
+/* Časová os „Ako spolupráca prebieha“ — jediná vrstva, ktorá ju drží. */
+import "@/components/site/ProcessTimelineStory.css";
 import "@/components/site/LaunchReadyRuntime";
 
 const SPOTLIGHT_SURFACES = [

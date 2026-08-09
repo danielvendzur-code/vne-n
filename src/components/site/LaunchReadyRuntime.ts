@@ -11,7 +11,9 @@ const MOBILE_MOTION_SELECTOR = [
   ".lp-live-tools",
   ".lp-caps-row",
   ".lp-faq-item",
-  ".lp-tl-card",
+  // Karty časovej osi sem nepatria: majú vlastné odhaľovanie viazané na to,
+  // kam dorástla čiara. Doplnková animácia s `both` ho prebíjala a karta sa
+  // objavila skôr, než k nej os dorazila.
   ".lp-final-card",
   ".derat-story__mobile-slide",
   ".sp-hero",

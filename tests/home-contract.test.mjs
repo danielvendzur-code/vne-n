@@ -183,6 +183,7 @@ test("lead endpoint runs on our own domain and never leaks the key", async () =>
 test("process reads as a timeline, not three empty boxes", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const css = await read("src/components/site/LandingFinish.css");
+  const story = await read("src/components/site/ProcessTimelineStory.css");
   const hook = await read("src/hooks/useTimelineProgress.ts");
 
   // Kroky sú vedľa seba a spája ich jedna narastajúca čiara.
@@ -194,13 +195,29 @@ test("process reads as a timeline, not three empty boxes", async () => {
   // os tak funguje vodorovne na širokej obrazovke aj zvislo na mobile.
   assert.match(css, /scaleX\(var\(--tl-progress\)\)/);
   assert.match(css, /scaleY\(var\(--tl-progress\)\)/);
-  // Prahy sa počítajú, nemerajú — odpadlo tým meranie rozloženia aj
-  // pozorovateľ rozmerov, ktorý musel bežať pri každej zmene veľkosti.
+  assert.match(story, /scaleX\(var\(--tl-progress, 0\)\)/);
+  assert.match(story, /scaleY\(var\(--tl-progress, 0\)\)/);
+
+  // Nezačatý krok nie je prázdny obdĺžnik — ikona a nadpis sú naznačené
+  // a doplní ich zvyšok obsahu, až keď k nim čiara dorastie.
+  assert.match(story, /li:not\(\[data-reached="true"\]\)/);
+
+  // Matematické prahy ostávajú ako záloha do prvého merania. Odkedy je os
+  // na počítači vodorovná, sedia bodky na 0, ⅓, ⅔ a 1 dĺžky koľaje — pri
+  // rovnomernom rozdelení by sa uzol rozsvietil viditeľne mimo čiary, preto
+  // sa prahy dopočítajú zo skutočných stredov bodiek. Sekcia má
+  // `content-visibility: auto`, takže sa rozloží až pri prvom zobrazení;
+  // `ResizeObserver` je to, čo vtedy meranie zopakuje.
   assert.match(hook, /progress/);
   assert.match(hook, /\(index \+ 0\.5\) \/ count/);
+  assert.match(hook, /new ResizeObserver\(/);
   assert.doesNotMatch(hook, /\.getBoundingClientRect\(/);
-  assert.doesNotMatch(hook, /new ResizeObserver\(/);
   assert.doesNotMatch(hook, /useEffect\(/);
+
+  // Počas scrollu sa layout nikdy nemeria — obsluha zmeny hodnoty pružiny
+  // pracuje len s číslami, ktoré už sú spočítané.
+  const onChange = hook.slice(hook.indexOf('useMotionValueEvent(spring, "change"'));
+  assert.doesNotMatch(onChange, /getClientRects|querySelectorAll|offsetHeight|offsetWidth/);
 });
 
 test("primary buttons keep readable ink on the light brand colour", async () => {
