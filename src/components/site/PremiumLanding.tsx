@@ -1006,11 +1006,10 @@ function ProcessTimeline() {
   // Os sa plní, kým sekcia prechádza obrazovkou, a je hotová skôr, než z nej
   // odíde. S pôvodným rozsahom sa posledný krok rozsvietil až vtedy, keď už
   // bola koľaj dávno nad horným okrajom.
-  const { progress, reached, active } = useTimelineProgress(wrapRef, {
+  const { progress, reached, active, geometry } = useTimelineProgress(wrapRef, {
     offset: ["start 0.95", "end 0.6"],
     count: process.length,
     nodeSelector: ".lp-tl-node",
-    railSelector: ".lp-timeline-rail",
   });
 
   return (
@@ -1020,29 +1019,71 @@ function ProcessTimeline() {
       ref={wrapRef}
       style={{ "--steps": process.length } as React.CSSProperties}
     >
-      {/* Koľaj a čiara, ktorá po nej narastá. Smer si vyberá CSS podľa šírky
-          obrazovky — na počítači vodorovne cez celú sekciu, na mobile nadol.
-          Hodnotu drží jedna premenná, takže rovnaká čiara aj svetlo na jej
-          čele fungujú v oboch smeroch. */}
-      {reducedMotion ? (
-        <div className="lp-timeline-rail" aria-hidden="true">
-          <span className="lp-timeline-track" />
-          <span className="lp-timeline-fill" data-static="true" />
-        </div>
-      ) : (
-        <motion.div
+      {/* Kroky nie sú v rade — každý je kúsok nižšie a kúsok bokom od
+          predošlého — takže ich nespája úsečka, ale dráha vedená stredmi
+          bodiek. Kreslí sa odkrývaním ťahu, takže tá istá dráha platí pre
+          kaskádu na počítači aj pre rovný stĺpec na mobile. */}
+      {geometry ? (
+        <svg
           className="lp-timeline-rail"
           aria-hidden="true"
-          style={{ "--tl-progress": progress } as React.CSSProperties}
+          width={geometry.width}
+          height={geometry.height}
+          viewBox={`0 0 ${geometry.width} ${geometry.height}`}
+          preserveAspectRatio="none"
+          fill="none"
         >
-          <span className="lp-timeline-track" />
-          <motion.span
-            className="lp-timeline-fill"
-            style={{ "--tl-progress": progress } as React.CSSProperties}
-          />
-          <span className="lp-timeline-head" />
-        </motion.div>
-      )}
+          <defs>
+            <linearGradient
+              id="lp-tl-flow"
+              gradientUnits="userSpaceOnUse"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2={geometry.height}
+            >
+              <stop offset="0%" stopColor="#d9ff78" />
+              <stop offset="52%" stopColor="#b9ed4d" />
+              <stop offset="100%" stopColor="#62ce91" />
+            </linearGradient>
+          </defs>
+          <path className="lp-timeline-track" d={geometry.path} />
+          {reducedMotion ? (
+            <path
+              className="lp-timeline-fill"
+              data-static="true"
+              d={geometry.path}
+              style={{ "--tl-length": geometry.length } as React.CSSProperties}
+            />
+          ) : (
+            <motion.path
+              className="lp-timeline-fill"
+              d={geometry.path}
+              style={
+                {
+                  "--tl-length": geometry.length,
+                  "--tl-progress": progress,
+                } as React.CSSProperties
+              }
+            />
+          )}
+        </svg>
+      ) : null}
+
+      {/* Svetlo na čele čiary. Po dráhe ho vedie `offset-path`, takže sa aj v
+          zákrutách drží presne na ťahu a nič sa kvôli nemu nepočíta po snímkach. */}
+      {geometry && !reducedMotion ? (
+        <motion.span
+          className="lp-timeline-head"
+          aria-hidden="true"
+          style={
+            {
+              "--tl-progress": progress,
+              offsetPath: `path("${geometry.path}")`,
+            } as React.CSSProperties
+          }
+        />
+      ) : null}
 
       <ol className="lp-tl-steps">
         {process.map(({ icon: Icon, title, copy, result }, index) => {

@@ -186,33 +186,41 @@ test("process reads as a timeline, not three empty boxes", async () => {
   const story = await read("src/components/site/ProcessTimelineStory.css");
   const hook = await read("src/hooks/useTimelineProgress.ts");
 
-  // Kroky sú vedľa seba a spája ich jedna narastajúca čiara.
+  // Kroky spája jedna narastajúca čiara. `LandingFinish` ostáva základnou
+  // vrstvou rozloženia, samotnú os však celú drží `ProcessTimelineStory`.
   assert.match(landing, /lp-timeline-rail/);
   assert.match(landing, /lp-timeline-fill/);
   assert.match(css, /grid-template-columns: repeat\(var\(--steps, 3\)/);
 
-  // Smer čiary si vyberá CSS, hodnotu dodáva jedna premenná — tá istá
-  // os tak funguje vodorovne na širokej obrazovke aj zvislo na mobile.
-  assert.match(css, /scaleX\(var\(--tl-progress\)\)/);
-  assert.match(css, /scaleY\(var\(--tl-progress\)\)/);
-  assert.match(story, /scaleX\(var\(--tl-progress, 0\)\)/);
-  assert.match(story, /scaleY\(var\(--tl-progress, 0\)\)/);
+  // Kroky nestoja v rade: každý je o kúsok nižšie a o kúsok bokom od
+  // predošlého, takže ich nespája úsečka, ale dráha vedená stredmi bodiek.
+  // Kreslí sa odkrývaním ťahu, nie mierkou — mierka by dráhu zdeformovala.
+  assert.match(story, /--tl-shift/);
+  assert.match(
+    story,
+    /stroke-dashoffset: calc\(var\(--tl-length, 0\) \* \(1 - var\(--tl-progress, 0\)\)\)/,
+  );
+  assert.match(landing, /offsetPath/);
 
   // Nezačatý krok nie je prázdny obdĺžnik — ikona a nadpis sú naznačené
   // a doplní ich zvyšok obsahu, až keď k nim čiara dorastie.
   assert.match(story, /li:not\(\[data-reached="true"\]\)/);
 
-  // Matematické prahy ostávajú ako záloha do prvého merania. Odkedy je os
-  // na počítači vodorovná, sedia bodky na 0, ⅓, ⅔ a 1 dĺžky koľaje — pri
-  // rovnomernom rozdelení by sa uzol rozsvietil viditeľne mimo čiary, preto
-  // sa prahy dopočítajú zo skutočných stredov bodiek. Sekcia má
-  // `content-visibility: auto`, takže sa rozloží až pri prvom zobrazení;
-  // `ResizeObserver` je to, čo vtedy meranie zopakuje.
+  // Matematické prahy ostávajú ako záloha do prvého merania. Skutočné prahy
+  // vychádzajú z dĺžky dráhy, takže sa uzol rozsvieti presne vtedy, keď k nemu
+  // ťah dorastie — pri rovnomernom rozdelení by sa rozsvecoval mimo čiary.
+  // Sekcia má `content-visibility: auto`, takže sa rozloží až pri prvom
+  // zobrazení; `ResizeObserver` je to, čo vtedy meranie zopakuje.
   assert.match(hook, /progress/);
   assert.match(hook, /\(index \+ 0\.5\) \/ count/);
   assert.match(hook, /new ResizeObserver\(/);
   assert.doesNotMatch(hook, /\.getBoundingClientRect\(/);
   assert.doesNotMatch(hook, /useEffect\(/);
+
+  // Uzol sedí vo výške ikony, teda tesne pod horným okrajom karty. Dráha preto
+  // nesmie ísť priamo — v medzere medzi krokmi prejde bokom, aby kartu nepretla.
+  assert.match(hook, /function segment\(/);
+  assert.match(hook, /lane/);
 
   // Počas scrollu sa layout nikdy nemeria — obsluha zmeny hodnoty pružiny
   // pracuje len s číslami, ktoré už sú spočítané.

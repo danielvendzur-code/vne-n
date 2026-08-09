@@ -5,41 +5,49 @@
    z ôsmich súborov, takže na počítači ostal úzky stĺpec s bodkami mimo kariet.
    Preto má koreň značku `data-tl="story"` a všetko dôležité sa nastavuje tu.
 
-   Smer si vyberá šírka obrazovky:
-     • počítač  — vodorovná koľaj cez celú sekciu, štyri kroky vedľa seba,
-     • mobil    — zvislá koľaj vľavo, kroky pod sebou.
-   Rovnaká premenná `--tl-progress` kreslí výplň v oboch smeroch; koncové body
-   koľaje dopočíta `useTimelineProgress` z reálnych stredov uzlov, takže čiara
-   dorazí k bodke presne vtedy, keď sa bodka rozsvieti.
+   Kroky nestoja v rade. Každý je o kúsok nižšie a o kúsok bokom od predošlého,
+   takže cez sekciu vedie mäkká kaskáda zľava nadol doprava. Spája ich dráha
+   vedená stredmi bodiek — `useTimelineProgress` ju dopočíta zo skutočného
+   rozloženia a kreslí sa odkrývaním ťahu, nie mierkou. Na mobile sa posun
+   stráca a z tej istej dráhy ostane rovný zvislý ťah.
    ========================================================================== */
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] {
   --tl-lime: #d9ff78;
-  --tl-mint: #b9ed4d;
-  --tl-green: #62ce91;
+  --tl-glow: rgba(217, 255, 120, 0.32);
   --tl-forest: #0b2f20;
   --tl-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --tl-node: 44px;
-  --tl-rail: 2px;
-  --tl-rail-start: 0px;
-  --tl-rail-end: 0px;
-  --tl-gap: clamp(1.6rem, 2.2vw, 2.1rem);
+
+  --tl-node: 32px;
+  --tl-icon: 2.15rem;
+  --tl-pad: 1rem;
+  --tl-gap: 0.85rem;
+  /* Šírka jedného kroku a posun oproti predošlému. Na mobile je posun nulový,
+     takže sa kroky poskladajú do rovného stĺpca. */
+  --tl-row: 100%;
+  --tl-shift: 0px;
+  /* Uzol drží presne v jednej výške so stredom ikony v karte. */
+  --tl-node-offset: calc(var(--tl-pad) + var(--tl-icon) / 2 - var(--tl-node) / 2);
 
   position: relative !important;
   z-index: 1 !important;
   width: 100% !important;
   max-width: none !important;
-  margin: clamp(2.8rem, 4.6vw, 4.2rem) 0 0 !important;
+  margin: clamp(2.2rem, 4vw, 3.4rem) 0 0 !important;
   padding: 0 !important;
   overflow: visible !important;
 }
 
-/* --- koľaj ---------------------------------------------------------------- */
+/* --- dráha ---------------------------------------------------------------- */
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-rail {
   position: absolute !important;
   z-index: 1 !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   margin: 0 !important;
+  overflow: visible !important;
   pointer-events: none !important;
 }
 
@@ -49,29 +57,24 @@ html:root
   .lp-process
   .lp-timeline[data-tl="story"]
   :is(.lp-timeline-track, .lp-timeline-fill) {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 999px !important;
+  fill: none !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  /* Medzi meraniami sa SVG dopína na box, ťah preto nesmie ísť s mierkou. */
+  vector-effect: non-scaling-stroke !important;
+  /* Staršia vrstva kreslila výplň mierkou; na dráhe by ju to zrolovalo. */
+  transform: none !important;
 }
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-track {
-  background: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: none !important;
+  stroke: rgba(255, 255, 255, 0.12) !important;
 }
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-fill {
-  background: linear-gradient(
-    90deg,
-    var(--tl-lime) 0%,
-    var(--tl-mint) 46%,
-    var(--tl-green) 100%
-  ) !important;
-  box-shadow: 0 0 16px rgba(217, 255, 120, 0.26) !important;
-  transform-origin: left center !important;
-  transform: scaleX(var(--tl-progress, 0)) !important;
-  will-change: transform !important;
+  stroke: url(#lp-tl-flow) !important;
+  stroke-dasharray: var(--tl-length, 0) !important;
+  stroke-dashoffset: calc(var(--tl-length, 0) * (1 - var(--tl-progress, 0))) !important;
+  filter: drop-shadow(0 0 6px var(--tl-glow)) !important;
 }
 
 html:root
@@ -80,33 +83,45 @@ html:root
   .lp-process
   .lp-timeline[data-tl="story"]
   .lp-timeline-fill[data-static="true"] {
-  transform: scaleX(1) !important;
+  stroke-dashoffset: 0 !important;
 }
 
-/* Svetlo na čele čiary. Za uzlom sa schová — uzol má nepriehľadný prstenec —
-   takže sa vynára medzi krokmi a pri každej bodke zapadne. */
+/* Svetlo na čele čiary. Vedie ho `offset-path`, takže sa drží presne na ťahu
+   aj v zákrutách. Za uzlom sa schová — uzol má nepriehľadný prstenec — a medzi
+   krokmi sa zase vynorí. */
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-head {
   position: absolute !important;
   z-index: 0 !important;
-  top: 50% !important;
-  left: calc(var(--tl-progress, 0) * 100%) !important;
-  width: 9px !important;
-  height: 9px !important;
+  top: 0 !important;
+  left: 0 !important;
+  display: block !important;
+  width: 10px !important;
+  height: 10px !important;
   border-radius: 50% !important;
-  background: #f2ffd0 !important;
+  background: #f4ffdb !important;
   box-shadow:
-    0 0 0 4px rgba(217, 255, 120, 0.14),
-    0 0 20px 5px rgba(217, 255, 120, 0.34) !important;
-  transform: translate(-50%, -50%) !important;
+    0 0 0 4px rgba(217, 255, 120, 0.13),
+    0 0 22px 6px var(--tl-glow) !important;
+  offset-distance: calc(var(--tl-progress, 0) * 100%) !important;
+  offset-rotate: 0deg !important;
   pointer-events: none !important;
 }
 
-/* --- zoznam krokov -------------------------------------------------------- */
+@supports not (offset-distance: 50%) {
+  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-head {
+    display: none !important;
+  }
+}
+
+/* --- kroky ---------------------------------------------------------------- */
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps {
   position: relative !important;
   z-index: 2 !important;
   display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  row-gap: 0.85rem !important;
+  column-gap: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
   list-style: none !important;
@@ -114,17 +129,54 @@ html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps {
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li {
   position: relative !important;
+  display: grid !important;
+  grid-template-columns: var(--tl-node) minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
+  align-items: start !important;
+  justify-self: start !important;
+  column-gap: var(--tl-gap) !important;
+  row-gap: 0 !important;
+  width: var(--tl-row) !important;
   min-height: 0 !important;
-  margin: 0 !important;
+  /* Kúsok nižšie rieši mriežka, kúsok bokom tento posun. */
+  margin: 0 0 0 calc(var(--i, 0) * var(--tl-shift)) !important;
   padding: 0 !important;
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
+/* Vodorovné spojenie dráhy s kartou. */
+html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  top: calc(var(--tl-node-offset) + var(--tl-node) / 2) !important;
+  left: var(--tl-node) !important;
+  width: var(--tl-gap) !important;
+  height: 1px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  transition: background 380ms ease !important;
+  pointer-events: none !important;
+}
+
+html:root
+  body
+  .lp-page
+  .lp-process
+  .lp-timeline[data-tl="story"]
+  .lp-tl-steps
+  > li[data-reached="true"]::before {
+  background: rgba(217, 255, 120, 0.5) !important;
+}
+
 /* --- uzol ----------------------------------------------------------------- */
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-node {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  justify-self: start !important;
+  align-self: start !important;
   position: relative !important;
   z-index: 3 !important;
   display: grid !important;
@@ -132,17 +184,17 @@ html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps >
   width: var(--tl-node) !important;
   height: var(--tl-node) !important;
   box-sizing: border-box !important;
-  margin: 0 !important;
-  /* Mobilná vrstva posúvala uzol o 21 px nadol; tu sa o zvislé zarovnanie
+  /* Mobilná vrstva posúvala uzol o 21 px nadol; o zvislé zarovnanie sa tu
      stará výhradne `--tl-node-offset`. */
   top: 0 !important;
   left: 0 !important;
+  margin: var(--tl-node-offset) 0 0 !important;
   border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
   border-radius: 50% !important;
   color: rgba(240, 248, 242, 0.5) !important;
   background: var(--tl-forest) !important;
-  /* Nepriehľadný prstenec vo farbe pásu prekryje koľaj pod uzlom. */
-  box-shadow: 0 0 0 6px var(--tl-forest) !important;
+  /* Nepriehľadný prstenec vo farbe pásu prekryje dráhu pod uzlom. */
+  box-shadow: 0 0 0 5px var(--tl-forest) !important;
   opacity: 1 !important;
   transform: scale(0.94) !important;
   transition:
@@ -157,7 +209,7 @@ html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps >
   display: block !important;
   color: inherit !important;
   background: none !important;
-  font-size: 0.76rem !important;
+  font-size: 0.7rem !important;
   font-weight: 720 !important;
   font-variant-numeric: tabular-nums !important;
   letter-spacing: 0.01em !important;
@@ -176,47 +228,58 @@ html:root
   border-color: var(--tl-lime) !important;
   background: var(--tl-lime) !important;
   box-shadow:
-    0 0 0 6px var(--tl-forest),
-    0 0 0 9px rgba(217, 255, 120, 0.1),
-    0 0 26px rgba(217, 255, 120, 0.3) !important;
+    0 0 0 5px var(--tl-forest),
+    0 0 0 8px rgba(217, 255, 120, 0.1),
+    0 0 24px rgba(217, 255, 120, 0.3) !important;
   transform: scale(1) !important;
 }
 
 /* --- karta ---------------------------------------------------------------- */
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-card {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  justify-self: stretch !important;
+  align-self: stretch !important;
   position: relative !important;
   z-index: 2 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  width: auto !important;
+  display: grid !important;
+  grid-template-columns: var(--tl-icon) minmax(0, 1fr) !important;
+  grid-template-areas:
+    "icon title"
+    ". copy"
+    ". result" !important;
+  column-gap: var(--tl-gap) !important;
+  row-gap: 0.45rem !important;
+  width: 100% !important;
   min-width: 0 !important;
   min-height: 0 !important;
+  height: auto !important;
   margin: 0 !important;
+  padding: var(--tl-pad) calc(var(--tl-pad) + 0.1rem) !important;
   overflow: hidden !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 1.25rem !important;
+  border-radius: 1.15rem !important;
   background: rgba(255, 255, 255, 0.045) !important;
   background-image: linear-gradient(
-    155deg,
+    152deg,
     rgba(255, 255, 255, 0.035),
     rgba(255, 255, 255, 0)
   ) !important;
+  filter: none !important;
   -webkit-backdrop-filter: blur(10px) !important;
   backdrop-filter: blur(10px) !important;
   box-shadow: 0 20px 46px -38px rgba(0, 0, 0, 0.75) !important;
   transition:
     opacity 620ms var(--tl-ease),
-    filter 520ms ease,
     transform 680ms var(--tl-ease),
     border-color 420ms ease,
     background-color 420ms ease,
     box-shadow 520ms var(--tl-ease) !important;
-  will-change: opacity, transform, filter !important;
+  will-change: opacity, transform !important;
 }
 
-/* Krok, ku ktorému čiara ešte nedorástla, nie je diera v rozložení — ostáva
+/* Krok, ku ktorému dráha ešte nedorástla, nie je diera v rozložení — ostáva
    tichým obrysom, ktorý sa naplní, až keď na neho príde rad. */
 html:root
   body
@@ -230,9 +293,14 @@ html:root
   background: rgba(255, 255, 255, 0.016) !important;
   background-image: none !important;
   box-shadow: none !important;
+  /* Staršia vrstva tu držala `blur(3px)` — z naznačeného nadpisu ostávala
+     šmuha. A rozostrenie podkladu kreslí na takmer priehľadnej ploche vnútorný
+     lem široký ako jeho polomer; nezačatá karta ho nepotrebuje. */
+  filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
   opacity: 0.62 !important;
-  filter: blur(0) saturate(1) !important;
-  transform: translate3d(0, 12px, 0) scale(0.994) !important;
+  transform: translate3d(10px, 12px, 0) scale(0.994) !important;
 }
 
 html:root
@@ -245,12 +313,12 @@ html:root
   .lp-tl-card {
   border-color: rgba(255, 255, 255, 0.14) !important;
   background: rgba(255, 255, 255, 0.062) !important;
+  filter: none !important;
   opacity: 1 !important;
-  filter: blur(0) saturate(1) !important;
   transform: translate3d(0, 0, 0) scale(1) !important;
 }
 
-/* Krok, ku ktorému koľaj práve dorástla, ostáva o stupeň jasnejší. */
+/* Krok, ku ktorému dráha práve dorástla, ostáva o stupeň jasnejší. */
 html:root
   body
   .lp-page
@@ -273,18 +341,28 @@ html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-num {
 }
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-icon {
+  grid-area: icon !important;
+  align-self: start !important;
+  justify-self: start !important;
   display: grid !important;
   place-items: center !important;
-  flex: 0 0 auto !important;
-  align-self: flex-start !important;
+  width: var(--tl-icon) !important;
+  height: var(--tl-icon) !important;
   box-sizing: border-box !important;
+  margin: 0 !important;
   border: 1px solid rgba(217, 255, 120, 0.18) !important;
+  border-radius: 0.72rem !important;
   color: var(--tl-lime) !important;
   background: rgba(217, 255, 120, 0.08) !important;
   transition:
     border-color 420ms ease,
     color 420ms ease,
     background-color 420ms ease !important;
+}
+
+html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-icon svg {
+  width: 1.05rem !important;
+  height: 1.05rem !important;
 }
 
 html:root
@@ -300,19 +378,18 @@ html:root
   background: var(--tl-lime) !important;
 }
 
-/* Karta je stĺpcový flex, takže zdedené `align-self: center` z mriežkovej
-   verzie by nadpis zúžilo na šírku textu a odsadilo od okraja. */
-html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card > :is(h3, p) {
-  align-self: stretch !important;
-  width: 100% !important;
-  text-align: left !important;
-}
-
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card h3 {
+  grid-area: title !important;
+  align-self: center !important;
+  justify-self: stretch !important;
+  width: 100% !important;
   margin: 0 !important;
   color: #f6faf6 !important;
+  font-size: clamp(1rem, 1.05vw, 1.12rem) !important;
   font-weight: 640 !important;
   letter-spacing: -0.025em !important;
+  line-height: 1.24 !important;
+  text-align: left !important;
 }
 
 html:root
@@ -322,28 +399,45 @@ html:root
   .lp-timeline[data-tl="story"]
   .lp-tl-card
   > p:not(.lp-tl-result) {
-  margin: 0 !important;
+  grid-area: copy !important;
+  justify-self: stretch !important;
+  width: 100% !important;
+  margin: 0.1rem 0 0 !important;
   color: rgba(236, 245, 238, 0.7) !important;
+  font-size: 0.855rem !important;
+  line-height: 1.55 !important;
+  text-align: left !important;
 }
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-result {
+  grid-area: result !important;
+  justify-self: stretch !important;
   display: flex !important;
   align-items: flex-start !important;
-  margin: 0 !important;
+  gap: 0.45rem !important;
+  width: 100% !important;
+  margin: 0.35rem 0 0 !important;
+  padding: 0.7rem 0 0 !important;
   border: 0 !important;
   border-top: 1px solid rgba(255, 255, 255, 0.09) !important;
   color: rgba(217, 255, 120, 0.82) !important;
+  font-size: 0.775rem !important;
+  line-height: 1.45 !important;
+  text-align: left !important;
 }
 
 html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-result svg {
   flex: 0 0 auto !important;
+  width: 0.88rem !important;
+  height: 0.88rem !important;
+  margin-top: 0.12rem !important;
   color: var(--tl-lime) !important;
 }
 
-/* Vnútro karty sa neodhalí naraz — ikona, nadpis, popis a výstup prídu
-   za sebou. To je celý „postupný“ pocit; karta sama len dorazí na miesto.
-   Ikona a nadpis ostávajú aj pred odhalením naznačené, takže nezačatý krok
-   nie je prázdny obdĺžnik, ale viditeľný prísľub ďalšieho kroku. */
+/* Vnútro karty sa neodhalí naraz — ikona, nadpis, popis a výstup prídu za
+   sebou. To je celý „postupný“ pocit; karta sama len dorazí na miesto. Ikona
+   a nadpis ostávajú aj pred odhalením naznačené, takže nezačatý krok nie je
+   prázdny obdĺžnik, ale viditeľný prísľub ďalšieho kroku. */
 html:root
   body
   .lp-page
@@ -436,132 +530,64 @@ html:root
 }
 
 /* ==========================================================================
-   Počítač — vodorovná koľaj, štyri kroky vedľa seba cez celú šírku sekcie
+   Tablet — o niečo väčšie kroky, stále v rovnom stĺpci
    ========================================================================== */
 
-@media (min-width: 1024px) {
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-rail {
-    top: calc(var(--tl-node) / 2 - var(--tl-rail) / 2) !important;
-    bottom: auto !important;
-    left: var(--tl-rail-start) !important;
-    right: var(--tl-rail-end) !important;
-    width: auto !important;
-    height: var(--tl-rail) !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps {
-    grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr)) !important;
-    align-items: stretch !important;
-    gap: clamp(1.1rem, 1.9vw, 1.85rem) !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li {
-    display: grid !important;
-    grid-template-rows: var(--tl-node) auto !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    justify-items: center !important;
-    row-gap: var(--tl-gap) !important;
-    column-gap: 0 !important;
-  }
-
-  /* Umiestnenie v mriežke sa musí povedať naplno: staršie vrstvy tlačia uzol
-     aj kartu do vlastných stĺpcov, čím by vznikol prázdny implicitný stĺpec. */
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-node {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-    justify-self: center !important;
-    align-self: center !important;
-  }
-
-  /* Zvislé spojenie uzla s kartou — bez neho by karta pod bodkou plávala. */
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li::before {
-    content: "" !important;
-    position: absolute !important;
-    z-index: 0 !important;
-    top: calc(var(--tl-node) + 6px) !important;
-    left: 50% !important;
-    width: 1px !important;
-    height: calc(var(--tl-gap) - 6px) !important;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.16),
-      rgba(255, 255, 255, 0.02)
-    ) !important;
-    transform: translateX(-50%) !important;
-    transition: background 420ms ease !important;
-    pointer-events: none !important;
-  }
-
-  html:root
-    body
-    .lp-page
-    .lp-process
-    .lp-timeline[data-tl="story"]
-    .lp-tl-steps
-    > li[data-reached="true"]::before {
-    background: linear-gradient(
-      180deg,
-      rgba(217, 255, 120, 0.6),
-      rgba(217, 255, 120, 0.06)
-    ) !important;
-  }
-
+/* Na telefóne by odsadenie pod nadpis ukrojilo z riadku takmer pätinu šírky.
+   Hlavička ostáva v jednom riadku, popis aj výstup idú cez celú kartu. */
+@media (max-width: 560px) {
   html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-card {
-    grid-column: 1 !important;
-    grid-row: 2 !important;
-    justify-self: stretch !important;
-    align-self: stretch !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: clamp(1.15rem, 1.5vw, 1.5rem) !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-icon {
-    width: 2.3rem !important;
-    height: 2.3rem !important;
-    margin: 0 0 0.85rem !important;
-    border-radius: 0.7rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-icon svg {
-    width: 1.05rem !important;
-    height: 1.05rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card h3 {
-    font-size: clamp(1.02rem, 1.15vw, 1.16rem) !important;
-    line-height: 1.24 !important;
-  }
-
-  html:root
-    body
-    .lp-page
-    .lp-process
-    .lp-timeline[data-tl="story"]
-    .lp-tl-card
-    > p:not(.lp-tl-result) {
-    margin-top: 0.55rem !important;
-    font-size: 0.855rem !important;
-    line-height: 1.55 !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-result {
-    gap: 0.45rem !important;
-    /* Deliaca linka sedí vo všetkých štyroch kartách v rovnakej výške. */
-    margin-top: auto !important;
-    padding-top: 0.85rem !important;
-    font-size: 0.775rem !important;
-    line-height: 1.45 !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-result svg {
-    width: 0.88rem !important;
-    height: 0.88rem !important;
-    margin-top: 0.12rem !important;
+    grid-template-areas:
+      "icon title"
+      "copy copy"
+      "result result" !important;
+    row-gap: 0.55rem !important;
   }
 }
 
-@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+@media (min-width: 561px) {
+  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] {
+    --tl-node: 36px;
+    --tl-icon: 2.3rem;
+    --tl-pad: 1.1rem;
+    --tl-gap: 1rem;
+    max-width: 42rem !important;
+  }
+
+  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps {
+    row-gap: 0.95rem !important;
+  }
+}
+
+/* ==========================================================================
+   Počítač — kaskáda: každý krok kúsok nižšie a kúsok bokom od predošlého
+   ========================================================================== */
+
+@media (min-width: 900px) {
+  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] {
+    --tl-node: 40px;
+    --tl-icon: 2.35rem;
+    --tl-pad: 1.2rem;
+    --tl-gap: 1.1rem;
+    --tl-row: min(33rem, 100%);
+    /* Posledný krok dosadne presne na pravý okraj sekcie. */
+    --tl-shift: calc((100% - var(--tl-row)) / (var(--steps, 4) - 1));
+    max-width: none !important;
+    margin-top: clamp(2.6rem, 4.4vw, 3.8rem) !important;
+  }
+
+  /* Medzera medzi krokmi je zároveň pruh, ktorým dráha prechádza do strany —
+     musí sa doň zmestiť zaoblená zákruta. */
+  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps {
+    row-gap: 3.4rem !important;
+  }
+
+  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card {
+    border-radius: 1.3rem !important;
+  }
+}
+
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
   html:root
     body
     .lp-page
@@ -573,221 +599,6 @@ html:root
     border-color: rgba(217, 255, 120, 0.4) !important;
     background: rgba(255, 255, 255, 0.095) !important;
     transform: translate3d(0, -4px, 0) !important;
-  }
-}
-
-/* ==========================================================================
-   Tablet a mobil — zvislá koľaj vľavo, kroky pod sebou
-   ========================================================================== */
-
-@media (max-width: 1023px) {
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] {
-    --tl-node: 38px;
-    --tl-gap: 1rem;
-    /* Odsadenie uzla od horného okraja kroku. Drží ho v jednej výške so
-       stredom ikony v karte — a rovnaká hodnota posadí aj spojnicu. */
-    --tl-node-offset: 1.04rem;
-    /* Zvislá verzia by na tablete roztiahla riadok cez celú šírku sekcie.
-       Text ostáva v čitateľnej miere, os aj karty sú zarovnané doľava. */
-    max-width: 44rem !important;
-    margin: clamp(2rem, 4vw, 2.8rem) 0 0 !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-rail {
-    top: var(--tl-rail-start) !important;
-    bottom: var(--tl-rail-end) !important;
-    left: calc(var(--tl-node) / 2 - var(--tl-rail) / 2) !important;
-    right: auto !important;
-    width: var(--tl-rail) !important;
-    height: auto !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-fill {
-    background: linear-gradient(
-      180deg,
-      var(--tl-lime) 0%,
-      var(--tl-mint) 46%,
-      var(--tl-green) 100%
-    ) !important;
-    transform-origin: center top !important;
-    transform: scaleY(var(--tl-progress, 0)) !important;
-  }
-
-  html:root
-    body
-    .lp-page
-    .lp-process
-    .lp-timeline[data-tl="story"]
-    .lp-timeline-fill[data-static="true"] {
-    transform: scaleY(1) !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-timeline-head {
-    top: calc(var(--tl-progress, 0) * 100%) !important;
-    left: 50% !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 0.95rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li {
-    display: grid !important;
-    grid-template-columns: var(--tl-node) minmax(0, 1fr) !important;
-    /* Vodorovná verzia rezervovala prvému riadku výšku uzla. Tu je uzol vedľa
-       karty, takže riadok musí rásť podľa obsahu — inak sa karta zloží. */
-    grid-template-rows: auto !important;
-    align-items: start !important;
-    column-gap: var(--tl-gap) !important;
-    row-gap: 0 !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-node {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-    justify-self: start !important;
-    align-self: start !important;
-    margin-top: var(--tl-node-offset) !important;
-  }
-
-  /* Vodorovné spojenie osi s kartou. */
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li::before {
-    content: "" !important;
-    position: absolute !important;
-    z-index: 0 !important;
-    top: calc(var(--tl-node-offset) + var(--tl-node) / 2) !important;
-    left: var(--tl-node) !important;
-    width: var(--tl-gap) !important;
-    height: 1px !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-    transition: background 380ms ease !important;
-    pointer-events: none !important;
-  }
-
-  html:root
-    body
-    .lp-page
-    .lp-process
-    .lp-timeline[data-tl="story"]
-    .lp-tl-steps
-    > li[data-reached="true"]::before {
-    background: rgba(217, 255, 120, 0.5) !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-card {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-    justify-self: stretch !important;
-    align-self: stretch !important;
-    height: auto !important;
-    width: 100% !important;
-    padding: 1.05rem 1.15rem 1.05rem !important;
-    border-radius: 1.15rem !important;
-    transform: translate3d(10px, 10px, 0) scale(0.99) !important;
-  }
-
-  html:root
-    body
-    .lp-page
-    .lp-process
-    .lp-timeline[data-tl="story"]
-    .lp-tl-steps
-    > li[data-reached="true"]
-    .lp-tl-card {
-    transform: translate3d(0, 0, 0) scale(1) !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-icon {
-    width: 2.35rem !important;
-    height: 2.35rem !important;
-    margin: 0 0 0.8rem !important;
-    border-radius: 0.72rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-icon svg {
-    width: 1.05rem !important;
-    height: 1.05rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card h3 {
-    font-size: 1.06rem !important;
-    line-height: 1.22 !important;
-  }
-
-  html:root
-    body
-    .lp-page
-    .lp-process
-    .lp-timeline[data-tl="story"]
-    .lp-tl-card
-    > p:not(.lp-tl-result) {
-    margin-top: 0.5rem !important;
-    font-size: 0.845rem !important;
-    line-height: 1.52 !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-result {
-    gap: 0.45rem !important;
-    margin-top: 0.8rem !important;
-    padding-top: 0.75rem !important;
-    font-size: 0.775rem !important;
-    line-height: 1.45 !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-result svg {
-    width: 0.9rem !important;
-    height: 0.9rem !important;
-    margin-top: 0.1rem !important;
-  }
-}
-
-@media (max-width: 560px) {
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] {
-    --tl-node: 32px;
-    --tl-gap: 0.8rem;
-    --tl-node-offset: 1.02rem;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps {
-    gap: 0.8rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-node {
-    box-shadow: 0 0 0 5px var(--tl-forest) !important;
-  }
-
-  html:root
-    body
-    .lp-page
-    .lp-process
-    .lp-timeline[data-tl="story"]
-    .lp-tl-steps
-    > li[data-reached="true"]
-    .lp-tl-node {
-    box-shadow:
-      0 0 0 5px var(--tl-forest),
-      0 0 0 8px rgba(217, 255, 120, 0.1),
-      0 0 22px rgba(217, 255, 120, 0.28) !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-steps > li .lp-tl-card {
-    padding: 0.95rem 1rem !important;
-    border-radius: 1.05rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-node b {
-    font-size: 0.68rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card h3 {
-    font-size: 1rem !important;
-  }
-
-  html:root body .lp-page .lp-process .lp-timeline[data-tl="story"] .lp-tl-card .lp-tl-icon {
-    width: 2.15rem !important;
-    height: 2.15rem !important;
-    margin-bottom: 0.7rem !important;
   }
 }
 
@@ -805,7 +616,6 @@ html:root
     .lp-tl-card
     > :is(.lp-tl-icon, h3, p) {
     opacity: 1 !important;
-    filter: none !important;
     transform: none !important;
     transition: none !important;
     animation: none !important;
