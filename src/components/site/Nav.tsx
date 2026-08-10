@@ -52,16 +52,29 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const drawerRef = useRef<HTMLElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
   const reducedMotion = useReducedMotion();
 
   useFocusTrap(drawerRef, open, closeMenu);
 
+  /**
+   * Či je stránka odscrollovaná od vrchu, hlási bod na začiatku dokumentu —
+   * nie posluchač scrollu. Ten sa spúšťal pri každom pohybe prsta a zakaždým
+   * volal `setState`; pozorovateľ prieniku sa ozve len pri dvoch prechodoch.
+   */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const sentinel = sentinelRef.current;
+    if (!sentinel || typeof IntersectionObserver === "undefined") {
+      // Bez pozorovateľa ostáva hlavička v podobe pre vrch stránky.
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry?.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -89,179 +102,185 @@ export function Nav() {
   };
 
   return (
-    <header
-      className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
-      style={{ zIndex: open ? 90 : 40 }}
-    >
-      <div className="container-page flex items-center justify-between h-13 md:h-15">
-        <div
-          className="site-header-bar flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"
-          style={{
-            minHeight: 56,
-            backgroundColor: scrolled
-              ? "color-mix(in oklab, var(--surface) 92%, transparent)"
-              : "color-mix(in oklab, var(--surface) 74%, transparent)",
-            border: "1px solid var(--border)",
-            boxShadow: scrolled
-              ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(230, 242, 236, 0.04) inset"
-              : "0 10px 30px rgba(0, 0, 0, 0.16)",
-          }}
-        >
-          <Link
-            to="/"
-            className="site-brand-lockup flex items-center gap-2.5"
-            aria-label="Môj Chatbot — domov"
+    <>
+      {/* Bod na začiatku dokumentu. Nič nekreslí a nič nezaberá — len povie,
+          kedy hlavička prestala sedieť na vrchu stránky. */}
+      <div ref={sentinelRef} className="site-header-sentinel" aria-hidden="true" />
+      <header
+        className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
+        data-scrolled={scrolled}
+        style={{ zIndex: open ? 90 : 40 }}
+      >
+        <div className="container-page flex items-center justify-between h-13 md:h-15">
+          <div
+            className="site-header-bar flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"
+            style={{
+              minHeight: 56,
+              backgroundColor: scrolled
+                ? "color-mix(in oklab, var(--surface) 92%, transparent)"
+                : "color-mix(in oklab, var(--surface) 74%, transparent)",
+              border: "1px solid var(--border)",
+              boxShadow: scrolled
+                ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(230, 242, 236, 0.04) inset"
+                : "0 10px 30px rgba(0, 0, 0, 0.16)",
+            }}
           >
-            <BrandMark size={34} />
-            <span className="site-brand-copy">
-              <span className="site-brand-name">Môj Chatbot</span>
-              <small className="site-brand-domain">mojchatbot.sk</small>
-            </span>
-          </Link>
-
-          <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
-            {siteConfig.nav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                aria-label={item.to === "/sluzby" ? "Služby" : undefined}
-                className="site-nav-link text-[13.5px] tracking-tight transition-colors"
-                activeProps={{ style: { color: "var(--primary)" } }}
-                inactiveProps={{ style: { color: "var(--text-secondary)" } }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
             <Link
-              to="/kontakt"
-              className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
+              to="/"
+              className="site-brand-lockup flex items-center gap-2.5"
+              aria-label="Môj Chatbot — domov"
             >
-              Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
-            </Link>
-            <button
-              onClick={() => setOpen((value) => !value)}
-              aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}
-              aria-expanded={open}
-              aria-controls="site-navigation-drawer"
-              className="site-menu-toggle"
-            >
-              <span>Menu</span>
-              <MenuIcon open={open} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
-        <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
-        <motion.aside
-          id="site-navigation-drawer"
-          ref={drawerRef}
-          className="site-menu-drawer"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Navigácia"
-          tabIndex={-1}
-          initial={false}
-          animate={{
-            opacity: open ? 1 : 0,
-            y: open ? 0 : 14,
-            scale: open ? 1 : 0.985,
-          }}
-          transition={
-            reducedMotion
-              ? { duration: 0 }
-              : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
-          }
-          style={{
-            transition: "none",
-            willChange: reducedMotion ? undefined : "transform, opacity",
-          }}
-        >
-          <div className="site-menu-head">
-            <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
-              <BrandMark size={44} />
-              <span>
-                Môj Chatbot
-                <small>chatboty pre e-shopy aj firmy so službami</small>
+              <BrandMark size={34} />
+              <span className="site-brand-copy">
+                <span className="site-brand-name">Môj Chatbot</span>
+                <small className="site-brand-domain">mojchatbot.sk</small>
               </span>
             </Link>
-            <button
-              className="site-menu-close"
-              type="button"
-              aria-label="Zavrieť menu"
-              onClick={closeMenu}
-            >
-              Zavrieť <MenuIcon open />
-            </button>
-          </div>
 
-          <div className="site-menu-content">
-            <div className="site-menu-grid">
-              <div className="site-menu-nav-column">
-                <p className="site-menu-eyebrow">Navigácia</p>
-                <LineSidebar
-                  items={drawerItems}
-                  onItemClick={closeMenu}
-                  accentColor="#d9ff78"
-                  textColor="#f7fcfa"
-                  markerColor="rgba(247, 252, 250, 0.2)"
-                  markerLength={48}
-                  maxShift={20}
-                  itemGap={18}
-                  fontSize={1.24}
-                />
-              </div>
-
-              <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
-                <p className="site-menu-eyebrow">Vyberte riešenie</p>
-                <p className="site-menu-services-intro">
-                  Kliknite na najbližšiu možnosť. Chatbot sa otvorí s pripraveným prvým krokom.
-                </p>
-                <div className="site-menu-solution-list">
-                  {menuSolutions.map(({ icon: Icon, title, copy, preset }) => (
-                    <button
-                      type="button"
-                      className="site-menu-solution"
-                      key={title}
-                      onClick={() => openMenuChatbot(preset, title)}
-                    >
-                      <span className="site-menu-solution-icon">
-                        <Icon size={17} aria-hidden="true" />
-                      </span>
-                      <span>
-                        <b>{title}</b>
-                        <small>{copy}</small>
-                      </span>
-                      <ArrowUpRight size={16} aria-hidden="true" />
-                    </button>
-                  ))}
-                </div>
-                <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
-                  Pozrieť živé weby <ArrowRight size={16} aria-hidden="true" />
+            <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
+              {siteConfig.nav.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  aria-label={item.to === "/sluzby" ? "Služby" : undefined}
+                  className="site-nav-link text-[13.5px] tracking-tight transition-colors"
+                  activeProps={{ style: { color: "var(--primary)" } }}
+                  inactiveProps={{ style: { color: "var(--text-secondary)" } }}
+                >
+                  {item.label}
                 </Link>
-              </aside>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <Link
+                to="/kontakt"
+                className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
+              >
+                Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
+              </Link>
+              <button
+                onClick={() => setOpen((value) => !value)}
+                aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}
+                aria-expanded={open}
+                aria-controls="site-navigation-drawer"
+                className="site-menu-toggle"
+              >
+                <span>Menu</span>
+                <MenuIcon open={open} />
+              </button>
             </div>
           </div>
+        </div>
 
-          <div className="site-menu-footer">
-            <button className="site-menu-cta" type="button" onClick={() => openMenuChatbot()}>
-              <span>
-                <small>Neviete, čo vybrať?</small>
-                Vyskladať riešenie krok za krokom
-              </span>
-              <ArrowUpRight size={20} />
-            </button>
-            <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>
-              <Mail size={14} /> {siteConfig.contact.email}
-            </a>
-          </div>
-        </motion.aside>
-      </div>
-    </header>
+        <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
+          <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
+          <motion.aside
+            id="site-navigation-drawer"
+            ref={drawerRef}
+            className="site-menu-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigácia"
+            tabIndex={-1}
+            initial={false}
+            animate={{
+              opacity: open ? 1 : 0,
+              y: open ? 0 : 14,
+              scale: open ? 1 : 0.985,
+            }}
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
+            }
+            style={{
+              transition: "none",
+              willChange: reducedMotion ? undefined : "transform, opacity",
+            }}
+          >
+            <div className="site-menu-head">
+              <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
+                <BrandMark size={44} />
+                <span>
+                  Môj Chatbot
+                  <small>chatboty pre e-shopy aj firmy so službami</small>
+                </span>
+              </Link>
+              <button
+                className="site-menu-close"
+                type="button"
+                aria-label="Zavrieť menu"
+                onClick={closeMenu}
+              >
+                Zavrieť <MenuIcon open />
+              </button>
+            </div>
+
+            <div className="site-menu-content">
+              <div className="site-menu-grid">
+                <div className="site-menu-nav-column">
+                  <p className="site-menu-eyebrow">Navigácia</p>
+                  <LineSidebar
+                    items={drawerItems}
+                    onItemClick={closeMenu}
+                    accentColor="#d9ff78"
+                    textColor="#f7fcfa"
+                    markerColor="rgba(247, 252, 250, 0.2)"
+                    markerLength={48}
+                    maxShift={20}
+                    itemGap={18}
+                    fontSize={1.24}
+                  />
+                </div>
+
+                <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
+                  <p className="site-menu-eyebrow">Vyberte riešenie</p>
+                  <p className="site-menu-services-intro">
+                    Kliknite na najbližšiu možnosť. Chatbot sa otvorí s pripraveným prvým krokom.
+                  </p>
+                  <div className="site-menu-solution-list">
+                    {menuSolutions.map(({ icon: Icon, title, copy, preset }) => (
+                      <button
+                        type="button"
+                        className="site-menu-solution"
+                        key={title}
+                        onClick={() => openMenuChatbot(preset, title)}
+                      >
+                        <span className="site-menu-solution-icon">
+                          <Icon size={17} aria-hidden="true" />
+                        </span>
+                        <span>
+                          <b>{title}</b>
+                          <small>{copy}</small>
+                        </span>
+                        <ArrowUpRight size={16} aria-hidden="true" />
+                      </button>
+                    ))}
+                  </div>
+                  <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
+                    Pozrieť živé weby <ArrowRight size={16} aria-hidden="true" />
+                  </Link>
+                </aside>
+              </div>
+            </div>
+
+            <div className="site-menu-footer">
+              <button className="site-menu-cta" type="button" onClick={() => openMenuChatbot()}>
+                <span>
+                  <small>Neviete, čo vybrať?</small>
+                  Vyskladať riešenie krok za krokom
+                </span>
+                <ArrowUpRight size={20} />
+              </button>
+              <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>
+                <Mail size={14} /> {siteConfig.contact.email}
+              </a>
+            </div>
+          </motion.aside>
+        </div>
+      </header>
+    </>
   );
 }
 

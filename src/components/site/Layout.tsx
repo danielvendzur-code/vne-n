@@ -73,6 +73,8 @@ import "@/components/site/MobileTimelineRepair.css";
 import "@/components/site/GoalLockFinal.css";
 /* Časová os „Ako spolupráca prebieha“ — jediná vrstva, ktorá ju drží. */
 import "@/components/site/ProcessTimelineStory.css";
+/* Pokoj pri scrollovaní — hlavička, otvorené menu a rezervované výšky sekcií. */
+import "@/components/site/ScrollStability.css";
 import "@/components/site/LaunchReadyRuntime";
 
 const SPOTLIGHT_SURFACES = [
