@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Pokoj pri scrollovaní
+   --------------------------------------------------------------------------
+   Tri veci, ktoré na mobile robili zo scrollovania boj: lepiaca hlavička
+   prekresľovaná spolu s obsahom pod ňou, otvorené menu, ktoré nechalo stránku
+   pod sebou ujsť, a sekcie, ktoré si rezervovali menej miesta, než potom
+   zabrali — stránka tak pod čitateľom rástla.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Hlavička má vlastnú kompozitnú vrstvu
+
+   Lišta sa dovtedy rastrovala v jednej vrstve s obsahom, ktorý sa pod ňou
+   hýbe, a k tomu má rozostrenie podkladu. Pri rýchlom scrollovaní na to
+   prehliadač nestíhal a lišta preblikávala. Vlastná vrstva to oddelí.
+
+   Povýšiť sa smie len samotná lišta, nie `.site-header`. Hlavička obsahuje
+   `position: fixed` vrstvu s menu — akýkoľvek `transform` na nej by z nej
+   spravil vzťažný blok a celoobrazovkové menu by sa scvrklo na hlavičku.
+   -------------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header-bar {
+  transform: translateZ(0) !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+}
+
+/* Bod, podľa ktorého hlavička pozná, že už nesedí na vrchu stránky.
+   Nekreslí, nezaberá miesto a nechytá dotyky. */
+html:root body .site-header-sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 9px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   2. Otvorené menu drží stránku pod sebou
+
+   `overflow: hidden` na `body` samo o sebe na dotykových zariadeniach scroll
+   nezastaví — stránka sa pod otvoreným menu posúvala ďalej. `overscroll-behavior`
+   zastaví reťazenie scrollu na dokument, keď panel dôjde na svoj koniec.
+   -------------------------------------------------------------------------- */
+html:root body[data-site-menu-open="true"] {
+  overscroll-behavior: none;
+}
+
+html:root body .site-theme-white-green .site-menu-drawer {
+  overscroll-behavior: contain;
+}
+
+/* --------------------------------------------------------------------------
+   3. Sekcie si rezervujú toľko miesta, koľko naozaj zaberú
+
+   `content-visibility: auto` šetrí prácu pri načítaní, ale spolu s jednou
+   spoločnou rezervou 900 px každú sekciu podhodnocoval — portfólio až o 1700 px.
+   Stránka preto počas čítania narástla a scroll pod prstom poskočil.
+   Hodnoty nižšie sú namerané výšky zaokrúhlené nahor, pre každý pás zvlášť.
+   -------------------------------------------------------------------------- */
+html:root body .lp-portfolio {
+  contain-intrinsic-size: auto 2200px;
+}
+
+html:root body .lp-caps {
+  contain-intrinsic-size: auto 1120px;
+}
+
+html:root body .lp-faq {
+  contain-intrinsic-size: auto 1500px;
+}
+
+html:root body .lp-process {
+  contain-intrinsic-size: auto 1880px;
+}
+
+@media (min-width: 561px) and (max-width: 899px) {
+  html:root body .lp-portfolio {
+    contain-intrinsic-size: auto 2650px;
+  }
+
+  html:root body .lp-process {
+    contain-intrinsic-size: auto 1540px;
+  }
+}
+
+@media (min-width: 900px) {
+  html:root body .lp-portfolio {
+    contain-intrinsic-size: auto 1520px;
+  }
+
+  html:root body .lp-caps {
+    contain-intrinsic-size: auto 920px;
+  }
+
+  html:root body .lp-faq {
+    contain-intrinsic-size: auto 980px;
+  }
+
+  html:root body .lp-process {
+    contain-intrinsic-size: auto 1720px;
+  }
+}
