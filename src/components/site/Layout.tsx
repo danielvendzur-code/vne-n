@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
+import { useSettledSections } from "@/hooks/useSettledSections";
 import { useSpotlight } from "@/hooks/useSpotlight";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -104,6 +105,7 @@ const SPOTLIGHT_SURFACES = [
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const mainRef = useSpotlight<HTMLElement>(SPOTLIGHT_SURFACES);
+  useSettledSections(pathname);
 
   return (
     <MotionConfig reducedMotion="user">
