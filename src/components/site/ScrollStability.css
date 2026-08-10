@@ -54,6 +54,41 @@ html:root body .site-theme-white-green .site-menu-drawer {
 }
 
 /* --------------------------------------------------------------------------
+   0. Odhaľovanie po scrolle nesmie nič skryť
+
+   Karty a nadpisy sa usadzovali cez `animation-timeline: view()` z hodnoty
+   `opacity: 0`. Taká animácia je zo svojej podstaty obojsmerná: pri ceste
+   späť hore prejde prvok fázou `entry` odzadu, výplň sa vráti na začiatočný
+   snímok a obsah zmizne. Rovnaký záver je už zapísaný v `ScrollMotionFinal`,
+   kde sa preto cenníkové karty z tejto osi odobrali — na tieto dve pravidlá
+   sa vtedy nedostalo.
+
+   Snímky sú preto prepísané na čistý posun. Meno sa nemení, takže platí
+   všade, kde sa animácia používa. Zosvetlenie obstaráva pohybová knižnica,
+   ktorá prvok odhalí raz a nechá ho odhalený; `.lp-caps-row`, `.lp-project`
+   aj `.lp-faq-item` cez ňu už prechádzajú.
+   -------------------------------------------------------------------------- */
+@keyframes lp-rise-in {
+  from {
+    transform: translateY(26px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes lp-heading-in {
+  from {
+    transform: translateY(18px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
    3a. Raz videná sekcia sa už nepreskakuje
 
    `content-visibility: auto` preskočí sekciu zakaždým, keď odíde z obrazovky.
