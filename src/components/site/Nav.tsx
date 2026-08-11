@@ -53,6 +53,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const drawerRef = useRef<HTMLElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
   const reducedMotion = useReducedMotion();
 
@@ -74,6 +75,29 @@ export function Nav() {
       threshold: 0,
     });
     observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
+
+  /**
+   * Hlavička je vyňatá z toku, aby sa pri scrollovaní vôbec nehýbala. Miesto
+   * po nej drží výplň — a aby sedela na pixel aj po zmene písma či otočení
+   * displeja, berie si výšku z reálnej hlavičky, nie z natvrdo zapísaného
+   * čísla. CSS má vlastnú zálohu pre prvé vykreslenie a pre vypnutý JavaScript.
+   */
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header || typeof ResizeObserver === "undefined") return;
+
+    const apply = () => {
+      const height = Math.round(header.getBoundingClientRect().height);
+      if (height > 0) {
+        document.documentElement.style.setProperty("--site-header-h", `${height}px`);
+      }
+    };
+
+    apply();
+    const observer = new ResizeObserver(apply);
+    observer.observe(header);
     return () => observer.disconnect();
   }, []);
 
@@ -106,8 +130,12 @@ export function Nav() {
       {/* Bod na začiatku dokumentu. Nič nekreslí a nič nezaberá — len povie,
           kedy hlavička prestala sedieť na vrchu stránky. */}
       <div ref={sentinelRef} className="site-header-sentinel" aria-hidden="true" />
+      {/* Miesto, ktoré by hlavička zaberala, keby bola v toku. Bez neho by sa
+          celá stránka posunula o jej výšku hore, pod lištu. */}
+      <div className="site-header-spacer" aria-hidden="true" />
       <header
-        className="site-header sticky top-0 py-3 md:py-4 pointer-events-none"
+        ref={headerRef}
+        className="site-header top-0 py-3 md:py-4 pointer-events-none"
         data-scrolled={scrolled}
         style={{ zIndex: open ? 90 : 40 }}
       >

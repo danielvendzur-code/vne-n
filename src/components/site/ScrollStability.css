@@ -8,6 +8,50 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
+   1a. Hlavička sa nehýbe vôbec
+
+   `position: sticky` znamená, že hlavička je v toku stránky a prehliadač jej
+   pri každom snímku scrollu dopočítava posun. V Safari beží zotrvačné
+   scrollovanie mimo hlavného vlákna, takže keď hlavné vlákno čo i len na
+   chvíľu zaváha, lišta sa prekreslí neskôr než zvyšok stránky — odtiaľ to
+   miznutie a doskakovanie.
+
+   `position: fixed` túto triedu problémov ruší: lišta je pripnutá k oknu a
+   pri scrollovaní sa neprepočítava vôbec.
+
+   Aby neprekážala: hlavička sama dotyky nechytá (`pointer-events: none`,
+   zapnuté sú len na lište), miesto po nej v toku drží `.site-header-spacer`,
+   takže sa žiadny obsah nedostane pod ňu, a kotvy majú `scroll-padding-top`
+   väčší než jej výška.
+   -------------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+}
+
+/* Výšku dopĺňa `Nav` z reálnej hlavičky. Tieto hodnoty sú záloha pre prvé
+   vykreslenie zo servera a pre prehliadač bez JavaScriptu. */
+html:root body .site-header-spacer {
+  height: var(--site-header-h, 86px);
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  html:root body .site-header-spacer {
+    height: var(--site-header-h, 90px);
+  }
+}
+
+/* Kotvy musia pristáť pod lištou, nie za ňou. */
+html:root {
+  scroll-padding-top: calc(var(--site-header-h, 90px) + 1rem);
+}
+
+/* --------------------------------------------------------------------------
    1. Hlavička má vlastnú kompozitnú vrstvu
 
    Lišta sa dovtedy rastrovala v jednej vrstve s obsahom, ktorý sa pod ňou
