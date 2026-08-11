@@ -8,6 +8,50 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
+   1a. Hlavička sa nehýbe vôbec
+
+   `position: sticky` znamená, že hlavička je v toku stránky a prehliadač jej
+   pri každom snímku scrollu dopočítava posun. V Safari beží zotrvačné
+   scrollovanie mimo hlavného vlákna, takže keď hlavné vlákno čo i len na
+   chvíľu zaváha, lišta sa prekreslí neskôr než zvyšok stránky — odtiaľ to
+   miznutie a doskakovanie.
+
+   `position: fixed` túto triedu problémov ruší: lišta je pripnutá k oknu a
+   pri scrollovaní sa neprepočítava vôbec.
+
+   Aby neprekážala: hlavička sama dotyky nechytá (`pointer-events: none`,
+   zapnuté sú len na lište), miesto po nej v toku drží `.site-header-spacer`,
+   takže sa žiadny obsah nedostane pod ňu, a kotvy majú `scroll-padding-top`
+   väčší než jej výška.
+   -------------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+}
+
+/* Výšku dopĺňa `Nav` z reálnej hlavičky. Tieto hodnoty sú záloha pre prvé
+   vykreslenie zo servera a pre prehliadač bez JavaScriptu. */
+html:root body .site-header-spacer {
+  height: var(--site-header-h, 86px);
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  html:root body .site-header-spacer {
+    height: var(--site-header-h, 90px);
+  }
+}
+
+/* Kotvy musia pristáť pod lištou, nie za ňou. */
+html:root {
+  scroll-padding-top: calc(var(--site-header-h, 90px) + 1rem);
+}
+
+/* --------------------------------------------------------------------------
    1. Hlavička má vlastnú kompozitnú vrstvu
 
    Lišta sa dovtedy rastrovala v jednej vrstve s obsahom, ktorý sa pod ňou
@@ -17,11 +61,13 @@
    Povýšiť sa smie len samotná lišta, nie `.site-header`. Hlavička obsahuje
    `position: fixed` vrstvu s menu — akýkoľvek `transform` na nej by z nej
    spravil vzťažný blok a celoobrazovkové menu by sa scvrklo na hlavičku.
+
+   `backface-visibility: hidden` tu zámerne nie je. Ako liek na preblikávanie
+   sa traduje, ale vo WebKite je častejšie príčinou toho, že prvok počas
+   zotrvačného scrollovania zmizne. Na oddelenie vrstvy stačí `translateZ`.
    -------------------------------------------------------------------------- */
 html:root body .site-theme-white-green .site-header-bar {
   transform: translateZ(0) !important;
-  -webkit-backface-visibility: hidden !important;
-  backface-visibility: hidden !important;
 }
 
 /* Bod, podľa ktorého hlavička pozná, že už nesedí na vrchu stránky.
@@ -49,6 +95,55 @@ html:root body[data-site-menu-open="true"] {
 
 html:root body .site-theme-white-green .site-menu-drawer {
   overscroll-behavior: contain;
+}
+
+/* --------------------------------------------------------------------------
+   0. Odhaľovanie po scrolle nesmie nič skryť
+
+   Karty a nadpisy sa usadzovali cez `animation-timeline: view()` z hodnoty
+   `opacity: 0`. Taká animácia je zo svojej podstaty obojsmerná: pri ceste
+   späť hore prejde prvok fázou `entry` odzadu, výplň sa vráti na začiatočný
+   snímok a obsah zmizne. Rovnaký záver je už zapísaný v `ScrollMotionFinal`,
+   kde sa preto cenníkové karty z tejto osi odobrali — na tieto dve pravidlá
+   sa vtedy nedostalo.
+
+   Snímky sú preto prepísané na čistý posun. Meno sa nemení, takže platí
+   všade, kde sa animácia používa. Zosvetlenie obstaráva pohybová knižnica,
+   ktorá prvok odhalí raz a nechá ho odhalený; `.lp-caps-row`, `.lp-project`
+   aj `.lp-faq-item` cez ňu už prechádzajú.
+   -------------------------------------------------------------------------- */
+@keyframes lp-rise-in {
+  from {
+    transform: translateY(26px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes lp-heading-in {
+  from {
+    transform: translateY(18px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3a. Raz videná sekcia sa už nepreskakuje
+
+   `content-visibility: auto` preskočí sekciu zakaždým, keď odíde z obrazovky.
+   Pri rýchlom scrollovaní späť hore sa ich preto niekoľko naraz rozkladá
+   odznova — na mobile to stálo tri dlhé úlohy a najhoršiu snímku 136 ms.
+   Úspora sa pritom týka len prvého načítania, takže po prvom zobrazení
+   sekciu uvoľníme; značku dáva `useSettledSections`.
+   -------------------------------------------------------------------------- */
+html:root body [data-settled="true"] {
+  content-visibility: visible !important;
+  contain-intrinsic-size: auto !important;
 }
 
 /* --------------------------------------------------------------------------
