@@ -6,20 +6,50 @@
   "regions": ["fra1"],
   "rewrites": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "praziarnicka.mojchatbot.sk" }],
+      "destination": "https://kava-chatbot-backend.vercel.app/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "diamonds.mojchatbot.sk" }],
+      "destination": "https://kava-chatbot-backend.vercel.app/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "kaffa.mojchatbot.sk" }],
+      "destination": "https://kava-chatbot-backend.vercel.app/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "vitazov.mojchatbot.sk" }],
+      "destination": "https://kava-chatbot-backend.vercel.app/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "concept.mojchatbot.sk" }],
+      "destination": "https://kava-chatbot-backend.vercel.app/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "jolka.mojchatbot.sk" }],
+      "destination": "https://kava-chatbot-backend.vercel.app/:path*"
+    },
+    {
       "source": "/ukazka-api/chat",
       "destination": "https://moj-chatbot-backend-f07xtau46-danielvendzur-codes-projects.vercel.app/api/coffeeChat"
     },
     {
       "source": "/ukazka/:slug",
-      "destination": "https://kava-chatbot-backend-f5umzo593-danielvendzur-codes-projects.vercel.app/ukazka/:slug"
+      "destination": "https://kava-chatbot-backend.vercel.app/ukazka/:slug"
     },
     {
       "source": "/ukazka/:slug/",
-      "destination": "https://kava-chatbot-backend-f5umzo593-danielvendzur-codes-projects.vercel.app/ukazka/:slug/"
+      "destination": "https://kava-chatbot-backend.vercel.app/ukazka/:slug/"
     },
     {
       "source": "/coffee-:path*",
-      "destination": "https://kava-chatbot-backend-f5umzo593-danielvendzur-codes-projects.vercel.app/coffee-:path*"
+      "destination": "https://kava-chatbot-backend.vercel.app/coffee-:path*"
     }
   ],
   "headers": [
