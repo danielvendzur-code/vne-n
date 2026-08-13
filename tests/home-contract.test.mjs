@@ -122,9 +122,19 @@ test("the dedicated pricing page still covers client preparation", async () => {
   const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
   const faq = await read("src/data/faq.ts");
   const config = await read("src/config/site.ts");
-  assert.match(conversion, /AI chatbot na mieru/);
-  assert.match(conversion, /Chatbot s výpočtom/);
-  assert.match(conversion, /Chatbot s konfigurátorom/);
+  // Ponuka stojí na troch balíkoch. Predtým sa tu kontrolovali názvy troch
+  // typov riešenia, lebo balíky sa tak volali; typy riešenia teraz žijú vnútri
+  // balíkov, takže kontrakt drží samotné stupne a ich ceny.
+  assert.match(conversion, /title: "START"/);
+  assert.match(conversion, /title: "SMART"/);
+  assert.match(conversion, /title: "PRO"/);
+  assert.match(conversion, /od 390 €/);
+  assert.match(conversion, /od 690 €/);
+  assert.match(conversion, /od 990 €/);
+  // Odporúčaný stupeň je práve jeden.
+  assert.equal(conversion.match(/badge: "Najčastejšia voľba"/g)?.length, 1);
+  // Nesľubujeme integrácie ako garantovanú súčasť balíka.
+  assert.match(conversion, /Voliteľné prepojenie podľa projektu/);
   assert.match(conversion, /Web a ponuka/);
   assert.match(conversion, /Pravidlá a podklady/);
   assert.match(conversion, /Značka a vzhľad/);

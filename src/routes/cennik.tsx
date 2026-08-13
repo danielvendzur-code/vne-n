@@ -8,7 +8,7 @@ export const Route = createFileRoute("/cennik")({
     ...seo({
       title: "Cena a čo potrebujeme od klienta",
       description:
-        "AI chatbot na mieru za 350 € jednorazovo a 10 € mesačne. Kalkulačka či konfigurátor od 400 €. Presnú cenu povieme vopred po krátkom zadaní.",
+        "Tri balíky: START od 390 €, SMART od 690 € a PRO od 990 € jednorazovo, plus mesačná prevádzka od 29 €. Presnú cenu povieme vopred po krátkom zadaní.",
       path: "/cennik",
     }),
     scripts: [
@@ -35,7 +35,7 @@ function PricingPage() {
             Koľko to stojí <em>a čo od vás potrebujeme.</em>
           </>
         }
-        lead="Každé riešenie má jednorazovú cenu za postavenie a mesačný poplatok za prevádzku. Ak má nástroj aj počítať alebo skladať produkt, rozsah závisí od počtu otázok a pravidiel — presnú cenu povieme vopred."
+        lead="Tri balíky podľa toho, čo má chatbot na webe robiť. Každý má jednorazovú cenu za postavenie a mesačný poplatok za prevádzku. Ceny sú uvedené od — konečný rozsah závisí od počtu otázok a pravidiel a povieme ho vopred."
       />
       <HomeConversionUpgrade />
     </div>

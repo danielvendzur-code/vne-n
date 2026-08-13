@@ -77,14 +77,48 @@ html:root body .site-theme-white-green .lp-page .lp-hero {
   align-items: start !important;
 }
 
+/* Nad eyebrowom bol na notebooku zhruba dvojnásobok priestoru, než sekcia
+   potrebuje. Horné odsadenie pásu ide dole, aby hero začalo hneď pod lištou;
+   spodné ostáva, aby sa pás neprilepil na nasledujúcu sekciu.
+
+   Selektor musí kopírovať tvar `\.lp-page > section:is(…)` zo `SystemFinal`,
+   ktorý pásu vnucuje spoločné `padding-block: var(--sp-section)`. Bez
+   potomkovského `> section` je pravidlo o stupeň slabšie a neplatí. */
+@media (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page > section.lp-hero {
+    padding-top: clamp(1.4rem, 3vh, 2rem) !important;
+  }
+}
+
+/* Na telefóne a tablete je zásah menší — hero tam beží cez celú šírku a
+   nadpis je vysoký, takže odsadenie nesie viac váhy. */
+@media (max-width: 899px) {
+  html:root body .site-theme-white-green .lp-page > section.lp-hero {
+    padding-top: clamp(1.6rem, 4.2vh, 2.9rem) !important;
+  }
+}
+
 html:root body .site-theme-white-green .lp-page .lp-hero-grid {
   min-height: auto !important;
   padding-top: clamp(0.9rem, 2vh, 1.35rem) !important;
   padding-bottom: clamp(1.15rem, 2.2vh, 1.7rem) !important;
 }
 
+@media (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    padding-top: 0.35rem !important;
+  }
+}
+
+/* Karta má začínať zároveň s textom, nie o kus nižšie. */
 html:root body .site-theme-white-green .lp-page .lp-hero-stage {
   margin-top: -2.75rem !important;
+}
+
+@media (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+    margin-top: -5.9rem !important;
+  }
 }
 
 html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
@@ -135,6 +169,26 @@ html:root body .site-theme-white-green .lp-eyebrow-num {
   font-size: 0.74rem !important;
   font-weight: 840 !important;
   letter-spacing: 0.04em !important;
+}
+
+/* ---------------------------------------------------------------------
+   Anti-AI pass. Dva konkrétne prvky, ktoré čítali ako AI SaaS šablóna.
+
+   1. Zelená žiara za hero kartou: 840 px kruh limetkovej na 0,7 krytia.
+      Kompozične pomáha odlíšiť pravú stranu, takže neodchádza — ale
+      stlmená prestane byť prvá vec, ktorú na stránke vidno.
+
+   2. Bodka pri krokoch DERAT príbehu sedí na vodiacej línii, takže pomáha
+      orientácii a ostáva. Odchádza z nej dvojitá žiara (halo + 18px záblesk),
+      ktorá z orientačnej značky robila svietiacu ozdobu.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-hero-glow {
+  opacity: 0.26 !important;
+  filter: blur(26px) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .derat-story__copy-step::before {
+  box-shadow: none !important;
 }
 
 /* ---------------------------------------------------------------------
@@ -208,7 +262,13 @@ html:root body .site-theme-white-green .rz-card[href="https://derat.sk/"] .rz-sh
   background: #f3f7f2 !important;
 }
 
-html:root body .site-theme-white-green .lp-project > a[href="https://derat.sk/"] .lp-project-media img,
+html:root
+  body
+  .site-theme-white-green
+  .lp-project
+  > a[href="https://derat.sk/"]
+  .lp-project-media
+  img,
 html:root body .site-theme-white-green .rz-card[href="https://derat.sk/"] .rz-shot img {
   width: 88% !important;
   height: 88% !important;
@@ -409,7 +469,13 @@ html:root body .site-theme-white-green .rz-card[href="https://derat.sk/"] .rz-sh
     min-height: 23rem !important;
   }
 
-  html:root body .site-theme-white-green .lp-project > a[href="https://derat.sk/"] .lp-project-media img,
+  html:root
+    body
+    .site-theme-white-green
+    .lp-project
+    > a[href="https://derat.sk/"]
+    .lp-project-media
+    img,
   html:root body .site-theme-white-green .rz-card[href="https://derat.sk/"] .rz-shot img {
     width: 92% !important;
     height: 92% !important;
