@@ -35,13 +35,13 @@ function presetFromHeroChoice(button: HTMLElement): AssistantPreset {
 }
 
 function normalizeChoiceFlashlight(): void {
-  document.querySelectorAll<HTMLElement>(SMALL_FLASHLIGHT_TARGETS).forEach((item) => {
-    item.removeAttribute("data-choice-flashlight");
-  });
-  const card = document.querySelector<HTMLElement>(".lp-assistant-card");
-  if (card && card.dataset.choiceFlashlight !== "true") {
-    card.setAttribute("data-choice-flashlight", "true");
-  }
+  document
+    .querySelectorAll<HTMLElement>(
+      `${SMALL_FLASHLIGHT_TARGETS}, .lp-assistant-card[data-choice-flashlight]`,
+    )
+    .forEach((item) => {
+      item.removeAttribute("data-choice-flashlight");
+    });
 }
 
 function installMobileMotion() {
