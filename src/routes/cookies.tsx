@@ -48,7 +48,7 @@ function CookiesPage() {
               <Cookie />
             </span>
             <p className="cookies-card__kicker">01 / Cookies</p>
-            <h2>Bez súhlasu nespúšťame Google Analytics.</h2>
+            <h2>Žiadne sledovacie cookies bez vášho súhlasu.</h2>
             <p>
               Základné meranie cez Vercel Analytics funguje bez analytických cookies. Google
               Analytics sa načíta až po voľbe „Povoliť analytiku“ a pri jeho používaní môžu byť

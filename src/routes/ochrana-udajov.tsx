@@ -60,21 +60,18 @@ const purposes = [
     what: "Súhrnné údaje o otvorenej stránke, zdroji návštevy, krajine, zariadení a prehliadači.",
     why: "Aby sme rozumeli používaniu webu, opravovali problémy a zlepšovali obsah.",
     basis: "Oprávnený záujem na meraní a zlepšovaní webu — čl. 6 ods. 1 písm. f) GDPR.",
-    keep:
-      "Vercel Analytics nepoužíva analytické cookies. Súhrnné reporty môžu byť uchované podľa nastavenia služby.",
+    keep: "Vercel Analytics nepoužíva analytické cookies. Súhrnné reporty môžu byť uchované podľa nastavenia služby.",
   },
   ...(googleAnalyticsEnabled
     ? [
         {
           icon: Globe2,
           title: "Google Analytics po súhlase",
-          what:
-            "Údaje o návšteve stránky, zdroji návštevy, zariadení a interakcii s webom, ktoré Google Analytics spracuje po udelení súhlasu.",
+          what: "Údaje o návšteve stránky, zdroji návštevy, zariadení a interakcii s webom, ktoré Google Analytics spracuje po udelení súhlasu.",
           why: "Aby sme vedeli podrobnejšie vyhodnotiť návštevnosť a zlepšovať jednotlivé stránky.",
           basis:
             "Súhlas návštevníka — čl. 6 ods. 1 písm. a) GDPR. Bez súhlasu sa Google Analytics nenačíta.",
-          keep:
-            "Podľa retenčného nastavenia Google Analytics; súhlas je možné kedykoľvek zmeniť na stránke Cookies a analytika.",
+          keep: "Podľa retenčného nastavenia Google Analytics; súhlas je možné kedykoľvek zmeniť na stránke Cookies a analytika.",
         },
       ]
     : []),
