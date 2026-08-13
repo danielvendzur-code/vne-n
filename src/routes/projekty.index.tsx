@@ -28,7 +28,7 @@ export const Route = createFileRoute("/projekty/")({
     ...seo({
       title: "Realizácie — weby a chatboty, ktoré bežia naživo",
       description:
-        "Reálne nasadené weby na vlastných doménach: mojplot.sk, koverta.sk a webko.sk. Plus živé kalkulačky a asistenti, ktoré si viete hneď vyskúšať.",
+        "Reálne nasadené weby na vlastných doménach: derat.sk, mojplot.sk, koverta.sk a webko.sk. Pozrite si živé projekty aj detailnú prípadovú štúdiu DERAT.",
       path: "/projekty",
     }),
     scripts: [
@@ -52,7 +52,7 @@ function ProjectsPage() {
             Weby a nástroje, <em>ktoré naozaj bežia.</em>
           </>
         }
-        lead="Žiadne vymyslené prípadové štúdie. Každý web nižšie má vlastnú doménu a viete si ho hneď otvoriť."
+        lead="Každý web nižšie má vlastnú doménu a viete si ho hneď otvoriť. Pri DERAT nájdete aj konkrétnu prípadovú štúdiu od vstupu po pripravený dopyt."
       >
         <div className="sp-hero-chips">
           <span className="chip">Živé domény</span>
@@ -95,6 +95,11 @@ function ProjectsPage() {
                     </span>
                   </span>
                 </a>
+                {project.caseStudyPath ? (
+                  <Link to={project.caseStudyPath} className="rz-case-link">
+                    Pozrieť prípadovú štúdiu <ArrowRight aria-hidden="true" size={14} />
+                  </Link>
+                ) : null}
               </Reveal>
             ))}
           </div>

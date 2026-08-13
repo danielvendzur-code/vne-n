@@ -2,17 +2,28 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, Cookie, Fingerprint, ShieldCheck } from "lucide-react";
 import { PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { siteConfig } from "@/config/site";
-import { seo } from "@/lib/seo";
+import { openAnalyticsPreferences } from "@/lib/analytics-consent";
+import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./cookies.css";
+
+const googleAnalyticsEnabled = /^G-[A-Z0-9]+$/i.test(
+  import.meta.env.VITE_GA_MEASUREMENT_ID?.trim() || "",
+);
 
 export const Route = createFileRoute("/cookies")({
   head: () => ({
     ...seo({
       title: "Cookies a meranie návštevnosti — Môj Chatbot",
       description:
-        "Prehľad technológií používaných na webe, cookie-free analytiky a ochrany súkromia návštevníkov.",
+        "Prehľad technológií používaných na meranie návštevnosti: cookie-free Vercel Analytics a voliteľný Google Analytics iba po súhlase.",
       path: "/cookies",
     }),
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: breadcrumbJsonLd([{ name: "Cookies a analytika", path: "/cookies" }]),
+      },
+    ],
   }),
   component: CookiesPage,
 });
@@ -24,10 +35,10 @@ function CookiesPage() {
         eyebrow="Súkromie a analytika"
         title={
           <>
-            Štatistiky bez reklamných profilov. <em>Žiadne sledovacie cookies.</em>
+            Meranie návštevnosti <em>pod vašou kontrolou.</em>
           </>
         }
-        lead="Web používa cookie-free Vercel Web Analytics na súhrnné meranie návštevnosti. Nevytvárame reklamné profily a nepoužívame Google Analytics ani marketingové pixely."
+        lead="Vercel Web Analytics používame bez analytických cookies. Google Analytics sa spustí iba vtedy, keď je na webe nakonfigurovaný a návštevník ho výslovne povolí."
       />
 
       <section className="cookies-section">
@@ -37,11 +48,11 @@ function CookiesPage() {
               <Cookie />
             </span>
             <p className="cookies-card__kicker">01 / Cookies</p>
-            <h2>Analytické a marketingové cookies nepoužívame.</h2>
+            <h2>Žiadne sledovacie cookies bez vášho súhlasu.</h2>
             <p>
-              Meranie návštevnosti neukladá do prehliadača identifikátor návštevníka. Web môže
-              používať iba technické úložisko potrebné pre konkrétnu funkciu rozhrania, nikdy nie na
-              reklamnú identifikáciu naprieč webmi.
+              Základné meranie cez Vercel Analytics funguje bez analytických cookies. Google
+              Analytics sa načíta až po voľbe „Povoliť analytiku“ a pri jeho používaní môžu byť
+              uložené analytické cookies podľa nastavenia služby Google.
             </p>
           </Reveal>
 
@@ -49,19 +60,17 @@ function CookiesPage() {
             <span className="cookies-card__icon" aria-hidden="true">
               <BarChart3 />
             </span>
-            <p className="cookies-card__kicker">02 / Návštevnosť</p>
-            <h2>Vercel Web Analytics</h2>
+            <p className="cookies-card__kicker">02 / Vercel Analytics</p>
+            <h2>Cookie-free súhrnné meranie</h2>
             <p>
               Zobrazujú sa súhrnné počty návštev, otvorené stránky, zdroje návštevnosti, krajina,
-              typ zariadenia a prehliadač. Údaje slúžia na zlepšovanie obsahu a použiteľnosti webu.
+              typ zariadenia a prehliadač. Údaje používame na zlepšovanie obsahu, použiteľnosti a
+              technickej kvality webu.
             </p>
             <div className="cookies-status">
               <span>Režim merania</span>
-              <b>Bez cookies a bez trvalého identifikátora</b>
-              <p>
-                Dočasný anonymizovaný identifikátor sa obnovuje každý deň a relácia sa neuchováva
-                dlhšie než 24 hodín.
-              </p>
+              <b>Bez analytických cookies</b>
+              <p>Obsah formulára ani chatbota sa do analytiky neposiela.</p>
             </div>
           </Reveal>
 
@@ -69,13 +78,26 @@ function CookiesPage() {
             <span className="cookies-card__icon" aria-hidden="true">
               <Fingerprint />
             </span>
-            <p className="cookies-card__kicker">03 / Čo nevidíme</p>
-            <h2>Nevidíme konkrétneho človeka.</h2>
+            <p className="cookies-card__kicker">03 / Google Analytics</p>
+            <h2>
+              {googleAnalyticsEnabled
+                ? "Aktívny iba po súhlase"
+                : "Pripravený, zatiaľ neaktivovaný"}
+            </h2>
             <p>
-              Štatistiky neslúžia na pomenovanie návštevníka, spájanie návštev medzi dňami ani
-              sledovanie aktivity na iných webových stránkach. Obsah formulára a chatbota sa do
-              analytiky neposiela.
+              {googleAnalyticsEnabled
+                ? "Google Analytics 4 je nakonfigurovaný, ale kód sa načíta až po výslovnom súhlase návštevníka. Súhlas sa dá kedykoľvek zmeniť."
+                : "Integrácia je v kóde pripravená, ale bez platného Google Measurement ID sa Google Analytics vôbec nenačíta ani neodosiela žiadne dáta."}
             </p>
+            {googleAnalyticsEnabled ? (
+              <button
+                type="button"
+                className="sp-button sp-button--ghost"
+                onClick={openAnalyticsPreferences}
+              >
+                Zmeniť nastavenie analytiky
+              </button>
+            ) : null}
           </Reveal>
 
           <Reveal className="cookies-card" direction="right" delay={0.14}>
@@ -83,11 +105,11 @@ function CookiesPage() {
               <ShieldCheck />
             </span>
             <p className="cookies-card__kicker">04 / Právny základ</p>
-            <h2>Zlepšovanie webu a ochrana prevádzky.</h2>
+            <h2>Rozlišujeme cookie-free meranie a súhlas.</h2>
             <p>
-              Súhrnné meranie používame na základe oprávneného záujmu rozumieť fungovaniu webu,
-              odhaľovať technické problémy a zlepšovať obsah. Podrobnosti sú na stránke ochrany
-              osobných údajov.
+              Cookie-free Vercel Analytics používame na základe oprávneného záujmu na zlepšovaní a
+              bezpečnej prevádzke webu. Google Analytics používame iba po súhlase návštevníka; bez
+              súhlasu sa jeho skript nenačíta.
             </p>
           </Reveal>
         </div>
@@ -99,7 +121,7 @@ function CookiesPage() {
             Otázky k súkromiu:{" "}
             <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
           </p>
-          <small>Posledná aktualizácia: 1. augusta 2026</small>
+          <small>Posledná aktualizácia: 13. augusta 2026</small>
         </div>
       </section>
     </div>

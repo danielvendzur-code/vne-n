@@ -2,9 +2,8 @@
  * Reálne nasadené weby, ktoré si vie ktokoľvek otvoriť a overiť.
  *
  * Zámerne tu nie sú žiadne vymyslené „ukážky" — na stránke realizácií
- * má stáť len to, čo naozaj beží na vlastnej doméne. Interaktívne demá
- * nástrojov žijú samostatne v `src/data/projects.ts` a sú tak aj
- * označené.
+ * má stáť len to, čo naozaj beží na vlastnej doméne. Interaktívne nástroje
+ * bez vlastnej domény žijú samostatne v `liveTools`.
  */
 export interface Realization {
   name: string;
@@ -17,9 +16,23 @@ export interface Realization {
   detail: string;
   image: string;
   alt: string;
+  /** Voliteľná interná prípadová štúdia. */
+  caseStudyPath?: "/projekty/derat";
 }
 
 export const realizations: Realization[] = [
+  {
+    name: "DERAT",
+    type: "Služby · kalkulačka a dopytový asistent",
+    domain: "derat.sk",
+    href: "https://derat.sk/",
+    result: "Kalkulačka prevedie návštevníka od problému k orientačnej cene a pripravenému dopytu.",
+    detail:
+      "Reálne nasadená deratizačná služba. Návštevník vyberie typ problému a rozsah zásahu, dostane orientačný výsledok a firma prijme kontakt spolu s kontextom potrebným na ďalší krok.",
+    image: `${import.meta.env.BASE_URL}work/derat-v2/04-result.webp`,
+    alt: "Mobilná ukážka výsledku kalkulačky DERAT s orientačnou cenou a pripraveným dopytom",
+    caseStudyPath: "/projekty/derat",
+  },
   {
     name: "Môj Plot",
     type: "E-commerce · produktový web",
@@ -55,13 +68,8 @@ export const realizations: Realization[] = [
   },
 ];
 
-/** Živé nástroje, ktoré bežia mimo vlastného webu a dajú sa vyskúšať. */
+/** Živé nástroje mimo vlastnej domény, ktoré sa dajú priamo vyskúšať. */
 export const liveTools = [
-  {
-    name: "DERAT kalkulačka",
-    href: "https://derat-chatbot-backend.vercel.app/",
-    note: "Cenová kalkulačka pre deratizáciu",
-  },
   {
     name: "APLAN AI",
     href: "https://danielvendzur-code.github.io/aplan-chatbot-backend/",
