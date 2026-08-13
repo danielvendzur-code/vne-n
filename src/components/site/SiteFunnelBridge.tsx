@@ -66,6 +66,7 @@ function updateHeroAnswer(index = selectedHeroIndex()): void {
 }
 
 function prepareVisibleCopy(): void {
+  setText(".lp-assistant-card > p", "Predstavujete si niečo podobné?");
   setText(".lp-hero-context", "Chatboty pre e-shopy aj firmy so službami");
   setText(
     ".lp-hero-lead",
