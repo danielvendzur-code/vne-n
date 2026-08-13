@@ -16,10 +16,12 @@ import { Route as OchranaUdajovRouteImport } from './routes/ochrana-udajov'
 import { Route as NavrhRouteImport } from './routes/navrh'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as FarbyRouteImport } from './routes/farby'
+import { Route as DakujemeRouteImport } from './routes/dakujeme'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as CennikRouteImport } from './routes/cennik'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
+import { Route as ProjektyDeratRouteImport } from './routes/projekty.derat'
 import { Route as ApiLeadRouteImport } from './routes/api.lead'
 
 const SluzbyRoute = SluzbyRouteImport.update({
@@ -57,6 +59,11 @@ const FarbyRoute = FarbyRouteImport.update({
   path: '/farby',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DakujemeRoute = DakujemeRouteImport.update({
+  id: '/dakujeme',
+  path: '/dakujeme',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CookiesRoute = CookiesRouteImport.update({
   id: '/cookies',
   path: '/cookies',
@@ -77,6 +84,11 @@ const ProjektyIndexRoute = ProjektyIndexRouteImport.update({
   path: '/projekty/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjektyDeratRoute = ProjektyDeratRouteImport.update({
+  id: '/projekty/derat',
+  path: '/projekty/derat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiLeadRoute = ApiLeadRouteImport.update({
   id: '/api/lead',
   path: '/api/lead',
@@ -87,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
+  '/dakujeme': typeof DakujemeRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
   '/navrh': typeof NavrhRoute
@@ -95,12 +108,14 @@ export interface FileRoutesByFullPath {
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
+  '/projekty/derat': typeof ProjektyDeratRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
+  '/dakujeme': typeof DakujemeRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
   '/navrh': typeof NavrhRoute
@@ -109,6 +124,7 @@ export interface FileRoutesByTo {
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
+  '/projekty/derat': typeof ProjektyDeratRoute
   '/projekty': typeof ProjektyIndexRoute
 }
 export interface FileRoutesById {
@@ -116,6 +132,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
+  '/dakujeme': typeof DakujemeRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
   '/navrh': typeof NavrhRoute
@@ -124,6 +141,7 @@ export interface FileRoutesById {
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
+  '/projekty/derat': typeof ProjektyDeratRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
 export interface FileRouteTypes {
@@ -132,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cennik'
     | '/cookies'
+    | '/dakujeme'
     | '/farby'
     | '/kontakt'
     | '/navrh'
@@ -140,12 +159,14 @@ export interface FileRouteTypes {
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
+    | '/projekty/derat'
     | '/projekty/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cennik'
     | '/cookies'
+    | '/dakujeme'
     | '/farby'
     | '/kontakt'
     | '/navrh'
@@ -154,12 +175,14 @@ export interface FileRouteTypes {
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
+    | '/projekty/derat'
     | '/projekty'
   id:
     | '__root__'
     | '/'
     | '/cennik'
     | '/cookies'
+    | '/dakujeme'
     | '/farby'
     | '/kontakt'
     | '/navrh'
@@ -168,6 +191,7 @@ export interface FileRouteTypes {
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
+    | '/projekty/derat'
     | '/projekty/'
   fileRoutesById: FileRoutesById
 }
@@ -175,6 +199,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CennikRoute: typeof CennikRoute
   CookiesRoute: typeof CookiesRoute
+  DakujemeRoute: typeof DakujemeRoute
   FarbyRoute: typeof FarbyRoute
   KontaktRoute: typeof KontaktRoute
   NavrhRoute: typeof NavrhRoute
@@ -183,6 +208,7 @@ export interface RootRouteChildren {
   PrecoChatbotRoute: typeof PrecoChatbotRoute
   SluzbyRoute: typeof SluzbyRoute
   ApiLeadRoute: typeof ApiLeadRoute
+  ProjektyDeratRoute: typeof ProjektyDeratRoute
   ProjektyIndexRoute: typeof ProjektyIndexRoute
 }
 
@@ -237,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FarbyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dakujeme': {
+      id: '/dakujeme'
+      path: '/dakujeme'
+      fullPath: '/dakujeme'
+      preLoaderRoute: typeof DakujemeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cookies': {
       id: '/cookies'
       path: '/cookies'
@@ -265,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjektyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projekty/derat': {
+      id: '/projekty/derat'
+      path: '/projekty/derat'
+      fullPath: '/projekty/derat'
+      preLoaderRoute: typeof ProjektyDeratRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/lead': {
       id: '/api/lead'
       path: '/api/lead'
@@ -279,6 +319,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CennikRoute: CennikRoute,
   CookiesRoute: CookiesRoute,
+  DakujemeRoute: DakujemeRoute,
   FarbyRoute: FarbyRoute,
   KontaktRoute: KontaktRoute,
   NavrhRoute: NavrhRoute,
@@ -287,6 +328,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrecoChatbotRoute: PrecoChatbotRoute,
   SluzbyRoute: SluzbyRoute,
   ApiLeadRoute: ApiLeadRoute,
+  ProjektyDeratRoute: ProjektyDeratRoute,
   ProjektyIndexRoute: ProjektyIndexRoute,
 }
 export const routeTree = rootRouteImport

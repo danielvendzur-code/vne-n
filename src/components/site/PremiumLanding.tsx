@@ -22,8 +22,8 @@ import {
   MessageCircle,
   PenLine,
   Rocket,
+  Route,
   SlidersHorizontal,
-  Sparkles,
   Workflow,
   X,
 } from "lucide-react";
@@ -100,7 +100,7 @@ const heroTools = {
   },
   assistant: {
     label: "Chatbot ako sprievodca",
-    icon: Sparkles,
+    icon: Route,
     text: "Interaktívny sprievodca, ktorý zákazníka na webe navedie k správnemu ďalšiemu kroku.",
   },
 } satisfies Record<HeroToolKey, { label: string; icon: typeof Bot; text: string; combo?: boolean }>;
@@ -503,7 +503,7 @@ function Hero({ variant }: { variant: LandingVariant }) {
           style={stageDrift}
         >
           <div className="lp-assistant-card">
-            <p>Vyberte, čo má web robiť</p>
+            <p>Predstavujete si niečo podobné?</p>
             <div className="lp-hero-picker" role="group" aria-label="Typ riešenia">
               {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
                 ([key, tool]) => {
