@@ -20,9 +20,7 @@ function normalizePath(pathname: string): string {
 }
 
 export function Breadcrumbs() {
-  const pathname = normalizePath(
-    useRouterState({ select: (state) => state.location.pathname }),
-  );
+  const pathname = normalizePath(useRouterState({ select: (state) => state.location.pathname }));
   const label = ROUTE_LABELS[pathname];
 
   if (!label || pathname === "/") return null;

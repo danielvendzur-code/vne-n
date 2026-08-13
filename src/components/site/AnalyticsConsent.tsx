@@ -1,8 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { ANALYTICS_CONSENT_EVENT } from "@/lib/analytics-consent";
 
 const CONSENT_KEY = "mojchatbot.analytics-consent";
-const CONSENT_EVENT = "analytics-consent:open";
 
 type Consent = "granted" | "denied" | null;
 type Gtag = (...args: unknown[]) => void;
@@ -64,8 +64,8 @@ export function AnalyticsConsent() {
     }
 
     const reopen = () => setShowPrompt(true);
-    window.addEventListener(CONSENT_EVENT, reopen);
-    return () => window.removeEventListener(CONSENT_EVENT, reopen);
+    window.addEventListener(ANALYTICS_CONSENT_EVENT, reopen);
+    return () => window.removeEventListener(ANALYTICS_CONSENT_EVENT, reopen);
   }, [measurementId]);
 
   useEffect(() => {
@@ -118,8 +118,4 @@ export function AnalyticsConsent() {
       </div>
     </aside>
   );
-}
-
-export function openAnalyticsPreferences() {
-  if (typeof window !== "undefined") window.dispatchEvent(new Event(CONSENT_EVENT));
 }

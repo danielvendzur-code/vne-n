@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, Cookie, Fingerprint, ShieldCheck } from "lucide-react";
-import { openAnalyticsPreferences } from "@/components/site/AnalyticsConsent";
 import { PageIntro, Reveal } from "@/components/site/motion-primitives";
 import { siteConfig } from "@/config/site";
+import { openAnalyticsPreferences } from "@/lib/analytics-consent";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./cookies.css";
 
@@ -79,14 +79,22 @@ function CookiesPage() {
               <Fingerprint />
             </span>
             <p className="cookies-card__kicker">03 / Google Analytics</p>
-            <h2>{googleAnalyticsEnabled ? "Aktívny iba po súhlase" : "Pripravený, zatiaľ neaktivovaný"}</h2>
+            <h2>
+              {googleAnalyticsEnabled
+                ? "Aktívny iba po súhlase"
+                : "Pripravený, zatiaľ neaktivovaný"}
+            </h2>
             <p>
               {googleAnalyticsEnabled
                 ? "Google Analytics 4 je nakonfigurovaný, ale kód sa načíta až po výslovnom súhlase návštevníka. Súhlas sa dá kedykoľvek zmeniť."
                 : "Integrácia je v kóde pripravená, ale bez platného Google Measurement ID sa Google Analytics vôbec nenačíta ani neodosiela žiadne dáta."}
             </p>
             {googleAnalyticsEnabled ? (
-              <button type="button" className="sp-button sp-button--ghost" onClick={openAnalyticsPreferences}>
+              <button
+                type="button"
+                className="sp-button sp-button--ghost"
+                onClick={openAnalyticsPreferences}
+              >
                 Zmeniť nastavenie analytiky
               </button>
             ) : null}
