@@ -572,7 +572,6 @@ function Hero({ variant }: { variant: LandingVariant }) {
 function ValueSection() {
   const [mode, setMode] = useState<ComparisonMode>("with");
   const active = comparisons[mode];
-  const reducedMotion = useReducedMotion();
   const swipeStart = useRef<number | null>(null);
 
   return (
@@ -625,35 +624,26 @@ function ValueSection() {
               <span className="lp-control-label">S chatbotom</span>
             </button>
           </div>
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.div
-              className="lp-comparison-body"
-              key={mode}
-              data-mode={mode}
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-              initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
-              transition={
-                reducedMotion ? { duration: 0 } : { duration: MOTION.fast, ease: premiumEase }
-              }
-            >
-              <div className="lp-comparison-copy">
-                <h3>{active.title}</h3>
-                <span>{active.copy}</span>
-              </div>
-              <ul>
-                {active.items.map((item) => (
-                  <li key={item}>
-                    {mode === "with" ? <Check /> : <X />}
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </AnimatePresence>
+          <div
+            className="lp-comparison-body"
+            data-mode={mode}
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div className="lp-comparison-copy">
+              <h3>{active.title}</h3>
+              <span>{active.copy}</span>
+            </div>
+            <ul>
+              {active.items.map((item) => (
+                <li key={item}>
+                  {mode === "with" ? <Check /> : <X />}
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </Reveal>
       </div>
     </section>
