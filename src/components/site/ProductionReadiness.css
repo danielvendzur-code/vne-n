@@ -9,7 +9,7 @@
 .site-breadcrumbs {
   position: absolute;
   z-index: 8;
-  top: 1.15rem;
+  top: 0.8rem;
   right: 0;
   left: 0;
   pointer-events: none;
@@ -55,57 +55,59 @@
 }
 
 /* ---------------------------------------------------------------------
-   The subpage opening content sat too low. The breadcrumbs above are
-   overlayed, so this is a real upward shift rather than extra chrome.
+   Subpages were still starting visibly too low. Breadcrumbs are overlayed,
+   so the hero can begin much sooner without collision.
    --------------------------------------------------------------------- */
 html:root body .site-theme-white-green .sp-hero {
-  padding-top: clamp(5.4rem, 7.2vw, 6.9rem) !important;
-  padding-bottom: clamp(2.9rem, 5.2vw, 4.8rem) !important;
+  padding-top: clamp(3.25rem, 4.2vw, 4rem) !important;
+  padding-bottom: clamp(2.1rem, 3.5vw, 3.15rem) !important;
 }
 
 html:root body .site-theme-white-green .contact-page .contact-grid {
-  padding-top: clamp(5.6rem, 7.4vw, 7rem) !important;
+  padding-top: clamp(3.45rem, 4.4vw, 4.15rem) !important;
 }
 
 /* ---------------------------------------------------------------------
-   Home hero rhythm. The interactive card and proof row are pulled into
-   the first viewport without making the composition feel cramped.
+   Home hero rhythm. The old 100svh minimum was the main source of the
+   blank air. The hero now sizes to its content and the interactive card
+   starts materially higher while keeping the proof row in the first view.
    --------------------------------------------------------------------- */
 html:root body .site-theme-white-green .lp-page .lp-hero {
-  min-height: calc(100svh - var(--hr-header, 78px)) !important;
+  min-height: auto !important;
+  align-items: start !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-hero-grid {
-  min-height: calc(100svh - var(--hr-header, 78px)) !important;
-  padding-top: clamp(3.3rem, 5.6vh, 4.7rem) !important;
-  padding-bottom: clamp(1.5rem, 2.8vh, 2.5rem) !important;
+  min-height: auto !important;
+  padding-top: clamp(0.9rem, 2vh, 1.35rem) !important;
+  padding-bottom: clamp(1.15rem, 2.2vh, 1.7rem) !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-hero-stage {
-  margin-top: -1.45rem !important;
+  margin-top: -2.75rem !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
-  margin-top: -0.2rem !important;
-  margin-bottom: 0.95rem !important;
+  margin-top: -0.25rem !important;
+  margin-bottom: 0.85rem !important;
 }
 
 html:root body .site-theme-white-green .lp-page .lp-hero-proof {
-  margin-top: 1.25rem !important;
+  margin-top: 0.75rem !important;
 }
 
 @media (max-height: 860px) and (min-width: 900px) {
   html:root body .site-theme-white-green .lp-page .lp-hero-grid {
-    padding-top: 2.7rem !important;
-    padding-bottom: 1rem !important;
+    padding-top: 0.65rem !important;
+    padding-bottom: 0.9rem !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-hero-stage {
-    margin-top: -1.9rem !important;
+    margin-top: -3.1rem !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-hero-proof {
-    margin-top: 0.9rem !important;
+    margin-top: 0.55rem !important;
   }
 }
 
@@ -155,9 +157,9 @@ html:root body .site-theme-white-green .lp-hero-pick-icon::after {
 }
 
 /* ---------------------------------------------------------------------
-   Comparison: one surface, not a panel inside another panel. The old
-   pop-layout transition could visually slice the card while switching;
-   keeping the body stationary leaves a clean cross-fade and stable size.
+   Comparison: one stable DOM surface. ValueSection no longer remounts the
+   card when the mode changes, so there is no exiting absolute layer that
+   can cut through the incoming content.
    --------------------------------------------------------------------- */
 html:root body .site-theme-white-green .lp-page .lp-comparison {
   min-height: 24rem !important;
@@ -191,71 +193,29 @@ html:root body .site-theme-white-green .lp-page .lp-comparison-body {
   box-shadow: 0 28px 70px -54px rgba(11, 47, 32, 0.42) !important;
   transform: none !important;
   filter: none !important;
+  animation: none !important;
 }
 
 /* ---------------------------------------------------------------------
-   Floating conversion dock. On desktop it visually points at the actual
-   widget bubble; on mobile it becomes the requested sticky CTA and leaves
-   the bottom-right corner free for the widget itself.
+   DERAT: show the website capture, not a phone/result frame. It is inset
+   slightly so the screenshot reads as a website preview rather than a
+   full-bleed decorative image.
    --------------------------------------------------------------------- */
-.site-assistant-dock {
-  position: fixed;
-  z-index: 2147482500;
-  right: max(5.8rem, calc(env(safe-area-inset-right) + 5.1rem));
-  bottom: max(1.3rem, env(safe-area-inset-bottom));
-  display: inline-flex;
-  align-items: center;
-  gap: 0.68rem;
-  min-height: 3.65rem;
-  padding: 0.62rem 0.9rem 0.62rem 0.68rem;
-  border: 1px solid rgba(25, 131, 79, 0.2);
-  border-radius: 1.15rem;
-  color: #0b2f20;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 22px 55px -36px rgba(11, 47, 32, 0.58);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  cursor: pointer;
-  text-align: left;
-  transition:
-    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 220ms ease,
-    background-color 220ms ease;
+html:root body .site-theme-white-green .lp-project > a[href="https://derat.sk/"] .lp-project-media,
+html:root body .site-theme-white-green .rz-card[href="https://derat.sk/"] .rz-shot {
+  display: grid !important;
+  place-items: center !important;
+  background: #f3f7f2 !important;
 }
 
-.site-assistant-dock:hover,
-.site-assistant-dock:focus-visible {
-  border-color: rgba(25, 131, 79, 0.42);
-  background: #f5f9f2;
-  transform: translateY(-2px);
-}
-
-.site-assistant-dock__icon {
-  display: grid;
-  place-items: center;
-  width: 2.35rem;
-  height: 2.35rem;
-  flex: 0 0 auto;
-  border-radius: 0.82rem;
-  color: #0b2f20;
-  background: #d9ff78;
-}
-
-.site-assistant-dock__copy {
-  display: grid;
-  gap: 0.1rem;
-  line-height: 1.1;
-}
-
-.site-assistant-dock__copy strong {
-  font-size: 0.82rem;
-  font-weight: 760;
-}
-
-.site-assistant-dock__copy small {
-  color: #66736c;
-  font-size: 0.67rem;
-  font-weight: 570;
+html:root body .site-theme-white-green .lp-project > a[href="https://derat.sk/"] .lp-project-media img,
+html:root body .site-theme-white-green .rz-card[href="https://derat.sk/"] .rz-shot img {
+  width: 88% !important;
+  height: 88% !important;
+  margin: auto !important;
+  border-radius: 0.55rem !important;
+  object-fit: contain !important;
+  object-position: top center !important;
 }
 
 /* ---------------------------------------------------------------------
@@ -415,7 +375,7 @@ html:root body .site-theme-white-green .lp-page .lp-comparison-body {
 
 @media (max-width: 700px) {
   .site-breadcrumbs {
-    top: 0.72rem;
+    top: 0.5rem;
   }
 
   .site-breadcrumbs__inner {
@@ -423,22 +383,22 @@ html:root body .site-theme-white-green .lp-page .lp-comparison-body {
   }
 
   html:root body .site-theme-white-green .sp-hero {
-    padding-top: 4.85rem !important;
-    padding-bottom: 2.5rem !important;
+    padding-top: 3.55rem !important;
+    padding-bottom: 2rem !important;
   }
 
   html:root body .site-theme-white-green .contact-page .contact-grid {
-    padding-top: 5.15rem !important;
+    padding-top: 3.75rem !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-hero-grid {
     min-height: auto !important;
-    padding-top: 3.3rem !important;
-    padding-bottom: 2rem !important;
+    padding-top: 1.15rem !important;
+    padding-bottom: 1.45rem !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-hero-stage {
-    margin-top: 0.2rem !important;
+    margin-top: -0.45rem !important;
   }
 
   html:root body .site-theme-white-green .lp-page .lp-comparison {
@@ -449,35 +409,14 @@ html:root body .site-theme-white-green .lp-page .lp-comparison-body {
     min-height: 23rem !important;
   }
 
-  .site-assistant-dock {
-    right: max(5.5rem, calc(env(safe-area-inset-right) + 5rem));
-    bottom: max(0.75rem, env(safe-area-inset-bottom));
-    left: max(0.75rem, env(safe-area-inset-left));
-    width: auto;
-    min-height: 3.35rem;
-    padding: 0.5rem 0.7rem 0.5rem 0.55rem;
-    border-radius: 1rem;
-  }
-
-  .site-assistant-dock__icon {
-    width: 2.15rem;
-    height: 2.15rem;
-  }
-
-  .site-assistant-dock__copy strong {
-    font-size: 0.79rem;
-  }
-
-  .site-assistant-dock__copy small {
-    font-size: 0.64rem;
+  html:root body .site-theme-white-green .lp-project > a[href="https://derat.sk/"] .lp-project-media img,
+  html:root body .site-theme-white-green .rz-card[href="https://derat.sk/"] .rz-shot img {
+    width: 92% !important;
+    height: 92% !important;
   }
 }
 
 @media (max-width: 420px) {
-  .site-assistant-dock__copy small {
-    display: none;
-  }
-
   .analytics-consent__actions {
     flex-direction: column-reverse;
     align-items: stretch;

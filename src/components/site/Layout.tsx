@@ -5,7 +5,6 @@ import { useSettledSections } from "@/hooks/useSettledSections";
 import { useSpotlight } from "@/hooks/useSpotlight";
 import { AnalyticsConsent } from "./AnalyticsConsent";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { ConversionDock } from "./ConversionDock";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
@@ -132,7 +131,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             {children}
           </div>
         </main>
-        <ConversionDock />
         <AnalyticsConsent />
         <Footer />
       </div>
