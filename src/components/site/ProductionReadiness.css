@@ -1,0 +1,485 @@
+/* =====================================================================
+   Production readiness pass — 2026-08-13
+   Small, deliberate final overrides for the requested SEO/UX polish.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   Breadcrumbs: visible on real subpages without pushing the hero down.
+   --------------------------------------------------------------------- */
+.site-breadcrumbs {
+  position: absolute;
+  z-index: 8;
+  top: 1.15rem;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.site-breadcrumbs__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 1.75rem;
+  color: #67736c;
+  font-size: 0.75rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+.site-breadcrumbs__inner > * {
+  pointer-events: auto;
+}
+
+.site-breadcrumbs__inner a {
+  color: #19834f;
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+}
+
+.site-breadcrumbs__inner a:hover,
+.site-breadcrumbs__inner a:focus-visible {
+  text-decoration: underline;
+}
+
+.site-breadcrumbs__inner svg {
+  flex: 0 0 auto;
+  color: rgba(11, 47, 32, 0.34);
+}
+
+.site-breadcrumbs__inner [aria-current="page"] {
+  min-width: 0;
+  overflow: hidden;
+  color: #536159;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+   The subpage opening content sat too low. The breadcrumbs above are
+   overlayed, so this is a real upward shift rather than extra chrome.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .sp-hero {
+  padding-top: clamp(5.4rem, 7.2vw, 6.9rem) !important;
+  padding-bottom: clamp(2.9rem, 5.2vw, 4.8rem) !important;
+}
+
+html:root body .site-theme-white-green .contact-page .contact-grid {
+  padding-top: clamp(5.6rem, 7.4vw, 7rem) !important;
+}
+
+/* ---------------------------------------------------------------------
+   Home hero rhythm. The interactive card and proof row are pulled into
+   the first viewport without making the composition feel cramped.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-hero {
+  min-height: calc(100svh - var(--hr-header, 78px)) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+  min-height: calc(100svh - var(--hr-header, 78px)) !important;
+  padding-top: clamp(3.3rem, 5.6vh, 4.7rem) !important;
+  padding-bottom: clamp(1.5rem, 2.8vh, 2.5rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+  margin-top: -1.45rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
+  margin-top: -0.2rem !important;
+  margin-bottom: 0.95rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+  margin-top: 1.25rem !important;
+}
+
+@media (max-height: 860px) and (min-width: 900px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    padding-top: 2.7rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+    margin-top: -1.9rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+    margin-top: 0.9rem !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Section numbering: same language, more legible. Both the large
+   watermark and the compact number chip gain a little contrast.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page section[data-index]::before,
+html:root body .site-theme-white-green .derat-story[data-index]::before {
+  color: rgba(25, 131, 79, 0.105) !important;
+  opacity: 1 !important;
+}
+
+html:root body .site-theme-white-green .lp-eyebrow-num {
+  display: inline-grid !important;
+  place-items: center !important;
+  min-width: 2.35rem !important;
+  min-height: 1.9rem !important;
+  padding: 0 0.58rem !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: #0b2f20 !important;
+  background: #d9ff78 !important;
+  box-shadow: 0 8px 20px -16px rgba(25, 131, 79, 0.7) !important;
+  font-size: 0.74rem !important;
+  font-weight: 840 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* ---------------------------------------------------------------------
+   Remove decorative AI-looking dots / pseudo ornaments from chips.
+   Real SVG icons and text remain untouched.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .chip::before,
+html:root body .site-theme-white-green .chip::after,
+html:root body .site-theme-white-green .lp-chip::before,
+html:root body .site-theme-white-green .lp-chip::after,
+html:root body .site-theme-white-green .lp-caps-input::before,
+html:root body .site-theme-white-green .lp-caps-input::after,
+html:root body .site-theme-white-green .lp-hero-pick::before,
+html:root body .site-theme-white-green .lp-hero-pick::after,
+html:root body .site-theme-white-green .lp-hero-pick-icon::before,
+html:root body .site-theme-white-green .lp-hero-pick-icon::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   Comparison: one surface, not a panel inside another panel. The old
+   pop-layout transition could visually slice the card while switching;
+   keeping the body stationary leaves a clean cross-fade and stable size.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-comparison {
+  min-height: 24rem !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison::before,
+html:root body .site-theme-white-green .lp-page .lp-comparison::after,
+html:root body .site-theme-white-green .lp-page .lp-comparison-body::before,
+html:root body .site-theme-white-green .lp-page .lp-comparison-body::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison > .lp-switch {
+  margin: 0 auto 1rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+  position: relative !important;
+  min-height: 19.5rem !important;
+  overflow: visible !important;
+  border: 1px solid rgba(25, 131, 79, 0.18) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  background-image: none !important;
+  box-shadow: 0 28px 70px -54px rgba(11, 47, 32, 0.42) !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   Floating conversion dock. On desktop it visually points at the actual
+   widget bubble; on mobile it becomes the requested sticky CTA and leaves
+   the bottom-right corner free for the widget itself.
+   --------------------------------------------------------------------- */
+.site-assistant-dock {
+  position: fixed;
+  z-index: 2147482500;
+  right: max(5.8rem, calc(env(safe-area-inset-right) + 5.1rem));
+  bottom: max(1.3rem, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  gap: 0.68rem;
+  min-height: 3.65rem;
+  padding: 0.62rem 0.9rem 0.62rem 0.68rem;
+  border: 1px solid rgba(25, 131, 79, 0.2);
+  border-radius: 1.15rem;
+  color: #0b2f20;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 22px 55px -36px rgba(11, 47, 32, 0.58);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.site-assistant-dock:hover,
+.site-assistant-dock:focus-visible {
+  border-color: rgba(25, 131, 79, 0.42);
+  background: #f5f9f2;
+  transform: translateY(-2px);
+}
+
+.site-assistant-dock__icon {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 auto;
+  border-radius: 0.82rem;
+  color: #0b2f20;
+  background: #d9ff78;
+}
+
+.site-assistant-dock__copy {
+  display: grid;
+  gap: 0.1rem;
+  line-height: 1.1;
+}
+
+.site-assistant-dock__copy strong {
+  font-size: 0.82rem;
+  font-weight: 760;
+}
+
+.site-assistant-dock__copy small {
+  color: #66736c;
+  font-size: 0.67rem;
+  font-weight: 570;
+}
+
+/* ---------------------------------------------------------------------
+   Google Analytics consent UI. It only renders when a valid G-* ID is
+   configured, so the site never claims or starts GA by accident.
+   --------------------------------------------------------------------- */
+.analytics-consent {
+  position: fixed;
+  z-index: 2147482900;
+  left: max(1rem, env(safe-area-inset-left));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  width: min(42rem, calc(100vw - 2rem));
+  padding: 1rem;
+  border: 1px solid rgba(25, 131, 79, 0.2);
+  border-radius: 1.25rem;
+  color: #0b2f20;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 80px -42px rgba(11, 47, 32, 0.62);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.analytics-consent strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.88rem;
+}
+
+.analytics-consent p {
+  margin: 0;
+  color: #5d6962;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.analytics-consent a {
+  color: #19834f;
+  font-weight: 700;
+}
+
+.analytics-consent__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.analytics-consent__actions button {
+  min-height: 2.55rem;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(11, 47, 32, 0.12);
+  border-radius: 999px;
+  color: #0b2f20;
+  background: #f5f9f2;
+  font-size: 0.74rem;
+  font-weight: 720;
+  cursor: pointer;
+}
+
+.analytics-consent__actions button[data-primary="true"] {
+  border-color: #19834f;
+  color: #ffffff;
+  background: #19834f;
+}
+
+/* Case-study helper styles. */
+.rz-case-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  margin-top: 0.7rem;
+  color: #19834f;
+  font-size: 0.8rem;
+  font-weight: 760;
+  text-decoration: none;
+}
+
+.rz-case-link:hover,
+.rz-case-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.case-study-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.4rem);
+}
+
+.case-study-card {
+  min-width: 0;
+  padding: clamp(1.25rem, 2.6vw, 1.8rem);
+  border: 1px solid rgba(25, 131, 79, 0.14);
+  border-radius: 1.35rem;
+  background: #ffffff;
+  box-shadow: 0 24px 60px -50px rgba(11, 47, 32, 0.48);
+}
+
+.case-study-card > span {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: #19834f;
+  font-size: 0.72rem;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.case-study-card h2,
+.case-study-card h3 {
+  margin: 0;
+  color: #0b2f20;
+  font-size: clamp(1.22rem, 2vw, 1.55rem);
+  letter-spacing: -0.035em;
+}
+
+.case-study-card p {
+  margin: 0.65rem 0 0;
+  color: #5d6962;
+  line-height: 1.6;
+}
+
+.case-study-shot {
+  margin-top: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(25, 131, 79, 0.12);
+  border-radius: 1.1rem;
+  background: #f5f9f2;
+}
+
+.case-study-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 860px) {
+  .case-study-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-consent {
+    bottom: max(5.4rem, calc(env(safe-area-inset-bottom) + 4.5rem));
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-consent__actions {
+    justify-content: stretch;
+  }
+
+  .analytics-consent__actions button {
+    flex: 1 1 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-breadcrumbs {
+    top: 0.72rem;
+  }
+
+  .site-breadcrumbs__inner {
+    font-size: 0.7rem;
+  }
+
+  html:root body .site-theme-white-green .sp-hero {
+    padding-top: 4.85rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  html:root body .site-theme-white-green .contact-page .contact-grid {
+    padding-top: 5.15rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    min-height: auto !important;
+    padding-top: 3.3rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+    margin-top: 0.2rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-comparison {
+    min-height: 28rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+    min-height: 23rem !important;
+  }
+
+  .site-assistant-dock {
+    right: max(5.5rem, calc(env(safe-area-inset-right) + 5rem));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    left: max(0.75rem, env(safe-area-inset-left));
+    width: auto;
+    min-height: 3.35rem;
+    padding: 0.5rem 0.7rem 0.5rem 0.55rem;
+    border-radius: 1rem;
+  }
+
+  .site-assistant-dock__icon {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+
+  .site-assistant-dock__copy strong {
+    font-size: 0.79rem;
+  }
+
+  .site-assistant-dock__copy small {
+    font-size: 0.64rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-assistant-dock__copy small {
+    display: none;
+  }
+
+  .analytics-consent__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+}

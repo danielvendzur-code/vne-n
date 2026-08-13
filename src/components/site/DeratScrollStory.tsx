@@ -201,8 +201,6 @@ export function DeratScrollStory() {
       ref={rootRef}
       id="pripadova-studia"
       className="derat-story"
-      // Prvá sekcia pod hero — pás aj vodoznak si berie z rovnakého
-      // systému ako ostatné sekcie domovskej stránky.
       data-band="light"
       data-index="01"
       aria-labelledby="derat-story-title"
@@ -226,8 +224,8 @@ export function DeratScrollStory() {
             Reálny projekt pre deratizačnú službu: štyri otázky premenia neistotu zákazníka na
             konkrétne zadanie s cenou aj kontaktom.
           </p>
-          <a href="https://derat-chatbot-backend.vercel.app/" target="_blank" rel="noreferrer">
-            Otvoriť živý projekt <ArrowUpRight size={15} aria-hidden="true" />
+          <a href="https://derat.sk/" target="_blank" rel="noreferrer">
+            Otvoriť živý web derat.sk <ArrowUpRight size={15} aria-hidden="true" />
           </a>
         </div>
       </motion.header>

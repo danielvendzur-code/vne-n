@@ -14,12 +14,16 @@ import { siteConfig } from "@/config/site";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./cookies.css";
 
+const googleAnalyticsEnabled = /^G-[A-Z0-9]+$/i.test(
+  import.meta.env.VITE_GA_MEASUREMENT_ID?.trim() || "",
+);
+
 export const Route = createFileRoute("/ochrana-udajov")({
   head: () => ({
     ...seo({
       title: "Ochrana osobných údajov — Môj Chatbot",
       description:
-        "Informácie o spracúvaní údajov z formulára, chatbota, e-mailovej komunikácie a cookie-free analytiky.",
+        "Informácie o spracúvaní údajov z formulára, chatbota, e-mailovej komunikácie a analytiky návštevnosti.",
       path: "/ochrana-udajov",
     }),
     scripts: [
@@ -56,8 +60,20 @@ const purposes = [
     what: "Súhrnné údaje o otvorenej stránke, zdroji návštevy, krajine, zariadení a prehliadači.",
     why: "Aby sme rozumeli používaniu webu, opravovali problémy a zlepšovali obsah.",
     basis: "Oprávnený záujem na meraní a zlepšovaní webu — čl. 6 ods. 1 písm. f) GDPR.",
-    keep: "Vercel nepoužíva analytické cookies; dočasný hash sa obnovuje denne a relácia sa zahodí po 24 hodinách. Súhrnné reporty môžu byť uchované dlhšie.",
+    keep: "Vercel Analytics nepoužíva analytické cookies. Súhrnné reporty môžu byť uchované podľa nastavenia služby.",
   },
+  ...(googleAnalyticsEnabled
+    ? [
+        {
+          icon: Globe2,
+          title: "Google Analytics po súhlase",
+          what: "Údaje o návšteve stránky, zdroji návštevy, zariadení a interakcii s webom, ktoré Google Analytics spracuje po udelení súhlasu.",
+          why: "Aby sme vedeli podrobnejšie vyhodnotiť návštevnosť a zlepšovať jednotlivé stránky.",
+          basis: "Súhlas návštevníka — čl. 6 ods. 1 písm. a) GDPR. Bez súhlasu sa Google Analytics nenačíta.",
+          keep: "Podľa retenčného nastavenia Google Analytics; súhlas je možné kedykoľvek zmeniť na stránke Cookies a analytika.",
+        },
+      ]
+    : []),
   {
     icon: Server,
     title: "Bezpečnosť a technická prevádzka",
@@ -73,6 +89,7 @@ const rights = [
   "Požiadať o opravu nepresných alebo neúplných údajov.",
   "Požiadať o vymazanie alebo obmedzenie spracúvania, ak sú splnené podmienky.",
   "Namietať proti spracúvaniu založenému na oprávnenom záujme.",
+  "Odvolať súhlas s Google Analytics bez vplyvu na zákonnosť spracúvania pred odvolaním.",
   "Získať údaje v prenosnom formáte, ak sa uplatní právo na prenosnosť.",
   "Podať sťažnosť na Úrad na ochranu osobných údajov Slovenskej republiky.",
 ];
@@ -98,7 +115,7 @@ function PrivacyPage() {
             Údaje používame iba na jasný účel. <em>Nie na predaj ani reklamnú databázu.</em>
           </>
         }
-        lead="Táto stránka vysvetľuje, aké údaje spracúvame pri používaní webu, formulára, AI asistenta a e-mailovej komunikácie."
+        lead="Táto stránka vysvetľuje, aké údaje spracúvame pri používaní webu, formulára, AI asistenta, analytiky a e-mailovej komunikácie."
       />
 
       <section className="cookies-section">
@@ -137,6 +154,7 @@ function PrivacyPage() {
               <li>Zbierame iba údaje potrebné na odpoveď, realizáciu a bezpečnú prevádzku.</li>
               <li>Údaje nepredávame a nepoužívame na reklamu tretích strán.</li>
               <li>Obsah formulára ani chatbota neposielame do analytiky.</li>
+              <li>Google Analytics sa načíta iba po výslovnom súhlase, ak je na webe aktivovaný.</li>
               <li>
                 Nepoužívame automatizované rozhodovanie s právnymi alebo obdobne významnými
                 účinkami.
@@ -206,6 +224,11 @@ function PrivacyPage() {
               <li>
                 <b>Anthropic</b> — spracovanie otázok, keď návštevník použije AI odpoveď chatbota.
               </li>
+              {googleAnalyticsEnabled ? (
+                <li>
+                  <b>Google</b> — Google Analytics 4, iba po výslovnom súhlase návštevníka.
+                </li>
+              ) : null}
             </ul>
             <p className="cookies-note">
               Dodávatelia dostanú iba údaje potrebné na konkrétnu službu a sú viazaní zmluvnými a
@@ -220,12 +243,10 @@ function PrivacyPage() {
             <p>
               Niektorí technologickí dodávatelia pôsobia v Spojených štátoch alebo spracúvajú údaje
               aj mimo Európskeho hospodárskeho priestoru. Prenos sa uskutočňuje iba pri existencii
-              vhodného právneho mechanizmu, najmä rozhodnutia o primeranosti, štandardných zmluvných
-              doložiek alebo iných záruk podľa GDPR.
+              vhodného právneho mechanizmu podľa GDPR.
             </p>
             <p className="cookies-note">
-              Predchádzajúce tvrdenie, že údaje nikdy neopúšťajú EHP, nebolo pri použitom
-              technologickom stacku presné a bolo odstránené.
+              Konkrétny rozsah prenosu závisí od použitej služby a jej aktuálneho nastavenia.
             </p>
           </Reveal>
 
@@ -240,8 +261,8 @@ function PrivacyPage() {
             </ul>
             <p className="cookies-note">
               Žiadosť pošlite na <a href={`mailto:${contact.email}`}>{contact.email}</a>. Odpovieme
-              bez zbytočného odkladu, spravidla najneskôr do jedného mesiaca. Podrobnosti o meraní
-              nájdete na stránke <Link to="/cookies">Cookies a analytika</Link>.
+              bez zbytočného odkladu, spravidla najneskôr do jedného mesiaca. Podrobnosti o meraní a
+              nastavení súhlasu nájdete na stránke <Link to="/cookies">Cookies a analytika</Link>.
             </p>
           </Reveal>
         </div>

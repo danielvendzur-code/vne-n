@@ -1,8 +1,9 @@
 User-agent: *
 Allow: /
 
-# Stránka s návrhom je len pre klientov z e-mailu, nepatrí do indexu.
+# Interné alebo transakčné stránky nepatria do indexu.
 Disallow: /navrh
 Disallow: /farby
+Disallow: /dakujeme
 
 Sitemap: https://mojchatbot.sk/sitemap.xml

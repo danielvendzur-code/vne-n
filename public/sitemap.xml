@@ -26,7 +26,17 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mojchatbot.sk/projekty/derat</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://mojchatbot.sk/postup</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mojchatbot.sk/cennik</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -39,10 +49,5 @@
     <loc>https://mojchatbot.sk/ochrana-udajov</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://mojchatbot.sk/cennik</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 </urlset>

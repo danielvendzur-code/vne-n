@@ -3,6 +3,9 @@ import { useRouterState } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
 import { useSettledSections } from "@/hooks/useSettledSections";
 import { useSpotlight } from "@/hooks/useSpotlight";
+import { AnalyticsConsent } from "./AnalyticsConsent";
+import { Breadcrumbs } from "./Breadcrumbs";
+import { ConversionDock } from "./ConversionDock";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { SiteMotionEnhancements } from "./SiteMotionEnhancements";
@@ -77,6 +80,8 @@ import "@/components/site/ProcessTimelineStory.css";
 /* Pokoj pri scrollovaní — hlavička, otvorené menu a rezervované výšky sekcií. */
 import "@/components/site/ScrollStability.css";
 import "@/components/site/LaunchReadyRuntime";
+/* Posledná vrstva: iba produkčné opravy z auditu 13. 8. 2026. */
+import "./ProductionReadiness.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
@@ -120,10 +125,13 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </a>
         <Nav />
         <main id="main-content" className="relative flex-1 overflow-x-clip" ref={mainRef}>
+          <Breadcrumbs />
           <div key={pathname} className="page-transition" style={{ width: "100%" }}>
             {children}
           </div>
         </main>
+        <ConversionDock />
+        <AnalyticsConsent />
         <Footer />
       </div>
     </MotionConfig>

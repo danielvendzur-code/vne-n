@@ -102,9 +102,14 @@ function ContactPage() {
         consent: true,
         website: botTrap,
       });
-      if (result.fallback) window.location.assign(result.fallback);
+      if (result.fallback) {
+        window.location.assign(result.fallback);
+        return;
+      }
+
       setThankYouSent(result.thankYouSent);
       setSubmitState("done");
+      window.location.assign(`${import.meta.env.BASE_URL}dakujeme`);
     } catch {
       setSubmitState("idle");
       setError("Dopyt sa nepodarilo odoslať. Skúste to znova alebo použite e-mail či telefón.");
@@ -145,7 +150,7 @@ function ContactPage() {
             </a>
             <span>
               <Clock3 />
-              Odpoveď zvyčajne do 1 pracovného dňa
+              Odpovieme do 1 pracovného dňa
             </span>
           </div>
 
@@ -190,7 +195,7 @@ function ContactPage() {
               <p>
                 Zadanie od <b>{name.trim() || "vás"}</b> sme prijali na{" "}
                 <b>{siteConfig.contact.email}</b>. Odpoveď s odporúčaným riešením, rozsahom a cenou
-                pošleme na <b>{email.trim()}</b> zvyčajne do jedného pracovného dňa.
+                pošleme na <b>{email.trim()}</b> do jedného pracovného dňa.
               </p>
               {thankYouSent ? (
                 <p className="contact-success-note">
@@ -289,8 +294,6 @@ function ContactPage() {
                     ))}
                   </select>
                 </label>
-                {/* Skryté pole proti robotom. Pre čítačky obrazovky je
-                    mimo poradia aj mimo prístupného stromu. */}
                 <div className="contact-trap" aria-hidden="true">
                   <label htmlFor="contact-website">Web (nevypĺňať)</label>
                   <input
