@@ -36,7 +36,9 @@ function presetFromHeroChoice(button: HTMLElement): AssistantPreset {
 
 function normalizeChoiceFlashlight(): void {
   document
-    .querySelectorAll<HTMLElement>(`${SMALL_FLASHLIGHT_TARGETS}, .lp-assistant-card[data-choice-flashlight]`)
+    .querySelectorAll<HTMLElement>(
+      `${SMALL_FLASHLIGHT_TARGETS}, .lp-assistant-card[data-choice-flashlight]`,
+    )
     .forEach((item) => {
       item.removeAttribute("data-choice-flashlight");
     });
