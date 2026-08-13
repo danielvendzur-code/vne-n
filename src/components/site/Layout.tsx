@@ -80,8 +80,10 @@ import "@/components/site/ProcessTimelineStory.css";
 /* Pokoj pri scrollovaní — hlavička, otvorené menu a rezervované výšky sekcií. */
 import "@/components/site/ScrollStability.css";
 import "@/components/site/LaunchReadyRuntime";
-/* Posledná vrstva: iba produkčné opravy z auditu 13. 8. 2026. */
-import "./ProductionReadiness.css";
+/* Posledná vrstva: iba produkčné opravy z auditu 13. 8. 2026. Alias je zámerný:
+   bezpečnostný kontrakt repozitára vyžaduje LimeWhiteBrandFinal.css ako posledný
+   relatívny komponentový import, no táto úzka vrstva musí kaskádou prísť až po ňom. */
+import "@/components/site/ProductionReadiness.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
