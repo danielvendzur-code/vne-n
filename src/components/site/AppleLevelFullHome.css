@@ -1,0 +1,1760 @@
+/* =====================================================================
+   Môj Chatbot — full-home premium editorial concept
+   Branch-only visual direction. Existing content, interactions and scroll
+   animation logic stay intact; this file only changes presentation.
+   ===================================================================== */
+
+html:root body .site-theme-white-green {
+  --al-ink: #0b2f20;
+  --al-green: #19834f;
+  --al-green-deep: #0f5f3a;
+  --al-lime: #d9ff78;
+  --al-paper: #ffffff;
+  --al-soft: #f5f8f3;
+  --al-soft-2: #eef4ed;
+  --al-line: rgba(11, 47, 32, 0.12);
+  --al-line-strong: rgba(11, 47, 32, 0.2);
+  --al-muted: #5d6962;
+  --al-muted-light: rgba(245, 250, 247, 0.68);
+  background: var(--al-paper) !important;
+}
+
+html:root body .site-theme-white-green .lp-page {
+  overflow: clip;
+  color: var(--al-ink);
+  background: var(--al-paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html:root body .site-theme-white-green .lp-page .container-page,
+html:root body .site-theme-white-green .derat-story .container-page {
+  width: min(100% - 3rem, 90rem) !important;
+  max-width: 90rem !important;
+  margin-inline: auto !important;
+}
+
+html:root body .site-theme-white-green .lp-page section[data-index]::before,
+html:root body .site-theme-white-green .derat-story[data-index]::before {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page section,
+html:root body .site-theme-white-green .derat-story {
+  isolation: isolate;
+}
+
+/* ---------------------------------------------------------------------
+   Navigation — remove the floating SaaS-card treatment and make the header
+   feel like one calm, branded architectural bar.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .site-header {
+  padding-block: 0.55rem !important;
+}
+
+html:root body .site-theme-white-green .site-header .container-page {
+  width: min(100% - 3rem, 90rem) !important;
+  max-width: 90rem !important;
+}
+
+html:root body .site-theme-white-green .site-header-bar {
+  min-height: 4rem !important;
+  padding-inline: 0.2rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+  backdrop-filter: blur(18px) saturate(135%) !important;
+}
+
+html:root body .site-theme-white-green .site-header[data-scrolled="true"] .site-header-bar {
+  border-bottom: 1px solid var(--al-line) !important;
+}
+
+html:root body .site-theme-white-green .site-brand-lockup {
+  gap: 0.7rem !important;
+}
+
+html:root body .site-theme-white-green .site-brand-name {
+  color: var(--al-ink) !important;
+  font-weight: 760 !important;
+  letter-spacing: -0.035em !important;
+}
+
+html:root body .site-theme-white-green .site-brand-domain {
+  color: rgba(11, 47, 32, 0.48) !important;
+  font-size: 0.63rem !important;
+  letter-spacing: 0.025em !important;
+}
+
+html:root body .site-theme-white-green .site-nav-link {
+  position: relative;
+  color: rgba(11, 47, 32, 0.67) !important;
+  font-weight: 620 !important;
+}
+
+html:root body .site-theme-white-green .site-nav-link::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.42rem;
+  left: 0;
+  height: 1px;
+  background: var(--al-green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+
+html:root body .site-theme-white-green .site-nav-link:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+
+html:root body .site-theme-white-green .site-consultation-cta {
+  min-height: 2.7rem !important;
+  padding-inline: 1rem !important;
+  border: 1px solid var(--al-green) !important;
+  border-radius: 0.6rem !important;
+  color: #ffffff !important;
+  background: var(--al-green) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .site-menu-toggle {
+  min-height: 2.7rem !important;
+  padding-inline: 0.95rem !important;
+  border: 1px solid var(--al-line) !important;
+  border-radius: 0.6rem !important;
+  color: var(--al-ink) !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   Shared editorial hierarchy
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-heading {
+  max-width: 68rem !important;
+  margin: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-eyebrow {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.8rem !important;
+  margin: 0 0 1.2rem !important;
+  color: var(--al-green) !important;
+  font-size: 0.7rem !important;
+  font-weight: 790 !important;
+  letter-spacing: 0.13em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .lp-eyebrow-num {
+  display: inline !important;
+  min-width: auto !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: var(--al-green) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  letter-spacing: 0.13em !important;
+}
+
+html:root body .site-theme-white-green .lp-eyebrow-num::after {
+  content: "/";
+  margin-left: 0.75rem;
+  color: rgba(25, 131, 79, 0.36);
+}
+
+html:root body .site-theme-white-green .lp-heading h2 {
+  max-width: 13ch !important;
+  margin: 0 !important;
+  color: var(--al-ink) !important;
+  font-size: clamp(3.5rem, 5.6vw, 6.7rem) !important;
+  font-weight: 700 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.065em !important;
+  text-wrap: balance !important;
+}
+
+html:root body .site-theme-white-green .lp-heading h2 em {
+  color: var(--al-green) !important;
+  font-style: normal !important;
+}
+
+html:root body .site-theme-white-green .lp-heading-copy {
+  max-width: 38rem !important;
+  margin: 1.45rem 0 0 !important;
+  color: var(--al-muted) !important;
+  font-size: clamp(1rem, 1.15vw, 1.16rem) !important;
+  line-height: 1.65 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* ---------------------------------------------------------------------
+   Hero — high-impact brand statement plus one polished product surface.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-hero {
+  min-height: auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  color: var(--al-ink) !important;
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-glide,
+html:root body .site-theme-white-green .lp-page .lp-hero-glow {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.14fr) minmax(29rem, 0.86fr) !important;
+  gap: clamp(4.5rem, 7vw, 8rem) !important;
+  min-height: min(47rem, calc(100svh - var(--site-header-h, 5rem))) !important;
+  padding-top: clamp(1.5rem, 3.2vh, 2.7rem) !important;
+  padding-bottom: clamp(5rem, 9vh, 7.8rem) !important;
+  align-items: center !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-copy {
+  max-width: 49rem !important;
+  padding: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-context {
+  margin: 0 0 1.35rem !important;
+  color: var(--al-green) !important;
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+  max-width: 10.1ch !important;
+  margin: 0 !important;
+  color: var(--al-ink) !important;
+  font-size: clamp(4.6rem, 6.5vw, 8.2rem) !important;
+  font-weight: 720 !important;
+  line-height: 0.9 !important;
+  letter-spacing: -0.074em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line {
+  overflow: visible !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line em {
+  color: var(--al-green) !important;
+  font-style: normal !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-lead {
+  max-width: 36rem !important;
+  margin: 1.8rem 0 0 !important;
+  color: var(--al-muted) !important;
+  font-size: clamp(1.05rem, 1.18vw, 1.2rem) !important;
+  line-height: 1.64 !important;
+  letter-spacing: -0.018em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.7rem !important;
+  margin-top: 1.8rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta {
+  min-height: 3.45rem !important;
+  padding-inline: 1.45rem !important;
+  border-radius: 0.7rem !important;
+  font-weight: 720 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--primary {
+  border: 1px solid var(--al-green) !important;
+  color: #ffffff !important;
+  background: var(--al-green) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary {
+  border: 1px solid var(--al-line-strong) !important;
+  color: var(--al-ink) !important;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  max-width: 43rem !important;
+  margin: 2.55rem 0 0 !important;
+  padding: 0 !important;
+  border-top: 1px solid var(--al-line) !important;
+  list-style: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.48rem !important;
+  min-height: 4.4rem !important;
+  padding: 1rem 1rem 0.2rem 0 !important;
+  color: rgba(11, 47, 32, 0.64) !important;
+  font-size: 0.72rem !important;
+  font-weight: 650 !important;
+  line-height: 1.35 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof li + li {
+  padding-left: 1rem !important;
+  border-left: 1px solid var(--al-line) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof svg {
+  width: 0.9rem !important;
+  height: 0.9rem !important;
+  flex: 0 0 auto !important;
+  margin-top: 0.05rem !important;
+  color: var(--al-green) !important;
+  stroke-width: 1.8 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+  position: relative !important;
+  width: 100% !important;
+  padding: clamp(1.4rem, 2.5vw, 2.2rem) !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(11, 47, 32, 0.13) !important;
+  border-radius: 1.75rem !important;
+  color: var(--al-ink) !important;
+  background: var(--al-soft) !important;
+  background-image: none !important;
+  box-shadow: 0 32px 80px -66px rgba(11, 47, 32, 0.4) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card::before {
+  content: "MÔJ CHATBOT" !important;
+  display: block !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  margin-bottom: 0.8rem !important;
+  color: var(--al-green) !important;
+  background: transparent !important;
+  font-size: 0.64rem !important;
+  font-weight: 820 !important;
+  letter-spacing: 0.16em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
+  max-width: 13ch !important;
+  margin: 0 0 1.35rem !important;
+  color: var(--al-ink) !important;
+  font-size: clamp(1.9rem, 2.4vw, 2.8rem) !important;
+  font-weight: 690 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.052em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-picker {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.55rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+  min-height: 4.15rem !important;
+  padding: 0.85rem 0.9rem !important;
+  border: 1px solid var(--al-line) !important;
+  border-radius: 0.85rem !important;
+  color: var(--al-ink) !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick::before,
+html:root body .site-theme-white-green .lp-page .lp-hero-pick::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-icon {
+  display: grid !important;
+  place-items: center !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  flex: 0 0 auto !important;
+  border: 0 !important;
+  border-radius: 0.55rem !important;
+  color: var(--al-green) !important;
+  background: var(--al-soft-2) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-label {
+  font-size: 0.82rem !important;
+  font-weight: 690 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.015em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-active="true"],
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:is(:hover, :focus-visible) {
+  border-color: var(--al-green) !important;
+  color: #ffffff !important;
+  background: var(--al-green) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-active="true"] .lp-hero-pick-icon,
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:is(:hover, :focus-visible) .lp-hero-pick-icon {
+  color: var(--al-green) !important;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-answer {
+  display: grid !important;
+  grid-template-columns: 1rem minmax(0, 1fr) !important;
+  gap: 0.6rem !important;
+  align-items: start !important;
+  margin: 1rem 0 0 !important;
+  padding: 0.95rem 0 0 !important;
+  border: 0 !important;
+  border-top: 1px solid var(--al-line) !important;
+  border-radius: 0 !important;
+  color: var(--al-muted) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 0.82rem !important;
+  line-height: 1.5 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-answer svg {
+  width: 0.9rem !important;
+  height: 0.9rem !important;
+  margin-top: 0.18rem !important;
+  color: var(--al-green) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta {
+  width: 100% !important;
+  min-height: 3.35rem !important;
+  margin-top: 1.05rem !important;
+  border: 1px solid var(--al-ink) !important;
+  border-radius: 0.72rem !important;
+  color: #ffffff !important;
+  background: var(--al-ink) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta::before,
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   DERAT case study — cinematic dark section. Existing sticky GSAP story is
+   intentionally preserved; only its visual language changes.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .derat-story {
+  padding: clamp(7rem, 11vw, 10.5rem) 0 !important;
+  color: #f6fbf8 !important;
+  background: var(--al-ink) !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .derat-story__heading {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.25fr) minmax(20rem, 0.75fr) !important;
+  gap: clamp(3rem, 8vw, 8rem) !important;
+  align-items: end !important;
+  margin-bottom: clamp(4.5rem, 8vw, 7.5rem) !important;
+}
+
+html:root body .site-theme-white-green .derat-story__kicker {
+  color: var(--al-lime) !important;
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.13em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .derat-story .lp-eyebrow-num {
+  color: var(--al-lime) !important;
+}
+
+html:root body .site-theme-white-green .derat-story .lp-eyebrow-num::after {
+  color: rgba(217, 255, 120, 0.35) !important;
+}
+
+html:root body .site-theme-white-green .derat-story__heading h2 {
+  max-width: 11ch !important;
+  margin: 1rem 0 0 !important;
+  color: #ffffff !important;
+  font-size: clamp(3.6rem, 5.7vw, 6.9rem) !important;
+  font-weight: 690 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.064em !important;
+}
+
+html:root body .site-theme-white-green .derat-story__intro {
+  padding-bottom: 0.5rem !important;
+}
+
+html:root body .site-theme-white-green .derat-story__intro p {
+  margin: 0 !important;
+  color: var(--al-muted-light) !important;
+  font-size: 1.05rem !important;
+  line-height: 1.65 !important;
+}
+
+html:root body .site-theme-white-green .derat-story__intro a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  margin-top: 1.25rem !important;
+  color: var(--al-lime) !important;
+  font-size: 0.8rem !important;
+  font-weight: 760 !important;
+  text-decoration: none !important;
+}
+
+html:root body .site-theme-white-green .derat-story__desktop {
+  grid-template-columns: minmax(25rem, 0.92fr) minmax(0, 1.08fr) !important;
+  gap: clamp(4rem, 8vw, 9rem) !important;
+}
+
+html:root body .site-theme-white-green .derat-story__visual-stick {
+  top: calc(var(--site-header-h, 5rem) + 2rem) !important;
+}
+
+html:root body .site-theme-white-green .derat-story__stage {
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 2rem !important;
+  background: #f2f5f0 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .derat-story__frame {
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .derat-story__frame img {
+  object-fit: contain !important;
+  background: #f2f5f0 !important;
+}
+
+html:root body .site-theme-white-green .derat-story__progress {
+  height: 2px !important;
+  margin-top: 1rem !important;
+  overflow: hidden !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+html:root body .site-theme-white-green .derat-story__progress span {
+  background: var(--al-lime) !important;
+}
+
+html:root body .site-theme-white-green .derat-story__copy-step {
+  min-height: 66vh !important;
+  padding-block: clamp(3rem, 8vh, 6rem) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html:root body .site-theme-white-green .derat-story__copy-step h3 {
+  max-width: 13ch !important;
+  margin: 0.85rem 0 0 !important;
+  color: #ffffff !important;
+  font-size: clamp(2.5rem, 3.5vw, 4.5rem) !important;
+  font-weight: 660 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.055em !important;
+}
+
+html:root body .site-theme-white-green .derat-story__copy-step > p:last-child {
+  max-width: 34rem !important;
+  margin-top: 1.2rem !important;
+  color: var(--al-muted-light) !important;
+  font-size: 1rem !important;
+  line-height: 1.68 !important;
+}
+
+/* ---------------------------------------------------------------------
+   Value comparison — one large monolithic surface, no nested-card clutter.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-value {
+  padding: clamp(7rem, 11vw, 10.5rem) 0 !important;
+  color: var(--al-ink) !important;
+  background: var(--al-soft) !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .container-page {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.9fr) minmax(31rem, 1.1fr) !important;
+  gap: clamp(4rem, 8vw, 8rem) !important;
+  align-items: start !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-heading {
+  position: sticky !important;
+  top: calc(var(--site-header-h, 5rem) + 3rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-value .lp-heading h2 {
+  max-width: 10.5ch !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison {
+  min-height: auto !important;
+  margin: 0 !important;
+  padding: clamp(1.4rem, 2.5vw, 2.2rem) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--al-line) !important;
+  border-radius: 1.7rem !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison::before,
+html:root body .site-theme-white-green .lp-page .lp-comparison::after,
+html:root body .site-theme-white-green .lp-page .lp-comparison-body::before,
+html:root body .site-theme-white-green .lp-page .lp-comparison-body::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison > .lp-switch {
+  width: 100% !important;
+  margin: 0 0 1.4rem !important;
+  padding: 0.32rem !important;
+  border: 1px solid var(--al-line) !important;
+  border-radius: 0.78rem !important;
+  background: var(--al-soft) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch button {
+  min-height: 2.9rem !important;
+  border-radius: 0.58rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-switch-thumb {
+  border-radius: 0.58rem !important;
+  background: var(--al-ink) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+  min-height: 24rem !important;
+  padding: clamp(2rem, 4vw, 3.5rem) !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 1.2rem !important;
+  color: #ffffff !important;
+  background: var(--al-ink) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-copy h3 {
+  max-width: 11ch !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  font-size: clamp(2.5rem, 3.6vw, 4.6rem) !important;
+  font-weight: 660 !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.055em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-copy > span {
+  display: block !important;
+  max-width: 30rem !important;
+  margin-top: 1rem !important;
+  color: rgba(255, 255, 255, 0.62) !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body ul {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  margin: 3rem 0 0 !important;
+  padding: 1.2rem 0 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.13) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.5rem !important;
+  padding-right: 1rem !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 0.76rem !important;
+  line-height: 1.4 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body li + li {
+  padding-left: 1rem !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.13) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-comparison-body li svg {
+  width: 0.95rem !important;
+  height: 0.95rem !important;
+  flex: 0 0 auto !important;
+  color: var(--al-lime) !important;
+}
+
+/* ---------------------------------------------------------------------
+   Realizations — editorial portfolio, first project as a feature story.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-portfolio {
+  padding: clamp(7rem, 11vw, 10.5rem) 0 !important;
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-portfolio .lp-heading {
+  margin-bottom: clamp(4rem, 7vw, 6.5rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1.2rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project {
+  min-width: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project:first-child {
+  grid-column: 1 / -1 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project > a {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  min-height: 100% !important;
+  overflow: hidden !important;
+  border: 1px solid var(--al-line) !important;
+  border-radius: 1.6rem !important;
+  color: var(--al-ink) !important;
+  background: var(--al-soft) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  text-decoration: none !important;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project:first-child > a {
+  grid-template-columns: minmax(0, 1.35fr) minmax(19rem, 0.65fr) !important;
+  min-height: 34rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project > a:is(:hover, :focus-visible) {
+  border-color: rgba(25, 131, 79, 0.32) !important;
+  transform: translateY(-4px) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-media {
+  min-height: 22rem !important;
+  overflow: hidden !important;
+  background: #edf2eb !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project:first-child .lp-project-media {
+  min-height: 34rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-media img {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+  transform: scale(1.002) !important;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project > a:hover .lp-project-media img {
+  transform: scale(1.025) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-domain {
+  position: absolute !important;
+  top: 1rem !important;
+  left: 1rem !important;
+  z-index: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  padding: 0.5rem 0.7rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  border-radius: 0.55rem !important;
+  color: #ffffff !important;
+  background: rgba(11, 47, 32, 0.72) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  font-size: 0.68rem !important;
+  font-weight: 760 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-domain i {
+  width: 0.45rem !important;
+  height: 0.45rem !important;
+  border-radius: 50% !important;
+  background: var(--al-lime) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-end !important;
+  min-height: 14rem !important;
+  padding: clamp(1.5rem, 3vw, 2.5rem) !important;
+  color: var(--al-ink) !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project:first-child .lp-project-copy {
+  min-height: 100% !important;
+  padding: clamp(2rem, 4vw, 3.5rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-copy > span {
+  color: var(--al-green) !important;
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-copy > p {
+  margin: 0.8rem 0 0 !important;
+  color: var(--al-muted) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-copy h3 {
+  margin: 0.45rem 0 0 !important;
+  color: var(--al-ink) !important;
+  font-size: clamp(2rem, 3vw, 3.8rem) !important;
+  font-weight: 680 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.052em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-copy small {
+  max-width: 28rem !important;
+  margin-top: 0.8rem !important;
+  color: var(--al-muted) !important;
+  font-size: 0.87rem !important;
+  line-height: 1.55 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-project-copy b {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  margin-top: 1.5rem !important;
+  color: var(--al-green) !important;
+  font-size: 0.78rem !important;
+  font-weight: 760 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-live-tools {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.55rem 1rem !important;
+  margin-top: 2rem !important;
+  padding: 1.2rem 0 0 !important;
+  border-top: 1px solid var(--al-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-live-tools > span {
+  margin-right: auto !important;
+  color: var(--al-muted) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-live-tools a {
+  padding: 0.55rem 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: var(--al-green) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   Capabilities — large editorial accordion/index rather than chip cloud.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-caps {
+  padding: clamp(7rem, 11vw, 10.5rem) 0 !important;
+  background: var(--al-soft) !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps .lp-heading {
+  margin-bottom: clamp(4rem, 7vw, 6rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-rows {
+  border-top: 1px solid var(--al-line-strong) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-row {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--al-line-strong) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-row::before,
+html:root body .site-theme-white-green .lp-page .lp-caps-row::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-row-head {
+  display: grid !important;
+  grid-template-columns: 4.5rem minmax(0, 1fr) 2rem !important;
+  gap: 1rem !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 8.5rem !important;
+  padding: 1.2rem 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: var(--al-ink) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-num {
+  color: var(--al-green) !important;
+  font-size: 0.72rem !important;
+  font-weight: 820 !important;
+  letter-spacing: 0.12em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-row-head h3 {
+  margin: 0 !important;
+  color: var(--al-ink) !important;
+  font-size: clamp(2.2rem, 3.6vw, 4.4rem) !important;
+  font-weight: 660 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.055em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-row-head p {
+  max-width: 38rem !important;
+  margin: 0.5rem 0 0 !important;
+  color: var(--al-muted) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.55 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-count {
+  position: relative !important;
+  width: 1.65rem !important;
+  height: 1.65rem !important;
+  border: 1px solid var(--al-line-strong) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-count::before,
+html:root body .site-theme-white-green .lp-page .lp-caps-count::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 0.6rem !important;
+  height: 1px !important;
+  background: var(--al-ink) !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-count::after {
+  transform: translate(-50%, -50%) rotate(90deg) !important;
+  transition: transform 180ms ease !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-row[data-open="true"] .lp-caps-count::after {
+  transform: translate(-50%, -50%) rotate(0deg) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-count i {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-row-body {
+  padding: 0 0 2rem 5.5rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-chips {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--al-line) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-chip {
+  min-height: 3.45rem !important;
+  padding: 0 1.2rem !important;
+  border: 0 !important;
+  border-right: 1px solid var(--al-line) !important;
+  border-bottom: 1px solid var(--al-line) !important;
+  border-radius: 0 !important;
+  color: rgba(11, 47, 32, 0.68) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-chip::before,
+html:root body .site-theme-white-green .lp-page .lp-chip::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-chip[data-active="true"],
+html:root body .site-theme-white-green .lp-page .lp-chip:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  background: var(--al-green) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-chip-label {
+  font-size: 0.78rem !important;
+  font-weight: 690 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail {
+  margin-top: 1.4rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-inner {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr) !important;
+  gap: clamp(2rem, 5vw, 5rem) !important;
+  padding: clamp(1.5rem, 3vw, 2.5rem) !important;
+  border: 1px solid var(--al-line) !important;
+  border-radius: 1.2rem !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-copy h4 {
+  margin: 0 !important;
+  color: var(--al-ink) !important;
+  font-size: clamp(1.8rem, 2.6vw, 3rem) !important;
+  font-weight: 660 !important;
+  letter-spacing: -0.045em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-copy p {
+  max-width: 34rem !important;
+  margin-top: 0.8rem !important;
+  color: var(--al-muted) !important;
+  line-height: 1.62 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  margin-top: 1.25rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(25, 131, 79, 0.3) !important;
+  border-radius: 0 !important;
+  color: var(--al-green) !important;
+  background: transparent !important;
+  font-size: 0.78rem !important;
+  font-weight: 760 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-spec {
+  margin: 0 !important;
+  padding-left: 2rem !important;
+  border-left: 1px solid var(--al-line) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-spec > div + div {
+  margin-top: 1.3rem !important;
+  padding-top: 1.3rem !important;
+  border-top: 1px solid var(--al-line) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-spec dt {
+  color: var(--al-green) !important;
+  font-size: 0.64rem !important;
+  font-weight: 820 !important;
+  letter-spacing: 0.11em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-detail-spec dd {
+  margin: 0.55rem 0 0 !important;
+  color: var(--al-muted) !important;
+  font-size: 0.84rem !important;
+  line-height: 1.55 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-inputs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.35rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-input {
+  padding: 0.32rem 0.5rem !important;
+  border: 1px solid var(--al-line) !important;
+  border-radius: 0.4rem !important;
+  color: var(--al-ink) !important;
+  background: var(--al-soft) !important;
+  font-size: 0.7rem !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-note {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.8rem !important;
+  margin-top: 2rem !important;
+  padding: 1.2rem 0 0 !important;
+  border: 0 !important;
+  border-top: 1px solid var(--al-line) !important;
+  border-radius: 0 !important;
+  color: var(--al-muted) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-note > svg {
+  color: var(--al-green) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-caps-note__body button {
+  margin-top: 0.5rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: var(--al-green) !important;
+  background: transparent !important;
+  font-weight: 760 !important;
+}
+
+/* ---------------------------------------------------------------------
+   FAQ — typography and rules, not cards.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-faq {
+  padding: clamp(7rem, 11vw, 10.5rem) 0 !important;
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.86fr) minmax(32rem, 1.14fr) !important;
+  gap: clamp(4rem, 8vw, 8rem) !important;
+  align-items: start !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-side {
+  position: sticky !important;
+  top: calc(var(--site-header-h, 5rem) + 3rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-side .lp-heading h2 {
+  max-width: 9.5ch !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-ask {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-top: 1.6rem !important;
+  padding: 0.75rem 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(25, 131, 79, 0.3) !important;
+  border-radius: 0 !important;
+  color: var(--al-green) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 0.8rem !important;
+  font-weight: 760 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-list {
+  border-top: 1px solid var(--al-line-strong) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--al-line-strong) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item::before,
+html:root body .site-theme-white-green .lp-page .lp-faq-item::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 {
+  margin: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 2rem !important;
+  gap: 1.4rem !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 6.8rem !important;
+  padding: 1.25rem 0 !important;
+  color: var(--al-ink) !important;
+  background: transparent !important;
+  text-align: left !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button > span {
+  max-width: 30ch !important;
+  font-size: clamp(1.25rem, 1.7vw, 1.75rem) !important;
+  font-weight: 660 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.035em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button i {
+  position: relative !important;
+  width: 1.7rem !important;
+  height: 1.7rem !important;
+  border: 1px solid var(--al-line-strong) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-body {
+  padding: 0 3.5rem 1.8rem 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-faq-body p {
+  max-width: 42rem !important;
+  margin: 0 !important;
+  color: var(--al-muted) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.7 !important;
+}
+
+/* ---------------------------------------------------------------------
+   Process + final CTA — dark branded finale, scroll line remains functional.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-page .lp-process {
+  padding: clamp(7rem, 11vw, 10.5rem) 0 !important;
+  color: #ffffff !important;
+  background: var(--al-ink) !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr) !important;
+  gap: clamp(4rem, 8vw, 8rem) !important;
+  align-items: start !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-eyebrow,
+html:root body .site-theme-white-green .lp-page .lp-process .lp-eyebrow-num {
+  color: var(--al-lime) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-eyebrow-num::after {
+  color: rgba(217, 255, 120, 0.35) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-heading h2 {
+  color: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-heading h2 em {
+  color: var(--al-lime) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-process .lp-heading-copy {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-timeline {
+  margin-top: clamp(4rem, 7vw, 6rem) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-card {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 1.2rem !important;
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-card::before,
+html:root body .site-theme-white-green .lp-page .lp-tl-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-icon {
+  border: 1px solid rgba(217, 255, 120, 0.3) !important;
+  color: var(--al-lime) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-num {
+  color: var(--al-lime) !important;
+  font-size: 0.66rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.11em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-card h3 {
+  color: #ffffff !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.035em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-card > p:not(.lp-tl-result) {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-result {
+  color: rgba(255, 255, 255, 0.78) !important;
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-result svg {
+  color: var(--al-lime) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-timeline-track {
+  stroke: rgba(255, 255, 255, 0.13) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-timeline-fill {
+  stroke: var(--al-lime) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-timeline-head {
+  background: var(--al-lime) !important;
+  box-shadow: 0 0 0 5px rgba(217, 255, 120, 0.12) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-tl-node {
+  border-color: rgba(217, 255, 120, 0.36) !important;
+  color: var(--al-lime) !important;
+  background: var(--al-ink) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-final-card {
+  position: sticky !important;
+  top: calc(var(--site-header-h, 5rem) + 3rem) !important;
+  padding: clamp(2rem, 4vw, 3.4rem) !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 1.8rem !important;
+  color: var(--al-ink) !important;
+  background: var(--al-lime) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-final-card::before,
+html:root body .site-theme-white-green .lp-page .lp-final-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-final-card > svg {
+  color: var(--al-green-deep) !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-final-card > p {
+  margin-top: 2rem !important;
+  color: rgba(11, 47, 32, 0.62) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-final-card h2 {
+  margin: 0.7rem 0 0 !important;
+  color: var(--al-ink) !important;
+  font-size: clamp(2.4rem, 3.8vw, 4.7rem) !important;
+  font-weight: 680 !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.06em !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-final-card .lp-button-light {
+  margin-top: 1.6rem !important;
+  border: 1px solid var(--al-ink) !important;
+  border-radius: 0.65rem !important;
+  color: #ffffff !important;
+  background: var(--al-ink) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-final-email {
+  margin-top: 1rem !important;
+  color: rgba(11, 47, 32, 0.68) !important;
+}
+
+/* ---------------------------------------------------------------------
+   Progress + general motion polish
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green .lp-progress-track {
+  height: 2px !important;
+  background: rgba(11, 47, 32, 0.08) !important;
+}
+
+html:root body .site-theme-white-green .lp-progress {
+  background: var(--al-green) !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:root body .site-theme-white-green .lp-page .lp-button,
+  html:root body .site-theme-white-green .lp-page button,
+  html:root body .site-theme-white-green .lp-page a {
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-cta--primary:hover,
+  html:root body .site-theme-white-green .site-consultation-cta:hover {
+    background: var(--al-green-deep) !important;
+    border-color: var(--al-green-deep) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Tablet
+   --------------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(25rem, 0.85fr) !important;
+    gap: 3rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+    font-size: clamp(4.1rem, 7.3vw, 6.5rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-value .container-page,
+  html:root body .site-theme-white-green .lp-page .lp-faq-grid,
+  html:root body .site-theme-white-green .lp-page .lp-process-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3.5rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-value .lp-heading,
+  html:root body .site-theme-white-green .lp-page .lp-faq-side,
+  html:root body .site-theme-white-green .lp-page .lp-final-card {
+    position: static !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:first-child > a {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Mobile / small tablet
+   --------------------------------------------------------------------- */
+@media (max-width: 820px) {
+  html:root body .site-theme-white-green .lp-page .container-page,
+  html:root body .site-theme-white-green .derat-story .container-page,
+  html:root body .site-theme-white-green .site-header .container-page {
+    width: min(100% - 2rem, 90rem) !important;
+  }
+
+  html:root body .site-theme-white-green .site-header-bar {
+    min-height: 3.55rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-heading h2 {
+    max-width: 12ch !important;
+    font-size: clamp(2.8rem, 10vw, 4.8rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.4rem !important;
+    min-height: auto !important;
+    padding-top: 1rem !important;
+    padding-bottom: 4.5rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+    max-width: 10.5ch !important;
+    font-size: clamp(3.55rem, 13vw, 6rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof li {
+    min-height: auto !important;
+    padding: 0.85rem 0 !important;
+    border-left: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof li + li {
+    padding-left: 0 !important;
+    border-top: 1px solid var(--al-line) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+    border-radius: 1.3rem !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story {
+    padding-block: 5.5rem !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story__heading {
+    grid-template-columns: 1fr !important;
+    gap: 1.7rem !important;
+    margin-bottom: 3rem !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story__heading h2 {
+    font-size: clamp(2.8rem, 10vw, 4.7rem) !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story__mobile-slide {
+    margin-bottom: 4rem !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story__mobile-slide figure {
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 1.4rem !important;
+    background: #f2f5f0 !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story__mobile-copy {
+    padding: 1.2rem 0 0 !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story__mobile-copy h3 {
+    color: #ffffff !important;
+    font-size: clamp(2rem, 8vw, 3.1rem) !important;
+    letter-spacing: -0.05em !important;
+  }
+
+  html:root body .site-theme-white-green .derat-story__mobile-copy > p:last-child {
+    color: var(--al-muted-light) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-value,
+  html:root body .site-theme-white-green .lp-page .lp-portfolio,
+  html:root body .site-theme-white-green .lp-page .lp-caps,
+  html:root body .site-theme-white-green .lp-page .lp-faq,
+  html:root body .site-theme-white-green .lp-page .lp-process {
+    padding-block: 5.5rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-comparison-body {
+    min-height: 22rem !important;
+    padding: 1.7rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-comparison-body ul {
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-comparison-body li,
+  html:root body .site-theme-white-green .lp-page .lp-comparison-body li + li {
+    padding: 0 !important;
+    border-left: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project:first-child {
+    grid-column: auto !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project-media,
+  html:root body .site-theme-white-green .lp-page .lp-project:first-child .lp-project-media {
+    min-height: 20rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-row-head {
+    grid-template-columns: 2.7rem minmax(0, 1fr) 1.7rem !important;
+    min-height: 7rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-row-head h3 {
+    font-size: clamp(1.9rem, 8vw, 3.2rem) !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-row-body {
+    padding-left: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-detail-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-detail-spec {
+    padding: 1.5rem 0 0 !important;
+    border-top: 1px solid var(--al-line) !important;
+    border-left: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-faq-item h3 button {
+    min-height: 5.6rem !important;
+  }
+}
+
+@media (max-width: 520px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-context {
+    margin-bottom: 1rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+    max-width: none !important;
+    font-size: clamp(3.15rem, 15vw, 4.8rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-lead {
+    margin-top: 1.35rem !important;
+    font-size: 0.98rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero .lp-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.55rem !important;
+    margin-top: 1.4rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-cta {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-picker {
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
+    max-width: none !important;
+    font-size: 2rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project-media,
+  html:root body .site-theme-white-green .lp-page .lp-project:first-child .lp-project-media {
+    min-height: 16rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-project-copy,
+  html:root body .site-theme-white-green .lp-page .lp-project:first-child .lp-project-copy {
+    padding: 1.35rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-row-head {
+    grid-template-columns: 2.25rem minmax(0, 1fr) 1.6rem !important;
+    gap: 0.75rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-caps-chips {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-chip {
+    justify-content: flex-start !important;
+    border-right: 0 !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-final-card {
+    padding: 1.6rem !important;
+    border-radius: 1.25rem !important;
+  }
+}

@@ -117,6 +117,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div
         className="site-theme-white-green min-h-screen flex flex-col"
+        data-home-concept={pathname === "/" ? "true" : undefined}
         style={{ backgroundColor: "var(--background)" }}
       >
         <SiteMotionEnhancements key={`motion-${pathname}`} />
