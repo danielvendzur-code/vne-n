@@ -1,0 +1,384 @@
+/* Architectural homepage hero concept — isolated to the duplicated branch.
+   Brand colors and logo stay untouched; only the first viewport is redesigned. */
+
+html:root body .site-theme-white-green .lp-page .lp-hero {
+  position: relative;
+  min-height: auto !important;
+  padding: 0 !important;
+  overflow: clip;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-glide,
+html:root body .site-theme-white-green .lp-page .lp-hero-glow {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.03fr) minmax(31rem, 0.97fr);
+  gap: clamp(4rem, 6.5vw, 7.5rem);
+  min-height: auto !important;
+  padding-top: clamp(2rem, 4vh, 3.4rem) !important;
+  padding-bottom: clamp(3rem, 6vh, 4.75rem) !important;
+  align-items: center;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-grid::after {
+  content: "";
+  position: absolute;
+  top: 8%;
+  bottom: 8%;
+  left: 51.5%;
+  width: 1px;
+  background: rgba(11, 47, 32, 0.08);
+  pointer-events: none;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 46rem;
+  padding: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-context {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+  max-width: 11.2ch;
+  margin: 0;
+  color: #0b2f20;
+  font-size: clamp(3.55rem, 5.15vw, 6.3rem);
+  font-weight: 760;
+  line-height: 0.94;
+  letter-spacing: -0.066em;
+  text-wrap: balance;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line {
+  display: block;
+  overflow: visible;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line span,
+html:root body .site-theme-white-green .lp-page .lp-hero-line em {
+  display: block;
+  font-style: normal;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-line:last-child em {
+  color: #19834f;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-lead {
+  max-width: 37rem;
+  margin: clamp(1.6rem, 2.7vh, 2.15rem) 0 0;
+  color: #536159;
+  font-size: clamp(1rem, 1.12vw, 1.14rem);
+  line-height: 1.6;
+  letter-spacing: -0.014em;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.55rem, 2.4vh, 2rem);
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta {
+  min-height: 3.4rem;
+  padding-inline: 1.45rem;
+  border-radius: 0.72rem !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--primary {
+  border: 1px solid #19834f !important;
+  background: #19834f !important;
+  color: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-cta--secondary {
+  border: 1px solid rgba(11, 47, 32, 0.14) !important;
+  background: #ffffff !important;
+  color: #0b2f20 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 0.8rem 1.8rem;
+  margin: clamp(2rem, 3.2vh, 2.65rem) 0 0 !important;
+  padding: 1.1rem 0 0;
+  border-top: 1px solid rgba(11, 47, 32, 0.1);
+  list-style: none;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #46534b;
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof li:nth-child(3) {
+  display: none;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-proof svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: #19834f;
+  stroke-width: 1.8;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+  position: relative;
+  width: 100%;
+  padding: clamp(1.55rem, 2.5vw, 2.35rem);
+  border: 1px solid rgba(11, 47, 32, 0.14) !important;
+  border-radius: 1.2rem !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: 0 28px 72px -58px rgba(11, 47, 32, 0.32) !important;
+  overflow: hidden;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card::before {
+  content: "MÔJ CHATBOT  /  VYBERTE SMER";
+  display: block;
+  margin-bottom: 0.95rem;
+  color: #19834f;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
+  max-width: 13ch;
+  margin: 0 0 clamp(1.45rem, 2.3vw, 1.9rem) !important;
+  color: #0b2f20 !important;
+  background: none !important;
+  font-size: clamp(1.8rem, 2.35vw, 2.65rem);
+  font-weight: 735;
+  line-height: 0.99;
+  letter-spacing: -0.052em;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-picker {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(11, 47, 32, 0.12);
+  counter-reset: hero-choice;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+  counter-increment: hero-choice;
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.35rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4.05rem;
+  width: 100%;
+  padding: 0.85rem 0;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(11, 47, 32, 0.1) !important;
+  border-radius: 0 !important;
+  color: #0b2f20 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  text-align: left;
+  cursor: pointer;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick::before {
+  content: counter(hero-choice, decimal-leading-zero) !important;
+  display: block !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  color: rgba(11, 47, 32, 0.37);
+  background: none !important;
+  font-size: 0.69rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick::after {
+  content: "→" !important;
+  display: block !important;
+  position: static !important;
+  justify-self: end;
+  width: auto !important;
+  height: auto !important;
+  color: rgba(11, 47, 32, 0.32);
+  background: none !important;
+  font-size: 1rem;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-icon {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick-label {
+  font-size: 0.92rem;
+  font-weight: 690;
+  letter-spacing: -0.018em;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:is(:hover, :focus-visible),
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-active="true"],
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-preview="true"] {
+  color: #19834f !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero-pick:is(:hover, :focus-visible)::after,
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-active="true"]::after,
+html:root body .site-theme-white-green .lp-page .lp-hero-pick[data-preview="true"]::after {
+  color: #19834f;
+  transform: translateX(3px);
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-answer {
+  display: grid;
+  grid-template-columns: 0.95rem minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: start;
+  margin: 1.15rem 0 0;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #536159 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 0.82rem;
+  line-height: 1.48;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-answer svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-top: 0.16rem;
+  color: #19834f;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-assistant-cta {
+  width: 100%;
+  min-height: 3.35rem;
+  margin-top: 1.25rem;
+  border: 1px solid #19834f !important;
+  border-radius: 0.72rem !important;
+  color: #ffffff !important;
+  background: #19834f !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-sweep-action::before,
+html:root body .site-theme-white-green .lp-page .lp-hero .lp-sweep-action::after {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(27rem, 0.9fr);
+    gap: 3rem;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid::after {
+    left: 52%;
+  }
+}
+
+@media (max-width: 899px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.35rem;
+    padding-top: 1.45rem !important;
+    padding-bottom: 3.15rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid::after {
+    display: none;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+    max-width: 10.6ch;
+    font-size: clamp(3rem, 10vw, 5.3rem);
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-stage {
+    max-width: 42rem;
+  }
+}
+
+@media (max-width: 560px) {
+  html:root body .site-theme-white-green .lp-page .lp-hero-grid {
+    gap: 1.9rem;
+    padding-top: 0.95rem !important;
+    padding-bottom: 2.45rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero h1 {
+    max-width: none;
+    font-size: clamp(2.7rem, 13.4vw, 4.1rem);
+    line-height: 0.96;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-lead {
+    margin-top: 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero .lp-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    margin-top: 1.3rem;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-proof {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    margin-top: 1.5rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card {
+    padding: 1.25rem;
+    border-radius: 0.95rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-assistant-card > p {
+    max-width: none;
+    font-size: clamp(1.65rem, 8.6vw, 2.1rem);
+  }
+
+  html:root body .site-theme-white-green .lp-page .lp-hero-pick {
+    min-height: 3.75rem;
+  }
+}
