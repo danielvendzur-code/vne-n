@@ -46,11 +46,6 @@ function setText(selector: string, text: string): void {
   if (element) element.textContent = text;
 }
 
-function setImportantStyle(selector: string, property: string, value: string): void {
-  const element = document.querySelector<HTMLElement>(selector);
-  element?.style.setProperty(property, value, "important");
-}
-
 function setResultText(element: HTMLElement, text: string): void {
   const icon = element.querySelector("svg");
   element.replaceChildren();
@@ -72,16 +67,6 @@ function updateHeroAnswer(index = selectedHeroIndex()): void {
 
 function prepareVisibleCopy(): void {
   setText(".lp-assistant-card > p", "Predstavujete si niečo podobné?");
-  setImportantStyle(".lp-hero-grid", "padding-top", "clamp(0.25rem, 0.8vh, 0.55rem)");
-  setImportantStyle(".lp-hero-grid", "padding-bottom", "clamp(1.05rem, 2vh, 1.3rem)");
-  setImportantStyle(".lp-hero-stage", "margin-top", "clamp(-3.85rem, -4vw, -0.9rem)");
-  setImportantStyle(".lp-hero-proof", "margin-top", "clamp(0.45rem, 0.8vh, 0.65rem)");
-  setImportantStyle(".lp-assistant-card > p", "margin-bottom", "0.72rem");
-  setImportantStyle(".lp-assistant-card > p", "color", "inherit");
-  setImportantStyle(".lp-assistant-card > p", "background", "none");
-  setImportantStyle(".lp-assistant-card > p", "animation", "none");
-  setImportantStyle(".lp-assistant-card > p", "transition", "none");
-
   setText(".lp-hero-context", "Chatboty pre e-shopy aj firmy so službami");
   setText(
     ".lp-hero-lead",
