@@ -1,0 +1,210 @@
+/* Final branch-only lock for the premium homepage concept.
+   This file is loaded by the home route after component-level styles. */
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page section,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .derat-story {
+  content-visibility: visible !important;
+  contain: none !important;
+  contain-intrinsic-size: auto !important;
+}
+
+/* ---------------------------------------------------------------------
+   FIRST VIEWPORT
+   The product already has plenty of information. The premium move here is
+   disciplined positioning: begin close to the navigation, keep both columns
+   on the same optical baseline and let typography do the branding.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero {
+  min-height: auto !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-grid {
+  min-height: auto !important;
+  padding-top: clamp(0.35rem, 1.1vh, 0.75rem) !important;
+  padding-bottom: clamp(3.8rem, 7vh, 6.2rem) !important;
+  align-items: start !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-copy,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-stage {
+  align-self: start !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-stage {
+  margin-top: clamp(0.25rem, 0.8vh, 0.6rem) !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-proof {
+  margin-top: 2rem !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-proof li {
+  color: rgba(11, 47, 32, 0.58) !important;
+}
+
+/* No legacy glow/texture overlays in the new visual system. */
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-value,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-portfolio,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-caps,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-faq,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-process,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story {
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-value::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-value::after,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-portfolio::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-portfolio::after,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-caps::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-caps::after,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-faq::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-faq::after,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-process::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-process::after,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------
+   DERAT CASE STUDY
+   A single cinematic brand band separates the proof-of-work from the sales
+   copy. Existing sticky/GSAP scroll choreography stays exactly in place.
+   --------------------------------------------------------------------- */
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story {
+  color: #f6fbf8 !important;
+  background-color: #0b2f20 !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__heading,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__desktop,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__mobile {
+  color: inherit !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__heading h2,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__copy-step h3,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__mobile-copy h3 {
+  color: #ffffff !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__intro p,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__copy-step > p:last-child,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__mobile-copy > p:last-child {
+  color: rgba(246, 251, 248, 0.66) !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__kicker,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__intro a,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story .lp-eyebrow-num {
+  color: #d9ff78 !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__copy-step,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__mobile-slide {
+  border-color: rgba(255, 255, 255, 0.11) !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__stage,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__mobile-slide figure {
+  border-color: rgba(255, 255, 255, 0.11) !important;
+  background: #f2f5f0 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__stage img,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story__mobile-slide img {
+  object-fit: contain !important;
+  object-position: top center !important;
+}
+
+/* One visual statement in the hero card; avoid runtime-copy race in previews. */
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-assistant-card > p {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-assistant-card > p::before {
+  content: "Predstavujete si niečo podobné?" !important;
+  display: block !important;
+  max-width: 13ch !important;
+  color: #0b2f20 !important;
+  font-size: clamp(1.9rem, 2.4vw, 2.8rem) !important;
+  font-weight: 690 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.052em !important;
+}
+
+/* Keep background structure quiet: no AI-template lime badges or watermarks. */
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-eyebrow-num {
+  display: inline !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #19834f !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page section[data-index]::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .derat-story[data-index]::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Real project screenshots should read as websites, not decorative mockups. */
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-project-media {
+  background: #eef3ec !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-project-media img {
+  object-position: top center !important;
+}
+
+/* Preserve focus and motion feedback without the old flashlight system. */
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page [data-spotlight]::before,
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page [data-spotlight]::after {
+  opacity: 0 !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green[data-home-concept="true"] .lp-page :focus-visible {
+  outline: 2px solid rgba(25, 131, 79, 0.62) !important;
+  outline-offset: 3px !important;
+}
+
+@media (max-width: 1100px) and (min-width: 821px) {
+  html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-grid {
+    padding-top: 0.5rem !important;
+    gap: 3.2rem !important;
+  }
+}
+
+@media (max-width: 820px) {
+  html:root body .site-theme-white-green[data-home-concept="true"] .lp-page section,
+  html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .derat-story {
+    content-visibility: visible !important;
+    contain: none !important;
+  }
+
+  html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-grid {
+    padding-top: 0.55rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-stage {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 520px) {
+  html:root body .site-theme-white-green[data-home-concept="true"] .lp-page .lp-hero-grid {
+    padding-top: 0.25rem !important;
+  }
+}

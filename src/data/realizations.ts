@@ -29,8 +29,8 @@ export const realizations: Realization[] = [
     result: "Kalkulačka prevedie návštevníka od problému k orientačnej cene a pripravenému dopytu.",
     detail:
       "Reálne nasadená deratizačná služba. Návštevník vyberie typ problému a rozsah zásahu, dostane orientačný výsledok a firma prijme kontakt spolu s kontextom potrebným na ďalší krok.",
-    image: `${import.meta.env.BASE_URL}work/derat/01-home.webp`,
-    alt: "Domovská stránka reálne nasadeného webu DERAT",
+    image: `${import.meta.env.BASE_URL}work/portfolio/derat-desktop.webp`,
+    alt: "Desktopová domovská stránka reálne nasadeného webu DERAT",
     caseStudyPath: "/projekty/derat",
   },
   {

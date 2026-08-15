@@ -4,6 +4,8 @@ import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
 import { seo, SITE_URL } from "@/lib/seo";
+import "@/components/site/AppleLevelFullHome.css";
+import "@/components/site/AppleLevelHomeStability.css";
 
 const faqJsonLd = JSON.stringify({
   "@context": "https://schema.org",
