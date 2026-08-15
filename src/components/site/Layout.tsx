@@ -83,6 +83,9 @@ import "@/components/site/LaunchReadyRuntime";
    bezpečnostný kontrakt repozitára vyžaduje LimeWhiteBrandFinal.css ako posledný
    relatívny komponentový import, no táto úzka vrstva musí kaskádou prísť až po ňom. */
 import "@/components/site/ProductionReadiness.css";
+/* Isolated branch-only hero concept. Intentionally last so the experiment does
+   not require touching the production cascade or any downstream section. */
+import "@/components/site/ArchitecturalHeroConcept.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
