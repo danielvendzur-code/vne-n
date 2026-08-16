@@ -210,6 +210,20 @@
   background: var(--on-dark-line);
 }
 
+/* Linka medzi riadkami zoznamu. Je to samostatný prvok, nie `border`,
+   pretože sa dokresľuje zľava doprava — a `border` sa animovať nedá bez
+   toho, aby sa prepočítal layout. Pozri `RuleLine`. */
+.mc2-line {
+  display: block;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left center;
+}
+
+.mc2-dark .mc2-line {
+  background: var(--on-dark-line);
+}
+
 /* ---- akcie ------------------------------------------------------- */
 
 /* Plná akcia. Pri prechode ju zľava zotrie smaragdová — clip-path,
@@ -342,6 +356,34 @@
 }
 
 /* ==================================================================
+   TMAVÝ PÁS AKO DOSKA POLOŽENÁ NA PAPIER
+
+   Rytmus stránky nerobia karty, ale striedanie plôch — a tmavý pás
+   nekončí rezom cez celú šírku, ale veľkým oblúkom. Je to ten istý
+   zápis, aký nesie bublina v logu, len rádovo väčší.
+
+   Oblúk patrí len tmavým pásom: papierový pás na papierovej strane by
+   nemal proti čomu zaokrúhliť. Žiadne záporné odsadenie — pásy sa
+   nemusia prekrývať, keď má každý druhý opačnú plochu.
+   ================================================================== */
+
+.mc2-arch-top {
+  border-start-start-radius: var(--arch);
+  border-start-end-radius: var(--arch);
+}
+
+.mc2-arch-bottom {
+  border-end-start-radius: var(--arch);
+  border-end-end-radius: var(--arch);
+}
+
+:is(.mc2-arch-top, .mc2-arch-bottom) {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ==================================================================
    PRESKOČIŤ NA OBSAH
    Viditeľné až pri ceste klávesnicou, ale vtedy poriadne.
    ================================================================== */
@@ -364,4 +406,28 @@
 
 .mc2-skip:focus-visible {
   transform: translateY(0);
+}
+
+/* ==================================================================
+   ODKRÝVANIE NADPISU PO SLOVÁCH
+   Každé slovo má vlastnú masku. Používa `RevealText` a nič iné.
+   ================================================================== */
+
+/* Maska je vysoká presne na riadok, a riadok má `line-height` pod 1 —
+   takže bez prepadu odreže hore mäkčene a dĺžne a dole chvostíky. Prepad
+   je na oboch stranách vyrušený záporným odsadením, takže riadkovanie
+   ostáva presne tam, kde bolo. Hore je väčší: slovenská diakritika
+   siaha vyššie, než kam dovidí verzálka. */
+.mc2-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  margin-top: -0.3em;
+  padding-top: 0.3em;
+  margin-bottom: -0.16em;
+  padding-bottom: 0.16em;
+}
+
+.mc2-word__inner {
+  display: inline-block;
 }

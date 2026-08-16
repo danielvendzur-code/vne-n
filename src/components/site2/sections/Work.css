@@ -1,14 +1,16 @@
 /* =====================================================================
-   REALIZÁCIE
-   Jedna hlavná štúdia cez celú šírku a pod ňou editorial riadky.
-   Screenshoty sú veľké a reálne — projekt má vyzerať ako projekt.
+   REALIZÁCIE AKO INDEX
+   Zoznam, nie karty. Riadok nesie číslo, názov a typ — nič viac.
+   Screenshot a popis prídu až po rozkliknutí, ukážka pod kurzorom hneď.
    ===================================================================== */
 
 .mc2-work {
+  position: relative;
   padding-block: var(--band);
   background: var(--paper);
-  border-bottom: 1px solid var(--line);
   scroll-margin-top: 5rem;
+  /* Bez spodnej linky: nasledujúci pás sem dosadá oblúkom a linka by mu
+     prešla cez zaoblenie. */
 }
 
 .mc2-work__head {
@@ -17,24 +19,123 @@
   margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
 }
 
-/* ---- hlavná štúdia ------------------------------------------------ */
-
-.mc2-work__lead {
+.mc2-work__index {
   display: grid;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  margin-bottom: clamp(3rem, 7vw, 5.5rem);
+  border-top: 1px solid var(--line);
 }
 
-.mc2-work__lead-media {
-  position: relative;
+/* Spodnú linku riadku nesie `RuleLine`, nie `border` — dokresľuje sa. */
+.mc2-work__item {
+  display: grid;
+}
+
+.mc2-work__item h3 {
+  margin: 0;
+}
+
+/* ---- riadok ------------------------------------------------------- */
+
+.mc2-work__row {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  width: 100%;
+  padding: clamp(1.15rem, 2.4vw, 1.9rem) 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mc2-work__num {
+  color: var(--quiet);
+  font-size: 0.665rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  transition: color var(--fast) linear;
+}
+
+/* Názov je jediná veľká vec v riadku. Pri prechode sa posunie o kúsok
+   doprava — pohyb, ktorý potvrdí, že riadok je živý, a nič viac. */
+.mc2-work__name {
+  font-size: clamp(1.8rem, 4.2vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  transition: transform var(--base) var(--ease);
+}
+
+.mc2-work__type {
+  grid-column: 2;
+  color: var(--quiet);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mc2-work__plus {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--pill);
+  color: var(--ink);
+  transition:
+    transform var(--base) var(--ease),
+    background-color var(--base) var(--ease),
+    border-color var(--base) var(--ease),
+    color var(--base) var(--ease);
+}
+
+.mc2-work__plus svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.mc2-work__item[data-open="true"] .mc2-work__plus {
+  transform: rotate(135deg);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #ffffff;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mc2-work__row:is(:hover, :focus-visible) .mc2-work__name {
+    transform: translateX(0.6rem);
+  }
+
+  .mc2-work__row:is(:hover, :focus-visible) .mc2-work__num {
+    color: var(--green);
+  }
+
+  .mc2-work__row:is(:hover, :focus-visible) .mc2-work__plus {
+    border-color: var(--ink);
+  }
+}
+
+/* ---- rozkliknutý detail ------------------------------------------- */
+
+.mc2-work__panel-inner {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.mc2-work__media {
   display: block;
   overflow: hidden;
-  border-radius: var(--arch) var(--shape) var(--shape) var(--shape);
+  border-radius: var(--shape);
   background: var(--paper-deep);
   aspect-ratio: 16 / 10;
 }
 
-.mc2-work__lead-media img {
+.mc2-work__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -42,136 +143,103 @@
   transition: transform var(--slow) var(--ease);
 }
 
-.mc2-work__lead-media:is(:hover, :focus-visible) img {
+.mc2-work__media:is(:hover, :focus-visible) img {
   transform: scale(1.02);
 }
 
-.mc2-work__badge {
-  position: absolute;
-  top: clamp(1rem, 2vw, 1.6rem);
-  left: clamp(1rem, 2vw, 1.6rem);
-  padding: 0.4rem 0.85rem;
-  border-radius: var(--pill);
-  background: var(--ink);
-  color: #ffffff;
-  font-size: 0.62rem;
-  font-weight: 650;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.mc2-work__lead-copy {
+.mc2-work__copy {
   display: grid;
   align-content: start;
-  gap: 0.55rem;
-  max-width: 42rem;
-}
-
-.mc2-work__index {
-  color: var(--quiet);
-  font-size: 0.665rem;
-  font-weight: 650;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.mc2-work :is(h3) {
-  color: var(--ink);
-  font-size: clamp(1.9rem, 3.4vw, 3rem);
-  font-weight: 500;
-  letter-spacing: -0.05em;
-  line-height: 1;
-}
-
-.mc2-work__type {
-  color: var(--green);
-  font-size: 0.79rem;
-  font-weight: 620;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  gap: 0.9rem;
 }
 
 .mc2-work__detail {
-  max-width: 40rem;
-  margin-top: 0.35rem;
+  max-width: 34rem;
   color: var(--muted);
   font-size: 1rem;
-  line-height: 1.68;
+  line-height: 1.7;
 }
 
 .mc2-work__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0 clamp(1.25rem, 3vw, 2.5rem);
-  margin-top: 0.35rem;
 }
 
-.mc2-work__actions svg,
-.mc2-work__row-copy .mc2-quiet svg {
+.mc2-work__actions svg {
   width: 0.9rem;
   height: 0.9rem;
 }
 
-/* ---- ďalšie projekty ---------------------------------------------- */
+@media (min-width: 62rem) {
+  .mc2-work__row {
+    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 18rem) auto;
+    gap: 1.5rem;
+  }
 
-.mc2-work__rest {
-  display: grid;
-  gap: clamp(2.5rem, 6vw, 4.5rem);
+  .mc2-work__type {
+    grid-column: 3;
+    text-align: right;
+  }
+
+  .mc2-work__panel-inner {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: start;
+  }
 }
 
-.mc2-work__row {
-  display: grid;
-  gap: clamp(1.1rem, 2.5vw, 2rem);
-  padding-top: clamp(2rem, 4vw, 3rem);
-  border-top: 1px solid var(--line);
-}
+/* ---- ukážka pod kurzorom ------------------------------------------ */
 
-.mc2-work__row-media {
-  display: block;
-  overflow: hidden;
+/* Mimo toku dokumentu a bez `pointer-events`, takže sa nikdy nedostane
+   medzi kurzor a riadok, nad ktorým je. */
+.mc2-work__cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: clamp(14rem, 20vw, 20rem);
+  aspect-ratio: 4 / 3;
   border-radius: var(--shape);
-  background: var(--paper-deep);
-  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  pointer-events: none;
+  /* Tieň je jediný na celom webe. Ukážka je jediná vec, ktorá sa naozaj
+     vznáša nad stránkou, takže si ho môže dovoliť — a bez neho by na
+     papieri splývala s riadkom pod sebou. */
+  box-shadow: 0 2rem 4rem -1.5rem rgba(11, 47, 32, 0.35);
+  opacity: 0;
+  transform: translate3d(var(--x, 0), var(--y, 0), 0) translate(-50%, -50%) scale(0.94);
+  transition:
+    opacity var(--base) var(--ease),
+    scale var(--base) var(--ease);
+  will-change: transform;
 }
 
-.mc2-work__row-media img {
+.mc2-work__cursor[data-on="true"] {
+  opacity: 1;
+  scale: 1;
+}
+
+.mc2-work__cursor img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  transition: transform var(--slow) var(--ease);
 }
 
-.mc2-work__row-media:is(:hover, :focus-visible) img {
-  transform: scale(1.03);
+/* Na dotyku ani pri vypnutých animáciách sa ukážka nepripája — nemá
+   kurzor, ktorý by sledovala. */
+@media (hover: none), (pointer: coarse) {
+  .mc2-work__cursor {
+    display: none;
+  }
 }
 
-.mc2-work__row-copy {
-  display: grid;
-  align-content: start;
-  gap: 0.5rem;
-}
-
-@media (min-width: 62rem) {
-  .mc2-work__lead {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-    align-items: end;
+@media (prefers-reduced-motion: reduce) {
+  .mc2-work__cursor {
+    display: none;
   }
 
-  .mc2-work__lead-media {
-    aspect-ratio: 16 / 11;
-  }
-
-  /* Nepárne riadky majú obraz vpravo. Striedanie drží rytmus a zabráni
-     tomu, aby zoznam vyzeral ako tabuľka. */
-  .mc2-work__row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: center;
-    column-gap: clamp(2rem, 5vw, 4.5rem);
-  }
-
-  .mc2-work__row:nth-child(even) .mc2-work__row-media {
-    order: 2;
+  .mc2-work__name {
+    transform: none;
   }
 }

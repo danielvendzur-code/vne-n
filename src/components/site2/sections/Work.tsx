@@ -1,21 +1,88 @@
-import { ArrowUpRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowUpRight, Plus } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { realizations } from "@/data/realizations";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { RevealText } from "../RevealText";
+import { RuleLine } from "../RuleLine";
 import { Reveal2 } from "../Reveal2";
 import "./Work.css";
 
-const [lead, ...rest] = realizations;
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 /**
- * Realizácie.
+ * Ukážka, ktorá sleduje kurzor.
  *
- * Predtým to boli štyri rovnaké karty, čo je presne to, čo z webu robí
- * katalóg namiesto dôkazu. DERAT tu vedie ako hlavná prípadová štúdia
- * cez celú šírku, ostatné projekty idú pod ním ako editorial riadky.
- * Screenshoty sú reálne a veľké — projekt má vyzerať ako projekt, nie
- * ako náhľad v malom boxe.
+ * Nad zoznamom sa drží jeden obrázok a mení sa podľa toho, nad ktorým
+ * riadkom kurzor je. Je to jediný prvok na webe, ktorý reaguje priamo na
+ * pohyb myši — preto si to môže dovoliť.
+ *
+ * Pozíciu dobieha pružinou v jednom `requestAnimationFrame` a zapisuje
+ * ju do vlastných vlastností, takže sa počas pohybu nič neprekresľuje
+ * mimo kompozítora. Na dotyku a pri vypnutých animáciách sa nepripojí.
+ */
+function useCursorPreview(reduced: boolean) {
+  const layerRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  useEffect(() => {
+    const layer = layerRef.current;
+    if (!layer || reduced) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    let frame = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let x = 0;
+    let y = 0;
+    let started = false;
+
+    const tick = () => {
+      x += (targetX - x) * 0.14;
+      y += (targetY - y) * 0.14;
+      layer.style.setProperty("--x", `${x.toFixed(1)}px`);
+      layer.style.setProperty("--y", `${y.toFixed(1)}px`);
+      frame = requestAnimationFrame(tick);
+    };
+
+    const onMove = (event: PointerEvent) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      if (!started) {
+        started = true;
+        x = targetX;
+        y = targetY;
+        frame = requestAnimationFrame(tick);
+      }
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [reduced]);
+
+  return { layerRef, hovered, setHovered };
+}
+
+/**
+ * Realizácie ako index.
+ *
+ * Predtým to boli štyri rovnaké karty s odstavcom pri každej. Teraz je
+ * to zoznam: číslo, názov, typ. Nič viac — kto chce detail, rozklikne
+ * riadok a dostane veľký screenshot aj popis. Stránka sa tak dá prejsť
+ * očami za pár sekúnd a text sa pýta o slovo, až keď oň niekto stojí.
  */
 export function Work() {
+  const reduced = useReducedMotion();
+  const [open, setOpen] = useState<string | null>(null);
+  const { layerRef, hovered, setHovered } = useCursorPreview(reduced);
+  // Nad rozkliknutým riadkom sa ukážka nedrží: veľký screenshot je už
+  // otvorený pod ním a malý by mu ležal cez cestu.
+  const preview = hovered && hovered !== open ? realizations.find((i) => i.name === hovered) : null;
+
   return (
     <section className="mc2-work" id="realizacie">
       <div className="mc2-shell">
@@ -23,85 +90,100 @@ export function Work() {
           <p className="mc2-eyebrow">
             <b>02</b> Realizácie
           </p>
-          <h2 className="mc2-title">Weby, ktoré si viete otvoriť a overiť.</h2>
-          <p className="mc2-lead">
-            Žiadne makety. Každý odkaz nižšie je nasadený web, na ktorom naše riešenie beží.
-          </p>
+          <RevealText className="mc2-title" text="Weby, ktoré si viete otvoriť." />
         </Reveal2>
 
-        {/* Hlavná prípadová štúdia. Dostáva celú šírku, pretože je to
-            najsilnejší dôkaz, ktorý máme. */}
-        <Reveal2 className="mc2-work__lead" as="article">
-          <a
-            className="mc2-work__lead-media"
-            href={lead.href}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Otvoriť živý web ${lead.domain}`}
-          >
-            <img
-              src={lead.image}
-              alt={lead.alt}
-              loading="lazy"
-              decoding="async"
-              width="1200"
-              height="750"
-            />
-            <span className="mc2-work__badge">Živý web</span>
-          </a>
+        <ul className="mc2-work__index" onPointerLeave={() => setHovered(null)}>
+          {realizations.map((project, index) => {
+            const expanded = open === project.name;
+            const panelId = `mc2-work-${project.name.replace(/\W+/g, "-")}`;
 
-          <div className="mc2-work__lead-copy">
-            <p className="mc2-work__index">01 / Hlavná realizácia</p>
-            <h3>{lead.name}</h3>
-            <p className="mc2-work__type">{lead.type}</p>
-            <p className="mc2-work__detail">{lead.detail}</p>
-            <div className="mc2-work__actions">
-              <a className="mc2-quiet" href={lead.href} target="_blank" rel="noreferrer">
-                {lead.domain}
-                <ArrowUpRight aria-hidden="true" />
-              </a>
-              {lead.caseStudyPath ? (
-                <Link className="mc2-quiet" to={lead.caseStudyPath}>
-                  Prípadová štúdia
-                  <ArrowUpRight aria-hidden="true" />
-                </Link>
-              ) : null}
-            </div>
-          </div>
-        </Reveal2>
+            return (
+              <li className="mc2-work__item" key={project.name} data-open={expanded}>
+                <h3>
+                  <button
+                    type="button"
+                    className="mc2-work__row"
+                    aria-expanded={expanded}
+                    aria-controls={panelId}
+                    onPointerEnter={() => setHovered(project.name)}
+                    onFocus={() => setHovered(project.name)}
+                    onClick={() => setOpen(expanded ? null : project.name)}
+                  >
+                    <span className="mc2-work__num">{`0${index + 1}`}</span>
+                    <span className="mc2-work__name">{project.name}</span>
+                    <span className="mc2-work__type">{project.type}</span>
+                    <span className="mc2-work__plus" aria-hidden="true">
+                      <Plus />
+                    </span>
+                  </button>
+                </h3>
 
-        <ul className="mc2-work__rest">
-          {rest.map((project, index) => (
-            <Reveal2 as="li" className="mc2-work__row" key={project.name} delay={index * 0.05}>
-              <a
-                className="mc2-work__row-media"
-                href={project.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Otvoriť živý web ${project.domain}`}
-              >
-                <img
-                  src={project.image}
-                  alt={project.alt}
-                  loading="lazy"
-                  decoding="async"
-                  width="900"
-                  height="600"
-                />
-              </a>
-              <div className="mc2-work__row-copy">
-                <p className="mc2-work__index">{`0${index + 2} / ${project.domain}`}</p>
-                <h3>{project.name}</h3>
-                <p className="mc2-work__type">{project.type}</p>
-                <p className="mc2-work__detail">{project.result}</p>
-                <a className="mc2-quiet" href={project.href} target="_blank" rel="noreferrer">
-                  Otvoriť web
-                  <ArrowUpRight aria-hidden="true" />
-                </a>
-              </div>
-            </Reveal2>
-          ))}
+                <AnimatePresence initial={false}>
+                  {expanded ? (
+                    <motion.div
+                      className="mc2-work__panel"
+                      id={panelId}
+                      initial={reduced ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduced ? { opacity: 1 } : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.52, ease: EASE }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <div className="mc2-work__panel-inner">
+                        <motion.a
+                          className="mc2-work__media"
+                          href={project.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`Otvoriť živý web ${project.domain}`}
+                          initial={reduced ? false : { clipPath: "inset(0 0 100% 0)" }}
+                          animate={{ clipPath: "inset(0 0 0% 0)" }}
+                          transition={{ duration: 0.72, ease: EASE, delay: 0.08 }}
+                        >
+                          <img
+                            src={project.image}
+                            alt={project.alt}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </motion.a>
+
+                        <div className="mc2-work__copy">
+                          <p className="mc2-work__detail">{project.detail}</p>
+                          <div className="mc2-work__actions">
+                            <a
+                              className="mc2-quiet"
+                              href={project.href}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {project.domain}
+                              <ArrowUpRight aria-hidden="true" />
+                            </a>
+                            {project.caseStudyPath ? (
+                              <Link className="mc2-quiet" to={project.caseStudyPath}>
+                                Prípadová štúdia
+                                <ArrowUpRight aria-hidden="true" />
+                              </Link>
+                            ) : null}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+
+                <RuleLine />
+              </li>
+            );
+          })}
         </ul>
+      </div>
+
+      {/* Ukážka pod kurzorom. Mimo mriežky, aby nemohla ovplyvniť layout. */}
+      <div className="mc2-work__cursor" ref={layerRef} aria-hidden="true" data-on={!!preview}>
+        {preview ? <img src={preview.image} alt="" /> : null}
       </div>
     </section>
   );

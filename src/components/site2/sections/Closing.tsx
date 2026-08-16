@@ -1,57 +1,144 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Reveal2 } from "../Reveal2";
+import { RevealText } from "../RevealText";
+import { RuleLine } from "../RuleLine";
 import "./Closing.css";
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+/**
+ * Kroky spolupráce.
+ *
+ * V zozname stojí len názov kroku a to, čo z neho vypadne — dve krátke
+ * veci, ktoré sa dajú prejsť očami. Vysvetlenie je za rozkliknutím,
+ * pretože kto sa rozhoduje, ho číta, a kto skenuje, ho preskočí.
+ */
 const STEPS = [
   {
-    title: "Povieme si, čo má riešenie vybaviť",
-    copy: "Pozrieme si váš web, ponuku a otázky zákazníkov. Vyberieme to, čo dnes berie najviac času.",
-    out: "Jasný zoznam toho, čo má riešenie robiť.",
+    title: "Zistíme, čo má vybaviť",
+    out: "Zoznam úloh pre riešenie",
+    copy: "Pozrieme si váš e-shop, ponuku a otázky zákazníkov. Vyberieme to, čo dnes berie najviac času.",
   },
   {
-    title: "Pripravíme tok, logiku a ukážku",
-    copy: "Navrhneme otázky, rozhodovanie aj výpočty skôr, než sa začne vývoj.",
-    out: "Klikateľná ukážka, ktorú si vyskúšate pred výrobou.",
+    title: "Navrhneme tok a logiku",
+    out: "Klikateľná ukážka",
+    copy: "Otázky, rozhodovanie aj výpočty pripravíme skôr, než sa začne vývoj. Ukážku si vyskúšate pred výrobou.",
   },
   {
-    title: "Postavíme a spolu otestujeme",
+    title: "Postavíme a otestujeme",
+    out: "Otestovaná verzia",
     copy: "Preveríme bežné situácie na počítači aj mobile a upravíme, čo nesedí.",
-    out: "Otestovaná verzia pripravená na ostrú prevádzku.",
   },
   {
-    title: "Nasadíme a doladíme podľa dát",
-    copy: "Prepojíme dopyty s miestom, kde ich riešite, a po spustení skontrolujeme prvé otázky.",
-    out: "Živé riešenie a jasný plán ďalších úprav.",
+    title: "Nasadíme a doladíme",
+    out: "Živé riešenie",
+    copy: "Prepojíme dopyty s miestom, kde ich riešite, a po spustení skontrolujeme prvé otázky zákazníkov.",
   },
 ];
 
 /** Na domovskej stránke stoja len tie otázky, ktoré padnú najčastejšie. */
 const TOP_FAQ = faqs.slice(0, 5);
 
-export function Process() {
+/**
+ * Otvárací panel.
+ *
+ * Jeden kus pre kroky aj otázky — obe potrebujú to isté: výšku, ktorá
+ * dorastie, a obsah, ktorý za ňou o kúsok zaostane. Pri vypnutých
+ * animáciách sa panel len ukáže.
+ */
+function Panel({
+  id,
+  open,
+  reduced,
+  className,
+  children,
+}: {
+  id: string;
+  open: boolean;
+  reduced: boolean;
+  className: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section className="mc2-process mc2-dark" id="spolupraca">
+    <AnimatePresence initial={false}>
+      {open ? (
+        <motion.div
+          id={id}
+          className={className}
+          initial={reduced ? false : { height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={reduced ? { opacity: 1 } : { height: 0, opacity: 0 }}
+          transition={{ duration: 0.5, ease: EASE }}
+          style={{ overflow: "hidden" }}
+        >
+          <motion.div
+            initial={reduced ? false : { y: 14, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.08 }}
+          >
+            {children}
+          </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
+  );
+}
+
+export function Process() {
+  const reduced = useReducedMotion();
+  const [open, setOpen] = useState<string | null>(null);
+
+  return (
+    <section className="mc2-process mc2-dark mc2-arch-top mc2-arch-bottom" id="spolupraca">
       <div className="mc2-shell">
         <Reveal2 className="mc2-process__head">
           <p className="mc2-eyebrow">
             <b>03</b> Spolupráca
           </p>
-          <h2 className="mc2-title">Štyri kroky. Vždy viete, čo sa deje.</h2>
+          <RevealText className="mc2-title" text="Štyri kroky. Vždy viete, čo sa deje." />
         </Reveal2>
 
         <ol className="mc2-process__steps">
-          {STEPS.map((step, index) => (
-            <Reveal2 as="li" className="mc2-process__step" key={step.title} delay={index * 0.05}>
-              <span className="mc2-process__num">{`0${index + 1}`}</span>
-              <h3>{step.title}</h3>
-              <p>{step.copy}</p>
-              <p className="mc2-process__out">{step.out}</p>
-            </Reveal2>
-          ))}
+          {STEPS.map((step, index) => {
+            const expanded = open === step.title;
+            const panelId = `mc2-step-${index + 1}`;
+
+            return (
+              <li className="mc2-process__step" key={step.title} data-open={expanded}>
+                <h3>
+                  <button
+                    type="button"
+                    className="mc2-process__row"
+                    aria-expanded={expanded}
+                    aria-controls={panelId}
+                    onClick={() => setOpen(expanded ? null : step.title)}
+                  >
+                    <span className="mc2-process__num">{`0${index + 1}`}</span>
+                    <span className="mc2-process__title">{step.title}</span>
+                    <span className="mc2-process__out">{step.out}</span>
+                    <span className="mc2-process__sign" aria-hidden="true" />
+                  </button>
+                </h3>
+
+                <Panel
+                  id={panelId}
+                  open={expanded}
+                  reduced={reduced}
+                  className="mc2-process__panel"
+                >
+                  <p className="mc2-process__copy">{step.copy}</p>
+                </Panel>
+
+                <RuleLine delay={index * 0.06} />
+              </li>
+            );
+          })}
         </ol>
       </div>
     </section>
@@ -59,6 +146,7 @@ export function Process() {
 }
 
 export function Faq() {
+  const reduced = useReducedMotion();
   const [open, setOpen] = useState<string | null>(TOP_FAQ[0]?.q ?? null);
 
   return (
@@ -68,14 +156,14 @@ export function Faq() {
           <p className="mc2-eyebrow">
             <b>04</b> Otázky
           </p>
-          <h2 className="mc2-title">Čo sa najčastejšie pýtate.</h2>
+          <RevealText className="mc2-title" text="Čo sa najčastejšie pýtate." />
           <Link to="/cennik" className="mc2-quiet">
             Pozrieť cenu
           </Link>
         </Reveal2>
 
         <Reveal2 className="mc2-faq__list">
-          {TOP_FAQ.map((item) => {
+          {TOP_FAQ.map((item, index) => {
             const expanded = open === item.q;
             const id = `mc2-faq-${item.q.slice(0, 24).replace(/\W+/g, "-")}`;
             return (
@@ -91,9 +179,11 @@ export function Faq() {
                     <i aria-hidden="true" />
                   </button>
                 </h3>
-                <div className="mc2-faq__answer" id={id} hidden={!expanded}>
+                <Panel id={id} open={expanded} reduced={reduced} className="mc2-faq__answer">
                   <p>{item.a}</p>
-                </div>
+                </Panel>
+
+                <RuleLine delay={index * 0.06} />
               </div>
             );
           })}
@@ -105,17 +195,13 @@ export function Faq() {
 
 export function FinalCta() {
   return (
-    <section className="mc2-final mc2-dark">
+    <section className="mc2-final mc2-dark mc2-arch-top">
       <div className="mc2-shell">
         <Reveal2 className="mc2-final__inner">
           <p className="mc2-eyebrow">
             <b>05</b> Ďalší krok
           </p>
-          <h2 className="mc2-final__title">
-            Povedzte nám, čo má web vybaviť.
-            <br />
-            Zvyšok pripravíme my.
-          </h2>
+          <RevealText className="mc2-final__title" text="Povedzte nám, čo má e‑shop vybaviť." />
           <p className="mc2-lead">Nezáväzná konzultácia. Ozveme sa do jedného pracovného dňa.</p>
           <div className="mc2-final__actions">
             <Link to="/kontakt" className="mc2-cta">

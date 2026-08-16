@@ -110,8 +110,7 @@ export function Hero({ demo }: { demo: DemoEntry | null }) {
           </h1>
 
           <motion.p className="mc2-hero__lead" variants={rise}>
-            Chatbot odpovie na otázky o objednávke, poradí s výberom a vybaví vrátenie. Rovnako
-            dobre pracuje pre firmy so službami — s kalkulačkou aj konfigurátorom.
+            Objednávky, výber produktu aj vrátenie. Rovnako pre firmy so službami.
           </motion.p>
 
           <motion.div className="mc2-hero__actions" variants={rise}>
