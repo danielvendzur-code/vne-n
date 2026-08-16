@@ -25,13 +25,23 @@
      o jednotky pixelov rôznou silou (`--mc-px` / `--mc-py` z hooku
      usePointerDepth), takže plocha má priestor, nie efekt.
 
+     Samotná scéna je nadvihnutá jednou vlasovou hranou a svetlom na
+     hornom okraji — plocha tak vyzerá ako fyzický panel, ktorý chytá
+     svetlo, nie ako vyfarbený obdĺžnik. Vrstvy vnútri sa odlišujú iba
+     silou priesvitnej bielej, nie farbou.
+
    Paleta (identita zostáva biela + zelená)
-     #ffffff  strana
-     #0b2f20  lesná — text na bielej a plocha scény
-     #19834f  smaragdová — akcent na bielej
-     #d9ff78  limetková — hlas značky na tmavej a jediné zvýraznenie
-     #536159  tlmený text na bielej
-     #5f6b63  popisky na bielej (4,5 : 1 aj v drobnom reze)
+     #f7f7f4  papier — strana. Nie klinická biela: čistá biela na celej
+              ploche svieti a unavuje, papierový tón je pokojný a spolu
+              s tmavou scénou dá kontrast, ktorý nie je ostrý.
+     #0b2f20  lesná — text na papieri a plocha scény
+     #19834f  smaragdová — jediný akcent na papieri
+     #ffffff  biela — jediný akcent na tmavej. Hlas značky v rozhovore,
+              výsledok aj odosielacie tlačidlo. Svetlozelená je preč:
+              monochróm s jedným akcentom vyzerá drahšie než dve zelené,
+              ktoré si na tmavej konkurujú.
+     #545f57  tlmený text na papieri
+     #5c665e  popisky na papieri (4,5 : 1 aj v drobnom reze)
      #a8c1b3  popisky na tmavej (6,4 : 1)
 
    Pohyb
@@ -50,19 +60,22 @@
   --mc-shell: 1560px;
   --mc-pad: 1.375rem;
 
+  --mc-paper: #f7f7f4;
   --mc-ink: #0b2f20;
   --mc-green: #19834f;
-  --mc-lime: #b9ed4d;
-  --mc-lime-bright: #d9ff78;
-  --mc-muted: #536159;
-  --mc-quiet: #5f6b63;
-  --mc-line: rgba(11, 47, 32, 0.13);
+  --mc-green-deep: #126b41;
+  --mc-muted: #545f57;
+  --mc-quiet: #5c665e;
+  --mc-line: rgba(11, 47, 32, 0.12);
 
-  /* Tmavá scéna má vlastnú sadu — na lesnej ploche neplatí nič z bielej. */
+  /* Tmavá scéna má vlastnú sadu — na lesnej ploche neplatí nič z papiera.
+     Hierarchiu robí sila priesvitnej bielej, nie ďalšia farba. */
   --mc-on-dark: #ffffff;
   --mc-on-dark-quiet: #a8c1b3;
-  --mc-on-dark-line: rgba(255, 255, 255, 0.16);
-  --mc-on-dark-fill: rgba(255, 255, 255, 0.07);
+  --mc-on-dark-line: rgba(255, 255, 255, 0.14);
+  --mc-on-dark-edge: rgba(255, 255, 255, 0.09);
+  --mc-on-dark-fill: rgba(255, 255, 255, 0.055);
+  --mc-on-dark-fill-strong: rgba(255, 255, 255, 0.09);
 
   /* Značkový tvar: tri veľké polomery a jedna pätka. */
   --mc-shape: 1.75rem;
@@ -76,7 +89,7 @@
 
   position: relative;
   display: flex;
-  background: #ffffff;
+  background: var(--mc-paper);
   border-bottom: 1px solid var(--mc-line);
   scroll-margin-top: 7rem;
 }
@@ -165,8 +178,8 @@
   max-width: 31rem;
   margin: clamp(1.25rem, 2.4vh, 1.85rem) 0 0;
   color: var(--mc-muted);
-  font-size: clamp(1rem, 1.1vw, 1.12rem);
-  line-height: 1.6;
+  font-size: clamp(1.02rem, 1.15vw, 1.16rem);
+  line-height: 1.72;
 }
 
 .mc-hero__actions {
@@ -178,7 +191,7 @@
 }
 
 /* Plná akcia je na stránke jedna. Pri prechode ju zľava zotrie
-   limetková — pohyb je clip-path, takže nič neprekresľuje layout. */
+   smaragdová — pohyb je clip-path, takže nič neprekresľuje layout. */
 .mc-hero__cta {
   position: relative;
   isolation: isolate;
@@ -203,7 +216,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--mc-lime-bright);
+  background: var(--mc-green);
   clip-path: inset(0 100% 0 0);
   transition: clip-path 560ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -228,7 +241,7 @@
 }
 
 .mc-hero__cta:is(:hover, :focus-visible) {
-  color: var(--mc-ink);
+  color: #ffffff;
 }
 
 .mc-hero__cta:is(:hover, :focus-visible)::before {
@@ -254,7 +267,11 @@
     clamp(1.4rem, 2.6vw, 2.1rem) clamp(1.7rem, 3vw, 2.6rem);
   border-radius: var(--mc-arch) var(--mc-shape) var(--mc-shape) var(--mc-shape);
   background: var(--mc-ink);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  /* Vlasová hrana po obvode a svetlo na hornom okraji. Nie žiara —
+     jeden pixel, ktorý plochu nadvihne nad papier. */
+  box-shadow:
+    inset 0 0 0 1px var(--mc-on-dark-edge),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
   color: var(--mc-on-dark);
 }
 
@@ -296,7 +313,7 @@
 .mc-hero__stage-count {
   display: block;
   margin: 0;
-  color: var(--mc-lime-bright);
+  color: var(--mc-on-dark);
   font-size: 0.72rem;
   font-weight: 650;
   font-variant-numeric: tabular-nums;
@@ -359,7 +376,7 @@
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: var(--mc-on-dark-fill);
+  background: var(--mc-on-dark-fill-strong);
   box-shadow: inset 0 0 0 1px var(--mc-on-dark-line);
 }
 
@@ -369,7 +386,7 @@
 }
 
 .mc-hero__pick[data-active="true"] .mc-hero__num {
-  color: var(--mc-lime-bright);
+  color: var(--mc-on-dark);
   opacity: 1;
 }
 
@@ -378,7 +395,7 @@
 @media (prefers-reduced-motion: reduce) {
   .mc-hero__pick[data-active="true"] {
     border-color: var(--mc-on-dark-line);
-    background: var(--mc-on-dark-fill);
+    background: var(--mc-on-dark-fill-strong);
   }
 }
 
@@ -455,16 +472,18 @@
 
 /* Značka hovorí limetkou, zákazník tlmenou bielou. Pätka bubliny je
    vždy na strane hovorcu — presne ako v logu. */
+/* Značka hovorí bielou. Je to jediný plný povrch v scéne, takže
+   odpoveď chatbota je aj bez farby okamžite rozoznateľná. */
 .mc-hero__turn[data-who="bot"] .mc-hero__bubble {
   border-radius: var(--mc-shape) var(--mc-shape) var(--mc-shape) var(--mc-foot);
-  background: var(--mc-lime-bright);
+  background: #ffffff;
   color: var(--mc-ink);
   font-weight: 520;
 }
 
 .mc-hero__turn[data-who="customer"] .mc-hero__bubble {
   border-radius: var(--mc-shape) var(--mc-shape) var(--mc-foot) var(--mc-shape);
-  background: var(--mc-on-dark-fill);
+  background: var(--mc-on-dark-fill-strong);
   color: var(--mc-on-dark);
 }
 
@@ -475,13 +494,13 @@
   gap: 0.25rem;
   margin: 0.15rem 0 0;
   padding: 0.8rem 1rem;
-  border-left: 2px solid var(--mc-lime-bright);
+  border-left: 2px solid #ffffff;
   border-radius: 0 var(--mc-shape) var(--mc-shape) 0;
-  background: var(--mc-on-dark-fill);
+  background: var(--mc-on-dark-fill-strong);
 }
 
 .mc-hero__result-who {
-  color: var(--mc-lime-bright);
+  color: var(--mc-on-dark);
   font-size: 0.595rem;
   font-weight: 650;
   letter-spacing: 0.15em;
@@ -524,7 +543,7 @@
   width: 2.4rem;
   height: 2.4rem;
   border-radius: 999px;
-  background: var(--mc-lime-bright);
+  background: #ffffff;
   color: var(--mc-ink);
   transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -536,7 +555,7 @@
 
 .mc-hero__ask:is(:hover, :focus-visible) {
   color: var(--mc-on-dark);
-  border-color: rgba(217, 255, 120, 0.5);
+  border-color: rgba(255, 255, 255, 0.42);
 }
 
 .mc-hero__ask:is(:hover, :focus-visible) .mc-hero__ask-go {
@@ -621,7 +640,7 @@
 }
 
 .mc-hero__stage :is(a, button):focus-visible {
-  outline-color: var(--mc-lime-bright);
+  outline-color: #ffffff;
 }
 
 /* ==================================================================
@@ -670,7 +689,7 @@
     padding-left: clamp(2.1rem, 3.6vw, 3.2rem);
     border-radius: var(--mc-arch) 0 0 var(--mc-shape);
     /* Šev na strane, ktorou sa scéna dotýka bielej strany. Sleduje oblúk. */
-    border-left: 1px solid rgba(217, 255, 120, 0.22);
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   /* Výber ostáva hore, rozhovor sa usadí na dno a pod ním stojí riadok

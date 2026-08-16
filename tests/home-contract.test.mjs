@@ -272,12 +272,22 @@ test("the hero is one owned layer, not another override", async () => {
   assert.match(hero, /kalkulačkou aj konfigurátorom/);
   assert.match(hero, /reklamáci/);
 
-  // Scéna je oblúk, nie zaoblený obdĺžnik, a hĺbku robí posun vrstiev,
-  // nie tieň ani rozostrenie.
+  // Scéna je oblúk, nie zaoblený obdĺžnik, a hĺbku robí posun vrstiev
+  // a jedna vlasová hrana — nie vrhnutý tieň ani rozostrenie.
   assert.match(css, /--mc-arch:/);
   assert.match(css, /border-radius: var\(--mc-arch\)/);
   assert.match(css, /translate: calc\(var\(--mc-px\)/);
   assert.doesNotMatch(css, /box-shadow: 0 /);
+
+  // Svetlozelená je z hero preč. Na papieri je akcent smaragdová, na
+  // tmavej scéne biela — jedna farba na jednu plochu.
+  assert.doesNotMatch(css, /#d9ff78|#b9ed4d|217,\s*255,\s*120|185,\s*237,\s*77/i);
+  assert.match(css, /--mc-paper: #f7f7f4/);
+  assert.match(css, /background: var\(--mc-paper\)/);
+  assert.match(
+    css,
+    /\.mc-hero__turn\[data-who="bot"\] \.mc-hero__bubble \{[\s\S]*background: #ffffff/,
+  );
 
   // Chatbot sa otvorí v režime vybraného scenára, nie vždy rovnako.
   assert.match(hero, /preset: scenario\.preset/);
@@ -311,8 +321,10 @@ test("the brand intro plays once, from first paint, and never traps the page", a
   assert.match(css, /@keyframes mc-intro-draw/);
   // Opona je lesná, takže jej zdvih je zároveň prechod tmavá → biela.
   assert.match(css, /\.mc-intro \{[\s\S]*background: #0b2f20/);
-  // Ťah loga je ostrý. Staršia vrstva mu inak pridáva limetkovú žiaru.
+  // Ťah loga je ostrý a biely. Staršia vrstva mu inak pridáva limetkovú
+  // farbu aj žiaru.
   assert.match(css, /filter: none !important/);
+  assert.doesNotMatch(css, /#d9ff78|#b9ed4d|217,\s*255,\s*120/i);
   assert.match(css, /@keyframes mc-intro-lift/);
   assert.match(css, /stroke-dashoffset/);
   assert.doesNotMatch(intro, /setTimeout\(/);

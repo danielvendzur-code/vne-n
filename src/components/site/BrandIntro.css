@@ -5,10 +5,10 @@
    vrstva nesiaha nikam von — jediná výnimka je farba ťahu loga, ktorú
    staršia identitná vrstva nastavuje globálne.
 
-   Opona je tmavá lesná. Web je biely, takže zdvih opony je zároveň
-   prechod z tmavej do svetlej — a to je na značke to najsilnejšie, čo
-   sa dá z dvoch farieb identity vyťažiť. Biela opona na bielom webe
-   žiadny prechod nemala.
+   Opona je tmavá lesná, značka na nej je biela. Web pod ňou je papierový,
+   takže zdvih opony je zároveň prechod z tmavej do svetlej — to je na
+   značke to najsilnejšie, čo sa dá z dvoch farieb identity vyťažiť.
+   Svetlozelená tu nie je zámerne: jedna značka, jedna farba.
 
    Časovanie od prvého vykreslenia stránky, nie od pripojenia Reactu —
    opona je súčasťou HTML zo servera a pohyb je celý tu (spolu 1960 ms):
@@ -66,10 +66,10 @@
 }
 
 /* Staršia identitná vrstva drží každú značku v limetkovej cez `!important`.
-   Na lesnej opone je to presne tá farba, ktorú chceme, ale spoliehať sa na
-   cudziu vrstvu by znamenalo, že úvod zhasne, keď ju niekto zmení. */
+   Úvod ju prepisuje na bielu: na lesnej opone je čistejšia a nekonkuruje
+   si so zelenou pod sebou. */
 html:root body .site-theme-white-green .mc-intro__mark .brand-mark {
-  color: #d9ff78 !important;
+  color: #ffffff !important;
   /* Staršia vrstva pridáva značke limetkovú žiaru. Na tmavej opone z nej
      je presne ten „magic glow", ktorému sa má web vyhnúť — ťah má byť
      ostrý, nie rozmazaný. */
@@ -102,7 +102,7 @@ html:root body .site-theme-white-green .mc-intro__mark .brand-mark {
   display: block;
   width: min(20rem, 62vw);
   height: 1px;
-  background: rgba(217, 255, 120, 0.42);
+  background: rgba(255, 255, 255, 0.28);
   transform: scaleX(0);
   transform-origin: left center;
   animation: mc-intro-rule 520ms cubic-bezier(0.22, 1, 0.36, 1) 600ms both;
