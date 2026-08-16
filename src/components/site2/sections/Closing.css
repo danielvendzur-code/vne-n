@@ -1,0 +1,276 @@
+/* =====================================================================
+   SPOLUPRÁCA, OTÁZKY, ZÁVER
+   Tmavý pás, papierový pás, tmavý pás. Rytmus stránky nerobia karty, ale
+   striedanie plôch.
+   ===================================================================== */
+
+/* ---- spolupráca --------------------------------------------------- */
+
+.mc2-process {
+  padding-block: var(--band);
+  background: var(--ink);
+  scroll-margin-top: 5rem;
+}
+
+.mc2-process__head {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* Kroky sú zoznam, nie štyri stĺpce vedľa seba. Poradie naozaj niečo
+   znamená — nedá sa nasadiť skôr, než sa otestuje — a zoznam to poradie
+   ukáže lepšie než mriežka, ktorú oko číta ako štyri rovnocenné veci. */
+.mc2-process__steps {
+  display: grid;
+  border-top: 1px solid var(--on-dark-line);
+}
+
+/* Spodnú linku kroku nesie `RuleLine`, nie `border` — dokresľuje sa. */
+.mc2-process__step {
+  display: grid;
+}
+
+.mc2-process__step h3 {
+  margin: 0;
+  font-weight: inherit;
+}
+
+.mc2-process__row {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  width: 100%;
+  padding: clamp(1.15rem, 2.2vw, 1.75rem) 0;
+  border: 0;
+  background: none;
+  color: var(--on-dark);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mc2-process__num {
+  color: var(--on-dark-quiet);
+  font-size: 0.665rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.14em;
+  transition: color var(--fast) linear;
+}
+
+.mc2-process__title {
+  font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+  font-weight: 520;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  transition: transform var(--base) var(--ease);
+}
+
+/* Výstup kroku je to jediné, čo z riadku ešte stojí za prečítanie —
+   preto je tichý, ale stále čitateľný. */
+.mc2-process__out {
+  grid-column: 2;
+  color: var(--on-dark-quiet);
+  font-size: 0.775rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Znamienko je dve linky, z ktorých jedna zmizne. */
+.mc2-process__sign {
+  position: relative;
+  grid-row: 1;
+  grid-column: 3;
+  align-self: center;
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.mc2-process__sign::before,
+.mc2-process__sign::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: currentColor;
+  transition: transform var(--base) var(--ease);
+}
+
+.mc2-process__sign::after {
+  transform: rotate(90deg);
+}
+
+.mc2-process__step[data-open="true"] .mc2-process__sign::after {
+  transform: rotate(0deg);
+}
+
+.mc2-process__copy {
+  max-width: 42rem;
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.85rem);
+  color: var(--on-dark-quiet);
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mc2-process__row:is(:hover, :focus-visible) .mc2-process__title {
+    transform: translateX(0.5rem);
+  }
+
+  .mc2-process__row:is(:hover, :focus-visible) .mc2-process__num {
+    color: var(--on-dark);
+  }
+}
+
+@media (min-width: 62rem) {
+  .mc2-process__row {
+    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 16rem) auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .mc2-process__out {
+    grid-column: 3;
+    text-align: right;
+  }
+
+  .mc2-process__sign {
+    grid-column: 4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc2-process__title {
+    transform: none;
+  }
+}
+
+/* ---- otázky ------------------------------------------------------- */
+
+.mc2-faq {
+  padding-block: var(--band);
+  background: var(--paper);
+  scroll-margin-top: 5rem;
+}
+
+.mc2-faq__inner {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.mc2-faq__head {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  justify-items: start;
+}
+
+.mc2-faq__list {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+/* Spodnú linku otázky nesie `RuleLine`, nie `border` — dokresľuje sa. */
+.mc2-faq__item {
+  display: grid;
+}
+
+.mc2-faq__item h3 {
+  margin: 0;
+}
+
+.mc2-faq__item button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+  min-height: 4rem;
+  padding: 1.1rem 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(1.02rem, 1.5vw, 1.18rem);
+  font-weight: 560;
+  letter-spacing: -0.022em;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Znamienko je dve linky, z ktorých jedna zmizne. Žiadna ikona, ktorá
+   sa točí. */
+.mc2-faq__item i {
+  position: relative;
+  flex: 0 0 auto;
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.mc2-faq__item i::before,
+.mc2-faq__item i::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: var(--ink);
+  transition: transform var(--base) var(--ease);
+}
+
+.mc2-faq__item i::after {
+  transform: rotate(90deg);
+}
+
+.mc2-faq__item[data-open="true"] i::after {
+  transform: rotate(0deg);
+}
+
+/* Odsadenie patrí odstavcu, nie panelu: panel animuje výšku na nulu a
+   vlastný `padding` by mu nedovolil zavrieť sa naplno. */
+.mc2-faq__answer p {
+  max-width: 52rem;
+  padding-bottom: 1.35rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+@media (min-width: 62rem) {
+  .mc2-faq__inner {
+    grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+}
+
+/* ---- záver -------------------------------------------------------- */
+
+.mc2-final {
+  padding-block: var(--band);
+  background: var(--ink);
+}
+
+.mc2-final__inner {
+  display: grid;
+  justify-items: start;
+  gap: 1.15rem;
+  max-width: 46rem;
+}
+
+.mc2-final__title {
+  color: var(--on-dark);
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  font-weight: 500;
+  letter-spacing: -0.052em;
+  line-height: 0.98;
+}
+
+.mc2-final__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.85rem, 1.6vw, 1.5rem);
+  margin-top: 0.75rem;
+}

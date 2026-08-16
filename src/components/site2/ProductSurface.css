@@ -1,0 +1,305 @@
+/* =====================================================================
+   PRODUKTOVÁ PLOCHA
+   Tmavá lesná plocha nadvihnutá jednou vlasovou hranou a svetlom na
+   hornom okraji — vyzerá ako fyzický panel, ktorý chytá svetlo, nie ako
+   vyfarbený obdĺžnik. Vrstvy vnútri sa odlišujú iba silou priesvitnej
+   bielej, nikdy ďalšou farbou.
+   ===================================================================== */
+
+.mc2-surface {
+  display: grid;
+  align-content: start;
+  gap: clamp(0.85rem, 1.8vh, 1.3rem);
+  padding: clamp(1.7rem, 3vw, 2.6rem) clamp(1.4rem, 2.6vw, 2.1rem)
+    clamp(1.4rem, 2.6vw, 2.1rem) clamp(1.7rem, 3vw, 2.6rem);
+  border-radius: var(--arch) var(--shape) var(--shape) var(--shape);
+  background: var(--ink);
+  box-shadow:
+    inset 0 0 0 1px var(--on-dark-edge),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: var(--on-dark);
+}
+
+/* Vrstvy sa pod kurzorom rozídu o jednotky pixelov — hlavička ide proti
+   rozhovoru. Zapisuje sa `translate`, nie `transform`: príchod riadi
+   motion cez inline `transform` a obe vlastnosti sa skladajú. */
+.mc2-surface__head,
+.mc2-surface__picker {
+  translate: calc(var(--px) * -3px) calc(var(--py) * -2px);
+}
+
+.mc2-surface__panel,
+.mc2-surface__ask {
+  translate: calc(var(--px) * 4px) calc(var(--py) * 3px);
+}
+
+.mc2-surface__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.mc2-surface__label {
+  display: block;
+  color: var(--on-dark-quiet);
+  font-size: 0.655rem;
+  font-weight: 650;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.mc2-surface__count {
+  display: block;
+  color: var(--on-dark);
+  font-size: 0.72rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.mc2-surface__count i {
+  margin-left: 0.3rem;
+  color: var(--on-dark-quiet);
+  font-style: normal;
+}
+
+/* ---- výber ------------------------------------------------------- */
+
+.mc2-surface__picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.mc2-surface__pick {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1.65rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.1rem;
+  min-height: 2.9rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: var(--shape) var(--shape) var(--shape) var(--foot);
+  background: none;
+  color: var(--on-dark-quiet);
+  font: inherit;
+  font-size: 0.925rem;
+  font-weight: 540;
+  letter-spacing: -0.012em;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color var(--fast) linear,
+    border-color var(--fast) linear;
+}
+
+.mc2-surface__num {
+  color: inherit;
+  font-size: 0.645rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  opacity: 0.72;
+}
+
+.mc2-surface__pick-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--on-dark-fill-strong);
+  box-shadow: inset 0 0 0 1px var(--on-dark-line);
+}
+
+.mc2-surface__pick[data-active="true"] {
+  color: var(--on-dark);
+  font-weight: 620;
+}
+
+.mc2-surface__pick[data-active="true"] .mc2-surface__num {
+  color: var(--on-dark);
+  opacity: 1;
+}
+
+.mc2-surface__pick:not([data-active="true"]):is(:hover, :focus-visible) {
+  color: var(--on-dark);
+  border-color: var(--on-dark-line);
+}
+
+/* Bez animácií `layoutId` nebeží, takže vybraný riadok potrebuje vlastný
+   podklad — inak by nebolo vidieť, čo je zvolené. */
+@media (prefers-reduced-motion: reduce) {
+  .mc2-surface__pick[data-active="true"] {
+    border-color: var(--on-dark-line);
+    background: var(--on-dark-fill-strong);
+  }
+}
+
+/* ---- veta o scenári ---------------------------------------------- */
+
+.mc2-surface__note {
+  color: var(--on-dark-quiet);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.mc2-surface__tag {
+  display: inline-block;
+  margin-right: 0.55rem;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid var(--on-dark-line);
+  border-radius: var(--pill);
+  color: var(--on-dark);
+  font-size: 0.6rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  vertical-align: 0.1em;
+}
+
+/* ---- rozhovor ---------------------------------------------------- */
+
+/* Linka patrí panelu, nie rozhovoru: pod ňou začína plocha, do ktorej
+   správy pribúdajú. Prázdno nad rozhovorom je tak čitateľné ako plátno
+   chatu, nie ako diera v kompozícii. */
+.mc2-surface__panel {
+  display: grid;
+  align-content: end;
+  min-height: 0;
+  padding-top: clamp(0.7rem, 1.5vh, 1.05rem);
+  border-top: 1px solid var(--on-dark-line);
+}
+
+.mc2-surface__demo {
+  display: grid;
+  align-content: end;
+  gap: clamp(0.7rem, 1.5vh, 1.05rem);
+}
+
+.mc2-surface__thread {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.mc2-surface__turn {
+  display: flex;
+}
+
+.mc2-surface__turn[data-who="customer"] {
+  justify-content: flex-end;
+}
+
+.mc2-surface__bubble {
+  display: block;
+  max-width: 86%;
+  padding: 0.62rem 0.95rem;
+  font-size: clamp(0.9rem, 0.95vw, 0.985rem);
+  line-height: 1.45;
+}
+
+/* Značka hovorí bielou. Je to jediný plný povrch na ploche, takže
+   odpoveď chatbota je aj bez farby okamžite rozoznateľná. Pätka bubliny
+   je vždy na strane hovorcu — presne ako v logu. */
+.mc2-surface__turn[data-who="bot"] .mc2-surface__bubble {
+  border-radius: var(--shape) var(--shape) var(--shape) var(--foot);
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 520;
+}
+
+.mc2-surface__turn[data-who="customer"] .mc2-surface__bubble {
+  border-radius: var(--shape) var(--shape) var(--foot) var(--shape);
+  background: var(--on-dark-fill-strong);
+  color: var(--on-dark);
+}
+
+/* Výsledok nie je replika — je to výstup. Preto iný tvar: ostrá hrana
+   s bielym prahom vľavo a zaoblenie len vpravo. */
+.mc2-surface__result {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.15rem;
+  padding: 0.8rem 1rem;
+  border-left: 2px solid #ffffff;
+  border-radius: 0 var(--shape) var(--shape) 0;
+  background: var(--on-dark-fill-strong);
+}
+
+.mc2-surface__result-who {
+  color: var(--on-dark);
+  font-size: 0.595rem;
+  font-weight: 650;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.mc2-surface__result-text {
+  color: var(--on-dark);
+  font-size: clamp(0.95rem, 1.02vw, 1.05rem);
+  font-weight: 560;
+  letter-spacing: -0.014em;
+  line-height: 1.42;
+}
+
+/* ---- riadok na písanie ------------------------------------------- */
+
+.mc2-surface__ask {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.4rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.1rem;
+  border: 1px solid var(--on-dark-line);
+  border-radius: var(--pill);
+  background: var(--on-dark-fill);
+  color: var(--on-dark-quiet);
+  font: inherit;
+  font-size: 0.925rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color var(--fast) linear,
+    border-color var(--fast) linear;
+}
+
+.mc2-surface__ask-go {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: var(--pill);
+  background: #ffffff;
+  color: var(--ink);
+  transition: transform 460ms var(--ease);
+}
+
+.mc2-surface__ask-go svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.mc2-surface__ask:is(:hover, :focus-visible) {
+  color: var(--on-dark);
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.mc2-surface__ask:is(:hover, :focus-visible) .mc2-surface__ask-go {
+  transform: translate(0.14rem, -0.14rem) scale(1.06);
+}
+
+/* Veľmi úzke obrazovky: tesnejší rez, nie skrátené popisy. */
+@media (max-width: 26rem) {
+  .mc2-surface__pick {
+    grid-template-columns: 1.4rem minmax(0, 1fr);
+    padding-inline: 0.6rem;
+    font-size: 0.865rem;
+  }
+
+  .mc2-surface__bubble {
+    max-width: 92%;
+  }
+}

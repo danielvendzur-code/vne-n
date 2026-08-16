@@ -1,33 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import { useRef, useState, type ReactNode } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  type Variants,
-} from "motion/react";
+import { AnimatePresence, motion, useScroll, useSpring, type Variants } from "motion/react";
 import {
   ArrowRight,
   ArrowUpRight,
   BadgeCheck,
-  Bot,
-  Calculator,
   CalendarClock,
   Check,
-  Clock3,
   ExternalLink,
   Mail,
   MessageCircle,
-  PenLine,
   Rocket,
-  SlidersHorizontal,
-  Sparkles,
   Workflow,
   X,
 } from "lucide-react";
-import { GlideField } from "@/components/effects/GlideField";
 import { Symbol } from "@/components/Symbol";
 import { DeratScrollStory } from "@/components/site/DeratScrollStory";
 import { siteConfig } from "@/config/site";
@@ -38,11 +24,11 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useTimelineProgress } from "@/hooks/useTimelineProgress";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { MOTION, premiumEase, Reveal, wipeUp } from "./motion-primitives";
+import { SignatureHero, type LandingVariant } from "./SignatureHero";
 import "./PremiumLanding.css";
 import "./LandingFinish.css";
 
 type ComparisonMode = "without" | "with";
-type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
 
 /**
  * Domovská stránka má dve verzie textu.
@@ -52,24 +38,7 @@ type HeroToolKey = "chatbot" | "calculator" | "configurator" | "assistant";
  * poslal návrh e-mailom, a nadväzuje priamo naň. Líši sa len obsah hero
  * sekcie; zvyšok stránky je pre obe verzie rovnaký.
  */
-export type LandingVariant = "public" | "client";
-
-const heroSequence: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: MOTION.stagger, delayChildren: 0.06 } },
-};
-
-// Riadok nadpisu sa posúva o 24 px, nie o celú svoju výšku. Text letiaci
-// cez 112 % vlastnej výšky je efekt z portfólia; web, ktorý má predať
-// službu, potrebuje nadpis čitateľný hneď.
-const heroLine: Variants = {
-  hidden: { y: 24, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: MOTION.slow, ease: premiumEase },
-  },
-};
+export type { LandingVariant };
 
 const sequenceItem: Variants = {
   hidden: { y: 14, opacity: 0 },
@@ -79,31 +48,6 @@ const sequenceItem: Variants = {
     transition: { duration: MOTION.base, ease: premiumEase },
   },
 };
-
-const heroTools = {
-  chatbot: {
-    label: "AI chatbot",
-    icon: Bot,
-    text: "Odpovedá vo dne v noci, zistí, čo zákazník chce, a pošle vám to aj s kontaktom.",
-  },
-  calculator: {
-    label: "Chatbot s kalkulačkou",
-    icon: Calculator,
-    text: "Zákazník vyberie možnosti a chatbot hneď vypočíta cenu, spotrebu alebo návratnosť podľa vašich pravidiel.",
-    combo: true,
-  },
-  configurator: {
-    label: "Chatbot s konfigurátorom",
-    icon: SlidersHorizontal,
-    text: "Chatbot prevedie zákazníka výberom produktu, variantov a doplnkov a odošle kompletné zadanie.",
-    combo: true,
-  },
-  assistant: {
-    label: "Chatbot ako sprievodca",
-    icon: Sparkles,
-    text: "Interaktívny sprievodca, ktorý zákazníka na webe navedie k správnemu ďalšiemu kroku.",
-  },
-} satisfies Record<HeroToolKey, { label: string; icon: typeof Bot; text: string; combo?: boolean }>;
 
 const comparisons = {
   without: {
@@ -117,43 +61,6 @@ const comparisons = {
     items: ["Odpoveď ihneď", "Kompletný kontext", "Menej ručného zisťovania"],
   },
 };
-
-const heroProof = [
-  { icon: BadgeCheck, text: "Reálne nasadené weby, nie makety" },
-  { icon: PenLine, text: "Vlastná logika podľa vašej firmy" },
-  { icon: Clock3, text: "Od návrhu po nasadenie s tímom Môj Chatbot" },
-];
-
-const heroCopy = {
-  public: {
-    context: "Chatboty · kalkulačky · konfigurátory",
-    lines: ["Váš web odpovie", "skôr, než", "zákazník odíde."],
-    aria: "Váš web odpovie skôr, než zákazník odíde.",
-    lead: "Tvoríme chatboty, kalkulačky a konfigurátory na mieru. Zákazník dostane odpoveď hneď a vám príde dopyt, s ktorým sa dá rovno pracovať.",
-    // Prvé tlačidlo vedie k dohode, nie na ďalšie prezeranie. Predtým
-    // obe viedli len o kus nižšie na tú istú stránku.
-    primary: { label: "Nezáväzná konzultácia", to: "/kontakt" },
-    secondary: { label: "Pozrieť realizácie", href: "#realizacie" },
-  },
-  client: {
-    context: "Pre klientov po návrhu v e-maile",
-    lines: ["Návrh už máte.", "Teraz si pozrite,", "ako bude pracovať."],
-    aria: "Návrh už máte. Teraz si pozrite, ako bude pracovať na vašom webe.",
-    lead: "Na jednom mieste nájdete živú realizáciu, konkrétne možnosti riešenia, postup spolupráce a priamy kontakt na náš tím.",
-    primary: { label: "Dohodnúť ďalší krok", to: "/kontakt" },
-    secondary: { label: "Pozrieť živú realizáciu", href: "#pripadova-studia" },
-  },
-} satisfies Record<
-  LandingVariant,
-  {
-    context: string;
-    lines: string[];
-    aria: string;
-    lead: string;
-    primary: { label: string; to: string };
-    secondary: { label: string; href: string };
-  }
->;
 
 const capabilityGroups = [
   {
@@ -406,166 +313,6 @@ function Heading({
         </motion.p>
       ) : null}
     </motion.div>
-  );
-}
-
-function Hero({ variant }: { variant: LandingVariant }) {
-  const [activeTool, setActiveTool] = useState<HeroToolKey>("chatbot");
-  // Kým návštevník neklikol, žiadny štítok nie je vybraný. Karta ukazuje
-  // prvú odpoveď, ale plnú tmavú výplň dostane štítok až po kliknutí —
-  // inak to vyzerá, akoby už niečo zvolil.
-  const [picked, setPicked] = useState(false);
-  const reducedMotion = useReducedMotion();
-  const copy = heroCopy[variant];
-
-  // Hero neodchádza ako celok. Text stúpa o niečo rýchlejšie než karta
-  // a oba plynú preč — dva rôzne rýchlosti dajú scéne hĺbku. Hodnoty
-  // idú cez pružinu, takže pohyb nekopíruje trhanie kolieska myši.
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
-  // Pri vypnutých animáciách sa hodnoty nesmú odpojiť, len zrovnať.
-  // Odpojenie nechá v elemente poslednú zapísanú hodnotu, a keď ju stihla
-  // zapísať ešte nedomeraná pružina, hero ostane natrvalo priehľadné.
-  const copyY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -110]);
-  const stageY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -58]);
-  const fade = useTransform(smooth, [0, 0.75], [1, reducedMotion ? 1 : 0]);
-  const drift = { y: copyY, opacity: fade };
-  const stageDrift = { y: stageY, opacity: fade };
-
-  return (
-    <section className="lp-hero" id="uvod" data-variant={variant} ref={heroRef}>
-      <div className="lp-hero-glide" aria-hidden="true">
-        {/* Väčší dosah aj sila — pri pôvodnom nastavení bola reakcia na
-            bielom podklade sotva badateľná. */}
-        <GlideField className="glide-field--hero" radius={190} intensity={1.15} />
-      </div>
-      <div className="lp-hero-glow" aria-hidden="true" />
-      <div className="container-page lp-hero-grid">
-        <motion.div
-          className="lp-hero-copy"
-          variants={heroSequence}
-          initial={reducedMotion ? false : "hidden"}
-          animate="visible"
-          style={drift}
-        >
-          <motion.p className="lp-hero-context" variants={sequenceItem}>
-            {copy.context}
-          </motion.p>
-          <h1 aria-label={copy.aria}>
-            {copy.lines.map((line, index) => (
-              <span className="lp-hero-line" aria-hidden="true" key={line}>
-                {index === copy.lines.length - 1 ? (
-                  <motion.em variants={heroLine}>{line}</motion.em>
-                ) : (
-                  <motion.span variants={heroLine}>{line}</motion.span>
-                )}
-              </span>
-            ))}
-          </h1>
-          <motion.p className="lp-hero-lead" variants={sequenceItem}>
-            {copy.lead}
-          </motion.p>
-          <motion.div className="lp-actions" variants={sequenceItem}>
-            <Link to={copy.primary.to} className="lp-button lp-hero-cta lp-hero-cta--primary">
-              <span className="lp-button-content">
-                {copy.primary.label} <ArrowRight size={17} />
-              </span>
-            </Link>
-            <a href={copy.secondary.href} className="lp-button lp-hero-cta lp-hero-cta--secondary">
-              <span className="lp-button-content">
-                {copy.secondary.label} <ArrowUpRight size={17} />
-              </span>
-            </a>
-          </motion.div>
-          <motion.ul className="lp-hero-proof" variants={sequenceItem}>
-            {heroProof.map(({ icon: Icon, text }) => (
-              <li key={text}>
-                <Icon aria-hidden="true" />
-                {text}
-              </li>
-            ))}
-          </motion.ul>
-        </motion.div>
-
-        <motion.div
-          className="lp-hero-stage"
-          initial={reducedMotion ? false : { opacity: 0, x: 54, scale: 0.975 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={
-            reducedMotion
-              ? { duration: 0 }
-              : { duration: MOTION.slow, delay: 0.12, ease: premiumEase }
-          }
-          style={stageDrift}
-        >
-          <div className="lp-assistant-card">
-            <p>Vyberte, čo má web robiť</p>
-            <div className="lp-hero-picker" role="group" aria-label="Typ riešenia">
-              {(Object.entries(heroTools) as [HeroToolKey, (typeof heroTools)[HeroToolKey]][]).map(
-                ([key, tool]) => {
-                  const Icon = tool.icon;
-                  return (
-                    <button
-                      type="button"
-                      key={key}
-                      className="lp-hero-pick"
-                      data-active={picked && activeTool === key}
-                      aria-pressed={picked && activeTool === key}
-                      data-chip-kind="hero"
-                      data-selected={picked && activeTool === key}
-                      data-preview={!picked && activeTool === key}
-                      onPointerDown={(event) => event.stopPropagation()}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        setPicked(true);
-                        setActiveTool(key);
-                      }}
-                    >
-                      <span className="lp-hero-pick-icon" aria-hidden="true">
-                        <Icon size={16} />
-                      </span>
-                      <span className="lp-hero-pick-label">{tool.label}</span>
-                    </button>
-                  );
-                },
-              )}
-            </div>
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.div
-                className="lp-assistant-answer"
-                key={activeTool}
-                layout="position"
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-                initial={reducedMotion ? false : { opacity: 0, x: 9, filter: "blur(4px)" }}
-                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: -7, filter: "blur(3px)" }}
-                transition={
-                  reducedMotion ? { duration: 0 } : { duration: MOTION.fast, ease: premiumEase }
-                }
-              >
-                <Check />
-                <span>{heroTools[activeTool].text}</span>
-              </motion.div>
-            </AnimatePresence>
-            <button
-              type="button"
-              className="lp-assistant-cta lp-sweep-action"
-              onClick={() => openSiteAssistant({ source: "hero-card" })}
-            >
-              <span className="lp-button-content">
-                Vyskúšať chatbota <ArrowUpRight />
-              </span>
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </section>
   );
 }
 
@@ -1154,7 +901,14 @@ export function PremiumLanding({ variant = "public" }: { variant?: LandingVarian
   return (
     <div className="lp-page" data-variant={variant}>
       <PageProgress />
-      <Hero variant={variant} />
+      {/* Hero stojí vo vlastnom ráme zámerne. Staršia vrstva rytmu sekcií
+          predpisuje každému `.lp-page > section` odsadenie 122 px a
+          dekoratívny predel — oboje cez `!important`. Rám hero z toho
+          selektora vyberie, takže nový hero si vlastnú geometriu drží sám
+          a nepribúda kvôli tomu ďalšia prebíjacia vrstva. */}
+      <div className="mc-hero-frame">
+        <SignatureHero variant={variant} />
+      </div>
       <DeratScrollStory />
       <ValueSection />
       <Realizations />

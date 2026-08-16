@@ -324,9 +324,15 @@ function RootComponent() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const outlet = <Outlet />;
 
+  // `/v2` je nový web. Prináša si vlastný shell a zámerne obchádza
+  // `SiteLayout` — ten načítava 78 CSS vrstiev s 9 270 `!important`,
+  // ktoré by nový dizajn prebili. Bez tohto obídenia by zmena nebola
+  // vidieť, nech je navrhnutá akokoľvek.
+  const standalone = pathname.startsWith("/farby") || pathname.startsWith("/v2");
+
   return (
     <QueryClientProvider client={queryClient}>
-      {pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>}
+      {standalone ? outlet : <SiteLayout>{outlet}</SiteLayout>}
     </QueryClientProvider>
   );
 }

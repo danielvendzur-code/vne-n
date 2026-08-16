@@ -228,6 +228,128 @@ test("process reads as a timeline, not three empty boxes", async () => {
   assert.doesNotMatch(onChange, /getClientRects|querySelectorAll|offsetHeight|offsetWidth/);
 });
 
+test("the hero is one owned layer, not another override", async () => {
+  const hero = await read("src/components/site/SignatureHero.tsx");
+  const css = await read("src/components/site/SignatureHero.css");
+  const landing = await read("src/components/site/PremiumLanding.tsx");
+
+  // Vlastná vrstva znamená vlastníctvo: nový hero neprebíja nič cudzie,
+  // takže v ňom nesmie byť ani jeden `!important`.
+  assert.doesNotMatch(css, /!important\s*;/);
+
+  // Hero stojí vo vlastnom ráme, aby naň nesadala staršia vrstva rytmu
+  // sekcií s odsadením 122 px cez `!important`.
+  assert.match(landing, /className="mc-hero-frame"/);
+  assert.match(css, /\.mc-hero-frame/);
+
+  // Presne to, čomu sa nový hero mal vzdialiť: karta, pilulky a glow.
+  assert.doesNotMatch(hero, /lp-assistant-card|lp-hero-pick|lp-hero-glow|GlideField/);
+  assert.doesNotMatch(css, /backdrop-filter|blur\(|radial-gradient/);
+
+  // Tmavá scéna je plocha zarazená do hrany okna, nie karta v mriežke.
+  assert.match(css, /background: var\(--mc-ink\)/);
+  assert.match(css, /margin-right: calc\(-1 \* \(\(100vw - min\(var\(--mc-shell\)/);
+
+  // Jeden tvarový systém odvodený od bubliny v logu: tri polomery a pätka.
+  assert.match(css, /--mc-shape:/);
+  assert.match(css, /--mc-foot:/);
+  assert.match(
+    css,
+    /border-radius: var\(--mc-shape\) var\(--mc-shape\) var\(--mc-shape\) var\(--mc-foot\)/,
+  );
+
+  // Hero hovorí najprv k e-shopom, ale služby z neho nesmú vypadnúť:
+  // tri scenáre sú e-shopové, štvrtý drží kalkulačku aj konfigurátor
+  // a značka pri každom scenári hovorí, pre koho je.
+  assert.match(hero, /className="mc-hero__pick"/);
+  for (const label of ["Objednávky", "Poradca", "Vrátenie", "Služby"]) {
+    assert.match(hero, new RegExp(`label: "${label}"`));
+  }
+  assert.equal((hero.match(/tag: "E-shop",/g) ?? []).length, 3);
+  assert.equal((hero.match(/tag: "Služby",/g) ?? []).length, 1);
+  assert.match(hero, /kicker: "Chatboty pre e-shopy"/);
+  assert.match(hero, /Aj pre firmy so službami/);
+  assert.match(hero, /kalkulačkou aj konfigurátorom/);
+  assert.match(hero, /reklamáci/);
+
+  // Scéna je oblúk, nie zaoblený obdĺžnik, a hĺbku robí posun vrstiev
+  // a jedna vlasová hrana — nie vrhnutý tieň ani rozostrenie.
+  assert.match(css, /--mc-arch:/);
+  assert.match(css, /border-radius: var\(--mc-arch\)/);
+  assert.match(css, /translate: calc\(var\(--mc-px\)/);
+  assert.doesNotMatch(css, /box-shadow: 0 /);
+
+  // Svetlozelená je z hero preč. Na papieri je akcent smaragdová, na
+  // tmavej scéne biela — jedna farba na jednu plochu.
+  assert.doesNotMatch(css, /#d9ff78|#b9ed4d|217,\s*255,\s*120|185,\s*237,\s*77/i);
+  assert.match(css, /--mc-paper: #f7f7f4/);
+  assert.match(css, /background: var\(--mc-paper\)/);
+  assert.match(
+    css,
+    /\.mc-hero__turn\[data-who="bot"\] \.mc-hero__bubble \{[\s\S]*background: #ffffff/,
+  );
+
+  // Chatbot sa otvorí v režime vybraného scenára, nie vždy rovnako.
+  assert.match(hero, /preset: scenario\.preset/);
+
+  // Index je prepínač kariet, nie štyri nezávislé tlačidlá.
+  assert.match(hero, /role="tablist"/);
+  assert.match(hero, /role="tabpanel"/);
+  assert.match(hero, /aria-selected=\{item\.key === active\}/);
+
+  // Dôkaz produktu je prepis rozhovoru aj s výsledkom pre firmu.
+  assert.match(hero, /mc-hero__result-text/);
+  assert.match(hero, /Vám príde/);
+
+  // Pohyb ostáva na kompozítore.
+  assert.match(hero, /clipPath/);
+  assert.doesNotMatch(css, /transition:[^;]*\b(width|height|top|left|margin|padding)\b/);
+});
+
+test("the brand intro plays once, from first paint, and never traps the page", async () => {
+  const intro = await read("src/components/site/BrandIntro.tsx");
+  const css = await read("src/components/site/BrandIntro.css");
+  const store = await read("src/lib/brand-intro.ts");
+  const layout = await read("src/components/site/Layout.tsx");
+  const hero = await read("src/components/site/SignatureHero.tsx");
+
+  assert.match(layout, /<BrandIntro \/>/);
+
+  // Opona je v HTML zo servera a pohyb je celý v CSS, takže začína pri
+  // prvom vykreslení — nie až keď sa pripojí React. Inak by návštevník
+  // na okamih uvidel hotové hero a opona by naň spadla až potom.
+  assert.match(css, /@keyframes mc-intro-draw/);
+  // Opona je lesná, takže jej zdvih je zároveň prechod tmavá → biela.
+  assert.match(css, /\.mc-intro \{[\s\S]*background: #0b2f20/);
+  // Ťah loga je ostrý a biely. Staršia vrstva mu inak pridáva limetkovú
+  // farbu aj žiaru.
+  assert.match(css, /filter: none !important/);
+  assert.doesNotMatch(css, /#d9ff78|#b9ed4d|217,\s*255,\s*120/i);
+  assert.match(css, /@keyframes mc-intro-lift/);
+  assert.match(css, /stroke-dashoffset/);
+  assert.doesNotMatch(intro, /setTimeout\(/);
+  assert.match(intro, /animationend/);
+
+  // Raz za reláciu, preskočiteľné klávesou aj kliknutím.
+  assert.match(store, /sessionStorage/);
+  assert.match(intro, /introAlreadyPlayed\(\)/);
+  assert.match(intro, /keydown/);
+  assert.match(intro, /pointerdown/);
+
+  // Poistky: pri vypnutých animáciách sa opona nevykreslí vôbec, hero sa
+  // odkryje aj keby sa úvod nedohral, a po odchode opona nechytá kliknutia.
+  assert.match(
+    css,
+    /@media \(prefers-reduced-motion: reduce\)[\s\S]*\.mc-intro \{\s*display: none/,
+  );
+  assert.match(store, /SAFETY_MS/);
+  assert.match(css, /pointer-events: none/);
+
+  // Hero čaká na oponu, nie naopak.
+  assert.match(hero, /useIntroReady\(\)/);
+  assert.match(hero, /still \|\| introReady/);
+});
+
 test("primary buttons keep readable ink on the light brand colour", async () => {
   const contact = await read("src/routes/kontakt.tsx");
   const finish = await read("src/components/site/SiteFinish.css");
@@ -266,12 +388,21 @@ test("mobile layouts and reduced motion remain explicit", async () => {
 
 test("approved buttons and one-layer details remain mounted", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
+  const hero = await read("src/components/site/SignatureHero.tsx");
   const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
   const contact = await read("src/routes/kontakt.tsx");
   const css = await read("src/components/site/ApprovedInteractionsFinal.css");
 
-  assert.match(landing, /lp-hero-cta--primary/);
-  assert.match(landing, /lp-hero-cta--secondary/);
+  // Hero má jednu plnú akciu a jednu tichú. Triedy sa presťahovali spolu
+  // s hero do vlastného komponentu; podmienka je stále tá istá — dve
+  // akcie, nie osem.
+  // Vľavo stojí jediná plná akcia. Sekundárna je riadok na písanie na
+  // dne scény — tá istá akcia dvakrát by bola súťaž, nie ponuka.
+  assert.match(hero, /className="mc-hero__cta"/);
+  assert.equal((hero.match(/className="mc-hero__cta"/g) ?? []).length, 1);
+  assert.match(hero, /className="mc-hero__ask"/);
+  assert.match(hero, /aria-label="Vyskúšať chatbota naživo"/);
+  assert.doesNotMatch(hero, /mc-hero__ghost/);
   assert.doesNotMatch(landing, /lp-button-bloom/);
   assert.doesNotMatch(landing, /lp-bloom-dot/);
   assert.doesNotMatch(landing, /<p>\{copy\}<\/p>\s*<p>\{copy\}<\/p>/);
@@ -379,7 +510,6 @@ test("website chips use one crisp green interaction system", async () => {
   assert.doesNotMatch(landing, /lp-hero-pick-fill/);
   assert.doesNotMatch(landing, /lp-chip-fill/);
   assert.doesNotMatch(landing, /whileTap=/);
-  assert.match(landing, /data-chip-kind="hero"/);
   assert.match(landing, /data-chip-kind="capability"/);
   assert.match(landing, /event\.stopPropagation\(\)/);
   assert.doesNotMatch(pointer, /"\.lp-hero-pick"/);
@@ -391,6 +521,7 @@ test("website chips use one crisp green interaction system", async () => {
 
 test("landing anchors, one-way reveals and source integrity stay intact", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
+  const hero = await read("src/components/site/SignatureHero.tsx");
   const realization = await read("src/components/site/DeratScrollStory.tsx");
   const primitives = await read("src/components/site/motion-primitives.tsx");
   const finalCorrection = await read("src/components/site/FinalUserCorrection.css");
@@ -399,12 +530,14 @@ test("landing anchors, one-way reveals and source integrity stay intact", async 
   // takže sa id na stránke neopakuje.
   assert.match(landing, /id="realizacie"/);
   assert.match(landing, /id="moznosti"/);
-  assert.match(landing, /href: "#realizacie"/);
-  assert.match(landing, /href: "#pripadova-studia"/);
 
   // Prvé tlačidlo v hero vedie k dohode, nie o kus nižšie na tú istú
-  // stránku — predtým obe viedli len na ďalšie prezeranie.
-  assert.match(landing, /primary: \{ label: "[^"]+", to: "\/kontakt" \}/);
+  // stránku — predtým obe viedli len na ďalšie prezeranie. Hero má
+  // vlastný komponent, kotvy naň teda nadväzujú odtiaľ.
+  assert.match(hero, /primary: \{ label: "[^"]+", to: "\/kontakt" \}/);
+  assert.match(hero, /href: "#realizacie"/);
+  assert.match(hero, /href: "#pripadova-studia"/);
+  assert.doesNotMatch(hero, /once: false/);
   assert.match(realization, /id="pripadova-studia"/);
   assert.doesNotMatch(realization, /id="realizacie"/);
 
@@ -441,12 +574,14 @@ test("realizations are real live websites, not invented case studies", async () 
 
 test("both landing variants exist and the client one stays out of the index", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
+  const hero = await read("src/components/site/SignatureHero.tsx");
   const clientRoute = await read("src/routes/navrh.tsx");
   const homeRoute = await read("src/routes/index.tsx");
   const robots = await read("public/robots.txt");
 
-  assert.match(landing, /Návrh už máte\./);
-  assert.match(landing, /variant="client"|variant: LandingVariant/);
+  assert.match(hero, /Návrh už máte\./);
+  assert.match(hero, /variant: LandingVariant/);
+  assert.match(landing, /<SignatureHero variant=\{variant\} \/>/);
   assert.match(clientRoute, /noindex: true/);
   assert.match(homeRoute, /variant="public"/);
   assert.doesNotMatch(homeRoute, /Návrh už máte/);

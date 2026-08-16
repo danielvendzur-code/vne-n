@@ -1,22 +1,13 @@
 import { useEffect } from "react";
+/**
+ * Zvyšok mostíka medzi stránkou a chatbotom.
+ *
+ * Hero si od redizajnu drží vlastnú kópiu, geometriu aj režim chatbota
+ * priamo v Reacte, takže sem už nesiaha — ostali len akcie sekcií nižšie
+ * a texty časovej osi.
+ */
 import { openSiteAssistant } from "@/lib/site-assistant";
 import type { AssistantPreset } from "@/types/assistant";
-
-const heroPresets: AssistantPreset[] = ["inquiry", "calculator", "product", "inquiry"];
-
-const heroLabels = [
-  "Chatbot",
-  "Chatbot s kalkulačkou",
-  "Chatbot s konfigurátorom",
-  "Chatbot pre e-shop",
-];
-
-const heroAnswers = [
-  "Odpovie zákazníkom, poradí im a pošle vám pripravený dopyt.",
-  "Vypočíta cenu, spotrebu alebo rozsah podľa vašich pravidiel.",
-  "Prevedie zákazníka výberom produktu, variantov a doplnkov.",
-  "Ukáže stav objednávky a pripraví zmenu, zrušenie, vrátenie alebo reklamáciu.",
-];
 
 const homeProcess = [
   {
@@ -58,41 +49,7 @@ function setResultText(element: HTMLElement, text: string): void {
   element.append(document.createTextNode(` ${text}`));
 }
 
-function selectedHeroIndex(): number {
-  const choices = Array.from(document.querySelectorAll<HTMLElement>(".lp-hero-pick"));
-  const selected = choices.findIndex(
-    (choice) => choice.dataset.active === "true" || choice.dataset.preview === "true",
-  );
-  return selected >= 0 ? selected : 0;
-}
-
-function updateHeroAnswer(index = selectedHeroIndex()): void {
-  setText(".lp-assistant-answer span", heroAnswers[index] ?? heroAnswers[0]);
-}
-
 function prepareVisibleCopy(): void {
-  setText(".lp-assistant-card > p", "Predstavujete si niečo podobné?");
-  setImportantStyle(".lp-hero-grid", "padding-top", "clamp(0.25rem, 0.8vh, 0.55rem)");
-  setImportantStyle(".lp-hero-grid", "padding-bottom", "clamp(1.05rem, 2vh, 1.3rem)");
-  setImportantStyle(".lp-hero-stage", "margin-top", "clamp(-3.85rem, -4vw, -0.9rem)");
-  setImportantStyle(".lp-hero-proof", "margin-top", "clamp(0.45rem, 0.8vh, 0.65rem)");
-  setImportantStyle(".lp-assistant-card > p", "margin-bottom", "0.72rem");
-  setImportantStyle(".lp-assistant-card > p", "color", "inherit");
-  setImportantStyle(".lp-assistant-card > p", "background", "none");
-  setImportantStyle(".lp-assistant-card > p", "animation", "none");
-  setImportantStyle(".lp-assistant-card > p", "transition", "none");
-
-  setText(".lp-hero-context", "Chatboty pre e-shopy aj firmy so službami");
-  setText(
-    ".lp-hero-lead",
-    "Chatbot odpovedá, pomôže s výberom, vypočíta cenu alebo vybaví objednávku či reklamáciu. Zákazník dostane pomoc hneď a vám príde pripravený dopyt.",
-  );
-
-  document.querySelectorAll<HTMLElement>(".lp-hero-pick-label").forEach((label, index) => {
-    label.textContent = heroLabels[index] ?? label.textContent;
-  });
-  updateHeroAnswer();
-
   setText(
     ".lp-process .lp-heading-copy",
     "Rovnaký jasný postup platí pre chatbot na otázky, cenu, výber produktu, objednávky, reklamácie aj rezervácie.",
@@ -125,28 +82,6 @@ export function SiteFunnelBridge(): null {
     const onClick = (event: MouseEvent) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
-
-      const heroChoice = target.closest(".lp-hero-pick");
-      if (heroChoice) {
-        const choices = Array.from(document.querySelectorAll(".lp-hero-pick"));
-        const index = choices.indexOf(heroChoice);
-        window.requestAnimationFrame(() => updateHeroAnswer(index));
-        return;
-      }
-
-      const heroButton = target.closest(".lp-assistant-cta");
-      if (heroButton) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-        const index = selectedHeroIndex();
-        openSiteAssistant({
-          source: "hero-card",
-          preset: heroPresets[index] ?? "inquiry",
-          category: heroLabels[index] ?? heroLabels[0],
-        });
-        return;
-      }
 
       const capabilityButton = target.closest(".lp-caps-detail-cta");
       if (capabilityButton) {
