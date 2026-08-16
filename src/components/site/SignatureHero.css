@@ -1,0 +1,674 @@
+/* =====================================================================
+   MÔJ CHATBOT — HERO
+
+   Vlastník: SignatureHero.tsx. Táto vrstva nie je ďalší override —
+   všetky triedy `mc-hero-*` vznikli tu a nikde inde v repozitári na ne
+   nikto nesiaha. Preto tu nie je ani jeden `!important`.
+
+   Kompozícia
+     Editorial dvojstrana. Hore masthead na vlasovej linke, vľavo
+     tvrdenie, vpravo dôkaz, medzi nimi jedna zvislá linka cez celú
+     výšku, dole index dôvodov a odkaz na realizácie. Žiadna karta,
+     žiadny tieň, žiadny glow — geometriu drží typografia a linky.
+
+   Paleta (identita zostáva biela + zelená)
+     #ffffff  strana
+     #0b2f20  lesná — text a plná akcia
+     #19834f  smaragdová — akcent, číslice, hlas chatbota
+     #b9ed4d  limetková — jediný značkový detail, nie dekorácia
+     #536159  tlmený text
+     #5f6b63  popisky (4,5 : 1 na bielej aj v drobnom reze)
+
+   Pohyb
+     Príchod rieši komponent cez motion. Tu ostávajú len stavy
+     interakcie a tie animujú výhradne transform, clip-path a farbu.
+   ===================================================================== */
+
+/* Rám, ktorý hero vyníma zo staršej vrstvy rytmu sekcií. Sám nič
+   nekreslí — jeho jediná úloha je, aby `.lp-page > section` nesedelo. */
+.mc-hero-frame {
+  display: block;
+}
+
+.mc-hero {
+  --mc-gap: clamp(1.75rem, 4vh, 3.25rem);
+  --mc-ink: #0b2f20;
+  --mc-green: #19834f;
+  --mc-lime: #b9ed4d;
+  --mc-lime-bright: #d9ff78;
+  --mc-muted: #536159;
+  --mc-quiet: #5f6b63;
+  --mc-line: rgba(11, 47, 32, 0.13);
+  --mc-line-soft: rgba(11, 47, 32, 0.09);
+
+  position: relative;
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1px solid var(--mc-line);
+  scroll-margin-top: 7rem;
+}
+
+.mc-hero__inner {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--mc-gap);
+  width: 100%;
+  max-width: 1560px;
+  margin-inline: auto;
+  padding-inline: 1.375rem;
+  padding-block: clamp(1.9rem, 4.4vh, 3.1rem) clamp(1.6rem, 3.4vh, 2.5rem);
+}
+
+/* ---------------------------------------------------------------- masthead */
+
+.mc-hero__masthead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  column-gap: 1.5rem;
+  row-gap: 0.7rem;
+}
+
+.mc-hero__masthead-rule {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: var(--mc-line);
+  transform-origin: left center;
+}
+
+.mc-hero__kicker,
+.mc-hero__origin {
+  margin: 0;
+  font-size: 0.685rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mc-hero__kicker {
+  color: var(--mc-green);
+}
+
+.mc-hero__origin {
+  color: var(--mc-quiet);
+}
+
+/* -------------------------------------------------------------- dvojstrana */
+
+.mc-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+  column-gap: clamp(2.25rem, 4.6vw, 4.75rem);
+  align-items: stretch;
+}
+
+/* ------------------------------------------------------------------ tvrdenie */
+
+.mc-hero__claim {
+  display: grid;
+  align-content: center;
+}
+
+.mc-hero h1 {
+  margin: 0;
+  color: var(--mc-ink);
+  font-family: var(--font-display, "Inter Tight", Inter, sans-serif);
+  font-size: clamp(2.55rem, 6vw, 6.35rem);
+  font-weight: 500;
+  letter-spacing: -0.052em;
+  line-height: 0.9;
+}
+
+/* Riadok má vlastnú masku, aby sa text mohol odkryť spoza hrany.
+   Prepad dole nechá dýchať diakritiku a spodné dotiahnutia. */
+.mc-hero__line {
+  display: block;
+  overflow: hidden;
+  margin-bottom: -0.08em;
+  padding-bottom: 0.08em;
+}
+
+.mc-hero__line-inner {
+  display: block;
+}
+
+.mc-hero__line-inner[data-accent="true"] {
+  color: var(--mc-green);
+}
+
+.mc-hero__lead {
+  max-width: 33rem;
+  margin: clamp(1.35rem, 2.6vh, 2rem) 0 0;
+  color: var(--mc-muted);
+  font-size: clamp(1rem, 1.12vw, 1.14rem);
+  line-height: 1.6;
+}
+
+.mc-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.85rem, 1.6vw, 1.4rem);
+  margin-top: clamp(1.6rem, 3vh, 2.4rem);
+}
+
+/* Plná akcia je na stránke jedna. Pri prechode ju zľava zotrie
+   limetková — pohyb je clip-path, takže nič neprekresľuje layout. */
+.mc-hero__cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.5rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--mc-ink);
+  color: #ffffff;
+  font-size: 0.965rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: color 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--mc-lime-bright);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__cta svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__cta:is(:hover, :focus-visible) {
+  color: var(--mc-ink);
+}
+
+.mc-hero__cta:is(:hover, :focus-visible)::before {
+  clip-path: inset(0 0 0 0);
+}
+
+.mc-hero__cta:is(:hover, :focus-visible) svg {
+  transform: translateX(0.2rem);
+}
+
+/* Sekundárna akcia nie je druhá pilulka — je to text na linke. */
+.mc-hero__ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.6rem 0.15rem;
+  border: 0;
+  background: none;
+  color: var(--mc-ink);
+  font-family: inherit;
+  font-size: 0.965rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+
+.mc-hero__ghost::after {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  right: 0.15rem;
+  bottom: 0.55rem;
+  height: 1px;
+  background: var(--mc-ink);
+  transform: scaleX(0.32);
+  transform-origin: left center;
+  transition:
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 320ms linear;
+}
+
+.mc-hero__ghost svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__ghost:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+  background: var(--mc-green);
+}
+
+.mc-hero__ghost:is(:hover, :focus-visible) svg {
+  transform: translate(0.15rem, -0.15rem);
+}
+
+/* --------------------------------------------------------------- dôkaz */
+
+.mc-hero__evidence {
+  position: relative;
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  gap: clamp(1.2rem, 2.4vh, 1.9rem);
+  padding-left: clamp(1.5rem, 2.4vw, 2.75rem);
+}
+
+/* Zvislá linka dvojstrany. Nie je to `border-left`, pretože musí siahať
+   až k masthead-u a k pätke — teda o medzeru mriežky nad aj pod stĺpec. */
+.mc-hero__evidence::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--mc-gap));
+  bottom: calc(-1 * var(--mc-gap));
+  left: 0;
+  width: 1px;
+  background: var(--mc-line);
+}
+
+.mc-hero__index-label,
+.mc-hero__note {
+  margin: 0;
+}
+
+.mc-hero__index-label {
+  margin-bottom: 0.7rem;
+  color: var(--mc-quiet);
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Bez medzery medzi stĺpcami: linky indexu tak tvoria súvislý ťah
+   cez celú šírku stĺpca, nie štyri prerušené čiarky. */
+.mc-hero__index-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Typy riešení sú index na linke, nie štyri pilulky. Vybraný sa
+   označí tým, že sa mu linka nakreslí do plnej sily. */
+.mc-hero__index-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.15rem;
+  min-height: 2.85rem;
+  padding: 0.72rem clamp(0.75rem, 1.6vw, 1.5rem) 0.62rem 0;
+  border: 0;
+  border-top: 1px solid var(--mc-line-soft);
+  background: none;
+  color: var(--mc-muted);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 520;
+  letter-spacing: -0.012em;
+  text-align: left;
+  cursor: pointer;
+  transition: color 320ms linear;
+}
+
+.mc-hero__index-item::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto 0;
+  height: 1px;
+  background: var(--mc-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__index-item b {
+  color: var(--mc-quiet);
+  font-size: 0.665rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  transition: color 320ms linear;
+}
+
+.mc-hero__index-item[data-active="true"] {
+  color: var(--mc-ink);
+  font-weight: 620;
+}
+
+.mc-hero__index-item[data-active="true"]::before,
+.mc-hero__index-item:is(:hover, :focus-visible)::before {
+  transform: scaleX(1);
+}
+
+.mc-hero__index-item[data-active="true"] b {
+  color: var(--mc-green);
+}
+
+.mc-hero__index-item:is(:hover, :focus-visible) {
+  color: var(--mc-ink);
+}
+
+.mc-hero__note {
+  color: var(--mc-quiet);
+  font-size: 0.845rem;
+  line-height: 1.55;
+}
+
+/* Prepis rozhovoru je vysádzaný priamo na strane. Žiadna bublina,
+   žiadny rám — hovorca je popisok v ľavom stĺpci, ako v scenári. */
+.mc-hero__thread {
+  display: grid;
+  gap: clamp(0.7rem, 1.5vh, 1rem);
+  margin: clamp(0.9rem, 1.8vh, 1.25rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mc-hero__turn,
+.mc-hero__result {
+  display: grid;
+  grid-template-columns: 5.9rem minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: baseline;
+}
+
+.mc-hero__turn-who,
+.mc-hero__result-who {
+  color: var(--mc-quiet);
+  font-size: 0.605rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  line-height: 1.9;
+}
+
+.mc-hero__turn[data-who="bot"] .mc-hero__turn-who {
+  color: var(--mc-green);
+}
+
+.mc-hero__turn-text {
+  color: var(--mc-muted);
+  font-size: clamp(0.95rem, 1.02vw, 1.05rem);
+  line-height: 1.5;
+}
+
+.mc-hero__turn[data-who="bot"] .mc-hero__turn-text {
+  color: var(--mc-ink);
+}
+
+.mc-hero__result {
+  margin-top: 0.35rem;
+  padding-top: clamp(0.8rem, 1.6vh, 1.1rem);
+  border-top: 1px solid var(--mc-line);
+}
+
+.mc-hero__result-who {
+  color: var(--mc-ink);
+}
+
+/* Jediný značkový detail v dôkaze. Limetka označí to, čo z rozhovoru
+   naozaj vypadne firme. */
+.mc-hero__result-who::before {
+  content: "";
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: 0.42rem;
+  background: var(--mc-lime);
+  vertical-align: 0.02em;
+}
+
+.mc-hero__result-text {
+  color: var(--mc-ink);
+  font-size: clamp(1rem, 1.15vw, 1.16rem);
+  font-weight: 560;
+  letter-spacing: -0.018em;
+  line-height: 1.45;
+}
+
+/* ------------------------------------------------------------------ pätka */
+
+.mc-hero__foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 2rem;
+  row-gap: clamp(0.9rem, 2vh, 1.25rem);
+}
+
+.mc-hero__foot-rule {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: var(--mc-line);
+  transform-origin: left center;
+}
+
+.mc-hero__proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem clamp(1.25rem, 2.6vw, 2.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mc-hero__proof li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  color: var(--mc-muted);
+  font-size: 0.855rem;
+  line-height: 1.45;
+}
+
+.mc-hero__proof b {
+  color: var(--mc-green);
+  font-size: 0.665rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.mc-hero__cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--mc-ink);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.mc-hero__cue svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--mc-green);
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__cue:is(:hover, :focus-visible) svg {
+  transform: translateY(0.25rem);
+}
+
+/* -------------------------------------------------------------- ohnisko */
+
+.mc-hero :is(a, button):focus-visible {
+  outline: 2px solid var(--mc-green);
+  outline-offset: 3px;
+  border-radius: 0.4rem;
+}
+
+/* ==================================================================
+   DESKTOP
+   Dvojstrana dostane celú výšku okna až tam, kde má na to priestor.
+   ================================================================== */
+
+@media (min-width: 62rem) {
+  .mc-hero {
+    min-height: calc(100svh - var(--site-header-h, 5.5rem));
+  }
+
+  .mc-hero__inner {
+    padding-inline: 2.5rem;
+  }
+
+  .mc-hero__lead {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 48rem) and (max-width: 61.999rem) {
+  .mc-hero__inner {
+    padding-inline: 2rem;
+  }
+}
+
+/* ==================================================================
+   TABLET A MOBIL
+   Nie zmenšený desktop. Dvojstrana sa rozpojí na dve kapitoly pod
+   sebou, zvislá linka sa zmení na vodorovnú a index ostáva index.
+   ================================================================== */
+
+@media (max-width: 61.999rem) {
+  .mc-hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: clamp(2rem, 5vh, 3rem);
+  }
+
+  .mc-hero__claim {
+    align-content: start;
+    max-width: 34rem;
+  }
+
+  /* Zvislá linka dvojstrany sa mení na vodorovný predel kapitoly. */
+  .mc-hero__evidence {
+    align-content: start;
+    padding-left: 0;
+    padding-top: clamp(1.4rem, 3.5vh, 2rem);
+    border-top: 1px solid var(--mc-line);
+  }
+
+  .mc-hero__evidence::before {
+    content: none;
+  }
+
+  .mc-hero h1 {
+    font-size: clamp(2.55rem, 7.6vw, 4.4rem);
+  }
+}
+
+@media (max-width: 40rem) {
+  .mc-hero__inner {
+    --mc-gap: 1.6rem;
+    padding-block: 1.6rem 2rem;
+  }
+
+  /* Masthead sa na 390 px nedelí na dva stĺpce — kicker by sa lámal
+     do troch riadkov a narážal by do pravého popisku. */
+  .mc-hero__masthead {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.4rem;
+  }
+
+  .mc-hero__kicker {
+    font-size: 0.63rem;
+    letter-spacing: 0.13em;
+  }
+
+  .mc-hero__origin {
+    font-size: 0.63rem;
+    letter-spacing: 0.13em;
+  }
+
+  .mc-hero h1 {
+    font-size: clamp(2.5rem, 10.4vw, 3.1rem);
+    letter-spacing: -0.045em;
+  }
+
+  .mc-hero__lead {
+    font-size: 1.02rem;
+  }
+
+  /* Na 390 px je primárna akcia celá šírka a sekundárna pod ňou.
+     Vedľa seba by obe skončili pod 44 px dotykovej plochy. */
+  .mc-hero__actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .mc-hero__cta {
+    justify-content: space-between;
+    width: 100%;
+    padding-inline: 1.6rem;
+  }
+
+  /* Tichá akcia ostáva textom na linke, nie druhým pásom cez celú šírku.
+     Šípka drží pri texte, aby podčiarknutie sedelo pod oboma. */
+  .mc-hero__ghost {
+    align-self: start;
+    padding-inline: 0.15rem;
+  }
+
+  /* Pôvod je na 390 px zbytočný riadok verzálok navyše: stránka je po
+     slovensky a rovnaká informácia stojí v pätičke. */
+  .mc-hero__origin {
+    display: none;
+  }
+
+  .mc-hero__turn,
+  .mc-hero__result {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+  }
+
+  .mc-hero__turn-who,
+  .mc-hero__result-who {
+    line-height: 1.4;
+  }
+
+  .mc-hero__proof {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mc-hero__foot {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1.1rem;
+  }
+
+  .mc-hero__cue {
+    justify-self: start;
+  }
+}
+
+/* ==================================================================
+   VYPNUTÉ ANIMÁCIE
+   Komponent v tomto režime nevykresľuje žiadny príchod. Tu ostáva
+   poistka pre stavy, ktoré patria CSS.
+   ================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-hero *,
+  .mc-hero *::before,
+  .mc-hero *::after {
+    transition-duration: 1ms;
+  }
+
+  .mc-hero__masthead-rule,
+  .mc-hero__foot-rule {
+    transform: none;
+  }
+
+  .mc-hero__ghost::after {
+    transform: scaleX(1);
+  }
+}

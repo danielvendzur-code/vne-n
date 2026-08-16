@@ -4,6 +4,7 @@ import { MotionConfig } from "motion/react";
 import { useSettledSections } from "@/hooks/useSettledSections";
 import { useSpotlight } from "@/hooks/useSpotlight";
 import { AnalyticsConsent } from "./AnalyticsConsent";
+import { BrandIntro } from "./BrandIntro";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -119,6 +120,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         className="site-theme-white-green min-h-screen flex flex-col"
         style={{ backgroundColor: "var(--background)" }}
       >
+        {/* Značkový úvod. Hrá raz za reláciu a hero na neho čaká. */}
+        <BrandIntro />
         <SiteMotionEnhancements key={`motion-${pathname}`} />
         <SiteFunnelBridge key={`funnel-${pathname}`} />
         <a className="skip-link" href="#main-content">

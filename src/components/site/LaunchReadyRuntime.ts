@@ -1,9 +1,7 @@
 import { openSiteAssistant } from "@/lib/site-assistant";
 import type { AssistantPreset } from "@/types/assistant";
 
-const HERO_PICK = ".lp-hero-pick";
-const SMALL_FLASHLIGHT_TARGETS =
-  ".lp-hero-pick[data-choice-flashlight], .lp-chip[data-choice-flashlight]";
+const SMALL_FLASHLIGHT_TARGETS = ".lp-chip[data-choice-flashlight]";
 const MOBILE_MOTION_SELECTOR = [
   ".lp-heading",
   ".lp-comparison",
@@ -26,22 +24,10 @@ const MOBILE_MOTION_SELECTOR = [
   ".contact-expect",
 ].join(", ");
 
-function presetFromHeroChoice(button: HTMLElement): AssistantPreset {
-  const label = (button.textContent ?? "").toLocaleLowerCase("sk");
-  if (label.includes("konfigurátor")) return "product";
-  if (label.includes("kalkula")) return "calculator";
-  if (label.includes("sprievod")) return "advisor";
-  return "inquiry";
-}
-
 function normalizeChoiceFlashlight(): void {
-  document
-    .querySelectorAll<HTMLElement>(
-      `${SMALL_FLASHLIGHT_TARGETS}, .lp-assistant-card[data-choice-flashlight]`,
-    )
-    .forEach((item) => {
-      item.removeAttribute("data-choice-flashlight");
-    });
+  document.querySelectorAll<HTMLElement>(SMALL_FLASHLIGHT_TARGETS).forEach((item) => {
+    item.removeAttribute("data-choice-flashlight");
+  });
 }
 
 function installMobileMotion() {
@@ -145,14 +131,6 @@ function installLaunchReadyRuntime(): void {
     childList: true,
     attributes: true,
     attributeFilter: ["data-choice-flashlight"],
-  });
-
-  document.addEventListener("click", (event) => {
-    const target = event.target instanceof Element ? event.target : null;
-    const button = target?.closest<HTMLElement>(HERO_PICK);
-    if (!button) return;
-    const preset = presetFromHeroChoice(button);
-    window.setTimeout(() => openSiteAssistant({ source: "hero-choice", preset }), 0);
   });
 
   /* The old swipe handler captures the pointer on the tab rail. Releasing it

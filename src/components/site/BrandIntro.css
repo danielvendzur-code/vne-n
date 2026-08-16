@@ -1,0 +1,195 @@
+/* =====================================================================
+   MÔJ CHATBOT — ZNAČKOVÝ ÚVOD
+
+   Vlastník: BrandIntro.tsx. Nič iné do týchto tried nesiaha a táto
+   vrstva nesiaha nikam von — jediná výnimka je farba ťahu loga, ktorú
+   staršia identitná vrstva nastavuje globálne na limetkovú.
+
+   Časovanie od prvého vykreslenia stránky, nie od pripojenia Reactu —
+   opona je súčasťou HTML zo servera a pohyb je celý tu (spolu 1960 ms):
+     0    –  950   ťah loga sa kreslí
+     520  – 1020   názov sa odkrýva spoza ľavej hrany
+     600  – 1120   vlasová linka sa nakreslí
+     1240 – 1960   opona sa zdvihne, lockup ostáva pozadu
+
+   Animuje sa výhradne transform, opacity, clip-path a stroke-dashoffset,
+   takže celý úvod beží na kompozítore.
+   ===================================================================== */
+
+.mc-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  will-change: transform;
+  animation: mc-intro-lift 720ms cubic-bezier(0.76, 0, 0.24, 1) 1240ms both;
+}
+
+/* Skratka. Platí pri opakovanej návšteve v tej istej relácii a vtedy,
+   keď návštevník úvod preskočí klávesou alebo kliknutím. */
+.mc-intro[data-skip] {
+  animation: mc-intro-lift-skip 260ms cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+.mc-intro[data-skip] .mc-intro__stage {
+  animation: mc-intro-stage-fade 180ms linear both;
+}
+
+.mc-intro__stage {
+  display: grid;
+  justify-items: start;
+  gap: clamp(1.1rem, 2vw, 1.6rem);
+  padding-inline: 1.5rem;
+  will-change: transform, opacity;
+  animation:
+    mc-intro-stage-drift 720ms cubic-bezier(0.76, 0, 0.24, 1) 1240ms both,
+    mc-intro-stage-fade 280ms linear 1240ms both;
+}
+
+.mc-intro__lockup {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.85rem, 1.6vw, 1.25rem);
+}
+
+.mc-intro__mark {
+  display: inline-flex;
+  will-change: transform;
+  animation: mc-intro-mark-settle 620ms cubic-bezier(0.22, 1, 0.36, 1) 760ms both;
+}
+
+/* Staršia identitná vrstva drží každú značku v limetkovej. Na bielej
+   opone by mala kontrast 1,4 : 1, takže úvod si berie tmavú zelenú. */
+html:root body .site-theme-white-green .mc-intro__mark .brand-mark {
+  color: #19834f !important;
+}
+
+.mc-intro__mark .brand-mark__stroke {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: mc-intro-draw 950ms cubic-bezier(0.66, 0, 0.34, 1) both;
+}
+
+.mc-intro__word {
+  color: #0b2f20;
+  font-family: var(--font-display, "Inter Tight", Inter, sans-serif);
+  font-size: clamp(2.1rem, 5.4vw, 3.4rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap;
+  clip-path: inset(0 100% 0 0);
+  animation: mc-intro-word 500ms cubic-bezier(0.22, 1, 0.36, 1) 520ms both;
+}
+
+.mc-intro__word b {
+  font-weight: 620;
+}
+
+.mc-intro__rule {
+  display: block;
+  width: min(20rem, 62vw);
+  height: 1px;
+  background: rgba(11, 47, 32, 0.22);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: mc-intro-rule 520ms cubic-bezier(0.22, 1, 0.36, 1) 600ms both;
+}
+
+@keyframes mc-intro-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes mc-intro-mark-settle {
+  from {
+    transform: scale(1.055);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes mc-intro-word {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 -3% 0 0);
+  }
+}
+
+@keyframes mc-intro-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* `pointer-events` sa mení skokom na konci: kým je opona v obraze,
+   drží kliknutia; keď odíde, nesmie po nej ostať fixná vrstva, ktorá
+   by chytala kliknutia aj vtedy, keď by React z akéhokoľvek dôvodu
+   oponu neodpojil. */
+@keyframes mc-intro-lift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  99.9% {
+    transform: translate3d(0, -100%, 0);
+    pointer-events: auto;
+  }
+  to {
+    transform: translate3d(0, -100%, 0);
+    pointer-events: none;
+  }
+}
+
+@keyframes mc-intro-lift-skip {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  99.9% {
+    transform: translate3d(0, -100%, 0);
+    pointer-events: auto;
+  }
+  to {
+    transform: translate3d(0, -100%, 0);
+    pointer-events: none;
+  }
+}
+
+/* Lockup sa nezdvíha spolu s oponou — ostáva chvíľu na mieste a až
+   potom odíde s ňou. Bez toho vyzerá úvod ako posun obrázka. */
+@keyframes mc-intro-stage-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 58%, 0);
+  }
+}
+
+@keyframes mc-intro-stage-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Poistka. Komponent sa pri vypnutých animáciách nevykreslí vôbec, ale
+   keby sa nastavenie zmenilo počas prehrávania, opona zmizne okamžite. */
+@media (prefers-reduced-motion: reduce) {
+  .mc-intro {
+    display: none;
+  }
+}
