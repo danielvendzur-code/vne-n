@@ -258,14 +258,26 @@ test("the hero is one owned layer, not another override", async () => {
     /border-radius: var\(--mc-shape\) var\(--mc-shape\) var\(--mc-shape\) var\(--mc-foot\)/,
   );
 
-  // Typy riešení ostávajú všetky štyri, len ako číslovaný index. Štvrtý
-  // je e-shop: objednávky, vrátenie a reklamácie sú vlastný prípad
-  // použitia a donedávna ho do hero dopisovala runtime vrstva.
+  // Hero hovorí najprv k e-shopom, ale služby z neho nesmú vypadnúť:
+  // tri scenáre sú e-shopové, štvrtý drží kalkulačku aj konfigurátor
+  // a značka pri každom scenári hovorí, pre koho je.
   assert.match(hero, /className="mc-hero__pick"/);
-  for (const label of ["Chatbot", "Kalkulačka", "Konfigurátor", "E-shop"]) {
+  for (const label of ["Objednávky", "Poradca", "Vrátenie", "Služby"]) {
     assert.match(hero, new RegExp(`label: "${label}"`));
   }
+  assert.equal((hero.match(/tag: "E-shop",/g) ?? []).length, 3);
+  assert.equal((hero.match(/tag: "Služby",/g) ?? []).length, 1);
+  assert.match(hero, /kicker: "Chatboty pre e-shopy"/);
+  assert.match(hero, /Aj pre firmy so službami/);
+  assert.match(hero, /kalkulačkou aj konfigurátorom/);
   assert.match(hero, /reklamáci/);
+
+  // Scéna je oblúk, nie zaoblený obdĺžnik, a hĺbku robí posun vrstiev,
+  // nie tieň ani rozostrenie.
+  assert.match(css, /--mc-arch:/);
+  assert.match(css, /border-radius: var\(--mc-arch\)/);
+  assert.match(css, /translate: calc\(var\(--mc-px\)/);
+  assert.doesNotMatch(css, /box-shadow: 0 /);
 
   // Chatbot sa otvorí v režime vybraného scenára, nie vždy rovnako.
   assert.match(hero, /preset: scenario\.preset/);

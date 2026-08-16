@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { motion, useScroll, useSpring, useTransform, type Variants } from "motion/react";
 import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useIntroReady } from "@/hooks/useIntroReady";
+import { useMagnetic } from "@/hooks/useMagnetic";
+import { usePointerDepth } from "@/hooks/usePointerDepth";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import type { AssistantPreset } from "@/types/assistant";
@@ -27,82 +29,94 @@ import "./SignatureHero.css";
  */
 export type LandingVariant = "public" | "client";
 
-type ScenarioKey = "chatbot" | "kalkulacka" | "konfigurator" | "eshop";
+type ScenarioKey = "objednavky" | "poradca" | "vratenie" | "sluzby";
 
 interface Scenario {
   key: ScenarioKey;
   index: string;
   label: string;
+  /** Pre koho je scenár. Ukazuje, že to isté riešenie platí aj pre služby. */
+  tag: "E-shop" | "Služby";
   /** S ktorým režimom sa otvorí chatbot, keď návštevník klikne „Vyskúšať". */
   preset: AssistantPreset;
   /** Čo tento typ riešenia robí — jedna veta, žiadne opakovanie. */
   note: string;
   turns: Array<{ who: "Zákazník" | "Chatbot"; text: string }>;
+  /** Popisok výsledku. Objednávku chatbot vybaví, dopyt naopak pošle ďalej. */
+  resultLabel: string;
   /** Výsledok, ktorý z rozhovoru vypadne firme. */
   result: string;
 }
 
 const scenarios: Scenario[] = [
   {
-    key: "chatbot",
+    key: "objednavky",
     index: "01",
-    label: "Chatbot",
+    label: "Objednávky",
+    tag: "E-shop",
     preset: "inquiry",
-    note: "Odpovie zákazníkovi a pripraví dopyt s celým kontextom.",
+    note: "Stav objednávky, zmena adresy, zrušenie aj storno — bez vášho zásahu.",
     turns: [
-      { who: "Zákazník", text: "Robíte aj odvoz starého nábytku?" },
-      { who: "Chatbot", text: "Áno, aj s vynesením. Z ktorého poschodia a koľko kusov?" },
-      { who: "Zákazník", text: "Tretie poschodie bez výťahu, štyri kusy." },
+      { who: "Zákazník", text: "Kde je moja objednávka 24815?" },
+      { who: "Chatbot", text: "Odoslaná včera, doručenie zajtra do 14:00. Chcete zmeniť adresu?" },
+      { who: "Zákazník", text: "Áno, pošlite to prosím do práce." },
     ],
-    result: "Dopyt odoslaný. Adresa, rozsah aj kontakt máte na e-maile.",
+    resultLabel: "Vybavené bez vás",
+    result: "Adresa zmenená, zákazník má potvrdenie. Vám ostane len záznam.",
   },
   {
-    key: "kalkulacka",
+    key: "poradca",
     index: "02",
-    label: "Kalkulačka",
+    label: "Poradca",
+    tag: "E-shop",
+    preset: "advisor",
+    note: "Odporučí z vašej ponuky podľa toho, čo zákazník naozaj rieši.",
+    turns: [
+      { who: "Zákazník", text: "Hľadám bežecké topánky na asfalt, veľkosť 43." },
+      { who: "Chatbot", text: "Bežíte skôr dlhé trasy alebo krátke intervaly?" },
+      { who: "Zákazník", text: "Dlhé, tak pätnásť kilometrov." },
+    ],
+    resultLabel: "Výsledok",
+    result: "Tri modely z vašej ponuky a zákazník ide rovno do košíka.",
+  },
+  {
+    key: "vratenie",
+    index: "03",
+    label: "Vrátenie",
+    tag: "E-shop",
+    preset: "inquiry",
+    note: "Vrátenie, výmena aj reklamácia so všetkými údajmi na jednom mieste.",
+    turns: [
+      { who: "Zákazník", text: "Chcem vrátiť tovar z objednávky 24815." },
+      { who: "Chatbot", text: "Vraciate ju celú alebo len jednu položku?" },
+      { who: "Zákazník", text: "Len jednu — nesedela veľkosť." },
+    ],
+    resultLabel: "Vám príde",
+    result: "Vrátenie založené. Objednávku, položku aj dôvod máte na e-maile.",
+  },
+  {
+    key: "sluzby",
+    index: "04",
+    label: "Služby",
+    tag: "Služby",
     preset: "calculator",
-    note: "Vypočíta cenu, spotrebu alebo návratnosť podľa vašich pravidiel.",
+    note: "Pre firmy so službami: kalkulačka ceny aj konfigurátor riešenia.",
     turns: [
       { who: "Zákazník", text: "Koľko by stál plot na 42 metrov?" },
       { who: "Chatbot", text: "Panely alebo poplastované pletivo? A akú výšku potrebujete?" },
       { who: "Zákazník", text: "Panely, výška 1,5 metra." },
     ],
+    resultLabel: "Vám príde",
     result: "Orientačná cena 3 180 € aj s rozpisom materiálu a montáže.",
-  },
-  {
-    key: "konfigurator",
-    index: "03",
-    label: "Konfigurátor",
-    preset: "product",
-    note: "Prevedie výberom variantov a odošle hotové zadanie.",
-    turns: [
-      { who: "Zákazník", text: "Potrebujem pergolu na terasu 4 × 3 metre." },
-      { who: "Chatbot", text: "Hliník alebo drevo? A majú byť lamely polohovateľné?" },
-      { who: "Zákazník", text: "Hliník, lamely áno, antracit." },
-    ],
-    result: "Hotová špecifikácia: variant, rozmery aj doplnky pre ponuku.",
-  },
-  {
-    key: "eshop",
-    index: "04",
-    label: "E-shop",
-    preset: "inquiry",
-    note: "Ukáže stav objednávky a vybaví zmenu, vrátenie alebo reklamáciu.",
-    turns: [
-      { who: "Zákazník", text: "Chcem vrátiť tovar z objednávky 24815." },
-      { who: "Chatbot", text: "Objednávku vidím. Vraciate ju celú alebo len jednu položku?" },
-      { who: "Zákazník", text: "Len jednu — nesedela veľkosť." },
-    ],
-    result: "Vrátenie založené. Objednávku, položku aj dôvod máte na e-maile.",
   },
 ];
 
 const heroCopy = {
   public: {
-    kicker: "Chatboty · Kalkulačky · Konfigurátory",
-    lines: ["Váš web odpovie", "skôr, než", "zákazník odíde."],
-    aria: "Váš web odpovie skôr, než zákazník odíde.",
-    lead: "Chatboty, kalkulačky a konfigurátory na mieru: zákazník dostane odpoveď hneď a vám príde dopyt, s ktorým sa dá rovno pracovať.",
+    kicker: "Chatboty pre e-shopy",
+    lines: ["Váš e\u2011shop odpovie", "skôr, než", "zákazník odíde."],
+    aria: "Váš e-shop odpovie skôr, než zákazník odíde.",
+    lead: "Chatbot odpovie na otázky o objednávke, poradí s výberom a vybaví vrátenie. Rovnako dobre pracuje pre firmy so službami — s kalkulačkou aj konfigurátorom.",
     primary: { label: "Nezáväzná konzultácia", to: "/kontakt" },
     cue: { label: "Realizácie", href: "#realizacie" },
   },
@@ -207,7 +221,7 @@ function Thread({ scenario, still }: { scenario: Scenario; still: boolean }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.52, ease: premiumEase, delay: still ? 0 : 0.5 }}
       >
-        <span className="mc-hero__result-who">Vám príde</span>
+        <span className="mc-hero__result-who">{scenario.resultLabel}</span>
         <span className="mc-hero__result-text">{scenario.result}</span>
       </motion.div>
     </div>
@@ -218,13 +232,15 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
   const copy = heroCopy[variant];
   const reducedMotion = useReducedMotion();
   const introReady = useIntroReady();
-  const [active, setActive] = useState<ScenarioKey>("chatbot");
+  const [active, setActive] = useState<ScenarioKey>("objednavky");
   const activeIndex = Math.max(
     0,
     scenarios.findIndex((item) => item.key === active),
   );
   const scenario = scenarios[activeIndex] ?? scenarios[0];
   const pickerRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useMagnetic<HTMLAnchorElement>();
+  const stageRef = usePointerDepth<HTMLDivElement>();
 
   /**
    * Výber je prepínač kariet, takže sa po ňom chodí šípkami, nie tabulátorom —
@@ -278,7 +294,7 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
             {copy.kicker}
           </motion.span>
           <motion.span className="mc-hero__origin" variants={riseItem}>
-            Na mieru · Slovensko
+            Aj pre firmy so službami
           </motion.span>
         </motion.header>
 
@@ -308,9 +324,14 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
           </motion.p>
 
           <motion.div className="mc-hero__actions" variants={riseItem}>
-            <Link to={copy.primary.to} className="mc-hero__cta">
+            <Link to={copy.primary.to} className="mc-hero__cta" ref={ctaRef}>
               <span>{copy.primary.label}</span>
-              <ArrowRight aria-hidden="true" />
+              {/* Šípka pri prechode neodskočí — vyjde vpravo a zľava
+                  nabehne druhá. Pohyb je iba transform v maske. */}
+              <span className="mc-hero__cta-icon" aria-hidden="true">
+                <ArrowRight />
+                <ArrowRight />
+              </span>
             </Link>
           </motion.div>
         </motion.div>
@@ -321,6 +342,7 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
           animate={state}
           variants={stageArrive}
           style={{ y: stageY, opacity: fade }}
+          ref={stageRef}
         >
           <motion.div className="mc-hero__picker-head" variants={riseItem}>
             <span className="mc-hero__stage-label" id="mc-hero-picker-label">
@@ -375,6 +397,7 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.34, ease: premiumEase }}
           >
+            <span className="mc-hero__tag">{scenario.tag}</span>
             {scenario.note}
           </motion.span>
 

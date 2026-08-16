@@ -13,8 +13,17 @@
 
    Tvarový systém
      Odvodený od značky: bublina v logu má tri zaoblené rohy a pätku.
-     Rovnaký zápis — tri veľké polomery a jeden malý — má scéna, riadky
-     výberu aj repliky v rozhovore. Nič iné zaoblené v hero nie je.
+     Rovnaký zápis — tri veľké polomery a jeden malý — majú riadky výberu
+     aj repliky v rozhovore. Nič iné zaoblené v hero nie je.
+
+     Scéna má vlastný tvar: oblúk. Horný ľavý roh je násobne väčší než
+     spodný, takže plocha nie je zaoblený obdĺžnik, ale forma. Spolu s
+     tým, že vyteká za pravú hranu okna, je to jediný taký tvar na webe.
+
+   Hĺbka
+     Bez tieňov a bez rozostrenia. Vrstvy v scéne sa pod kurzorom posunú
+     o jednotky pixelov rôznou silou (`--mc-px` / `--mc-py` z hooku
+     usePointerDepth), takže plocha má priestor, nie efekt.
 
    Paleta (identita zostáva biela + zelená)
      #ffffff  strana
@@ -58,6 +67,12 @@
   /* Značkový tvar: tri veľké polomery a jedna pätka. */
   --mc-shape: 1.75rem;
   --mc-foot: 0.35rem;
+  /* Oblúk scény. Zámerne rádovo väčší než značkový polomer. */
+  --mc-arch: 3rem;
+
+  /* Poloha kurzora nad scénou, −1 až 1. Zapisuje ju usePointerDepth. */
+  --mc-px: 0;
+  --mc-py: 0;
 
   position: relative;
   display: flex;
@@ -123,7 +138,7 @@
   margin: 0;
   color: var(--mc-ink);
   font-family: var(--font-display, "Inter Tight", Inter, sans-serif);
-  font-size: clamp(2.55rem, 5.6vw, 6rem);
+  font-size: clamp(2.55rem, 5.6vw, 5.4rem);
   font-weight: 500;
   letter-spacing: -0.054em;
   line-height: 0.89;
@@ -193,10 +208,23 @@
   transition: clip-path 560ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.mc-hero__cta svg {
+/* Maska, v ktorej sa šípky vymenia. Druhá čaká vľavo mimo výrezu. */
+.mc-hero__cta-icon {
+  display: grid;
   width: 1.05rem;
   height: 1.05rem;
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+
+.mc-hero__cta-icon svg {
+  grid-area: 1 / 1;
+  width: 1.05rem;
+  height: 1.05rem;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__cta-icon svg:last-child {
+  transform: translateX(-135%);
 }
 
 .mc-hero__cta:is(:hover, :focus-visible) {
@@ -207,8 +235,12 @@
   clip-path: inset(0 0 0 0);
 }
 
-.mc-hero__cta:is(:hover, :focus-visible) svg {
-  transform: translateX(0.2rem);
+.mc-hero__cta:is(:hover, :focus-visible) .mc-hero__cta-icon svg:first-child {
+  transform: translateX(150%);
+}
+
+.mc-hero__cta:is(:hover, :focus-visible) .mc-hero__cta-icon svg:last-child {
+  transform: translateX(0);
 }
 
 /* ================================================================== SCÉNA */
@@ -217,11 +249,29 @@
   display: grid;
   align-content: start;
   gap: clamp(0.85rem, 1.8vh, 1.3rem);
-  padding: clamp(1.4rem, 2.6vw, 2.1rem);
-  border-radius: var(--mc-shape);
+  /* Oblúk potrebuje priestor: obsah sa nesmie tlačiť do zákruty. */
+  padding: clamp(1.7rem, 3vw, 2.6rem) clamp(1.4rem, 2.6vw, 2.1rem)
+    clamp(1.4rem, 2.6vw, 2.1rem) clamp(1.7rem, 3vw, 2.6rem);
+  border-radius: var(--mc-arch) var(--mc-shape) var(--mc-shape) var(--mc-shape);
   background: var(--mc-ink);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   color: var(--mc-on-dark);
+}
+
+/* Vrstvy scény sa pod kurzorom rozídu o jednotky pixelov. Hlavička ide
+   proti rozhovoru, takže medzi nimi vznikne priestor.
+
+   Zapisuje sa `translate`, nie `transform`: príchod týchto prvkov riadi
+   motion cez inline `transform` a obe vlastnosti sa skladajú. V jednej
+   by si navzájom prepísali hodnotu a hĺbka by nebola vidieť. */
+.mc-hero__picker-head,
+.mc-hero__picker {
+  translate: calc(var(--mc-px) * -3px) calc(var(--mc-py) * -2px);
+}
+
+.mc-hero__panel,
+.mc-hero__ask {
+  translate: calc(var(--mc-px) * 4px) calc(var(--mc-py) * 3px);
 }
 
 .mc-hero__picker-head {
@@ -363,6 +413,22 @@
   line-height: 1.5;
 }
 
+/* Ukazuje, pre koho scenár je. Tri sú e-shopové, štvrtý ukazuje, že to
+   isté riešenie platí aj pre firmy so službami. */
+.mc-hero__tag {
+  display: inline-block;
+  margin-right: 0.55rem;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid var(--mc-on-dark-line);
+  border-radius: 999px;
+  color: var(--mc-on-dark);
+  font-size: 0.6rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  vertical-align: 0.1em;
+}
+
 .mc-hero__thread {
   display: grid;
   gap: 0.45rem;
@@ -474,7 +540,7 @@
 }
 
 .mc-hero__ask:is(:hover, :focus-visible) .mc-hero__ask-go {
-  transform: translate(0.14rem, -0.14rem);
+  transform: translate(0.14rem, -0.14rem) scale(1.06);
 }
 
 /* ------------------------------------------------------------------ pätka */
@@ -569,6 +635,7 @@
     --mc-pad: 2.5rem;
     --mc-shape: clamp(2rem, 2.6vw, 2.75rem);
     --mc-foot: 0.5rem;
+    --mc-arch: clamp(4.5rem, 8vw, 9rem);
 
     min-height: calc(100svh - var(--site-header-h, 5.5rem));
   }
@@ -600,7 +667,10 @@
     padding-right: calc(
       clamp(1.4rem, 2.6vw, 2.1rem) + (100vw - min(var(--mc-shell), 100vw)) / 2 + var(--mc-pad)
     );
-    border-radius: var(--mc-shape) 0 0 var(--mc-shape);
+    padding-left: clamp(2.1rem, 3.6vw, 3.2rem);
+    border-radius: var(--mc-arch) 0 0 var(--mc-shape);
+    /* Šev na strane, ktorou sa scéna dotýka bielej strany. Sleduje oblúk. */
+    border-left: 1px solid rgba(217, 255, 120, 0.22);
   }
 
   /* Výber ostáva hore, rozhovor sa usadí na dno a pod ním stojí riadok
