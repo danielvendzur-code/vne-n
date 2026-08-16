@@ -6,22 +6,28 @@
    nikto nesiaha. Preto tu nie je ani jeden `!important`.
 
    Kompozícia
-     Editorial dvojstrana. Hore masthead na vlasovej linke, vľavo
-     tvrdenie, vpravo dôkaz, medzi nimi jedna zvislá linka cez celú
-     výšku, dole index dôvodov a odkaz na realizácie. Žiadna karta,
-     žiadny tieň, žiadny glow — geometriu drží typografia a linky.
+     Dve plochy proti sebe. Vľavo biela strana s obrovským tvrdením,
+     vpravo tmavá lesná scéna zarazená do pravej hrany okna. Scéna nie
+     je karta v mriežke — je to plocha, ktorá z mriežky vyteká, a na nej
+     beží samotný produkt.
+
+   Tvarový systém
+     Odvodený od značky: bublina v logu má tri zaoblené rohy a pätku.
+     Rovnaký zápis — tri veľké polomery a jeden malý — má scéna, riadky
+     výberu aj repliky v rozhovore. Nič iné zaoblené v hero nie je.
 
    Paleta (identita zostáva biela + zelená)
      #ffffff  strana
-     #0b2f20  lesná — text a plná akcia
-     #19834f  smaragdová — akcent, číslice, hlas chatbota
-     #b9ed4d  limetková — jediný značkový detail, nie dekorácia
-     #536159  tlmený text
-     #5f6b63  popisky (4,5 : 1 na bielej aj v drobnom reze)
+     #0b2f20  lesná — text na bielej a plocha scény
+     #19834f  smaragdová — akcent na bielej
+     #d9ff78  limetková — hlas značky na tmavej a jediné zvýraznenie
+     #536159  tlmený text na bielej
+     #5f6b63  popisky na bielej (4,5 : 1 aj v drobnom reze)
+     #a8c1b3  popisky na tmavej (6,4 : 1)
 
    Pohyb
-     Príchod rieši komponent cez motion. Tu ostávajú len stavy
-     interakcie a tie animujú výhradne transform, clip-path a farbu.
+     Príchod rieši komponent cez motion. Tu ostávajú stavy interakcie a
+     tie animujú výhradne transform, clip-path a farbu.
    ===================================================================== */
 
 /* Rám, ktorý hero vyníma zo staršej vrstvy rytmu sekcií. Sám nič
@@ -31,7 +37,10 @@
 }
 
 .mc-hero {
-  --mc-gap: clamp(1.75rem, 4vh, 3.25rem);
+  --mc-gap: clamp(1.5rem, 3.4vh, 2.6rem);
+  --mc-shell: 1560px;
+  --mc-pad: 1.375rem;
+
   --mc-ink: #0b2f20;
   --mc-green: #19834f;
   --mc-lime: #b9ed4d;
@@ -39,7 +48,16 @@
   --mc-muted: #536159;
   --mc-quiet: #5f6b63;
   --mc-line: rgba(11, 47, 32, 0.13);
-  --mc-line-soft: rgba(11, 47, 32, 0.09);
+
+  /* Tmavá scéna má vlastnú sadu — na lesnej ploche neplatí nič z bielej. */
+  --mc-on-dark: #ffffff;
+  --mc-on-dark-quiet: #a8c1b3;
+  --mc-on-dark-line: rgba(255, 255, 255, 0.16);
+  --mc-on-dark-fill: rgba(255, 255, 255, 0.07);
+
+  /* Značkový tvar: tri veľké polomery a jedna pätka. */
+  --mc-shape: 1.75rem;
+  --mc-foot: 0.35rem;
 
   position: relative;
   display: flex;
@@ -50,13 +68,13 @@
 
 .mc-hero__inner {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--mc-gap);
   width: 100%;
-  max-width: 1560px;
+  max-width: var(--mc-shell);
   margin-inline: auto;
-  padding-inline: 1.375rem;
-  padding-block: clamp(1.9rem, 4.4vh, 3.1rem) clamp(1.6rem, 3.4vh, 2.5rem);
+  padding-inline: var(--mc-pad);
+  padding-block: clamp(1.6rem, 3.6vh, 2.6rem) clamp(1.5rem, 3vh, 2.2rem);
 }
 
 /* ---------------------------------------------------------------- masthead */
@@ -78,6 +96,7 @@
 
 .mc-hero__kicker,
 .mc-hero__origin {
+  display: block;
   margin: 0;
   font-size: 0.685rem;
   font-weight: 650;
@@ -93,15 +112,6 @@
   color: var(--mc-quiet);
 }
 
-/* -------------------------------------------------------------- dvojstrana */
-
-.mc-hero__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
-  column-gap: clamp(2.25rem, 4.6vw, 4.75rem);
-  align-items: stretch;
-}
-
 /* ------------------------------------------------------------------ tvrdenie */
 
 .mc-hero__claim {
@@ -113,10 +123,10 @@
   margin: 0;
   color: var(--mc-ink);
   font-family: var(--font-display, "Inter Tight", Inter, sans-serif);
-  font-size: clamp(2.55rem, 6vw, 6.35rem);
+  font-size: clamp(2.55rem, 5.6vw, 6rem);
   font-weight: 500;
-  letter-spacing: -0.052em;
-  line-height: 0.9;
+  letter-spacing: -0.054em;
+  line-height: 0.89;
 }
 
 /* Riadok má vlastnú masku, aby sa text mohol odkryť spoza hrany.
@@ -137,10 +147,10 @@
 }
 
 .mc-hero__lead {
-  max-width: 33rem;
-  margin: clamp(1.35rem, 2.6vh, 2rem) 0 0;
+  max-width: 31rem;
+  margin: clamp(1.25rem, 2.4vh, 1.85rem) 0 0;
   color: var(--mc-muted);
-  font-size: clamp(1rem, 1.12vw, 1.14rem);
+  font-size: clamp(1rem, 1.1vw, 1.12rem);
   line-height: 1.6;
 }
 
@@ -149,7 +159,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: clamp(0.85rem, 1.6vw, 1.4rem);
-  margin-top: clamp(1.6rem, 3vh, 2.4rem);
+  margin-top: clamp(1.5rem, 2.8vh, 2.2rem);
 }
 
 /* Plná akcia je na stránke jedna. Pri prechode ju zľava zotrie
@@ -160,13 +170,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  min-height: 3.25rem;
-  padding: 0.9rem 1.5rem;
+  min-height: 3.35rem;
+  padding: 0.9rem 1.6rem;
   overflow: hidden;
   border-radius: 999px;
   background: var(--mc-ink);
   color: #ffffff;
-  font-size: 0.965rem;
+  font-size: 0.975rem;
   font-weight: 620;
   letter-spacing: -0.01em;
   text-decoration: none;
@@ -201,235 +211,270 @@
   transform: translateX(0.2rem);
 }
 
-/* Sekundárna akcia nie je druhá pilulka — je to text na linke. */
-.mc-hero__ghost {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 3.25rem;
-  padding: 0.6rem 0.15rem;
-  border: 0;
-  background: none;
-  color: var(--mc-ink);
-  font-family: inherit;
-  font-size: 0.965rem;
-  font-weight: 620;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-}
+/* ================================================================== SCÉNA */
 
-.mc-hero__ghost::after {
-  content: "";
-  position: absolute;
-  left: 0.15rem;
-  right: 0.15rem;
-  bottom: 0.55rem;
-  height: 1px;
-  background: var(--mc-ink);
-  transform: scaleX(0.32);
-  transform-origin: left center;
-  transition:
-    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 320ms linear;
-}
-
-.mc-hero__ghost svg {
-  width: 1rem;
-  height: 1rem;
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.mc-hero__ghost:is(:hover, :focus-visible)::after {
-  transform: scaleX(1);
-  background: var(--mc-green);
-}
-
-.mc-hero__ghost:is(:hover, :focus-visible) svg {
-  transform: translate(0.15rem, -0.15rem);
-}
-
-/* --------------------------------------------------------------- dôkaz */
-
-.mc-hero__evidence {
-  position: relative;
-  align-self: stretch;
+.mc-hero__stage {
   display: grid;
-  align-content: center;
-  gap: clamp(1.2rem, 2.4vh, 1.9rem);
-  padding-left: clamp(1.5rem, 2.4vw, 2.75rem);
+  align-content: start;
+  gap: clamp(0.85rem, 1.8vh, 1.3rem);
+  padding: clamp(1.4rem, 2.6vw, 2.1rem);
+  border-radius: var(--mc-shape);
+  background: var(--mc-ink);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  color: var(--mc-on-dark);
 }
 
-/* Zvislá linka dvojstrany. Nie je to `border-left`, pretože musí siahať
-   až k masthead-u a k pätke — teda o medzeru mriežky nad aj pod stĺpec. */
-.mc-hero__evidence::before {
-  content: "";
-  position: absolute;
-  top: calc(-1 * var(--mc-gap));
-  bottom: calc(-1 * var(--mc-gap));
-  left: 0;
-  width: 1px;
-  background: var(--mc-line);
+.mc-hero__picker-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.mc-hero__index-label,
-.mc-hero__note {
+.mc-hero__stage-label {
+  display: block;
   margin: 0;
-}
-
-.mc-hero__index-label {
-  margin-bottom: 0.7rem;
-  color: var(--mc-quiet);
-  font-size: 0.64rem;
+  color: var(--mc-on-dark-quiet);
+  font-size: 0.655rem;
   font-weight: 650;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
 }
 
-/* Bez medzery medzi stĺpcami: linky indexu tak tvoria súvislý ťah
-   cez celú šírku stĺpca, nie štyri prerušené čiarky. */
-.mc-hero__index-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-/* Typy riešení sú index na linke, nie štyri pilulky. Vybraný sa
-   označí tým, že sa mu linka nakreslí do plnej sily. */
-.mc-hero__index-item {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1.75rem minmax(0, 1fr);
-  align-items: baseline;
-  gap: 0.15rem;
-  min-height: 2.85rem;
-  padding: 0.72rem clamp(0.75rem, 1.6vw, 1.5rem) 0.62rem 0;
-  border: 0;
-  border-top: 1px solid var(--mc-line-soft);
-  background: none;
-  color: var(--mc-muted);
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 520;
-  letter-spacing: -0.012em;
-  text-align: left;
-  cursor: pointer;
-  transition: color 320ms linear;
-}
-
-.mc-hero__index-item::before {
-  content: "";
-  position: absolute;
-  inset: -1px 0 auto 0;
-  height: 1px;
-  background: var(--mc-ink);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.mc-hero__index-item b {
-  color: var(--mc-quiet);
-  font-size: 0.665rem;
+/* Počítadlo drží pozíciu v štvorici. Tabuľkové číslice, aby pri
+   prepnutí nepreskakovalo o pol znaku. */
+.mc-hero__stage-count {
+  display: block;
+  margin: 0;
+  color: var(--mc-lime-bright);
+  font-size: 0.72rem;
   font-weight: 650;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.08em;
-  transition: color 320ms linear;
 }
 
-.mc-hero__index-item[data-active="true"] {
-  color: var(--mc-ink);
+.mc-hero__stage-count i {
+  margin-left: 0.3rem;
+  color: var(--mc-on-dark-quiet);
+  font-style: normal;
+}
+
+/* --------------------------------------------------------------- výber */
+
+.mc-hero__picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+/* Riadok výberu nesie ten istý tvar ako scéna a repliky: tri veľké
+   polomery a pätka vľavo dole. */
+.mc-hero__pick {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1.65rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.1rem;
+  min-height: 2.9rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: var(--mc-shape) var(--mc-shape) var(--mc-shape) var(--mc-foot);
+  background: none;
+  color: var(--mc-on-dark-quiet);
+  font-family: inherit;
+  font-size: 0.925rem;
+  font-weight: 540;
+  letter-spacing: -0.012em;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 280ms linear,
+    border-color 280ms linear;
+}
+
+.mc-hero__pick .mc-hero__num {
+  color: inherit;
+  font-size: 0.645rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  opacity: 0.72;
+}
+
+/* Podklad vybranej položky. Presúva sa medzi riadkami cez layoutId,
+   takže výber pôsobí ako jeden pohyb, nie ako dve prekreslenia. */
+.mc-hero__pick-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--mc-on-dark-fill);
+  box-shadow: inset 0 0 0 1px var(--mc-on-dark-line);
+}
+
+.mc-hero__pick[data-active="true"] {
+  color: var(--mc-on-dark);
   font-weight: 620;
 }
 
-.mc-hero__index-item[data-active="true"]::before,
-.mc-hero__index-item:is(:hover, :focus-visible)::before {
-  transform: scaleX(1);
+.mc-hero__pick[data-active="true"] .mc-hero__num {
+  color: var(--mc-lime-bright);
+  opacity: 1;
 }
 
-.mc-hero__index-item[data-active="true"] b {
-  color: var(--mc-green);
+/* Bez animácií layoutId nebeží, takže vybraný riadok potrebuje vlastný
+   podklad — inak by nebolo vidieť, čo je zvolené. */
+@media (prefers-reduced-motion: reduce) {
+  .mc-hero__pick[data-active="true"] {
+    border-color: var(--mc-on-dark-line);
+    background: var(--mc-on-dark-fill);
+  }
 }
 
-.mc-hero__index-item:is(:hover, :focus-visible) {
-  color: var(--mc-ink);
+.mc-hero__pick:not([data-active="true"]):is(:hover, :focus-visible) {
+  color: var(--mc-on-dark);
+  border-color: var(--mc-on-dark-line);
+}
+
+/* ----------------------------------------------------------- rozhovor */
+
+/* Linka patrí panelu, nie rozhovoru: pod ňou začína plocha, do ktorej
+   správy pribúdajú. Prázdno nad rozhovorom je tak čitateľné ako plátno
+   chatu, nie ako diera v kompozícii. */
+.mc-hero__panel {
+  display: grid;
+  align-content: start;
+  padding-top: clamp(0.7rem, 1.5vh, 1.05rem);
+  border-top: 1px solid var(--mc-on-dark-line);
+}
+
+.mc-hero__demo {
+  display: grid;
+  align-content: start;
+  gap: clamp(0.7rem, 1.5vh, 1.05rem);
 }
 
 .mc-hero__note {
-  color: var(--mc-quiet);
-  font-size: 0.845rem;
-  line-height: 1.55;
+  display: block;
+  margin: 0;
+  color: var(--mc-on-dark-quiet);
+  font-size: 0.83rem;
+  line-height: 1.5;
 }
 
-/* Prepis rozhovoru je vysádzaný priamo na strane. Žiadna bublina,
-   žiadny rám — hovorca je popisok v ľavom stĺpci, ako v scenári. */
 .mc-hero__thread {
   display: grid;
-  gap: clamp(0.7rem, 1.5vh, 1rem);
-  margin: clamp(0.9rem, 1.8vh, 1.25rem) 0 0;
+  gap: 0.45rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.mc-hero__turn,
+.mc-hero__turn {
+  display: flex;
+}
+
+.mc-hero__turn[data-who="customer"] {
+  justify-content: flex-end;
+}
+
+.mc-hero__bubble {
+  display: block;
+  max-width: 86%;
+  padding: 0.62rem 0.95rem;
+  font-size: clamp(0.9rem, 0.95vw, 0.985rem);
+  line-height: 1.45;
+}
+
+/* Značka hovorí limetkou, zákazník tlmenou bielou. Pätka bubliny je
+   vždy na strane hovorcu — presne ako v logu. */
+.mc-hero__turn[data-who="bot"] .mc-hero__bubble {
+  border-radius: var(--mc-shape) var(--mc-shape) var(--mc-shape) var(--mc-foot);
+  background: var(--mc-lime-bright);
+  color: var(--mc-ink);
+  font-weight: 520;
+}
+
+.mc-hero__turn[data-who="customer"] .mc-hero__bubble {
+  border-radius: var(--mc-shape) var(--mc-shape) var(--mc-foot) var(--mc-shape);
+  background: var(--mc-on-dark-fill);
+  color: var(--mc-on-dark);
+}
+
+/* Výsledok nie je replika — je to výstup. Preto iný tvar: ostrá hrana
+   s limetkovým prahom vľavo a zaoblenie len vpravo. */
 .mc-hero__result {
   display: grid;
-  grid-template-columns: 5.9rem minmax(0, 1fr);
-  gap: 0.85rem;
-  align-items: baseline;
+  gap: 0.25rem;
+  margin: 0.15rem 0 0;
+  padding: 0.8rem 1rem;
+  border-left: 2px solid var(--mc-lime-bright);
+  border-radius: 0 var(--mc-shape) var(--mc-shape) 0;
+  background: var(--mc-on-dark-fill);
 }
 
-.mc-hero__turn-who,
 .mc-hero__result-who {
-  color: var(--mc-quiet);
-  font-size: 0.605rem;
+  color: var(--mc-lime-bright);
+  font-size: 0.595rem;
   font-weight: 650;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  line-height: 1.9;
-}
-
-.mc-hero__turn[data-who="bot"] .mc-hero__turn-who {
-  color: var(--mc-green);
-}
-
-.mc-hero__turn-text {
-  color: var(--mc-muted);
-  font-size: clamp(0.95rem, 1.02vw, 1.05rem);
-  line-height: 1.5;
-}
-
-.mc-hero__turn[data-who="bot"] .mc-hero__turn-text {
-  color: var(--mc-ink);
-}
-
-.mc-hero__result {
-  margin-top: 0.35rem;
-  padding-top: clamp(0.8rem, 1.6vh, 1.1rem);
-  border-top: 1px solid var(--mc-line);
-}
-
-.mc-hero__result-who {
-  color: var(--mc-ink);
-}
-
-/* Jediný značkový detail v dôkaze. Limetka označí to, čo z rozhovoru
-   naozaj vypadne firme. */
-.mc-hero__result-who::before {
-  content: "";
-  display: inline-block;
-  width: 0.4rem;
-  height: 0.4rem;
-  margin-right: 0.42rem;
-  background: var(--mc-lime);
-  vertical-align: 0.02em;
 }
 
 .mc-hero__result-text {
-  color: var(--mc-ink);
-  font-size: clamp(1rem, 1.15vw, 1.16rem);
+  color: var(--mc-on-dark);
+  font-size: clamp(0.95rem, 1.02vw, 1.05rem);
   font-weight: 560;
-  letter-spacing: -0.018em;
-  line-height: 1.45;
+  letter-spacing: -0.014em;
+  line-height: 1.42;
+}
+
+/* --------------------------------------------------- riadok na písanie */
+
+.mc-hero__ask {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.4rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.1rem;
+  border: 1px solid var(--mc-on-dark-line);
+  border-radius: 999px;
+  background: var(--mc-on-dark-fill);
+  color: var(--mc-on-dark-quiet);
+  font-family: inherit;
+  font-size: 0.925rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 280ms linear,
+    border-color 280ms linear;
+}
+
+.mc-hero__ask-go {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  background: var(--mc-lime-bright);
+  color: var(--mc-ink);
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mc-hero__ask-go svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.mc-hero__ask:is(:hover, :focus-visible) {
+  color: var(--mc-on-dark);
+  border-color: rgba(217, 255, 120, 0.5);
+}
+
+.mc-hero__ask:is(:hover, :focus-visible) .mc-hero__ask-go {
+  transform: translate(0.14rem, -0.14rem);
 }
 
 /* ------------------------------------------------------------------ pätka */
@@ -439,7 +484,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   column-gap: 2rem;
-  row-gap: clamp(0.9rem, 2vh, 1.25rem);
+  row-gap: clamp(0.8rem, 1.8vh, 1.15rem);
 }
 
 .mc-hero__foot-rule {
@@ -449,17 +494,20 @@
   transform-origin: left center;
 }
 
+/* Tri zarovnané stĺpce namiesto voľného toku. Pri užšom ľavom stĺpci sa
+   zoznam predtým lámal na 2 + 1, čo vyzeralo ako nedopatrenie. */
 .mc-hero__proof {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem clamp(1.25rem, 2.6vw, 2.75rem);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem clamp(1rem, 1.8vw, 1.75rem);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .mc-hero__proof li {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: baseline;
   gap: 0.5rem;
   color: var(--mc-muted);
@@ -467,7 +515,7 @@
   line-height: 1.45;
 }
 
-.mc-hero__proof b {
+.mc-hero__proof .mc-hero__num {
   color: var(--mc-green);
   font-size: 0.665rem;
   font-weight: 650;
@@ -506,41 +554,86 @@
   border-radius: 0.4rem;
 }
 
+.mc-hero__stage :is(a, button):focus-visible {
+  outline-color: var(--mc-lime-bright);
+}
+
 /* ==================================================================
    DESKTOP
-   Dvojstrana dostane celú výšku okna až tam, kde má na to priestor.
+   Dve plochy vedľa seba. Scéna vyteká za pravú hranu okna, takže hero
+   prestane pôsobiť ako obsah v rámčeku.
    ================================================================== */
 
 @media (min-width: 62rem) {
   .mc-hero {
+    --mc-pad: 2.5rem;
+    --mc-shape: clamp(2rem, 2.6vw, 2.75rem);
+    --mc-foot: 0.5rem;
+
     min-height: calc(100svh - var(--site-header-h, 5.5rem));
   }
 
   .mc-hero__inner {
-    padding-inline: 2.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.68fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: clamp(2rem, 3.8vw, 4.25rem);
   }
 
-  .mc-hero__lead {
-    margin-left: 0;
+  .mc-hero__masthead {
+    grid-area: 1 / 1;
+  }
+
+  .mc-hero__claim {
+    grid-area: 2 / 1;
+  }
+
+  .mc-hero__foot {
+    grid-area: 3 / 1;
+  }
+
+  /* Scéna drží celú výšku vnútra a pokračuje za pravú hranu okna.
+     Odsadenie počíta vzdialenosť od obsahu k okraju, takže sedí na
+     každej šírke bez ďalšieho zásahu. */
+  .mc-hero__stage {
+    grid-area: 1 / 2 / 4 / 3;
+    margin-right: calc(-1 * ((100vw - min(var(--mc-shell), 100vw)) / 2 + var(--mc-pad)));
+    padding-right: calc(
+      clamp(1.4rem, 2.6vw, 2.1rem) + (100vw - min(var(--mc-shell), 100vw)) / 2 + var(--mc-pad)
+    );
+    border-radius: var(--mc-shape) 0 0 var(--mc-shape);
+  }
+
+  /* Výber ostáva hore, rozhovor sa usadí na dno a pod ním stojí riadok
+     na písanie. Prázdno je teda medzi nimi, nie pod obsahom — presne
+     tak, ako sa správa chat, do ktorého ešte len prídu ďalšie správy. */
+  .mc-hero__stage {
+    align-self: center;
+    align-content: stretch;
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+    height: min(100%, 44rem);
+  }
+
+  .mc-hero__panel {
+    align-content: end;
   }
 }
 
 @media (min-width: 48rem) and (max-width: 61.999rem) {
-  .mc-hero__inner {
-    padding-inline: 2rem;
+  .mc-hero {
+    --mc-pad: 2rem;
   }
 }
 
 /* ==================================================================
    TABLET A MOBIL
-   Nie zmenšený desktop. Dvojstrana sa rozpojí na dve kapitoly pod
-   sebou, zvislá linka sa zmení na vodorovnú a index ostáva index.
+   Nie zmenšený desktop. Scéna sa presunie pod tvrdenie ako samostatná
+   plocha so všetkými štyrmi zaobleniami — na dotyk pôsobí lepšie
+   vsadená než zarazená do hrany.
    ================================================================== */
 
 @media (max-width: 61.999rem) {
-  .mc-hero__grid {
+  .mc-hero__inner {
     grid-template-columns: minmax(0, 1fr);
-    row-gap: clamp(2rem, 5vh, 3rem);
   }
 
   .mc-hero__claim {
@@ -548,48 +641,27 @@
     max-width: 34rem;
   }
 
-  /* Zvislá linka dvojstrany sa mení na vodorovný predel kapitoly. */
-  .mc-hero__evidence {
-    align-content: start;
-    padding-left: 0;
-    padding-top: clamp(1.4rem, 3.5vh, 2rem);
-    border-top: 1px solid var(--mc-line);
-  }
-
-  .mc-hero__evidence::before {
-    content: none;
-  }
-
   .mc-hero h1 {
-    font-size: clamp(2.55rem, 7.6vw, 4.4rem);
+    font-size: clamp(2.55rem, 7.4vw, 4.3rem);
+  }
+
+  .mc-hero__stage {
+    margin-top: clamp(0.5rem, 2vh, 1.25rem);
   }
 }
 
 @media (max-width: 40rem) {
+  .mc-hero {
+    --mc-gap: 1.5rem;
+    --mc-shape: 1.5rem;
+  }
+
   .mc-hero__inner {
-    --mc-gap: 1.6rem;
     padding-block: 1.6rem 2rem;
   }
 
-  /* Masthead sa na 390 px nedelí na dva stĺpce — kicker by sa lámal
-     do troch riadkov a narážal by do pravého popisku. */
-  .mc-hero__masthead {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 0.4rem;
-  }
-
-  .mc-hero__kicker {
-    font-size: 0.63rem;
-    letter-spacing: 0.13em;
-  }
-
-  .mc-hero__origin {
-    font-size: 0.63rem;
-    letter-spacing: 0.13em;
-  }
-
   .mc-hero h1 {
-    font-size: clamp(2.5rem, 10.4vw, 3.1rem);
+    font-size: clamp(2.5rem, 10.2vw, 3.05rem);
     letter-spacing: -0.045em;
   }
 
@@ -611,11 +683,16 @@
     padding-inline: 1.6rem;
   }
 
-  /* Tichá akcia ostáva textom na linke, nie druhým pásom cez celú šírku.
-     Šípka drží pri texte, aby podčiarknutie sedelo pod oboma. */
-  .mc-hero__ghost {
-    align-self: start;
-    padding-inline: 0.15rem;
+  /* Masthead sa na 390 px nedelí na dva stĺpce — kicker by sa lámal
+     do troch riadkov a narážal by do pravého popisku. */
+  .mc-hero__masthead {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.4rem;
+  }
+
+  .mc-hero__kicker {
+    font-size: 0.63rem;
+    letter-spacing: 0.13em;
   }
 
   /* Pôvod je na 390 px zbytočný riadok verzálok navyše: stránka je po
@@ -624,19 +701,12 @@
     display: none;
   }
 
-  .mc-hero__turn,
-  .mc-hero__result {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.2rem;
-  }
-
-  .mc-hero__turn-who,
-  .mc-hero__result-who {
-    line-height: 1.4;
+  .mc-hero__bubble {
+    max-width: 92%;
   }
 
   .mc-hero__proof {
-    flex-direction: column;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.5rem;
   }
 
@@ -647,6 +717,17 @@
 
   .mc-hero__cue {
     justify-self: start;
+  }
+}
+
+/* Veľmi úzke obrazovky. Výber ostáva v dvoch stĺpcoch — v jednom by mal
+   štyri riadky a zabral by pol obrazovky. Zmestí sa tesnejším rezom, nie
+   skráteným popisom. */
+@media (max-width: 26rem) {
+  .mc-hero__pick {
+    grid-template-columns: 1.4rem minmax(0, 1fr);
+    padding-inline: 0.6rem;
+    font-size: 0.865rem;
   }
 }
 
@@ -666,9 +747,5 @@
   .mc-hero__masthead-rule,
   .mc-hero__foot-rule {
     transform: none;
-  }
-
-  .mc-hero__ghost::after {
-    transform: scaleX(1);
   }
 }

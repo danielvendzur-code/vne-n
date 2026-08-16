@@ -3,7 +3,12 @@
 
    Vlastník: BrandIntro.tsx. Nič iné do týchto tried nesiaha a táto
    vrstva nesiaha nikam von — jediná výnimka je farba ťahu loga, ktorú
-   staršia identitná vrstva nastavuje globálne na limetkovú.
+   staršia identitná vrstva nastavuje globálne.
+
+   Opona je tmavá lesná. Web je biely, takže zdvih opony je zároveň
+   prechod z tmavej do svetlej — a to je na značke to najsilnejšie, čo
+   sa dá z dvoch farieb identity vyťažiť. Biela opona na bielom webe
+   žiadny prechod nemala.
 
    Časovanie od prvého vykreslenia stránky, nie od pripojenia Reactu —
    opona je súčasťou HTML zo servera a pohyb je celý tu (spolu 1960 ms):
@@ -22,7 +27,7 @@
   z-index: 9999;
   display: grid;
   place-items: center;
-  background: #ffffff;
+  background: #0b2f20;
   will-change: transform;
   animation: mc-intro-lift 720ms cubic-bezier(0.76, 0, 0.24, 1) 1240ms both;
 }
@@ -60,10 +65,15 @@
   animation: mc-intro-mark-settle 620ms cubic-bezier(0.22, 1, 0.36, 1) 760ms both;
 }
 
-/* Staršia identitná vrstva drží každú značku v limetkovej. Na bielej
-   opone by mala kontrast 1,4 : 1, takže úvod si berie tmavú zelenú. */
+/* Staršia identitná vrstva drží každú značku v limetkovej cez `!important`.
+   Na lesnej opone je to presne tá farba, ktorú chceme, ale spoliehať sa na
+   cudziu vrstvu by znamenalo, že úvod zhasne, keď ju niekto zmení. */
 html:root body .site-theme-white-green .mc-intro__mark .brand-mark {
-  color: #19834f !important;
+  color: #d9ff78 !important;
+  /* Staršia vrstva pridáva značke limetkovú žiaru. Na tmavej opone z nej
+     je presne ten „magic glow", ktorému sa má web vyhnúť — ťah má byť
+     ostrý, nie rozmazaný. */
+  filter: none !important;
 }
 
 .mc-intro__mark .brand-mark__stroke {
@@ -73,7 +83,7 @@ html:root body .site-theme-white-green .mc-intro__mark .brand-mark {
 }
 
 .mc-intro__word {
-  color: #0b2f20;
+  color: #ffffff;
   font-family: var(--font-display, "Inter Tight", Inter, sans-serif);
   font-size: clamp(2.1rem, 5.4vw, 3.4rem);
   font-weight: 400;
@@ -92,7 +102,7 @@ html:root body .site-theme-white-green .mc-intro__mark .brand-mark {
   display: block;
   width: min(20rem, 62vw);
   height: 1px;
-  background: rgba(11, 47, 32, 0.22);
+  background: rgba(217, 255, 120, 0.42);
   transform: scaleX(0);
   transform-origin: left center;
   animation: mc-intro-rule 520ms cubic-bezier(0.22, 1, 0.36, 1) 600ms both;

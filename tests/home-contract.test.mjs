@@ -246,10 +246,22 @@ test("the hero is one owned layer, not another override", async () => {
   assert.doesNotMatch(hero, /lp-assistant-card|lp-hero-pick|lp-hero-glow|GlideField/);
   assert.doesNotMatch(css, /backdrop-filter|blur\(|radial-gradient/);
 
+  // Tmavá scéna je plocha zarazená do hrany okna, nie karta v mriežke.
+  assert.match(css, /background: var\(--mc-ink\)/);
+  assert.match(css, /margin-right: calc\(-1 \* \(\(100vw - min\(var\(--mc-shell\)/);
+
+  // Jeden tvarový systém odvodený od bubliny v logu: tri polomery a pätka.
+  assert.match(css, /--mc-shape:/);
+  assert.match(css, /--mc-foot:/);
+  assert.match(
+    css,
+    /border-radius: var\(--mc-shape\) var\(--mc-shape\) var\(--mc-shape\) var\(--mc-foot\)/,
+  );
+
   // Typy riešení ostávajú všetky štyri, len ako číslovaný index. Štvrtý
   // je e-shop: objednávky, vrátenie a reklamácie sú vlastný prípad
   // použitia a donedávna ho do hero dopisovala runtime vrstva.
-  assert.match(hero, /className="mc-hero__index-item"/);
+  assert.match(hero, /className="mc-hero__pick"/);
   for (const label of ["Chatbot", "Kalkulačka", "Konfigurátor", "E-shop"]) {
     assert.match(hero, new RegExp(`label: "${label}"`));
   }
@@ -285,6 +297,10 @@ test("the brand intro plays once, from first paint, and never traps the page", a
   // prvom vykreslení — nie až keď sa pripojí React. Inak by návštevník
   // na okamih uvidel hotové hero a opona by naň spadla až potom.
   assert.match(css, /@keyframes mc-intro-draw/);
+  // Opona je lesná, takže jej zdvih je zároveň prechod tmavá → biela.
+  assert.match(css, /\.mc-intro \{[\s\S]*background: #0b2f20/);
+  // Ťah loga je ostrý. Staršia vrstva mu inak pridáva limetkovú žiaru.
+  assert.match(css, /filter: none !important/);
   assert.match(css, /@keyframes mc-intro-lift/);
   assert.match(css, /stroke-dashoffset/);
   assert.doesNotMatch(intro, /setTimeout\(/);
@@ -356,9 +372,13 @@ test("approved buttons and one-layer details remain mounted", async () => {
   // Hero má jednu plnú akciu a jednu tichú. Triedy sa presťahovali spolu
   // s hero do vlastného komponentu; podmienka je stále tá istá — dve
   // akcie, nie osem.
+  // Vľavo stojí jediná plná akcia. Sekundárna je riadok na písanie na
+  // dne scény — tá istá akcia dvakrát by bola súťaž, nie ponuka.
   assert.match(hero, /className="mc-hero__cta"/);
-  assert.match(hero, /className="mc-hero__ghost"/);
   assert.equal((hero.match(/className="mc-hero__cta"/g) ?? []).length, 1);
+  assert.match(hero, /className="mc-hero__ask"/);
+  assert.match(hero, /aria-label="Vyskúšať chatbota naživo"/);
+  assert.doesNotMatch(hero, /mc-hero__ghost/);
   assert.doesNotMatch(landing, /lp-button-bloom/);
   assert.doesNotMatch(landing, /lp-bloom-dot/);
   assert.doesNotMatch(landing, /<p>\{copy\}<\/p>\s*<p>\{copy\}<\/p>/);

@@ -15,11 +15,15 @@ import "./SignatureHero.css";
  * Vlastník tried `mc-hero-*` je tento súbor a `SignatureHero.css` —
  * nič iné do nich nesiaha, takže sa dá zmeniť na jednom mieste.
  *
- * Kompozícia je editorial dvojstrana: vľavo tvrdenie, vpravo dôkaz,
- * medzi nimi jedna vlasová linka cez celú výšku. Dôkaz nie je karta ani
- * widget, ale reálny prepis rozhovoru vysádzaný priamo na strane —
- * návštevník za pár sekúnd vidí, čo nástroj urobí a čo z toho firme
- * príde. Typy riešení sú číslovaný index na linke, nie štyri pilulky.
+ * Kompozícia stojí na kontraste dvoch plôch. Vľavo biela strana s
+ * obrovským tvrdením, vpravo tmavá lesná scéna, ktorá vyteká za pravú
+ * hranu okna. Scéna nie je karta v mriežke — je to plocha zarazená do
+ * okraja, na ktorej beží samotný produkt: návštevník vyberie, čo má web
+ * robiť, a hneď vidí rozhovor aj to, čo z neho firme príde.
+ *
+ * Tvar bublín je odvodený od značky: tri zaoblené rohy a jeden ostrý
+ * v mieste, kde má logo pätku bubliny. Rovnaký tvar používa scéna aj
+ * riadky výberu, takže je to systém, nie ozdoba.
  */
 export type LandingVariant = "public" | "client";
 
@@ -123,11 +127,7 @@ const heroCopy = {
   }
 >;
 
-const proof = [
-  "Reálne nasadené weby, nie makety",
-  "Vlastná logika podľa vašej firmy",
-  "Od návrhu po nasadenie s naším tímom",
-];
+const proof = ["Reálne nasadené weby", "Logika podľa vašej firmy", "Od návrhu po nasadenie"];
 
 /**
  * Riadok nadpisu sa neodkrýva priehľadnosťou, ale zotretím spoza hrany —
@@ -158,36 +158,59 @@ const claimGroup: Variants = {
   visible: { transition: { staggerChildren: 0.075, delayChildren: 0.08 } },
 };
 
-const evidenceGroup: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.34 } },
+/**
+ * Scéna nepribehne — vysunie sa spoza pravej hrany okna, kam aj patrí.
+ * Je to jeden z dvoch výraznejších momentov na stránke; všetko ostatné
+ * je subtílne.
+ */
+const stageArrive: Variants = {
+  hidden: { x: "12%", opacity: 0 },
+  visible: {
+    x: "0%",
+    opacity: 1,
+    transition: { duration: 0.92, ease: premiumEase, delay: 0.24, staggerChildren: 0.07 },
+  },
 };
 
 function Thread({ scenario, still }: { scenario: Scenario; still: boolean }) {
   return (
-    <motion.ol
-      className="mc-hero__thread"
-      key={scenario.key}
-      initial={still ? false : "hidden"}
-      animate="visible"
-      variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.11 } } }}
-    >
-      {scenario.turns.map((turn) => (
-        <motion.li
-          key={turn.text}
-          className="mc-hero__turn"
-          data-who={turn.who === "Chatbot" ? "bot" : "customer"}
-          variants={riseItem}
-        >
-          <span className="mc-hero__turn-who">{turn.who}</span>
-          <span className="mc-hero__turn-text">{turn.text}</span>
-        </motion.li>
-      ))}
-      <motion.li className="mc-hero__result" variants={riseItem}>
+    <div className="mc-hero__demo" key={scenario.key}>
+      <motion.ol
+        className="mc-hero__thread"
+        initial={still ? false : "hidden"}
+        animate="visible"
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+      >
+        {scenario.turns.map((turn) => (
+          <motion.li
+            key={turn.text}
+            className="mc-hero__turn"
+            data-who={turn.who === "Chatbot" ? "bot" : "customer"}
+            variants={{
+              hidden: { opacity: 0, y: 12, scale: 0.985 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { duration: 0.42, ease: premiumEase },
+              },
+            }}
+          >
+            <span className="mc-hero__bubble">{turn.text}</span>
+          </motion.li>
+        ))}
+      </motion.ol>
+
+      <motion.div
+        className="mc-hero__result"
+        initial={still ? false : { opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.52, ease: premiumEase, delay: still ? 0 : 0.5 }}
+      >
         <span className="mc-hero__result-who">Vám príde</span>
         <span className="mc-hero__result-text">{scenario.result}</span>
-      </motion.li>
-    </motion.ol>
+      </motion.div>
+    </div>
   );
 }
 
@@ -201,14 +224,14 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
     scenarios.findIndex((item) => item.key === active),
   );
   const scenario = scenarios[activeIndex] ?? scenarios[0];
-  const indexRef = useRef<HTMLDivElement>(null);
+  const pickerRef = useRef<HTMLDivElement>(null);
 
   /**
-   * Index je prepínač kariet, takže sa po ňom chodí šípkami, nie tabulátorom —
+   * Výber je prepínač kariet, takže sa po ňom chodí šípkami, nie tabulátorom —
    * tabulátor z neho vyskočí rovno na obsah. Bez tohto by sa klávesnicou dal
    * vybrať len ten scenár, ktorý je práve otvorený.
    */
-  const onIndexKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  const onPickerKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const step =
       event.key === "ArrowRight" || event.key === "ArrowDown"
         ? 1
@@ -224,18 +247,18 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
 
     event.preventDefault();
     setActive(scenarios[next].key);
-    indexRef.current?.querySelectorAll<HTMLButtonElement>("button")[next]?.focus();
+    pickerRef.current?.querySelectorAll<HTMLButtonElement>("button")[next]?.focus();
   };
 
-  // Hero neodchádza ako jedna doska: tvrdenie stúpa rýchlejšie než dôkaz,
-  // takže dvojstrana má pri odchode hĺbku. Hodnoty idú cez pružinu, aby
-  // pohyb nekopíroval trhanie kolieska myši.
+  // Hero neodchádza ako jedna doska: tvrdenie stúpa rýchlejšie než scéna,
+  // takže má odchod hĺbku. Hodnoty idú cez pružinu, aby pohyb nekopíroval
+  // trhanie kolieska myši.
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
-  const claimY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -96]);
-  const evidenceY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -46]);
-  const fade = useTransform(smooth, [0, 0.82], [1, reducedMotion ? 1 : 0]);
+  const claimY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -104]);
+  const stageY = useTransform(smooth, [0, 1], [0, reducedMotion ? 0 : -44]);
+  const fade = useTransform(smooth, [0, 0.86], [1, reducedMotion ? 1 : 0]);
 
   // Pri vypnutých animáciách je všetko na mieste už pri prvom vykreslení.
   const still = reducedMotion;
@@ -251,108 +274,137 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
         >
           <motion.span className="mc-hero__masthead-rule" variants={ruleDraw} />
-          <motion.p className="mc-hero__kicker" variants={riseItem}>
+          <motion.span className="mc-hero__kicker" variants={riseItem}>
             {copy.kicker}
-          </motion.p>
-          <motion.p className="mc-hero__origin" variants={riseItem}>
+          </motion.span>
+          <motion.span className="mc-hero__origin" variants={riseItem}>
             Na mieru · Slovensko
-          </motion.p>
+          </motion.span>
         </motion.header>
 
-        <div className="mc-hero__grid">
+        <motion.div
+          className="mc-hero__claim"
+          initial={still ? false : "hidden"}
+          animate={state}
+          variants={claimGroup}
+          style={{ y: claimY, opacity: fade }}
+        >
+          <h1 aria-label={copy.aria}>
+            {copy.lines.map((line, position) => (
+              <span className="mc-hero__line" aria-hidden="true" key={line}>
+                <motion.span
+                  className="mc-hero__line-inner"
+                  data-accent={position === copy.lines.length - 1}
+                  variants={claimLine}
+                >
+                  {line}
+                </motion.span>
+              </span>
+            ))}
+          </h1>
+
+          <motion.p className="mc-hero__lead" variants={riseItem}>
+            {copy.lead}
+          </motion.p>
+
+          <motion.div className="mc-hero__actions" variants={riseItem}>
+            <Link to={copy.primary.to} className="mc-hero__cta">
+              <span>{copy.primary.label}</span>
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        <motion.aside
+          className="mc-hero__stage"
+          initial={still ? false : "hidden"}
+          animate={state}
+          variants={stageArrive}
+          style={{ y: stageY, opacity: fade }}
+        >
+          <motion.div className="mc-hero__picker-head" variants={riseItem}>
+            <span className="mc-hero__stage-label" id="mc-hero-picker-label">
+              Čo má web robiť
+            </span>
+            <span className="mc-hero__stage-count" aria-hidden="true">
+              {scenario.index}
+              <i>/ 04</i>
+            </span>
+          </motion.div>
+
           <motion.div
-            className="mc-hero__claim"
-            initial={still ? false : "hidden"}
-            animate={state}
-            variants={claimGroup}
-            style={{ y: claimY, opacity: fade }}
+            className="mc-hero__picker"
+            role="tablist"
+            aria-labelledby="mc-hero-picker-label"
+            ref={pickerRef}
+            onKeyDown={onPickerKeyDown}
+            variants={riseItem}
           >
-            <h1 aria-label={copy.aria}>
-              {copy.lines.map((line, position) => (
-                <span className="mc-hero__line" aria-hidden="true" key={line}>
-                  <motion.span
-                    className="mc-hero__line-inner"
-                    data-accent={position === copy.lines.length - 1}
-                    variants={claimLine}
-                  >
-                    {line}
-                  </motion.span>
-                </span>
-              ))}
-            </h1>
-
-            <motion.p className="mc-hero__lead" variants={riseItem}>
-              {copy.lead}
-            </motion.p>
-
-            <motion.div className="mc-hero__actions" variants={riseItem}>
-              <Link to={copy.primary.to} className="mc-hero__cta">
-                <span>{copy.primary.label}</span>
-                <ArrowRight aria-hidden="true" />
-              </Link>
+            {scenarios.map((item) => (
               <button
                 type="button"
-                className="mc-hero__ghost"
-                onClick={() =>
-                  openSiteAssistant({ source: "hero-signature", preset: scenario.preset })
-                }
+                key={item.key}
+                role="tab"
+                id={`mc-hero-tab-${item.key}`}
+                aria-selected={item.key === active}
+                aria-controls="mc-hero-panel"
+                tabIndex={item.key === active ? 0 : -1}
+                className="mc-hero__pick"
+                data-active={item.key === active}
+                onClick={() => setActive(item.key)}
               >
-                <span>Vyskúšať chatbota</span>
-                <ArrowUpRight aria-hidden="true" />
+                {item.key === active && !still ? (
+                  // Podklad vybranej položky sa medzi riadkami presunie,
+                  // nezhasne a nerozsvieti sa. Jediná layout animácia v hero.
+                  <motion.span
+                    className="mc-hero__pick-fill"
+                    layoutId="mc-hero-pick-fill"
+                    transition={{ duration: 0.42, ease: premiumEase }}
+                  />
+                ) : null}
+                <span className="mc-hero__num">{item.index}</span>
+                <span>{item.label}</span>
               </button>
-            </motion.div>
+            ))}
           </motion.div>
+
+          <motion.span
+            className="mc-hero__note"
+            key={scenario.key}
+            initial={still ? false : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.34, ease: premiumEase }}
+          >
+            {scenario.note}
+          </motion.span>
 
           <motion.div
-            className="mc-hero__evidence"
-            initial={still ? false : "hidden"}
-            animate={state}
-            variants={evidenceGroup}
-            style={{ y: evidenceY, opacity: fade }}
+            className="mc-hero__panel"
+            id="mc-hero-panel"
+            role="tabpanel"
+            aria-labelledby={`mc-hero-tab-${scenario.key}`}
+            variants={riseItem}
           >
-            <motion.div className="mc-hero__index" variants={riseItem}>
-              <p className="mc-hero__index-label" id="mc-hero-index-label">
-                Čo má web robiť
-              </p>
-              <div
-                className="mc-hero__index-list"
-                role="tablist"
-                aria-labelledby="mc-hero-index-label"
-                ref={indexRef}
-                onKeyDown={onIndexKeyDown}
-              >
-                {scenarios.map((item) => (
-                  <button
-                    type="button"
-                    key={item.key}
-                    role="tab"
-                    id={`mc-hero-tab-${item.key}`}
-                    aria-selected={item.key === active}
-                    aria-controls="mc-hero-panel"
-                    tabIndex={item.key === active ? 0 : -1}
-                    className="mc-hero__index-item"
-                    data-active={item.key === active}
-                    onClick={() => setActive(item.key)}
-                  >
-                    <b>{item.index}</b>
-                    <span>{item.label}</span>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="mc-hero__panel"
-              id="mc-hero-panel"
-              role="tabpanel"
-              aria-labelledby={`mc-hero-tab-${scenario.key}`}
-              variants={riseItem}
-            >
-              <p className="mc-hero__note">{scenario.note}</p>
-              <Thread scenario={scenario} still={still} />
-            </motion.div>
+            <Thread scenario={scenario} still={still} />
           </motion.div>
-        </div>
+
+          {/* Sekundárna akcia. Nie je to formulár — je to tlačidlo, ktoré
+              otvorí naozajstného chatbota v režime vybraného scenára.
+              Na dne scény zároveň dáva ukážke dno, takže rozhovor stojí
+              na niečom, presne ako v hotovom produkte. */}
+          <motion.button
+            type="button"
+            className="mc-hero__ask"
+            aria-label="Vyskúšať chatbota naživo"
+            onClick={() => openSiteAssistant({ source: "hero-stage", preset: scenario.preset })}
+            variants={riseItem}
+          >
+            <span className="mc-hero__ask-text">Napíšte, čo potrebujete…</span>
+            <span className="mc-hero__ask-go" aria-hidden="true">
+              <ArrowUpRight />
+            </span>
+          </motion.button>
+        </motion.aside>
 
         <motion.footer
           className="mc-hero__foot"
@@ -368,8 +420,8 @@ export function SignatureHero({ variant }: { variant: LandingVariant }) {
           <ul className="mc-hero__proof">
             {proof.map((item, position) => (
               <motion.li key={item} variants={riseItem}>
-                <b>{`0${position + 1}`}</b>
-                {item}
+                <span className="mc-hero__num">{`0${position + 1}`}</span>
+                <span>{item}</span>
               </motion.li>
             ))}
           </ul>
