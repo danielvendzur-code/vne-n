@@ -1,0 +1,207 @@
+/* =====================================================================
+   HLAVIČKA V2
+   Plochá lišta, vlasová linka, jedna akcia. Žiadna plávajúca pilulka,
+   žiadny backdrop-filter — rozostrenie cez celú šírku je drahé a na
+   papierovom podklade aj tak nič nepridá.
+   ===================================================================== */
+
+.mc2-nav-sentinel {
+  position: absolute;
+  top: 0;
+  height: 1px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.mc2-nav {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--paper);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--base) linear;
+}
+
+.mc2-nav[data-scrolled="true"] {
+  border-bottom-color: var(--line);
+}
+
+.mc2-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 4.4rem;
+}
+
+.mc2-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 620;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+/* Farbu značky nastavuje `legacy-isolation.css` — stará vrstva ju drží
+   cez `!important` a bez rovnakej zbrane sa prebiť nedá. Tu ostáva len
+   prechod. */
+.mc2-nav__brand .brand-mark {
+  transition: color var(--base) var(--ease);
+}
+
+.mc2-nav__links {
+  display: none;
+  align-items: center;
+  gap: clamp(1.25rem, 2.6vw, 2.4rem);
+}
+
+.mc2-nav__link {
+  position: relative;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 540;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  transition: color var(--fast) linear;
+}
+
+.mc2-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.45rem;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--base) var(--ease);
+}
+
+.mc2-nav__link:is(:hover, :focus-visible) {
+  color: var(--ink);
+}
+
+.mc2-nav__link:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+
+.mc2-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mc2-nav__cta {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.6rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: var(--pill);
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 0.865rem;
+  font-weight: 620;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  transition: background-color var(--base) var(--ease);
+}
+
+.mc2-nav__cta svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  transition: transform var(--base) var(--ease);
+}
+
+.mc2-nav__cta:is(:hover, :focus-visible) {
+  background: var(--green);
+}
+
+.mc2-nav__cta:is(:hover, :focus-visible) svg {
+  transform: translateX(0.18rem);
+}
+
+.mc2-nav__toggle {
+  min-height: 2.6rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--pill);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 620;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: border-color var(--fast) linear;
+}
+
+.mc2-nav__toggle:is(:hover, :focus-visible) {
+  border-color: var(--ink);
+}
+
+@media (min-width: 62rem) {
+  .mc2-nav__links,
+  .mc2-nav__cta {
+    display: inline-flex;
+  }
+
+  .mc2-nav__toggle {
+    display: none;
+  }
+}
+
+/* ---- zásuvka na úzkych obrazovkách ------------------------------- */
+
+.mc2-nav__drawer {
+  position: fixed;
+  inset: 4.4rem 0 0;
+  z-index: 55;
+  padding: var(--pad);
+  background: var(--paper);
+  overflow-y: auto;
+}
+
+.mc2-nav__drawer nav {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.mc2-nav__drawer-link {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 1.55rem;
+  font-weight: 520;
+  letter-spacing: -0.038em;
+  text-decoration: none;
+  animation: mc2-drawer-in var(--base) var(--ease) both;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+.mc2-nav__drawer-link b {
+  color: var(--quiet);
+  font-size: 0.665rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+@keyframes mc2-drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

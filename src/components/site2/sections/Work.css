@@ -1,0 +1,177 @@
+/* =====================================================================
+   REALIZÁCIE
+   Jedna hlavná štúdia cez celú šírku a pod ňou editorial riadky.
+   Screenshoty sú veľké a reálne — projekt má vyzerať ako projekt.
+   ===================================================================== */
+
+.mc2-work {
+  padding-block: var(--band);
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 5rem;
+}
+
+.mc2-work__head {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* ---- hlavná štúdia ------------------------------------------------ */
+
+.mc2-work__lead {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: clamp(3rem, 7vw, 5.5rem);
+}
+
+.mc2-work__lead-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--arch) var(--shape) var(--shape) var(--shape);
+  background: var(--paper-deep);
+  aspect-ratio: 16 / 10;
+}
+
+.mc2-work__lead-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform var(--slow) var(--ease);
+}
+
+.mc2-work__lead-media:is(:hover, :focus-visible) img {
+  transform: scale(1.02);
+}
+
+.mc2-work__badge {
+  position: absolute;
+  top: clamp(1rem, 2vw, 1.6rem);
+  left: clamp(1rem, 2vw, 1.6rem);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--pill);
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 0.62rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mc2-work__lead-copy {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  max-width: 42rem;
+}
+
+.mc2-work__index {
+  color: var(--quiet);
+  font-size: 0.665rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mc2-work :is(h3) {
+  color: var(--ink);
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.mc2-work__type {
+  color: var(--green);
+  font-size: 0.79rem;
+  font-weight: 620;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mc2-work__detail {
+  max-width: 40rem;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+.mc2-work__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(1.25rem, 3vw, 2.5rem);
+  margin-top: 0.35rem;
+}
+
+.mc2-work__actions svg,
+.mc2-work__row-copy .mc2-quiet svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* ---- ďalšie projekty ---------------------------------------------- */
+
+.mc2-work__rest {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.mc2-work__row {
+  display: grid;
+  gap: clamp(1.1rem, 2.5vw, 2rem);
+  padding-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--line);
+}
+
+.mc2-work__row-media {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--shape);
+  background: var(--paper-deep);
+  aspect-ratio: 3 / 2;
+}
+
+.mc2-work__row-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform var(--slow) var(--ease);
+}
+
+.mc2-work__row-media:is(:hover, :focus-visible) img {
+  transform: scale(1.03);
+}
+
+.mc2-work__row-copy {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+@media (min-width: 62rem) {
+  .mc2-work__lead {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    align-items: end;
+  }
+
+  .mc2-work__lead-media {
+    aspect-ratio: 16 / 11;
+  }
+
+  /* Nepárne riadky majú obraz vpravo. Striedanie drží rytmus a zabráni
+     tomu, aby zoznam vyzeral ako tabuľka. */
+  .mc2-work__row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .mc2-work__row:nth-child(even) .mc2-work__row-media {
+    order: 2;
+  }
+}

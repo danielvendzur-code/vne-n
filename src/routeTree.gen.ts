@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as V2RouteImport } from './routes/v2'
 import { Route as SluzbyRouteImport } from './routes/sluzby'
 import { Route as PrecoChatbotRouteImport } from './routes/preco-chatbot'
 import { Route as PostupRouteImport } from './routes/postup'
@@ -24,6 +25,11 @@ import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
 import { Route as ProjektyDeratRouteImport } from './routes/projekty.derat'
 import { Route as ApiLeadRouteImport } from './routes/api.lead'
 
+const V2Route = V2RouteImport.update({
+  id: '/v2',
+  path: '/v2',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SluzbyRoute = SluzbyRouteImport.update({
   id: '/sluzby',
   path: '/sluzby',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
+  '/v2': typeof V2Route
   '/api/lead': typeof ApiLeadRoute
   '/projekty/derat': typeof ProjektyDeratRoute
   '/projekty/': typeof ProjektyIndexRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
+  '/v2': typeof V2Route
   '/api/lead': typeof ApiLeadRoute
   '/projekty/derat': typeof ProjektyDeratRoute
   '/projekty': typeof ProjektyIndexRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/postup': typeof PostupRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
+  '/v2': typeof V2Route
   '/api/lead': typeof ApiLeadRoute
   '/projekty/derat': typeof ProjektyDeratRoute
   '/projekty/': typeof ProjektyIndexRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/postup'
     | '/preco-chatbot'
     | '/sluzby'
+    | '/v2'
     | '/api/lead'
     | '/projekty/derat'
     | '/projekty/'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/postup'
     | '/preco-chatbot'
     | '/sluzby'
+    | '/v2'
     | '/api/lead'
     | '/projekty/derat'
     | '/projekty'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/postup'
     | '/preco-chatbot'
     | '/sluzby'
+    | '/v2'
     | '/api/lead'
     | '/projekty/derat'
     | '/projekty/'
@@ -207,6 +219,7 @@ export interface RootRouteChildren {
   PostupRoute: typeof PostupRoute
   PrecoChatbotRoute: typeof PrecoChatbotRoute
   SluzbyRoute: typeof SluzbyRoute
+  V2Route: typeof V2Route
   ApiLeadRoute: typeof ApiLeadRoute
   ProjektyDeratRoute: typeof ProjektyDeratRoute
   ProjektyIndexRoute: typeof ProjektyIndexRoute
@@ -214,6 +227,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/v2': {
+      id: '/v2'
+      path: '/v2'
+      fullPath: '/v2'
+      preLoaderRoute: typeof V2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sluzby': {
       id: '/sluzby'
       path: '/sluzby'
@@ -327,6 +347,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostupRoute: PostupRoute,
   PrecoChatbotRoute: PrecoChatbotRoute,
   SluzbyRoute: SluzbyRoute,
+  V2Route: V2Route,
   ApiLeadRoute: ApiLeadRoute,
   ProjektyDeratRoute: ProjektyDeratRoute,
   ProjektyIndexRoute: ProjektyIndexRoute,

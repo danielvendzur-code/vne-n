@@ -1,0 +1,53 @@
+/* =====================================================================
+   IZOLÁCIA OD STAREJ KASKÁDY
+
+   Nová stránka síce obchádza `SiteLayout`, ale to zastaví len triedy
+   v DOM — nie CSS. Vite zloží štýly celého modulového grafu do jedného
+   balíka, takže 78 starých vrstiev sa načíta na každej route vrátane
+   tejto. Namerané: 1 743 z 3 536 pravidiel na stránke pochádza zo
+   starého webu.
+
+   Drvivá väčšina z nich je zaviazaná na `.site-theme-white-green`,
+   `.lp-page` a podobné korene, ktoré na novom webe neexistujú — tie
+   teda nesadnú na nič. Presakujú iba pravidlá mierené na `html`, `body`
+   a na `.brand-mark`, a tie tu neutralizujeme.
+
+   Toto je jediné miesto v celej vrstve `site2`, kde je `!important`
+   (okrem vypnutia pohybu pri `prefers-reduced-motion` v `tokens.css`).
+   Je to obrana proti cudziemu `!important`, nie útok — a keď sa staré
+   vrstvy raz odstránia, celý tento súbor zmizne bez náhrady.
+
+   Správne riešenie je nenačítať staré CSS vôbec: `SiteLayout` načítať
+   dynamicky, aby jeho štýly išli do vlastného chunku. To je zásah do
+   `Layout.tsx`, ktorý dnes stráži kontrakt v `home-contract.test.mjs`,
+   takže patrí až k prepnutiu `/` na novú verziu.
+   ===================================================================== */
+
+/* Stará vrstva maľuje `body` na bielo a kladie naň dva fixné prekryvy
+   s limetkovými gradientmi (`body::before`, `body::after`). Neodstraňujeme
+   ich — nová plocha si maľuje vlastné pozadie a leží nad nimi. */
+.mc2 {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  background: var(--paper);
+}
+
+/* Značka. Staršia identitná vrstva ju cez `!important` drží v limetkovej
+   pre celý dokument vrátane žiary pod ňou. Na novom webe má logo farbu
+   podľa plochy, na ktorej stojí, a ťah je ostrý. */
+.mc2 .brand-mark {
+  filter: none !important;
+}
+
+.mc2-nav__brand .brand-mark {
+  color: var(--green) !important;
+}
+
+.mc2-nav__brand:is(:hover, :focus-visible) .brand-mark {
+  color: var(--ink) !important;
+}
+
+.mc2-footer__brand .brand-mark {
+  color: var(--on-dark) !important;
+}

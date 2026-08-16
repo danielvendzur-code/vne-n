@@ -1,0 +1,367 @@
+/* =====================================================================
+   MÔJ CHATBOT — DIZAJNOVÝ SYSTÉM V2
+
+   Jediný zdroj farieb, typografie, tvarov a časovania pre nový web.
+   Všetko pod `.mc2` — nič z tejto vrstvy neuniká do starého webu a nič
+   zo starého webu sem nemá ako doliezť, pretože nová stránka obchádza
+   `SiteLayout` a jeho 78 vrstiev.
+
+   Preto tu nie je `!important` nikde okrem jediného miesta na konci
+   súboru, kde vypína pohyb pri `prefers-reduced-motion`. Tam je namieste:
+   prístupnosť má prebiť čokoľvek, čo si komponent nastaví sám.
+
+   ---------------------------------------------------------------------
+   FARBA
+   Dve plochy, na každej jediný akcent. Nič viac.
+
+     papier   #f7f7f4   strana. Nie klinická biela — tá na celej ploche
+                        svieti a voči tmavej robí zbytočne tvrdý rez
+     lesná    #0b2f20   text na papieri a zároveň celá tmavá plocha
+     smaragd  #19834f   jediný akcent na papieri
+     biela    #ffffff   jediný akcent na tmavej
+
+   Svetlozelená v systéme nie je. Na tmavej si konkurovala s lesnou pod
+   sebou a ani jedna nevyhrávala.
+
+   ---------------------------------------------------------------------
+   TVAR
+   Odvodený zo značky: bublina v logu má tri zaoblené rohy a pätku.
+   Rovnaký zápis nesie každý povrch. Oblúk je rádovo väčší a patrí len
+   veľkým plochám — je to podpis, nie výplň.
+
+   ---------------------------------------------------------------------
+   POHYB
+   Jedna krivka, tri trvania. Viac ich netreba a viac ich znamená, že sa
+   web nehýbe jednou rukou.
+   ===================================================================== */
+
+.mc2 {
+  /* ---- plocha ---- */
+  --paper: #f7f7f4;
+  --paper-deep: #efefea;
+  --ink: #0b2f20;
+  --green: #19834f;
+  --green-deep: #126b41;
+  --muted: #545f57;
+  --quiet: #5c665e;
+  --line: rgba(11, 47, 32, 0.12);
+  --line-strong: rgba(11, 47, 32, 0.22);
+
+  /* ---- tmavá plocha: hierarchiu robí sila bielej, nie ďalšia farba ---- */
+  --on-dark: #ffffff;
+  --on-dark-quiet: #a8c1b3;
+  --on-dark-line: rgba(255, 255, 255, 0.14);
+  --on-dark-edge: rgba(255, 255, 255, 0.09);
+  --on-dark-fill: rgba(255, 255, 255, 0.055);
+  --on-dark-fill-strong: rgba(255, 255, 255, 0.09);
+
+  /* ---- tvar ---- */
+  --shape: 1.75rem;
+  --foot: 0.35rem;
+  --arch: 3rem;
+  --pill: 999px;
+
+  /* ---- mriežka ---- */
+  --shell: 1560px;
+  --pad: 1.375rem;
+  --gap: clamp(1.5rem, 3.4vh, 2.6rem);
+  --band: clamp(4.5rem, 9vh, 8rem);
+
+  /* ---- pohyb ---- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 220ms;
+  --base: 420ms;
+  --slow: 720ms;
+
+  /* ---- poloha kurzora nad plochou, −1 až 1 ---- */
+  --px: 0;
+  --py: 0;
+
+  color: var(--ink);
+  font-family: "Inter Tight", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 48rem) {
+  .mc2 {
+    --pad: 2rem;
+  }
+}
+
+@media (min-width: 62rem) {
+  .mc2 {
+    --pad: 2.5rem;
+    --shape: clamp(2rem, 2.6vw, 2.75rem);
+    --foot: 0.5rem;
+    --arch: clamp(4.5rem, 8vw, 9rem);
+  }
+}
+
+/* ==================================================================
+   ZÁKLAD
+   ================================================================== */
+
+.mc2 *,
+.mc2 *::before,
+.mc2 *::after {
+  box-sizing: border-box;
+}
+
+/* Celý selektor je v `:where()`, takže má špecificitu nula. Reset má byť
+   najslabšie pravidlo v systéme — s `:is()` mal (0,1,1) a ticho prebíjal
+   `margin-top` nastavený cez triedu komponentu. */
+:where(.mc2) :where(h1, h2, h3, h4, p, ul, ol, figure, blockquote) {
+  margin: 0;
+}
+
+:where(.mc2) :where(ul, ol) {
+  padding: 0;
+  list-style: none;
+}
+
+.mc2 img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.mc2 :is(a, button):focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 0.4rem;
+}
+
+.mc2-dark :is(a, button):focus-visible {
+  outline-color: var(--on-dark);
+}
+
+/* ==================================================================
+   OPAKUJÚCE SA KUSY
+   ================================================================== */
+
+.mc2-shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+/* Nadpis sekcie. Číslo je index, nie ozdoba — sekcie sa dajú
+   odkazovať a nasledujú po sebe v poradí, ktoré niečo znamená. */
+.mc2-eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  color: var(--green);
+  font-size: 0.685rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mc2-eyebrow b {
+  color: var(--quiet);
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
+.mc2-dark .mc2-eyebrow {
+  color: var(--on-dark);
+}
+
+.mc2-dark .mc2-eyebrow b {
+  color: var(--on-dark-quiet);
+}
+
+.mc2-title {
+  max-width: 22ch;
+  color: var(--ink);
+  font-size: clamp(2.1rem, 4.4vw, 3.9rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.mc2-dark .mc2-title {
+  color: var(--on-dark);
+}
+
+.mc2-lead {
+  max-width: 38rem;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.15vw, 1.16rem);
+  line-height: 1.72;
+}
+
+.mc2-dark .mc2-lead {
+  color: var(--on-dark-quiet);
+}
+
+.mc2-rule {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+}
+
+.mc2-dark .mc2-rule {
+  background: var(--on-dark-line);
+}
+
+/* ---- akcie ------------------------------------------------------- */
+
+/* Plná akcia. Pri prechode ju zľava zotrie smaragdová — clip-path,
+   takže sa neprekresľuje layout. */
+.mc2-cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.35rem;
+  padding: 0.9rem 1.6rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--pill);
+  background: var(--ink);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.975rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--base) var(--ease);
+}
+
+.mc2-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--green);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 560ms var(--ease);
+}
+
+.mc2-cta:is(:hover, :focus-visible)::before {
+  clip-path: inset(0 0 0 0);
+}
+
+.mc2-dark .mc2-cta {
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.mc2-dark .mc2-cta::before {
+  background: var(--on-dark-quiet);
+}
+
+/* Šípka sa pri prechode nevymení skokom: vyjde vpravo a zľava príde
+   druhá, v maske. */
+.mc2-cta__icon {
+  display: grid;
+  width: 1.05rem;
+  height: 1.05rem;
+  overflow: hidden;
+}
+
+.mc2-cta__icon svg {
+  grid-area: 1 / 1;
+  width: 1.05rem;
+  height: 1.05rem;
+  transition: transform 520ms var(--ease);
+}
+
+.mc2-cta__icon svg:last-child {
+  transform: translateX(-135%);
+}
+
+.mc2-cta:is(:hover, :focus-visible) .mc2-cta__icon svg:first-child {
+  transform: translateX(150%);
+}
+
+.mc2-cta:is(:hover, :focus-visible) .mc2-cta__icon svg:last-child {
+  transform: translateX(0);
+}
+
+/* Tichá akcia je text na linke, nie druhá pilulka. */
+.mc2-quiet {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3.35rem;
+  padding: 0.6rem 0.15rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.975rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mc2-quiet::after {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  right: 0.15rem;
+  bottom: 0.6rem;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.3);
+  transform-origin: left center;
+  transition: transform 480ms var(--ease);
+}
+
+.mc2-quiet:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+
+.mc2-dark .mc2-quiet {
+  color: var(--on-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc2 *,
+  .mc2 *::before,
+  .mc2 *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .mc2-quiet::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ==================================================================
+   PRESKOČIŤ NA OBSAH
+   Viditeľné až pri ceste klávesnicou, ale vtedy poriadne.
+   ================================================================== */
+
+.mc2-skip {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.7rem 1.1rem;
+  border-radius: var(--pill);
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 620;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform var(--base) var(--ease);
+}
+
+.mc2-skip:focus-visible {
+  transform: translateY(0);
+}
