@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, ExternalLink, MessageCircle } from "lucide-react";
-import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { motion } from "motion/react";
+import "@/components/site/BrandStudioProjectsPage.css";
 import { liveTools, realizations } from "@/data/realizations";
-import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo, SITE_URL } from "@/lib/seo";
-import "./realizacie.css";
 
 const realizationsJsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -26,9 +25,9 @@ const realizationsJsonLd = JSON.stringify({
 export const Route = createFileRoute("/projekty/")({
   head: () => ({
     ...seo({
-      title: "Realizácie — weby a chatboty, ktoré bežia naživo",
+      title: "Realizácie — Môj Chatbot",
       description:
-        "Reálne nasadené weby na vlastných doménach: derat.sk, mojplot.sk, koverta.sk a webko.sk. Pozrite si živé projekty aj detailnú prípadovú štúdiu DERAT.",
+        "Reálne nasadené weby a nástroje: DERAT, Môj Plot, Koverta a WEBKO. Pozrite si projekty, ktoré si môžete otvoriť a overiť.",
       path: "/projekty",
     }),
     scripts: [
@@ -43,99 +42,170 @@ export const Route = createFileRoute("/projekty/")({
 });
 
 function ProjectsPage() {
+  const feature = realizations[0];
+  const rest = realizations.slice(1, 4);
+
   return (
-    <div className="sp-page">
-      <PageIntro
-        eyebrow="Realizácie"
-        title={
-          <>
-            Weby a nástroje, <em>ktoré naozaj bežia.</em>
-          </>
-        }
-        lead="Každý web nižšie má vlastnú doménu a viete si ho hneď otvoriť. Pri DERAT nájdete aj konkrétnu prípadovú štúdiu od vstupu po pripravený dopyt."
-      >
-        <div className="sp-hero-chips">
-          <span className="chip">Živé domény</span>
-          <span className="chip">Overiteľné</span>
-          <span className="chip">Bez registrácie</span>
-        </div>
-      </PageIntro>
-
-      <section className="sp-section">
-        <div className="container-page">
-          <div className="rz-grid">
-            {realizations.map((project, index) => (
-              <Reveal
-                className="rz-item"
-                key={project.name}
-                delay={Math.min(index * 0.07, 0.16)}
-                amount={0.18}
-              >
-                <a className="rz-card" href={project.href} target="_blank" rel="noreferrer">
-                  <span className="rz-shot">
-                    <img
-                      src={project.image}
-                      alt={project.alt}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      decoding="async"
-                      width={1440}
-                      height={1000}
-                    />
-                    <span className="rz-domain" aria-hidden="true">
-                      <i />
-                      {project.domain}
-                    </span>
-                  </span>
-                  <span className="rz-body">
-                    <span className="rz-type">{project.type}</span>
-                    <h2>{project.name}</h2>
-                    <p>{project.detail}</p>
-                    <span className="rz-open">
-                      Otvoriť živý web <ExternalLink aria-hidden="true" size={14} />
-                    </span>
-                  </span>
-                </a>
-                {project.caseStudyPath ? (
-                  <Link to={project.caseStudyPath} className="rz-case-link">
-                    Pozrieť prípadovú štúdiu <ArrowRight aria-hidden="true" size={14} />
-                  </Link>
-                ) : null}
-              </Reveal>
-            ))}
+    <div className="brand-projects-page">
+      <section className="brand-projects-intro">
+        <div className="brand-projects-shell">
+          <motion.div
+            className="brand-projects-eyebrow"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            Realizácie
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          >
+            Nie prezentácie. <span>Reálne nasadené weby.</span>
+          </motion.h1>
+          <div className="brand-projects-intro__bottom">
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.12 }}
+            >
+              Každý projekt nižšie si môžete otvoriť. Ukazujeme radšej menej práce vo väčšom
+              formáte, než veľa malých makiet bez kontextu.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.18 }}
+            >
+              <Link to="/kontakt">
+                Prebrať vlastný projekt <ArrowRight size={16} />
+              </Link>
+            </motion.div>
           </div>
-
-          <Reveal className="rz-tools" delay={0.08}>
-            <span className="rz-tools-label">Živé nástroje na vyskúšanie</span>
-            <div className="rz-tools-list">
-              {liveTools.map((tool) => (
-                <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer">
-                  <b>{tool.name}</b>
-                  <small>{tool.note}</small>
-                  <ArrowUpRight aria-hidden="true" size={15} />
-                </a>
-              ))}
-            </div>
-          </Reveal>
         </div>
       </section>
 
-      <section className="sp-section">
-        <CtaBand
-          kicker="Predstavujete si niečo podobné?"
-          title="Poviem vám, ako by to vyzeralo pre vašu službu."
-          lead="Napíšte, čo predávate a na čo sa vás ľudia pýtajú. Navrhnem, čo presne by chatbot robil."
-        >
-          <button
-            type="button"
-            className="sp-button sp-button--primary"
-            onClick={() => openSiteAssistant({ source: "projects-cta" })}
+      {feature ? (
+        <section className="brand-projects-feature">
+          <div className="brand-projects-shell">
+            <motion.div
+              className="brand-projects-feature__head"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div>
+                <span className="brand-projects-meta">Vybraná realizácia · {feature.domain}</span>
+                <h2>{feature.name}</h2>
+              </div>
+              <div>
+                <p>{feature.detail}</p>
+                <div className="brand-projects-feature__actions">
+                  <a href={feature.href} target="_blank" rel="noreferrer">
+                    Otvoriť živý web <ArrowUpRight size={16} />
+                  </a>
+                  {feature.caseStudyPath ? (
+                    <Link to={feature.caseStudyPath}>Pozrieť prípadovú štúdiu <ArrowRight size={16} /></Link>
+                  ) : null}
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.a
+              className="brand-projects-feature__media"
+              href={feature.href}
+              target="_blank"
+              rel="noreferrer"
+              initial={{ clipPath: "inset(8% 0 8% 0)" }}
+              whileInView={{ clipPath: "inset(0% 0 0% 0)" }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <img src={feature.image} alt={feature.alt} />
+              <span>{feature.domain} <ArrowUpRight size={15} /></span>
+            </motion.a>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="brand-projects-grid-section">
+        <div className="brand-projects-shell">
+          <motion.div
+            className="brand-projects-grid-heading"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <MessageCircle aria-hidden="true" /> Opísať moju situáciu
-          </button>
-          <Link to="/kontakt" className="sp-button sp-button--ghost">
-            Kontakt <ArrowRight aria-hidden="true" />
-          </Link>
-        </CtaBand>
+            <span className="brand-projects-meta">Ďalšie projekty</span>
+            <h2>Každý má inú úlohu. Preto ani nevyzerajú rovnako.</h2>
+          </motion.div>
+
+          <div className="brand-projects-grid">
+            {rest.map((project, index) => (
+              <motion.article
+                className="brand-projects-project"
+                key={project.name}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.18 }}
+                transition={{ duration: 0.7, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <a
+                  className="brand-projects-project__media"
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={project.image} alt={project.alt} />
+                </a>
+                <div className="brand-projects-project__head">
+                  <div>
+                    <span className="brand-projects-meta">{project.domain}</span>
+                    <h3>{project.name}</h3>
+                  </div>
+                  <ArrowUpRight size={20} />
+                </div>
+                <p>{project.result}</p>
+                <div className="brand-projects-project__links">
+                  <a href={project.href} target="_blank" rel="noreferrer">
+                    Otvoriť web <ArrowUpRight size={15} />
+                  </a>
+                  {project.caseStudyPath ? (
+                    <Link to={project.caseStudyPath}>Prípadová štúdia <ArrowRight size={15} /></Link>
+                  ) : null}
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="brand-projects-tools">
+        <div className="brand-projects-shell brand-projects-tools__inner">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="brand-projects-tools__label">Živé nástroje</span>
+            <h2>Ukážky, ktoré sa dajú rovno vyskúšať.</h2>
+          </motion.div>
+          <div className="brand-projects-tools__list">
+            {liveTools.map((tool) => (
+              <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer">
+                <div>
+                  <b>{tool.name}</b>
+                  <span>{tool.note}</span>
+                </div>
+                <ArrowUpRight size={18} />
+              </a>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );
