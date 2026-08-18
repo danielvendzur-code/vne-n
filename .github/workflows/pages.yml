@@ -86,11 +86,13 @@ jobs:
           test -f pages-dist/robots.txt
           test -f pages-dist/sitemap.xml
           test -f pages-dist/brand/logo.svg
-          grep -Fq "Váš web odpovie" pages-dist/index.html
-          grep -Fq "Chatbot pre e-shop" pages-dist/index.html
+          grep -Fq "Z návštevy webu spravíme" pages-dist/index.html
+          grep -Fq "pripravený dopyt" pages-dist/index.html
           test -f pages-dist/cennik/index.html
-          grep -Fq "350 €" pages-dist/cennik/index.html
-          grep -Fq "10 € / mesiac" pages-dist/cennik/index.html
+          grep -Fq "390 €" pages-dist/cennik/index.html
+          grep -Fq "29 € / mes." pages-dist/cennik/index.html
+          grep -Fq "690 €" pages-dist/cennik/index.html
+          grep -Fq "990 €" pages-dist/cennik/index.html
           grep -Fq "Čo potrebujeme od vás" pages-dist/cennik/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
@@ -99,6 +101,7 @@ jobs:
           grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx
           grep -Fq "TasteSystemFinal.css" src/components/site/Layout.tsx
           grep -Fq "LimeWhiteBrandFinal.css" src/components/site/Layout.tsx
+          grep -Fq "BrandStudioRoutes.css" src/components/site/Layout.tsx
           grep -Fq "FunnelLayoutFinal.css" src/components/site/Layout.tsx
           grep -Fq "SiteFunnelBridge" src/components/site/Layout.tsx
           grep -Fq 'preset: "product"' src/components/site/Nav.tsx
@@ -165,7 +168,7 @@ jobs:
             return 1
           }
 
-          fetch_with_retry "/" "Chatbot pre e-shop"
+          fetch_with_retry "/" "Z návštevy webu spravíme"
           fetch_with_retry "/cennik" "Čo potrebujeme od vás"
           fetch_with_retry "/preview.html" "Otvoriť aktuálnu stránku"
           fetch_with_retry "/sluzby" "Chatboty pre e-shopy"
