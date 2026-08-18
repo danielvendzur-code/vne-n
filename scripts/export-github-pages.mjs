@@ -99,6 +99,4 @@ await mkdir(join(output, projectName), { recursive: true });
 await cp(fallbackSnapshot, join(output, projectName), { recursive: true });
 await rm(fallbackSnapshot, { recursive: true, force: true });
 
-console.log(
-  `GitHub Pages artifact is ready in ${output}/ and ${output}/${projectName}/`,
-);
+console.log(`GitHub Pages artifact is ready in ${output}/ and ${output}/${projectName}/`);
