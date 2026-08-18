@@ -78,6 +78,7 @@ import "@/components/site/ProcessTimelineStory.css";
 import "@/components/site/ScrollStability.css";
 import "@/components/site/LaunchReadyRuntime";
 import "@/components/site/ProductionReadiness.css";
+import "./BrandStudioShell.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
