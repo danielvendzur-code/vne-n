@@ -74,15 +74,13 @@ import "@/components/site/DarkGreenDominantFinal.css";
 import "@/components/site/DarkChipFinal.css";
 import "@/components/site/MobileTimelineRepair.css";
 import "@/components/site/GoalLockFinal.css";
-/* Časová os „Ako spolupráca prebieha“ — jediná vrstva, ktorá ju drží. */
 import "@/components/site/ProcessTimelineStory.css";
-/* Pokoj pri scrollovaní — hlavička, otvorené menu a rezervované výšky sekcií. */
 import "@/components/site/ScrollStability.css";
 import "@/components/site/LaunchReadyRuntime";
-/* Posledná vrstva: iba produkčné opravy z auditu 13. 8. 2026. Alias je zámerný:
-   bezpečnostný kontrakt repozitára vyžaduje LimeWhiteBrandFinal.css ako posledný
-   relatívny komponentový import, no táto úzka vrstva musí kaskádou prísť až po ňom. */
 import "@/components/site/ProductionReadiness.css";
+import "@/components/site/BrandStudioShell.css";
+import "@/components/site/BrandStudioRoutes.css";
+import "@/components/site/BrandStudioAuthority.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
@@ -110,6 +108,7 @@ const SPOTLIGHT_SURFACES = [
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const isBrandStudioHome = pathname === "/";
   const mainRef = useSpotlight<HTMLElement>(SPOTLIGHT_SURFACES);
   useSettledSections(pathname);
 
@@ -117,10 +116,11 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div
         className="site-theme-white-green min-h-screen flex flex-col"
+        data-brand-studio="true"
         style={{ backgroundColor: "var(--background)" }}
       >
-        <SiteMotionEnhancements key={`motion-${pathname}`} />
-        <SiteFunnelBridge key={`funnel-${pathname}`} />
+        {!isBrandStudioHome ? <SiteMotionEnhancements key={`motion-${pathname}`} /> : null}
+        {!isBrandStudioHome ? <SiteFunnelBridge key={`funnel-${pathname}`} /> : null}
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>

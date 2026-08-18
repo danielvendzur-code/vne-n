@@ -1,0 +1,128 @@
+/* Homepage-only shell lock. Imported after legacy site CSS so the new brand
+   direction owns navigation/footer without touching subpages. */
+
+html body .site-theme-white-green[data-brand-studio="true"] {
+  --background: #f8f9ff !important;
+  --background-soft: #f1f3fb !important;
+  --surface: #ffffff !important;
+  --surface-raised: #ffffff !important;
+  --surface-muted: #f3f4fa !important;
+  --text-primary: #0d1025 !important;
+  --text-secondary: #667085 !important;
+  --text-light: #8a91a6 !important;
+  --primary: #5b5ef7 !important;
+  --primary-hover: #5146e5 !important;
+  --primary-soft: #eef0ff !important;
+  --primary-foreground: #ffffff !important;
+  --accent: #7c5cfc !important;
+  --accent-hover: #6848ee !important;
+  --accent-soft: #f4f1ff !important;
+  --border: rgba(13, 16, 37, 0.11) !important;
+  --border-strong: rgba(91, 94, 247, 0.28) !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header {
+  padding-block: 0 !important;
+  background: rgba(248, 249, 255, 0.94) !important;
+  border-bottom: 1px solid rgba(13, 16, 37, 0.08) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header > .container-page {
+  width: 100% !important;
+  max-width: none !important;
+  height: 76px !important;
+  padding-inline: clamp(1.2rem, 3.2vw, 3.4rem) !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-header-bar {
+  min-height: 76px !important;
+  padding-inline: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .brand-mark,
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .brand-mark {
+  color: #5b5ef7 !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .brand-mark__stroke,
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .brand-mark__stroke {
+  stroke: #5b5ef7 !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-brand-name,
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-menu-toggle,
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-nav-link {
+  color: #0d1025 !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-brand-domain {
+  color: #7a8194 !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-consultation-cta {
+  color: #ffffff !important;
+  border: 1px solid #5b5ef7 !important;
+  border-radius: 10px !important;
+  background: #5b5ef7 !important;
+  box-shadow: none !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-consultation-cta:hover {
+  background: #5146e5 !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer {
+  color: #f5f6ff !important;
+  background: #0b0e22 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .site-menu-eyebrow,
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .site-menu-project-link,
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .site-menu-solution-icon {
+  color: #9f8eff !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .site-menu-solution,
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .site-menu-cta {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  box-shadow: none !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .premium-footer {
+  color: #dfe3ff !important;
+  background: #0b0e22 !important;
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .premium-footer .brand-mark {
+  color: #7c5cfc !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .premium-footer .brand-mark__stroke {
+  stroke: #7c5cfc !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .premium-footer a:hover,
+html body .site-theme-white-green[data-brand-studio="true"] .premium-footer button:hover {
+  color: #9f8eff !important;
+}
+
+@media (max-width: 767px) {
+  html body .site-theme-white-green[data-brand-studio="true"] .site-header > .container-page,
+  html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-header-bar {
+    height: 68px !important;
+    min-height: 68px !important;
+  }
+
+  html body .site-theme-white-green[data-brand-studio="true"] .site-header > .container-page {
+    padding-inline: 1rem !important;
+  }
+}

@@ -73,6 +73,7 @@ for (const token of [
   "Content-Security-Policy",
   "strict-origin-when-cross-origin",
   "widget-loader.js",
+  "VITE_ASSISTANT_EMBED_URL",
 ]) {
   if (!rootRoute.includes(token)) fail(`Root security metadata is missing ${token}`);
 }
@@ -95,253 +96,121 @@ for (const token of [
 ]) {
   if (!loader.includes(token)) fail(`Resilient assistant loader is missing ${token}`);
 }
-
-// A pinned cache key froze every visitor on the build their browser downloaded
-// first, so widget updates never reached them. The key has to stay derived.
 if (/\?v=[\w-]*['"`]/.test(loader)) {
   fail("Resilient assistant loader pins a constant cache key instead of rotating it");
 }
 
 const layout = await read("src/components/site/Layout.tsx");
-const previousIndex = layout.indexOf('import "./WebsiteRequestFinish.css"');
-const winnerIndex = layout.indexOf('import "./CompetitionWinnerFinal.css"');
-const tasteIndex = layout.indexOf('import "./TasteSystemFinal.css"');
-const approvedIndex = layout.indexOf('import "./ApprovedInteractionsFinal.css"');
-const matteIndex = layout.indexOf('import "./MatteUiFinal.css"');
-const correctionIndex = layout.indexOf('import "./FinalUserCorrection.css"');
-const brandIndex = layout.indexOf('import "./BrandSystemFinal.css"');
-const clientIndex = layout.indexOf('import "./ClientLandingFinal.css"');
-const finishIndex = layout.indexOf('import "./SiteFinish.css"');
-const teamMotionIndex = layout.indexOf('import "./TeamMotionUpgrade.css"');
-const limeWhiteIndex = layout.indexOf('import "./LimeWhiteBrandFinal.css"');
-const lastStyleImport = layout.lastIndexOf('import "./');
-if (winnerIndex === -1) fail("CompetitionWinnerFinal.css is not imported");
-if (tasteIndex === -1) fail("TasteSystemFinal.css is not imported");
-if (approvedIndex === -1) fail("ApprovedInteractionsFinal.css is not imported");
-if (matteIndex === -1) fail("MatteUiFinal.css is not imported");
-if (correctionIndex === -1) fail("FinalUserCorrection.css is not imported");
-if (brandIndex === -1) fail("BrandSystemFinal.css is not imported");
-if (clientIndex === -1) fail("ClientLandingFinal.css is not imported");
-if (finishIndex === -1) fail("SiteFinish.css is not imported");
-if (teamMotionIndex === -1) fail("TeamMotionUpgrade.css is not imported");
-if (limeWhiteIndex === -1) fail("LimeWhiteBrandFinal.css is not imported");
-if (
-  previousIndex >= winnerIndex ||
-  winnerIndex >= tasteIndex ||
-  tasteIndex >= approvedIndex ||
-  approvedIndex >= matteIndex ||
-  matteIndex >= correctionIndex ||
-  correctionIndex >= brandIndex ||
-  brandIndex >= clientIndex
-) {
-  fail("Client landing styles must load after the historical visual layers");
-}
-// SiteFinish dokončuje historické vrstvy. TeamMotionUpgrade je úzka
-// autoritatívna vrstva iba pre nový tímový timeline a scroll systém.
-if (clientIndex >= finishIndex) {
-  fail("SiteFinish.css must load after ClientLandingFinal.css");
-}
-if (finishIndex >= teamMotionIndex) {
-  fail("TeamMotionUpgrade.css must load after SiteFinish.css");
-}
-if (teamMotionIndex >= limeWhiteIndex) {
-  fail("LimeWhiteBrandFinal.css must load after TeamMotionUpgrade.css");
-}
-if (limeWhiteIndex !== lastStyleImport) {
-  fail("LimeWhiteBrandFinal.css must be the final component style import");
-}
-if (layout.includes("HomeConversionUpgrade")) {
-  fail("Removed homepage pricing section is still mounted in Layout");
-}
-if (!layout.includes('className="page-transition"')) {
-  fail("Layout is missing the non-inheriting CSS route transition");
+for (const token of [
+  'data-brand-studio="true"',
+  "BrandStudioShell.css",
+  "BrandStudioRoutes.css",
+  'className="page-transition"',
+]) {
+  if (!layout.includes(token)) fail(`Current public layout is missing ${token}`);
 }
 if (/<AnimatePresence|<motion\./.test(layout)) {
   fail("A Motion route wrapper can disable descendant whileInView reveals");
 }
-for (const token of ["LiquidSurfacePointer", "LiquidSegmentedDrag"]) {
-  if (layout.includes(token)) fail(`Removed liquid runtime is still mounted: ${token}`);
-}
 
-const limeWhiteCss = await read("src/components/site/LimeWhiteBrandFinal.css");
-for (const token of [
-  "--brand-primary: #b9ed4d",
-  "--brand-forest: #0b2f20",
-  "--brand-yellow: #a4e5c7",
-  "html body .brand-mark",
-  ".lp-hero-pick",
-  ".lp-process",
-  "prefers-reduced-motion",
-]) {
-  if (!limeWhiteCss.includes(token)) fail(`Lime white brand system is missing ${token}`);
-}
-if (!/background:\s*#ffffff\s*!important/.test(limeWhiteCss)) {
-  fail("Lime white brand system does not preserve a true-white base");
-}
-
-const winnerCss = await read("src/components/site/CompetitionWinnerFinal.css");
-for (const token of [
-  "--wf-blue: #76d7aa",
-  ".spotlight-surface",
-  '.lp-hero-pick[data-active="true"]',
-  ".lp-switch",
-  ".winner-packages",
-  ".winner-prep",
-  ".winner-final",
-  "@media (max-width: 760px)",
-  "prefers-reduced-motion",
-]) {
-  if (!winnerCss.includes(token)) fail(`Competition visual system is missing ${token}`);
-}
-if (/#c9aa70|#c47c5e|#bc7352|rgba\(201,\s*170,\s*112/i.test(winnerCss)) {
-  fail("Bronze, copper or gold remains in the final competition layer");
-}
-
-const tasteCss = await read("src/components/site/TasteSystemFinal.css");
-for (const token of [
-  "Taste-system final layer",
-  "--taste-font",
-  ".lp-button-quiet::before",
-  ".lp-hero-pick::after",
-  '.lp-hero-pick[data-active="true"]',
-  ".lp-hero-pick-icon",
-  ".lp-comparison-body",
-  "border: 0 !important",
-  "content: none !important",
-  "Remove square icon tiles",
-]) {
-  if (!tasteCss.includes(token)) fail(`Taste visual system is missing ${token}`);
-}
-if (/inset 3px 0 0/.test(tasteCss)) {
-  fail("Selected chip side stripe remains in the Taste visual layer");
-}
-
-const approvedCss = await read("src/components/site/ApprovedInteractionsFinal.css");
-for (const token of [
-  "Difference Sweep",
-  "Reversed Blue Bloom",
-  ".lp-button-sweep",
-  ".lp-button-bloom",
-  ".lp-caps-detail-inner",
-  ".winner-prep__item",
-  "prefers-reduced-motion",
-]) {
-  if (!approvedCss.includes(token)) fail(`Approved interaction layer is missing ${token}`);
-}
-if (/#2aa|#1fa|teal|turquoise|bronze|gold|green/i.test(approvedCss)) {
-  fail("Forbidden colour remains in the approved interaction layer");
-}
-
-const matteCss = await read("src/components/site/MatteUiFinal.css");
-for (const token of [
-  "Final matte interaction system",
-  ".lp-hero-cta--primary",
-  ".lp-hero-cta--secondary",
-  '.lp-chip)[data-active="true"]',
-  ".lp-caps-detail-inner",
-  ".lp-caps-input",
-  ".lp-switch--clean",
-  ".lp-comparison-body",
-  ".lp-solution-cta--clean",
-  "backdrop-filter: none !important",
-  "border: 0 !important",
-]) {
-  if (!matteCss.includes(token)) fail(`Final matte visual system is missing ${token}`);
-}
-if (/mix-blend-mode|lp-bloom-dot|scale\(6\.2\)/i.test(matteCss)) {
-  fail("Liquid or bloom decoration remains in the final matte layer");
-}
-
-const correctionCss = await read("src/components/site/FinalUserCorrection.css");
-for (const token of [
-  "Final user correction",
-  ".lp-comparison > .lp-switch.lp-switch--clean",
-  "visibility: visible !important",
-  "content: none !important",
-  "border: 0 !important",
-]) {
-  if (!correctionCss.includes(token)) fail(`Final user correction is missing ${token}`);
-}
-if (/inset 3px 0 0|mix-blend-mode|lp-bloom-dot/i.test(correctionCss))
-  fail("Ornament or liquid decoration remains in final correction");
-
-const clientCss = await read("src/components/site/ClientLandingFinal.css");
-for (const token of [
-  "CLIENT LANDING",
-  "--brand-primary: #b3e9d0",
-  "The icon is an icon, never an icon tile",
-  "@keyframes client-chip-confirm",
-  ".page-transition",
-  "@keyframes client-page-fade-in",
-  "prefers-reduced-motion",
-]) {
-  if (!clientCss.includes(token)) fail(`Client landing system is missing ${token}`);
-}
-if (/#19345d|#245fae|#3979ec|#4db6ac|#7b8fa6/i.test(clientCss)) {
-  fail("Legacy blue or teal remains in the authoritative client landing layer");
-}
-
-const landing = await read("src/components/site/PremiumLanding.tsx");
 const homeRoute = await read("src/routes/index.tsx");
-for (const token of ["lp-hero-cta--primary", "lp-hero-cta--secondary", "lp-switch--clean"]) {
-  if (!landing.includes(token)) fail(`Homepage rebuild is missing ${token}`);
+const home = await read("src/components/site/BrandStudioHome.tsx");
+const homeCss = await read("src/components/site/BrandStudioHome.css");
+const shellCss = await read("src/components/site/BrandStudioShell.css");
+const routesCss = await read("src/components/site/BrandStudioRoutes.css");
+for (const token of ["BrandStudioHome", 'data-landing-variant="public"']) {
+  if (!homeRoute.includes(token)) fail(`Public homepage route is missing ${token}`);
 }
 for (const token of [
-  "lp-button-bloom",
-  "lp-bloom-dot",
-  "lp-switch-liquid",
-  "lp-hero-pick-plus",
-  "lp-hero-pick-check",
-  "lp-chip-icon",
-  "LiquidControlGlow",
+  "Z návštevy webu spravíme",
+  "pripravený dopyt",
+  'id="realizacie"',
+  'id="cena"',
+  "openSiteAssistant",
 ]) {
-  if (landing.includes(token)) fail(`Removed liquid homepage element remains: ${token}`);
-}
-if (landing.includes("HomeConversionUpgrade")) {
-  fail("Removed homepage pricing section is still mounted in PremiumLanding");
-}
-if (/hasOfferCatalog|price\s*:\s*["']350["']/.test(homeRoute)) {
-  fail("Removed homepage pricing is still present in structured data");
+  if (!home.includes(token)) fail(`Brand-studio homepage is missing ${token}`);
 }
 for (const [path, content] of [
-  ["src/components/site/PremiumLanding.tsx", landing],
-  ["src/routes/index.tsx", homeRoute],
-  ["src/routes/__root.tsx", rootRoute],
-  ["public/widget-loader.js", loader],
+  ["BrandStudioHome.css", homeCss],
+  ["BrandStudioShell.css", shellCss],
+  ["BrandStudioRoutes.css", routesCss],
 ]) {
-  if (/350\s*€|od\s+350/i.test(content)) fail(`Removed homepage price remains in ${path}`);
+  if (!/#5b5ef7/i.test(content)) fail(`${path} is missing the approved blue-violet primary`);
+  if (!/prefers-reduced-motion/.test(content) && path !== "BrandStudioShell.css") {
+    fail(`${path} is missing reduced-motion handling`);
+  }
+}
+if (/Sparkles|✨|aurora|particle/i.test(home)) {
+  fail("Generic AI decoration remains in the new homepage source");
 }
 
-const conversion = await read("src/components/site/HomeConversionUpgrade.tsx");
+const pricing = await read("src/routes/cennik.tsx");
 for (const token of [
-  "Čo potrebujeme od klienta",
-  "Web a ponuka",
-  "Pravidlá a podklady",
-  "Získať návrh riešenia",
+  "START",
+  "od 390 €",
+  "29 € / mes.",
+  "SMART",
+  "od 690 €",
+  "39 € / mes.",
+  "PRO",
+  "od 990 €",
+  "59 € / mes.",
+  "Čo potrebujeme od vás",
 ]) {
-  if (!conversion.includes(token)) fail(`Conversion section is missing ${token}`);
+  if (!pricing.includes(token)) fail(`Current pricing page is missing ${token}`);
+}
+if (/HomeConversionUpgrade|350 €|10 € \/ mesiac/.test(pricing)) {
+  fail("Retired pricing implementation remains on the public pricing route");
 }
 
 const contact = await read("src/routes/kontakt.tsx");
 const leadClient = await read("src/lib/lead-submission.ts");
-for (const token of [
-  "submitWebsiteLead",
-  'submitState === "done"',
-  "contact-consent",
-  "Získať návrh riešenia",
-]) {
+const leadApi = await read("src/routes/api.lead.ts");
+const leadMail = await read("src/lib/lead-email.ts");
+for (const token of ["submitWebsiteLead", 'submitState === "done"', "contact-consent"]) {
   if (!contact.includes(token)) fail(`Real contact flow is missing ${token}`);
 }
 for (const token of ["api/lead", "AbortController", 'credentials: "omit"', "fallback"]) {
   if (!leadClient.includes(token)) fail(`Lead client is missing ${token}`);
 }
-
-const motion = await read("src/components/site/SiteMotionEnhancements.tsx");
-if (!motion.includes('image.loading = index === 0 ? "eager" : "lazy"')) {
-  fail("Portfolio images do not preserve lazy loading after the first image");
+if (!leadMail.includes("process.env.RESEND_API_KEY")) {
+  fail("Server mail module is missing RESEND_API_KEY");
 }
-if (/rotateX|rotateY|is-border-tracing/.test(motion)) {
-  fail("Noisy legacy motion remains active");
+if (leadMail.includes("import.meta.env")) {
+  fail("Server mail module exposes build-time env access");
+}
+if (leadClient.includes("RESEND")) {
+  fail("Browser lead client references the mail secret provider");
+}
+for (const token of [
+  "invalid-payload",
+  "HEADER_INJECTION",
+  "raw.website",
+  "rateLimited",
+  "too-many-requests",
+  "delivery-not-configured",
+  "mailtoFallback",
+]) {
+  if (!leadApi.includes(token)) fail(`Lead API is missing ${token}`);
+}
+
+const realizations = await read("src/data/realizations.ts");
+for (const token of [
+  "DERAT",
+  "derat.sk",
+  "Môj Plot",
+  "mojplot.sk",
+  "Koverta",
+  "koverta.sk",
+  "WEBKO",
+  "webko.sk",
+]) {
+  if (!realizations.toLowerCase().includes(token.toLowerCase())) {
+    fail(`Realization data is missing ${token}`);
+  }
+}
+if (/example\.com|placeholder/i.test(realizations)) {
+  fail("Placeholder project remains in realization data");
 }
 
 const pagesWorkflow = await read(".github/workflows/pages.yml");
@@ -350,15 +219,17 @@ for (const token of [
   "Run source and deployment security audit",
   "Validate exported artifact",
   "Verify live deployment",
-  "buildKey",
-  "TasteSystemFinal.css",
+  "Z návštevy webu spravíme",
+  "390 €",
+  "690 €",
+  "990 €",
   "live_smoke=success",
 ]) {
   if (!pagesWorkflow.includes(token)) fail(`Pages workflow is missing ${token}`);
 }
 
 const exporter = await read("scripts/export-github-pages.mjs");
-for (const token of ["/cookies", "404.html", "build-meta.json", "Chatboty, ktoré"]) {
+for (const token of ["/cookies", "404.html", "build-meta.json", "Z návštevy webu spravíme"]) {
   if (!exporter.includes(token)) fail(`Static exporter is missing ${token}`);
 }
 
@@ -379,5 +250,5 @@ if (failures.length) {
 
 console.log(`Security audit passed: ${checkedFiles.length} source/config files checked.`);
 console.log(
-  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, final matte borderless controls, removed liquid runtime, real lead submission, mobile coverage, static export and live deployment contracts.",
+  "Verified: secrets, unsafe primitives, CSP, resilient assistant loading, current brand ownership, pricing, first-party lead submission, real projects, static export and deployment contracts.",
 );

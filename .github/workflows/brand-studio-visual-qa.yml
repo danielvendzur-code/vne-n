@@ -1,0 +1,81 @@
+name: Brand studio visual QA
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Verify build
+        run: bun run build
+      - name: Install Chromium
+        run: |
+          bun add --no-save --dev playwright@1.55.0
+          bunx playwright@1.55.0 install --with-deps chromium
+      - name: Start app
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/brand-studio.log 2>&1 &
+          for attempt in {1..45}; do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/brand-studio.log
+          exit 1
+      - name: Capture desktop and mobile routes
+        run: |
+          mkdir -p qa-brand-studio
+          cat > qa-brand-studio-capture.mjs <<'EOF'
+          import { chromium } from "playwright";
+
+          const browser = await chromium.launch({ headless: true });
+          const routes = [
+            ["home", "/", "#riesenia"],
+            ["services", "/sluzby", ".sp-service-list"],
+            ["projects", "/projekty", ".rz-grid"],
+            ["derat", "/projekty/derat", ".case-study-grid"],
+            ["why", "/preco-chatbot", ".why-grid"],
+            ["pricing", "/cennik", ".brand-pricing-table"],
+            ["process", "/postup", ".sp-timeline-wrap"],
+            ["contact", "/kontakt", ".contact-card"],
+          ];
+
+          async function captureRoute(viewport, prefix, name, route, selector) {
+            const page = await browser.newPage({ viewport });
+            await page.goto(`http://127.0.0.1:4173${route}`, { waitUntil: "networkidle" });
+            await page.waitForTimeout(900);
+            await page.screenshot({ path: `qa-brand-studio/${prefix}-${name}-top.png`, fullPage: false });
+            const key = page.locator(selector).first();
+            await key.waitFor({ state: "attached", timeout: 10_000 });
+            await key.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(650);
+            await page.screenshot({ path: `qa-brand-studio/${prefix}-${name}-key.png`, fullPage: false });
+            await page.close();
+          }
+
+          for (const [name, route, selector] of routes) {
+            await captureRoute({ width: 1650, height: 930 }, "desktop", name, route, selector);
+          }
+          for (const [name, route, selector] of routes) {
+            await captureRoute({ width: 390, height: 844 }, "mobile", name, route, selector);
+          }
+
+          await browser.close();
+          EOF
+          bun qa-brand-studio-capture.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brand-studio-v6-visual-qa
+          path: qa-brand-studio
+          retention-days: 2
