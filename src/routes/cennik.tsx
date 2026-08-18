@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Check } from "lucide-react";
 import { PageIntro, Reveal } from "@/components/site/motion-primitives";
+import "@/components/site/BrandStudioPricingPage.css";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/cennik")({
@@ -68,10 +69,26 @@ const plans = [
 ] as const;
 
 const inputs = [
-  ["01", "Odkaz na web", "Pozrieme si ponuku, štruktúru a spôsob, akým dnes zákazník kontaktuje firmu."],
-  ["02", "Obsah a pravidlá", "Stačia existujúce texty, cenník, časté otázky a pravidlá, podľa ktorých má riešenie odpovedať."],
-  ["03", "Logika výpočtu alebo výberu", "Pri kalkulačke či konfigurátore potrebujeme vedieť, aké vstupy menia cenu alebo výsledok."],
-  ["04", "Miesto pre výsledok", "Dohodneme, kam má prísť dopyt — napríklad e-mail, tabuľka, kalendár alebo iný systém podľa projektu."],
+  [
+    "01",
+    "Odkaz na web",
+    "Pozrieme si ponuku, štruktúru a spôsob, akým dnes zákazník kontaktuje firmu.",
+  ],
+  [
+    "02",
+    "Obsah a pravidlá",
+    "Stačia existujúce texty, cenník, časté otázky a pravidlá, podľa ktorých má riešenie odpovedať.",
+  ],
+  [
+    "03",
+    "Logika výpočtu alebo výberu",
+    "Pri kalkulačke či konfigurátore potrebujeme vedieť, aké vstupy menia cenu alebo výsledok.",
+  ],
+  [
+    "04",
+    "Miesto pre výsledok",
+    "Dohodneme, kam má prísť dopyt — napríklad e-mail, tabuľka, kalendár alebo iný systém podľa projektu.",
+  ],
 ] as const;
 
 function PricingPage() {
