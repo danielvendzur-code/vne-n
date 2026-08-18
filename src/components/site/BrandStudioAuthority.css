@@ -1,0 +1,558 @@
+/* Brand-studio authority layer.
+   The legacy site still ships historical route styles for subpage compatibility;
+   these high-specificity rules make the new design system authoritative without
+   altering route behaviour or content. */
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-page,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-page,
+html:root body .site-theme-white-green[data-brand-studio="true"] .cookies-page {
+  color: #0d1025 !important;
+  background: #f8f9ff !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-section,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-section--soft {
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero {
+  color: #0d1025 !important;
+  background-color: #f8f9ff !important;
+  border-color: rgba(13, 16, 37, 0.1) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-section {
+  color: #0d1025 !important;
+  background-color: #f8f9ff !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-section--soft {
+  background-color: #ffffff !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero::before,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero::after,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-section::before,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-section::after,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-page::before,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-page::after,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-page::before,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-page::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-eyebrow,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-eyebrow span,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-heading > p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-index,
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-type,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-kicker,
+html:root body .site-theme-white-green[data-brand-studio="true"] .case-study-card > span,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-step-label,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-step-label svg {
+  color: #5b5ef7 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero h1,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-heading h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service h3,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-combine h3,
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-card h3,
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-body h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .case-study-card h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-step h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-cta h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-intro h1 {
+  color: #0d1025 !important;
+  text-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero h1 em,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-heading h2 em,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-intro h1 em {
+  color: #5b5ef7 !important;
+  background: none !important;
+  -webkit-text-fill-color: #5b5ef7 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero-lead,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-head > p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-row p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-combine p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-card p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-body p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .case-study-card > p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-step > p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-cta-lead,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-lead {
+  color: #667085 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .chip,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-chip-row .chip,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero-chips .chip {
+  color: #667085 !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(13, 16, 37, 0.14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .chip:last-child,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-chip-row .chip:last-child,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-hero-chips .chip:last-child {
+  border-right: 0 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .chip svg {
+  color: #5b5ef7 !important;
+}
+
+/* Services */
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-list {
+  display: block !important;
+  border-top: 1px solid rgba(13, 16, 37, 0.12) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service {
+  display: grid !important;
+  grid-template-columns: 76px minmax(270px, 0.72fr) minmax(0, 1.28fr) !important;
+  gap: clamp(1.5rem, 4vw, 5rem) !important;
+  align-items: start !important;
+  padding: clamp(2.4rem, 4.5vw, 4.4rem) 0 !important;
+  color: #0d1025 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(13, 16, 37, 0.12) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service::before,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-head {
+  display: block !important;
+  min-width: 0 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-head > svg {
+  display: block !important;
+  width: 21px !important;
+  height: 21px !important;
+  margin: 0 0 1.2rem !important;
+  padding: 0 !important;
+  color: #5b5ef7 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-head h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-head h3 {
+  margin: 0 !important;
+  max-width: 10ch !important;
+  color: #0d1025 !important;
+  font-size: clamp(2.5rem, 4.2vw, 4.6rem) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 0.95 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-head .sp-button {
+  margin-top: 1.4rem !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-rows {
+  display: block !important;
+  min-width: 0 !important;
+  border-top: 1px solid rgba(13, 16, 37, 0.11) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-row {
+  display: grid !important;
+  grid-template-columns: 150px minmax(0, 1fr) !important;
+  gap: 1.25rem !important;
+  padding: 1.15rem 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(13, 16, 37, 0.1) !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-row > span {
+  color: #8a91a6 !important;
+  font-size: 0.72rem !important;
+  font-weight: 690 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-combine {
+  color: #0d1025 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(13, 16, 37, 0.13) !important;
+  border-bottom: 1px solid rgba(13, 16, 37, 0.13) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Why */
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-grid {
+  display: block !important;
+  border-top: 1px solid rgba(13, 16, 37, 0.12) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-card,
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-card--accent {
+  display: grid !important;
+  grid-template-columns: 72px minmax(220px, 0.72fr) minmax(0, 1fr) !important;
+  gap: clamp(1.5rem, 4vw, 5rem) !important;
+  align-items: start !important;
+  padding: clamp(1.9rem, 3.6vw, 3.25rem) 0 !important;
+  color: #0d1025 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(13, 16, 37, 0.12) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-card__icon {
+  display: grid !important;
+  width: 40px !important;
+  height: 40px !important;
+  place-items: center !important;
+  color: #5b5ef7 !important;
+  border: 1px solid rgba(91, 94, 247, 0.28) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-fit-list li {
+  color: #0d1025 !important;
+  border-color: rgba(13, 16, 37, 0.11) !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .why-fit-list svg {
+  color: #5b5ef7 !important;
+}
+
+/* Projects */
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(3rem, 6vw, 6rem) clamp(2rem, 4vw, 4rem) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-item:first-child {
+  grid-column: 1 / -1 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-card {
+  display: block !important;
+  overflow: visible !important;
+  color: #0d1025 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-item:first-child .rz-card {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.55fr) !important;
+  gap: clamp(2rem, 5vw, 5rem) !important;
+  align-items: end !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-shot {
+  overflow: hidden !important;
+  aspect-ratio: 16 / 10 !important;
+  border: 1px solid rgba(13, 16, 37, 0.08) !important;
+  border-radius: 13px !important;
+  background: #eef0f7 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-shot img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-body {
+  padding: 1.25rem 0 0 !important;
+  color: #0d1025 !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-item:first-child .rz-body {
+  padding: 0 0 0.6rem !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-domain {
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 7px !important;
+  background: #0d1025 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-domain i {
+  background: #7c5cfc !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-open,
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-case-link {
+  color: #5b5ef7 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .rz-tools-list a {
+  color: #0d1025 !important;
+  border-color: rgba(13, 16, 37, 0.11) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Pricing page */
+html:root body .site-theme-white-green[data-brand-studio="true"] .brand-pricing-section {
+  color: #f4f5ff !important;
+  background: #0b0e22 !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .brand-pricing-section .brand-pricing-name h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .brand-pricing-section .brand-pricing-price b {
+  color: #ffffff !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .brand-pricing-section .brand-pricing-row.is-featured {
+  background: #141735 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .brand-pricing-cta-section {
+  color: #ffffff !important;
+  background: #5b5ef7 !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .brand-pricing-cta-section h2 {
+  color: #ffffff !important;
+}
+
+/* Process */
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-timeline::before {
+  background: rgba(13, 16, 37, 0.14) !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-timeline-progress {
+  background: #5b5ef7 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-step {
+  color: #0d1025 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(13, 16, 37, 0.12) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-step-node,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-step-node i {
+  border-color: #5b5ef7 !important;
+  background: #f8f9ff !important;
+  box-shadow: none !important;
+}
+
+/* Shared CTA */
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-cta {
+  color: #0d1025 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(13, 16, 37, 0.13) !important;
+  border-bottom: 1px solid rgba(13, 16, 37, 0.13) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-cta::before,
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-cta::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Contact */
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-page {
+  color: #0d1025 !important;
+  background: #f8f9ff !important;
+  background-image: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-glow {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-details a,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-details > span,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-expect,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-expect li {
+  color: #0d1025 !important;
+  border-color: rgba(13, 16, 37, 0.11) !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-details svg,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-expect svg {
+  color: #5b5ef7 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card {
+  color: #f4f5ff !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+  background: #0b0e22 !important;
+  background-image: none !important;
+  box-shadow: 0 26px 70px rgba(13, 16, 37, 0.14) !important;
+  backdrop-filter: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card h2,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card label > span,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card .contact-success h2 {
+  color: #ffffff !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card-head > span {
+  color: #9f8eff !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card-head > p,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card .contact-consent > span,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card .contact-success p {
+  color: rgba(235, 238, 255, 0.62) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card input,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card textarea,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card select {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  border-radius: 8px !important;
+  background: #11142c !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card input::placeholder,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card textarea::placeholder {
+  color: rgba(235, 238, 255, 0.35) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card .contact-submit {
+  color: #fff !important;
+  border-color: #5b5ef7 !important;
+  background: #5b5ef7 !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-card .contact-assistant {
+  color: #c7bdff !important;
+  border-color: rgba(159, 142, 255, 0.3) !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-or::before,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-or::after {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-or span {
+  color: rgba(235, 238, 255, 0.42) !important;
+  background: #0b0e22 !important;
+}
+
+/* Buttons */
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-button--primary,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-submit,
+html:root body .site-theme-white-green[data-brand-studio="true"] .cookies-settings-button {
+  color: #fff !important;
+  border-color: #5b5ef7 !important;
+  background: #5b5ef7 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-button--primary:hover,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-submit:hover,
+html:root body .site-theme-white-green[data-brand-studio="true"] .cookies-settings-button:hover {
+  color: #fff !important;
+  background: #5146e5 !important;
+}
+
+html:root body .site-theme-white-green[data-brand-studio="true"] .sp-button--ghost,
+html:root body .site-theme-white-green[data-brand-studio="true"] .contact-assistant {
+  color: #0d1025 !important;
+  border-color: rgba(13, 16, 37, 0.15) !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 980px) {
+  html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service,
+  html:root body .site-theme-white-green[data-brand-studio="true"] .why-card,
+  html:root body .site-theme-white-green[data-brand-studio="true"] .why-card--accent,
+  html:root body .site-theme-white-green[data-brand-studio="true"] .rz-item:first-child .rz-card {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service {
+    gap: 1rem !important;
+  }
+
+  html:root body .site-theme-white-green[data-brand-studio="true"] .sp-service-row {
+    grid-template-columns: 1fr !important;
+    gap: 0.4rem !important;
+  }
+
+  html:root body .site-theme-white-green[data-brand-studio="true"] .why-card,
+  html:root body .site-theme-white-green[data-brand-studio="true"] .why-card--accent,
+  html:root body .site-theme-white-green[data-brand-studio="true"] .rz-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body .site-theme-white-green[data-brand-studio="true"] .rz-item:first-child {
+    grid-column: auto !important;
+  }
+}
