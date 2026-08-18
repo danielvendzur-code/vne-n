@@ -189,9 +189,7 @@ export function BrandStudioHome() {
               <div className="bs-message bs-message--bot">
                 Dobrý deň. Čo chcete na webe vyriešiť?
               </div>
-              <div className="bs-message bs-message--user">
-                Potrebujem prístrešok pre dve autá.
-              </div>
+              <div className="bs-message bs-message--user">Potrebujem prístrešok pre dve autá.</div>
               <div className="bs-message bs-message--bot bs-message--wide">
                 Stačia mi tri veci: rozmery, preferovaná strecha a lokalita. Potom vám pripravím
                 orientačné riešenie.
@@ -276,9 +274,7 @@ export function BrandStudioHome() {
                   </div>
                   <button
                     type="button"
-                    onClick={() =>
-                      openSiteAssistant({ source: `brand-studio-${active.key}` })
-                    }
+                    onClick={() => openSiteAssistant({ source: `brand-studio-${active.key}` })}
                   >
                     Vyskúšať tento typ riešenia <ArrowUpRight size={17} />
                   </button>
@@ -312,10 +308,7 @@ export function BrandStudioHome() {
             viewport={{ once: true, amount: 0.18 }}
             transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
           >
-            <img
-              src={realizations[0]?.image}
-              alt={realizations[0]?.alt ?? "DERAT realizácia"}
-            />
+            <img src={realizations[0]?.image} alt={realizations[0]?.alt ?? "DERAT realizácia"} />
             <span>
               Otvoriť derat.sk <ArrowUpRight size={17} />
             </span>
@@ -367,18 +360,9 @@ export function BrandStudioHome() {
           </Reveal>
           <div className="bs-value-rows">
             {[
-              [
-                "Bez čakania",
-                "Zákazník dostane odpoveď alebo orientačný výsledok okamžite.",
-              ],
-              [
-                "Bez prázdneho formulára",
-                "Do dopytu príde to, čo reálne potrebujete vedieť.",
-              ],
-              [
-                "Bez generickej šablóny",
-                "Logika aj vizuál sa skladajú podľa vašej služby a webu.",
-              ],
+              ["Bez čakania", "Zákazník dostane odpoveď alebo orientačný výsledok okamžite."],
+              ["Bez prázdneho formulára", "Do dopytu príde to, čo reálne potrebujete vedieť."],
+              ["Bez generickej šablóny", "Logika aj vizuál sa skladajú podľa vašej služby a webu."],
             ].map(([title, copy], index) => (
               <Reveal className="bs-value-row" key={title}>
                 <span>0{index + 1}</span>
