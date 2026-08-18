@@ -36,7 +36,7 @@ jobs:
       - name: Capture desktop and mobile
         run: |
           mkdir -p qa-brand-studio
-          cat > /tmp/capture.mjs <<'EOF'
+          cat > qa-brand-studio-capture.mjs <<'EOF'
           import { chromium } from "playwright";
           const browser = await chromium.launch({ headless: true });
           async function capture(viewport, prefix) {
@@ -57,7 +57,7 @@ jobs:
           await capture({ width: 390, height: 844 }, "mobile");
           await browser.close();
           EOF
-          bun /tmp/capture.mjs
+          bun qa-brand-studio-capture.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: brand-studio-v6-visual-qa
