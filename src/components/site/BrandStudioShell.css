@@ -50,6 +50,11 @@ html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .b
   color: #5b5ef7 !important;
 }
 
+html body .site-theme-white-green[data-brand-studio="true"] .site-header .brand-mark__stroke,
+html body .site-theme-white-green[data-brand-studio="true"] .site-menu-drawer .brand-mark__stroke {
+  stroke: #5b5ef7 !important;
+}
+
 html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-brand-name,
 html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-menu-toggle,
 html body .site-theme-white-green[data-brand-studio="true"] .site-header .site-nav-link {
@@ -99,6 +104,10 @@ html body .site-theme-white-green[data-brand-studio="true"] .premium-footer {
 
 html body .site-theme-white-green[data-brand-studio="true"] .premium-footer .brand-mark {
   color: #7c5cfc !important;
+}
+
+html body .site-theme-white-green[data-brand-studio="true"] .premium-footer .brand-mark__stroke {
+  stroke: #7c5cfc !important;
 }
 
 html body .site-theme-white-green[data-brand-studio="true"] .premium-footer a:hover,
