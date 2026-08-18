@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BrandStudioHome } from "@/components/site/BrandStudioHome";
+import "@/components/site/BrandStudioShell.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
