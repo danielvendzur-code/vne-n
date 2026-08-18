@@ -80,6 +80,7 @@ import "@/components/site/LaunchReadyRuntime";
 import "@/components/site/ProductionReadiness.css";
 import "@/components/site/BrandStudioShell.css";
 import "@/components/site/BrandStudioRoutes.css";
+import "@/components/site/BrandStudioAuthority.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
