@@ -71,5 +71,9 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <BrandStudioHome />;
+  return (
+    <div data-landing-variant="public">
+      <BrandStudioHome />
+    </div>
+  );
 }
