@@ -138,8 +138,8 @@ function PricingPage() {
             ))}
           </div>
           <p className="brand-pricing-note">
-            Uvedené ceny sú orientačné „od“. Pred realizáciou dostanete konkrétny rozsah, jednorazovú
-            cenu aj mesačný poplatok písomne — bez prekvapenia po dokončení.
+            Uvedené ceny sú orientačné „od“. Pred realizáciou dostanete konkrétny rozsah,
+            jednorazovú cenu aj mesačný poplatok písomne — bez prekvapenia po dokončení.
           </p>
         </div>
       </section>
