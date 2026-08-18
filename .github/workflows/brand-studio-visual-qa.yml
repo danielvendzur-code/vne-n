@@ -1,0 +1,66 @@
+name: Brand studio visual QA
+
+on:
+  push:
+    branches:
+      - concept/brand-studio-blue-violet-v6
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Verify build
+        run: bun run build
+      - name: Install Chromium
+        run: |
+          bun add --no-save --dev playwright@1.55.0
+          bunx playwright@1.55.0 install --with-deps chromium
+      - name: Start app
+        shell: bash
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/brand-studio.log 2>&1 &
+          for attempt in {1..45}; do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/brand-studio.log
+          exit 1
+      - name: Capture desktop and mobile
+        run: |
+          mkdir -p qa-brand-studio
+          cat > /tmp/capture.mjs <<'EOF'
+          import { chromium } from "playwright";
+          const browser = await chromium.launch({ headless: true });
+          async function capture(viewport, prefix) {
+            const page = await browser.newPage({ viewport });
+            await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+            await page.waitForTimeout(1200);
+            await page.screenshot({ path: `qa-brand-studio/${prefix}-hero.png`, fullPage: false });
+            await page.screenshot({ path: `qa-brand-studio/${prefix}-full.png`, fullPage: true });
+            for (const [name, selector] of [["solutions", "#riesenia"], ["projects", "#realizacie"], ["pricing", "#cena"], ["process", "#spolupraca"]]) {
+              const node = page.locator(selector).first();
+              await node.scrollIntoViewIfNeeded();
+              await page.waitForTimeout(450);
+              await page.screenshot({ path: `qa-brand-studio/${prefix}-${name}.png`, fullPage: false });
+            }
+            await page.close();
+          }
+          await capture({ width: 1650, height: 930 }, "desktop");
+          await capture({ width: 390, height: 844 }, "mobile");
+          await browser.close();
+          EOF
+          bun /tmp/capture.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brand-studio-v6-visual-qa
+          path: qa-brand-studio
+          retention-days: 2
