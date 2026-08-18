@@ -78,6 +78,8 @@ import "@/components/site/ProcessTimelineStory.css";
 import "@/components/site/ScrollStability.css";
 import "@/components/site/LaunchReadyRuntime";
 import "@/components/site/ProductionReadiness.css";
+import "@/components/site/BrandStudioShell.css";
+import "@/components/site/BrandStudioRoutes.css";
 
 const SPOTLIGHT_SURFACES = [
   ".lp-assistant-card",
@@ -113,7 +115,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div
         className="site-theme-white-green min-h-screen flex flex-col"
-        data-brand-studio={isBrandStudioHome ? "true" : undefined}
+        data-brand-studio="true"
         style={{ backgroundColor: "var(--background)" }}
       >
         {!isBrandStudioHome ? <SiteMotionEnhancements key={`motion-${pathname}`} /> : null}
