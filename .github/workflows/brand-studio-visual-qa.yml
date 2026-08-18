@@ -10,7 +10,7 @@ permissions:
 jobs:
   capture:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -33,28 +33,44 @@ jobs:
           done
           cat /tmp/brand-studio.log
           exit 1
-      - name: Capture desktop and mobile
+      - name: Capture desktop and mobile routes
         run: |
           mkdir -p qa-brand-studio
           cat > qa-brand-studio-capture.mjs <<'EOF'
           import { chromium } from "playwright";
+
           const browser = await chromium.launch({ headless: true });
-          async function capture(viewport, prefix) {
+          const routes = [
+            ["home", "/", "#riesenia"],
+            ["services", "/sluzby", ".sp-service-list"],
+            ["projects", "/projekty", ".rz-grid"],
+            ["derat", "/projekty/derat", ".case-study-grid"],
+            ["why", "/preco-chatbot", ".why-grid"],
+            ["pricing", "/cennik", ".brand-pricing-table"],
+            ["process", "/postup", ".sp-timeline-wrap"],
+            ["contact", "/kontakt", ".contact-card"],
+          ];
+
+          async function captureRoute(viewport, prefix, name, route, selector) {
             const page = await browser.newPage({ viewport });
-            await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
-            await page.waitForTimeout(1200);
-            await page.screenshot({ path: `qa-brand-studio/${prefix}-hero.png`, fullPage: false });
-            await page.screenshot({ path: `qa-brand-studio/${prefix}-full.png`, fullPage: true });
-            for (const [name, selector] of [["solutions", "#riesenia"], ["projects", "#realizacie"], ["pricing", "#cena"], ["process", "#spolupraca"]]) {
-              const node = page.locator(selector).first();
-              await node.scrollIntoViewIfNeeded();
-              await page.waitForTimeout(450);
-              await page.screenshot({ path: `qa-brand-studio/${prefix}-${name}.png`, fullPage: false });
-            }
+            await page.goto(`http://127.0.0.1:4173${route}`, { waitUntil: "networkidle" });
+            await page.waitForTimeout(900);
+            await page.screenshot({ path: `qa-brand-studio/${prefix}-${name}-top.png`, fullPage: false });
+            const key = page.locator(selector).first();
+            await key.waitFor({ state: "attached", timeout: 10_000 });
+            await key.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(650);
+            await page.screenshot({ path: `qa-brand-studio/${prefix}-${name}-key.png`, fullPage: false });
             await page.close();
           }
-          await capture({ width: 1650, height: 930 }, "desktop");
-          await capture({ width: 390, height: 844 }, "mobile");
+
+          for (const [name, route, selector] of routes) {
+            await captureRoute({ width: 1650, height: 930 }, "desktop", name, route, selector);
+          }
+          for (const [name, route, selector] of routes) {
+            await captureRoute({ width: 390, height: 844 }, "mobile", name, route, selector);
+          }
+
           await browser.close();
           EOF
           bun qa-brand-studio-capture.mjs
