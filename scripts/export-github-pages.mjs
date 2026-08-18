@@ -8,8 +8,6 @@ const output = "pages-dist";
 const fallbackSnapshot = ".pages-dist-snapshot";
 const sourceSha = process.env.GITHUB_SHA || "local";
 
-// Compatibility marker for the previous audited headline: "Chatboty, ktoré".
-// The live/exported homepage is validated against the current public headline below.
 const routes = [
   "/",
   "/navrh",
@@ -45,7 +43,7 @@ for (const route of routes) {
 
   if (route === "/") {
     homeHtml = html;
-    if (!homeHtml.includes("Váš web odpovie")) {
+    if (!homeHtml.includes("Z návštevy webu spravíme")) {
       throw new Error("Homepage export does not contain the current public hero copy");
     }
     if (homeHtml.includes("Webové nástroje, ktoré odovzdajú hotový dopyt")) {
