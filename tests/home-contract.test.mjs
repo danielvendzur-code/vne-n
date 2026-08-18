@@ -55,7 +55,16 @@ test("pricing communicates the three current service levels", async () => {
 
 test("realizations remain real websites rather than invented portfolio entries", async () => {
   const data = await read("src/data/realizations.ts");
-  for (const marker of ["DERAT", "derat.sk", "Môj Plot", "mojplot.sk", "Koverta", "koverta.sk", "WEBKO", "webko.sk"]) {
+  for (const marker of [
+    "DERAT",
+    "derat.sk",
+    "Môj Plot",
+    "mojplot.sk",
+    "Koverta",
+    "koverta.sk",
+    "WEBKO",
+    "webko.sk",
+  ]) {
     assert.match(data, new RegExp(marker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
   }
   assert.match(data, /https:\/\//);
