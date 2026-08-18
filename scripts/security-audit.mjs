@@ -173,9 +173,15 @@ for (const token of ["submitWebsiteLead", 'submitState === "done"', "contact-con
 for (const token of ["api/lead", "AbortController", 'credentials: "omit"', "fallback"]) {
   if (!leadClient.includes(token)) fail(`Lead client is missing ${token}`);
 }
-if (!leadMail.includes("process.env.RESEND_API_KEY")) fail("Server mail module is missing RESEND_API_KEY");
-if (leadMail.includes("import.meta.env")) fail("Server mail module exposes build-time env access");
-if (leadClient.includes("RESEND")) fail("Browser lead client references the mail secret provider");
+if (!leadMail.includes("process.env.RESEND_API_KEY")) {
+  fail("Server mail module is missing RESEND_API_KEY");
+}
+if (leadMail.includes("import.meta.env")) {
+  fail("Server mail module exposes build-time env access");
+}
+if (leadClient.includes("RESEND")) {
+  fail("Browser lead client references the mail secret provider");
+}
 for (const token of [
   "invalid-payload",
   "HEADER_INJECTION",
@@ -189,12 +195,23 @@ for (const token of [
 }
 
 const realizations = await read("src/data/realizations.ts");
-for (const token of ["DERAT", "derat.sk", "Môj Plot", "mojplot.sk", "Koverta", "koverta.sk", "WEBKO", "webko.sk"]) {
+for (const token of [
+  "DERAT",
+  "derat.sk",
+  "Môj Plot",
+  "mojplot.sk",
+  "Koverta",
+  "koverta.sk",
+  "WEBKO",
+  "webko.sk",
+]) {
   if (!realizations.toLowerCase().includes(token.toLowerCase())) {
     fail(`Realization data is missing ${token}`);
   }
 }
-if (/example\.com|placeholder/i.test(realizations)) fail("Placeholder project remains in realization data");
+if (/example\.com|placeholder/i.test(realizations)) {
+  fail("Placeholder project remains in realization data");
+}
 
 const pagesWorkflow = await read(".github/workflows/pages.yml");
 for (const token of [
