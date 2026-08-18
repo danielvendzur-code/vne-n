@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
 import { openSiteAssistant } from "@/lib/site-assistant";
@@ -49,14 +49,24 @@ const plans = [
     price: "od 390 €",
     monthly: "29 € / mes.",
     copy: "Pre web, ktorý potrebuje odpovedať a zbierať kvalitnejšie dopyty.",
-    items: ["Chatbot podľa vašich podkladov", "Zbieranie dopytu a kontaktu", "Dizajn prispôsobený webu", "Nasadenie a základná správa"],
+    items: [
+      "Chatbot podľa vašich podkladov",
+      "Zbieranie dopytu a kontaktu",
+      "Dizajn prispôsobený webu",
+      "Nasadenie a základná správa",
+    ],
   },
   {
     name: "SMART",
     price: "od 690 €",
     monthly: "39 € / mes.",
     copy: "Pre firmy, kde má web zákazníka aj kvalifikovať alebo niečo vypočítať.",
-    items: ["Všetko zo START", "Vlastná konverzačná logika", "Kalkulačka alebo jednoduchý konfigurátor", "Meranie konverzií"],
+    items: [
+      "Všetko zo START",
+      "Vlastná konverzačná logika",
+      "Kalkulačka alebo jednoduchý konfigurátor",
+      "Meranie konverzií",
+    ],
     featured: true,
   },
   {
@@ -64,18 +74,39 @@ const plans = [
     price: "od 990 €",
     monthly: "59 € / mes.",
     copy: "Pre komplexné riešenia s vlastným workflowom a napojeniami.",
-    items: ["Všetko zo SMART", "Pokročilé vetvenie a konfigurácia", "Viac typov dopytov", "Voliteľné integrácie podľa projektu"],
+    items: [
+      "Všetko zo SMART",
+      "Pokročilé vetvenie a konfigurácia",
+      "Viac typov dopytov",
+      "Voliteľné integrácie podľa projektu",
+    ],
   },
 ];
 
 const process = [
-  ["01", "Krátko si prejdeme váš web", "Zistíme, čo zákazníci riešia a kde dnes strácate čas alebo dopyty."],
-  ["02", "Navrhneme logiku a rozhranie", "Bez šablóny. Flow, výpočty a vizuál pripravíme podľa vášho konkrétneho biznisu."],
-  ["03", "Ukážeme funkčný návrh", "Pred nasadením vidíte reálne správanie na desktopoch aj mobiloch."],
-  ["04", "Nasadíme a doladíme", "Zapojíme riešenie na web, otestujeme ho a po spustení vieme ďalej upravovať."],
+  [
+    "01",
+    "Krátko si prejdeme váš web",
+    "Zistíme, čo zákazníci riešia a kde dnes strácate čas alebo dopyty.",
+  ],
+  [
+    "02",
+    "Navrhneme logiku a rozhranie",
+    "Bez šablóny. Flow, výpočty a vizuál pripravíme podľa vášho konkrétneho biznisu.",
+  ],
+  [
+    "03",
+    "Ukážeme funkčný návrh",
+    "Pred nasadením vidíte reálne správanie na desktopoch aj mobiloch.",
+  ],
+  [
+    "04",
+    "Nasadíme a doladíme",
+    "Zapojíme riešenie na web, otestujeme ho a po spustení vieme ďalej upravovať.",
+  ],
 ] as const;
 
-function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <motion.div
       className={className}
@@ -92,7 +123,10 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 export function BrandStudioHome() {
   const [activeSolution, setActiveSolution] = useState<SolutionKey>("chatbot");
   const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
   const heroStageY = useTransform(scrollYProgress, [0, 1], [0, 58]);
   const heroStageScale = useTransform(scrollYProgress, [0, 1], [1, 0.975]);
   const active = solutions.find((item) => item.key === activeSolution) ?? solutions[0];
@@ -114,7 +148,8 @@ export function BrandStudioHome() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
             >
-              Chatboty, kalkulačky a konfigurátory na mieru. Odpovedia, vypočítajú a navedú zákazníka k ďalšiemu kroku bez toho, aby ste sedeli pri telefóne.
+              Chatboty, kalkulačky a konfigurátory na mieru. Odpovedia, vypočítajú a navedú
+              zákazníka k ďalšiemu kroku bez toho, aby ste sedeli pri telefóne.
             </motion.p>
             <motion.div
               className="bs-hero-actions"
@@ -132,10 +167,16 @@ export function BrandStudioHome() {
           </div>
         </div>
 
-        <motion.div className="bs-shell bs-product-stage" style={{ y: heroStageY, scale: heroStageScale }}>
+        <motion.div
+          className="bs-shell bs-product-stage"
+          style={{ y: heroStageY, scale: heroStageScale }}
+        >
           <div className="bs-product-topline">
             <span>Môj Chatbot / živá ukážka</span>
-            <button type="button" onClick={() => openSiteAssistant({ source: "brand-studio-hero" })}>
+            <button
+              type="button"
+              onClick={() => openSiteAssistant({ source: "brand-studio-hero" })}
+            >
               Otvoriť chatbota <ArrowUpRight size={15} />
             </button>
           </div>
@@ -145,10 +186,15 @@ export function BrandStudioHome() {
                 <b>Môj Chatbot</b>
                 <span>online</span>
               </div>
-              <div className="bs-message bs-message--bot">Dobrý deň. Čo chcete na webe vyriešiť?</div>
-              <div className="bs-message bs-message--user">Potrebujem prístrešok pre dve autá.</div>
+              <div className="bs-message bs-message--bot">
+                Dobrý deň. Čo chcete na webe vyriešiť?
+              </div>
+              <div className="bs-message bs-message--user">
+                Potrebujem prístrešok pre dve autá.
+              </div>
               <div className="bs-message bs-message--bot bs-message--wide">
-                Stačia mi tri veci: rozmery, preferovaná strecha a lokalita. Potom vám pripravím orientačné riešenie.
+                Stačia mi tri veci: rozmery, preferovaná strecha a lokalita. Potom vám pripravím
+                orientačné riešenie.
               </div>
               <div className="bs-input-line">
                 <span>Napíšte správu…</span>
@@ -228,7 +274,12 @@ export function BrandStudioHome() {
                     <span>Čo dostanete</span>
                     <b>{active.result}</b>
                   </div>
-                  <button type="button" onClick={() => openSiteAssistant({ source: `brand-studio-${active.key}` })}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openSiteAssistant({ source: `brand-studio-${active.key}` })
+                    }
+                  >
                     Vyskúšať tento typ riešenia <ArrowUpRight size={17} />
                   </button>
                 </motion.div>
@@ -245,7 +296,10 @@ export function BrandStudioHome() {
               <span>Vybraná realizácia</span>
               <h2>DERAT</h2>
             </div>
-            <p>Kalkulačka a dopytový asistent, ktorý z návštevy webu spraví konkrétne zadanie pre firmu.</p>
+            <p>
+              Kalkulačka a dopytový asistent, ktorý z návštevy webu spraví konkrétne zadanie pre
+              firmu.
+            </p>
           </Reveal>
 
           <motion.a
@@ -258,8 +312,13 @@ export function BrandStudioHome() {
             viewport={{ once: true, amount: 0.18 }}
             transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
           >
-            <img src={realizations[0]?.image} alt={realizations[0]?.alt ?? "DERAT realizácia"} />
-            <span>Otvoriť derat.sk <ArrowUpRight size={17} /></span>
+            <img
+              src={realizations[0]?.image}
+              alt={realizations[0]?.alt ?? "DERAT realizácia"}
+            />
+            <span>
+              Otvoriť derat.sk <ArrowUpRight size={17} />
+            </span>
           </motion.a>
         </div>
       </section>
@@ -308,9 +367,18 @@ export function BrandStudioHome() {
           </Reveal>
           <div className="bs-value-rows">
             {[
-              ["Bez čakania", "Zákazník dostane odpoveď alebo orientačný výsledok okamžite."],
-              ["Bez prázdneho formulára", "Do dopytu príde to, čo reálne potrebujete vedieť."],
-              ["Bez generickej šablóny", "Logika aj vizuál sa skladajú podľa vašej služby a webu."],
+              [
+                "Bez čakania",
+                "Zákazník dostane odpoveď alebo orientačný výsledok okamžite.",
+              ],
+              [
+                "Bez prázdneho formulára",
+                "Do dopytu príde to, čo reálne potrebujete vedieť.",
+              ],
+              [
+                "Bez generickej šablóny",
+                "Logika aj vizuál sa skladajú podľa vašej služby a webu.",
+              ],
             ].map(([title, copy], index) => (
               <Reveal className="bs-value-row" key={title}>
                 <span>0{index + 1}</span>
@@ -344,15 +412,21 @@ export function BrandStudioHome() {
                 <p>{plan.copy}</p>
                 <ul>
                   {plan.items.map((item) => (
-                    <li key={item}><Check size={15} /> {item}</li>
+                    <li key={item}>
+                      <Check size={15} /> {item}
+                    </li>
                   ))}
                 </ul>
-                <Link to="/kontakt">Prebrať rozsah <ArrowRight size={16} /></Link>
+                <Link to="/kontakt">
+                  Prebrať rozsah <ArrowRight size={16} />
+                </Link>
               </div>
             ))}
           </div>
           <div className="bs-pricing-link">
-            <Link to="/cennik">Pozrieť detailný cenník <ArrowUpRight size={16} /></Link>
+            <Link to="/cennik">
+              Pozrieť detailný cenník <ArrowUpRight size={16} />
+            </Link>
           </div>
         </div>
       </section>
@@ -384,7 +458,10 @@ export function BrandStudioHome() {
           <div className="bs-faq-list">
             {faqs.slice(0, 5).map((faq) => (
               <details key={faq.q}>
-                <summary>{faq.q}<span>+</span></summary>
+                <summary>
+                  {faq.q}
+                  <span>+</span>
+                </summary>
                 <p>{faq.a}</p>
               </details>
             ))}
@@ -401,7 +478,10 @@ export function BrandStudioHome() {
             <Link className="bs-button bs-button--light" to="/kontakt">
               Nezáväzná konzultácia <ArrowRight size={18} />
             </Link>
-            <button type="button" onClick={() => openSiteAssistant({ source: "brand-studio-final" })}>
+            <button
+              type="button"
+              onClick={() => openSiteAssistant({ source: "brand-studio-final" })}
+            >
               Najprv si vyskúšať chatbota <ArrowUpRight size={17} />
             </button>
           </Reveal>
