@@ -1,9 +1,8 @@
 name: Brand studio visual QA
 
 on:
-  push:
-    branches:
-      - concept/brand-studio-blue-violet-v6
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
