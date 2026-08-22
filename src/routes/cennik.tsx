@@ -8,7 +8,7 @@ export const Route = createFileRoute("/cennik")({
     ...seo({
       title: "Cenník — chatbot, kalkulačka a konfigurátor",
       description:
-        "Chatbot na mieru 350 € jednorazovo a 10 € mesačne. Kalkulačka alebo konfigurátor od 400 € jednorazovo a 10 € mesačne. Presnú cenu dohodneme vopred.",
+        "Chatbot na mieru od 450 € jednorazovo a 10 € mesačne. Kalkulačka alebo konfigurátor od 500 € jednorazovo a 10 € mesačne. Presnú cenu dohodneme vopred.",
       path: "/cennik",
     }),
     scripts: [
@@ -25,25 +25,25 @@ const pricing = [
   {
     index: "01",
     name: "Chatbot",
-    setup: "350 €",
+    setup: "od 450 €",
     monthly: "10 € / mesiac",
-    copy: "Odpovede podľa vašich podkladov, zber kontextu a dopyt na e-mail.",
+    copy: "Odpovede podľa vašich podkladov, doplnenie potrebných údajov a odoslanie dopytu na e-mail.",
     preset: "inquiry" as const,
   },
   {
     index: "02",
     name: "Kalkulačka",
-    setup: "od 400 €",
+    setup: "od 500 €",
     monthly: "10 € / mesiac",
-    copy: "Výpočet ceny, spotreby alebo rozsahu podľa vašich pravidiel a vstupov zákazníka.",
+    copy: "Orientačný výpočet ceny, spotreby alebo rozsahu podľa pravidiel vašej ponuky.",
     preset: "calculator" as const,
   },
   {
     index: "03",
     name: "Konfigurátor",
-    setup: "od 400 €",
+    setup: "od 500 €",
     monthly: "10 € / mesiac",
-    copy: "Krokový výber produktu alebo služby s variantmi, rozmermi a doplnkami.",
+    copy: "Krokový výber produktu alebo služby s dostupnými variantmi, rozmermi a doplnkami.",
     preset: "product" as const,
   },
 ] as const;
@@ -53,13 +53,13 @@ function PricingPage() {
     <div className="sp-page pricing-page--rebrand">
       <header className="sp-hero">
         <div className="container-page">
-          <p className="section-kicker">WHAT IT COSTS</p>
+          <p className="section-kicker">CENA</p>
           <h1>
-            Cena bez balíčkov, <em>ktoré nepotrebujete.</em>
+            Vopred viete, <em>za čo platíte.</em>
           </h1>
           <p className="sp-hero-lead">
-            Každé riešenie má cenu za vytvorenie a mesačný poplatok za prevádzku. Ak sa mení rozsah,
-            pravidlá alebo integrácie, presnú cenu potvrdíme pred začiatkom.
+            Cena závisí od toho, čo má riešenie vedieť. Základnú cenu vidíte hneď a presný rozsah si
+            odsúhlasíme pred začiatkom práce.
           </p>
         </div>
       </header>
@@ -68,9 +68,9 @@ function PricingPage() {
         <div className="container-page pricing-table">
           <div className="pricing-table__head" aria-hidden="true">
             <span>RIEŠENIE</span>
-            <span>SETUP</span>
+            <span>VYTVORENIE</span>
             <span>PREVÁDZKA</span>
-            <span>ROZSAH</span>
+            <span>ČO OBSAHUJE</span>
             <span />
           </div>
           {pricing.map((item) => (
@@ -92,7 +92,7 @@ function PricingPage() {
                   })
                 }
               >
-                Vybrať <ArrowRight size={14} />
+                Pozrieť ukážku <ArrowRight size={14} />
               </button>
             </article>
           ))}
@@ -104,7 +104,7 @@ function PricingPage() {
           <div>
             <p className="section-kicker">V CENE VYTVORENIA</p>
             <p>
-              Návrh otázok a toku, vizuálne prispôsobenie, implementácia do dohodnutého rozsahu a
+              Návrh otázok a krokov, vizuálne prispôsobenie, implementácia do dohodnutého rozsahu a
               nasadenie na web.
             </p>
           </div>
@@ -113,10 +113,10 @@ function PricingPage() {
             <p>Prevádzka riešenia a bežná technická údržba podľa aktuálne dohodnutých podmienok.</p>
           </div>
           <div>
-            <p className="section-kicker">VOLITEĽNÁ PRÁCA</p>
+            <p className="section-kicker">AK TREBA NIEČO NAVYŠE</p>
             <p>
-              Komplexnejšie integrácie, nové rozhodovacie vetvy alebo väčšie rozšírenia oceníme
-              samostatne ešte pred realizáciou.
+              Väčšie integrácie, nové vetvy alebo rozsiahlejšie rozšírenia naceníme samostatne ešte
+              pred tým, ako na nich začneme pracovať.
             </p>
           </div>
         </div>
@@ -127,20 +127,20 @@ function PricingPage() {
           <div>
             <p className="section-kicker">PRESNÁ CENA</p>
             <h2 className="section-title">
-              Najprv si ujasnime <em>rozsah.</em>
+              Stačí nám povedať, <em>čo má web robiť.</em>
             </h2>
           </div>
           <div>
             <p>
-              Krátko popíšte, čo má zákazník na webe spraviť. Z toho vieme povedať, či stačí základ
-              alebo treba vlastnú logiku navyše.
+              Krátko popíšte, čo má zákazník na webe zvládnuť. Povieme vám, aké riešenie dáva zmysel
+              a koľko bude stáť.
             </p>
             <button
               type="button"
               className="button-primary"
               onClick={() => openSiteAssistant({ source: "pricing-final" })}
             >
-              Vyskladať rozsah <ArrowRight size={15} />
+              Chcem návrh riešenia <ArrowRight size={15} />
             </button>
             <Link to="/kontakt" className="text-link pricing-inline-link">
               Kontakt <ArrowRight size={15} />

@@ -1,100 +1,201 @@
 import { Link } from "@tanstack/react-router";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { useMemo, useRef } from "react";
-import { ArrowRight, ArrowUpRight, ExternalLink } from "lucide-react";
+import {
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { realizations } from "@/data/realizations";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./AwardHome.css";
 
 export type LandingVariant = "public" | "client";
+type FlowMode = "chatbot" | "calculator" | "configurator";
+
+type FlowStage = {
+  index: string;
+  label: string;
+  title: string;
+  copy: string;
+  artifact: string;
+};
 
 const heroCopy = {
   public: {
-    top: "DIGITÁLNE PREDAJNÉ NÁSTROJE",
     titleA: "Od otázky",
     titleB: "k výsledku.",
-    lead: "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia postavení podľa reálneho predajného procesu vašej firmy.",
+    lead: "Chatbot, kalkulačka, konfigurátor alebo produktový poradca. Vytvorené tak, aby sa zákazník na webe rýchlejšie dostal k odpovedi, výberu alebo dopytu.",
   },
   client: {
-    top: "NÁVRH PRE VÁŠ WEB",
     titleA: "Návrh už máte.",
     titleB: "Teraz ho zažite.",
     lead: "Ukážka toho, ako môže návštevník prejsť od otázky cez výber alebo výpočet až k výsledku, ktorý sa dá rovno riešiť.",
   },
 } as const;
 
-const flowStages = [
-  {
-    index: "01",
-    label: "OTÁZKA",
-    title: "Človek nepríde s briefom. Príde s problémom.",
-    copy: "Začiatok musí byť jednoduchší než telefonát, formulár aj hľadanie v päťstranovom cenníku.",
-    artifact: "Koľko približne stojí prístrešok pre dve autá?",
+const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
+  chatbot: {
+    label: "Chatbot",
+    stages: [
+      {
+        index: "01",
+        label: "OTÁZKA",
+        title: "Zákazník sa spýta vlastnými slovami.",
+        copy: "Nemusí hľadať správnu podstránku ani vypĺňať dlhý formulár. Napíše, čo potrebuje.",
+        artifact: "Potrebujem prístrešok pre dve autá. Čo odporúčate?",
+      },
+      {
+        index: "02",
+        label: "DOPLNENIE",
+        title: "Chatbot si vypýta iba chýbajúce údaje.",
+        copy: "Pýta sa len na informácie, ktoré potrebujete na dobrú odpoveď alebo pripravený dopyt.",
+        artifact: "Rozmer miesta / lokalita / montáž",
+      },
+      {
+        index: "03",
+        label: "ODPOVEĎ",
+        title: "Odpovie podľa vašej ponuky a podkladov.",
+        copy: "Zákazník dostane jasnú odpoveď bez toho, aby ste opakovane vysvetľovali to isté po telefóne.",
+        artifact: "Možnosti / vysvetlenie / ďalší krok",
+      },
+      {
+        index: "04",
+        label: "DOPYT",
+        title: "Ak chce pokračovať, odošle pripravený dopyt.",
+        copy: "Vy dostanete kontakt spolu s tým, čo zákazník rieši a čo už na webe vybral alebo doplnil.",
+        artifact: "Kontakt + rozmery + požiadavka",
+      },
+    ],
   },
-  {
-    index: "02",
-    label: "KONTEXT",
-    title: "Pýtame sa iba na to, čo mení výsledok.",
-    copy: "Rozmer, materiál, lokalita alebo preferencie. Krátka cesta namiesto administratívy.",
-    artifact: "6 × 5 m  /  HLINÍK  /  NITRA",
+  calculator: {
+    label: "Kalkulačka",
+    stages: [
+      {
+        index: "01",
+        label: "OTÁZKA",
+        title: "Zákazník chce vedieť približnú cenu.",
+        copy: "Namiesto telefonátu môže začať výpočet priamo na stránke.",
+        artifact: "Koľko približne stojí prístrešok pre dve autá?",
+      },
+      {
+        index: "02",
+        label: "VSTUPY",
+        title: "Vyberie údaje, ktoré cenu naozaj menia.",
+        copy: "Rozmery, model, montáž alebo doplnky. Iba to, čo je pri vašej ponuke potrebné.",
+        artifact: "Rozmer / model / montáž / doplnky",
+      },
+      {
+        index: "03",
+        label: "VÝPOČET",
+        title: "Kalkulačka použije vaše pravidlá.",
+        copy: "Cenník a podmienky premeníme na jednoduchý výpočet, ktorý zákazník zvládne sám.",
+        artifact: "Vstupy → pravidlá → orientačná cena",
+      },
+      {
+        index: "04",
+        label: "VÝSLEDOK",
+        title: "Ukáže výsledok a jasný ďalší krok.",
+        copy: "Zákazník vie, s čím približne počítať, a môže rovno odoslať údaje na presnú ponuku.",
+        artifact: "Odhad ceny + pripravený dopyt",
+      },
+    ],
   },
-  {
-    index: "03",
-    label: "LOGIKA",
-    title: "Vaše pravidlá začnú pracovať priamo na webe.",
-    copy: "Cenník, varianty, podmienky a výnimky premeníme na rozhodovanie, ktoré nemusí robiť človek ručne.",
-    artifact: "ROZMER → MODEL → CENA → MONTÁŽ",
+  configurator: {
+    label: "Konfigurátor",
+    stages: [
+      {
+        index: "01",
+        label: "VÝBER",
+        title: "Zákazník si chce vyskladať správny variant.",
+        copy: "Namiesto preklikávania katalógu začne jednoduchou otázkou alebo výberom použitia.",
+        artifact: "Čo potrebujem a pre aké použitie?",
+      },
+      {
+        index: "02",
+        label: "MOŽNOSTI",
+        title: "Vyberie iba dostupné možnosti.",
+        copy: "Rozmer, model, farba alebo doplnky sa zobrazia v poradí, ktoré dáva zmysel.",
+        artifact: "Veľkosť / model / farba / doplnky",
+      },
+      {
+        index: "03",
+        label: "KONTROLA",
+        title: "Konfigurátor drží výber v reálnych možnostiach.",
+        copy: "Zákazník nevyberá kombinácie, ktoré neviete dodať. Logika ho vedie len cez platné varianty.",
+        artifact: "Dostupné varianty → vhodná zostava",
+      },
+      {
+        index: "04",
+        label: "ZOSTAVA",
+        title: "Na konci má jasnú zostavu a ďalší krok.",
+        copy: "Vybraný variant sa môže rovno odoslať firme spolu s kontaktom a všetkými zvolenými údajmi.",
+        artifact: "Model + rozmery + doplnky + kontakt",
+      },
+    ],
   },
-  {
-    index: "04",
-    label: "VÝSLEDOK",
-    title: "Zákazník vie, čo ďalej. Firma dostane kontext.",
-    copy: "Výsledkom môže byť orientačná cena, konfigurácia, odporúčaný produkt alebo pripravený dopyt.",
-    artifact: "PRIPRAVENÝ DOPYT / 6 × 5 m / NITRA",
-  },
-] as const;
+};
 
 const tools = [
   {
     index: "01",
     name: "Chatbot",
-    statement: "Odpovie. Vysvetlí. Zistí kontext.",
-    copy: "Pre weby, kde zákazník potrebuje rýchlo pochopiť ponuku alebo zistiť, čo je preňho relevantné.",
+    statement: "Odpovie na otázky a získa kontakt.",
+    copy: "Pre weby, kde sa zákazníci často pýtajú to isté alebo potrebujú poradiť pred objednávkou.",
     preset: "inquiry" as const,
+    cta: "Pozrieť ukážku",
   },
   {
     index: "02",
     name: "Kalkulačka",
-    statement: "Vypočíta skôr, než začne telefonát.",
-    copy: "Cena, spotreba, rozsah alebo iný výsledok podľa vašich reálnych pravidiel a vstupov.",
+    statement: "Vypočíta orientačnú cenu alebo rozsah.",
+    copy: "Pre služby a produkty, kde výsledok závisí od rozmeru, množstva, variantu alebo ďalších vstupov.",
     preset: "calculator" as const,
+    cta: "Vyskúšať výpočet",
   },
   {
     index: "03",
     name: "Konfigurátor",
-    statement: "Zložitú ponuku premení na jasnú voľbu.",
-    copy: "Varianty, rozmery, materiály a doplnky v poradí, ktoré zákazníka nezaťaží.",
+    statement: "Pomôže vyskladať správny variant.",
+    copy: "Pre ponuky s viacerými rozmermi, modelmi, farbami a doplnkami, ktoré sa dajú vybrať krok po kroku.",
     preset: "product" as const,
+    cta: "Pozrieť konfiguráciu",
   },
   {
     index: "04",
     name: "Produktový poradca",
-    statement: "Zúži katalóg na to, čo dáva zmysel.",
-    copy: "Pre e-shopy s výberom podľa použitia, preferencií, parametrov alebo rozpočtu.",
+    statement: "Odporučí produkt podľa potrieb zákazníka.",
+    copy: "Pre e-shopy, kde sa ľudia strácajú vo veľkom výbere a potrebujú rýchlo zúžiť možnosti.",
     preset: "product" as const,
+    cta: "Pozrieť poradcu",
   },
 ];
 
 const process = [
-  ["01", "Pochopiť", "Web, ponuku, opakujúce sa otázky a miesto, kde sa zákazník zasekne."],
+  [
+    "01",
+    "Zistíme, čo potrebujete",
+    "Prejdeme váš web, ponuku a otázky, ktoré zákazníci riešia najčastejšie.",
+  ],
   [
     "02",
-    "Zjednodušiť",
-    "Vyhodiť kroky, ktoré zákazník nepotrebuje, a ponechať iba rozhodujúce vstupy.",
+    "Navrhneme jednoduchú cestu",
+    "Určíme, čo má zákazník napísať alebo vybrať a aký výsledok má na konci dostať.",
   ],
-  ["03", "Navrhnúť", "Cestu, rozhranie, logiku, výstup a napojenia ešte pred finálnym vývojom."],
-  ["04", "Nasadiť", "Otestovať desktop, mobil, formuláre a reálne správanie priamo na vašom webe."],
+  [
+    "03",
+    "Vytvoríme a otestujeme",
+    "Pripravíme dizajn, logiku a napojenia a skontrolujeme ich na počítači aj mobile.",
+  ],
+  [
+    "04",
+    "Nasadíme na váš web",
+    "Riešenie zapojíme na stránku a overíme formuláre, dopyty aj bežné správanie.",
+  ],
 ] as const;
 
 function HeroCollage() {
@@ -125,11 +226,63 @@ function HeroCollage() {
   );
 }
 
+function PageGuide() {
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 110, damping: 26, mass: 0.28 });
+  const guideY = useTransform(progress, [0, 1], ["0vh", "58vh"]);
+  const lineScale = useTransform(progress, [0, 1], [0.02, 1]);
+  const pupilX = useMotionValue(0);
+  const pupilY = useMotionValue(0);
+  const smoothX = useSpring(pupilX, { stiffness: 260, damping: 24 });
+  const smoothY = useSpring(pupilY, { stiffness: 260, damping: 24 });
+  const [percent, setPercent] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (value) => setPercent(Math.round(value * 100)));
+
+  useEffect(() => {
+    const onPointerMove = (event: PointerEvent) => {
+      const horizontal = (event.clientX / window.innerWidth - 0.84) * 11;
+      const vertical = (event.clientY / window.innerHeight - 0.5) * 7;
+      pupilX.set(Math.max(-3.2, Math.min(3.2, horizontal)));
+      pupilY.set(Math.max(-2.6, Math.min(2.6, vertical)));
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onPointerMove);
+  }, [pupilX, pupilY]);
+
+  return (
+    <aside className="page-guide" aria-hidden="true">
+      <span className="page-guide__value">{percent}%</span>
+      <div className="page-guide__rail">
+        <motion.i className="page-guide__fill" style={{ scaleY: lineScale }} />
+        <motion.div className="page-guide__bot" style={{ y: guideY }}>
+          <div className="page-guide__eyes">
+            <span>
+              <motion.i style={{ x: smoothX, y: smoothY }} />
+            </span>
+            <span>
+              <motion.i style={{ x: smoothX, y: smoothY }} />
+            </span>
+          </div>
+          <b>←</b>
+        </motion.div>
+      </div>
+    </aside>
+  );
+}
+
 function FlowStory() {
+  const [mode, setMode] = useState<FlowMode>("chatbot");
+  const stages = flowModes[mode].stages;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const progress = useSpring(scrollYProgress, { stiffness: 85, damping: 28, mass: 0.25 });
-  const x = useTransform(progress, [0, 1], ["0%", "-75%"]);
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.25 });
+  const x = useTransform(
+    progress,
+    [0, 0.16, 0.3, 0.43, 0.57, 0.7, 0.84, 1],
+    ["0%", "0%", "-25%", "-25%", "-50%", "-50%", "-75%", "-75%"],
+  );
   const lineScale = useTransform(progress, [0, 1], [0.03, 1]);
 
   return (
@@ -137,12 +290,23 @@ function FlowStory() {
       <div className="hybrid-flow__desktop">
         <div className="hybrid-flow__sticky">
           <div className="hybrid-flow__hud container-page">
-            <span>QUESTION → CONTEXT → LOGIC → OUTCOME</span>
-            <span>SCROLL TO RUN THE SYSTEM</span>
+            <span>AKO TO FUNGUJE</span>
+            <div className="hybrid-flow__modes" aria-label="Vyberte typ riešenia">
+              {(Object.keys(flowModes) as FlowMode[]).map((item) => (
+                <button
+                  type="button"
+                  key={item}
+                  data-active={mode === item}
+                  onClick={() => setMode(item)}
+                >
+                  {flowModes[item].label}
+                </button>
+              ))}
+            </div>
           </div>
           <motion.div className="hybrid-flow__track" style={{ x }}>
-            {flowStages.map((stage, index) => (
-              <article className="hybrid-flow__panel" key={stage.index}>
+            {stages.map((stage, index) => (
+              <article className="hybrid-flow__panel" key={`${mode}-${stage.index}`}>
                 <div className="container-page hybrid-flow__panel-inner">
                   <div className="hybrid-flow__number">{stage.index}</div>
                   <div className="hybrid-flow__copy">
@@ -151,7 +315,9 @@ function FlowStory() {
                     <p>{stage.copy}</p>
                   </div>
                   <div className="hybrid-flow__artifact" aria-hidden="true">
-                    <span>{stage.index} / SYSTEM</span>
+                    <span>
+                      {flowModes[mode].label.toUpperCase()} / {stage.index}
+                    </span>
                     <strong>{stage.artifact}</strong>
                     <i>→</i>
                   </div>
@@ -166,9 +332,21 @@ function FlowStory() {
       </div>
 
       <div className="hybrid-flow__mobile container-page">
-        <p className="hybrid-flow__mobile-label">QUESTION → CONTEXT → LOGIC → OUTCOME</p>
-        {flowStages.map((stage) => (
-          <article key={stage.index}>
+        <p className="hybrid-flow__mobile-label">AKO TO FUNGUJE</p>
+        <div className="hybrid-flow__mobile-modes" aria-label="Vyberte typ riešenia">
+          {(Object.keys(flowModes) as FlowMode[]).map((item) => (
+            <button
+              type="button"
+              key={item}
+              data-active={mode === item}
+              onClick={() => setMode(item)}
+            >
+              {flowModes[item].label}
+            </button>
+          ))}
+        </div>
+        {stages.map((stage) => (
+          <article key={`${mode}-${stage.index}`}>
             <div className="hybrid-flow__mobile-head">
               <span>{stage.index}</span>
               <b>{stage.label}</b>
@@ -187,14 +365,14 @@ function SelectedWork() {
   return (
     <section className="hybrid-work" id="realizacie" aria-labelledby="hybrid-work-title">
       <div className="container-page hybrid-work__intro">
-        <span>VYBRANÉ REALIZÁCIE / 2026</span>
-        <h2 id="hybrid-work-title">Najprv práca. Potom reči.</h2>
-        <p>Každý projekt nižšie beží na živej doméne a dá sa otvoriť.</p>
+        <span>REALIZÁCIE</span>
+        <h2 id="hybrid-work-title">Pozrite si weby, ktoré už bežia.</h2>
+        <p>Štyri reálne projekty. Každý môžete otvoriť a pozrieť si priamo na živej doméne.</p>
       </div>
 
       <div className="container-page hybrid-work__grid">
         {realizations.map((project, index) => (
-          <article className={`hybrid-project hybrid-project--${index + 1}`} key={project.name}>
+          <article className="hybrid-project" key={project.name}>
             <a
               href={project.href}
               target="_blank"
@@ -204,7 +382,7 @@ function SelectedWork() {
               <img src={project.image} alt={project.alt} loading="eager" decoding="async" />
               <span className="hybrid-project__domain">{project.domain}</span>
               <span className="hybrid-project__open">
-                OPEN <ArrowUpRight size={15} />
+                OTVORIŤ WEB <ArrowUpRight size={15} />
               </span>
             </a>
             <div className="hybrid-project__meta">
@@ -221,7 +399,7 @@ function SelectedWork() {
 
       <div className="container-page hybrid-work__footer">
         <Link to="/projekty">
-          Všetky realizácie <ArrowRight size={18} />
+          Pozrieť všetky projekty <ArrowRight size={18} />
         </Link>
       </div>
     </section>
@@ -232,8 +410,11 @@ function CoreTools() {
   return (
     <section className="hybrid-tools" aria-labelledby="hybrid-tools-title">
       <div className="container-page hybrid-tools__intro">
-        <span>ČO STAVIAME</span>
-        <h2 id="hybrid-tools-title">Nástroj až podľa problému. Nie naopak.</h2>
+        <span>RIEŠENIA</span>
+        <div>
+          <h2 id="hybrid-tools-title">Čo má váš web robiť?</h2>
+          <p>Kliknite na riešenie a otvoríme vám konkrétnu ukážku.</p>
+        </div>
       </div>
       <div className="hybrid-tools__rows">
         {tools.map((tool) => (
@@ -242,13 +423,16 @@ function CoreTools() {
             type="button"
             className="hybrid-tool"
             onClick={() => openSiteAssistant({ source: `tool-${tool.index}`, preset: tool.preset })}
+            aria-label={`${tool.cta}: ${tool.name}`}
           >
             <div className="container-page hybrid-tool__inner">
               <span>{tool.index}</span>
               <strong>{tool.name}</strong>
               <b>{tool.statement}</b>
               <p>{tool.copy}</p>
-              <ArrowUpRight size={26} />
+              <span className="hybrid-tool__cta">
+                {tool.cta} <ArrowUpRight size={18} />
+              </span>
             </div>
           </button>
         ))}
@@ -263,40 +447,40 @@ function Audience() {
       <article className="hybrid-audience__panel hybrid-audience__panel--services">
         <div className="hybrid-audience__content">
           <span>PRE FIRMY SO SLUŽBAMI</span>
-          <h2>Dopyt, ktorý už niečo vie.</h2>
+          <h2>Menej vysvetľovania po telefóne.</h2>
           <p>
-            Zákazník dostane odpoveď alebo orientačný výsledok. Vy dostanete kontakt spolu s údajmi,
-            ktoré by ste inak zisťovali telefonicky.
+            Chatbot alebo kalkulačka zodpovie bežné otázky, zistí základné údaje a odošle vám
+            pripravený dopyt s tým, čo zákazník potrebuje.
           </p>
           <button
             type="button"
             onClick={() => openSiteAssistant({ source: "audience-services", preset: "inquiry" })}
           >
-            Vyskladať riešenie <ArrowRight size={17} />
+            Ukážte mi riešenie pre služby <ArrowRight size={17} />
           </button>
         </div>
         <div className="hybrid-audience__type" aria-hidden="true">
-          SERVICE
+          SLUŽBY
         </div>
       </article>
 
       <article className="hybrid-audience__panel hybrid-audience__panel--commerce" id="pre-eshopy">
         <div className="hybrid-audience__content">
           <span>PRE E-SHOPY</span>
-          <h2>Výber produktu bez blúdenia.</h2>
+          <h2>Rýchlejšie k správnemu produktu.</h2>
           <p>
-            Produktový poradca zúži katalóg podľa použitia, preferencií a rozpočtu a posunie človeka
-            k relevantnému produktu alebo variantu.
+            Produktový poradca sa opýta na potreby zákazníka, zúži výber a pošle ho k produktu alebo
+            variantu, ktorý mu najviac sedí.
           </p>
           <button
             type="button"
             onClick={() => openSiteAssistant({ source: "audience-commerce", preset: "product" })}
           >
-            Navrhnúť poradcu <ArrowRight size={17} />
+            Ukážte mi riešenie pre e-shop <ArrowRight size={17} />
           </button>
         </div>
         <div className="hybrid-audience__type" aria-hidden="true">
-          E-COM
+          E-SHOP
         </div>
       </article>
     </section>
@@ -307,10 +491,10 @@ function Process() {
   return (
     <section className="hybrid-process" aria-labelledby="hybrid-process-title">
       <div className="container-page hybrid-process__intro">
-        <span>PROCES</span>
-        <h2 id="hybrid-process-title">Najprv pochopiť. Potom kresliť.</h2>
+        <span>AKO PREBIEHA SPOLUPRÁCA</span>
+        <h2 id="hybrid-process-title">Od prvého rozhovoru po nasadenie.</h2>
         <Link to="/postup">
-          Celý postup <ArrowRight size={17} />
+          Pozrieť celý postup <ArrowRight size={17} />
         </Link>
       </div>
       <ol className="container-page hybrid-process__list">
@@ -330,25 +514,25 @@ function ProofAndPrice() {
   return (
     <section className="hybrid-price" aria-labelledby="hybrid-price-title">
       <div className="container-page hybrid-price__top">
-        <span>VSTUPNÁ CENA</span>
+        <span>CENA</span>
         <h2 id="hybrid-price-title">Jednoduchý nástroj nemusí začínať štvorcifernou sumou.</h2>
       </div>
       <div className="container-page hybrid-price__grid">
         <div>
           <span>CHATBOT NA MIERU</span>
-          <strong>350 €</strong>
+          <strong>od 450 €</strong>
+        </div>
+        <div>
+          <span>KALKULAČKA / KONFIGURÁTOR</span>
+          <strong>od 500 €</strong>
         </div>
         <div>
           <span>PREVÁDZKA</span>
           <strong>10 €</strong>
           <b>/ mesiac</b>
         </div>
-        <div>
-          <span>KALKULAČKA / KONFIGURÁTOR</span>
-          <strong>od 400 €</strong>
-        </div>
         <Link to="/cennik" className="hybrid-price__link">
-          Celý cenník <ArrowUpRight size={18} />
+          Pozrieť cenník <ArrowUpRight size={18} />
         </Link>
       </div>
     </section>
@@ -360,12 +544,9 @@ export function PremiumLanding({ variant = "public" }: { variant?: LandingVarian
 
   return (
     <div className="hybrid-home" data-variant={variant}>
-      <section className="hybrid-hero" aria-labelledby="hybrid-hero-title">
-        <div className="container-page hybrid-hero__meta">
-          <span>{copy.top}</span>
-          <span>E-SHOPY · SLUŽBY · B2C</span>
-        </div>
+      <PageGuide />
 
+      <section className="hybrid-hero" aria-labelledby="hybrid-hero-title">
         <div className="container-page hybrid-hero__stage">
           <h1 id="hybrid-hero-title">
             <span>{copy.titleA}</span>
@@ -376,29 +557,38 @@ export function PremiumLanding({ variant = "public" }: { variant?: LandingVarian
 
         <div className="container-page hybrid-hero__bottom">
           <p>{copy.lead}</p>
-          <div>
+          <div className="hybrid-hero__actions">
             <a href="#realizacie" className="hybrid-hero__primary">
               Pozrieť realizácie <ArrowUpRight size={17} />
             </a>
             <button
               type="button"
               onClick={() =>
-                openSiteAssistant({ source: variant === "client" ? "hero-client" : "hero-public" })
+                openSiteAssistant({
+                  source: variant === "client" ? "hero-client" : "hero-public",
+                  preset: "inquiry",
+                })
               }
             >
-              Prebrať môj web <ArrowRight size={17} />
+              Chcem chatbot <ArrowRight size={17} />
             </button>
           </div>
-          <span className="hybrid-hero__scroll">SCROLL / EXPLORE</span>
+        </div>
+
+        <div className="container-page hybrid-hero__capabilities" aria-label="Typy riešení">
+          <span>01 / Chatbot</span>
+          <span>02 / Kalkulačka</span>
+          <span>03 / Konfigurátor</span>
+          <span>04 / Produktový poradca</span>
         </div>
       </section>
 
       <section className="hybrid-manifesto" aria-labelledby="hybrid-manifesto-title">
-        <div className="container-page">
-          <span>WEB NEMUSÍ IBA INFORMOVAŤ.</span>
+        <div className="container-page hybrid-manifesto__inner">
+          <span>ČO MÔŽE WEB UROBIŤ ZA VÁS</span>
           <h2 id="hybrid-manifesto-title">
             Môže <em>odpovedať.</em> Môže <em>počítať.</em> Môže <em>pomôcť vybrať.</em> A potom
-            poslať firme dopyt, s ktorým sa dá pracovať.
+            poslať dopyt s údajmi, ktoré potrebujete.
           </h2>
         </div>
       </section>
@@ -410,34 +600,19 @@ export function PremiumLanding({ variant = "public" }: { variant?: LandingVarian
       <Process />
       <ProofAndPrice />
 
-      <section className="hybrid-proof" aria-labelledby="hybrid-proof-title">
-        <div className="container-page hybrid-proof__intro">
-          <span>ŽIVÉ. KLIKATEĽNÉ. OVERITEĽNÉ.</span>
-          <h2 id="hybrid-proof-title">Žiadne anonymné percentá. Otvorte si výsledok.</h2>
-        </div>
-        <div className="container-page hybrid-proof__domains">
-          {realizations.map((project, index) => (
-            <a href={project.href} target="_blank" rel="noreferrer" key={project.domain}>
-              <span>0{index + 1}</span>
-              <strong>{project.name}</strong>
-              <b>{project.domain}</b>
-              <ExternalLink size={16} />
-            </a>
-          ))}
-        </div>
-      </section>
-
       <section className="hybrid-final" aria-labelledby="hybrid-final-title">
         <div className="container-page hybrid-final__top">
           <BrandMark size={54} />
-          <span>MÔJ CHATBOT / DIGITÁLNE PREDAJNÉ NÁSTROJE</span>
+          <span>MÔJ CHATBOT</span>
         </div>
         <div className="container-page hybrid-final__body">
-          <h2 id="hybrid-final-title">Má váš web iba existovať?</h2>
-          <p>Alebo má zákazníkovi reálne pomôcť dostať sa k rozhodnutiu?</p>
+          <h2 id="hybrid-final-title">Povedzte nám, čo má váš web vedieť.</h2>
+          <p>
+            Navrhneme jednoduché riešenie a vopred vám povieme, čo bude obsahovať a koľko bude stáť.
+          </p>
           <div>
             <Link to="/kontakt" className="hybrid-final__button">
-              Začať projekt <ArrowUpRight size={19} />
+              Chcem návrh riešenia <ArrowUpRight size={19} />
             </Link>
             <a href="mailto:info@mojchatbot.sk">info@mojchatbot.sk</a>
           </div>
