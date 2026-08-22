@@ -3,25 +3,34 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const path = "M10 47V17L32 35L54 17V47H40L32 55V47H19";
+const approvedStart = "M24 71.2L24.003 32.706";
+const approvedEnd = "L98.928 84.804L98.217 85.056L97.485 85.275L96.6 85.5";
 
-test("brand mark is one compact production path shared by site and favicon", async () => {
+test("brand mark uses the approved one-stroke chatbot geometry across site assets", async () => {
   const component = await read("src/components/BrandMark.tsx");
   const logo = await read("public/brand/logo.svg");
+  const logoMark = await read("public/brand/logo-mark.svg");
+  const logoLight = await read("public/brand/logo-light.svg");
   const favicon = await read("public/favicon.svg");
 
   assert.equal((component.match(/<path\b/g) ?? []).length, 1);
-  assert.match(component, new RegExp(path));
-  assert.match(component, /strokeWidth="4\.6"/);
+  assert.match(component, /viewBox="0 0 112 112"/);
+  assert.match(component, new RegExp(approvedStart.replaceAll(".", "\\.")));
+  assert.match(component, new RegExp(approvedEnd.replaceAll(".", "\\.")));
+  assert.match(component, /strokeWidth="7\.25"/);
   assert.match(component, /strokeLinecap="round"/);
   assert.match(component, /strokeLinejoin="round"/);
 
-  assert.equal((logo.match(/<path\b/g) ?? []).length, 1);
-  assert.match(logo, new RegExp(path));
-  assert.match(logo, /stroke="#12372D"/);
+  for (const asset of [logo, logoMark, logoLight, favicon]) {
+    assert.match(asset, /viewBox="0 0 112 112"/);
+    assert.match(asset, new RegExp(approvedStart.replaceAll(".", "\\.")));
+    assert.match(asset, new RegExp(approvedEnd.replaceAll(".", "\\.")));
+    assert.match(asset, /stroke-width="7\.25"/);
+  }
 
-  assert.equal((favicon.match(/<path\b/g) ?? []).length, 1);
-  assert.match(favicon, new RegExp(path));
+  assert.match(logo, /stroke="#12372D"/);
+  assert.match(logoMark, /stroke="#12372D"/);
+  assert.match(logoLight, /stroke="#F5F4ED"/);
   assert.match(favicon, /fill="#12372D"/);
   assert.match(favicon, /stroke="#F5F4ED"/);
 });
@@ -56,7 +65,7 @@ test("marketing surfaces stay low-radius and shadow-light", async () => {
   assert.doesNotMatch(css, /border-radius:\s*(?:2[0-9]|3[0-9]|4[0-9])px/);
 });
 
-test("website rebrand leaves the existing chatbot fallback launcher untouched", async () => {
+test("website polish leaves the existing chatbot fallback launcher untouched", async () => {
   const loader = await read("public/widget-loader.js");
 
   assert.match(loader, /M92\.9 81\.1C97\.4/);
@@ -65,11 +74,12 @@ test("website rebrand leaves the existing chatbot fallback launcher untouched", 
   assert.match(loader, /background:\s*"#ffffff"/);
 });
 
-test("reduced motion and mobile-specific composition are explicit", async () => {
-  const css = await read("src/components/site/Rebrand.css");
+test("homepage art direction explicitly handles reduced motion and mobile composition", async () => {
+  const css = await read("src/components/site/AwardHome.css");
 
   assert.match(css, /@media \(max-width: 720px\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.match(css, /\.path-story__desktop[\s\S]*display:\s*none/);
-  assert.match(css, /\.path-story__mobile[\s\S]*display:\s*block/);
+  assert.match(css, /\.hybrid-flow__desktop[\s\S]*display:\s*none/);
+  assert.match(css, /\.hybrid-flow__mobile[\s\S]*display:\s*block/);
+  assert.match(css, /\.page-guide/);
 });

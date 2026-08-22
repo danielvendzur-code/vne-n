@@ -220,12 +220,12 @@ for (const token of ["POST", "consent", "website", "RESEND_API_KEY"]) {
 }
 
 const homeRoute = await read("src/routes/index.tsx");
-if (/hasOfferCatalog|price\s*:\s*["'](?:350|400)["']/.test(homeRoute)) {
+if (/hasOfferCatalog|price\s*:\s*["'](?:450|500)["']/.test(homeRoute)) {
   fail("Homepage structured data contains a hard-coded commercial offer");
 }
 
 const pricing = await read("src/routes/cennik.tsx");
-for (const token of ["350 €", "od 400 €", "10 € / mesiac"]) {
+for (const token of ["od 450 €", "od 500 €", "10 € / mesiac"]) {
   if (!pricing.includes(token)) fail(`Pricing page is missing verified public price ${token}`);
 }
 

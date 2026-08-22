@@ -26,14 +26,15 @@ test("layout loads one coherent brand system instead of historical override stac
   );
 });
 
-test("homepage is a work-led question-to-outcome experience", async () => {
+test("homepage is a clear work-led question-to-outcome experience", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const css = await read("src/components/site/AwardHome.css");
 
   assert.match(landing, /Od otázky/);
   assert.match(landing, /k výsledku/);
-  assert.match(landing, /Chatboty, kalkulačky, konfigurátory a produktoví poradcovia/i);
+  assert.match(landing, /Chatbot, kalkulačka, konfigurátor alebo produktový poradca/i);
   assert.match(landing, /HeroCollage/);
+  assert.match(landing, /PageGuide/);
   assert.match(landing, /FlowStory/);
   assert.match(landing, /SelectedWork/);
   assert.match(landing, /CoreTools/);
@@ -41,12 +42,17 @@ test("homepage is a work-led question-to-outcome experience", async () => {
   assert.match(landing, /PRE E-SHOPY/);
   assert.match(landing, /Produktový poradca/);
   assert.match(landing, /ProofAndPrice/);
-  assert.match(landing, /Má váš web iba existovať/);
+  assert.match(landing, /Povedzte nám, čo má váš web vedieť/);
+  assert.match(landing, /Chatbot/);
+  assert.match(landing, /Kalkulačka/);
+  assert.match(landing, /Konfigurátor/);
+  assert.doesNotMatch(landing, /QUESTION|CONTEXT|LOGIC|OUTCOME|SCROLL\s*\/\s*EXPLORE/i);
 
-  assert.match(css, /height:\s*420vh/);
+  assert.match(css, /height:\s*300vh/);
   assert.match(css, /position:\s*sticky/);
   assert.match(css, /\.hybrid-flow__track/);
   assert.match(css, /\.hybrid-work__grid/);
+  assert.match(css, /\.page-guide/);
   assert.match(css, /body:has\(\.hybrid-home\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /@media \(max-width: 720px\)/);
@@ -54,22 +60,27 @@ test("homepage is a work-led question-to-outcome experience", async () => {
   assert.doesNotMatch(css, /linear-gradient\([^;]*(?:purple|violet|#7c3aed|#8b5cf6)/i);
 });
 
-test("homepage uses real projects and no invented performance metrics", async () => {
+test("homepage uses four real projects with one consistent realization frame", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const realizations = await read("src/data/realizations.ts");
+  const css = await read("src/components/site/AwardHome.css");
 
   for (const name of ["DERAT", "Môj Plot", "Koverta", "WEBKO"]) {
     assert.match(realizations, new RegExp(name));
   }
   assert.match(landing, /realizations\.map/);
-  assert.match(landing, /ŽIVÉ\. KLIKATEĽNÉ\. OVERITEĽNÉ\./);
+  assert.match(landing, /Pozrite si weby, ktoré už bežia/);
+  assert.match(css, /grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(css, /\.hybrid-project__visual[\s\S]*aspect-ratio:\s*1\.6/);
+  assert.doesNotMatch(landing, /Najprv práca|ŽIVÉ\. KLIKATEĽNÉ|anonymné percentá/i);
   assert.doesNotMatch(landing, /\+\s*\d+\s*%|\d+×|\d+\s*clients|conversion\s+rate/i);
   assert.doesNotMatch(landing, /placeholder/i);
 });
 
-test("navigation remains an editorial header with a fullscreen mobile menu", async () => {
+test("navigation remains an editorial header with a visible project CTA and fullscreen mobile menu", async () => {
   const nav = await read("src/components/site/Nav.tsx");
-  const css = await read("src/components/site/Rebrand.css");
+  const globalCss = await read("src/components/site/Rebrand.css");
+  const homeCss = await read("src/components/site/AwardHome.css");
 
   assert.match(nav, /Riešenia/);
   assert.match(nav, /Pre e-shopy/);
@@ -79,23 +90,24 @@ test("navigation remains an editorial header with a fullscreen mobile menu", asy
   assert.match(nav, /01/);
   assert.match(nav, /06/);
   assert.doesNotMatch(nav, /backdrop-blur|rounded-\[20px\]|LineSidebar|menuSolutions/);
-  assert.match(css, /\.site-menu-layer/);
-  assert.match(css, /min-height:\s*100dvh/);
+  assert.match(globalCss, /\.site-menu-layer/);
+  assert.match(globalCss, /min-height:\s*100dvh/);
+  assert.match(homeCss, /\.site-header__cta[\s\S]*border:/);
 });
 
-test("pricing keeps the verified public prices and avoids fake plans", async () => {
+test("pricing keeps the updated public prices and avoids fake plans", async () => {
   const pricing = await read("src/routes/cennik.tsx");
   const landing = await read("src/components/site/PremiumLanding.tsx");
 
-  assert.equal((pricing.match(/setup: "350 €"/g) ?? []).length, 1);
-  assert.equal((pricing.match(/setup: "od 400 €"/g) ?? []).length, 2);
+  assert.equal((pricing.match(/setup: "od 450 €"/g) ?? []).length, 1);
+  assert.equal((pricing.match(/setup: "od 500 €"/g) ?? []).length, 2);
   assert.equal((pricing.match(/monthly: "10 € \/ mesiac"/g) ?? []).length, 3);
-  assert.match(landing, /350 €/);
+  assert.match(landing, /od 450 €/);
   assert.match(landing, /10 €/);
-  assert.match(landing, /od 400 €/);
+  assert.match(landing, /od 500 €/);
   assert.match(pricing, /V CENE VYTVORENIA/);
   assert.match(pricing, /MESAČNE/);
-  assert.match(pricing, /VOLITEĽNÁ PRÁCA/);
+  assert.match(pricing, /AK TREBA NIEČO NAVYŠE/);
   assert.doesNotMatch(pricing, /Najčastejšia voľba/i);
   assert.doesNotMatch(pricing, /\b(?:Basic|Pro|Enterprise)\b/i);
 });

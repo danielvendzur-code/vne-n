@@ -29,7 +29,7 @@ export const realizations: Realization[] = [
     result: "Kalkulačka prevedie návštevníka od problému k orientačnej cene a pripravenému dopytu.",
     detail:
       "Reálne nasadená deratizačná služba. Návštevník vyberie typ problému a rozsah zásahu, dostane orientačný výsledok a firma prijme kontakt spolu s kontextom potrebným na ďalší krok.",
-    image: `${import.meta.env.BASE_URL}work/derat/01-home.webp`,
+    image: `${import.meta.env.BASE_URL}work/live/derat.webp`,
     alt: "Domovská stránka reálne nasadeného webu DERAT",
     caseStudyPath: "/projekty/derat",
   },
@@ -41,7 +41,7 @@ export const realizations: Realization[] = [
     result: "Prehľadný výber oplotenia, služieb a ďalšieho kroku pre zákazníka.",
     detail:
       "Produktový web s ponukou plotov, kde sa zákazník dostane od typu oplotenia k dopytu bez toho, aby musel telefonovať. Štruktúra ponuky, texty aj cesta ku kontaktu sú postavené tak, aby bolo jasné, čo si vybrať.",
-    image: `${import.meta.env.BASE_URL}work/portfolio/mojplot.webp`,
+    image: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
     alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",
   },
   {
@@ -63,7 +63,7 @@ export const realizations: Realization[] = [
     result: "Sebavedomá prezentácia služby s jasným smerovaním ku kontaktu.",
     detail:
       "Tmavý prezentačný web, ktorý stavia na ukážkach práce. Každá sekcia končí jasným ďalším krokom, takže návštevník nemusí hľadať, kde sa ozvať.",
-    image: `${import.meta.env.BASE_URL}work/portfolio/webko.webp`,
+    image: `${import.meta.env.BASE_URL}work/live/webko.webp`,
     alt: "Tmavá domovská stránka WEBKO s ukážkou webových realizácií",
   },
 ];
