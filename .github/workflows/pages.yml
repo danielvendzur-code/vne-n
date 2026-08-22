@@ -201,7 +201,7 @@ jobs:
           } > PAGES_DEPLOY_AUDIT.txt
 
       - name: Upload verified deployment report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pages-deploy-${{ github.run_id }}
           path: PAGES_DEPLOY_AUDIT.txt
@@ -229,7 +229,7 @@ jobs:
           } > PAGES_WORKFLOW_STATUS.txt
 
       - name: Upload workflow status
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pages-status-${{ github.run_id }}
           path: PAGES_WORKFLOW_STATUS.txt
