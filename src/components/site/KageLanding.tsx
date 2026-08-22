@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Link } from "@tanstack/react-router";
 import {
   motion,
@@ -165,9 +164,21 @@ const tools = [
 
 const process = [
   ["01", "Zistíme, čo potrebujete", "Prejdeme váš web, ponuku a najčastejšie otázky zákazníkov."],
-  ["02", "Navrhneme jednoduchú cestu", "Určíme, čo má zákazník napísať alebo vybrať a čo má dostať na konci."],
-  ["03", "Vytvoríme a otestujeme", "Pripravíme dizajn, logiku a napojenia a skontrolujeme ich na počítači aj mobile."],
-  ["04", "Nasadíme na váš web", "Zapojíme riešenie a overíme formuláre, dopyty aj bežné správanie."],
+  [
+    "02",
+    "Navrhneme jednoduchú cestu",
+    "Určíme, čo má zákazník napísať alebo vybrať a čo má dostať na konci.",
+  ],
+  [
+    "03",
+    "Vytvoríme a otestujeme",
+    "Pripravíme dizajn, logiku a napojenia a skontrolujeme ich na počítači aj mobile.",
+  ],
+  [
+    "04",
+    "Nasadíme na váš web",
+    "Zapojíme riešenie a overíme formuláre, dopyty aj bežné správanie.",
+  ],
 ] as const;
 
 const signalSections = [
@@ -198,7 +209,9 @@ function HeroCollage() {
           rel="noreferrer"
         >
           <img src={project.image} alt={project.alt} decoding="async" fetchPriority="high" />
-          <span>0{index + 1} / {project.name}</span>
+          <span>
+            0{index + 1} / {project.name}
+          </span>
         </a>
       ))}
     </div>
@@ -263,7 +276,7 @@ function FlowStory() {
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.25 });
   const x = useTransform(
     progress,
-    [0, 0.16, 0.3, 0.43, 0.57, 0.7, 0.84, 1],
+    [0, 0.21, 0.27, 0.45, 0.51, 0.69, 0.75, 1],
     ["0%", "0%", "-25%", "-25%", "-50%", "-50%", "-75%", "-75%"],
   );
   const lineScale = useTransform(progress, [0, 1], [0.03, 1]);
@@ -298,7 +311,9 @@ function FlowStory() {
                     <p>{stage.copy}</p>
                   </div>
                   <div className="hybrid-flow__artifact" aria-hidden="true">
-                    <span>{flowModes[mode].label.toUpperCase()} / {stage.index}</span>
+                    <span>
+                      {flowModes[mode].label.toUpperCase()} / {stage.index}
+                    </span>
                     <strong>{stage.artifact}</strong>
                     <i>→</i>
                   </div>
@@ -328,7 +343,10 @@ function FlowStory() {
         </div>
         {stages.map((stage) => (
           <article key={`${mode}-${stage.index}`}>
-            <div className="hybrid-flow__mobile-head"><span>{stage.index}</span><b>{stage.label}</b></div>
+            <div className="hybrid-flow__mobile-head">
+              <span>{stage.index}</span>
+              <b>{stage.label}</b>
+            </div>
             <h3>{stage.title}</h3>
             <p>{stage.copy}</p>
             <strong>{stage.artifact}</strong>
@@ -350,21 +368,33 @@ function SelectedWork() {
       <div className="container-page hybrid-work__grid">
         {realizations.map((project, index) => (
           <article className="hybrid-project" key={project.name}>
-            <a href={project.href} target="_blank" rel="noreferrer" className="hybrid-project__visual">
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+              className="hybrid-project__visual"
+            >
               <img src={project.image} alt={project.alt} loading="eager" decoding="async" />
               <span className="hybrid-project__domain">{project.domain}</span>
-              <span className="hybrid-project__open">OTVORIŤ WEB <ArrowUpRight size={15} /></span>
+              <span className="hybrid-project__open">
+                OTVORIŤ WEB <ArrowUpRight size={15} />
+              </span>
             </a>
             <div className="hybrid-project__meta">
               <span>0{index + 1}</span>
-              <div><h3>{project.name}</h3><p>{project.type}</p></div>
+              <div>
+                <h3>{project.name}</h3>
+                <p>{project.type}</p>
+              </div>
               <p>{project.result}</p>
             </div>
           </article>
         ))}
       </div>
       <div className="container-page hybrid-work__footer">
-        <Link to="/projekty">Pozrieť všetky projekty <ArrowRight size={18} /></Link>
+        <Link to="/projekty">
+          Pozrieť všetky projekty <ArrowRight size={18} />
+        </Link>
       </div>
     </section>
   );
@@ -385,7 +415,9 @@ function LiveDemos() {
             <div className="kage-demo__frame">
               <img src={webko.image} alt={webko.alt} loading="lazy" decoding="async" />
               <span>01 / WEBKO</span>
-              <b>OTVORIŤ WEB <ArrowUpRight size={16} /></b>
+              <b>
+                OTVORIŤ WEB <ArrowUpRight size={16} />
+              </b>
             </div>
             <div className="kage-demo__meta">
               <strong>WEBKO</strong>
@@ -400,14 +432,16 @@ function LiveDemos() {
             target="_blank"
             rel="noreferrer"
           >
-            <iframe
-              src="https://danielvendzur-code.github.io/aplan-chatbot-backend/"
-              title="APLAN AI živá ukážka"
+            <img
+              src={`${import.meta.env.BASE_URL}work/live/aplan.webp`}
+              alt="APLAN AI interaktívny asistent"
               loading="lazy"
-              tabIndex={-1}
+              decoding="async"
             />
             <span>02 / APLAN AI</span>
-            <b>VYSKÚŠAŤ <ArrowUpRight size={16} /></b>
+            <b>
+              VYSKÚŠAŤ <ArrowUpRight size={16} />
+            </b>
           </a>
           <div className="kage-demo__meta">
             <strong>APLAN AI</strong>
@@ -424,7 +458,10 @@ function CoreTools() {
     <section className="hybrid-tools" aria-labelledby="hybrid-tools-title">
       <div className="container-page hybrid-tools__intro">
         <span>RIEŠENIA</span>
-        <div><h2 id="hybrid-tools-title">Čo má váš web robiť?</h2><p>Kliknite a otvoríme konkrétnu ukážku.</p></div>
+        <div>
+          <h2 id="hybrid-tools-title">Čo má váš web robiť?</h2>
+          <p>Kliknite a otvoríme konkrétnu ukážku.</p>
+        </div>
       </div>
       <div className="hybrid-tools__rows">
         {tools.map((tool) => (
@@ -436,8 +473,13 @@ function CoreTools() {
             aria-label={`${tool.cta}: ${tool.name}`}
           >
             <div className="container-page hybrid-tool__inner">
-              <span>{tool.index}</span><strong>{tool.name}</strong><b>{tool.statement}</b><p>{tool.copy}</p>
-              <span className="hybrid-tool__cta">{tool.cta} <ArrowUpRight size={18} /></span>
+              <span>{tool.index}</span>
+              <strong>{tool.name}</strong>
+              <b>{tool.statement}</b>
+              <p>{tool.copy}</p>
+              <span className="hybrid-tool__cta">
+                {tool.cta} <ArrowUpRight size={18} />
+              </span>
             </div>
           </button>
         ))}
@@ -453,23 +495,39 @@ function Audience() {
         <div className="hybrid-audience__content">
           <span>PRE FIRMY SO SLUŽBAMI</span>
           <h2>Menej vysvetľovania po telefóne.</h2>
-          <p>Chatbot alebo kalkulačka zodpovie bežné otázky, zistí základné údaje a odošle pripravený dopyt.</p>
-          <button type="button" onClick={() => openSiteAssistant({ source: "audience-services", preset: "inquiry" })}>
+          <p>
+            Chatbot alebo kalkulačka zodpovie bežné otázky, zistí základné údaje a odošle pripravený
+            dopyt.
+          </p>
+          <button
+            type="button"
+            onClick={() => openSiteAssistant({ source: "audience-services", preset: "inquiry" })}
+          >
             Ukážte mi riešenie pre služby <ArrowRight size={17} />
           </button>
         </div>
-        <div className="hybrid-audience__type" aria-hidden="true">SLUŽBY</div>
+        <div className="hybrid-audience__type" aria-hidden="true">
+          SLUŽBY
+        </div>
       </article>
       <article className="hybrid-audience__panel hybrid-audience__panel--commerce" id="pre-eshopy">
         <div className="hybrid-audience__content">
           <span>PRE E-SHOPY</span>
           <h2>Rýchlejšie k správnemu produktu.</h2>
-          <p>Produktový poradca sa opýta na potreby, zúži výber a pošle zákazníka k vhodnému produktu alebo variantu.</p>
-          <button type="button" onClick={() => openSiteAssistant({ source: "audience-commerce", preset: "product" })}>
+          <p>
+            Produktový poradca sa opýta na potreby, zúži výber a pošle zákazníka k vhodnému produktu
+            alebo variantu.
+          </p>
+          <button
+            type="button"
+            onClick={() => openSiteAssistant({ source: "audience-commerce", preset: "product" })}
+          >
             Ukážte mi riešenie pre e-shop <ArrowRight size={17} />
           </button>
         </div>
-        <div className="hybrid-audience__type" aria-hidden="true">E-SHOP</div>
+        <div className="hybrid-audience__type" aria-hidden="true">
+          E-SHOP
+        </div>
       </article>
     </section>
   );
@@ -481,11 +539,17 @@ function Process() {
       <div className="container-page hybrid-process__intro">
         <span>AKO PREBIEHA SPOLUPRÁCA</span>
         <h2 id="hybrid-process-title">Od prvého rozhovoru po nasadenie.</h2>
-        <Link to="/postup">Pozrieť celý postup <ArrowRight size={17} /></Link>
+        <Link to="/postup">
+          Pozrieť celý postup <ArrowRight size={17} />
+        </Link>
       </div>
       <ol className="container-page hybrid-process__list">
         {process.map(([index, title, copy]) => (
-          <li key={index}><span>{index}</span><strong>{title}</strong><p>{copy}</p></li>
+          <li key={index}>
+            <span>{index}</span>
+            <strong>{title}</strong>
+            <p>{copy}</p>
+          </li>
         ))}
       </ol>
     </section>
@@ -500,10 +564,22 @@ function Price() {
         <h2 id="hybrid-price-title">Jednoduchý nástroj nemusí stáť tisíce.</h2>
       </div>
       <div className="container-page hybrid-price__grid">
-        <div><span>CHATBOT NA MIERU</span><strong>od 450 €</strong></div>
-        <div><span>KALKULAČKA / KONFIGURÁTOR</span><strong>od 500 €</strong></div>
-        <div><span>PREVÁDZKA</span><strong>10 €</strong><b>/ mesiac</b></div>
-        <Link to="/cennik" className="hybrid-price__link">Pozrieť cenník <ArrowUpRight size={18} /></Link>
+        <div>
+          <span>CHATBOT NA MIERU</span>
+          <strong>od 450 €</strong>
+        </div>
+        <div>
+          <span>KALKULAČKA / KONFIGURÁTOR</span>
+          <strong>od 500 €</strong>
+        </div>
+        <div>
+          <span>PREVÁDZKA</span>
+          <strong>10 €</strong>
+          <b>/ mesiac</b>
+        </div>
+        <Link to="/cennik" className="hybrid-price__link">
+          Pozrieť cenník <ArrowUpRight size={18} />
+        </Link>
       </div>
     </section>
   );
@@ -515,19 +591,27 @@ export function KageLanding() {
       <SignalLens />
       <section className="hybrid-hero kage-hero" aria-labelledby="hybrid-hero-title">
         <div className="container-page hybrid-hero__stage">
-          <h1 id="hybrid-hero-title"><span>Od otázky</span><em>k výsledku.</em></h1>
+          <h1 id="hybrid-hero-title">
+            <span>Od otázky</span>
+            <em>k výsledku.</em>
+          </h1>
           <HeroCollage />
         </div>
         <div className="container-page hybrid-hero__bottom kage-hero__bottom">
           <p>Web, ktorý vie odpovedať, počítať a poradiť.</p>
-          <a href="#realizacie" className="hybrid-hero__primary">Pozrieť realizácie <ArrowUpRight size={17} /></a>
+          <a href="#realizacie" className="hybrid-hero__primary">
+            Pozrieť realizácie <ArrowUpRight size={17} />
+          </a>
         </div>
       </section>
 
       <section className="hybrid-manifesto" aria-labelledby="hybrid-manifesto-title">
         <div className="container-page hybrid-manifesto__inner">
           <span>ČO MÔŽE WEB UROBIŤ ZA VÁS</span>
-          <h2 id="hybrid-manifesto-title">Môže <em>odpovedať.</em> Môže <em>počítať.</em> Môže <em>pomôcť vybrať.</em> A potom poslať pripravený dopyt.</h2>
+          <h2 id="hybrid-manifesto-title">
+            Môže <em>odpovedať.</em> Môže <em>počítať.</em> Môže <em>pomôcť vybrať.</em> A potom
+            poslať pripravený dopyt.
+          </h2>
         </div>
       </section>
 
@@ -540,12 +624,17 @@ export function KageLanding() {
       <Price />
 
       <section className="hybrid-final" aria-labelledby="hybrid-final-title">
-        <div className="container-page hybrid-final__top"><BrandMark size={54} /><span>MÔJ CHATBOT</span></div>
+        <div className="container-page hybrid-final__top">
+          <BrandMark size={54} />
+          <span>MÔJ CHATBOT</span>
+        </div>
         <div className="container-page hybrid-final__body">
           <h2 id="hybrid-final-title">Povedzte nám, čo má váš web vedieť.</h2>
           <p>Navrhneme jednoduché riešenie a vopred poveme, čo bude obsahovať a koľko bude stáť.</p>
           <div>
-            <Link to="/kontakt" className="hybrid-final__button">Chcem návrh riešenia <ArrowUpRight size={19} /></Link>
+            <Link to="/kontakt" className="hybrid-final__button">
+              Chcem návrh riešenia <ArrowUpRight size={19} />
+            </Link>
             <a href="mailto:info@mojchatbot.sk">info@mojchatbot.sk</a>
           </div>
         </div>
