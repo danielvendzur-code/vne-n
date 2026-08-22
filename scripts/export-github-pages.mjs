@@ -8,17 +8,17 @@ const output = "pages-dist";
 const fallbackSnapshot = ".pages-dist-snapshot";
 const sourceSha = process.env.GITHUB_SHA || "local";
 
-// Compatibility marker for the previous audited headline: "Chatboty, ktoré".
-// The live/exported homepage is validated against the current public headline below.
 const routes = [
   "/",
   "/navrh",
   "/sluzby",
   "/projekty",
+  "/projekty/derat",
   "/postup",
   "/preco-chatbot",
   "/cennik",
   "/kontakt",
+  "/dakujeme",
   "/cookies",
   "/ochrana-udajov",
   "/farby",
@@ -45,10 +45,13 @@ for (const route of routes) {
 
   if (route === "/") {
     homeHtml = html;
-    if (!homeHtml.includes("Váš web odpovie")) {
-      throw new Error("Homepage export does not contain the current public hero copy");
+    if (!homeHtml.includes("Z otázky") || !homeHtml.includes("k výsledku")) {
+      throw new Error("Homepage export does not contain the current rebrand hero copy");
     }
-    if (homeHtml.includes("Webové nástroje, ktoré odovzdajú hotový dopyt")) {
+    if (
+      homeHtml.includes("Váš web odpovie") ||
+      homeHtml.includes("Webové nástroje, ktoré odovzdajú hotový dopyt")
+    ) {
       throw new Error("Homepage export still contains obsolete hero copy");
     }
   }
@@ -59,8 +62,6 @@ for (const route of routes) {
   await mkdir(dirname(directoryTarget), { recursive: true });
   await writeFile(directoryTarget, html);
 
-  // GitHub Pages and external links may request /route without a trailing slash.
-  // The sibling .html file makes that request resolvable without a platform-specific redirect.
   if (route !== "/") {
     const extensionTarget = join(output, `${relative}.html`);
     await mkdir(dirname(extensionTarget), { recursive: true });
@@ -72,9 +73,6 @@ for (const route of routes) {
 
 if (!homeHtml) throw new Error("Homepage was not exported");
 
-// A copy of the application shell is the safest GitHub Pages fallback: the
-// client router reads the original URL and renders either the real route or
-// the polished in-app 404 screen.
 await writeFile(join(output, "404.html"), homeHtml);
 await writeFile(join(output, "index.htm"), homeHtml);
 await writeFile(join(output, ".nojekyll"), "");
@@ -93,9 +91,7 @@ await writeFile(
   ),
 );
 
-// GitHub Pages normally mounts a project artifact directly at /<repo>/.
-// A duplicated project-named directory also covers the alternate mount shape
-// that otherwise returns GitHub's generic "File not found" page at /<repo>/.
+// Cover both GitHub Pages project mount shapes without changing the public app router.
 await cp(output, fallbackSnapshot, { recursive: true });
 await mkdir(join(output, projectName), { recursive: true });
 await cp(fallbackSnapshot, join(output, projectName), { recursive: true });

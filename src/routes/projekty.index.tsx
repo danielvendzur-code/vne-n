@@ -1,10 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, ExternalLink, MessageCircle } from "lucide-react";
-import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
-import { liveTools, realizations } from "@/data/realizations";
-import { openSiteAssistant } from "@/lib/site-assistant";
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { realizations } from "@/data/realizations";
 import { breadcrumbJsonLd, seo, SITE_URL } from "@/lib/seo";
-import "./realizacie.css";
 
 const realizationsJsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -26,9 +23,9 @@ const realizationsJsonLd = JSON.stringify({
 export const Route = createFileRoute("/projekty/")({
   head: () => ({
     ...seo({
-      title: "Realizácie — weby a chatboty, ktoré bežia naživo",
+      title: "Realizácie — živé weby a interaktívne nástroje",
       description:
-        "Reálne nasadené weby na vlastných doménach: derat.sk, mojplot.sk, koverta.sk a webko.sk. Pozrite si živé projekty aj detailnú prípadovú štúdiu DERAT.",
+        "Reálne nasadené projekty Môj Chatbot: DERAT, Môj Plot, Koverta a WEBKO. Bez vymyslených metrík a bez makiet.",
       path: "/projekty",
     }),
     scripts: [
@@ -45,97 +42,79 @@ export const Route = createFileRoute("/projekty/")({
 function ProjectsPage() {
   return (
     <div className="sp-page">
-      <PageIntro
-        eyebrow="Realizácie"
-        title={
-          <>
-            Weby a nástroje, <em>ktoré naozaj bežia.</em>
-          </>
-        }
-        lead="Každý web nižšie má vlastnú doménu a viete si ho hneď otvoriť. Pri DERAT nájdete aj konkrétnu prípadovú štúdiu od vstupu po pripravený dopyt."
-      >
-        <div className="sp-hero-chips">
-          <span className="chip">Živé domény</span>
-          <span className="chip">Overiteľné</span>
-          <span className="chip">Bez registrácie</span>
-        </div>
-      </PageIntro>
-
-      <section className="sp-section">
+      <header className="sp-hero">
         <div className="container-page">
-          <div className="rz-grid">
-            {realizations.map((project, index) => (
-              <Reveal
-                className="rz-item"
-                key={project.name}
-                delay={Math.min(index * 0.07, 0.16)}
-                amount={0.18}
-              >
-                <a className="rz-card" href={project.href} target="_blank" rel="noreferrer">
-                  <span className="rz-shot">
-                    <img
-                      src={project.image}
-                      alt={project.alt}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      decoding="async"
-                      width={1440}
-                      height={1000}
-                    />
-                    <span className="rz-domain" aria-hidden="true">
-                      <i />
-                      {project.domain}
-                    </span>
-                  </span>
-                  <span className="rz-body">
-                    <span className="rz-type">{project.type}</span>
-                    <h2>{project.name}</h2>
-                    <p>{project.detail}</p>
-                    <span className="rz-open">
-                      Otvoriť živý web <ExternalLink aria-hidden="true" size={14} />
-                    </span>
-                  </span>
-                </a>
-                {project.caseStudyPath ? (
-                  <Link to={project.caseStudyPath} className="rz-case-link">
-                    Pozrieť prípadovú štúdiu <ArrowRight aria-hidden="true" size={14} />
-                  </Link>
-                ) : null}
-              </Reveal>
-            ))}
-          </div>
+          <p className="section-kicker">VYBRANÉ REALIZÁCIE</p>
+          <h1>
+            Weby a nástroje, <em>ktoré naozaj bežia.</em>
+          </h1>
+          <p className="sp-hero-lead">
+            Každý projekt nižšie beží na živej doméne. Otvorte si ho a pozrite sa, ako funguje v
+            reálnom webe.
+          </p>
+        </div>
+      </header>
 
-          <Reveal className="rz-tools" delay={0.08}>
-            <span className="rz-tools-label">Živé nástroje na vyskúšanie</span>
-            <div className="rz-tools-list">
-              {liveTools.map((tool) => (
-                <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer">
-                  <b>{tool.name}</b>
-                  <small>{tool.note}</small>
-                  <ArrowUpRight aria-hidden="true" size={15} />
-                </a>
-              ))}
-            </div>
-          </Reveal>
+      <section className="selected-work">
+        <div className="container-page work-list">
+          {realizations.map((project, index) => (
+            <article className={`work-project work-project--${index % 3}`} key={project.name}>
+              <a
+                className="work-project__visual"
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src={project.image}
+                  alt={project.alt}
+                  loading="eager"
+                  decoding="async"
+                  width={1440}
+                  height={1000}
+                />
+              </a>
+              <div className="work-project__meta">
+                <span>0{index + 1}</span>
+                <div>
+                  <p>{project.type}</p>
+                  <h2>{project.name}</h2>
+                  <p>{project.detail}</p>
+                </div>
+                <div className="work-project__links">
+                  <a href={project.href} target="_blank" rel="noreferrer" className="text-link">
+                    Živý web <ExternalLink size={14} />
+                  </a>
+                  {project.name === "DERAT" ? (
+                    <Link to="/projekty/derat" className="text-link">
+                      Prípadová štúdia <ArrowRight size={14} />
+                    </Link>
+                  ) : null}
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="sp-section">
-        <CtaBand
-          kicker="Predstavujete si niečo podobné?"
-          title="Poviem vám, ako by to vyzeralo pre vašu službu."
-          lead="Napíšte, čo predávate a na čo sa vás ľudia pýtajú. Navrhnem, čo presne by chatbot robil."
-        >
-          <button
-            type="button"
-            className="sp-button sp-button--primary"
-            onClick={() => openSiteAssistant({ source: "projects-cta" })}
-          >
-            <MessageCircle aria-hidden="true" /> Opísať moju situáciu
-          </button>
-          <Link to="/kontakt" className="sp-button sp-button--ghost">
-            Kontakt <ArrowRight aria-hidden="true" />
-          </Link>
-        </CtaBand>
+      <section className="pricing-bridge">
+        <div className="container-page pricing-bridge__grid">
+          <div>
+            <p className="section-kicker">VÁŠ PROJEKT</p>
+            <h2 className="section-title">
+              Máte podobný <em>proces?</em>
+            </h2>
+          </div>
+          <div>
+            <p>
+              Napíšte, čo má zákazník na vašom webe zistiť, vypočítať alebo vybrať. Navrhneme
+              funkčný smer bez zbytočnej technickej omáčky.
+            </p>
+            <Link to="/kontakt" className="button-primary">
+              Prebrať môj web <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
       </section>
     </div>
   );

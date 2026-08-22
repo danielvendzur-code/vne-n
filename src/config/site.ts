@@ -1,11 +1,9 @@
-/* Historical audit marker, intentionally not used as the active version:
-   taste-system-20260723-v7 */
 export const siteConfig = {
   brand: "Môj Chatbot",
-  visualVersion: "taste-system-20260806-v8",
-  title: "Môj Chatbot — chatboty pre e-shopy aj firmy so službami",
+  visualVersion: "question-to-outcome-20260822-v2",
+  title: "Môj Chatbot — digitálne predajné nástroje na mieru",
   description:
-    "Chatboty na mieru pre e-shopy aj firmy so službami. Odpovede, výpočet ceny, výber produktu, objednávky, reklamácie a pripravené dopyty.",
+    "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami.",
   team: {
     label: "Tím Môj Chatbot",
     founder: "Daniel Vendžúr",
@@ -18,7 +16,12 @@ export const siteConfig = {
     phoneLabel: "+421 948 699 433",
     phoneHref: "+421948699433",
   },
-  nav: [],
+  nav: [
+    { label: "Riešenia", to: "/sluzby" },
+    { label: "Realizácie", to: "/projekty" },
+    { label: "Proces", to: "/postup" },
+    { label: "Cena", to: "/cennik" },
+  ],
 
   /**
    * Pred komerčným spustením treba doplniť subjekt, ktorý službu skutočne

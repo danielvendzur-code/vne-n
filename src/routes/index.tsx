@@ -18,7 +18,7 @@ const faqJsonLd = JSON.stringify({
 const serviceJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Môj Chatbot — chatboty pre e-shopy aj firmy so službami",
+  name: "Môj Chatbot — digitálne predajné nástroje na mieru",
   url: `${SITE_URL}/`,
   logo: `${SITE_URL}/brand/logo.svg`,
   image: `${SITE_URL}/og/og-home.png`,
@@ -26,17 +26,16 @@ const serviceJsonLd = JSON.stringify({
   telephone: siteConfig.contact.phoneHref,
   areaServed: "SK",
   description:
-    "Chatboty na mieru, ktoré odpovedajú zákazníkom, počítajú cenu, pomáhajú s výberom a riešia dopyty, objednávky alebo reklamácie.",
+    "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami.",
   founder: { "@type": "Person", name: siteConfig.team.founder },
   knowsAbout: [
     "chatbot pre e-shop",
     "chatbot pre služby",
     "výpočet ceny na webe",
-    "výber produktu",
-    "sledovanie objednávky",
-    "zrušenie objednávky",
-    "vrátenie tovaru a reklamácie",
-    "pripravené dopyty",
+    "produktový konfigurátor",
+    "produktový poradca",
+    "kvalifikácia dopytov",
+    "guided selling",
   ],
 });
 
@@ -56,9 +55,9 @@ const portfolioJsonLd = JSON.stringify({
 export const Route = createFileRoute("/")({
   head: () => ({
     ...seo({
-      title: "Chatbot pre e-shop aj služby — Môj Chatbot",
+      title: "Digitálne predajné nástroje na mieru — Môj Chatbot",
       description:
-        "Chatbot na mieru pre e-shopy aj firmy so službami. Odpovie zákazníkom, vypočíta cenu, pomôže s výberom a pripraví dopyt, objednávku alebo reklamáciu.",
+        "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami. Od otázky k výsledku.",
       path: "/",
     }),
     scripts: [

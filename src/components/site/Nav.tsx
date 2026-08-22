@@ -1,348 +1,142 @@
 import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
-import { ArrowRight, ArrowUpRight, Bot, Calculator, Mail, SlidersHorizontal } from "lucide-react";
-import { LineSidebar, type LineSidebarItem } from "@/components/navigation/LineSidebar";
+import { ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { openSiteAssistant } from "@/lib/site-assistant";
-import type { AssistantPreset } from "@/types/assistant";
-import "./Nav.css";
-import "./BrandMenuV2.css";
 
-const drawerItems: LineSidebarItem[] = [
-  { label: "Domov", href: "/" },
-  { label: "Chatboty a riešenia", href: "/sluzby" },
-  { label: "Čo to prinesie webu", href: "/preco-chatbot" },
-  { label: "Realizácie", href: "/projekty" },
-  { label: "Cena", href: "/cennik" },
-  { label: "Ako to prebieha", href: "/postup" },
-  { label: "Kontakt", href: "/kontakt" },
+const desktopLinks = [
+  { label: "Riešenia", to: "/sluzby" as const },
+  { label: "Pre e-shopy", href: "/#pre-eshopy" },
+  { label: "Realizácie", to: "/projekty" as const },
+  { label: "Ako to funguje", to: "/postup" as const },
+  { label: "Cena", to: "/cennik" as const },
 ];
 
-const menuSolutions: Array<{
-  icon: typeof Bot;
-  title: string;
-  copy: string;
-  preset: AssistantPreset;
-}> = [
-  {
-    icon: Bot,
-    title: "Chatbot",
-    copy: "Odpovie zákazníkom, poradí im a pošle vám pripravený dopyt.",
-    preset: "inquiry",
-  },
-  {
-    icon: Calculator,
-    title: "Chatbot s kalkulačkou",
-    copy: "Vypočíta cenu, spotrebu alebo rozsah podľa vašich pravidiel.",
-    preset: "calculator",
-  },
-  {
-    icon: SlidersHorizontal,
-    title: "Chatbot s konfigurátorom",
-    copy: "Prevedie zákazníka výberom produktu, variantov a doplnkov.",
-    preset: "product",
-  },
+const mobileLinks = [
+  { index: "01", label: "Riešenia", to: "/sluzby" as const },
+  { index: "02", label: "Pre e-shopy", href: "/#pre-eshopy" },
+  { index: "03", label: "Realizácie", to: "/projekty" as const },
+  { index: "04", label: "Proces", to: "/postup" as const },
+  { index: "05", label: "Cena", to: "/cennik" as const },
+  { index: "06", label: "Kontakt", to: "/kontakt" as const },
 ];
 
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const drawerRef = useRef<HTMLElement>(null);
-  const sentinelRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
-  const reducedMotion = useReducedMotion();
 
-  useFocusTrap(drawerRef, open, closeMenu);
+  useFocusTrap(panelRef, open, closeMenu, menuButtonRef);
 
-  /**
-   * Či je stránka odscrollovaná od vrchu, hlási bod na začiatku dokumentu —
-   * nie posluchač scrollu. Ten sa spúšťal pri každom pohybe prsta a zakaždým
-   * volal `setState`; pozorovateľ prieniku sa ozve len pri dvoch prechodoch.
-   */
   useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel || typeof IntersectionObserver === "undefined") {
-      // Bez pozorovateľa ostáva hlavička v podobe pre vrch stránky.
-      return;
-    }
-
-    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry?.isIntersecting), {
-      threshold: 0,
-    });
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, []);
-
-  /**
-   * Hlavička je vyňatá z toku, aby sa pri scrollovaní vôbec nehýbala. Miesto
-   * po nej drží výplň — a aby sedela na pixel aj po zmene písma či otočení
-   * displeja, berie si výšku z reálnej hlavičky, nie z natvrdo zapísaného
-   * čísla. CSS má vlastnú zálohu pre prvé vykreslenie a pre vypnutý JavaScript.
-   */
-  useEffect(() => {
-    const header = headerRef.current;
-    if (!header || typeof ResizeObserver === "undefined") return;
-
-    const apply = () => {
-      const height = Math.round(header.getBoundingClientRect().height);
-      if (height > 0) {
-        document.documentElement.style.setProperty("--site-header-h", `${height}px`);
-      }
-    };
-
-    apply();
-    const observer = new ResizeObserver(apply);
-    observer.observe(header);
-    return () => observer.disconnect();
+    const onScroll = () => setScrolled(window.scrollY > 18);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    document.body.dataset.siteMenuOpen = "true";
     return () => {
       document.body.style.overflow = previous;
-      delete document.body.dataset.siteMenuOpen;
     };
   }, [open]);
 
-  const openMenuChatbot = (preset?: AssistantPreset, category?: string) => {
-    closeMenu();
-    window.setTimeout(
-      () =>
-        openSiteAssistant({
-          source: "sidebar-solution",
-          preset,
-          category,
-        }),
-      360,
-    );
-  };
-
   return (
     <>
-      {/* Bod na začiatku dokumentu. Nič nekreslí a nič nezaberá — len povie,
-          kedy hlavička prestala sedieť na vrchu stránky. */}
-      <div ref={sentinelRef} className="site-header-sentinel" aria-hidden="true" />
-      {/* Miesto, ktoré by hlavička zaberala, keby bola v toku. Bez neho by sa
-          celá stránka posunula o jej výšku hore, pod lištu. */}
       <div className="site-header-spacer" aria-hidden="true" />
-      <header
-        ref={headerRef}
-        className="site-header top-0 py-3 md:py-4 pointer-events-none"
-        data-scrolled={scrolled}
-        style={{ zIndex: open ? 90 : 40 }}
-      >
-        <div className="container-page flex items-center justify-between h-13 md:h-15">
-          <div
-            className="site-header-bar flex items-center justify-between w-full rounded-[20px] px-3 md:px-4 pointer-events-auto backdrop-blur-xl transition-[background-color,border-color,box-shadow]"
-            style={{
-              minHeight: 56,
-              backgroundColor: scrolled
-                ? "color-mix(in oklab, var(--surface) 92%, transparent)"
-                : "color-mix(in oklab, var(--surface) 74%, transparent)",
-              border: "1px solid var(--border)",
-              boxShadow: scrolled
-                ? "0 18px 52px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(230, 242, 236, 0.04) inset"
-                : "0 10px 30px rgba(0, 0, 0, 0.16)",
-            }}
-          >
+      <header className="site-header" data-scrolled={scrolled}>
+        <div className="site-header__inner container-page">
+          <Link to="/" className="site-brand-lockup" aria-label="Môj Chatbot — domov">
+            <BrandMark size={34} />
+            <span className="site-brand-name">Môj Chatbot</span>
+          </Link>
+
+          <nav className="site-nav" aria-label="Hlavná navigácia">
+            {desktopLinks.map((item) =>
+              "to" in item ? (
+                <Link key={item.label} to={item.to} activeProps={{ "aria-current": "page" }}>
+                  {item.label}
+                </Link>
+              ) : (
+                <a key={item.label} href={item.href}>
+                  {item.label}
+                </a>
+              ),
+            )}
+          </nav>
+
+          <div className="site-header__actions">
+            <Link to="/kontakt" className="site-header__cta">
+              Začať projekt <ArrowUpRight size={14} aria-hidden="true" />
+            </Link>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              className="site-menu-toggle"
+              aria-expanded={open}
+              aria-controls="site-mobile-menu"
+              aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
+              onClick={() => setOpen((value) => !value)}
+            >
+              MENU
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="site-menu-layer" data-open={open} aria-hidden={!open}>
+        <div
+          id="site-mobile-menu"
+          ref={panelRef}
+          className="site-menu-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigácia"
+          tabIndex={-1}
+        >
+          <div className="site-menu-head">
             <Link
               to="/"
-              className="site-brand-lockup flex items-center gap-2.5"
+              className="site-brand-lockup"
+              onClick={closeMenu}
               aria-label="Môj Chatbot — domov"
             >
               <BrandMark size={34} />
-              <span className="site-brand-copy">
-                <span className="site-brand-name">Môj Chatbot</span>
-                <small className="site-brand-domain">mojchatbot.sk</small>
-              </span>
+              <span className="site-brand-name">Môj Chatbot</span>
             </Link>
+            <button type="button" className="site-menu-close" onClick={closeMenu}>
+              ZAVRIEŤ
+            </button>
+          </div>
 
-            <nav className="hidden lg:flex items-center gap-8" aria-label="Rýchla navigácia">
-              {siteConfig.nav.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  aria-label={item.to === "/sluzby" ? "Služby" : undefined}
-                  className="site-nav-link text-[13.5px] tracking-tight transition-colors"
-                  activeProps={{ style: { color: "var(--primary)" } }}
-                  inactiveProps={{ style: { color: "var(--text-secondary)" } }}
-                >
+          <nav className="site-menu-nav" aria-label="Mobilná navigácia">
+            {mobileLinks.map((item) =>
+              "to" in item ? (
+                <Link key={item.label} to={item.to} onClick={closeMenu}>
+                  <span>{item.index}</span>
                   {item.label}
                 </Link>
-              ))}
-            </nav>
+              ) : (
+                <a key={item.label} href={item.href} onClick={closeMenu}>
+                  <span>{item.index}</span>
+                  {item.label}
+                </a>
+              ),
+            )}
+          </nav>
 
-            <div className="flex items-center gap-2">
-              <Link
-                to="/kontakt"
-                className="site-consultation-cta hidden lg:inline-flex items-center gap-1.5 rounded-[12px] px-4 py-2 text-[13.5px] font-semibold"
-              >
-                Nezáväzná konzultácia <ArrowUpRight size={14} aria-hidden="true" />
-              </Link>
-              <button
-                onClick={() => setOpen((value) => !value)}
-                aria-label={open ? "Zavrieť horné menu" : "Otvoriť menu"}
-                aria-expanded={open}
-                aria-controls="site-navigation-drawer"
-                className="site-menu-toggle"
-              >
-                <span>Menu</span>
-                <MenuIcon open={open} />
-              </button>
-            </div>
+          <div className="site-menu-foot">
+            <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+            <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
           </div>
         </div>
-
-        <div className="site-menu-layer pointer-events-auto" data-open={open} aria-hidden={!open}>
-          <div className="site-menu-backdrop" onClick={closeMenu} aria-hidden="true" />
-          <motion.aside
-            id="site-navigation-drawer"
-            ref={drawerRef}
-            className="site-menu-drawer"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigácia"
-            tabIndex={-1}
-            initial={false}
-            animate={{
-              opacity: open ? 1 : 0,
-              y: open ? 0 : 14,
-              scale: open ? 1 : 0.985,
-            }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : { duration: open ? 0.42 : 0.24, ease: [0.16, 1, 0.3, 1] }
-            }
-            style={{
-              transition: "none",
-              willChange: reducedMotion ? undefined : "transform, opacity",
-            }}
-          >
-            <div className="site-menu-head">
-              <Link to="/" onClick={closeMenu} aria-label="Domov" className="site-menu-brand">
-                <BrandMark size={44} />
-                <span>
-                  Môj Chatbot
-                  <small>chatboty pre e-shopy aj firmy so službami</small>
-                </span>
-              </Link>
-              <button
-                className="site-menu-close"
-                type="button"
-                aria-label="Zavrieť menu"
-                onClick={closeMenu}
-              >
-                Zavrieť <MenuIcon open />
-              </button>
-            </div>
-
-            <div className="site-menu-content">
-              <div className="site-menu-grid">
-                <div className="site-menu-nav-column">
-                  <p className="site-menu-eyebrow">Navigácia</p>
-                  <LineSidebar
-                    items={drawerItems}
-                    onItemClick={closeMenu}
-                    accentColor="#d9ff78"
-                    textColor="#f7fcfa"
-                    markerColor="rgba(247, 252, 250, 0.2)"
-                    markerLength={48}
-                    maxShift={20}
-                    itemGap={18}
-                    fontSize={1.24}
-                  />
-                </div>
-
-                <aside className="site-menu-services" aria-label="Rýchly výber riešenia">
-                  <p className="site-menu-eyebrow">Vyberte riešenie</p>
-                  <p className="site-menu-services-intro">
-                    Kliknite na najbližšiu možnosť. Chatbot sa otvorí s pripraveným prvým krokom.
-                  </p>
-                  <div className="site-menu-solution-list">
-                    {menuSolutions.map(({ icon: Icon, title, copy, preset }) => (
-                      <button
-                        type="button"
-                        className="site-menu-solution"
-                        key={title}
-                        onClick={() => openMenuChatbot(preset, title)}
-                      >
-                        <span className="site-menu-solution-icon">
-                          <Icon size={17} aria-hidden="true" />
-                        </span>
-                        <span>
-                          <b>{title}</b>
-                          <small>{copy}</small>
-                        </span>
-                        <ArrowUpRight size={16} aria-hidden="true" />
-                      </button>
-                    ))}
-                  </div>
-                  <Link className="site-menu-project-link" to="/projekty" onClick={closeMenu}>
-                    Pozrieť živé weby <ArrowRight size={16} aria-hidden="true" />
-                  </Link>
-                </aside>
-              </div>
-            </div>
-
-            <div className="site-menu-footer">
-              <button className="site-menu-cta" type="button" onClick={() => openMenuChatbot()}>
-                <span>
-                  <small>Neviete, čo vybrať?</small>
-                  Vyskladať riešenie krok za krokom
-                </span>
-                <ArrowUpRight size={20} />
-              </button>
-              <a className="site-menu-email" href={`mailto:${siteConfig.contact.email}`}>
-                <Mail size={14} /> {siteConfig.contact.email}
-              </a>
-            </div>
-          </motion.aside>
-        </div>
-      </header>
+      </div>
     </>
-  );
-}
-
-function MenuIcon({ open }: { open: boolean }) {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-      <line
-        x1="3"
-        y1="7"
-        x2="15"
-        y2="7"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        style={{
-          transform: open ? "rotate(45deg) translate(1px, 1px)" : "none",
-          transformOrigin: "9px 9px",
-          transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
-      />
-      <line
-        x1="3"
-        y1="11"
-        x2="15"
-        y2="11"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        style={{
-          transform: open ? "rotate(-45deg) translate(1px, -1px)" : "none",
-          transformOrigin: "9px 9px",
-          transition: "transform 200ms cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
-      />
-    </svg>
   );
 }
