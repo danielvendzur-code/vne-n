@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PremiumLanding } from "@/components/site/PremiumLanding";
+import { KageLanding } from "@/components/site/KageLanding";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -70,5 +70,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <PremiumLanding variant="public" />;
+  return <KageLanding />;
 }
