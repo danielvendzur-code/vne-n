@@ -11,74 +11,81 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { BrandMark } from "../components/BrandMark";
 import { SiteLayout } from "../components/site/Layout";
 import { SITE_ORIGIN, siteConfig } from "../config/site";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
-const errorPanelStyle = {
-  border: "1px solid rgba(11,47,32,.14)",
-  borderRadius: "1.35rem",
-  padding: "clamp(1.7rem, 5vw, 3rem)",
-  background: "#ffffff",
-  boxShadow: "0 30px 90px -54px rgba(11,47,32,.48)",
+const systemPageStyle = {
+  minHeight: "100dvh",
+  display: "grid",
+  placeItems: "center",
+  padding: "clamp(1.25rem, 5vw, 4rem)",
+  background: "#f2f0e8",
+  color: "#111310",
+} as const;
+
+const systemPanelStyle = {
+  width: "min(100%, 900px)",
+  borderTop: "1px solid #b8bab2",
+  borderBottom: "1px solid #b8bab2",
+  padding: "clamp(2rem, 7vw, 5rem) 0",
+} as const;
+
+const systemButtonStyle = {
+  minHeight: 46,
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "0.75rem 1.1rem",
+  border: "1px solid #12372d",
+  borderRadius: 4,
+  background: "#12372d",
+  color: "#f5f4ed",
+  fontSize: "0.9rem",
+  fontWeight: 650,
+  textDecoration: "none",
+  cursor: "pointer",
 } as const;
 
 function NotFoundComponent() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center px-4"
-      style={{
-        backgroundColor: "#ffffff",
-        backgroundImage:
-          "radial-gradient(circle at 82% 12%, rgba(217,255,120,.3), transparent 30rem)",
-      }}
-    >
-      <div className="max-w-lg text-center" style={errorPanelStyle}>
+    <div style={systemPageStyle}>
+      <main style={systemPanelStyle}>
+        <BrandMark size={48} className="system-brand-mark" />
         <p
           style={{
-            color: "#19834f",
-            fontSize: "0.73rem",
-            fontWeight: 800,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
+            margin: "3rem 0 1rem",
+            color: "#6e746f",
+            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+            fontSize: "0.7rem",
+            letterSpacing: "0.07em",
           }}
         >
-          404 · Adresa neexistuje
+          404 / CESTA SA PRERUŠILA
         </p>
         <h1
-          className="mt-4"
           style={{
-            color: "#0b2f20",
+            maxWidth: "8ch",
+            margin: 0,
+            color: "#111310",
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(2.35rem, 7vw, 4rem)",
-            fontWeight: 560,
-            letterSpacing: "-0.06em",
-            lineHeight: 0.98,
+            fontSize: "clamp(4rem, 10vw, 8rem)",
+            fontWeight: 470,
+            letterSpacing: "-0.05em",
+            lineHeight: 0.88,
           }}
         >
-          Odkaz sa nenašiel.
+          Táto cesta nikam nevedie.
         </h1>
-        <p className="mt-5 text-sm" style={{ color: "#536159", lineHeight: 1.65 }}>
-          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte cez hlavnú navigáciu.
+        <p style={{ maxWidth: "38rem", margin: "2rem 0", color: "#6e746f", lineHeight: 1.6 }}>
+          Odkaz môže byť starý alebo neúplný. Vráťte sa na úvod a pokračujte odtiaľ.
         </p>
-        <a
-          href={import.meta.env.BASE_URL}
-          className="mt-8 inline-flex min-h-13 items-center justify-center"
-          style={{
-            backgroundColor: "#d9ff78",
-            color: "#0b2f20",
-            border: "1px solid rgba(127,178,26,.3)",
-            borderRadius: "0.9rem",
-            padding: "0.9rem 1.45rem",
-            fontSize: "0.9rem",
-            fontWeight: 800,
-            boxShadow: "0 18px 42px -30px rgba(86,132,0,.55)",
-          }}
-        >
+        <a href={import.meta.env.BASE_URL} style={systemButtonStyle}>
           Späť na úvod
         </a>
-      </div>
+      </main>
     </div>
   );
 }
@@ -92,47 +99,61 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div
-      className="flex min-h-screen items-center justify-center px-4"
-      style={{ backgroundColor: "#ffffff" }}
-    >
-      <div className="max-w-md text-center" style={errorPanelStyle}>
-        <p style={{ color: "#19834f", fontSize: ".72rem", fontWeight: 800 }}>MÔJ CHATBOT</p>
-        <h1 className="mt-3 text-xl font-semibold" style={{ color: "#0b2f20" }}>
-          Stránka sa nenačítala
-        </h1>
-        <p className="mt-2 text-sm" style={{ color: "#536159" }}>
-          Niečo sa pokazilo. Skúste obnoviť obsah alebo sa vráťte na úvod.
+    <div style={systemPageStyle}>
+      <main style={systemPanelStyle}>
+        <BrandMark size={42} />
+        <p
+          style={{
+            margin: "2.5rem 0 0.8rem",
+            color: "#6e746f",
+            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+            fontSize: "0.7rem",
+            letterSpacing: "0.07em",
+          }}
+        >
+          MÔJ CHATBOT / CHYBA
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <h1
+          style={{
+            maxWidth: "10ch",
+            margin: 0,
+            color: "#111310",
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(3rem, 8vw, 6rem)",
+            fontWeight: 470,
+            letterSpacing: "-0.045em",
+            lineHeight: 0.92,
+          }}
+        >
+          Stránka sa nenačítala.
+        </h1>
+        <p style={{ maxWidth: "36rem", margin: "1.5rem 0 2rem", color: "#6e746f" }}>
+          Skúste obsah načítať znova. Ak problém zostane, môžete sa vrátiť na úvod.
+        </p>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           <button
             type="button"
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
-            style={{
-              backgroundColor: "#d9ff78",
-              color: "#0b2f20",
-              border: "1px solid rgba(127,178,26,.3)",
-            }}
+            style={systemButtonStyle}
           >
             Skúsiť znova
           </button>
           <a
             href={import.meta.env.BASE_URL}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl px-4 py-2 text-sm font-bold"
             style={{
-              border: "1px solid rgba(11,47,32,.14)",
-              color: "#0b2f20",
-              background: "#f5f9f2",
+              ...systemButtonStyle,
+              background: "transparent",
+              color: "#111310",
+              borderColor: "#b8bab2",
             }}
           >
             Späť na úvod
           </a>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
@@ -172,16 +193,17 @@ const structuredData = JSON.stringify({
       email: `mailto:${siteConfig.contact.email}`,
       telephone: siteConfig.contact.phoneHref,
       description:
-        "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
+        "Digitálne predajné nástroje na mieru: chatboty, kalkulačky, konfigurátory a produktoví poradcovia pre e-shopy aj firmy so službami.",
       founder: { "@id": `${publicOrigin}/#daniel` },
       areaServed: { "@type": "Country", name: "Slovensko" },
       availableLanguage: ["sk"],
       knowsAbout: [
         "chatbot na mieru",
-        "AI asistent pre web",
         "cenová kalkulačka",
         "produktový konfigurátor",
-        "generovanie dopytov",
+        "produktový poradca",
+        "kvalifikácia dopytov",
+        "guided selling",
       ],
       contactPoint: {
         "@type": "ContactPoint",
@@ -216,11 +238,7 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  // Živá ukážka chatbota je jednoriadkový iframe na jeho vlastný repozitár,
-  // takže sa dá meniť tam bez zásahu do kódu webu.
   `frame-src 'self' https://danielvendzur-code.github.io https://*.vercel.app ${assistantOrigin}`,
-  // frame-ancestors sa cez <meta> ignoruje (patrí do HTTP hlavičky),
-  // tak ho tu nedržíme — inak len zbytočne hlási chybu v konzole.
   "form-action 'self' mailto:",
   "img-src 'self' data: blob: https: https://www.google-analytics.com",
   "font-src 'self' data: https://fonts.gstatic.com",
@@ -240,39 +258,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { httpEquiv: "Content-Security-Policy", content: contentSecurityPolicy },
       { name: "referrer", content: "strict-origin-when-cross-origin" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
-      { title: "Môj Chatbot — pripravené dopyty priamo z webu" },
+      { title: "Môj Chatbot — digitálne predajné nástroje na mieru" },
       {
         name: "description",
         content:
-          "Chatboty, kalkulačky a konfigurátory na mieru, ktoré odpovedajú zákazníkom a pripravujú použiteľné dopyty.",
+          "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami.",
       },
       { name: "author", content: "Tím Môj Chatbot" },
-      { name: "theme-color", content: "#ffffff" },
+      { name: "theme-color", content: "#f2f0e8" },
       { property: "og:site_name", content: "Môj Chatbot" },
       { property: "og:locale", content: "sk_SK" },
-      { property: "og:title", content: "Môj Chatbot — pripravené dopyty priamo z webu" },
+      { property: "og:title", content: "Môj Chatbot — z otázky k výsledku" },
       {
         property: "og:description",
-        content:
-          "AI chatboty, kalkulačky a konfigurátory na mieru, ktoré premenia návštevu na pripravený dopyt.",
+        content: "Digitálne predajné nástroje na mieru pre e-shopy aj firmy so službami.",
       },
       { property: "og:type", content: "website" },
-      {
-        property: "og:image",
-        content: `${publicOrigin}/og/og-home.png`,
-      },
+      { property: "og:image", content: `${publicOrigin}/og/og-home.png` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Môj Chatbot — pripravené dopyty priamo z webu" },
+      { name: "twitter:title", content: "Môj Chatbot — z otázky k výsledku" },
       {
         name: "twitter:description",
-        content: "Chatboty, kalkulačky a konfigurátory, ktoré pripravia použiteľný dopyt.",
+        content: "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru.",
       },
-      {
-        name: "twitter:image",
-        content: `${publicOrigin}/og/og-home.png`,
-      },
+      { name: "twitter:image", content: `${publicOrigin}/og/og-home.png` },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

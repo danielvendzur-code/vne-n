@@ -1,21 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, MessageCircle } from "lucide-react";
-import { CtaBand, PageIntro } from "@/components/site/motion-primitives";
+import { ArrowRight } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/dakujeme")({
   head: () => ({
     ...seo({
-      title: "Ďakujeme za dopyt",
-      description: "Potvrdenie prijatia dopytu pre tím Môj Chatbot.",
+      title: "Máme to — Môj Chatbot",
+      description: "Potvrdenie prijatia zadania pre tím Môj Chatbot.",
       path: "/dakujeme",
       noindex: true,
     }),
     scripts: [
       {
         type: "application/ld+json",
-        children: breadcrumbJsonLd([{ name: "Ďakujeme", path: "/dakujeme" }]),
+        children: breadcrumbJsonLd([{ name: "Máme to", path: "/dakujeme" }]),
       },
     ],
   }),
@@ -24,45 +23,48 @@ export const Route = createFileRoute("/dakujeme")({
 
 function ThankYouPage() {
   return (
-    <div className="sp-page">
-      <PageIntro
-        eyebrow="Dopyt odoslaný"
-        title={
-          <>
-            Ďakujeme. <em>Zadanie máme.</em>
-          </>
-        }
-        lead="Dopyt je odoslaný tímu Môj Chatbot. Odpovieme do 1 pracovného dňa s odporúčaným riešením, rozsahom a ďalším krokom."
-      >
-        <div className="sp-hero-chips">
-          <span className="chip">
-            <CheckCircle2 aria-hidden="true" /> Dopyt prijatý
-          </span>
-          <span className="chip">Odpoveď do 1 pracovného dňa</span>
-        </div>
-      </PageIntro>
+    <div className="thank-you-page">
+      <div className="container-page thank-you-page__inner">
+        <p className="section-kicker">ZADANIE PRIJATÉ</p>
+        <h1>
+          Máme <em>to.</em>
+        </h1>
+        <p className="thank-you-page__copy">
+          Zadanie je odoslané. Ozveme sa do jedného pracovného dňa s ďalším krokom a podľa rozsahu
+          aj s konkrétnou cenou.
+        </p>
 
-      <section className="sp-section">
-        <CtaBand
-          kicker="Kým sa ozveme"
-          title="Môžete si pozrieť reálne realizácie alebo doplniť zadanie cez chatbota."
-          lead="Ak vám napadne ďalší detail, nemusíte vypĺňať formulár znova."
-        >
-          <Link to="/projekty" className="sp-button sp-button--primary">
-            Pozrieť realizácie <ArrowRight aria-hidden="true" />
+        <div className="thank-you-page__next" aria-label="Čo bude nasledovať">
+          <div>
+            <span>01</span>
+            <p>Prejdeme zadanie a váš web.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <p>Navrhneme najjednoduchší funkčný smer.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <p>Dohodneme rozsah, cenu a ďalší krok.</p>
+          </div>
+        </div>
+
+        <div className="thank-you-page__actions">
+          <Link to="/projekty" className="button-primary">
+            Pozrieť realizácie <ArrowRight size={15} />
           </Link>
           <button
             type="button"
-            className="sp-button sp-button--ghost"
+            className="text-link"
             onClick={() => openSiteAssistant({ source: "thank-you" })}
           >
-            <MessageCircle aria-hidden="true" /> Doplniť zadanie
+            Doplniť detail <ArrowRight size={15} />
           </button>
-          <Link to="/" className="sp-button sp-button--ghost">
+          <Link to="/" className="text-link">
             Späť na úvod
           </Link>
-        </CtaBand>
-      </section>
+        </div>
+      </div>
     </div>
   );
 }

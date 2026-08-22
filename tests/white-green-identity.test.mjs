@@ -3,123 +3,73 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const forbiddenWarm =
-  /#ffc79d|#f0a873|#f3a75a|#e58a5b|#f4c9a8|#ffe38a|255\s*,\s*199\s*,\s*157|240\s*,\s*168\s*,\s*115/i;
-const outerPath =
-  "M92.9 81.1C97.4 80.8 100.6 78.6 100.6 75.6V12.6" +
-  "C100.6 7.9 96.4 5.3 93 7.6L59.9 36.7" +
-  "C58 38.5 55 38.5 53.1 36.7L20 7.6" +
-  "C16.6 5.3 12.4 7.9 12.4 12.6V76.1" +
-  "C12.4 78.9 14.7 81.1 17.5 81.1H31.7L33.5 104.5L57.5 81.1H80.9" +
-  "C82.9 81.1 84.6 79.5 84.6 77.5V32.9";
-const innerPath = "M28.6 65.1V32.9L53.4 57.5C55.1 59.2 57.9 59.2 59.6 57.5L84.6 32.9";
-const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const path = "M10 47V17L32 35L54 17V47H40L32 55V47H19";
 
-test("the public brand uses the supplied one-stroke mark and Google favicon stays approved", async () => {
+test("brand mark is one compact production path shared by site and favicon", async () => {
   const component = await read("src/components/BrandMark.tsx");
-  const exported = await read("public/brand/logo.svg");
+  const logo = await read("public/brand/logo.svg");
   const favicon = await read("public/favicon.svg");
 
-  assert.equal((component.match(/<path\b/g) ?? []).length, 2);
-  assert.match(component, /className="brand-mark__stroke"/);
-  assert.match(component, /pathLength=\{1\}/);
-  assert.match(component, /strokeWidth="7\.25"/);
-  assert.match(component, /d="M0 0"[\s\S]*stroke="none"[\s\S]*style=\{\{ display: "none" \}\}/);
-  assert.match(component, /M24 71\.2L24\.003 32\.706/);
-  assert.match(component, /L96\.6 85\.5/);
+  assert.equal((component.match(/<path\b/g) ?? []).length, 1);
+  assert.match(component, new RegExp(path));
+  assert.match(component, /strokeWidth="4\.6"/);
+  assert.match(component, /strokeLinecap="round"/);
+  assert.match(component, /strokeLinejoin="round"/);
 
-  assert.equal((exported.match(/<path\b/g) ?? []).length, 2);
-  assert.match(exported, new RegExp(escape(outerPath)));
-  assert.match(exported, new RegExp(escape(innerPath)));
-  assert.match(exported, /stroke-width="7"/);
-  assert.match(exported, /<rect[^>]*fill="#FFFFFF"/i);
-  assert.equal((exported.match(/stroke="#19834F"/g) ?? []).length, 2);
+  assert.equal((logo.match(/<path\b/g) ?? []).length, 1);
+  assert.match(logo, new RegExp(path));
+  assert.match(logo, /stroke="#12372D"/);
 
-  assert.equal((favicon.match(/<path\b/g) ?? []).length, 2);
-  assert.match(favicon, new RegExp(escape(outerPath)));
-  assert.match(favicon, new RegExp(escape(innerPath)));
-  assert.match(
-    favicon,
-    /<rect[^>]*x="3"[^>]*y="3"[^>]*width="106"[^>]*height="106"[^>]*rx="29"[^>]*fill="#FFFFFF"/i,
-  );
-  assert.equal((favicon.match(/stroke="#19834F"/g) ?? []).length, 2);
-  assert.match(favicon, /stroke-width="7"/i);
-  assert.doesNotMatch(favicon, /#B9ED4D|<animate|stroke-dashoffset/i);
-  assert.doesNotMatch(favicon, /<rect[^>]*fill="#0b2f20"/i);
+  assert.equal((favicon.match(/<path\b/g) ?? []).length, 1);
+  assert.match(favicon, new RegExp(path));
+  assert.match(favicon, /fill="#12372D"/);
+  assert.match(favicon, /stroke="#F5F4ED"/);
 });
 
-test("the approved option 1 layer fixes contrast and removes warm legacy states", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
-  const css = await read("src/components/site/ApprovedOptionOneFinal.css");
+test("design tokens use restrained paper, ink and one forest brand colour", async () => {
+  const css = await read("src/components/site/Rebrand.css");
 
-  assert.match(layout, /ApprovedOptionOneFinal\.css/);
-  assert.ok(
-    layout.indexOf('import "./WhiteGreenIdentityLock.css"') <
-      layout.indexOf('import "./ApprovedOptionOneFinal.css"'),
-  );
-  assert.match(css, /--approved-lime: #b9ed4d/);
-  assert.match(css, /--approved-green: #19834f/);
-  assert.match(css, /--approved-forest: #0b2f20/);
-  assert.match(css, /\.lp-comparison-body/);
-  assert.match(css, /\.brand-mark[\s\S]*color 520ms/);
-  assert.match(css, /\.site-brand-lockup[\s\S]*color: #19834f !important/);
-  assert.doesNotMatch(css, forbiddenWarm);
-});
+  assert.match(css, /--paper:\s*#f2f0e8/);
+  assert.match(css, /--pure:\s*#fcfbf7/);
+  assert.match(css, /--ink:\s*#111310/);
+  assert.match(css, /--forest:\s*#12372d/);
+  assert.match(css, /--sage:\s*#a9b7ae/);
+  assert.match(css, /--radius-widget:\s*10px/);
+  assert.match(css, /--font-display:\s*"Inter Tight"/);
+  assert.match(css, /--font-sans:\s*"Inter Tight"/);
+  assert.match(css, /--font-mono:\s*"SFMono-Regular"/);
+  assert.doesNotMatch(css, /fonts\.googleapis\.com|@import\s+url\(/i);
 
-test("the final harmony restores the premium motion instead of flattening it", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
-  const css = await read("src/components/site/ProfessionalHarmonyFinal.css");
-  const spotlight = await read("src/hooks/useSpotlight.ts");
-  const mobile = await read("src/components/site/MobileMotionRestoreFinal.css");
-  const solid = await read("src/components/site/SolidWidgetLogoFinal.css");
-
-  assert.match(layout, /ProfessionalHarmonyFinal\.css/);
-  assert.match(layout, /FinalSmoothTexturePolish\.css/);
-  assert.match(layout, /WidgetSwipeMotionFinal\.css/);
-  assert.match(layout, /LaunchReadyFinal\.css/);
-  assert.match(layout, /MobileMotionRestoreFinal\.css/);
-  assert.match(layout, /SolidWidgetLogoFinal\.css/);
-  assert.ok(
-    layout.indexOf('import "./ApprovedOptionOneFinal.css"') <
-      layout.indexOf('import "./ProfessionalHarmonyFinal.css"'),
-  );
-  assert.match(css, /--h-white: #ffffff/);
-  assert.match(css, /--h-lime: #d9ff78/);
-  assert.match(css, /--h-green-hover: #126d41/);
-  assert.match(css, /\.lp-hero-glide[\s\S]*display: block !important/);
-  assert.match(css, /\.lp-hero-glow[\s\S]*animation: h-glow-drift/);
-  assert.match(css, /\.lp-assistant-card[\s\S]*animation: h-card-float/);
-  assert.match(css, /@keyframes h-card-float/);
-  assert.match(css, /\.lp-hero-cta--primary, \.lp-assistant-cta[\s\S]*background: var\(--h-lime\)/);
-  assert.match(css, /\.derat-story__copy-step[\s\S]*58svh/);
-  assert.match(mobile, /mobile-surface-reveal/);
-  assert.match(mobile, /mobile-hero-stage-arrive/);
-  assert.match(solid, /mc-logo-handdraw-hover/);
-  assert.match(solid, /background: #ffffff !important/);
-  assert.match(solid, /border-color: #0b2f20 !important/);
-  assert.doesNotMatch(css, forbiddenWarm);
-
-  for (const selector of [
-    ".lp-assistant-card",
-    ".lp-hero-pick",
-    ".lp-project > a",
-    ".lp-comparison-body",
-  ]) {
-    assert.match(layout, new RegExp(escape(selector)));
+  for (const forbidden of ["#e58a5b", "#7c3aed", "#8b5cf6", "aurora", "glassmorphism"]) {
+    assert.doesNotMatch(css, new RegExp(forbidden, "i"));
   }
-  assert.match(spotlight, /requestAnimationFrame/);
-  assert.match(spotlight, /prefers-reduced-motion: reduce/);
 });
 
-test("the emergency widget fallback uses option 1 and a gradual green hover", async () => {
+test("marketing surfaces stay low-radius and shadow-light", async () => {
+  const css = await read("src/components/site/Rebrand.css");
+
+  assert.match(css, /--radius-xs:\s*2px/);
+  assert.match(css, /--radius-sm:\s*4px/);
+  assert.match(css, /--radius-md:\s*6px/);
+  assert.match(css, /\.button-primary/);
+  assert.match(css, /border-radius:\s*var\(--radius-sm\)/);
+  assert.doesNotMatch(css, /border-radius:\s*(?:2[0-9]|3[0-9]|4[0-9])px/);
+});
+
+test("website rebrand leaves the existing chatbot fallback launcher untouched", async () => {
   const loader = await read("public/widget-loader.js");
 
-  assert.match(loader, new RegExp(escape(outerPath)));
-  assert.match(loader, new RegExp(escape(innerPath)));
-  assert.match(loader, /color: "#b9ed4d"/);
-  assert.match(loader, /icon\.style\.color = "#19834f"/);
-  assert.match(loader, /transition: "color 520ms/);
-  assert.match(loader, /background: "#ffffff"/);
-  assert.doesNotMatch(loader, forbiddenWarm);
-  assert.doesNotMatch(loader, /sparkle|M12 3\.2/);
+  assert.match(loader, /M92\.9 81\.1C97\.4/);
+  assert.match(loader, /color:\s*"#b9ed4d"/);
+  assert.match(loader, /borderRadius:\s*"20px"/);
+  assert.match(loader, /background:\s*"#ffffff"/);
+});
+
+test("reduced motion and mobile-specific composition are explicit", async () => {
+  const css = await read("src/components/site/Rebrand.css");
+
+  assert.match(css, /@media \(max-width: 720px\)/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(css, /\.path-story__desktop[\s\S]*display:\s*none/);
+  assert.match(css, /\.path-story__mobile[\s\S]*display:\s*block/);
 });

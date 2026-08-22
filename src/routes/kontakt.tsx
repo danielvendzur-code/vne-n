@@ -1,22 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { motion } from "motion/react";
-import { ArrowRight, Check, CheckCircle2, Clock3, Mail, MessageCircle, Phone } from "lucide-react";
-import { premiumEase } from "@/components/site/motion-primitives";
+import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { submitWebsiteLead } from "@/lib/lead-submission";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
-import "./kontakt.css";
-import "./kontakt-final.css";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
     ...seo({
-      title: "Kontakt — návrh chatbota, kalkulačky alebo konfigurátora",
+      title: "Kontakt — preberme váš web",
       description:
-        "Napíšte, na čo sa vás zákazníci najčastejšie pýtajú. Po krátkom zadaní dostanete jasný rozsah, termín a cenu vopred.",
+        "Napíšte, čo má zákazník na vašom webe zistiť, vypočítať alebo vybrať. Dostanete jasný návrh rozsahu a cenu vopred.",
       path: "/kontakt",
     }),
     scripts: [
@@ -36,7 +31,7 @@ const FIELD_LIMITS = {
   project: 1_500,
 } as const;
 
-type SubmitState = "idle" | "sending" | "done";
+type SubmitState = "idle" | "sending";
 
 const TIMING_OPTIONS = [
   "Bez pevného termínu",
@@ -65,12 +60,9 @@ function ContactPage() {
   const [project, setProject] = useState("");
   const [timing, setTiming] = useState("Bez pevného termínu");
   const [consent, setConsent] = useState(false);
-  /** Návnada pre roboty — pole je skryté, človek doň nikdy nič nezapíše. */
   const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
-  const [thankYouSent, setThankYouSent] = useState(false);
   const [error, setError] = useState("");
-  const reducedMotion = useReducedMotion();
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -97,18 +89,17 @@ function ContactPage() {
         company: safeCompany,
         web: safeCompany.includes(".") ? safeCompany : "",
         note: safeProject,
-        interest: "Návrh chatbota, kalkulačky alebo konfigurátora",
+        interest: "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
         timeline: timing,
         consent: true,
         website: botTrap,
       });
+
       if (result.fallback) {
         window.location.assign(result.fallback);
         return;
       }
 
-      setThankYouSent(result.thankYouSent);
-      setSubmitState("done");
       window.location.assign(`${import.meta.env.BASE_URL}dakujeme`);
     } catch {
       setSubmitState("idle");
@@ -117,234 +108,148 @@ function ContactPage() {
   };
 
   return (
-    <div className="contact-page">
-      <div className="contact-glow" aria-hidden="true" />
-      <div className="container-page contact-grid">
-        <motion.section
-          className="contact-intro"
-          initial={reducedMotion ? false : { opacity: 0, y: 26 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: premiumEase }}
-        >
-          <p className="contact-kicker">
-            <i />
-            Návrh na mieru
-          </p>
+    <div className="contact-page contact-page--rebrand">
+      <header className="sp-hero">
+        <div className="container-page">
+          <p className="section-kicker">CONTACT</p>
           <h1>
-            Napíšte nám, s čím vám má chatbot <em>pomôcť.</em>
+            Preberme, čo má váš web <em>robiť ďalej.</em>
           </h1>
-          <p className="contact-lead">
-            Stačí pár viet o tom, čo predávate a na čo sa vás zákazníci najčastejšie pýtajú. Ozveme
-            sa s návrhom, jasným rozsahom aj cenou vopred.
+          <p className="sp-hero-lead">
+            Stačí pár viet o tom, čo predávate a kde sa zákazník dnes zasekne. Navrhneme
+            najjednoduchší funkčný smer a cenu povieme vopred.
           </p>
+        </div>
+      </header>
 
-          <div className="contact-details">
-            <a href={`mailto:${siteConfig.contact.email}`} data-primary="true">
-              <Mail />
-              {siteConfig.contact.email}
-              <em>hlavná adresa</em>
-            </a>
-            <a href={`tel:${siteConfig.contact.phoneHref}`}>
-              <Phone />
-              {siteConfig.contact.phoneLabel}
-            </a>
-            <span>
-              <Clock3 />
-              Odpovieme do 1 pracovného dňa
-            </span>
-          </div>
-
-          <div className="contact-expect">
-            <p>Čo dostanete po prvom kontakte</p>
-            <ul>
-              <li>
-                <Check />
-                Odporúčanie vhodného typu nástroja
-              </li>
-              <li>
-                <Check />
-                Návrh rozsahu prvej verzie a ceny
-              </li>
-              <li>
-                <Check />
-                Zoznam podkladov potrebných na realizáciu
-              </li>
-            </ul>
-          </div>
-        </motion.section>
-
-        <motion.section
-          className="contact-card"
-          aria-labelledby="contact-form-title"
-          initial={reducedMotion ? false : { opacity: 0, y: 34, scale: 0.985 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.12, ease: premiumEase }}
-        >
-          {submitState === "done" ? (
-            <motion.div
-              className="contact-success"
-              role="status"
-              aria-live="polite"
-              initial={reducedMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.62, ease: premiumEase }}
+      <section className="contact-section">
+        <div className="container-page contact-editorial-grid">
+          <aside className="contact-editorial-aside">
+            <div>
+              <p className="section-kicker">PRIAMY KONTAKT</p>
+              <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+              <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
+            </div>
+            <div>
+              <p className="section-kicker">ČO STAČÍ POSLAŤ</p>
+              <ol>
+                <li>Čo predávate.</li>
+                <li>Čo zákazníci stále riešia ručne.</li>
+                <li>Čo má byť výsledkom na webe.</li>
+              </ol>
+            </div>
+            <button
+              type="button"
+              className="text-link"
+              onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
             >
-              <CheckCircle2 aria-hidden="true" />
-              <span>Ďakujeme za zadanie</span>
-              <h2>Dopyt je už u tímu Môj Chatbot.</h2>
-              <p>
-                Zadanie od <b>{name.trim() || "vás"}</b> sme prijali na{" "}
-                <b>{siteConfig.contact.email}</b>. Odpoveď s odporúčaným riešením, rozsahom a cenou
-                pošleme na <b>{email.trim()}</b> do jedného pracovného dňa.
-              </p>
-              {thankYouSent ? (
-                <p className="contact-success-note">
-                  Potvrdenie s kópiou vášho zadania sme poslali na <b>{email.trim()}</b>. Ak vám
-                  nepríde do pár minút, skontrolujte prosím priečinok s reklamou alebo spamom.
-                </p>
-              ) : (
-                <p className="contact-success-note">
-                  Ak by ste chceli medzitým niečo doplniť, stačí odpovedať na{" "}
-                  <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>.
-                </p>
-              )}
-              <ul className="contact-success-summary">
-                <li>
-                  <span>Termín</span>
-                  <b>{timing}</b>
-                </li>
-                {company.trim() ? (
-                  <li>
-                    <span>Firma alebo web</span>
-                    <b>{company.trim()}</b>
-                  </li>
-                ) : null}
-              </ul>
-              <button
-                type="button"
-                className="contact-assistant"
-                onClick={() => openSiteAssistant({ source: "contact-success" })}
-              >
-                <MessageCircle /> Ešte sa niečo opýtať
-              </button>
-            </motion.div>
-          ) : (
-            <>
-              <div className="contact-card-head">
-                <span>01 / krátke zadanie</span>
-                <h2 id="contact-form-title">Povedzte nám základ.</h2>
-                <p>
-                  Zadanie príde priamo na {siteConfig.contact.email} a vy dostanete automatické
-                  potvrdenie. Povinné sú iba meno, e-mail a stručný popis.
-                </p>
-              </div>
-              <form onSubmit={(event) => void submit(event)}>
-                <div className="contact-fields-two">
-                  <label>
-                    <span>Meno *</span>
-                    <input
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
-                      required
-                      maxLength={FIELD_LIMITS.name}
-                      autoComplete="name"
-                      placeholder="Vaše meno"
-                    />
-                  </label>
-                  <label>
-                    <span>E-mail *</span>
-                    <input
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      required
-                      maxLength={FIELD_LIMITS.email}
-                      type="email"
-                      inputMode="email"
-                      autoComplete="email"
-                      placeholder="vas@email.sk"
-                    />
-                  </label>
-                </div>
+              Radšej vyskladať riešenie <ArrowRight size={15} />
+            </button>
+          </aside>
+
+          <div className="contact-form-wrap">
+            <p className="section-kicker">KRÁTKE ZADANIE</p>
+            <form className="contact-form" onSubmit={(event) => void submit(event)} noValidate>
+              <div className="contact-fields-two">
                 <label>
-                  <span>Firma alebo web</span>
+                  <span>Meno *</span>
                   <input
-                    value={company}
-                    onChange={(event) => setCompany(event.target.value)}
-                    maxLength={FIELD_LIMITS.company}
-                    autoComplete="organization"
-                    placeholder="firma.sk"
-                  />
-                </label>
-                <label>
-                  <span>Čo chcete zjednodušiť? *</span>
-                  <textarea
-                    value={project}
-                    onChange={(event) => setProject(event.target.value)}
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                     required
-                    maxLength={FIELD_LIMITS.project}
-                    rows={5}
-                    placeholder="Napríklad: zákazníci sa pýtajú, koľko bude stáť plot. Cenu rátame podľa metrov, brány a montáže."
+                    maxLength={FIELD_LIMITS.name}
+                    autoComplete="name"
+                    placeholder="Vaše meno"
                   />
                 </label>
                 <label>
-                  <span>Ideálny termín</span>
-                  <select value={timing} onChange={(event) => setTiming(event.target.value)}>
-                    {TIMING_OPTIONS.map((option) => (
-                      <option key={option}>{option}</option>
-                    ))}
-                  </select>
-                </label>
-                <div className="contact-trap" aria-hidden="true">
-                  <label htmlFor="contact-website">Web (nevypĺňať)</label>
+                  <span>E-mail *</span>
                   <input
-                    id="contact-website"
-                    name="website"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={botTrap}
-                    onChange={(event) => setBotTrap(event.target.value)}
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    required
+                    maxLength={FIELD_LIMITS.email}
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    placeholder="vas@email.sk"
                   />
-                </div>
-                <label className="contact-consent">
-                  <input
-                    type="checkbox"
-                    checked={consent}
-                    onChange={(event) => setConsent(event.target.checked)}
-                  />
-                  <span>Súhlasím so spracovaním údajov na prípravu návrhu.</span>
                 </label>
-                {error ? (
-                  <p className="contact-error" role="alert">
-                    {error}
-                  </p>
-                ) : null}
-                <button
-                  type="submit"
-                  className="contact-submit"
-                  data-state={submitState}
-                  disabled={submitState === "sending"}
-                >
-                  <span className="contact-submit__content">
-                    {submitState === "sending" ? "Odosielam…" : "Získať návrh riešenia"}{" "}
-                    <ArrowRight />
-                  </span>
-                </button>
-              </form>
-              <div className="contact-or">
-                <span>alebo</span>
               </div>
+
+              <label>
+                <span>Firma alebo web</span>
+                <input
+                  value={company}
+                  onChange={(event) => setCompany(event.target.value)}
+                  maxLength={FIELD_LIMITS.company}
+                  autoComplete="organization"
+                  placeholder="firma.sk"
+                />
+              </label>
+
+              <label>
+                <span>Čo má web zjednodušiť? *</span>
+                <textarea
+                  value={project}
+                  onChange={(event) => setProject(event.target.value)}
+                  required
+                  maxLength={FIELD_LIMITS.project}
+                  rows={6}
+                  placeholder="Napríklad: zákazníci sa pýtajú na cenu. Počítame ju podľa rozmerov, variantu a montáže."
+                />
+              </label>
+
+              <label>
+                <span>Ideálny termín</span>
+                <select value={timing} onChange={(event) => setTiming(event.target.value)}>
+                  {TIMING_OPTIONS.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </label>
+
+              <div className="contact-trap" aria-hidden="true">
+                <label htmlFor="contact-website">Web (nevypĺňať)</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={botTrap}
+                  onChange={(event) => setBotTrap(event.target.value)}
+                />
+              </div>
+
+              <label className="contact-consent">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(event) => setConsent(event.target.checked)}
+                />
+                <span>Súhlasím so spracovaním údajov na prípravu návrhu.</span>
+              </label>
+
+              {error ? (
+                <p className="contact-error" role="alert">
+                  {error}
+                </p>
+              ) : null}
+
               <button
-                className="contact-assistant"
-                type="button"
-                onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
+                type="submit"
+                className="contact-submit"
+                data-state={submitState}
+                disabled={submitState === "sending"}
               >
-                <MessageCircle /> Prejsť 5-krokovým konfigurátorom
+                {submitState === "sending" ? "Odosielam…" : "Odoslať zadanie"}
+                <ArrowRight size={16} aria-hidden="true" />
               </button>
-            </>
-          )}
-        </motion.section>
-      </div>
+            </form>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

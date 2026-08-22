@@ -1,199 +1,134 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef } from "react";
-import { motion } from "motion/react";
-import {
-  ArrowRight,
-  CalendarCheck,
-  Code2,
-  MessageCircle,
-  Palette,
-  PlugZap,
-  Search,
-  Workflow,
-} from "lucide-react";
-import { CtaBand, PageIntro, premiumEase } from "@/components/site/motion-primitives";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { useTimelineProgress } from "@/hooks/useTimelineProgress";
+import { ArrowRight } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
-import "./postup.css";
 
 const steps = [
   {
-    icon: Search,
-    label: "Krok 01 · Spoznanie firmy",
-    title: "Pozrieme si váš web, ponuku a otázky zákazníkov.",
-    copy: "Zistíme, čo ľudia najčastejšie hľadajú, kde odchádzajú a čo dnes musíte riešiť ručne. Platí to pre e-shopy aj firmy so službami.",
-    chips: ["Bez záväzku", "Stačí odkaz na web"],
+    index: "01",
+    title: "Pochopenie",
+    output: "Jasne pomenovaný problém a cieľ nástroja.",
+    copy: "Prejdeme web, ponuku a situácie, ktoré dnes riešite ručne. Určíme, čo má zákazník zistiť, vypočítať, vybrať alebo odoslať.",
   },
   {
-    icon: Workflow,
-    label: "Krok 02 · Návrh",
-    title: "Určíme, čo má chatbot robiť a čo má poslať vám.",
-    copy: "Spoločne vyberieme otázky, odpovede, výpočty, možnosti produktov, objednávky alebo termíny. Všetko uvidíte ešte pred výrobou.",
-    chips: ["Jasný postup", "Ukážka vopred", "Vaše schválenie"],
+    index: "02",
+    title: "Návrh",
+    output: "Schválená cesta zákazníka a rozsah prvej verzie.",
+    copy: "Navrhneme otázky, rozhodovaciu logiku, výstupy a podobu rozhrania. Pred vývojom viete, čo presne sa bude diať po jednotlivých krokoch.",
   },
   {
-    icon: Palette,
-    label: "Krok 03 · Vzhľad a texty",
-    title: "Chatbot bude vyzerať a hovoriť ako vaša firma.",
-    copy: "Použijeme vaše farby, logo a spôsob komunikácie. Texty napíšeme jednoducho, aby im zákazník rozumel bez vysvetľovania.",
-    chips: ["Vaše farby a logo", "Počítač aj mobil"],
+    index: "03",
+    title: "Vývoj",
+    output: "Funkčná verzia na otestovanie.",
+    copy: "Postavíme rozhranie a dohodnutú logiku. Otestujeme výpočty, formuláre, konfiguráciu a správanie na desktopoch aj mobiloch.",
   },
   {
-    icon: Code2,
-    label: "Krok 04 · Výroba a skúška",
-    title: "Chatbot postavíme a preveríme na reálnych situáciách.",
-    copy: "Vyskúšame otázky, výpočty, výber produktov, objednávky aj odosielanie dopytov. Pred spustením dostanete odkaz na vlastnú ukážku.",
-    chips: ["Vlastná ukážka", "Reálne situácie"],
+    index: "04",
+    title: "Nasadenie",
+    output: "Nástroj na reálnom webe a overený ďalší krok.",
+    copy: "Nasadíme riešenie, preveríme odosielanie dopytov alebo výsledkov a doladíme detaily podľa reálneho použitia.",
   },
-  {
-    icon: PlugZap,
-    label: "Krok 05 · Prepojenie",
-    title: "Výsledky pošleme tam, kde ich už dnes riešite.",
-    copy: "Dopyt, objednávka, rezervácia alebo reklamácia môže prísť e-mailom, do kalendára, tabuľky alebo vášho firemného systému.",
-    chips: ["E-mail", "Kalendár", "Tabuľka", "Firemný systém"],
-  },
-  {
-    icon: CalendarCheck,
-    label: "Krok 06 · Spustenie",
-    title: "Chatbota pridáme na web a skontrolujeme prvé výsledky.",
-    copy: "Web netreba prerábať. Po spustení preveríme, či všetko funguje, a podľa skutočných otázok zákazníkov doladíme detaily.",
-    chips: ["Bez prerábania webu", "Pomoc po spustení"],
-  },
-];
+] as const;
 
 const processJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "Ako prebieha spolupráca s tímom Môj Chatbot",
-  description:
-    "Šesť krokov od prvého rozhovoru po spustenie chatbota pre e-shop alebo firmu so službami.",
+  name: "Ako prebieha tvorba digitálneho predajného nástroja Môj Chatbot",
+  description: "Štyri kroky od pochopenia procesu po nasadenie riešenia na web.",
   step: steps.map((step, index) => ({
     "@type": "HowToStep",
     position: index + 1,
     name: step.title,
-    text: step.copy,
+    text: `${step.copy} Výstup: ${step.output}`,
   })),
 });
 
 export const Route = createFileRoute("/postup")({
   head: () => ({
     ...seo({
-      title: "Ako prebieha spolupráca — Môj Chatbot",
+      title: "Ako to funguje — od briefu po živý web",
       description:
-        "Šesť jasných krokov od prvého rozhovoru po spustenie chatbota pre e-shop alebo firmu so službami.",
+        "Štyri konkrétne kroky od pochopenia procesu cez návrh a vývoj až po nasadenie chatbota, kalkulačky alebo konfigurátora.",
       path: "/postup",
     }),
     scripts: [
       { type: "application/ld+json", children: processJsonLd },
       {
         type: "application/ld+json",
-        children: breadcrumbJsonLd([{ name: "Ako to prebieha", path: "/postup" }]),
+        children: breadcrumbJsonLd([{ name: "Ako to funguje", path: "/postup" }]),
       },
     ],
   }),
   component: ProcessPage,
 });
 
-function Timeline() {
-  const listRef = useRef<HTMLOListElement>(null);
-  const reducedMotion = useReducedMotion();
-  const { progress, reached } = useTimelineProgress(listRef, {
-    offset: ["start 0.92", "end 0.48"],
-    count: steps.length,
-  });
-
-  return (
-    <div className="sp-timeline-wrap">
-      {reducedMotion ? null : (
-        <motion.span
-          className="sp-timeline-progress"
-          style={{ scaleY: progress }}
-          aria-hidden="true"
-        />
-      )}
-      <ol className="sp-timeline" ref={listRef}>
-        {steps.map((step, index) => (
-          <motion.li
-            key={step.title}
-            className="sp-timeline-item"
-            data-reached={reducedMotion || index < reached}
-            data-side={index % 2 === 0 ? "left" : "right"}
-            initial={reducedMotion ? false : { opacity: 0, x: index % 2 === 0 ? -64 : 64, y: 20 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true, amount: 0.28, margin: "-6% 0px -10% 0px" }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : { duration: 0.82, delay: Math.min(index * 0.055, 0.22), ease: premiumEase }
-            }
-          >
-            <span className="sp-step-node" aria-hidden="true">
-              <i />
-            </span>
-            <div className="sp-step">
-              <p className="sp-step-label">
-                <step.icon aria-hidden="true" />
-                {step.label}
-              </p>
-              <h2>{step.title}</h2>
-              <p>{step.copy}</p>
-              <div className="sp-chip-row">
-                {step.chips.map((chip) => (
-                  <span className="chip" key={chip}>
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.li>
-        ))}
-      </ol>
-    </div>
-  );
-}
-
 function ProcessPage() {
   return (
-    <div className="sp-page sp-page--process">
-      <PageIntro
-        eyebrow="Spolupráca"
-        title={
-          <>
-            Od prvého rozhovoru <em>po chatbota na vašom webe.</em>
-          </>
-        }
-        lead="Rovnaký jasný postup platí pre chatbot na otázky, výpočet ceny, výber produktu, objednávky, reklamácie aj rezervácie. Vždy viete, čo sa práve robí a čo bude nasledovať."
-      >
-        <div className="sp-hero-chips">
-          <span className="chip">Pre e-shopy aj služby</span>
-          <span className="chip">Vlastná ukážka pred spustením</span>
-          <span className="chip">Bez prerábania webu</span>
-        </div>
-      </PageIntro>
-      <section className="sp-section">
+    <div className="sp-page process-page--rebrand">
+      <header className="sp-hero">
         <div className="container-page">
-          <Timeline />
+          <p className="section-kicker">PROCESS</p>
+          <h1>
+            Od prvého briefu <em>po živý web.</em>
+          </h1>
+          <p className="sp-hero-lead">
+            Každý krok má konkrétny výstup. Klient vie, čo sa práve rozhoduje, čo dostane a kedy má
+            zmysel pokračovať ďalej.
+          </p>
+        </div>
+      </header>
+
+      <section className="sp-section">
+        <div className="container-page process-page-grid">
+          <aside className="process-page-intro">
+            <p className="section-kicker">QUESTION → OUTCOME</p>
+            <p>
+              Technológia je až druhá. Najprv musí byť jasné, čo má byť výsledkom pre zákazníka a
+              pre firmu.
+            </p>
+          </aside>
+          <ol className="process-list">
+            {steps.map((step) => (
+              <li key={step.index}>
+                <span>{step.index}</span>
+                <div>
+                  <h2>{step.title}</h2>
+                  <p>{step.copy}</p>
+                  <p className="process-output">
+                    <b>Výstup:</b> {step.output}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
-      <section className="sp-section">
-        <CtaBand
-          kicker="Chcete vedieť, čo by fungovalo u vás?"
-          title="Vyberte si riešenie alebo stručne opíšte svoju firmu."
-          lead="Chatbot vám pripraví prvý výber. Potom sa ozvem s konkrétnym návrhom pre váš web."
-        >
-          <button
-            type="button"
-            className="sp-button sp-button--primary"
-            onClick={() => openSiteAssistant({ source: "process-cta" })}
-          >
-            <MessageCircle aria-hidden="true" /> Vyskladať riešenie
-          </button>
-          <Link to="/kontakt" className="sp-button sp-button--ghost">
-            Prejsť na kontakt <ArrowRight aria-hidden="true" />
-          </Link>
-        </CtaBand>
+
+      <section className="pricing-bridge">
+        <div className="container-page pricing-bridge__grid">
+          <div>
+            <p className="section-kicker">START</p>
+            <h2 className="section-title">
+              Začnime tým, čo dnes <em>riešite ručne.</em>
+            </h2>
+          </div>
+          <div>
+            <p>
+              Nemusíte vedieť, či potrebujete chatbot, kalkulačku alebo konfigurátor. Stačí popísať
+              proces a výsledok, ktorý chcete.
+            </p>
+            <button
+              type="button"
+              className="button-primary"
+              onClick={() => openSiteAssistant({ source: "process-final" })}
+            >
+              Vyskladať riešenie <ArrowRight size={15} />
+            </button>
+            <Link to="/kontakt" className="text-link pricing-inline-link">
+              Kontakt <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
       </section>
     </div>
   );
