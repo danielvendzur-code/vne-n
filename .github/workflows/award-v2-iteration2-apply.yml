@@ -1,0 +1,79 @@
+name: Apply award v2 iteration 2
+
+on:
+  push:
+    branches:
+      - award/rebuild-v2-2026-08-23
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: award/rebuild-v2-2026-08-23
+      - name: Apply reviewed iteration
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          function replaceExact(text, from, to, label) {
+            if (!text.includes(from)) throw new Error(`Missing replacement target: ${label}`);
+            return text.replace(from, to);
+          }
+
+          const landingPath = 'src/components/site/AwardV2Landing.tsx';
+          let landing = fs.readFileSync(landingPath, 'utf8');
+          landing = replaceExact(
+            landing,
+            'import "./AwardV2Landing.css";',
+            'import "./AwardV2Landing.css";\nimport "./AwardV2Iteration2.css";',
+            'iteration 2 css import',
+          );
+          landing = replaceExact(
+            landing,
+            `  useMotionValueEvent(progress, "change", (value) => {\n    ref.current?.style.setProperty(\n      "--guide-progress",\n      \`${'${Math.max(0, Math.min(100, value * 100))}'}%\`,\n    );\n  });`,
+            `  useMotionValueEvent(progress, "change", (value) => {\n    ref.current?.style.setProperty(\n      "--guide-progress",\n      \`${'${Math.max(0, Math.min(100, value * 100))}'}%\`,\n    );\n\n    const palette = [\n      [200, 240, 106],\n      [118, 226, 180],\n      [244, 241, 224],\n      [102, 211, 157],\n      [200, 240, 106],\n    ];\n    const scaled = Math.max(0, Math.min(palette.length - 1, value * (palette.length - 1)));\n    const fromIndex = Math.floor(scaled);\n    const toIndex = Math.min(palette.length - 1, fromIndex + 1);\n    const mix = scaled - fromIndex;\n    const color = palette[fromIndex].map((channel, index) =>\n      Math.round(channel + (palette[toIndex][index] - channel) * mix),\n    );\n    ref.current?.style.setProperty("--guide-logo-color", \`rgb(${'${color.join(", ")}'} )\`);\n  });`,
+            'continuous guide colour',
+          );
+          landing = replaceExact(
+            landing,
+            `      <div className="award2-guide__traveler">\n        <span className="award2-guide__glare" />\n        <b>{chapters[active].index}</b>\n        <small>{chapters[active].label}</small>\n      </div>`,
+            `      <div className="award2-guide__traveler">\n        <span className="award2-guide__glare" />\n        <BrandMark size={30} />\n        <small>\n          <b>{chapters[active].index}</b>\n          {chapters[active].label}\n        </small>\n      </div>`,
+            'glass logo traveler',
+          );
+          landing = replaceExact(
+            landing,
+            '<h2 id="award2-work-title">Weby, ktoré už bežia.</h2>\n        <p>Každý projekt si môžete otvoriť a preklikať.</p>',
+            '<h2 id="award2-work-title">Chatboty na reálnych weboch.</h2>\n        <p>Otvorte si projekt a pozrite, ako asistent funguje priamo na stránke.</p>',
+            'work heading',
+          );
+          landing = replaceExact(
+            landing,
+            `          <h1 id="award2-hero-title">\n            <span>Od otázky</span>\n            <em>k výsledku.</em>\n          </h1>`,
+            `          <h1 id="award2-hero-title">\n            <span>Web, ktorý</span>\n            <em>vybaví viac.</em>\n          </h1>`,
+            'hero headline',
+          );
+          fs.writeFileSync(landingPath, landing);
+
+          const testPath = 'tests/home-contract.test.mjs';
+          let test = fs.readFileSync(testPath, 'utf8');
+          test = replaceExact(test, 'assert.match(landing, /Od otázky/);', 'assert.match(landing, /Web, ktorý/);', 'hero test first line');
+          test = replaceExact(test, 'assert.match(landing, /k výsledku/);', 'assert.match(landing, /vybaví viac/);', 'hero test second line');
+          test = replaceExact(test, 'assert.match(landing, /Weby, ktoré už bežia/);', 'assert.match(landing, /Chatboty na reálnych weboch/);', 'work test');
+          test = replaceExact(test, 'assert.match(css, /\\.award2-guide/);', 'assert.match(css, /\\.award2-guide/);\n  assert.match(landing, /--guide-logo-color/);\n  assert.match(landing, /<BrandMark size=\\{30\\}/);', 'guide tests');
+          fs.writeFileSync(testPath, test);
+          NODE
+      - name: Format changed source
+        run: npx prettier --write src/components/site/AwardV2Landing.tsx src/components/site/AwardV2Iteration2.css tests/home-contract.test.mjs
+      - name: Commit iteration 2
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/site/AwardV2Landing.tsx src/components/site/AwardV2Iteration2.css tests/home-contract.test.mjs
+          git commit -m "refine: award v2 iteration 2" || exit 0
+          git push origin HEAD:award/rebuild-v2-2026-08-23
