@@ -209,3 +209,55 @@ body:has(.award2-home) .site-header__cta:hover {
     animation: none;
   }
 }
+
+/* Browser review corrections — iteration 2b */
+body:has(.award2-home) .site-header[data-scrolled="true"],
+body:has(.award2-home) .site-header[data-scrolled="false"] {
+  background: rgba(5, 24, 18, 0.96) !important;
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-nav a,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-nav a {
+  color: #9fb4a7 !important;
+}
+
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-brand-name,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-brand-name,
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-brand-lockup svg,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-brand-lockup svg {
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-header__cta,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-header__cta {
+  background: #c8f06a !important;
+  border-color: #c8f06a !important;
+  color: #071b15 !important;
+}
+
+.award2-flow__copy h2 {
+  color: #f6f5ee !important;
+}
+
+.award2-flow__copy p {
+  color: #cfd9d2 !important;
+}
+
+.award2-guide {
+  right: 4.35rem;
+  z-index: 88;
+}
+
+.award2-guide__base {
+  stroke-width: 1.45;
+  stroke: rgba(200, 240, 106, 0.3);
+}
+
+.award2-guide[data-tone="light"] .award2-guide__base {
+  stroke: rgba(18, 56, 45, 0.28);
+}
+
+.award2-guide__active {
+  stroke-width: 2.35;
+}
