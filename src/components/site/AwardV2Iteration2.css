@@ -278,3 +278,17 @@ body:has(.award2-home) .site-header[data-scrolled="false"] .site-header__inner {
 .award2-guide {
   right: 3.35rem;
 }
+
+/* Orb placement polish — iteration 2d */
+.award2-guide {
+  top: calc(var(--header-h) + 1.35rem);
+  transform: none;
+}
+
+.award2-guide__traveler small,
+.award2-guide[data-tone="light"] .award2-guide__traveler small {
+  top: 78px;
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
