@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { KageLanding } from "@/components/site/KageLanding";
-import "@/components/site/ScrollLens.css";
+import { AwardV2Landing } from "@/components/site/AwardV2Landing";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -71,5 +70,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <KageLanding />;
+  return <AwardV2Landing />;
 }
