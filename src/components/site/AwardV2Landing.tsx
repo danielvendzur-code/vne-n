@@ -173,7 +173,11 @@ const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
 const process = [
   ["01", "Prejdeme si váš web", "Pozrieme sa, čo zákazníci potrebujú vedieť pred objednávkou."],
   ["02", "Navrhneme riešenie", "Vyberieme najkratší postup, ktorý dáva zmysel pre vašu ponuku."],
-  ["03", "Vytvoríme a otestujeme", "Dizajn, logiku aj formuláre skontrolujeme na počítači aj mobile."],
+  [
+    "03",
+    "Vytvoríme a otestujeme",
+    "Dizajn, logiku aj formuláre skontrolujeme na počítači aj mobile.",
+  ],
   ["04", "Nasadíme na web", "Po odsúhlasení riešenie spustíme a zostaneme k dispozícii na úpravy."],
 ] as const;
 
@@ -185,9 +189,7 @@ function HeroChatPreview() {
         <span>Môj Chatbot</span>
         <i>online</i>
       </div>
-      <div className="award2-hero-chat__message">
-        Dobrý deň. Čo potrebujete vyriešiť?
-      </div>
+      <div className="award2-hero-chat__message">Dobrý deň. Čo potrebujete vyriešiť?</div>
       <div className="award2-hero-chat__choices">
         <span>Chcem cenu</span>
         <span>Potrebujem poradiť</span>
@@ -237,7 +239,10 @@ function ContinuousGuide() {
   const [active, setActive] = useState(0);
 
   useMotionValueEvent(progress, "change", (value) => {
-    ref.current?.style.setProperty("--guide-progress", `${Math.max(0, Math.min(100, value * 100))}%`);
+    ref.current?.style.setProperty(
+      "--guide-progress",
+      `${Math.max(0, Math.min(100, value * 100))}%`,
+    );
   });
 
   useEffect(() => {
@@ -270,12 +275,7 @@ function ContinuousGuide() {
   }, []);
 
   return (
-    <aside
-      ref={ref}
-      className="award2-guide"
-      data-tone={chapters[active].tone}
-      aria-hidden="true"
-    >
+    <aside ref={ref} className="award2-guide" data-tone={chapters[active].tone} aria-hidden="true">
       <svg viewBox="0 0 90 640" preserveAspectRatio="none">
         <path
           className="award2-guide__base"
@@ -352,7 +352,12 @@ function SelectedWork() {
       <div className="container-page award2-work__grid">
         {realizations.map((project, index) => (
           <article className="award2-project" key={project.name}>
-            <a href={project.href} target="_blank" rel="noreferrer" className="award2-project__visual">
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+              className="award2-project__visual"
+            >
               <img src={project.image} alt={project.alt} loading="lazy" decoding="async" />
               <span>{project.domain}</span>
               <b>
@@ -510,7 +515,12 @@ function LiveDemos() {
           </a>
         ) : null}
         {aplan ? (
-          <a className="award2-demo award2-demo--aplan" href={aplan.href} target="_blank" rel="noreferrer">
+          <a
+            className="award2-demo award2-demo--aplan"
+            href={aplan.href}
+            target="_blank"
+            rel="noreferrer"
+          >
             <div className="award2-aplan-preview">
               <div>
                 <span>APLAN AI</span>
@@ -641,11 +651,7 @@ export function AwardV2Landing() {
     <div className="award2-home">
       <ContinuousGuide />
 
-      <section
-        className="award2-hero"
-        aria-labelledby="award2-hero-title"
-        data-award-chapter="0"
-      >
+      <section className="award2-hero" aria-labelledby="award2-hero-title" data-award-chapter="0">
         <div className="container-page award2-hero__stage">
           <h1 id="award2-hero-title">
             <span>Od otázky</span>

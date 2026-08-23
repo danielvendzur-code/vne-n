@@ -135,7 +135,9 @@ body:has(.award2-home) .site-header__cta:hover {
   box-shadow: 0 20px 34px -28px rgba(0, 0, 0, 0.8);
   -webkit-backdrop-filter: blur(14px) saturate(1.3);
   backdrop-filter: blur(14px) saturate(1.3);
-  offset-path: path("M46 4 C10 58 78 98 36 148 C6 194 78 236 34 286 C8 332 76 374 32 420 C6 466 78 510 38 552 C14 588 66 610 42 636");
+  offset-path: path(
+    "M46 4 C10 58 78 98 36 148 C6 194 78 236 34 286 C8 332 76 374 32 420 C6 466 78 510 38 552 C14 588 66 610 42 636"
+  );
   offset-distance: var(--guide-progress);
   offset-rotate: 0deg;
   transition:
@@ -159,10 +161,7 @@ body:has(.award2-home) .site-header__cta:hover {
   border-radius: 50%;
   background: rgba(200, 240, 106, 0.34);
   filter: blur(7px);
-  transform: translate(
-    calc(-50% + var(--guide-glare-x)),
-    calc(-50% + var(--guide-glare-y))
-  );
+  transform: translate(calc(-50% + var(--guide-glare-x)), calc(-50% + var(--guide-glare-y)));
   transition: transform 100ms linear;
 }
 
@@ -781,8 +780,7 @@ body:has(.award2-home) .site-header__cta:hover {
   height: 100svh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 78% 48%, rgba(200, 240, 106, 0.07), transparent 25%),
-    var(--a2-dark);
+    radial-gradient(circle at 78% 48%, rgba(200, 240, 106, 0.07), transparent 25%), var(--a2-dark);
 }
 
 .award2-flow__hud {
@@ -1135,8 +1133,7 @@ body:has(.award2-home) .site-header__cta:hover {
   justify-content: flex-end;
   padding: 1.4rem;
   background:
-    radial-gradient(circle at 70% 24%, rgba(200, 240, 106, 0.2), transparent 27%),
-    var(--a2-dark);
+    radial-gradient(circle at 70% 24%, rgba(200, 240, 106, 0.2), transparent 27%), var(--a2-dark);
 }
 
 .award2-demo-chat svg {
@@ -1440,7 +1437,7 @@ body:has(.award2-home) .site-header__cta:hover {
   }
 
   .award2-hero__collage {
-    inset-left: 48%;
+    left: 48%;
   }
 }
 
