@@ -1,0 +1,105 @@
+name: Award v2 visual QA
+
+on:
+  push:
+    branches:
+      - award/rebuild-v2-2026-08-23
+
+permissions:
+  contents: read
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - run: bun install --frozen-lockfile
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Capture award v2 homepage
+        run: |
+          set -euo pipefail
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/award-v2.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=false
+          for _ in {1..40}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then ready=true; break; fi
+            sleep 1
+          done
+          if [ "$ready" != "true" ]; then cat /tmp/award-v2.log; exit 1; fi
+          mkdir -p qa-results/award-v2
+          node --input-type=module <<'NODE'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const browser = await chromium.launch({ headless: true });
+          const report = { errors: [], overflows: [], checks: {}, captures: [] };
+          const watch = (page) => {
+            page.on('pageerror', e => report.errors.push(`pageerror: ${e.message}`));
+            page.on('console', m => {
+              if (m.type() !== 'error') return;
+              const t = m.text();
+              if (/Content Security Policy|data-tsd-source|vercel/i.test(t)) return;
+              report.errors.push(`console: ${t}`);
+            });
+          };
+          const shot = async (page, name, fullPage=false) => {
+            await page.screenshot({ path:`qa-results/award-v2/${name}.png`, fullPage });
+            report.captures.push(name);
+          };
+          const desktop = await browser.newPage({ viewport:{width:1366,height:768} });
+          watch(desktop);
+          await desktop.goto('http://127.0.0.1:4173/', { waitUntil:'networkidle' });
+          await desktop.waitForTimeout(900);
+          report.overflows.push({ viewport:'1366x768', overflow:await desktop.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth) });
+          report.checks.darkHeader = await desktop.locator('.site-header').evaluate(el => getComputedStyle(el).backgroundColor);
+          report.checks.heroChatVisible = await desktop.locator('.award2-hero-chat').isVisible();
+          report.checks.guideVisible = await desktop.locator('.award2-guide').isVisible();
+          await shot(desktop,'desktop-hero');
+          const positions = [
+            ['#riesenia','desktop-solutions',60],
+            ['#realizacie','desktop-work',80],
+            ['#ako-to-funguje','desktop-flow-start',40],
+            ['#ako-to-funguje','desktop-flow-mid',980],
+            ['#ukazky','desktop-demos',60],
+            ['#cena','desktop-price',50],
+          ];
+          for (const [selector,name,offset] of positions) {
+            const top = await desktop.locator(selector).evaluate(el=>el.getBoundingClientRect().top+window.scrollY);
+            await desktop.evaluate(({y})=>window.scrollTo({top:y,behavior:'instant'}), {y:top+offset});
+            await desktop.waitForTimeout(650);
+            await shot(desktop,name);
+          }
+          await shot(desktop,'desktop-full',true);
+          const wide = await browser.newPage({ viewport:{width:1440,height:1000} });
+          watch(wide);
+          await wide.goto('http://127.0.0.1:4173/', { waitUntil:'networkidle' });
+          await wide.waitForTimeout(700);
+          report.overflows.push({ viewport:'1440x1000', overflow:await wide.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth) });
+          await shot(wide,'desktop-1440-hero');
+          const mobile = await browser.newPage({ viewport:{width:390,height:844}, isMobile:true, hasTouch:true });
+          watch(mobile);
+          await mobile.goto('http://127.0.0.1:4173/', { waitUntil:'networkidle' });
+          await mobile.waitForTimeout(700);
+          report.overflows.push({ viewport:'390x844', overflow:await mobile.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth) });
+          await shot(mobile,'mobile-hero');
+          for (const [selector,name] of [['#riesenia','mobile-solutions'],['#realizacie','mobile-work'],['#ako-to-funguje','mobile-flow'],['#ukazky','mobile-demos'],['#cena','mobile-price']]) {
+            await mobile.locator(selector).scrollIntoViewIfNeeded();
+            await mobile.waitForTimeout(450);
+            await shot(mobile,name);
+          }
+          fs.writeFileSync('qa-results/award-v2/report.json', JSON.stringify(report,null,2));
+          if (!report.checks.heroChatVisible) throw new Error('Hero chatbot preview is not visible');
+          if (!report.checks.guideVisible) throw new Error('Continuous guide is not visible on desktop');
+          if (report.overflows.some(x=>x.overflow>1)) throw new Error(`Horizontal overflow ${JSON.stringify(report.overflows)}`);
+          if (report.errors.length) throw new Error(report.errors.join('\n'));
+          await browser.close();
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: award-v2-visual-qa
+          path: qa-results/award-v2
