@@ -261,3 +261,20 @@ body:has(.award2-home) .site-header[data-scrolled="false"] .site-header__cta {
 .award2-guide__active {
   stroke-width: 2.35;
 }
+
+/* Fixed viewport guide + truly dark sticky navigation — iteration 2c */
+body:has(.award2-home) .page-transition {
+  animation: none !important;
+  transform: none !important;
+}
+
+body:has(.award2-home) .site-header__inner,
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-header__inner,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-header__inner {
+  background: rgba(5, 24, 18, 0.96) !important;
+  border-bottom-color: rgba(200, 240, 106, 0.16) !important;
+}
+
+.award2-guide {
+  right: 3.35rem;
+}
