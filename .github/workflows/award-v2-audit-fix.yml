@@ -1,0 +1,36 @@
+name: Update award v2 audit contract
+
+on:
+  push:
+    branches:
+      - award/rebuild-v2-2026-08-23
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: award/rebuild-v2-2026-08-23
+      - name: Update headline audit
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'scripts/security-audit.mjs';
+          let s = fs.readFileSync(path, 'utf8');
+          if (!s.includes('"Od otázky"') || !s.includes('"k výsledku."')) throw new Error('old hero audit tokens missing');
+          s = s.replace('"Od otázky"', '"Web, ktorý"').replace('"k výsledku."', '"vybaví viac."');
+          fs.writeFileSync(path, s);
+          NODE
+      - run: npx prettier --write scripts/security-audit.mjs
+      - name: Commit audit update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/security-audit.mjs
+          git commit -m "test: update award v2 hero audit" || exit 0
+          git push origin HEAD:award/rebuild-v2-2026-08-23
