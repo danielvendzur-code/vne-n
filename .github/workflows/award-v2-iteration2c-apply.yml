@@ -1,0 +1,38 @@
+name: Apply award v2 iteration 2c
+
+on:
+  push:
+    branches:
+      - award/rebuild-v2-2026-08-23
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: award/rebuild-v2-2026-08-23
+      - name: Apply fixed-guide correction
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'src/components/site/AwardV2Iteration2.css';
+          let css = fs.readFileSync(path, 'utf8');
+          const marker = '/* Fixed viewport guide + truly dark sticky navigation — iteration 2c */';
+          if (!css.includes(marker)) {
+            css += `\n\n${marker}\nbody:has(.award2-home) .page-transition {\n  animation: none !important;\n  transform: none !important;\n}\n\nbody:has(.award2-home) .site-header__inner,\nbody:has(.award2-home) .site-header[data-scrolled="true"] .site-header__inner,\nbody:has(.award2-home) .site-header[data-scrolled="false"] .site-header__inner {\n  background: rgba(5, 24, 18, 0.96) !important;\n  border-bottom-color: rgba(200, 240, 106, 0.16) !important;\n}\n\n.award2-guide {\n  right: 3.35rem;\n}\n`;
+            fs.writeFileSync(path, css);
+          }
+          NODE
+      - run: npx prettier --write src/components/site/AwardV2Iteration2.css
+      - name: Commit correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/site/AwardV2Iteration2.css
+          git commit -m "fix: keep award guide fixed and menu dark" || exit 0
+          git push origin HEAD:award/rebuild-v2-2026-08-23
