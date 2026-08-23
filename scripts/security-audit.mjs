@@ -158,43 +158,44 @@ if (/backdrop-filter:\s*blur\(/i.test(brandCss)) {
   fail("Glassmorphism blur is present in the global rebrand system");
 }
 
-const landing = await read("src/components/site/PremiumLanding.tsx");
+const landing = await read("src/components/site/AwardV2Landing.tsx");
 for (const token of [
   "Od otázky",
-  "HeroCollage",
-  "FlowStory",
+  "k výsledku.",
+  "HeroChatPreview",
+  "ŽIVÝ CHATBOT",
+  "ContinuousGuide",
+  "HorizontalFlow",
   "SelectedWork",
   "CoreTools",
-  "PRE FIRMY SO SLUŽBAMI",
-  "PRE E-SHOPY",
   "Produktový poradca",
-  "ProofAndPrice",
+  "LiveDemos",
+  "od 497 €",
+  "od 597 €",
 ]) {
   if (!landing.includes(token)) fail(`Homepage story is missing ${token}`);
 }
-if (!landing.includes('import "./AwardHome.css"')) {
-  fail("Homepage does not own its dedicated art-direction stylesheet");
+if (!landing.includes('import "./AwardV2Landing.css"')) {
+  fail("Homepage does not own its dedicated award-v2 art-direction stylesheet");
 }
 if (/\+\s*\d+\s*%|\d+×|conversion\s+rate/i.test(landing)) {
   fail("Unsupported marketing metric is present on the homepage");
 }
 
-const homeCss = await read("src/components/site/AwardHome.css");
+const homeCss = await read("src/components/site/AwardV2Landing.css");
 for (const token of [
-  "--hh-lime: #c8f06a",
-  ".hybrid-hero__collage",
-  ".hybrid-flow__track",
-  ".hybrid-work__grid",
-  ".hybrid-audience",
-  ".hybrid-tool",
-  "body:has(.hybrid-home)",
+  "--a2-lime: #c8f06a",
+  ".award2-hero__collage",
+  ".award2-hero-chat",
+  ".award2-flow__track",
+  ".award2-work__grid",
+  ".award2-guide",
+  "offset-path:",
+  "body:has(.award2-home) .site-header",
   "@media (max-width: 720px)",
   "prefers-reduced-motion",
 ]) {
-  if (!homeCss.includes(token)) fail(`Homepage art direction is missing ${token}`);
-}
-if (/backdrop-filter:\s*blur\(/i.test(homeCss)) {
-  fail("Glassmorphism blur is present in the homepage art direction");
+  if (!homeCss.includes(token)) fail(`Homepage award-v2 art direction is missing ${token}`);
 }
 
 const contact = await read("src/routes/kontakt.tsx");
@@ -220,12 +221,12 @@ for (const token of ["POST", "consent", "website", "RESEND_API_KEY"]) {
 }
 
 const homeRoute = await read("src/routes/index.tsx");
-if (/hasOfferCatalog|price\s*:\s*["'](?:450|500)["']/.test(homeRoute)) {
+if (/hasOfferCatalog|price\s*:\s*["'](?:497|597)["']/.test(homeRoute)) {
   fail("Homepage structured data contains a hard-coded commercial offer");
 }
 
 const pricing = await read("src/routes/cennik.tsx");
-for (const token of ["od 450 €", "od 500 €", "10 € / mesiac"]) {
+for (const token of ["od 497 €", "od 597 €", "10 € / mesiac"]) {
   if (!pricing.includes(token)) fail(`Pricing page is missing verified public price ${token}`);
 }
 
