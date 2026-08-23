@@ -164,10 +164,22 @@ const tools = [
 ];
 
 const process = [
-  ["01", "Ukážete nám web a ponuku", "Zistíme, čo zákazníci najčastejšie hľadajú, riešia a pýtajú sa."],
+  [
+    "01",
+    "Ukážete nám web a ponuku",
+    "Zistíme, čo zákazníci najčastejšie hľadajú, riešia a pýtajú sa.",
+  ],
   ["02", "Navrhneme jednoduchý postup", "Určíme, čo má zákazník vidieť, vybrať alebo napísať."],
-  ["03", "Riešenie vytvoríme a otestujeme", "Pripravíme dizajn, logiku aj napojenia a otestujeme desktop aj mobil."],
-  ["04", "Nasadíme ho na váš web", "Zapojíme hotové riešenie a overíme formuláre, dopyty aj bežné používanie."],
+  [
+    "03",
+    "Riešenie vytvoríme a otestujeme",
+    "Pripravíme dizajn, logiku aj napojenia a otestujeme desktop aj mobil.",
+  ],
+  [
+    "04",
+    "Nasadíme ho na váš web",
+    "Zapojíme hotové riešenie a overíme formuláre, dopyty aj bežné používanie.",
+  ],
 ] as const;
 
 const signalSections = [
@@ -475,11 +487,7 @@ function LiveDemos() {
   const webko = realizations.find((project) => project.name === "WEBKO");
 
   return (
-    <section
-      className="kage-demos"
-      aria-labelledby="kage-demos-title"
-      data-signal-chapter="4"
-    >
+    <section className="kage-demos" aria-labelledby="kage-demos-title" data-signal-chapter="4">
       <div className="container-page kage-demos__intro">
         <span>ĎALŠIE UKÁŽKY</span>
         <h2 id="kage-demos-title">Vyskúšajte si ich.</h2>
@@ -567,7 +575,8 @@ function Audience() {
           <span>MÁTE E-SHOP?</span>
           <h2>Zákazník rýchlejšie nájde správny produkt.</h2>
           <p>
-            Produktový poradca sa opýta na potreby, zúži výber a odporučí vhodný produkt alebo variant.
+            Produktový poradca sa opýta na potreby, zúži výber a odporučí vhodný produkt alebo
+            variant.
           </p>
           <button
             type="button"
@@ -672,7 +681,8 @@ export function KageLanding() {
         <div className="container-page hybrid-manifesto__inner">
           <span>ČO TO ZMENÍ</span>
           <h2 id="hybrid-manifesto-title">
-            Web môže <em>odpovedať.</em> Môže <em>vypočítať cenu.</em> Môže <em>pomôcť s výberom.</em>
+            Web môže <em>odpovedať.</em> Môže <em>vypočítať cenu.</em> Môže{" "}
+            <em>pomôcť s výberom.</em>
           </h2>
         </div>
       </section>
