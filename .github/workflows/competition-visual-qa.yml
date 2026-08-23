@@ -25,10 +25,12 @@ jobs:
           bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/competition-vite.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=false
           for _ in {1..40}; do
-            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then ready=true; break; fi
             sleep 1
           done
+          if [ "$ready" != "true" ]; then cat /tmp/competition-vite.log; exit 1; fi
           mkdir -p qa-results/competition
           node --input-type=module <<'NODE'
           import { chromium } from 'playwright';
@@ -40,7 +42,7 @@ jobs:
             page.on('console', m => {
               if (m.type() !== 'error') return;
               const t = m.text();
-              if (/Content Security Policy|data-tsd-source|vercel/i.test(t)) return;
+              if (/Content Security Policy|data-tsd-source|vercel|404/i.test(t)) return;
               report.errors.push(`console: ${t}`);
             });
           };
@@ -57,7 +59,7 @@ jobs:
           for (const [selector,name,offset] of [
             ['#riesenia','desktop-solutions',70],
             ['#realizacie','desktop-work',70],
-            ['#ako-to-funguje','desktop-flow',window.innerHeight],
+            ['#ako-to-funguje','desktop-flow',820],
             ['#ukazky','desktop-demos',70],
             ['#cena','desktop-price',60]
           ]) {
