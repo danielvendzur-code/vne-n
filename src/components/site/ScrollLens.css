@@ -1,0 +1,63 @@
+/* Browser-native scroll position lens. Kept outside the clipped homepage tree so
+   it remains visible above both light and dark chapters. */
+
+.kage-home .signal-rail {
+  display: none !important;
+}
+
+@media (min-width: 1181px) {
+  body:has(.kage-home)::before {
+    content: "";
+    position: fixed;
+    top: 18vh;
+    right: 37px;
+    z-index: 53;
+    width: 1px;
+    height: 58vh;
+    pointer-events: none;
+    background: rgba(200, 240, 106, 0.38);
+    box-shadow: 0 0 0 1px rgba(7, 27, 21, 0.05);
+  }
+
+  body:has(.kage-home)::after {
+    content: "";
+    position: fixed;
+    top: 18vh;
+    right: 18px;
+    z-index: 54;
+    width: 39px;
+    height: 56px;
+    pointer-events: none;
+    border: 1px solid rgba(200, 240, 106, 0.78);
+    border-radius: 12px 12px 18px 12px;
+    background: rgba(200, 240, 106, 0.14);
+    -webkit-backdrop-filter: blur(11px) saturate(1.35);
+    backdrop-filter: blur(11px) saturate(1.35);
+    box-shadow:
+      inset 0 0 20px rgba(200, 240, 106, 0.1),
+      0 14px 30px -24px rgba(7, 27, 21, 0.8);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    body:has(.kage-home)::after {
+      animation: kage-scroll-lens linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+@keyframes kage-scroll-lens {
+  from {
+    transform: translateY(0) rotate(0.001deg);
+  }
+  to {
+    transform: translateY(calc(58vh - 56px)) rotate(0.001deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(.kage-home)::before,
+  body:has(.kage-home)::after {
+    display: none;
+  }
+}
