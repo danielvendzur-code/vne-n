@@ -52,7 +52,8 @@ test("public homepage keeps the dark work-led hero and visible product proof", a
   assert.match(css, /\.award2-hero-chat/);
   assert.match(css, /\.award2-guide/);
   assert.match(landing, /--guide-logo-color/);
-  assert.match(landing, /<BrandMark size=\{30\}/);
+  assert.match(landing, /award2-guide__lens-core/);
+  assert.doesNotMatch(landing, /<BrandMark size=\{30\}/);
   assert.match(css, /offset-path:\s*path/);
   assert.match(css, /height:\s*420vh/);
   assert.match(css, /position:\s*sticky/);

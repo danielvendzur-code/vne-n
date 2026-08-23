@@ -306,7 +306,7 @@ function ContinuousGuide() {
       </svg>
       <div className="award2-guide__traveler">
         <span className="award2-guide__glare" />
-        <BrandMark size={30} />
+        <span className="award2-guide__lens-core" />
         <small>
           <b>{chapters[active].index}</b>
           {chapters[active].label}

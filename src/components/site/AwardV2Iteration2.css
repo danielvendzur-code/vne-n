@@ -292,3 +292,68 @@ body:has(.award2-home) .site-header[data-scrolled="false"] .site-header__inner {
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* Scroll lens without brand + chatbot mark chroma — iteration 2e */
+.award2-guide__traveler {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border-color: rgba(200, 240, 106, 0.46);
+  background: rgba(244, 241, 224, 0.12);
+  box-shadow:
+    0 14px 38px -22px rgba(0, 0, 0, 0.72),
+    inset 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.award2-guide__lens-core {
+  position: absolute;
+  inset: 10px;
+  z-index: 2;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: radial-gradient(
+    circle at 35% 28%,
+    rgba(255, 255, 255, 0.36),
+    rgba(200, 240, 106, 0.11) 38%,
+    rgba(18, 56, 45, 0.08) 72%
+  );
+  box-shadow: inset 0 0 18px rgba(200, 240, 106, 0.11);
+}
+
+.award2-guide[data-tone="light"] .award2-guide__traveler {
+  border-color: rgba(18, 56, 45, 0.31);
+  background: rgba(240, 239, 231, 0.35);
+}
+
+.award2-guide__traveler small,
+.award2-guide[data-tone="light"] .award2-guide__traveler small {
+  top: 64px;
+}
+
+.award2-hero-chat__head .brand-mark {
+  color: #c8f06a !important;
+  animation: award2-chat-mark-chroma 8.5s ease-in-out infinite;
+}
+
+@keyframes award2-chat-mark-chroma {
+  0%,
+  100% {
+    color: #c8f06a;
+  }
+  28% {
+    color: #79e2b5;
+  }
+  52% {
+    color: #f4f1e0;
+  }
+  76% {
+    color: #66d39d;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .award2-hero-chat__head .brand-mark {
+    animation: none !important;
+    color: #c8f06a !important;
+  }
+}
