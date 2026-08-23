@@ -660,7 +660,7 @@
   color: #d0d5d1;
 }
 
-@media (max-width: 1180px), (pointer: coarse) {
+@media (max-width: 1180px) {
   .signal-rail {
     display: none;
   }
@@ -685,8 +685,12 @@
   .kage-hero .hybrid-hero h1,
   .kage-hero h1 {
     max-width: 6.6ch;
-    font-size: clamp(3.85rem, 18.8vw, 5.7rem);
+    font-size: clamp(3.7rem, 17.2vw, 5.35rem);
     line-height: 0.82;
+  }
+
+  .kage-hero h1 em {
+    white-space: nowrap;
   }
 
   .kage-hero .hybrid-hero__collage {
