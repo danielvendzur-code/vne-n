@@ -172,7 +172,8 @@ body:has(.award2-home) .site-header__cta:hover {
 }
 
 @keyframes award2-lens-breathe {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.35;
     transform: scale(0.92);
   }

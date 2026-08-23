@@ -32,8 +32,8 @@ test("public homepage keeps the dark work-led hero and visible product proof", a
   const route = await read("src/routes/index.tsx");
 
   assert.match(route, /AwardV2Landing/);
-  assert.match(landing, /Od otázky/);
-  assert.match(landing, /k výsledku/);
+  assert.match(landing, /Web, ktorý/);
+  assert.match(landing, /vybaví viac/);
   assert.match(landing, /HeroCollage/);
   assert.match(landing, /HeroChatPreview/);
   assert.match(landing, /ŽIVÝ CHATBOT/);
@@ -51,6 +51,8 @@ test("public homepage keeps the dark work-led hero and visible product proof", a
   assert.match(css, /body:has\(\.award2-home\) \.site-header[\s\S]*background:/);
   assert.match(css, /\.award2-hero-chat/);
   assert.match(css, /\.award2-guide/);
+  assert.match(landing, /--guide-logo-color/);
+  assert.match(landing, /<BrandMark size=\{30\}/);
   assert.match(css, /offset-path:\s*path/);
   assert.match(css, /height:\s*420vh/);
   assert.match(css, /position:\s*sticky/);
@@ -71,7 +73,7 @@ test("homepage uses four real projects with one consistent realization frame", a
     assert.match(realizations, new RegExp(name));
   }
   assert.match(landing, /realizations\.map/);
-  assert.match(landing, /Weby, ktoré už bežia/);
+  assert.match(landing, /Chatboty na reálnych weboch/);
   assert.match(css, /grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(css, /\.award2-project__visual[\s\S]*aspect-ratio:\s*1\.6/);
   assert.doesNotMatch(landing, /Najprv práca|ŽIVÉ\. KLIKATEĽNÉ|anonymné percentá/i);

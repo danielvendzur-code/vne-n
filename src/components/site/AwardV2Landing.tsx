@@ -13,6 +13,7 @@ import { BrandMark } from "@/components/BrandMark";
 import { liveTools, realizations } from "@/data/realizations";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./AwardV2Landing.css";
+import "./AwardV2Iteration2.css";
 
 type FlowMode = "chatbot" | "calculator" | "configurator";
 
@@ -243,6 +244,22 @@ function ContinuousGuide() {
       "--guide-progress",
       `${Math.max(0, Math.min(100, value * 100))}%`,
     );
+
+    const palette = [
+      [200, 240, 106],
+      [118, 226, 180],
+      [244, 241, 224],
+      [102, 211, 157],
+      [200, 240, 106],
+    ];
+    const scaled = Math.max(0, Math.min(palette.length - 1, value * (palette.length - 1)));
+    const fromIndex = Math.floor(scaled);
+    const toIndex = Math.min(palette.length - 1, fromIndex + 1);
+    const mix = scaled - fromIndex;
+    const color = palette[fromIndex].map((channel, index) =>
+      Math.round(channel + (palette[toIndex][index] - channel) * mix),
+    );
+    ref.current?.style.setProperty("--guide-logo-color", `rgb(${color.join(", ")} )`);
   });
 
   useEffect(() => {
@@ -289,8 +306,11 @@ function ContinuousGuide() {
       </svg>
       <div className="award2-guide__traveler">
         <span className="award2-guide__glare" />
-        <b>{chapters[active].index}</b>
-        <small>{chapters[active].label}</small>
+        <BrandMark size={30} />
+        <small>
+          <b>{chapters[active].index}</b>
+          {chapters[active].label}
+        </small>
       </div>
     </aside>
   );
@@ -346,8 +366,8 @@ function SelectedWork() {
     >
       <div className="container-page award2-work__head">
         <span>REALIZÁCIE</span>
-        <h2 id="award2-work-title">Weby, ktoré už bežia.</h2>
-        <p>Každý projekt si môžete otvoriť a preklikať.</p>
+        <h2 id="award2-work-title">Chatboty na reálnych weboch.</h2>
+        <p>Otvorte si projekt a pozrite, ako asistent funguje priamo na stránke.</p>
       </div>
       <div className="container-page award2-work__grid">
         {realizations.map((project, index) => (
@@ -654,8 +674,8 @@ export function AwardV2Landing() {
       <section className="award2-hero" aria-labelledby="award2-hero-title" data-award-chapter="0">
         <div className="container-page award2-hero__stage">
           <h1 id="award2-hero-title">
-            <span>Od otázky</span>
-            <em>k výsledku.</em>
+            <span>Web, ktorý</span>
+            <em>vybaví viac.</em>
           </h1>
           <HeroCollage />
         </div>
