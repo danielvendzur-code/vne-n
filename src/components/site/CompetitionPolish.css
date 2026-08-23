@@ -1,0 +1,35 @@
+/* Final manual screenshot audit: explicit dark-section contrast and a calmer
+   desktop solution-row hierarchy. */
+
+.competition-hero h1 span {
+  color: #f6f5ee;
+}
+
+.competition-flow__scene h2,
+.competition-demo h3 {
+  color: #f6f5ee;
+}
+
+@media (min-width: 901px) {
+  .competition-solutions__list > button {
+    grid-template-columns: 40px minmax(0, 1fr) 116px;
+  }
+
+  .competition-solutions__list > button div {
+    grid-template-columns: minmax(9rem, 0.72fr) minmax(10.5rem, 1fr);
+    gap: 0.38rem 1rem;
+  }
+
+  .competition-solutions__list > button div p {
+    grid-column: 1 / -1;
+    max-width: 31rem;
+  }
+
+  .competition-solutions__list > button > i {
+    justify-self: end;
+    max-width: 7.2rem;
+    white-space: normal;
+    text-align: right;
+    line-height: 1.25;
+  }
+}
