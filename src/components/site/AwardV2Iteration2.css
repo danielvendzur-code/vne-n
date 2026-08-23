@@ -1,0 +1,210 @@
+/* Iteration 2 — user-directed refinement after the first browser review. */
+
+/* Navigation belongs to the dark hero, but it is no longer white-on-green. */
+body:has(.award2-home) .site-header {
+  background: rgba(5, 24, 18, 0.94) !important;
+  border-bottom-color: rgba(200, 240, 106, 0.16) !important;
+}
+
+body:has(.award2-home) .site-brand-name {
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-brand-lockup svg {
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-nav a,
+body:has(.award2-home) .site-menu-toggle {
+  color: #a8bbb0 !important;
+  opacity: 1;
+}
+
+body:has(.award2-home) .site-nav a:hover,
+body:has(.award2-home) .site-nav a[aria-current="page"] {
+  color: #d8f59a !important;
+}
+
+body:has(.award2-home) .site-header__cta {
+  border-color: #c8f06a !important;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+}
+
+body:has(.award2-home) .site-header__cta:hover {
+  background: #d8f59a !important;
+  color: #071b15 !important;
+}
+
+/* The hero keeps the overlap, but the statement is shorter and more deliberate. */
+.award2-hero h1 {
+  width: min(82vw, 1120px);
+  font-size: clamp(5.4rem, 12vw, 12.25rem);
+}
+
+.award2-hero h1 em {
+  margin-left: clamp(3.5rem, 10vw, 9.5rem);
+}
+
+.award2-hero-card--1 {
+  width: min(33vw, 485px);
+}
+
+.award2-hero-chat {
+  width: min(66%, 280px);
+  padding: 0.72rem;
+  border-color: rgba(200, 240, 106, 0.62);
+  background: rgba(5, 24, 18, 0.79);
+  box-shadow:
+    0 22px 52px -32px rgba(0, 0, 0, 0.96),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.award2-hero-chat__message {
+  background: rgba(246, 245, 238, 0.13);
+}
+
+/* Continuous glass lens. The logo changes colour continuously as the page moves. */
+.award2-guide {
+  right: 1.05rem;
+  width: 112px;
+  --guide-logo-color: #c8f06a;
+}
+
+.award2-guide svg {
+  left: 10px;
+}
+
+.award2-guide__base {
+  stroke: rgba(200, 240, 106, 0.19);
+  stroke-width: 1.15;
+}
+
+.award2-guide[data-tone="light"] .award2-guide__base {
+  stroke: rgba(7, 27, 21, 0.18);
+}
+
+.award2-guide__active {
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px rgba(200, 240, 106, 0.32));
+}
+
+.award2-guide__traveler {
+  width: 66px;
+  height: 66px;
+  margin-left: -2px;
+  border: 1px solid rgba(200, 240, 106, 0.58);
+  border-radius: 50%;
+  background: rgba(5, 24, 18, 0.36);
+  color: var(--guide-logo-color);
+  box-shadow:
+    0 20px 44px -28px rgba(0, 0, 0, 0.9),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 26px rgba(200, 240, 106, 0.07);
+  -webkit-backdrop-filter: blur(18px) saturate(1.35);
+  backdrop-filter: blur(18px) saturate(1.35);
+}
+
+.award2-guide[data-tone="light"] .award2-guide__traveler {
+  border-color: rgba(7, 27, 21, 0.3);
+  background: rgba(7, 27, 21, 0.2);
+  color: var(--guide-logo-color);
+}
+
+.award2-guide__traveler::before,
+.award2-guide__traveler::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.award2-guide__traveler::before {
+  inset: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.award2-guide__traveler::after {
+  inset: -7px;
+  border: 1px solid rgba(200, 240, 106, 0.12);
+  transform: scale(0.92);
+  animation: award2-lens-breathe 3.8s ease-in-out infinite;
+}
+
+.award2-guide__traveler > svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  color: inherit;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 9px color-mix(in srgb, currentColor 32%, transparent));
+}
+
+.award2-guide__glare {
+  width: 42px;
+  height: 42px;
+  background: color-mix(in srgb, var(--guide-logo-color) 26%, transparent);
+  filter: blur(10px);
+}
+
+.award2-guide__traveler small {
+  right: 78px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.5rem 0.62rem;
+  border-color: rgba(200, 240, 106, 0.18);
+  background: rgba(5, 24, 18, 0.78);
+  color: #dfe8e2;
+  box-shadow: 0 12px 32px -24px rgba(0, 0, 0, 0.95);
+}
+
+.award2-guide__traveler small b {
+  color: var(--guide-logo-color);
+  font: 760 0.58rem/1 var(--font-mono);
+}
+
+.award2-guide[data-tone="light"] .award2-guide__traveler small {
+  border-color: rgba(7, 27, 21, 0.16);
+  background: rgba(240, 239, 231, 0.82);
+  color: #12382d;
+}
+
+@keyframes award2-lens-breathe {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.78;
+    transform: scale(1.08);
+  }
+}
+
+@media (max-width: 1180px) {
+  .award2-guide {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  body:has(.award2-home) .site-brand-name,
+  body:has(.award2-home) .site-menu-toggle {
+    color: #c8f06a !important;
+  }
+
+  .award2-hero h1 {
+    font-size: clamp(3.55rem, 16.4vw, 5.1rem);
+  }
+
+  .award2-hero h1 em {
+    margin-left: 0.58em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .award2-guide__traveler::after {
+    animation: none;
+  }
+}
