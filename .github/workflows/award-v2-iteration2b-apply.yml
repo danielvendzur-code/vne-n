@@ -1,0 +1,44 @@
+name: Apply award v2 iteration 2b
+
+on:
+  push:
+    branches:
+      - award/rebuild-v2-2026-08-23
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: award/rebuild-v2-2026-08-23
+      - name: Apply browser-review corrections
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const cssPath = 'src/components/site/AwardV2Iteration2.css';
+          let css = fs.readFileSync(cssPath, 'utf8');
+          const marker = '/* Browser review corrections — iteration 2b */';
+          if (!css.includes(marker)) {
+            css += `\n\n${marker}\nbody:has(.award2-home) .site-header[data-scrolled="true"],\nbody:has(.award2-home) .site-header[data-scrolled="false"] {\n  background: rgba(5, 24, 18, 0.96) !important;\n  color: #c8f06a !important;\n}\n\nbody:has(.award2-home) .site-header[data-scrolled="true"] .site-nav a,\nbody:has(.award2-home) .site-header[data-scrolled="false"] .site-nav a {\n  color: #9fb4a7 !important;\n}\n\nbody:has(.award2-home) .site-header[data-scrolled="true"] .site-brand-name,\nbody:has(.award2-home) .site-header[data-scrolled="false"] .site-brand-name,\nbody:has(.award2-home) .site-header[data-scrolled="true"] .site-brand-lockup svg,\nbody:has(.award2-home) .site-header[data-scrolled="false"] .site-brand-lockup svg {\n  color: #c8f06a !important;\n}\n\nbody:has(.award2-home) .site-header[data-scrolled="true"] .site-header__cta,\nbody:has(.award2-home) .site-header[data-scrolled="false"] .site-header__cta {\n  background: #c8f06a !important;\n  border-color: #c8f06a !important;\n  color: #071b15 !important;\n}\n\n.award2-flow__copy h2 {\n  color: #f6f5ee !important;\n}\n\n.award2-flow__copy p {\n  color: #cfd9d2 !important;\n}\n\n.award2-guide {\n  right: 4.35rem;\n  z-index: 88;\n}\n\n.award2-guide__base {\n  stroke-width: 1.45;\n  stroke: rgba(200, 240, 106, 0.3);\n}\n\n.award2-guide[data-tone="light"] .award2-guide__base {\n  stroke: rgba(18, 56, 45, 0.28);\n}\n\n.award2-guide__active {\n  stroke-width: 2.35;\n}\n`;
+            fs.writeFileSync(cssPath, css);
+          }
+
+          const auditPath = 'scripts/security-audit.mjs';
+          let audit = fs.readFileSync(auditPath, 'utf8');
+          audit = audit.replace('"Od otázky"', '"Web, ktorý"').replace('"k výsledku."', '"vybaví viac."');
+          fs.writeFileSync(auditPath, audit);
+          NODE
+      - run: npx prettier --write src/components/site/AwardV2Iteration2.css scripts/security-audit.mjs
+      - name: Commit corrections
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/site/AwardV2Iteration2.css scripts/security-audit.mjs
+          git commit -m "refine: iteration 2 browser review corrections" || exit 0
+          git push origin HEAD:award/rebuild-v2-2026-08-23
