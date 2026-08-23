@@ -160,8 +160,8 @@ if (/backdrop-filter:\s*blur\(/i.test(brandCss)) {
 
 const landing = await read("src/components/site/AwardV2Landing.tsx");
 for (const token of [
-  "Od otázky",
-  "k výsledku.",
+  "Web, ktorý",
+  "vybaví viac.",
   "HeroChatPreview",
   "ŽIVÝ CHATBOT",
   "ContinuousGuide",
