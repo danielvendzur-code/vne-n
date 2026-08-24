@@ -63,6 +63,14 @@ jobs:
           report.checks.guideRemoved = !(await desktop.locator('.award2-guide').isVisible());
           await shot(desktop,'desktop-hero');
 
+          const launcher = desktop.getByTestId('widget-launcher');
+          await launcher.click();
+          await desktop.waitForTimeout(500);
+          report.checks.siteAssistantDark = await desktop.locator('.cw-panel').evaluate(el => getComputedStyle(el).backgroundColor);
+          await shot(desktop,'desktop-site-assistant');
+          await desktop.getByTestId('widget-close').click();
+          await desktop.waitForTimeout(350);
+
           for (const [selector,name,offset] of [
             ['#riesenia','desktop-solutions',60],
             ['#realizacie','desktop-work',80],
@@ -85,6 +93,7 @@ jobs:
           for (const [fraction,name] of [[0.08,'desktop-flow-1'],[0.36,'desktop-flow-2'],[0.63,'desktop-flow-3'],[0.91,'desktop-flow-4']]) {
             await desktop.evaluate(({y})=>window.scrollTo({top:y,behavior:'instant'}), {y:flowMetrics.top + travel * fraction});
             await desktop.waitForTimeout(700);
+            if (fraction === 0.08) report.checks.flowModesVisible = await desktop.locator('.award2-flow__modes').isVisible();
             await shot(desktop,name);
           }
 
@@ -110,6 +119,7 @@ jobs:
           fs.writeFileSync('qa-results/award-v2/report.json', JSON.stringify(report,null,2));
           if (!report.checks.heroChatVisible) throw new Error('Hero chatbot preview is not visible');
           if (!report.checks.guideRemoved) throw new Error('Deprecated scroll guide is still visible');
+          if (!report.checks.flowModesVisible) throw new Error('Horizontal flow mode selector is hidden');
           if (report.overflows.some(x=>x.overflow>1)) throw new Error(`Horizontal overflow ${JSON.stringify(report.overflows)}`);
           if (report.errors.length) throw new Error(report.errors.join('\n'));
           await browser.close();
