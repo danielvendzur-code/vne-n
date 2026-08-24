@@ -122,6 +122,12 @@
 
 .award2-flow__track {
   width: 400vw !important;
+  transform: translate3d(var(--orientation-flow-x, 0%), 0, 0) !important;
+}
+
+.award2-flow__progress i {
+  transform: scaleX(var(--orientation-flow-progress, 0.03)) !important;
+  transform-origin: left center !important;
 }
 
 .award2-flow__scene {
@@ -207,6 +213,10 @@
 @media (max-width: 720px) {
   .award2-flow {
     height: auto !important;
+  }
+
+  .award2-flow__track {
+    transform: none !important;
   }
 
   .award2-audience,
