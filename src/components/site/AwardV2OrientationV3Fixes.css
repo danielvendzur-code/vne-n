@@ -1,0 +1,26 @@
+/* Browser review: the flow HUD must sit below the fixed global navigation. */
+
+.award2-flow__hud {
+  top: var(--header-h) !important;
+  min-height: 58px !important;
+  padding-inline: var(--gutter) !important;
+  border-top: 1px solid rgba(200, 240, 106, 0.12) !important;
+  border-bottom-color: rgba(200, 240, 106, 0.18) !important;
+  background: rgba(7, 27, 21, 0.92) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.05) !important;
+  backdrop-filter: blur(14px) saturate(1.05) !important;
+}
+
+.award2-flow__scene-inner {
+  padding-top: calc(var(--header-h) + 6.4rem) !important;
+}
+
+.award2-flow__modes button {
+  min-height: 34px !important;
+}
+
+@media (max-width: 720px) {
+  .award2-flow__hud {
+    display: none !important;
+  }
+}
