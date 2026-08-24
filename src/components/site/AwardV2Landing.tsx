@@ -14,6 +14,7 @@ import { liveTools, realizations } from "@/data/realizations";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./AwardV2Landing.css";
 import "./AwardV2Iteration2.css";
+import "./AwardV2OrientationV3.css";
 
 type FlowMode = "chatbot" | "calculator" | "configurator";
 
@@ -408,8 +409,13 @@ function HorizontalFlow() {
   const [mode, setMode] = useState<FlowMode>("chatbot");
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
-  const lineScale = useTransform(scrollYProgress, [0, 1], [0.02, 1]);
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.25 });
+  const x = useTransform(
+    progress,
+    [0, 0.16, 0.3, 0.43, 0.57, 0.7, 0.84, 1],
+    ["0%", "0%", "-25%", "-25%", "-50%", "-50%", "-75%", "-75%"],
+  );
+  const lineScale = useTransform(progress, [0, 1], [0.03, 1]);
   const stages = flowModes[mode].stages;
 
   return (
