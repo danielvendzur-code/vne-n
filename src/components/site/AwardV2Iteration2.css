@@ -1,0 +1,155 @@
+/* Iteration 2 — user-directed refinement after the first browser review. */
+
+/* Navigation belongs to the dark hero, but it is no longer white-on-green. */
+body:has(.award2-home) .site-header {
+  background: rgba(5, 24, 18, 0.94) !important;
+  border-bottom-color: rgba(200, 240, 106, 0.16) !important;
+}
+
+body:has(.award2-home) .site-brand-name {
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-brand-lockup svg {
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-nav a,
+body:has(.award2-home) .site-menu-toggle {
+  color: #a8bbb0 !important;
+  opacity: 1;
+}
+
+body:has(.award2-home) .site-nav a:hover,
+body:has(.award2-home) .site-nav a[aria-current="page"] {
+  color: #d8f59a !important;
+}
+
+body:has(.award2-home) .site-header__cta {
+  border-color: #c8f06a !important;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+}
+
+body:has(.award2-home) .site-header__cta:hover {
+  background: #d8f59a !important;
+  color: #071b15 !important;
+}
+
+/* The hero keeps the overlap, but the statement is shorter and more deliberate. */
+.award2-hero h1 {
+  width: min(82vw, 1120px);
+  font-size: clamp(5.4rem, 12vw, 12.25rem);
+}
+
+.award2-hero h1 em {
+  margin-left: clamp(3.5rem, 10vw, 9.5rem);
+}
+
+.award2-hero-card--1 {
+  width: min(33vw, 485px);
+}
+
+.award2-hero-chat {
+  width: min(66%, 280px);
+  padding: 0.72rem;
+  border-color: rgba(200, 240, 106, 0.62);
+  background: rgba(5, 24, 18, 0.79);
+  box-shadow:
+    0 22px 52px -32px rgba(0, 0, 0, 0.96),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.award2-hero-chat__message {
+  background: rgba(246, 245, 238, 0.13);
+}
+
+/* Browser review corrections — iteration 2b */
+body:has(.award2-home) .site-header[data-scrolled="true"],
+body:has(.award2-home) .site-header[data-scrolled="false"] {
+  background: rgba(5, 24, 18, 0.96) !important;
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-nav a,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-nav a {
+  color: #9fb4a7 !important;
+}
+
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-brand-name,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-brand-name,
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-brand-lockup svg,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-brand-lockup svg {
+  color: #c8f06a !important;
+}
+
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-header__cta,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-header__cta {
+  background: #c8f06a !important;
+  border-color: #c8f06a !important;
+  color: #071b15 !important;
+}
+
+.award2-flow__copy h2 {
+  color: #f6f5ee !important;
+}
+
+.award2-flow__copy p {
+  color: #cfd9d2 !important;
+}
+
+body:has(.award2-home) .site-header__inner,
+body:has(.award2-home) .site-header[data-scrolled="true"] .site-header__inner,
+body:has(.award2-home) .site-header[data-scrolled="false"] .site-header__inner {
+  background: rgba(5, 24, 18, 0.96) !important;
+  border-bottom-color: rgba(200, 240, 106, 0.16) !important;
+}
+
+/* No page-level wave or orb. The animated identity belongs to the chatbot itself. */
+.award2-guide {
+  display: none !important;
+}
+
+/* Chatbot logo chroma animation. */
+.award2-hero-chat__head .brand-mark {
+  color: #c8f06a !important;
+  animation: award2-chat-mark-chroma 8.5s ease-in-out infinite;
+}
+
+@keyframes award2-chat-mark-chroma {
+  0%,
+  100% {
+    color: #c8f06a;
+  }
+  28% {
+    color: #79e2b5;
+  }
+  52% {
+    color: #f4f1e0;
+  }
+  76% {
+    color: #66d39d;
+  }
+}
+
+@media (max-width: 720px) {
+  body:has(.award2-home) .site-brand-name,
+  body:has(.award2-home) .site-menu-toggle {
+    color: #c8f06a !important;
+  }
+
+  .award2-hero h1 {
+    font-size: clamp(3.55rem, 16.4vw, 5.1rem);
+  }
+
+  .award2-hero h1 em {
+    margin-left: 0.58em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .award2-hero-chat__head .brand-mark {
+    animation: none !important;
+    color: #c8f06a !important;
+  }
+}

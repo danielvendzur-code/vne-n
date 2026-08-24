@@ -1,0 +1,236 @@
+/* Orientation V3 — clearer chapter separation and the original dwell-based horizontal story. */
+
+/* The experimental scroll wave is intentionally removed. */
+.award2-guide {
+  display: none !important;
+}
+
+/* Make the page read as distinct chapters instead of one long visual surface. */
+.award2-tools,
+.award2-work,
+.award2-manifesto,
+.award2-flow,
+.award2-demos,
+.award2-audience,
+.award2-process,
+.award2-price,
+.award2-final {
+  position: relative;
+  isolation: isolate;
+}
+
+.award2-tools,
+.award2-work,
+.award2-manifesto,
+.award2-process,
+.award2-price {
+  border-top: 1px solid rgba(7, 27, 21, 0.2);
+}
+
+.award2-flow,
+.award2-demos,
+.award2-final {
+  border-top: 1px solid rgba(200, 240, 106, 0.24);
+}
+
+.award2-tools {
+  background: #f0efe7 !important;
+}
+
+.award2-work {
+  background: #fbfaf6 !important;
+}
+
+.award2-manifesto {
+  background: #dfeeb6 !important;
+}
+
+.award2-flow {
+  height: 300vh !important;
+  background: #071b15 !important;
+}
+
+.award2-demos {
+  background: #0d2d23 !important;
+}
+
+.award2-audience {
+  border-top: 8px solid #c8f06a;
+  background: #f0efe7 !important;
+}
+
+.award2-process {
+  background: #e7e7de !important;
+}
+
+.award2-price {
+  border-top: 8px solid #12382d;
+  background: #f0efe7 !important;
+}
+
+/* Chapter kickers become visible wayfinding anchors. */
+.award2-section-head > span,
+.award2-work__head > span,
+.award2-manifesto .container-page > span,
+.award2-demos__head > span,
+.award2-process__head > span,
+.award2-price__head > span {
+  display: inline-flex !important;
+  width: fit-content;
+  min-height: 30px;
+  align-items: center;
+  padding: 0.42rem 0.58rem;
+  border: 1px solid rgba(7, 27, 21, 0.22);
+  background: #071b15;
+  color: #c8f06a !important;
+  font-weight: 720 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.award2-demos__head > span {
+  border-color: rgba(200, 240, 106, 0.38);
+}
+
+.award2-flow__hud > span {
+  padding: 0.42rem 0.58rem;
+  border: 1px solid rgba(200, 240, 106, 0.4);
+  background: rgba(200, 240, 106, 0.08);
+  color: #c8f06a !important;
+}
+
+/* Stronger section starts: more breathing room before content, tighter inside it. */
+.award2-section-head,
+.award2-work__head,
+.award2-demos__head,
+.award2-process__head,
+.award2-price__head {
+  padding-top: clamp(5.5rem, 8vw, 8rem) !important;
+}
+
+.award2-section-head h2,
+.award2-work__head h2,
+.award2-demos__head h2,
+.award2-process__head h2,
+.award2-price__head h2 {
+  margin-top: 1.2rem !important;
+}
+
+/* Restore the original horizontal-story character: one scene dominates, text may overlap the artifact. */
+.award2-flow__sticky {
+  overflow: hidden !important;
+}
+
+.award2-flow__track {
+  width: 400vw !important;
+  transform: translate3d(var(--orientation-flow-x, 0%), 0, 0) !important;
+}
+
+.award2-flow__progress i {
+  transform: scaleX(var(--orientation-flow-progress, 0.03)) !important;
+  transform-origin: left center !important;
+}
+
+.award2-flow__scene {
+  width: 100vw !important;
+  flex: 0 0 100vw !important;
+}
+
+.award2-flow__scene-inner {
+  position: relative;
+  min-height: calc(100svh - var(--header-h));
+  display: grid !important;
+  grid-template-columns: 0.28fr minmax(0, 0.88fr) minmax(20rem, 0.52fr) !important;
+  align-items: center !important;
+  gap: clamp(1rem, 3vw, 3rem) !important;
+}
+
+.award2-flow__number {
+  align-self: start;
+  margin-top: clamp(8rem, 14vh, 10rem);
+  color: rgba(200, 240, 106, 0.2) !important;
+  font-size: clamp(7rem, 16vw, 15rem) !important;
+  line-height: 0.72 !important;
+}
+
+.award2-flow__copy {
+  position: relative;
+  z-index: 3;
+  margin-left: clamp(-4rem, -3vw, -1rem);
+}
+
+.award2-flow__copy h2 {
+  max-width: 11ch !important;
+  font-size: clamp(3.8rem, 7vw, 7.2rem) !important;
+  line-height: 0.88 !important;
+  letter-spacing: -0.055em !important;
+}
+
+.award2-flow__copy p {
+  max-width: 31rem !important;
+  font-size: clamp(1rem, 1.2vw, 1.15rem) !important;
+  line-height: 1.55 !important;
+}
+
+.award2-flow__artifact {
+  position: relative;
+  z-index: 2;
+  margin-left: clamp(-8rem, -6vw, -3rem);
+  transform: translateY(clamp(1rem, 6vh, 4rem));
+  border-color: rgba(200, 240, 106, 0.34) !important;
+  background: rgba(200, 240, 106, 0.08) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  backdrop-filter: blur(18px) saturate(1.08);
+}
+
+.award2-flow__modes {
+  border: 1px solid rgba(200, 240, 106, 0.2);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.award2-flow__modes button[data-active] {
+  background: #c8f06a !important;
+  color: #071b15 !important;
+}
+
+/* Light sections use stronger internal rules to clarify grouping. */
+.award2-tool,
+.award2-project,
+.award2-process__list li,
+.award2-price__grid > * {
+  border-color: rgba(7, 27, 21, 0.2) !important;
+}
+
+@media (max-width: 900px) {
+  .award2-section-head,
+  .award2-work__head,
+  .award2-demos__head,
+  .award2-process__head,
+  .award2-price__head {
+    padding-top: 4.5rem !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .award2-flow {
+    height: auto !important;
+  }
+
+  .award2-flow__track {
+    transform: none !important;
+  }
+
+  .award2-audience,
+  .award2-price {
+    border-top-width: 5px;
+  }
+
+  .award2-section-head > span,
+  .award2-work__head > span,
+  .award2-manifesto .container-page > span,
+  .award2-demos__head > span,
+  .award2-process__head > span,
+  .award2-price__head > span {
+    min-height: 28px;
+    padding: 0.38rem 0.5rem;
+  }
+}

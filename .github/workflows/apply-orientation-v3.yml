@@ -1,0 +1,51 @@
+name: Apply orientation v3
+
+on:
+  push:
+    branches:
+      - award/rebuild-v2-2026-08-23
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: award/rebuild-v2-2026-08-23
+      - name: Restore original horizontal dwell and remove scroll wave
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const landingPath = 'src/components/site/AwardV2Landing.tsx';
+          let landing = fs.readFileSync(landingPath, 'utf8');
+          if (!landing.includes('import "./AwardV2OrientationV3.css";')) {
+            landing = landing.replace(
+              'import "./AwardV2Iteration2.css";',
+              'import "./AwardV2Iteration2.css";\nimport "./AwardV2OrientationV3.css";',
+            );
+          }
+          const oldFlow = '  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);\n  const lineScale = useTransform(scrollYProgress, [0, 1], [0.02, 1]);';
+          const newFlow = `  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.25 });\n  const x = useTransform(\n    progress,\n    [0, 0.16, 0.3, 0.43, 0.57, 0.7, 0.84, 1],\n    ["0%", "0%", "-25%", "-25%", "-50%", "-50%", "-75%", "-75%"],\n  );\n  const lineScale = useTransform(progress, [0, 1], [0.03, 1]);`;
+          if (landing.includes(oldFlow)) landing = landing.replace(oldFlow, newFlow);
+          else if (!landing.includes('[0, 0.16, 0.3, 0.43, 0.57, 0.7, 0.84, 1]')) throw new Error('Horizontal flow target missing');
+          fs.writeFileSync(landingPath, landing);
+
+          const qaPath = '.github/workflows/award-v2-visual-qa.yml';
+          let qa = fs.readFileSync(qaPath, 'utf8');
+          qa = qa.replace('report.checks.guideVisible = await desktop.locator(\'.award2-guide\').isVisible();', 'report.checks.guideRemoved = !(await desktop.locator(\'.award2-guide\').isVisible());');
+          qa = qa.replace("if (!report.checks.guideVisible) throw new Error('Continuous guide is not visible on desktop');", "if (!report.checks.guideRemoved) throw new Error('Deprecated scroll guide is still visible');");
+          fs.writeFileSync(qaPath, qa);
+          NODE
+      - run: npx prettier --write src/components/site/AwardV2Landing.tsx src/components/site/AwardV2OrientationV3.css .github/workflows/award-v2-visual-qa.yml
+      - name: Commit orientation v3
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/site/AwardV2Landing.tsx src/components/site/AwardV2OrientationV3.css .github/workflows/award-v2-visual-qa.yml
+          git commit -m "refine: restore original horizontal story and clearer chapters" || exit 0
+          git push origin HEAD:award/rebuild-v2-2026-08-23
