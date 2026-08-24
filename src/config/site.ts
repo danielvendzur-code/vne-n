@@ -1,6 +1,6 @@
 export const siteConfig = {
   brand: "Môj Chatbot",
-  visualVersion: "question-to-outcome-20260824-orientation-v3",
+  visualVersion: "question-to-outcome-20260824-orientation-v3b",
   title: "Môj Chatbot — digitálne predajné nástroje na mieru",
   description:
     "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami.",
