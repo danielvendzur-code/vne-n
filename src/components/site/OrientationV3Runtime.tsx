@@ -49,10 +49,7 @@ export function OrientationV3Runtime(): null {
       const x = interpolateFlow(progress);
 
       track.style.setProperty("--orientation-flow-x", `${x * -100}%`);
-      progressLine?.style.setProperty(
-        "--orientation-flow-progress",
-        `${Math.max(0.03, progress)}`,
-      );
+      progressLine?.style.setProperty("--orientation-flow-progress", `${Math.max(0.03, progress)}`);
     };
 
     const schedule = () => {
