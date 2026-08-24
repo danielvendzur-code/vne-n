@@ -1,4 +1,14 @@
-/* Browser review: the flow HUD must sit below the fixed global navigation. */
+/* Browser review: keep the story controls visible and make the page chapters obvious. */
+
+body:has(.award2-home) .site-nav a {
+  color: #b7c4bb !important;
+  font-size: 0.9rem !important;
+  font-weight: 590 !important;
+}
+
+body:has(.award2-home) .site-nav a:hover {
+  color: #c8f06a !important;
+}
 
 .award2-flow__hud {
   top: var(--header-h) !important;
@@ -19,8 +29,56 @@
   min-height: 34px !important;
 }
 
+/* Section numbers act as simple wayfinding; no extra floating navigation needed. */
+.award2-section-head > span,
+.award2-work__head > span,
+.award2-flow__hud > span,
+.award2-demos__head > span,
+.award2-process__head > span,
+.award2-price__head > span {
+  gap: 0.48rem !important;
+}
+
+.award2-section-head > span::before,
+.award2-work__head > span::before,
+.award2-flow__hud > span::before,
+.award2-demos__head > span::before,
+.award2-process__head > span::before,
+.award2-price__head > span::before {
+  opacity: 0.58;
+  font-family: var(--font-mono);
+}
+
+.award2-section-head > span::before {
+  content: "01";
+}
+
+.award2-work__head > span::before {
+  content: "02";
+}
+
+.award2-flow__hud > span::before {
+  content: "03";
+}
+
+.award2-demos__head > span::before {
+  content: "04";
+}
+
+.award2-process__head > span::before {
+  content: "05";
+}
+
+.award2-price__head > span::before {
+  content: "06";
+}
+
 @media (max-width: 720px) {
   .award2-flow__hud {
     display: none !important;
+  }
+
+  body:has(.award2-home) .site-nav a {
+    font-size: inherit !important;
   }
 }
