@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AwardV2Landing } from "@/components/site/AwardV2Landing";
+import { OrientationV3Runtime } from "@/components/site/OrientationV3Runtime";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -57,7 +58,7 @@ export const Route = createFileRoute("/")({
     ...seo({
       title: "Digitálne predajné nástroje na mieru — Môj Chatbot",
       description:
-        "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami. Od otázky k výsledku.",
+        "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia, ktoré zákazníkovi pomôžu priamo na vašom webe.",
       path: "/",
     }),
     scripts: [
@@ -70,5 +71,10 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <AwardV2Landing />;
+  return (
+    <>
+      <AwardV2Landing />
+      <OrientationV3Runtime />
+    </>
+  );
 }
