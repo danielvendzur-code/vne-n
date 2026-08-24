@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./AwardV2OrientationV3.css";
+import "./AwardV2OrientationV3Fixes.css";
 
 const FLOW_POINTS = [
   [0, 0],
@@ -48,7 +49,10 @@ export function OrientationV3Runtime(): null {
       const x = interpolateFlow(progress);
 
       track.style.setProperty("--orientation-flow-x", `${x * -100}%`);
-      progressLine?.style.setProperty("--orientation-flow-progress", `${Math.max(0.03, progress)}`);
+      progressLine?.style.setProperty(
+        "--orientation-flow-progress",
+        `${Math.max(0.03, progress)}`,
+      );
     };
 
     const schedule = () => {
