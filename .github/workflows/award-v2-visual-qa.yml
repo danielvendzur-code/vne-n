@@ -60,22 +60,34 @@ jobs:
           report.overflows.push({ viewport:'1366x768', overflow:await desktop.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth) });
           report.checks.darkHeader = await desktop.locator('.site-header').evaluate(el => getComputedStyle(el).backgroundColor);
           report.checks.heroChatVisible = await desktop.locator('.award2-hero-chat').isVisible();
-          report.checks.guideVisible = await desktop.locator('.award2-guide').isVisible();
+          report.checks.guideRemoved = !(await desktop.locator('.award2-guide').isVisible());
           await shot(desktop,'desktop-hero');
-          const positions = [
+
+          for (const [selector,name,offset] of [
             ['#riesenia','desktop-solutions',60],
             ['#realizacie','desktop-work',80],
-            ['#ako-to-funguje','desktop-flow-start',40],
-            ['#ako-to-funguje','desktop-flow-mid',980],
             ['#ukazky','desktop-demos',60],
             ['#cena','desktop-price',50],
-          ];
-          for (const [selector,name,offset] of positions) {
+          ]) {
             const top = await desktop.locator(selector).evaluate(el=>el.getBoundingClientRect().top+window.scrollY);
             await desktop.evaluate(({y})=>window.scrollTo({top:y,behavior:'instant'}), {y:top+offset});
             await desktop.waitForTimeout(650);
             await shot(desktop,name);
           }
+
+          const flow = desktop.locator('#ako-to-funguje');
+          const flowMetrics = await flow.evaluate(el => ({
+            top: el.getBoundingClientRect().top + window.scrollY,
+            height: el.offsetHeight,
+            viewport: window.innerHeight,
+          }));
+          const travel = Math.max(1, flowMetrics.height - flowMetrics.viewport);
+          for (const [fraction,name] of [[0.08,'desktop-flow-1'],[0.36,'desktop-flow-2'],[0.63,'desktop-flow-3'],[0.91,'desktop-flow-4']]) {
+            await desktop.evaluate(({y})=>window.scrollTo({top:y,behavior:'instant'}), {y:flowMetrics.top + travel * fraction});
+            await desktop.waitForTimeout(700);
+            await shot(desktop,name);
+          }
+
           await shot(desktop,'desktop-full',true);
           const wide = await browser.newPage({ viewport:{width:1440,height:1000} });
           watch(wide);
@@ -83,6 +95,7 @@ jobs:
           await wide.waitForTimeout(700);
           report.overflows.push({ viewport:'1440x1000', overflow:await wide.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth) });
           await shot(wide,'desktop-1440-hero');
+
           const mobile = await browser.newPage({ viewport:{width:390,height:844}, isMobile:true, hasTouch:true });
           watch(mobile);
           await mobile.goto('http://127.0.0.1:4173/', { waitUntil:'networkidle' });
@@ -96,7 +109,7 @@ jobs:
           }
           fs.writeFileSync('qa-results/award-v2/report.json', JSON.stringify(report,null,2));
           if (!report.checks.heroChatVisible) throw new Error('Hero chatbot preview is not visible');
-          if (!report.checks.guideVisible) throw new Error('Continuous guide is not visible on desktop');
+          if (!report.checks.guideRemoved) throw new Error('Deprecated scroll guide is still visible');
           if (report.overflows.some(x=>x.overflow>1)) throw new Error(`Horizontal overflow ${JSON.stringify(report.overflows)}`);
           if (report.errors.length) throw new Error(report.errors.join('\n'));
           await browser.close();
