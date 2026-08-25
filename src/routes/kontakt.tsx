@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { submitWebsiteLead } from "@/lib/lead-submission";
@@ -27,8 +27,12 @@ export const Route = createFileRoute("/kontakt")({
 const FIELD_LIMITS = {
   name: 80,
   email: 160,
+  phone: 40,
   company: 160,
+  web: 200,
   project: 1_500,
+  source: 60,
+  demo: 600,
 } as const;
 
 type SubmitState = "idle" | "sending";
@@ -56,13 +60,36 @@ function cleanField(value: string, limit: number): string {
 function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
+  const [web, setWeb] = useState("");
   const [project, setProject] = useState("");
+  const [leadSource, setLeadSource] = useState("website-contact");
   const [timing, setTiming] = useState("Bez pevného termínu");
   const [consent, setConsent] = useState(false);
   const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sourceParam = cleanField(params.get("source") ?? "", FIELD_LIMITS.source);
+    const companyParam = cleanField(params.get("company") ?? "", FIELD_LIMITS.company);
+    const webParam = cleanField(params.get("web") ?? "", FIELD_LIMITS.web);
+    const demoParam = cleanField(params.get("demo") ?? "", FIELD_LIMITS.demo);
+
+    if (sourceParam) setLeadSource(sourceParam);
+    if (companyParam) setCompany((current) => current || companyParam);
+    if (webParam) setWeb((current) => current || webParam);
+
+    if (sourceParam.startsWith("coffee-demo-")) {
+      const intro = companyParam
+        ? `Mám záujem o kávového poradcu z pripravenej ukážky pre ${companyParam}.`
+        : "Mám záujem o kávového poradcu z pripravenej ukážky.";
+      const demoLine = demoParam ? `\nUkážka: ${demoParam}` : "";
+      setProject((current) => current || `${intro}${demoLine}\n\nDoplňujúca poznámka:`);
+    }
+  }, []);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,8 +97,11 @@ function ContactPage() {
 
     const safeName = cleanField(name, FIELD_LIMITS.name);
     const safeEmail = cleanField(email, FIELD_LIMITS.email);
+    const safePhone = cleanField(phone, FIELD_LIMITS.phone);
     const safeCompany = cleanField(company, FIELD_LIMITS.company);
+    const safeWeb = cleanField(web, FIELD_LIMITS.web);
     const safeProject = cleanField(project, FIELD_LIMITS.project);
+    const safeSource = cleanField(leadSource, FIELD_LIMITS.source) || "website-contact";
 
     if (!safeName || !safeEmail || !safeProject || !consent) {
       setError("Vyplňte povinné polia a potvrďte súhlas so spracovaním údajov.");
@@ -83,13 +113,16 @@ function ContactPage() {
 
     try {
       const result = await submitWebsiteLead({
-        source: "website-contact",
+        source: safeSource,
         name: safeName,
         email: safeEmail,
+        phone: safePhone,
         company: safeCompany,
-        web: safeCompany.includes(".") ? safeCompany : "",
+        web: safeWeb,
         note: safeProject,
-        interest: "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
+        interest: safeSource.startsWith("coffee-demo-")
+          ? "Kávový poradca pre e-shop"
+          : "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
         timeline: timing,
         consent: true,
         website: botTrap,
@@ -106,6 +139,8 @@ function ContactPage() {
       setError("Dopyt sa nepodarilo odoslať. Skúste to znova alebo použite e-mail či telefón.");
     }
   };
+
+  const fromCoffeeDemo = leadSource.startsWith("coffee-demo-");
 
   return (
     <div className="contact-page contact-page--rebrand">
@@ -148,7 +183,9 @@ function ContactPage() {
           </aside>
 
           <div className="contact-form-wrap">
-            <p className="section-kicker">KRÁTKE ZADANIE</p>
+            <p className="section-kicker">
+              {fromCoffeeDemo ? "PREDVYPLNENÉ Z VAŠEJ UKÁŽKY" : "KRÁTKE ZADANIE"}
+            </p>
             <form className="contact-form" onSubmit={(event) => void submit(event)} noValidate>
               <div className="contact-fields-two">
                 <label>
@@ -177,14 +214,41 @@ function ContactPage() {
                 </label>
               </div>
 
+              <div className="contact-fields-two">
+                <label>
+                  <span>Telefón</span>
+                  <input
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    maxLength={FIELD_LIMITS.phone}
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="+421 ..."
+                  />
+                </label>
+                <label>
+                  <span>Firma</span>
+                  <input
+                    value={company}
+                    onChange={(event) => setCompany(event.target.value)}
+                    maxLength={FIELD_LIMITS.company}
+                    autoComplete="organization"
+                    placeholder="Názov firmy"
+                  />
+                </label>
+              </div>
+
               <label>
-                <span>Firma alebo web</span>
+                <span>Web</span>
                 <input
-                  value={company}
-                  onChange={(event) => setCompany(event.target.value)}
-                  maxLength={FIELD_LIMITS.company}
-                  autoComplete="organization"
-                  placeholder="firma.sk"
+                  value={web}
+                  onChange={(event) => setWeb(event.target.value)}
+                  maxLength={FIELD_LIMITS.web}
+                  type="url"
+                  inputMode="url"
+                  autoComplete="url"
+                  placeholder="https://firma.sk"
                 />
               </label>
 
