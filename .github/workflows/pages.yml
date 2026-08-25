@@ -89,7 +89,7 @@ jobs:
 
           grep -Fq "Z otázky" pages-dist/index.html
           grep -Fq "k výsledku" pages-dist/index.html
-          grep -Fq "PRE E-SHOPY AJ FIRMY SO SLUŽBAMI" pages-dist/index.html
+          grep -Fq "CHATBOT NA MIERU" pages-dist/index.html
           grep -Fq "497 €" pages-dist/cennik/index.html
           grep -Fq "10 € / mesiac" pages-dist/cennik/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
@@ -105,7 +105,7 @@ jobs:
           grep -Fq "submitWebsiteLead" src/routes/kontakt.tsx
           grep -Fq "Sitemap: https://mojchatbot.sk/sitemap.xml" pages-dist/robots.txt
           grep -Fq "https://mojchatbot.sk/sluzby" pages-dist/sitemap.xml
-          grep -Fq 'viewBox="0 0 64 64"' pages-dist/brand/logo.svg
+          grep -Fq 'viewBox="0 0 112 112"' pages-dist/brand/logo.svg
           grep -Fq 'stroke="#12372D"' pages-dist/brand/logo.svg
           ! grep -Fq "Váš web odpovie" pages-dist/index.html
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
