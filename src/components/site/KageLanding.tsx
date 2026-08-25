@@ -212,6 +212,16 @@ const featuredProjects = [
     siteImage: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
     alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",
   },
+  {
+    slug: "webko",
+    name: "WEBKO",
+    domain: "webko.sk",
+    href: "https://www.webko.sk/",
+    type: "Prezentačný web · získavanie dopytov",
+    result: "Jasná prezentácia služieb vedie návštevníka priamo ku kontaktu a zadaniu webu.",
+    siteImage: `${import.meta.env.BASE_URL}work/live/webko.webp`,
+    alt: "Tmavá domovská stránka WEBKO s ukážkou webových realizácií",
+  },
 ] as const;
 
 const outcomeGroups = [
@@ -676,12 +686,12 @@ function Price() {
       <div className="container-page hybrid-price__grid">
         <div>
           <span>CHATBOT NA MIERU</span>
-          <AnimatedPrice value={497} />
+          <AnimatedPrice value={347} />
           <p>Návrh, dizajn, obsah a nasadenie na web.</p>
         </div>
         <div>
           <span>KALKULAČKA / KONFIGURÁTOR</span>
-          <strong>od 500 €</strong>
+          <AnimatedPrice value={447} />
           <p>Výpočet alebo výber podľa vašich pravidiel.</p>
         </div>
         <div>

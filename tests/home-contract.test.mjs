@@ -26,7 +26,7 @@ test("layout loads one coherent brand system instead of historical override stac
   );
 });
 
-test("active homepage preserves the approved hero with three clean website previews", async () => {
+test("active homepage preserves the approved hero with four clean website previews", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
   const css = await read("src/components/site/KageLanding.css");
@@ -36,13 +36,15 @@ test("active homepage preserves the approved hero with three clean website previ
   assert.match(landing, /work\/portfolio\/koverta\.webp/);
   assert.match(landing, /work\/live\/derat\.webp/);
   assert.match(landing, /work\/live\/mojplot\.webp/);
-  assert.equal((landing.match(/siteImage:/g) ?? []).length, 3);
+  assert.match(landing, /work\/live\/webko\.webp/);
+  assert.equal((landing.match(/siteImage:/g) ?? []).length, 4);
   assert.doesNotMatch(landing, /work\/product\/|assistantImage|project-composite__assistant/);
-  for (const slug of ["koverta", "derat", "mojplot"]) {
+  for (const slug of ["koverta", "derat", "mojplot", "webko"]) {
     assert.match(landing, new RegExp(`slug: "${slug}"`));
     assert.match(css, new RegExp(`project-composite--${slug}`));
   }
-  assert.match(landing, /AnimatedPrice value=\{497\}/);
+  assert.match(landing, /AnimatedPrice value=\{347\}/);
+  assert.match(landing, /AnimatedPrice value=\{447\}/);
   assert.match(landing, /data-nav-tone="dark"/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /@media \(max-width: 720px\)/);
@@ -123,17 +125,35 @@ test("pricing keeps the updated public prices and avoids fake plans", async () =
   const pricing = await read("src/routes/cennik.tsx");
   const landing = await read("src/components/site/PremiumLanding.tsx");
 
-  assert.equal((pricing.match(/setup: "od 497 €"/g) ?? []).length, 1);
-  assert.equal((pricing.match(/setup: "od 500 €"/g) ?? []).length, 2);
+  assert.equal((pricing.match(/setup: "od 347 €"/g) ?? []).length, 1);
+  assert.equal((pricing.match(/setup: "od 447 €"/g) ?? []).length, 2);
   assert.equal((pricing.match(/monthly: "10 € \/ mesiac"/g) ?? []).length, 3);
-  assert.match(landing, /od 497 €/);
+  assert.match(landing, /od 347 €/);
   assert.match(landing, /10 €/);
-  assert.match(landing, /od 500 €/);
+  assert.match(landing, /od 447 €/);
   assert.match(pricing, /V CENE VYTVORENIA/);
   assert.match(pricing, /MESAČNE/);
   assert.match(pricing, /AK TREBA NIEČO NAVYŠE/);
   assert.doesNotMatch(pricing, /Najčastejšia voľba/i);
   assert.doesNotMatch(pricing, /\b(?:Basic|Pro|Enterprise)\b/i);
+});
+
+test("homepage, form and subpages share the smooth one-way reveal controller", async () => {
+  const layout = await read("src/components/site/Layout.tsx");
+  const controller = await read("src/components/site/PageRevealController.tsx");
+  const pagesCss = await read("src/components/site/RebrandPages.css");
+  const motion = await read("src/components/site/motion-primitives.tsx");
+
+  assert.match(layout, /PageRevealController pathname=\{pathname\}/);
+  assert.match(controller, /IntersectionObserver/);
+  assert.match(controller, /contact-form/);
+  assert.match(controller, /hybrid-price/);
+  assert.match(controller, /element\.animate/);
+  assert.match(controller, /prefers-reduced-motion/);
+  assert.match(controller, /duration:\s*860/);
+  assert.doesNotMatch(pagesCss, /data-scroll-reveal/);
+  assert.match(motion, /base:\s*0\.72/);
+  assert.match(motion, /data-motion-reveal/);
 });
 
 test("contact form retains sanitization, consent, honeypot and resilient lead submission", async () => {

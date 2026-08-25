@@ -13,9 +13,9 @@ export const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
  */
 export const MOTION = {
   fast: 0.22,
-  base: 0.42,
-  slow: 0.64,
-  stagger: 0.055,
+  base: 0.72,
+  slow: 0.82,
+  stagger: 0.07,
 } as const;
 
 export const staggerParent: Variants = {
@@ -56,7 +56,7 @@ export function Reveal({
   className = "",
   direction = "up",
   delay = 0,
-  distance = 28,
+  distance = 36,
   amount = 0.18,
   as: Tag = "div",
   ...rest
@@ -95,12 +95,21 @@ export function Reveal({
     );
   }
 
-  const x = narrow || direction === "up" ? 0 : direction === "left" ? -distance : distance;
-  const y = direction === "up" ? Math.min(distance, 14) : 0;
+  const mobileDistance = Math.min(distance, 16);
+  const x =
+    direction === "up"
+      ? 0
+      : direction === "left"
+        ? -(narrow ? mobileDistance : distance)
+        : narrow
+          ? mobileDistance
+          : distance;
+  const y = direction === "up" ? Math.min(distance, narrow ? 12 : 22) : 0;
 
   return (
     <Component
       className={className}
+      data-motion-reveal=""
       // Jednosmerné. Predtým sa obsah pri odchode zo zorného poľa vracal
       // do skrytého stavu, takže pri scrollovaní späť hore sa odhaľovanie
       // prehrávalo znova — a keďže scrollovanie hore je rýchlejšie než

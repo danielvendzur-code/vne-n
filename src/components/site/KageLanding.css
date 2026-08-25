@@ -895,7 +895,9 @@ body:has(.kage-home) .site-header[data-tone="dark"] :is(.site-brand-name, .site-
   color: #f6f5ee;
 }
 
-body:has(.kage-home) .site-header[data-tone="dark"] :is(.site-brand-lockup .brand-mark, .site-menu-toggle) {
+body:has(.kage-home)
+  .site-header[data-tone="dark"]
+  :is(.site-brand-lockup .brand-mark, .site-menu-toggle) {
   color: #c8f06a;
 }
 
@@ -907,7 +909,9 @@ body:has(.kage-home) .site-header[data-tone="light"] :is(.site-brand-name, .site
   color: #12382d;
 }
 
-body:has(.kage-home) .site-header[data-tone="light"] :is(.site-brand-lockup .brand-mark, .site-menu-toggle) {
+body:has(.kage-home)
+  .site-header[data-tone="light"]
+  :is(.site-brand-lockup .brand-mark, .site-menu-toggle) {
   color: #557b2d;
 }
 
@@ -968,7 +972,7 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   letter-spacing: -0.035em;
 }
 
-/* Hero: same left-type/right-collage architecture, with the approved three-site stack. */
+/* Hero: same left-type/right-collage architecture, with the approved website stack. */
 .kage-hero .hybrid-hero__stage {
   min-height: calc(100svh - var(--header-h) - 82px);
   padding-top: clamp(2.6rem, 5vh, 4.8rem);
@@ -1007,8 +1011,8 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   display: inline-block;
   opacity: 0;
   transform: translateY(0.16em);
-  animation: premium-character-in 480ms var(--hh-ease) forwards;
-  animation-delay: calc(150ms + var(--character-index) * 26ms);
+  animation: premium-character-in 680ms var(--hh-ease) forwards;
+  animation-delay: calc(180ms + var(--character-index) * 52ms);
 }
 
 @keyframes premium-character-in {
@@ -1057,6 +1061,25 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   transform: rotate(1.5deg);
 }
 
+.kage-hero .hybrid-hero__case--4 {
+  top: 31%;
+  left: 53%;
+  z-index: 4;
+  width: clamp(10.5rem, 15vw, 15rem);
+  aspect-ratio: 1.58;
+  transform: rotate(-1.2deg);
+  animation-delay: 420ms;
+}
+
+.kage-hero .hybrid-hero__case--4:hover,
+.kage-hero .hybrid-hero__case--4:focus-visible {
+  transform: rotate(-0.35deg) translateY(-12px) scale(1.035);
+}
+
+.kage-hero .hybrid-hero__case:is(:hover, :focus-visible) {
+  z-index: 20;
+}
+
 .project-composite {
   position: absolute;
   inset: 0;
@@ -1072,8 +1095,8 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
 }
 
 .project-composite--koverta {
-  --project-scale: 1.16;
-  --project-scale-hover: 1.174;
+  --project-scale: 1.12;
+  --project-scale-hover: 1.136;
   --project-origin: top left;
 }
 
@@ -1084,9 +1107,15 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
 }
 
 .project-composite--mojplot {
-  --project-scale: 1.4;
-  --project-scale-hover: 1.417;
-  --project-origin: top right;
+  --project-scale: 1.22;
+  --project-scale-hover: 1.238;
+  --project-origin: top center;
+}
+
+.project-composite--webko {
+  --project-scale: 1.02;
+  --project-scale-hover: 1.038;
+  --project-origin: top center;
 }
 
 .hybrid-hero__case .project-composite__site,

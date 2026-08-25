@@ -520,11 +520,11 @@ function ProofAndPrice() {
       <div className="container-page hybrid-price__grid">
         <div>
           <span>CHATBOT NA MIERU</span>
-          <strong>od 497 €</strong>
+          <strong>od 347 €</strong>
         </div>
         <div>
           <span>KALKULAČKA / KONFIGURÁTOR</span>
-          <strong>od 500 €</strong>
+          <strong>od 447 €</strong>
         </div>
         <div>
           <span>PREVÁDZKA</span>

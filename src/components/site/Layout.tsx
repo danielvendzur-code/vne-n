@@ -5,6 +5,7 @@ import { AnalyticsConsent } from "./AnalyticsConsent";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { PageRevealController } from "./PageRevealController";
 import "./Rebrand.css";
 import "./RebrandPages.css";
 
@@ -23,6 +24,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           <div key={pathname} className="page-transition">
             {children}
           </div>
+          <PageRevealController pathname={pathname} />
         </main>
         <AnalyticsConsent />
         <Footer />
