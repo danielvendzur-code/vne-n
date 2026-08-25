@@ -26,7 +26,7 @@ test("layout loads one coherent brand system instead of historical override stac
   );
 });
 
-test("active homepage preserves the approved hero with four clean website previews", async () => {
+test("active homepage keeps three clean hero previews and four realizations", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
   const css = await read("src/components/site/KageLanding.css");
@@ -38,6 +38,9 @@ test("active homepage preserves the approved hero with four clean website previe
   assert.match(landing, /work\/live\/mojplot\.webp/);
   assert.match(landing, /work\/live\/webko\.webp/);
   assert.equal((landing.match(/siteImage:/g) ?? []).length, 4);
+  assert.match(landing, /const heroProjects = featuredProjects\.slice\(0, 3\)/);
+  assert.match(landing, /heroProjects\.map/);
+  assert.match(landing, /featuredProjects\.map/);
   assert.doesNotMatch(landing, /work\/product\/|assistantImage|project-composite__assistant/);
   for (const slug of ["koverta", "derat", "mojplot", "webko"]) {
     assert.match(landing, new RegExp(`slug: "${slug}"`));
@@ -150,7 +153,7 @@ test("homepage, form and subpages share the smooth one-way reveal controller", a
   assert.match(controller, /hybrid-price/);
   assert.match(controller, /element\.animate/);
   assert.match(controller, /prefers-reduced-motion/);
-  assert.match(controller, /duration:\s*860/);
+  assert.match(controller, /duration:\s*isHeading \? 1040 : 900/);
   assert.doesNotMatch(pagesCss, /data-scroll-reveal/);
   assert.match(motion, /base:\s*0\.72/);
   assert.match(motion, /data-motion-reveal/);

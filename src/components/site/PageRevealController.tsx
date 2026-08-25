@@ -21,7 +21,7 @@ const REVEAL_TARGETS = [
   ".privacy-page .cookies-card",
 ].join(",");
 
-/** Adds one restrained, compositor-only side reveal to marketing content. */
+/** Adds restrained, compositor-only entrances with direction based on layout. */
 export function PageRevealController({ pathname }: { pathname: string }) {
   useEffect(() => {
     const root = document.querySelector<HTMLElement>(".page-transition");
@@ -64,15 +64,20 @@ export function PageRevealController({ pathname }: { pathname: string }) {
               : centre < window.innerWidth / 2
                 ? -1
                 : 1;
-          const distance = window.innerWidth <= 720 ? 16 : 42;
+          const distance = window.innerWidth <= 720 ? 18 : 48;
+          const isHeading = /^H[1-3]$/.test(element.tagName);
+          const isRow = element.matches("li, .hybrid-tool");
+          const startTransform = isRow
+            ? `translate3d(${direction * distance}px, 18px, 0)`
+            : `translate3d(${direction * distance}px, ${isHeading ? 12 : 0}px, 0)`;
           const animation = element.animate(
             [
-              { opacity: 0, transform: `translate3d(${direction * distance}px, 0, 0)` },
+              { opacity: isHeading ? 0.08 : 0.28, transform: startTransform },
               { opacity: 1, transform: "translate3d(0, 0, 0)" },
             ],
             {
-              duration: 860,
-              delay: (index % 3) * 55,
+              duration: isHeading ? 1040 : 900,
+              delay: (index % 4) * 62,
               easing: "cubic-bezier(0.16, 1, 0.3, 1)",
               fill: "both",
             },

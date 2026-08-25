@@ -224,6 +224,10 @@ const featuredProjects = [
   },
 ] as const;
 
+// WEBKO remains in the realizations grid, but the approved hero composition
+// intentionally uses only three overlapping website previews.
+const heroProjects = featuredProjects.slice(0, 3);
+
 const outcomeGroups = [
   {
     label: "FIRMA SO SLUŽBAMI",
@@ -300,7 +304,7 @@ function TypedLine({ text, startAt }: { text: string; startAt: number }) {
 function HeroCollage() {
   return (
     <div className="hybrid-hero__collage" aria-label="Vybrané živé realizácie">
-      {featuredProjects.map((project, index) => (
+      {heroProjects.map((project, index) => (
         <a
           key={project.name}
           className={`hybrid-hero__case hybrid-hero__case--${index + 1}`}
@@ -324,11 +328,11 @@ function FlowStory() {
   const stages = flowModes[mode].stages;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const progress = useSpring(scrollYProgress, { stiffness: 96, damping: 30, mass: 0.25 });
+  const progress = useSpring(scrollYProgress, { stiffness: 58, damping: 24, mass: 0.55 });
   const lineScale = useTransform(progress, [0, 1], [0.03, 1]);
 
   useMotionValueEvent(progress, "change", (value) => {
-    const next = Math.min(stages.length - 1, Math.round(value * (stages.length - 1)));
+    const next = Math.min(stages.length - 1, Math.floor(value * stages.length));
     setActiveStage((current) => (current === next ? current : next));
   });
 
@@ -365,14 +369,14 @@ function FlowStory() {
           </div>
 
           <div className="kage-flow__stage">
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence initial={false}>
               <motion.article
                 className="hybrid-flow__panel kage-flow__panel"
                 key={`${mode}-${stage.index}`}
-                initial={{ opacity: 0, x: "7%" }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: "-7%" }}
-                transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ x: "18%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-18%" }}
+                transition={{ duration: 0.82, ease: [0.16, 1, 0.3, 1] }}
               >
                 <div className="container-page hybrid-flow__panel-inner">
                   <div className="hybrid-flow__number">{stage.index}</div>
@@ -381,13 +385,19 @@ function FlowStory() {
                     <h2>{stage.title}</h2>
                     <p>{stage.copy}</p>
                   </div>
-                  <div className="hybrid-flow__artifact" aria-hidden="true">
+                  <motion.div
+                    className="hybrid-flow__artifact"
+                    aria-hidden="true"
+                    initial={{ y: 54, rotate: 2.2 }}
+                    animate={{ y: 0, rotate: -0.65 }}
+                    transition={{ duration: 0.92, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  >
                     <span>
                       {flowModes[mode].label.toUpperCase()} / {stage.index}
                     </span>
                     <strong>{stage.artifact}</strong>
                     <i>→</i>
-                  </div>
+                  </motion.div>
                 </div>
               </motion.article>
             </AnimatePresence>
@@ -418,8 +428,14 @@ function FlowStory() {
             </button>
           ))}
         </div>
-        {stages.map((item) => (
-          <article key={`${mode}-${item.index}`}>
+        {stages.map((item, index) => (
+          <motion.article
+            key={`${mode}-${item.index}`}
+            initial={{ opacity: 0.25, x: index % 2 === 0 ? -28 : 28 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.34 }}
+            transition={{ duration: 0.7, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
+          >
             <div className="hybrid-flow__mobile-head">
               <span>{item.index}</span>
               <b>{item.label}</b>
@@ -427,7 +443,7 @@ function FlowStory() {
             <h3>{item.title}</h3>
             <p>{item.copy}</p>
             <strong>{item.artifact}</strong>
-          </article>
+          </motion.article>
         ))}
       </div>
     </section>
@@ -507,7 +523,7 @@ function SelectedWork() {
               href={project.href}
               target="_blank"
               rel="noreferrer"
-              className="hybrid-project__visual"
+              className={`hybrid-project__visual hybrid-project__visual--${project.slug}`}
             >
               <ProjectVisual project={project} />
               <span className="hybrid-project__domain">{project.domain}</span>
@@ -557,22 +573,33 @@ function Audience() {
         {outcomeGroups.map((group, groupIndex) => (
           <motion.article
             className="outcome-comparison__group"
+            data-tone={groupIndex === 0 ? "service" : "shop"}
             key={group.label}
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0.25, x: groupIndex === 0 ? -46 : 46 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.72, delay: groupIndex * 0.09, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.9, delay: groupIndex * 0.09, ease: [0.16, 1, 0.3, 1] }}
           >
             <span>{group.label}</span>
             <h3>{group.title}</h3>
             <ol>
               {group.rows.map(([before, after], index) => (
-                <li key={before}>
+                <motion.li
+                  key={before}
+                  initial={{ y: 18, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{
+                    duration: 0.58,
+                    delay: 0.18 + index * 0.09,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                >
                   <small>0{index + 1}</small>
                   <p>{before}</p>
                   <ArrowRight size={17} aria-hidden="true" />
                   <strong>{after}</strong>
-                </li>
+                </motion.li>
               ))}
             </ol>
             <button
@@ -685,7 +712,7 @@ function Price() {
       </div>
       <div className="container-page hybrid-price__grid">
         <div>
-          <span>CHATBOT NA MIERU</span>
+          <span>CHATBOT / PRODUKTOVÝ PORADCA</span>
           <AnimatedPrice value={347} />
           <p>Návrh, dizajn, obsah a nasadenie na web.</p>
         </div>
@@ -730,7 +757,7 @@ export function KageLanding() {
           <HeroCollage />
         </div>
         <div className="container-page hybrid-hero__bottom kage-hero__bottom">
-          <p>Chatboty, kalkulačky a konfigurátory na mieru.</p>
+          <p>Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru.</p>
           <a href="#riesenia" className="hybrid-hero__primary">
             Vybrať riešenie <ArrowUpRight size={17} />
           </a>

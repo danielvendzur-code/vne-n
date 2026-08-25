@@ -114,8 +114,8 @@ function ProcessPage() {
           </div>
           <div>
             <p>
-              Nemusíte vedieť, či potrebujete chatbot, kalkulačku alebo konfigurátor. Stačí popísať
-              proces a výsledok, ktorý chcete.
+              Nemusíte vedieť, či potrebujete chatbot, kalkulačku, konfigurátor alebo produktového
+              poradcu. Stačí popísať proces a výsledok, ktorý chcete.
             </p>
             <button
               type="button"

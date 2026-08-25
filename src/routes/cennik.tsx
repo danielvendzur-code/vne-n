@@ -6,9 +6,9 @@ import { breadcrumbJsonLd, seo } from "@/lib/seo";
 export const Route = createFileRoute("/cennik")({
   head: () => ({
     ...seo({
-      title: "Cenník — chatbot, kalkulačka a konfigurátor",
+      title: "Cenník — chatbot, kalkulačka, konfigurátor a produktový poradca",
       description:
-        "Chatbot na mieru od 347 € jednorazovo a 10 € mesačne. Kalkulačka alebo konfigurátor od 447 € jednorazovo a 10 € mesačne. Presnú cenu dohodneme vopred.",
+        "Chatbot alebo produktový poradca na mieru od 347 € jednorazovo a 10 € mesačne. Kalkulačka alebo konfigurátor od 447 € jednorazovo a 10 € mesačne. Presnú cenu dohodneme vopred.",
       path: "/cennik",
     }),
     scripts: [
@@ -24,10 +24,10 @@ export const Route = createFileRoute("/cennik")({
 const pricing = [
   {
     index: "01",
-    name: "Chatbot",
+    name: "Chatbot / produktový poradca",
     setup: "od 347 €",
     monthly: "10 € / mesiac",
-    copy: "Odpovede podľa vašich podkladov, doplnenie potrebných údajov a odoslanie dopytu na e-mail.",
+    copy: "Odpovede podľa vašich podkladov, odporúčanie produktu, doplnenie údajov a odoslanie dopytu.",
     preset: "inquiry" as const,
   },
   {

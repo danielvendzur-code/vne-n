@@ -7,7 +7,7 @@ import type { AssistantPreset } from "@/types/assistant";
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
     ...seo({
-      title: "Chatboty, kalkulačky a konfigurátory na mieru",
+      title: "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru",
       description:
         "Digitálne predajné nástroje na mieru pre e-shopy aj firmy so službami: chatbot, kalkulačka, konfigurátor a produktový poradca.",
       path: "/sluzby",

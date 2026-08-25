@@ -1468,3 +1468,406 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
     transition: none;
   }
 }
+
+/* =====================================================================
+   FINAL PRECISION PASS — approved composition, natural website previews
+   and deliberate editorial motion.
+   ===================================================================== */
+
+body:has(.kage-home) .site-header__inner {
+  gap: clamp(1.5rem, 2.4vw, 2.7rem);
+  transition:
+    color 520ms var(--hh-ease),
+    border-color 520ms var(--hh-ease),
+    background-color 520ms var(--hh-ease),
+    backdrop-filter 520ms var(--hh-ease);
+}
+
+body:has(.kage-home) .site-header[data-scrolled="true"] .site-header__inner {
+  box-shadow: 0 16px 40px -34px rgba(7, 27, 21, 0.58);
+}
+
+body:has(.kage-home) .site-nav a {
+  padding-block: 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 620;
+  letter-spacing: -0.012em;
+  transition:
+    color 520ms var(--hh-ease),
+    transform 420ms var(--hh-ease);
+}
+
+body:has(.kage-home) .site-nav a::after {
+  right: auto;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: right center;
+  background: currentColor;
+  transition: transform 480ms var(--hh-ease);
+}
+
+body:has(.kage-home) .site-nav a:is(:hover, :focus-visible)::after,
+body:has(.kage-home) .site-nav a[aria-current="page"]::after {
+  right: auto;
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+body:has(.kage-home) .site-nav a:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+}
+
+body:has(.kage-home) .site-brand-lockup {
+  transition: transform 480ms var(--hh-ease);
+}
+
+body:has(.kage-home) .site-brand-lockup:is(:hover, :focus-visible) {
+  transform: translateX(3px);
+}
+
+body:has(.kage-home) .site-header__cta {
+  position: relative;
+  overflow: hidden;
+  min-height: 44px;
+  padding-inline: 1.05rem;
+  transition:
+    color 420ms var(--hh-ease),
+    border-color 420ms var(--hh-ease),
+    background-color 420ms var(--hh-ease),
+    transform 420ms var(--hh-ease);
+}
+
+body:has(.kage-home) .site-header__cta svg {
+  transition: transform 480ms var(--hh-ease);
+}
+
+body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+}
+
+body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible) svg {
+  transform: translate(2px, -2px);
+}
+
+/* Three full website previews in the hero. No forced zoom and no WEBKO. */
+.kage-hero .hybrid-hero__case--1 {
+  top: 0;
+  left: 23%;
+  width: clamp(19rem, 30vw, 30rem);
+  aspect-ratio: 1.44;
+}
+
+.kage-hero .hybrid-hero__case--2 {
+  top: 47%;
+  left: 0;
+  width: clamp(16.5rem, 24vw, 24rem);
+  aspect-ratio: 1.6;
+}
+
+.kage-hero .hybrid-hero__case--3 {
+  right: 0;
+  bottom: 1%;
+  width: clamp(16rem, 24vw, 24rem);
+  aspect-ratio: 1.6;
+}
+
+.project-composite--koverta,
+.project-composite--derat,
+.project-composite--mojplot,
+.project-composite--webko {
+  --project-scale: 1;
+  --project-scale-hover: 1.006;
+  --project-origin: top center;
+}
+
+.hybrid-hero__case .project-composite__site,
+.hybrid-project__visual .project-composite__site {
+  object-fit: contain;
+  object-position: top center;
+  background: #ffffff;
+}
+
+.hybrid-project__visual--koverta {
+  aspect-ratio: 1.44;
+}
+
+.hybrid-project__visual--derat,
+.hybrid-project__visual--mojplot,
+.hybrid-project__visual--webko {
+  aspect-ratio: 1.6;
+}
+
+.kage-hero .project-composite {
+  animation: kage-preview-unmask 1040ms var(--hh-ease) both;
+}
+
+.kage-hero .hybrid-hero__case--2 .project-composite {
+  animation-delay: 140ms;
+}
+
+.kage-hero .hybrid-hero__case--3 .project-composite {
+  animation-delay: 260ms;
+}
+
+@keyframes kage-preview-unmask {
+  from {
+    opacity: 0.15;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.hybrid-project__visual:is(:hover, :focus-visible) .project-composite__site {
+  transform: scale(1.006);
+}
+
+.hybrid-project__open {
+  transition:
+    opacity 320ms ease,
+    transform 520ms var(--hh-ease);
+}
+
+/* Scrollytelling moves as one continuous horizontal hand-off without fading. */
+.kage-flow {
+  height: 410vh;
+  background: #173f34;
+}
+
+.kage-flow .hybrid-flow__hud,
+.kage-flow__panel {
+  background: #173f34;
+}
+
+.kage-flow__panel {
+  will-change: transform;
+}
+
+.kage-flow .hybrid-flow__artifact {
+  box-shadow: 0 32px 80px -54px rgba(0, 0, 0, 0.72);
+  transform-origin: 54% 100%;
+}
+
+.kage-flow .hybrid-flow__copy h2 {
+  text-wrap: balance;
+}
+
+.kage-flow__steps i {
+  overflow: hidden;
+  transition:
+    width 520ms var(--hh-ease),
+    background-color 420ms ease;
+}
+
+.kage-flow__steps i[data-active="true"] {
+  width: 44px;
+}
+
+/* The two outcomes share one baseline while remaining immediately distinct. */
+.outcome-comparison__grid {
+  align-items: stretch;
+  border: 1px solid rgba(11, 14, 12, 0.18);
+}
+
+.outcome-comparison__group {
+  display: grid;
+  grid-template-rows: auto minmax(8.2rem, auto) 1fr auto;
+  padding: clamp(2.2rem, 3.5vw, 3.7rem);
+}
+
+.outcome-comparison__group + .outcome-comparison__group {
+  padding: clamp(2.2rem, 3.5vw, 3.7rem);
+}
+
+.outcome-comparison__group[data-tone="service"] {
+  background: #f7f5ee;
+}
+
+.outcome-comparison__group[data-tone="shop"] {
+  background: #e4ebdd;
+}
+
+.outcome-comparison__group > span {
+  width: max-content;
+  margin-bottom: 1.8rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 2px solid #6e9737;
+  color: #12382d;
+}
+
+.outcome-comparison__group h3 {
+  align-self: start;
+  max-width: 12ch;
+  margin-bottom: 2rem;
+  text-wrap: balance;
+}
+
+.outcome-comparison__group ol {
+  display: grid;
+  grid-template-rows: repeat(3, minmax(96px, 1fr));
+  align-self: stretch;
+}
+
+.outcome-comparison__group li {
+  min-height: 96px;
+  grid-template-columns: 2rem minmax(8.5rem, 0.78fr) 1.5rem minmax(10rem, 1fr);
+  gap: clamp(0.7rem, 1.2vw, 1.15rem);
+}
+
+.outcome-comparison__group li svg {
+  transition: transform 420ms var(--hh-ease);
+}
+
+.outcome-comparison__group li:is(:hover, :focus-within) svg {
+  transform: translateX(4px);
+}
+
+.outcome-comparison__group > button {
+  width: max-content;
+  margin-top: 0.5rem;
+}
+
+.outcome-comparison__group > button svg,
+.hybrid-tool__cta svg,
+.hybrid-work__footer svg {
+  transition: transform 460ms var(--hh-ease);
+}
+
+.outcome-comparison__group > button:is(:hover, :focus-visible) svg,
+.hybrid-tool:is(:hover, :focus-visible) .hybrid-tool__cta svg,
+.hybrid-work__footer a:is(:hover, :focus-visible) svg {
+  transform: translateX(5px);
+}
+
+.hybrid-tool__inner > span:first-child,
+.hybrid-process__list > li > span {
+  transition: transform 520ms var(--hh-ease);
+}
+
+.hybrid-tool:is(:hover, :focus-visible) .hybrid-tool__inner > span:first-child,
+.hybrid-process__list > li:is(:hover, :focus-within) > span {
+  transform: rotate(-7deg);
+}
+
+@media (max-width: 980px) {
+  .outcome-comparison__group li {
+    grid-template-columns: 1.8rem minmax(0, 1fr) auto;
+  }
+
+  .outcome-comparison__group li strong {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .kage-hero .hybrid-hero__stage {
+    min-height: max(76svh, 620px);
+  }
+
+  .kage-hero h1 {
+    max-width: 7.2ch;
+    font-size: clamp(3rem, 13.8vw, 4.5rem);
+    line-height: 0.86;
+  }
+
+  .kage-hero .hybrid-hero__collage {
+    inset: 34% 0 2% 0;
+  }
+
+  .kage-hero .hybrid-hero__case--1 {
+    top: 0;
+    left: 27%;
+    width: 67vw;
+  }
+
+  .kage-hero .hybrid-hero__case--2 {
+    top: 44%;
+    left: 3%;
+    width: 50vw;
+  }
+
+  .kage-hero .hybrid-hero__case--3 {
+    right: 8%;
+    bottom: 0;
+    width: 42vw;
+  }
+
+  .hybrid-project__visual--koverta,
+  .hybrid-project__visual--derat,
+  .hybrid-project__visual--mojplot,
+  .hybrid-project__visual--webko {
+    aspect-ratio: auto;
+  }
+
+  .hybrid-project__visual .project-composite {
+    position: relative;
+    aspect-ratio: inherit;
+  }
+
+  .hybrid-project__visual--koverta .project-composite {
+    aspect-ratio: 1.44;
+  }
+
+  .hybrid-project__visual--derat .project-composite,
+  .hybrid-project__visual--mojplot .project-composite,
+  .hybrid-project__visual--webko .project-composite {
+    aspect-ratio: 1.6;
+  }
+
+  .outcome-comparison__grid {
+    border-right: 0;
+    border-left: 0;
+  }
+
+  .outcome-comparison__group,
+  .outcome-comparison__group + .outcome-comparison__group {
+    grid-template-rows: auto auto auto auto;
+    padding: 2.5rem var(--gutter);
+    margin-inline: calc(var(--gutter) * -1);
+  }
+
+  .outcome-comparison__group ol {
+    grid-template-rows: none;
+  }
+
+  .outcome-comparison__group li {
+    min-height: 108px;
+  }
+}
+
+@media (max-width: 430px) {
+  .kage-hero.hybrid-hero h1 {
+    width: 100%;
+    max-width: none;
+    font-size: clamp(2.35rem, 10vw, 2.8rem) !important;
+    line-height: 0.88;
+  }
+
+  .kage-hero .typed-line {
+    white-space: nowrap;
+  }
+
+  .kage-hero .hybrid-hero__collage {
+    inset: 32% 0 2% 0;
+  }
+
+  .outcome-comparison__group li {
+    grid-template-columns: 1.65rem 1fr auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kage-hero .project-composite {
+    animation: none;
+  }
+
+  .kage-flow__panel,
+  .kage-flow .hybrid-flow__artifact,
+  .kage-flow__steps i,
+  body:has(.kage-home) .site-nav a,
+  body:has(.kage-home) .site-header__cta {
+    transition: none;
+  }
+}
