@@ -17,6 +17,7 @@
   const FALLBACK_ID = "dv-assistant-fallback";
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
+  const WIDGET_RELEASE = "restored-web-palette-20260825-v3";
 
   let settled = false;
   let pendingOpen = null;
@@ -171,7 +172,8 @@
     ].join("");
 
     const script = document.createElement("script");
-    script.src = `${SOURCE}?v=${buildKey}`;
+    const separator = SOURCE.includes("?") ? "&" : "?";
+    script.src = `${SOURCE}${separator}v=${WIDGET_RELEASE}-${buildKey}`;
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = SOURCE;

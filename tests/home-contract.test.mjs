@@ -26,6 +26,25 @@ test("layout loads one coherent brand system instead of historical override stac
   );
 });
 
+test("active homepage preserves the approved hero and shows open product tools", async () => {
+  const route = await read("src/routes/index.tsx");
+  const landing = await read("src/components/site/KageLanding.tsx");
+  const css = await read("src/components/site/KageLanding.css");
+
+  assert.match(route, /KageLanding/);
+  assert.match(landing, /Web, ktorý mení návštevy na výsledky\./);
+  assert.match(landing, /work\/product\/koverta-open\.png/);
+  assert.match(landing, /work\/product\/derat-open\.png/);
+  assert.match(landing, /work\/product\/mojplot-open\.png/);
+  assert.match(landing, /work\/product\/aplan-open\.png/);
+  assert.match(landing, /AnimatedPrice value=\{497\}/);
+  assert.match(landing, /data-nav-tone="dark"/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(css, /@media \(max-width: 720px\)/);
+  assert.doesNotMatch(landing, /SignalLens|signal-rail|scroll-progress|back-to-top/i);
+  assert.doesNotMatch(landing, /LiveDemos|Nie iba screenshot/i);
+});
+
 test("homepage is a clear work-led question-to-outcome experience", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const css = await read("src/components/site/AwardHome.css");
@@ -99,10 +118,10 @@ test("pricing keeps the updated public prices and avoids fake plans", async () =
   const pricing = await read("src/routes/cennik.tsx");
   const landing = await read("src/components/site/PremiumLanding.tsx");
 
-  assert.equal((pricing.match(/setup: "od 450 €"/g) ?? []).length, 1);
+  assert.equal((pricing.match(/setup: "od 497 €"/g) ?? []).length, 1);
   assert.equal((pricing.match(/setup: "od 500 €"/g) ?? []).length, 2);
   assert.equal((pricing.match(/monthly: "10 € \/ mesiac"/g) ?? []).length, 3);
-  assert.match(landing, /od 450 €/);
+  assert.match(landing, /od 497 €/);
   assert.match(landing, /10 €/);
   assert.match(landing, /od 500 €/);
   assert.match(pricing, /V CENE VYTVORENIA/);

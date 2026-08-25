@@ -2,16 +2,15 @@ import { Link } from "@tanstack/react-router";
 import {
   AnimatePresence,
   motion,
-  useMotionValue,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "motion/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
-import { realizations } from "@/data/realizations";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./AwardHome.css";
 import "./KageLanding.css";
@@ -182,26 +181,136 @@ const process = [
   ],
 ] as const;
 
-const signalSections = [
-  { index: "01", label: "Úvod", tone: "dark" },
-  { index: "02", label: "Riešenia", tone: "light" },
-  { index: "03", label: "Realizácie", tone: "light" },
-  { index: "04", label: "Ako to funguje", tone: "dark" },
-  { index: "05", label: "Ukážky", tone: "dark" },
-  { index: "06", label: "Cena a kontakt", tone: "dark" },
+const featuredProjects = [
+  {
+    name: "Koverta",
+    domain: "koverta.sk",
+    href: "https://koverta.sk/",
+    type: "E-commerce · dopytový asistent",
+    result: "Asistent zistí typ produktu, rozmery a použitie ešte pred odoslaním dopytu.",
+    siteImage: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,
+    assistantImage: `${import.meta.env.BASE_URL}work/product/koverta-open.png`,
+    alt: "Web Koverta s otvoreným produktovým asistentom",
+  },
+  {
+    name: "DERAT",
+    domain: "derat.sk",
+    href: "https://derat.sk/",
+    type: "Služby · kalkulačka a dopyt",
+    result: "Kalkulačka prevedie návštevníka od problému k orientačnej cene a dopytu.",
+    siteImage: `${import.meta.env.BASE_URL}work/live/derat.webp`,
+    assistantImage: `${import.meta.env.BASE_URL}work/product/derat-open.png`,
+    alt: "Web DERAT s otvorenou cenovou kalkulačkou",
+  },
+  {
+    name: "Môj Plot",
+    domain: "mojplot.sk",
+    href: "https://mojplot.sk/",
+    type: "E-commerce · produktová kalkulačka",
+    result: "Zákazník si vyberie typ oplotenia a pokračuje priamo k výpočtu alebo kontaktu.",
+    siteImage: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
+    assistantImage: `${import.meta.env.BASE_URL}work/product/mojplot-open.png`,
+    alt: "Web Môj Plot s otvorenou produktovou kalkulačkou",
+  },
+  {
+    name: "APLAN",
+    domain: "aplan.sk",
+    href: "https://danielvendzur-code.github.io/aplan-chatbot-backend/",
+    type: "Služby · informačný asistent",
+    result: "Asistent nasmeruje návštevníka k postupu, podkladom alebo konzultácii.",
+    siteImage: `${import.meta.env.BASE_URL}work/product/aplan-open.png`,
+    assistantImage: null,
+    alt: "Otvorený chatbot APLAN s ponukou tém",
+  },
 ] as const;
 
-function HeroCollage() {
-  const projects = useMemo(() => {
-    const wanted = ["Koverta", "DERAT", "Môj Plot"];
-    return wanted
-      .map((name) => realizations.find((project) => project.name === name))
-      .filter((project): project is (typeof realizations)[number] => Boolean(project));
-  }, []);
+const outcomeGroups = [
+  {
+    label: "FIRMA SO SLUŽBAMI",
+    title: "Z otázky vznikne pripravený dopyt.",
+    preset: "inquiry" as const,
+    rows: [
+      ["Návštevník hľadá odpoveď", "Web mu ju poskytne okamžite"],
+      ["Cena závisí od viacerých údajov", "Kalkulačka pripraví orientačný výsledok"],
+      ["Firma sa opakovane dopýtava", "Kontakt príde spolu s potrebným kontextom"],
+    ],
+  },
+  {
+    label: "E-SHOP",
+    title: "Z ponuky vznikne jednoduchý výber.",
+    preset: "product" as const,
+    rows: [
+      ["Zákazník porovnáva veľa možností", "Poradca zúži výber podľa potrieb"],
+      ["Nevie, ktorý variant je vhodný", "Konfigurátor ukáže iba platné kombinácie"],
+      ["Odíde bez rozhodnutia", "Web ho dovedie k produktu alebo dopytu"],
+    ],
+  },
+] as const;
+
+function ProjectVisual({
+  project,
+  eager = false,
+}: {
+  project: (typeof featuredProjects)[number];
+  eager?: boolean;
+}) {
+  return (
+    <span className="project-composite" data-single={!project.assistantImage || undefined}>
+      <img
+        className="project-composite__site"
+        src={project.siteImage}
+        alt={project.alt}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={eager ? "high" : "auto"}
+      />
+      {project.assistantImage ? (
+        <img
+          className="project-composite__assistant"
+          src={project.assistantImage}
+          alt=""
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+          aria-hidden="true"
+        />
+      ) : null}
+    </span>
+  );
+}
+
+function TypedLine({ text, startAt }: { text: string; startAt: number }) {
+  const words = text.split(" ");
 
   return (
+    <span className="typed-line" aria-hidden="true">
+      {words.map((word, wordIndex) => {
+        const wordOffset =
+          startAt +
+          words.slice(0, wordIndex).reduce((total, item) => total + item.length, 0) +
+          wordIndex;
+        return (
+          <span className="typed-word" key={`${word}-${wordIndex}`}>
+            {Array.from(word).map((character, characterIndex) => (
+              <span
+                className="typed-character"
+                key={`${character}-${characterIndex}`}
+                style={{ "--character-index": wordOffset + characterIndex } as CSSProperties}
+              >
+                {character}
+              </span>
+            ))}
+            {wordIndex < words.length - 1 ? " " : null}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+function HeroCollage() {
+  return (
     <div className="hybrid-hero__collage" aria-label="Vybrané živé realizácie">
-      {projects.map((project, index) => (
+      {featuredProjects.map((project, index) => (
         <a
           key={project.name}
           className={`hybrid-hero__case hybrid-hero__case--${index + 1}`}
@@ -209,75 +318,13 @@ function HeroCollage() {
           target="_blank"
           rel="noreferrer"
         >
-          <img src={project.image} alt={project.alt} decoding="async" fetchPriority="high" />
+          <ProjectVisual project={project} eager />
           <span>
             0{index + 1} / {project.name}
           </span>
         </a>
       ))}
     </div>
-  );
-}
-
-function SignalLens() {
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 92, damping: 27, mass: 0.28 });
-  const y = useTransform(progress, [0, 1], ["0vh", "58vh"]);
-  const opacity = useTransform(progress, [0, 0.025, 0.06, 0.97, 1], [0, 0, 1, 1, 0.35]);
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const rotateX = useSpring(pointerY, { stiffness: 190, damping: 24 });
-  const rotateY = useSpring(pointerX, { stiffness: 190, damping: 24 });
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-signal-chapter]"));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        const index = Number((visible.target as HTMLElement).dataset.signalChapter ?? 0);
-        setActive(Math.max(0, Math.min(signalSections.length - 1, index)));
-      },
-      { rootMargin: "-30% 0px -54% 0px", threshold: [0, 0.1, 0.3, 0.55] },
-    );
-
-    elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handlePointer = (event: PointerEvent) => {
-      const x = (event.clientX / window.innerWidth - 0.5) * 8;
-      const yy = (event.clientY / window.innerHeight - 0.5) * -6;
-      pointerX.set(Math.max(-4, Math.min(4, x)));
-      pointerY.set(Math.max(-3, Math.min(3, yy)));
-    };
-    window.addEventListener("pointermove", handlePointer, { passive: true });
-    return () => window.removeEventListener("pointermove", handlePointer);
-  }, [pointerX, pointerY]);
-
-  const section = signalSections[active];
-
-  return (
-    <aside className="signal-rail" data-tone={section.tone} aria-hidden="true">
-      <div className="signal-rail__line">
-        {signalSections.map((item, index) => (
-          <i key={item.index} data-active={index <= active || undefined} />
-        ))}
-      </div>
-      <motion.div
-        className="signal-lens"
-        data-tone={section.tone}
-        style={{ y, opacity, rotateX, rotateY }}
-      >
-        <motion.span className="signal-lens__glare" style={{ x: pointerX, y: pointerY }} />
-        <span className="signal-lens__index">{section.index}</span>
-        <small>{section.label}</small>
-      </motion.div>
-    </aside>
   );
 }
 
@@ -290,9 +337,9 @@ function FlowStory() {
   const progress = useSpring(scrollYProgress, { stiffness: 96, damping: 30, mass: 0.25 });
   const lineScale = useTransform(progress, [0, 1], [0.03, 1]);
 
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
-    const next = Math.min(stages.length - 1, Math.floor(value * stages.length));
-    setActiveStage(next);
+  useMotionValueEvent(progress, "change", (value) => {
+    const next = Math.min(stages.length - 1, Math.round(value * (stages.length - 1)));
+    setActiveStage((current) => (current === next ? current : next));
   });
 
   const stage = stages[activeStage];
@@ -301,8 +348,10 @@ function FlowStory() {
     <section
       ref={ref}
       className="hybrid-flow kage-flow"
+      id="ako-to-funguje"
       aria-label="Ako to funguje"
       data-signal-chapter="3"
+      data-nav-tone="dark"
     >
       <div className="hybrid-flow__desktop">
         <div className="hybrid-flow__sticky">
@@ -402,9 +451,12 @@ function CoreTools() {
       id="riesenia"
       aria-labelledby="hybrid-tools-title"
       data-signal-chapter="1"
+      data-nav-tone="light"
     >
       <div className="container-page hybrid-tools__intro">
-        <span>VYBERTE RIEŠENIE</span>
+        <span className="section-index">
+          <b>01</b> RIEŠENIA
+        </span>
         <div>
           <h2 id="hybrid-tools-title">Čo má váš web robiť?</h2>
           <p>Kliknite na možnosť a hneď si otvoríte ukážku.</p>
@@ -442,22 +494,32 @@ function SelectedWork() {
       id="realizacie"
       aria-labelledby="hybrid-work-title"
       data-signal-chapter="2"
+      data-nav-tone="light"
     >
       <div className="container-page hybrid-work__intro">
-        <span>REALIZÁCIE</span>
+        <span className="section-index">
+          <b>02</b> REALIZÁCIE
+        </span>
         <h2 id="hybrid-work-title">Hotové projekty.</h2>
-        <p>Kliknite na projekt a otvoríte živý web.</p>
+        <p>Reálne nasadené riešenia. Na každom vidíte aj otvorený nástroj.</p>
       </div>
       <div className="container-page hybrid-work__grid">
-        {realizations.map((project, index) => (
-          <article className="hybrid-project" key={project.name}>
+        {featuredProjects.map((project, index) => (
+          <motion.article
+            className="hybrid-project"
+            key={project.name}
+            initial={{ opacity: 0, y: 36 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.22 }}
+            transition={{ duration: 0.7, delay: (index % 2) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+          >
             <a
               href={project.href}
               target="_blank"
               rel="noreferrer"
               className="hybrid-project__visual"
             >
-              <img src={project.image} alt={project.alt} loading="eager" decoding="async" />
+              <ProjectVisual project={project} />
               <span className="hybrid-project__domain">{project.domain}</span>
               <span className="hybrid-project__open">
                 OTVORIŤ WEB <ArrowUpRight size={15} />
@@ -471,7 +533,7 @@ function SelectedWork() {
               </div>
               <p>{project.result}</p>
             </div>
-          </article>
+          </motion.article>
         ))}
       </div>
       <div className="container-page hybrid-work__footer">
@@ -483,112 +545,57 @@ function SelectedWork() {
   );
 }
 
-function LiveDemos() {
-  const webko = realizations.find((project) => project.name === "WEBKO");
-
-  return (
-    <section className="kage-demos" aria-labelledby="kage-demos-title" data-signal-chapter="4">
-      <div className="container-page kage-demos__intro">
-        <span>ĎALŠIE UKÁŽKY</span>
-        <h2 id="kage-demos-title">Vyskúšajte si ich.</h2>
-        <p>WEBKO otvoríte ako celý web. V APLAN si môžete vyskúšať asistenta.</p>
-      </div>
-      <div className="container-page kage-demos__grid">
-        {webko ? (
-          <a className="kage-demo" href={webko.href} target="_blank" rel="noreferrer">
-            <div className="kage-demo__frame">
-              <img src={webko.image} alt={webko.alt} loading="lazy" decoding="async" />
-              <span>01 / WEBKO</span>
-              <b>
-                OTVORIŤ WEB <ArrowUpRight size={16} />
-              </b>
-            </div>
-            <div className="kage-demo__meta">
-              <strong>WEBKO</strong>
-              <p>Ukážka moderného prezentačného webu. Kliknutím otvoríte celú stránku.</p>
-            </div>
-          </a>
-        ) : null}
-
-        <a
-          className="kage-demo kage-demo--aplan"
-          href="https://danielvendzur-code.github.io/aplan-chatbot-backend/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <div className="kage-demo__frame">
-            <div className="kage-aplan-preview" aria-hidden="true">
-              <div className="kage-aplan-preview__top">
-                <span>APLAN AI</span>
-                <i>ONLINE</i>
-              </div>
-              <div className="kage-aplan-preview__body">
-                <p>Čo potrebujete vybaviť?</p>
-                <div className="kage-aplan-preview__choices">
-                  <span>Stavebné povolenie</span>
-                  <span>Dokumenty</span>
-                  <span>Postup</span>
-                </div>
-                <div className="kage-aplan-preview__message">
-                  Pomôžem vám zistiť, čo budete potrebovať a aký je ďalší krok.
-                </div>
-              </div>
-            </div>
-            <span>02 / APLAN AI</span>
-            <b>
-              VYSKÚŠAŤ APLAN <ArrowUpRight size={16} />
-            </b>
-          </div>
-          <div className="kage-demo__meta">
-            <strong>APLAN AI</strong>
-            <p>Interaktívny asistent. Kliknite a prejdite si jeho flow sami.</p>
-          </div>
-        </a>
-      </div>
-    </section>
-  );
-}
-
 function Audience() {
   return (
-    <section className="hybrid-audience" aria-label="Riešenia podľa typu firmy">
-      <article className="hybrid-audience__panel hybrid-audience__panel--services">
-        <div className="hybrid-audience__content">
-          <span>MÁTE SLUŽBY?</span>
-          <h2>Zákazník sa rýchlejšie dostane k odpovedi alebo cene.</h2>
-          <p>
-            Chatbot alebo kalkulačka odpovie na bežné otázky, zistí potrebné údaje a pripraví dopyt.
-          </p>
-          <button
-            type="button"
-            onClick={() => openSiteAssistant({ source: "audience-services", preset: "inquiry" })}
+    <section
+      className="hybrid-audience outcome-comparison"
+      id="pre-eshopy"
+      aria-labelledby="outcome-comparison-title"
+      data-nav-tone="light"
+    >
+      <div className="container-page outcome-comparison__intro">
+        <span className="section-index">
+          <b>04</b> VÝSLEDOK
+        </span>
+        <h2 id="outcome-comparison-title">Čo sa na webe reálne zmení?</h2>
+        <p>
+          Návštevník dostane jasný ďalší krok. Vy dostanete menej opakovaných otázok a použiteľnejší
+          kontakt.
+        </p>
+      </div>
+      <div className="container-page outcome-comparison__grid">
+        {outcomeGroups.map((group, groupIndex) => (
+          <motion.article
+            className="outcome-comparison__group"
+            key={group.label}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.72, delay: groupIndex * 0.09, ease: [0.16, 1, 0.3, 1] }}
           >
-            Ukázať riešenie pre služby <ArrowRight size={17} />
-          </button>
-        </div>
-        <div className="hybrid-audience__type" aria-hidden="true">
-          SLUŽBY
-        </div>
-      </article>
-      <article className="hybrid-audience__panel hybrid-audience__panel--commerce" id="pre-eshopy">
-        <div className="hybrid-audience__content">
-          <span>MÁTE E-SHOP?</span>
-          <h2>Zákazník rýchlejšie nájde správny produkt.</h2>
-          <p>
-            Produktový poradca sa opýta na potreby, zúži výber a odporučí vhodný produkt alebo
-            variant.
-          </p>
-          <button
-            type="button"
-            onClick={() => openSiteAssistant({ source: "audience-commerce", preset: "product" })}
-          >
-            Ukázať riešenie pre e-shop <ArrowRight size={17} />
-          </button>
-        </div>
-        <div className="hybrid-audience__type" aria-hidden="true">
-          E-SHOP
-        </div>
-      </article>
+            <span>{group.label}</span>
+            <h3>{group.title}</h3>
+            <ol>
+              {group.rows.map(([before, after], index) => (
+                <li key={before}>
+                  <small>0{index + 1}</small>
+                  <p>{before}</p>
+                  <ArrowRight size={17} aria-hidden="true" />
+                  <strong>{after}</strong>
+                </li>
+              ))}
+            </ol>
+            <button
+              type="button"
+              onClick={() =>
+                openSiteAssistant({ source: `outcome-${groupIndex + 1}`, preset: group.preset })
+              }
+            >
+              Ukázať vhodné riešenie <ArrowRight size={17} />
+            </button>
+          </motion.article>
+        ))}
+      </div>
     </section>
   );
 }
@@ -597,49 +604,111 @@ function Process() {
   return (
     <section
       className="hybrid-process"
+      id="proces"
       aria-labelledby="hybrid-process-title"
       data-signal-chapter="5"
+      data-nav-tone="light"
     >
       <div className="container-page hybrid-process__intro">
-        <span>SPOLUPRÁCA</span>
+        <span className="section-index">
+          <b>05</b> SPOLUPRÁCA
+        </span>
         <h2 id="hybrid-process-title">Takto spolupráca prebehne.</h2>
         <Link to="/postup">
           Pozrieť celý postup <ArrowRight size={17} />
         </Link>
       </div>
       <ol className="container-page hybrid-process__list">
-        {process.map(([index, title, copy]) => (
-          <li key={index}>
+        {process.map(([index, title, copy], itemIndex) => (
+          <motion.li
+            key={index}
+            initial={{ opacity: 0.34, x: -18 }}
+            whileInView={{ opacity: 1, x: 0, backgroundColor: "rgba(200, 240, 106, 0.09)" }}
+            viewport={{ once: true, amount: 0.58 }}
+            transition={{ duration: 0.58, delay: itemIndex * 0.035, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span>{index}</span>
             <strong>{title}</strong>
             <p>{copy}</p>
-          </li>
+          </motion.li>
         ))}
       </ol>
     </section>
   );
 }
 
+function AnimatedPrice({ value }: { value: number }) {
+  const [displayValue, setDisplayValue] = useState(0);
+  const ref = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    if (reducedMotion) {
+      setDisplayValue(value);
+      return;
+    }
+
+    let frame = 0;
+    let started = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || started) return;
+        started = true;
+        const start = performance.now();
+        const duration = 1250;
+        const tick = (now: number) => {
+          const progress = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setDisplayValue(Math.round(value * eased));
+          if (progress < 1) frame = requestAnimationFrame(tick);
+        };
+        frame = requestAnimationFrame(tick);
+        observer.disconnect();
+      },
+      { threshold: 0.55 },
+    );
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [reducedMotion, value]);
+
+  return <strong ref={ref}>od {displayValue} €</strong>;
+}
+
 function Price() {
   return (
-    <section className="hybrid-price" aria-labelledby="hybrid-price-title">
+    <section
+      className="hybrid-price"
+      id="cena"
+      aria-labelledby="hybrid-price-title"
+      data-nav-tone="dark"
+    >
       <div className="container-page hybrid-price__top">
-        <span>CENA</span>
+        <span className="section-index">
+          <b>06</b> CENA
+        </span>
         <h2 id="hybrid-price-title">Koľko to stojí?</h2>
       </div>
       <div className="container-page hybrid-price__grid">
         <div>
           <span>CHATBOT NA MIERU</span>
-          <strong>od 450 €</strong>
+          <AnimatedPrice value={497} />
+          <p>Návrh, dizajn, obsah a nasadenie na web.</p>
         </div>
         <div>
           <span>KALKULAČKA / KONFIGURÁTOR</span>
           <strong>od 500 €</strong>
+          <p>Výpočet alebo výber podľa vašich pravidiel.</p>
         </div>
         <div>
           <span>PREVÁDZKA</span>
           <strong>10 €</strong>
           <b>/ mesiac</b>
+          <p>Technická prevádzka a základná starostlivosť.</p>
         </div>
         <Link to="/cennik" className="hybrid-price__link">
           Pozrieť celý cenník <ArrowUpRight size={18} />
@@ -652,17 +721,21 @@ function Price() {
 export function KageLanding() {
   return (
     <div className="hybrid-home kage-home">
-      <SignalLens />
-
       <section
         className="hybrid-hero kage-hero"
         aria-labelledby="hybrid-hero-title"
         data-signal-chapter="0"
+        data-nav-tone="dark"
       >
         <div className="container-page hybrid-hero__stage">
-          <h1 id="hybrid-hero-title">
-            <span>Od otázky</span>
-            <em>k výsledku.</em>
+          <h1 id="hybrid-hero-title" aria-label="Web, ktorý mení návštevy na výsledky.">
+            <TypedLine text="Web, ktorý" startAt={0} />
+            <em>
+              <TypedLine text="mení návštevy" startAt={10} />
+            </em>
+            <em>
+              <TypedLine text="na výsledky." startAt={24} />
+            </em>
           </h1>
           <HeroCollage />
         </div>
@@ -677,9 +750,15 @@ export function KageLanding() {
       <CoreTools />
       <SelectedWork />
 
-      <section className="hybrid-manifesto kage-manifesto" aria-labelledby="hybrid-manifesto-title">
+      <section
+        className="hybrid-manifesto kage-manifesto"
+        aria-labelledby="hybrid-manifesto-title"
+        data-nav-tone="light"
+      >
         <div className="container-page hybrid-manifesto__inner">
-          <span>ČO TO ZMENÍ</span>
+          <span className="section-index">
+            <b>03</b> ČO TO ZMENÍ
+          </span>
           <h2 id="hybrid-manifesto-title">
             Web môže <em>odpovedať.</em> Môže <em>vypočítať cenu.</em> Môže{" "}
             <em>pomôcť s výberom.</em>
@@ -688,12 +767,11 @@ export function KageLanding() {
       </section>
 
       <FlowStory />
-      <LiveDemos />
       <Audience />
       <Process />
       <Price />
 
-      <section className="hybrid-final" aria-labelledby="hybrid-final-title">
+      <section className="hybrid-final" aria-labelledby="hybrid-final-title" data-nav-tone="dark">
         <div className="container-page hybrid-final__top">
           <BrandMark size={54} />
           <span>MÔJ CHATBOT</span>
