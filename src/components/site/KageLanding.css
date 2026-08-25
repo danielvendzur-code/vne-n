@@ -1035,7 +1035,7 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   left: 24%;
   z-index: 1;
   width: clamp(19rem, 31vw, 31rem);
-  aspect-ratio: 1.58;
+  aspect-ratio: 1.72;
   transform: rotate(1.35deg);
 }
 
@@ -1072,8 +1072,8 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
 }
 
 .project-composite--koverta {
-  --project-scale: 1.025;
-  --project-scale-hover: 1.038;
+  --project-scale: 1.16;
+  --project-scale-hover: 1.174;
   --project-origin: top left;
 }
 
@@ -1084,9 +1084,9 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
 }
 
 .project-composite--mojplot {
-  --project-scale: 1.22;
-  --project-scale-hover: 1.235;
-  --project-origin: top center;
+  --project-scale: 1.4;
+  --project-scale-hover: 1.417;
+  --project-origin: top right;
 }
 
 .hybrid-hero__case .project-composite__site,
