@@ -26,17 +26,22 @@ test("layout loads one coherent brand system instead of historical override stac
   );
 });
 
-test("active homepage preserves the approved hero and shows open product tools", async () => {
+test("active homepage preserves the approved hero with three clean website previews", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
   const css = await read("src/components/site/KageLanding.css");
 
   assert.match(route, /KageLanding/);
   assert.match(landing, /Web, ktorý mení návštevy na výsledky\./);
-  assert.match(landing, /work\/product\/koverta-open\.png/);
-  assert.match(landing, /work\/product\/derat-open\.png/);
-  assert.match(landing, /work\/product\/mojplot-open\.png/);
-  assert.match(landing, /work\/product\/aplan-open\.png/);
+  assert.match(landing, /work\/portfolio\/koverta\.webp/);
+  assert.match(landing, /work\/live\/derat\.webp/);
+  assert.match(landing, /work\/live\/mojplot\.webp/);
+  assert.equal((landing.match(/siteImage:/g) ?? []).length, 3);
+  assert.doesNotMatch(landing, /work\/product\/|assistantImage|project-composite__assistant/);
+  for (const slug of ["koverta", "derat", "mojplot"]) {
+    assert.match(landing, new RegExp(`slug: "${slug}"`));
+    assert.match(css, new RegExp(`project-composite--${slug}`));
+  }
   assert.match(landing, /AnimatedPrice value=\{497\}/);
   assert.match(landing, /data-nav-tone="dark"/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);

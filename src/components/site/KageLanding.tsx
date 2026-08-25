@@ -183,44 +183,34 @@ const process = [
 
 const featuredProjects = [
   {
+    slug: "koverta",
     name: "Koverta",
     domain: "koverta.sk",
     href: "https://koverta.sk/",
     type: "E-commerce · dopytový asistent",
     result: "Asistent zistí typ produktu, rozmery a použitie ešte pred odoslaním dopytu.",
     siteImage: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,
-    assistantImage: `${import.meta.env.BASE_URL}work/product/koverta-open.png`,
-    alt: "Web Koverta s otvoreným produktovým asistentom",
+    alt: "Domovská stránka Koverta s modernou pergolou",
   },
   {
+    slug: "derat",
     name: "DERAT",
     domain: "derat.sk",
     href: "https://derat.sk/",
     type: "Služby · kalkulačka a dopyt",
     result: "Kalkulačka prevedie návštevníka od problému k orientačnej cene a dopytu.",
     siteImage: `${import.meta.env.BASE_URL}work/live/derat.webp`,
-    assistantImage: `${import.meta.env.BASE_URL}work/product/derat-open.png`,
-    alt: "Web DERAT s otvorenou cenovou kalkulačkou",
+    alt: "Domovská stránka reálne nasadeného webu DERAT",
   },
   {
+    slug: "mojplot",
     name: "Môj Plot",
     domain: "mojplot.sk",
     href: "https://mojplot.sk/",
     type: "E-commerce · produktová kalkulačka",
     result: "Zákazník si vyberie typ oplotenia a pokračuje priamo k výpočtu alebo kontaktu.",
     siteImage: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
-    assistantImage: `${import.meta.env.BASE_URL}work/product/mojplot-open.png`,
-    alt: "Web Môj Plot s otvorenou produktovou kalkulačkou",
-  },
-  {
-    name: "APLAN",
-    domain: "aplan.sk",
-    href: "https://danielvendzur-code.github.io/aplan-chatbot-backend/",
-    type: "Služby · informačný asistent",
-    result: "Asistent nasmeruje návštevníka k postupu, podkladom alebo konzultácii.",
-    siteImage: `${import.meta.env.BASE_URL}work/product/aplan-open.png`,
-    assistantImage: null,
-    alt: "Otvorený chatbot APLAN s ponukou tém",
+    alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",
   },
 ] as const;
 
@@ -255,7 +245,7 @@ function ProjectVisual({
   eager?: boolean;
 }) {
   return (
-    <span className="project-composite" data-single={!project.assistantImage || undefined}>
+    <span className={`project-composite project-composite--${project.slug}`}>
       <img
         className="project-composite__site"
         src={project.siteImage}
@@ -264,16 +254,6 @@ function ProjectVisual({
         decoding="async"
         fetchPriority={eager ? "high" : "auto"}
       />
-      {project.assistantImage ? (
-        <img
-          className="project-composite__assistant"
-          src={project.assistantImage}
-          alt=""
-          loading={eager ? "eager" : "lazy"}
-          decoding="async"
-          aria-hidden="true"
-        />
-      ) : null}
     </span>
   );
 }
@@ -501,7 +481,7 @@ function SelectedWork() {
           <b>02</b> REALIZÁCIE
         </span>
         <h2 id="hybrid-work-title">Hotové projekty.</h2>
-        <p>Reálne nasadené riešenia. Na každom vidíte aj otvorený nástroj.</p>
+        <p>Reálne nasadené weby, ktoré si môžete priamo otvoriť a prezrieť.</p>
       </div>
       <div className="container-page hybrid-work__grid">
         {featuredProjects.map((project, index) => (

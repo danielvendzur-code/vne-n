@@ -968,7 +968,7 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   letter-spacing: -0.035em;
 }
 
-/* Hero: same left-type/right-collage architecture, with a calmer four-case stack. */
+/* Hero: same left-type/right-collage architecture, with the approved three-site stack. */
 .kage-hero .hybrid-hero__stage {
   min-height: calc(100svh - var(--header-h) - 82px);
   padding-top: clamp(2.6rem, 5vh, 4.8rem);
@@ -1057,20 +1057,6 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   transform: rotate(1.5deg);
 }
 
-.kage-hero .hybrid-hero__case--4 {
-  top: 28%;
-  left: 52%;
-  z-index: 4;
-  width: clamp(8.7rem, 12.2vw, 12.2rem);
-  aspect-ratio: 0.8;
-  transform: rotate(-1.15deg);
-  animation-delay: 420ms;
-}
-
-.kage-hero .hybrid-hero__case--4:hover {
-  transform: rotate(-0.35deg) translateY(-10px) scale(1.025);
-}
-
 .project-composite {
   position: absolute;
   inset: 0;
@@ -1079,34 +1065,34 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   background: #eef0e9;
 }
 
-.project-composite__site,
-.project-composite__assistant {
+.project-composite__site {
   display: block;
+  transform: scale(var(--project-scale, 1));
+  transform-origin: var(--project-origin, top center);
+}
+
+.project-composite--koverta {
+  --project-scale: 1.025;
+  --project-scale-hover: 1.038;
+  --project-origin: top left;
+}
+
+.project-composite--derat {
+  --project-scale: 1.035;
+  --project-scale-hover: 1.048;
+  --project-origin: top center;
+}
+
+.project-composite--mojplot {
+  --project-scale: 1.22;
+  --project-scale-hover: 1.235;
+  --project-origin: top center;
 }
 
 .hybrid-hero__case .project-composite__site,
 .hybrid-project__visual .project-composite__site {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.hybrid-hero__case .project-composite__assistant,
-.hybrid-project__visual .project-composite__assistant {
-  position: absolute;
-  right: 2.4%;
-  bottom: -1px;
-  width: 43%;
-  height: 91%;
-  object-fit: cover;
-  object-position: top center;
-  border: 1px solid rgba(7, 27, 21, 0.14);
-  box-shadow: -12px 10px 24px rgba(7, 27, 21, 0.2);
-}
-
-.hybrid-hero__case .project-composite[data-single="true"] .project-composite__site,
-.hybrid-project__visual .project-composite[data-single="true"] .project-composite__site {
   object-fit: cover;
   object-position: top center;
 }
@@ -1121,27 +1107,21 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
 
 .hybrid-hero__case:hover .project-composite__site,
 .hybrid-project__visual:hover .project-composite__site {
-  transform: scale(1.012);
+  transform: scale(var(--project-scale-hover, 1.012));
 }
 
-.hybrid-hero__case:hover .project-composite__assistant,
-.hybrid-project__visual:hover .project-composite__assistant {
-  transform: translateY(-3px);
-}
-
-.project-composite__site,
-.project-composite__assistant {
+.project-composite__site {
   transition: transform 760ms var(--hh-ease);
 }
 
-/* Projects repeat the same honest, open-product visual rather than another screenshot-only band. */
+/* The hero and realization grid use the same clean, full-bleed website photography. */
 .hybrid-project__visual .project-composite {
   position: absolute;
 }
 
-.hybrid-project__visual > .project-composite[data-single="true"] .project-composite__site {
-  object-fit: contain;
-  background: #eceee8;
+.hybrid-project__visual .project-composite__site {
+  object-fit: cover;
+  object-position: top center;
 }
 
 .hybrid-work__intro > p {
@@ -1455,8 +1435,7 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
     animation: none;
   }
 
-  .project-composite__site,
-  .project-composite__assistant {
+  .project-composite__site {
     transition: none;
   }
 }

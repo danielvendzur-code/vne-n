@@ -17,7 +17,7 @@
   const FALLBACK_ID = "dv-assistant-fallback";
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
-  const WIDGET_RELEASE = "restored-web-palette-20260825-v3";
+  const WIDGET_RELEASE = "restored-web-palette-20260825-v5";
 
   let settled = false;
   let pendingOpen = null;
