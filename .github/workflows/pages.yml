@@ -90,7 +90,7 @@ jobs:
           grep -Fq "Z otázky" pages-dist/index.html
           grep -Fq "k výsledku" pages-dist/index.html
           grep -Fq "PRE E-SHOPY AJ FIRMY SO SLUŽBAMI" pages-dist/index.html
-          grep -Fq "350 €" pages-dist/cennik/index.html
+          grep -Fq "497 €" pages-dist/cennik/index.html
           grep -Fq "10 € / mesiac" pages-dist/cennik/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
@@ -169,7 +169,7 @@ jobs:
 
           fetch_with_retry "/" "Z otázky"
           fetch_with_retry "/navrh/" "Návrh už máte"
-          fetch_with_retry "/cennik/" "350 €"
+          fetch_with_retry "/cennik/" "497 €"
           fetch_with_retry "/sluzby/" ""
           fetch_with_retry "/projekty/" ""
           fetch_with_retry "/projekty/derat/" "DERAT"
