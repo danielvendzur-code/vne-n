@@ -225,7 +225,7 @@ if (/hasOfferCatalog|price\s*:\s*["'](?:497|500)["']/.test(homeRoute)) {
 }
 
 const pricing = await read("src/routes/cennik.tsx");
-for (const token of ["od 497 €", "od 500 €", "10 € / mesiac"]) {
+for (const token of ["od 347 €", "od 447 €", "10 € / mesiac"]) {
   if (!pricing.includes(token)) fail(`Pricing page is missing verified public price ${token}`);
 }
 
