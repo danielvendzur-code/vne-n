@@ -170,7 +170,8 @@ jobs:
 
           fetch_with_retry "/" "Z otázky"
           fetch_with_retry "/navrh/" "Návrh už máte"
-          fetch_with_retry "/cennik/" "497 €"
+          fetch_with_retry "/cennik/" "347 €"
+          fetch_with_retry "/cennik/" "447 €"
           fetch_with_retry "/sluzby/" ""
           fetch_with_retry "/projekty/" ""
           fetch_with_retry "/projekty/derat/" "DERAT"
