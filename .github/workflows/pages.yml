@@ -89,7 +89,7 @@ jobs:
 
           grep -Fq "Z otázky" pages-dist/index.html
           grep -Fq "k výsledku" pages-dist/index.html
-          grep -Fq "CHATBOT NA MIERU" pages-dist/index.html
+          grep -Fq "CHATBOT / PRODUKTOVÝ PORADCA" pages-dist/index.html
           grep -Fq "347 €" pages-dist/cennik/index.html
           grep -Fq "447 €" pages-dist/cennik/index.html
           grep -Fq "10 € / mesiac" pages-dist/cennik/index.html
