@@ -63,6 +63,7 @@ function ContactPage() {
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [web, setWeb] = useState("");
+  const [demoUrl, setDemoUrl] = useState("");
   const [project, setProject] = useState("");
   const [leadSource, setLeadSource] = useState("website-contact");
   const [timing, setTiming] = useState("Bez pevného termínu");
@@ -81,15 +82,10 @@ function ContactPage() {
     if (sourceParam) setLeadSource(sourceParam);
     if (companyParam) setCompany((current) => current || companyParam);
     if (webParam) setWeb((current) => current || webParam);
-
-    if (sourceParam.startsWith("coffee-demo-")) {
-      const intro = companyParam
-        ? `Mám záujem o kávového poradcu z pripravenej ukážky pre ${companyParam}.`
-        : "Mám záujem o kávového poradcu z pripravenej ukážky.";
-      const demoLine = demoParam ? `\nUkážka: ${demoParam}` : "";
-      setProject((current) => current || `${intro}${demoLine}\n\nDoplňujúca poznámka:`);
-    }
+    if (demoParam) setDemoUrl((current) => current || demoParam);
   }, []);
+
+  const fromCoffeeDemo = leadSource.startsWith("coffee-demo-");
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,13 +96,25 @@ function ContactPage() {
     const safePhone = cleanField(phone, FIELD_LIMITS.phone);
     const safeCompany = cleanField(company, FIELD_LIMITS.company);
     const safeWeb = cleanField(web, FIELD_LIMITS.web);
+    const safeDemo = cleanField(demoUrl, FIELD_LIMITS.demo);
     const safeProject = cleanField(project, FIELD_LIMITS.project);
     const safeSource = cleanField(leadSource, FIELD_LIMITS.source) || "website-contact";
+    const isCoffeeLead = safeSource.startsWith("coffee-demo-");
 
-    if (!safeName || !safeEmail || !safeProject || !consent) {
+    if (!safeName || !safeEmail || (!isCoffeeLead && !safeProject) || !consent) {
       setError("Vyplňte povinné polia a potvrďte súhlas so spracovaním údajov.");
       return;
     }
+
+    const coffeeNote = [
+      `Mám záujem o kávového poradcu${safeCompany ? ` pre ${safeCompany}` : ""}.`,
+      safeDemo ? `Ukážka: ${safeDemo}` : "",
+      "Doplňujúca poznámka:",
+      safeProject,
+    ]
+      .filter((line, index) => Boolean(line) || index === 2)
+      .join("\n")
+      .trim();
 
     setError("");
     setSubmitState("sending");
@@ -119,8 +127,8 @@ function ContactPage() {
         phone: safePhone,
         company: safeCompany,
         web: safeWeb,
-        note: safeProject,
-        interest: safeSource.startsWith("coffee-demo-")
+        note: isCoffeeLead ? coffeeNote : safeProject,
+        interest: isCoffeeLead
           ? "Kávový poradca pre e-shop"
           : "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
         timeline: timing,
@@ -139,8 +147,6 @@ function ContactPage() {
       setError("Dopyt sa nepodarilo odoslať. Skúste to znova alebo použite e-mail či telefón.");
     }
   };
-
-  const fromCoffeeDemo = leadSource.startsWith("coffee-demo-");
 
   return (
     <div className="contact-page contact-page--rebrand">
@@ -186,6 +192,43 @@ function ContactPage() {
             <p className="section-kicker">
               {fromCoffeeDemo ? "PREDVYPLNENÉ Z VAŠEJ UKÁŽKY" : "KRÁTKE ZADANIE"}
             </p>
+
+            {fromCoffeeDemo ? (
+              <div
+                style={{
+                  display: "grid",
+                  gap: 10,
+                  marginBottom: 22,
+                  padding: "16px 18px",
+                  border: "1px solid rgba(38, 111, 74, .22)",
+                  borderRadius: 16,
+                  background: "rgba(236, 247, 240, .72)",
+                }}
+              >
+                <strong style={{ fontSize: 16, lineHeight: 1.25 }}>
+                  Firmu, web aj konkrétnu ukážku už máme.
+                </strong>
+                <span style={{ fontSize: 13, lineHeight: 1.55, opacity: 0.72 }}>
+                  Doplňte iba kontakt na seba. Telefón a poznámka sú voliteľné.
+                </span>
+                <div style={{ display: "grid", gap: 5, fontSize: 13, lineHeight: 1.45 }}>
+                  {company ? <span><b>Firma:</b> {company}</span> : null}
+                  {web ? (
+                    <span>
+                      <b>Web:</b>{" "}
+                      <a href={web} target="_blank" rel="noreferrer">{web}</a>
+                    </span>
+                  ) : null}
+                  {demoUrl ? (
+                    <span>
+                      <b>Ukážka:</b>{" "}
+                      <a href={demoUrl} target="_blank" rel="noreferrer">otvoriť pripravenú ukážku ↗</a>
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
+
             <form className="contact-form" onSubmit={(event) => void submit(event)} noValidate>
               <div className="contact-fields-two">
                 <label>
@@ -253,14 +296,18 @@ function ContactPage() {
               </label>
 
               <label>
-                <span>Čo má web zjednodušiť? *</span>
+                <span>{fromCoffeeDemo ? "Doplňujúca poznámka" : "Čo má web zjednodušiť? *"}</span>
                 <textarea
                   value={project}
                   onChange={(event) => setProject(event.target.value)}
-                  required
+                  required={!fromCoffeeDemo}
                   maxLength={FIELD_LIMITS.project}
-                  rows={6}
-                  placeholder="Napríklad: zákazníci sa pýtajú na cenu. Počítame ju podľa rozmerov, variantu a montáže."
+                  rows={fromCoffeeDemo ? 4 : 6}
+                  placeholder={
+                    fromCoffeeDemo
+                      ? "Voliteľné — napríklad telefónny čas, otázka alebo čo chcete na ukážke upraviť."
+                      : "Napríklad: zákazníci sa pýtajú na cenu. Počítame ju podľa rozmerov, variantu a montáže."
+                  }
                 />
               </label>
 
@@ -307,7 +354,11 @@ function ContactPage() {
                 data-state={submitState}
                 disabled={submitState === "sending"}
               >
-                {submitState === "sending" ? "Odosielam…" : "Odoslať zadanie"}
+                {submitState === "sending"
+                  ? "Odosielam…"
+                  : fromCoffeeDemo
+                    ? "Mám záujem — ozvite sa mi"
+                    : "Odoslať zadanie"}
                 <ArrowRight size={16} aria-hidden="true" />
               </button>
             </form>
