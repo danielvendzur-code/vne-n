@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { submitWebsiteLead } from "@/lib/lead-submission";
@@ -27,8 +27,12 @@ export const Route = createFileRoute("/kontakt")({
 const FIELD_LIMITS = {
   name: 80,
   email: 160,
+  phone: 40,
   company: 160,
+  web: 200,
   project: 1_500,
+  source: 60,
+  demo: 600,
 } as const;
 
 type SubmitState = "idle" | "sending";
@@ -56,13 +60,32 @@ function cleanField(value: string, limit: number): string {
 function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
+  const [web, setWeb] = useState("");
+  const [demoUrl, setDemoUrl] = useState("");
   const [project, setProject] = useState("");
+  const [leadSource, setLeadSource] = useState("website-contact");
   const [timing, setTiming] = useState("Bez pevného termínu");
   const [consent, setConsent] = useState(false);
   const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sourceParam = cleanField(params.get("source") ?? "", FIELD_LIMITS.source);
+    const companyParam = cleanField(params.get("company") ?? "", FIELD_LIMITS.company);
+    const webParam = cleanField(params.get("web") ?? "", FIELD_LIMITS.web);
+    const demoParam = cleanField(params.get("demo") ?? "", FIELD_LIMITS.demo);
+
+    if (sourceParam) setLeadSource(sourceParam);
+    if (companyParam) setCompany((current) => current || companyParam);
+    if (webParam) setWeb((current) => current || webParam);
+    if (demoParam) setDemoUrl((current) => current || demoParam);
+  }, []);
+
+  const fromCoffeeDemo = leadSource.startsWith("coffee-demo-");
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,26 +93,44 @@ function ContactPage() {
 
     const safeName = cleanField(name, FIELD_LIMITS.name);
     const safeEmail = cleanField(email, FIELD_LIMITS.email);
+    const safePhone = cleanField(phone, FIELD_LIMITS.phone);
     const safeCompany = cleanField(company, FIELD_LIMITS.company);
+    const safeWeb = cleanField(web, FIELD_LIMITS.web);
+    const safeDemo = cleanField(demoUrl, FIELD_LIMITS.demo);
     const safeProject = cleanField(project, FIELD_LIMITS.project);
+    const safeSource = cleanField(leadSource, FIELD_LIMITS.source) || "website-contact";
+    const isCoffeeLead = safeSource.startsWith("coffee-demo-");
 
-    if (!safeName || !safeEmail || !safeProject || !consent) {
+    if (!safeName || !safeEmail || (!isCoffeeLead && !safeProject) || !consent) {
       setError("Vyplňte povinné polia a potvrďte súhlas so spracovaním údajov.");
       return;
     }
+
+    const coffeeNote = [
+      `Mám záujem o kávového poradcu${safeCompany ? ` pre ${safeCompany}` : ""}.`,
+      safeDemo ? `Ukážka: ${safeDemo}` : "",
+      "Doplňujúca poznámka:",
+      safeProject,
+    ]
+      .filter((line, index) => Boolean(line) || index === 2)
+      .join("\n")
+      .trim();
 
     setError("");
     setSubmitState("sending");
 
     try {
       const result = await submitWebsiteLead({
-        source: "website-contact",
+        source: safeSource,
         name: safeName,
         email: safeEmail,
+        phone: safePhone,
         company: safeCompany,
-        web: safeCompany.includes(".") ? safeCompany : "",
-        note: safeProject,
-        interest: "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
+        web: safeWeb,
+        note: isCoffeeLead ? coffeeNote : safeProject,
+        interest: isCoffeeLead
+          ? "Kávový poradca pre e-shop"
+          : "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
         timeline: timing,
         consent: true,
         website: botTrap,
@@ -148,7 +189,54 @@ function ContactPage() {
           </aside>
 
           <div className="contact-form-wrap">
-            <p className="section-kicker">KRÁTKE ZADANIE</p>
+            <p className="section-kicker">
+              {fromCoffeeDemo ? "PREDVYPLNENÉ Z VAŠEJ UKÁŽKY" : "KRÁTKE ZADANIE"}
+            </p>
+
+            {fromCoffeeDemo ? (
+              <div
+                style={{
+                  display: "grid",
+                  gap: 10,
+                  marginBottom: 22,
+                  padding: "16px 18px",
+                  border: "1px solid rgba(38, 111, 74, .22)",
+                  borderRadius: 16,
+                  background: "rgba(236, 247, 240, .72)",
+                }}
+              >
+                <strong style={{ fontSize: 16, lineHeight: 1.25 }}>
+                  Firmu, web aj konkrétnu ukážku už máme.
+                </strong>
+                <span style={{ fontSize: 13, lineHeight: 1.55, opacity: 0.72 }}>
+                  Doplňte iba kontakt na seba. Telefón a poznámka sú voliteľné.
+                </span>
+                <div style={{ display: "grid", gap: 5, fontSize: 13, lineHeight: 1.45 }}>
+                  {company ? (
+                    <span>
+                      <b>Firma:</b> {company}
+                    </span>
+                  ) : null}
+                  {web ? (
+                    <span>
+                      <b>Web:</b>{" "}
+                      <a href={web} target="_blank" rel="noreferrer">
+                        {web}
+                      </a>
+                    </span>
+                  ) : null}
+                  {demoUrl ? (
+                    <span>
+                      <b>Ukážka:</b>{" "}
+                      <a href={demoUrl} target="_blank" rel="noreferrer">
+                        otvoriť pripravenú ukážku ↗
+                      </a>
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
+
             <form className="contact-form" onSubmit={(event) => void submit(event)} noValidate>
               <div className="contact-fields-two">
                 <label>
@@ -177,26 +265,57 @@ function ContactPage() {
                 </label>
               </div>
 
+              <div className="contact-fields-two">
+                <label>
+                  <span>Telefón</span>
+                  <input
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    maxLength={FIELD_LIMITS.phone}
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="+421 ..."
+                  />
+                </label>
+                <label>
+                  <span>Firma</span>
+                  <input
+                    value={company}
+                    onChange={(event) => setCompany(event.target.value)}
+                    maxLength={FIELD_LIMITS.company}
+                    autoComplete="organization"
+                    placeholder="Názov firmy"
+                  />
+                </label>
+              </div>
+
               <label>
-                <span>Firma alebo web</span>
+                <span>Web</span>
                 <input
-                  value={company}
-                  onChange={(event) => setCompany(event.target.value)}
-                  maxLength={FIELD_LIMITS.company}
-                  autoComplete="organization"
-                  placeholder="firma.sk"
+                  value={web}
+                  onChange={(event) => setWeb(event.target.value)}
+                  maxLength={FIELD_LIMITS.web}
+                  type="url"
+                  inputMode="url"
+                  autoComplete="url"
+                  placeholder="https://firma.sk"
                 />
               </label>
 
               <label>
-                <span>Čo má web zjednodušiť? *</span>
+                <span>{fromCoffeeDemo ? "Doplňujúca poznámka" : "Čo má web zjednodušiť? *"}</span>
                 <textarea
                   value={project}
                   onChange={(event) => setProject(event.target.value)}
-                  required
+                  required={!fromCoffeeDemo}
                   maxLength={FIELD_LIMITS.project}
-                  rows={6}
-                  placeholder="Napríklad: zákazníci sa pýtajú na cenu. Počítame ju podľa rozmerov, variantu a montáže."
+                  rows={fromCoffeeDemo ? 4 : 6}
+                  placeholder={
+                    fromCoffeeDemo
+                      ? "Voliteľné — napríklad telefónny čas, otázka alebo čo chcete na ukážke upraviť."
+                      : "Napríklad: zákazníci sa pýtajú na cenu. Počítame ju podľa rozmerov, variantu a montáže."
+                  }
                 />
               </label>
 
@@ -243,7 +362,11 @@ function ContactPage() {
                 data-state={submitState}
                 disabled={submitState === "sending"}
               >
-                {submitState === "sending" ? "Odosielam…" : "Odoslať zadanie"}
+                {submitState === "sending"
+                  ? "Odosielam…"
+                  : fromCoffeeDemo
+                    ? "Mám záujem — ozvite sa mi"
+                    : "Odoslať zadanie"}
                 <ArrowRight size={16} aria-hidden="true" />
               </button>
             </form>
