@@ -8,6 +8,7 @@ import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
 import "./Rebrand.css";
 import "./RebrandPages.css";
+import "./SubpagePolish.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });

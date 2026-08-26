@@ -51,16 +51,32 @@ const pricing = [
 function PricingPage() {
   return (
     <div className="sp-page pricing-page--rebrand">
-      <header className="sp-hero">
-        <div className="container-page">
-          <p className="section-kicker">CENA</p>
-          <h1>
-            Vopred viete, <em>za čo platíte.</em>
-          </h1>
-          <p className="sp-hero-lead">
-            Cena závisí od toho, čo má riešenie vedieť. Základnú cenu vidíte hneď a presný rozsah si
-            odsúhlasíme pred začiatkom práce.
-          </p>
+      <header className="sp-hero pricing-hero">
+        <div className="container-page pricing-hero__layout">
+          <div className="pricing-hero__copy">
+            <h1>
+              Vopred viete, <em>za čo platíte.</em>
+            </h1>
+            <p className="sp-hero-lead">
+              Cena závisí od toho, čo má riešenie vedieť. Základnú cenu vidíte hneď a presný rozsah
+              si odsúhlasíme pred začiatkom práce.
+            </p>
+          </div>
+
+          <div className="pricing-hero__facts" aria-label="Základný prehľad cien">
+            <div className="pricing-hero__fact">
+              <span>CHATBOT / PORADCA</span>
+              <strong>od 347 €</strong>
+            </div>
+            <div className="pricing-hero__fact">
+              <span>KALKULAČKA / KONFIGURÁTOR</span>
+              <strong>od 447 €</strong>
+            </div>
+            <div className="pricing-hero__fact">
+              <span>TECHNICKÁ PREVÁDZKA</span>
+              <strong>10 € / mes.</strong>
+            </div>
+          </div>
         </div>
       </header>
 

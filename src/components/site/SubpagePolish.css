@@ -1,0 +1,169 @@
+/* Shared editorial polish for top-level subpages.
+   Keep one container gutter, reduce dead space and improve text contrast
+   without turning sparse pages into card-heavy layouts. */
+
+.sp-page > .sp-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.9rem, 4.7vw, 4.6rem) 0 clamp(3.2rem, 5.3vw, 5.1rem) !important;
+}
+
+.sp-page > .sp-hero::after {
+  content: "";
+  position: absolute;
+  right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  bottom: 0;
+  width: clamp(4.5rem, 8vw, 8rem);
+  height: 2px;
+  background: linear-gradient(90deg, var(--forest) 0 62%, #c8f06a 62% 100%);
+  opacity: 0.82;
+}
+
+.sp-page > .sp-hero .container-page,
+.contact-page > .sp-hero .container-page {
+  gap: clamp(0.85rem, 1.5vw, 1.25rem);
+}
+
+.sp-page > .sp-hero h1 {
+  margin: 0;
+  max-width: 10.4ch;
+  text-wrap: balance;
+}
+
+.sp-page > .sp-hero .section-kicker {
+  margin: 0 0 0.2rem;
+  color: #315d4d;
+}
+
+.sp-page .sp-hero-lead,
+.sp-page p {
+  color: #4f5a52;
+}
+
+.sp-page .sp-hero-lead {
+  max-width: 43rem;
+  font-size: clamp(1.02rem, 1.25vw, 1.18rem);
+  line-height: 1.58;
+}
+
+.sp-page > .sp-section {
+  padding: clamp(4.5rem, 7.3vw, 7rem) 0 !important;
+}
+
+/* Pricing hero uses the previously empty right side for immediate price anchors. */
+.pricing-page--rebrand > .pricing-hero {
+  padding-top: clamp(2.6rem, 4vw, 3.8rem) !important;
+  padding-bottom: clamp(3rem, 4.8vw, 4.5rem) !important;
+}
+
+.pricing-hero__layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.55fr) minmax(19rem, 0.58fr);
+  gap: clamp(3rem, 7vw, 7.5rem) !important;
+  align-items: end;
+}
+
+.pricing-hero__copy {
+  min-width: 0;
+}
+
+.pricing-page--rebrand .pricing-hero__copy h1 {
+  max-width: 9.4ch !important;
+  margin: 0 0 clamp(1.25rem, 2vw, 1.8rem) !important;
+  font-size: clamp(4.2rem, 6.8vw, 7.35rem) !important;
+  line-height: 0.89 !important;
+}
+
+.pricing-page--rebrand .pricing-hero__copy .sp-hero-lead {
+  max-width: 39rem;
+  margin: 0;
+  color: #46534b !important;
+}
+
+.pricing-hero__facts {
+  align-self: stretch;
+  display: grid;
+  align-content: end;
+  border-top: 1px solid rgba(18, 55, 45, 0.34);
+  border-bottom: 1px solid rgba(18, 55, 45, 0.34);
+}
+
+.pricing-hero__fact {
+  min-height: 5.15rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(18, 55, 45, 0.16);
+}
+
+.pricing-hero__fact:last-child {
+  border-bottom: 0;
+}
+
+.pricing-hero__fact span {
+  color: #546159;
+  font: 600 0.66rem/1.25 var(--font-mono);
+  letter-spacing: 0.055em;
+}
+
+.pricing-hero__fact strong {
+  color: var(--forest);
+  font-size: clamp(1.22rem, 1.65vw, 1.6rem);
+  font-weight: 680;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.pricing-page--rebrand .pricing-table__head {
+  color: #556058;
+}
+
+.pricing-page--rebrand .pricing-row > p,
+.pricing-page--rebrand .pricing-notes p:last-child,
+.pricing-page--rebrand .pricing-bridge__grid > div:last-child p {
+  color: #4e5951;
+}
+
+/* Sparse utility pages should feel deliberately composed, not vertically padded. */
+.thank-you-page__inner {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+}
+
+.thank-you-page__copy,
+.legal-page p,
+.cookies-page p,
+.privacy-page p {
+  color: #4f5a52;
+}
+
+@media (max-width: 900px) {
+  .pricing-hero__layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem !important;
+  }
+
+  .pricing-hero__facts {
+    align-self: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .sp-page > .sp-hero {
+    padding: 2.35rem 0 3rem !important;
+  }
+
+  .sp-page > .sp-hero::after {
+    right: var(--gutter);
+    width: 4rem;
+  }
+
+  .pricing-page--rebrand .pricing-hero__copy h1 {
+    font-size: clamp(3.65rem, 17vw, 5.2rem) !important;
+  }
+
+  .pricing-hero__fact {
+    min-height: 4.6rem;
+  }
+}
