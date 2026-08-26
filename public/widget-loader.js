@@ -17,7 +17,7 @@
   const FALLBACK_ID = "dv-assistant-fallback";
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
-  const WIDGET_RELEASE = "premium-motion-20260826-v8";
+  const WIDGET_RELEASE = "premium-motion-20260826-v10";
 
   let settled = false;
   let pendingOpen = null;

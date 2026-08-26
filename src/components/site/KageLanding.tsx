@@ -1,11 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import {
-  AnimatePresence,
   motion,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
 } from "motion/react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
@@ -328,15 +326,13 @@ function FlowStory() {
   const stages = flowModes[mode].stages;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const progress = useSpring(scrollYProgress, { stiffness: 58, damping: 24, mass: 0.55 });
-  const lineScale = useTransform(progress, [0, 1], [0.03, 1]);
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0.03, 1]);
+  const trackX = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
-  useMotionValueEvent(progress, "change", (value) => {
-    const next = Math.min(stages.length - 1, Math.floor(value * stages.length));
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    const next = Math.min(stages.length - 1, Math.round(value * (stages.length - 1)));
     setActiveStage((current) => (current === next ? current : next));
   });
-
-  const stage = stages[activeStage];
 
   return (
     <section
@@ -369,38 +365,40 @@ function FlowStory() {
           </div>
 
           <div className="kage-flow__stage">
-            <AnimatePresence initial={false}>
-              <motion.article
-                className="hybrid-flow__panel kage-flow__panel"
-                key={`${mode}-${stage.index}`}
-                initial={{ x: "18%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-18%" }}
-                transition={{ duration: 0.82, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <div className="container-page hybrid-flow__panel-inner">
-                  <div className="hybrid-flow__number">{stage.index}</div>
-                  <div className="hybrid-flow__copy">
-                    <span>{stage.label}</span>
-                    <h2>{stage.title}</h2>
-                    <p>{stage.copy}</p>
+            <motion.div className="kage-flow__track" style={{ x: trackX }}>
+              {stages.map((stage, index) => (
+                <article
+                  className="hybrid-flow__panel kage-flow__panel"
+                  data-active={index === activeStage || undefined}
+                  key={`${mode}-${stage.index}`}
+                >
+                  <div className="container-page hybrid-flow__panel-inner">
+                    <div className="hybrid-flow__number">{stage.index}</div>
+                    <div className="hybrid-flow__copy">
+                      <span>{stage.label}</span>
+                      <h2>{stage.title}</h2>
+                      <p>{stage.copy}</p>
+                    </div>
+                    <motion.div
+                      className="hybrid-flow__artifact"
+                      aria-hidden="true"
+                      animate={{
+                        y: index === activeStage ? 0 : 22,
+                        rotate: index === activeStage ? -0.65 : 1.4,
+                        scale: index === activeStage ? 1 : 0.985,
+                      }}
+                      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <span>
+                        {flowModes[mode].label.toUpperCase()} / {stage.index}
+                      </span>
+                      <strong>{stage.artifact}</strong>
+                      <i>→</i>
+                    </motion.div>
                   </div>
-                  <motion.div
-                    className="hybrid-flow__artifact"
-                    aria-hidden="true"
-                    initial={{ y: 54, rotate: 2.2 }}
-                    animate={{ y: 0, rotate: -0.65 }}
-                    transition={{ duration: 0.92, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <span>
-                      {flowModes[mode].label.toUpperCase()} / {stage.index}
-                    </span>
-                    <strong>{stage.artifact}</strong>
-                    <i>→</i>
-                  </motion.div>
-                </div>
-              </motion.article>
-            </AnimatePresence>
+                </article>
+              ))}
+            </motion.div>
           </div>
 
           <div className="kage-flow__steps" aria-hidden="true">
@@ -431,10 +429,10 @@ function FlowStory() {
         {stages.map((item, index) => (
           <motion.article
             key={`${mode}-${item.index}`}
-            initial={{ opacity: 0.25, x: index % 2 === 0 ? -28 : 28 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ x: index % 2 === 0 ? -34 : 34 }}
+            whileInView={{ x: 0 }}
             viewport={{ once: true, amount: 0.34 }}
-            transition={{ duration: 0.7, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.82, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="hybrid-flow__mobile-head">
               <span>{item.index}</span>
@@ -511,14 +509,7 @@ function SelectedWork() {
       </div>
       <div className="container-page hybrid-work__grid">
         {featuredProjects.map((project, index) => (
-          <motion.article
-            className="hybrid-project"
-            key={project.name}
-            initial={{ opacity: 0, y: 36 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.22 }}
-            transition={{ duration: 0.7, delay: (index % 2) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <article className="hybrid-project" key={project.name}>
             <a
               href={project.href}
               target="_blank"
@@ -539,7 +530,7 @@ function SelectedWork() {
               </div>
               <p>{project.result}</p>
             </div>
-          </motion.article>
+          </article>
         ))}
       </div>
       <div className="container-page hybrid-work__footer">
@@ -571,35 +562,21 @@ function Audience() {
       </div>
       <div className="container-page outcome-comparison__grid">
         {outcomeGroups.map((group, groupIndex) => (
-          <motion.article
+          <article
             className="outcome-comparison__group"
             data-tone={groupIndex === 0 ? "service" : "shop"}
             key={group.label}
-            initial={{ opacity: 0.25, x: groupIndex === 0 ? -46 : 46 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.9, delay: groupIndex * 0.09, ease: [0.16, 1, 0.3, 1] }}
           >
             <span>{group.label}</span>
             <h3>{group.title}</h3>
             <ol>
               {group.rows.map(([before, after], index) => (
-                <motion.li
-                  key={before}
-                  initial={{ y: 18, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  transition={{
-                    duration: 0.58,
-                    delay: 0.18 + index * 0.09,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                >
+                <li key={before}>
                   <small>0{index + 1}</small>
                   <p>{before}</p>
                   <ArrowRight size={17} aria-hidden="true" />
                   <strong>{after}</strong>
-                </motion.li>
+                </li>
               ))}
             </ol>
             <button
@@ -610,7 +587,7 @@ function Audience() {
             >
               Ukázať vhodné riešenie <ArrowRight size={17} />
             </button>
-          </motion.article>
+          </article>
         ))}
       </div>
     </section>
@@ -636,18 +613,12 @@ function Process() {
         </Link>
       </div>
       <ol className="container-page hybrid-process__list">
-        {process.map(([index, title, copy], itemIndex) => (
-          <motion.li
-            key={index}
-            initial={{ opacity: 0.34, x: -18 }}
-            whileInView={{ opacity: 1, x: 0, backgroundColor: "rgba(200, 240, 106, 0.09)" }}
-            viewport={{ once: true, amount: 0.58 }}
-            transition={{ duration: 0.58, delay: itemIndex * 0.035, ease: [0.16, 1, 0.3, 1] }}
-          >
+        {process.map(([index, title, copy]) => (
+          <li key={index}>
             <span>{index}</span>
             <strong>{title}</strong>
             <p>{copy}</p>
-          </motion.li>
+          </li>
         ))}
       </ol>
     </section>

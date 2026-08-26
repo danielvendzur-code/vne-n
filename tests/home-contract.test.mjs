@@ -49,6 +49,10 @@ test("active homepage keeps three clean hero previews and four realizations", as
   assert.match(landing, /AnimatedPrice value=\{347\}/);
   assert.match(landing, /AnimatedPrice value=\{447\}/);
   assert.match(landing, /data-nav-tone="dark"/);
+  assert.match(landing, /className="kage-flow__track"/);
+  assert.doesNotMatch(landing, /AnimatePresence/);
+  assert.match(css, /\.kage-flow__track[\s\S]*width:\s*400%/);
+  assert.match(css, /kage-character-write/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /@media \(max-width: 720px\)/);
   assert.doesNotMatch(landing, /SignalLens|signal-rail|scroll-progress|back-to-top/i);
@@ -153,7 +157,10 @@ test("homepage, form and subpages share the smooth one-way reveal controller", a
   assert.match(controller, /hybrid-price/);
   assert.match(controller, /element\.animate/);
   assert.match(controller, /prefers-reduced-motion/);
-  assert.match(controller, /duration:\s*isHeading \? 1040 : 900/);
+  assert.match(controller, /hybrid-work__grid > article/);
+  assert.match(controller, /outcome-comparison__group li/);
+  assert.match(controller, /element\.dataset\.motionReveal = "staged"/);
+  assert.match(controller, /duration:\s*state\.duration/);
   assert.doesNotMatch(pagesCss, /data-scroll-reveal/);
   assert.match(motion, /base:\s*0\.72/);
   assert.match(motion, /data-motion-reveal/);

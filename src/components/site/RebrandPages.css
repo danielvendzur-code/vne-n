@@ -535,3 +535,147 @@
     border-bottom: 0;
   }
 }
+
+/* Full-viewport navigation surface. The inner row no longer reads as a
+   floating rectangle when the page underneath changes tone. */
+.site-header__inner.container-page {
+  width: 100%;
+  max-width: none;
+  padding-inline: clamp(1.15rem, 4vw, 4.75rem);
+  border-bottom: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.site-header[data-scrolled="true"] {
+  border: 0;
+  background: rgba(242, 240, 232, 0.96);
+  box-shadow: none;
+  -webkit-backdrop-filter: blur(14px) saturate(1.04);
+  backdrop-filter: blur(14px) saturate(1.04);
+}
+
+.site-header[data-tone="dark"][data-scrolled="true"] {
+  background: rgba(7, 27, 21, 0.97);
+}
+
+/* Contact starts immediately below the navigation and keeps the first form
+   fields in the opening viewport on ordinary desktop screens. */
+.contact-page--rebrand .sp-hero {
+  padding: clamp(2rem, 4.2vw, 4.25rem) var(--gutter) clamp(1.8rem, 3.4vw, 3.25rem) !important;
+}
+
+.contact-page--rebrand .sp-hero .container-page {
+  grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.72fr);
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 4.5rem);
+}
+
+.contact-page--rebrand .sp-hero .section-kicker {
+  grid-column: 1 / -1;
+}
+
+.contact-page--rebrand h1 {
+  max-width: 11ch;
+  margin: 0 !important;
+  font-size: clamp(3.4rem, 6.4vw, 6.7rem) !important;
+  line-height: 0.91 !important;
+}
+
+.contact-page--rebrand .sp-hero-lead {
+  margin: 0 0 0.35rem !important;
+  color: #44574e !important;
+}
+
+.contact-page--rebrand .contact-section {
+  padding: clamp(2.25rem, 4vw, 4rem) 0 clamp(4.5rem, 7vw, 7rem) !important;
+}
+
+.contact-page--rebrand .contact-editorial-grid {
+  grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.45fr);
+  gap: clamp(2.5rem, 7vw, 7rem);
+}
+
+.contact-page--rebrand .contact-editorial-aside {
+  gap: 2.35rem;
+}
+
+.contact-page--rebrand .contact-form-wrap {
+  padding: clamp(1.25rem, 2.4vw, 2rem);
+  border: 1px solid rgba(18, 56, 45, 0.18);
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.contact-page--rebrand .contact-form {
+  margin-top: 1.4rem;
+  gap: 1rem;
+}
+
+.contact-page--rebrand .contact-fields-two {
+  gap: 1rem;
+}
+
+.contact-page--rebrand .contact-form label:not(.contact-consent) {
+  gap: 0.48rem;
+}
+
+.contact-page--rebrand .contact-form label > span {
+  color: #12382d !important;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+
+.contact-page--rebrand .contact-form :is(input, textarea, select) {
+  min-height: 52px;
+  padding: 0.78rem 0.9rem !important;
+  border: 1px solid rgba(18, 56, 45, 0.22) !important;
+  border-radius: 0.8rem !important;
+  color: #071b15 !important;
+  background: #ffffff !important;
+}
+
+.contact-page--rebrand .contact-form textarea {
+  min-height: 8.4rem;
+}
+
+.contact-page--rebrand .contact-form :is(input, textarea)::placeholder {
+  color: #718078 !important;
+  opacity: 1;
+}
+
+.contact-page--rebrand .contact-form :is(input, textarea, select):focus {
+  border-color: #41672d !important;
+  box-shadow: 0 0 0 3px rgba(65, 103, 45, 0.12) !important;
+}
+
+@media (max-width: 960px) {
+  .contact-page--rebrand .sp-hero .container-page {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  .contact-page--rebrand .sp-hero .section-kicker {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-page--rebrand .sp-hero {
+    padding: 1.5rem var(--gutter) 1.75rem !important;
+  }
+
+  .contact-page--rebrand h1 {
+    font-size: clamp(2.75rem, 13vw, 4rem) !important;
+  }
+
+  .contact-page--rebrand .contact-section {
+    padding-top: 1.5rem !important;
+  }
+
+  .contact-page--rebrand .contact-form-wrap {
+    padding: 1rem;
+    border-radius: 1.1rem;
+  }
+}

@@ -23,7 +23,7 @@ export function Breadcrumbs() {
   const pathname = normalizePath(useRouterState({ select: (state) => state.location.pathname }));
   const label = ROUTE_LABELS[pathname];
 
-  if (!label || pathname === "/") return null;
+  if (!label || pathname === "/" || pathname === "/kontakt") return null;
 
   return (
     <nav className="site-breadcrumbs" aria-label="Drobečková navigácia">
