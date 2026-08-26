@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
@@ -6,7 +6,6 @@ import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 type NavTone = "dark" | "light";
-type Rgb = readonly [number, number, number];
 
 const desktopLinks = [
   { label: "Riešenia", href: "/#riesenia" },
@@ -25,38 +24,17 @@ const mobileLinks = [
   { index: "06", label: "Kontakt", to: "/kontakt" as const },
 ];
 
-const NAV_PALETTE: Record<NavTone, { surface: Rgb; foreground: Rgb; accent: Rgb }> = {
-  dark: {
-    surface: [7, 27, 21],
-    foreground: [246, 245, 238],
-    accent: [200, 240, 106],
-  },
-  light: {
-    surface: [242, 240, 232],
-    foreground: [18, 56, 45],
-    accent: [18, 56, 45],
-  },
-};
-
-const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
-
-const mixRgb = (from: Rgb, to: Rgb, progress: number) => {
-  const amount = clamp01(progress);
-  const channels = from.map((channel, index) =>
-    Math.round(channel + (to[index] - channel) * amount),
-  );
-  return `rgb(${channels[0]} ${channels[1]} ${channels[2]})`;
-};
-
-const sectionTone = (section: HTMLElement | undefined): NavTone | null => {
+function sectionTone(section: HTMLElement | undefined): NavTone | null {
   const value = section?.dataset.navTone;
   return value === "dark" || value === "light" ? value : null;
-};
+}
 
 export function Nav() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [tone, setTone] = useState<NavTone>("dark");
+  const [tone, setTone] = useState<NavTone>(() => (pathname === "/" ? "dark" : "light"));
+  const [adaptiveHome, setAdaptiveHome] = useState(pathname === "/");
   const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -66,93 +44,54 @@ export function Nav() {
 
   useEffect(() => {
     let frame = 0;
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-tone]"));
+    const isAdaptiveHome = document.querySelector(".kage-home") !== null && sections.length > 0;
 
-    const updateTone = () => {
-      const header = headerRef.current;
-      if (!header) return;
+    setAdaptiveHome((current) => (current === isAdaptiveHome ? current : isAdaptiveHome));
 
-      const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-tone]"));
-      if (sections.length === 0) return;
+    if (!isAdaptiveHome) {
+      setTone((current) => (current === "light" ? current : "light"));
+    }
 
-      const headerBottom = header.getBoundingClientRect().bottom;
-      const sampleY = Math.min(window.innerHeight - 1, headerBottom + 22);
-      const foundIndex = sections.findIndex((section) => {
+    const update = () => {
+      const nextScrolled = window.scrollY > 18;
+      setScrolled((current) => (current === nextScrolled ? current : nextScrolled));
+
+      if (!isAdaptiveHome || sections.length === 0) return;
+
+      const headerBottom = headerRef.current?.getBoundingClientRect().bottom ?? 76;
+      const sampleY = Math.min(window.innerHeight - 1, headerBottom + 12);
+      let nextTone = sectionTone(sections[0]) ?? "dark";
+
+      for (const section of sections) {
         const rect = section.getBoundingClientRect();
-        return rect.top <= sampleY && rect.bottom > sampleY;
+        if (rect.top > sampleY) break;
+
+        nextTone = sectionTone(section) ?? nextTone;
+        if (rect.bottom > sampleY) break;
+      }
+
+      setTone((current) => (current === nextTone ? current : nextTone));
+    };
+
+    const requestUpdate = () => {
+      if (frame !== 0) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        update();
       });
-      const firstRect = sections[0].getBoundingClientRect();
-      const activeIndex =
-        foundIndex >= 0 ? foundIndex : sampleY < firstRect.top ? 0 : sections.length - 1;
-      const active = sections[activeIndex] ?? sections[0];
-      const activeTone = sectionTone(active) ?? "light";
-
-      let fromTone: NavTone = activeTone;
-      let toTone: NavTone = activeTone;
-      let progress = 0;
-
-      // Blend around one physical section boundary. The same formula is used on
-      // both sides of the boundary, so crossing it cannot reset the progress.
-      const blendRadius = Math.max(90, Math.min(150, window.innerHeight * 0.13));
-      let nearestBoundaryDistance = Number.POSITIVE_INFINITY;
-
-      for (let index = 0; index < sections.length - 1; index += 1) {
-        const currentTone = sectionTone(sections[index]);
-        const nextTone = sectionTone(sections[index + 1]);
-        if (!currentTone || !nextTone || currentTone === nextTone) continue;
-
-        const currentRect = sections[index].getBoundingClientRect();
-        const nextRect = sections[index + 1].getBoundingClientRect();
-        const boundaryY = (currentRect.bottom + nextRect.top) / 2;
-        const distance = Math.abs(sampleY - boundaryY);
-
-        if (distance > blendRadius || distance >= nearestBoundaryDistance) continue;
-
-        nearestBoundaryDistance = distance;
-        fromTone = currentTone;
-        toTone = nextTone;
-        progress = clamp01((sampleY - (boundaryY - blendRadius)) / (blendRadius * 2));
-      }
-
-      const fromPalette = NAV_PALETTE[fromTone];
-      const toPalette = NAV_PALETTE[toTone];
-      header.style.setProperty("--nav-surface", mixRgb(fromPalette.surface, toPalette.surface, progress));
-      header.style.setProperty(
-        "--nav-foreground",
-        mixRgb(fromPalette.foreground, toPalette.foreground, progress),
-      );
-      header.style.setProperty("--nav-accent", mixRgb(fromPalette.accent, toPalette.accent, progress));
-      header.style.setProperty("--nav-blend", progress.toFixed(3));
-      header.dataset.toneFrom = fromTone;
-      header.dataset.toneTo = toTone;
-
-      const adaptiveHome = document.querySelector(".kage-home") !== null;
-      if (adaptiveHome) {
-        // On the home page the visible colors are driven exclusively by the
-        // continuous CSS variables above. Keeping data-tone stable prevents
-        // legacy dark/light selectors from snapping halfway through a blend.
-        setTone((current) => (current === "dark" ? current : "dark"));
-      } else {
-        const resolvedTone = progress >= 0.5 ? toTone : fromTone;
-        setTone((current) => (current === resolvedTone ? current : resolvedTone));
-      }
     };
 
-    const onScroll = () => {
-      setScrolled(window.scrollY > 18);
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(updateTone);
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate, { passive: true });
 
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -163,10 +102,20 @@ export function Nav() {
     };
   }, [open]);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
   return (
     <>
       <div className="site-header-spacer" aria-hidden="true" />
-      <header ref={headerRef} className="site-header" data-scrolled={scrolled} data-tone={tone}>
+      <header
+        ref={headerRef}
+        className="site-header"
+        data-scrolled={scrolled}
+        data-tone={tone}
+        data-adaptive={adaptiveHome ? "true" : "false"}
+      >
         <div className="site-header__inner container-page">
           <Link to="/" className="site-brand-lockup" aria-label="Môj Chatbot — domov">
             <BrandMark size={34} />
@@ -174,17 +123,11 @@ export function Nav() {
           </Link>
 
           <nav className="site-nav" aria-label="Hlavná navigácia">
-            {desktopLinks.map((item) =>
-              "to" in item ? (
-                <Link key={item.label} to={item.to} activeProps={{ "aria-current": "page" }}>
-                  {item.label}
-                </Link>
-              ) : (
-                <a key={item.label} href={item.href}>
-                  {item.label}
-                </a>
-              ),
-            )}
+            {desktopLinks.map((item) => (
+              <a key={item.label} href={item.href}>
+                {item.label}
+              </a>
+            ))}
           </nav>
 
           <div className="site-header__actions">

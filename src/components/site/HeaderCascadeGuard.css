@@ -1,0 +1,125 @@
+/* Specificity guard for legacy homepage layers.
+   This file intentionally contains only header rules that must win over older
+   body:has(.kage-home) selectors. */
+
+.site-theme-white-green .site-header[data-adaptive="true"][data-scrolled][data-tone] {
+  background: #071b15 !important;
+  color: #f6f5ee !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  transition:
+    background-color 420ms cubic-bezier(0.2, 0.72, 0, 1),
+    color 300ms ease !important;
+}
+
+.site-theme-white-green .site-header[data-adaptive="true"][data-scrolled][data-tone="light"] {
+  background: #f2f0e8 !important;
+  color: #12382d !important;
+}
+
+.site-theme-white-green .site-header[data-adaptive="true"][data-scrolled][data-tone="dark"] {
+  background: #071b15 !important;
+  color: #f6f5ee !important;
+}
+
+.site-theme-white-green .site-header[data-adaptive="true"][data-scrolled][data-tone]::after {
+  content: none !important;
+  display: none !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone]
+  .site-header__inner {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  transition: none !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone]
+  :is(.site-brand-lockup, .site-nav a, .site-menu-toggle) {
+  color: currentColor !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone]
+  .brand-mark {
+  color: #c8f06a !important;
+  transition: color 300ms ease !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone="light"]
+  .brand-mark {
+  color: #12382d !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone]
+  .site-nav a {
+  transform: none !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone]
+  .site-nav a::after {
+  content: "" !important;
+  display: block !important;
+  transform: scaleX(0) !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone]
+  .site-nav a:is(:hover, :focus-visible)::after {
+  transform: scaleX(1) !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone="dark"]
+  .site-header__cta {
+  border-color: rgba(200, 240, 106, 0.28) !important;
+  background: rgba(200, 240, 106, 0.09) !important;
+  color: #eef4e7 !important;
+  transform: none !important;
+}
+
+.site-theme-white-green
+  .site-header[data-adaptive="true"][data-scrolled][data-tone="light"]
+  .site-header__cta {
+  border-color: rgba(18, 56, 45, 0.18) !important;
+  background: rgba(18, 56, 45, 0.06) !important;
+  color: #12382d !important;
+  transform: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-theme-white-green
+    .site-header[data-adaptive="true"][data-scrolled][data-tone="dark"]
+    .site-header__cta:is(:hover, :focus-visible) {
+    border-color: #c8f06a !important;
+    background: #c8f06a !important;
+    color: #071b15 !important;
+  }
+
+  .site-theme-white-green
+    .site-header[data-adaptive="true"][data-scrolled][data-tone="light"]
+    .site-header__cta:is(:hover, :focus-visible) {
+    border-color: #12382d !important;
+    background: #12382d !important;
+    color: #f6f5ee !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-theme-white-green .site-header[data-adaptive="true"][data-scrolled][data-tone],
+  .site-theme-white-green
+    .site-header[data-adaptive="true"][data-scrolled][data-tone]
+    .brand-mark {
+    transition-duration: 0.01ms !important;
+  }
+}

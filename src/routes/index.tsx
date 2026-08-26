@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { KageLanding } from "@/components/site/KageLanding";
 import "@/components/site/UserExperiencePolish.css";
 import "@/components/site/UserExperiencePolishFinal.css";
+import "@/components/site/ResponsiveMediaHeaderFinal.css";
+import "@/components/site/HeaderCascadeGuard.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
