@@ -5,6 +5,9 @@ import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
+type NavTone = "dark" | "light";
+type Rgb = readonly [number, number, number];
+
 const desktopLinks = [
   { label: "Riešenia", href: "/#riesenia" },
   { label: "Pre e-shopy", href: "/#pre-eshopy" },
@@ -22,10 +25,39 @@ const mobileLinks = [
   { index: "06", label: "Kontakt", to: "/kontakt" as const },
 ];
 
+const NAV_PALETTE: Record<NavTone, { surface: Rgb; foreground: Rgb; accent: Rgb }> = {
+  dark: {
+    surface: [7, 27, 21],
+    foreground: [246, 245, 238],
+    accent: [200, 240, 106],
+  },
+  light: {
+    surface: [242, 240, 232],
+    foreground: [18, 56, 45],
+    accent: [18, 56, 45],
+  },
+};
+
+const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+
+const mixRgb = (from: Rgb, to: Rgb, progress: number) => {
+  const amount = clamp01(progress);
+  const channels = from.map((channel, index) =>
+    Math.round(channel + (to[index] - channel) * amount),
+  );
+  return `rgb(${channels[0]} ${channels[1]} ${channels[2]})`;
+};
+
+const sectionTone = (section: HTMLElement | undefined): NavTone | null => {
+  const value = section?.dataset.navTone;
+  return value === "dark" || value === "light" ? value : null;
+};
+
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [tone, setTone] = useState<"dark" | "light">("dark");
+  const [tone, setTone] = useState<NavTone>("dark");
+  const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
@@ -34,29 +66,73 @@ export function Nav() {
 
   useEffect(() => {
     let frame = 0;
+
     const updateTone = () => {
+      const header = headerRef.current;
+      if (!header) return;
+
       const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-tone]"));
-      const headerBottom =
-        document.querySelector<HTMLElement>(".site-header__inner")?.getBoundingClientRect()
-          .bottom ?? 0;
-      const sampleY = Math.min(window.innerHeight - 1, headerBottom + 24);
-      const active =
-        sections.find((section) => {
+      if (sections.length === 0) return;
+
+      const headerBottom = header.getBoundingClientRect().bottom;
+      const sampleY = Math.min(window.innerHeight - 1, headerBottom + 22);
+      const activeIndex = Math.max(
+        0,
+        sections.findIndex((section) => {
           const rect = section.getBoundingClientRect();
           return rect.top <= sampleY && rect.bottom > sampleY;
-        }) ?? sections[0];
-      if (active?.dataset.navTone === "light" || active?.dataset.navTone === "dark") {
-        setTone(active.dataset.navTone);
+        }),
+      );
+      const active = sections[activeIndex] ?? sections[0];
+      const activeTone = sectionTone(active) ?? "light";
+      const activeRect = active.getBoundingClientRect();
+      const previousTone = sectionTone(sections[activeIndex - 1]);
+      const nextTone = sectionTone(sections[activeIndex + 1]);
+      const blendZone = Math.max(120, Math.min(210, window.innerHeight * 0.18));
+
+      let fromTone: NavTone = activeTone;
+      let toTone: NavTone = activeTone;
+      let progress = 0;
+
+      const distanceFromTop = sampleY - activeRect.top;
+      const distanceToBottom = activeRect.bottom - sampleY;
+
+      if (previousTone && previousTone !== activeTone && distanceFromTop < blendZone) {
+        fromTone = previousTone;
+        toTone = activeTone;
+        progress = clamp01(distanceFromTop / blendZone);
+      } else if (nextTone && nextTone !== activeTone && distanceToBottom < blendZone) {
+        fromTone = activeTone;
+        toTone = nextTone;
+        progress = 1 - clamp01(distanceToBottom / blendZone);
       }
+
+      const fromPalette = NAV_PALETTE[fromTone];
+      const toPalette = NAV_PALETTE[toTone];
+      header.style.setProperty("--nav-surface", mixRgb(fromPalette.surface, toPalette.surface, progress));
+      header.style.setProperty(
+        "--nav-foreground",
+        mixRgb(fromPalette.foreground, toPalette.foreground, progress),
+      );
+      header.style.setProperty("--nav-accent", mixRgb(fromPalette.accent, toPalette.accent, progress));
+      header.style.setProperty("--nav-blend", progress.toFixed(3));
+      header.dataset.toneFrom = fromTone;
+      header.dataset.toneTo = toTone;
+
+      const resolvedTone = progress >= 0.5 ? toTone : fromTone;
+      setTone((current) => (current === resolvedTone ? current : resolvedTone));
     };
+
     const onScroll = () => {
       setScrolled(window.scrollY > 18);
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(updateTone);
     };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
+
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
@@ -76,7 +152,7 @@ export function Nav() {
   return (
     <>
       <div className="site-header-spacer" aria-hidden="true" />
-      <header className="site-header" data-scrolled={scrolled} data-tone={tone}>
+      <header ref={headerRef} className="site-header" data-scrolled={scrolled} data-tone={tone}>
         <div className="site-header__inner container-page">
           <Link to="/" className="site-brand-lockup" aria-label="Môj Chatbot — domov">
             <BrandMark size={34} />

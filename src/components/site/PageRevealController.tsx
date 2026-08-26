@@ -33,18 +33,18 @@ const revealState = (element: HTMLElement) => {
   const isFeatureGroup = element.matches(
     ".outcome-comparison__group, .hybrid-price__grid > *, .hybrid-final__body > *",
   );
-  const verticalDistance = window.innerWidth <= 720 ? 14 : isRow ? 22 : 17;
+  const verticalDistance = window.innerWidth <= 720 ? 10 : isRow ? 14 : 12;
 
   return {
-    opacity: isHeading ? 0.12 : isRow ? 0.2 : 0.3,
+    opacity: isHeading ? 0.34 : isRow ? 0.48 : 0.56,
     transform: isFeatureGroup
-      ? `translate3d(0, ${verticalDistance}px, 0) scale(0.988)`
+      ? `translate3d(0, ${verticalDistance}px, 0) scale(0.994)`
       : `translate3d(0, ${verticalDistance}px, 0)`,
-    duration: isHeading ? 1040 : isRow ? 880 : 820,
+    duration: isHeading ? 760 : isRow ? 680 : 640,
   };
 };
 
-/** Adds calm, compositor-only entrances without mutating still-hydrating DOM. */
+/** Calm entrances that begin before an element becomes visible, preventing first-frame jumps. */
 export function PageRevealController({ pathname }: { pathname: string }) {
   useEffect(() => {
     const root = document.querySelector<HTMLElement>(".page-transition");
@@ -58,16 +58,24 @@ export function PageRevealController({ pathname }: { pathname: string }) {
 
     if (!supportsReveal) return undefined;
 
+    const viewportHeight = window.innerHeight;
     const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
-      (element) =>
-        !element.closest('[aria-hidden="true"]') && element.getAttribute("aria-hidden") !== "true",
+      (element) => {
+        if (element.closest('[aria-hidden="true"]') || element.getAttribute("aria-hidden") === "true") {
+          return false;
+        }
+
+        // Content already visible on the first painted frame stays stable instead of snapping
+        // backwards into an entrance pose.
+        const rect = element.getBoundingClientRect();
+        return rect.top > viewportHeight * 0.9;
+      },
     );
 
     if (candidates.length === 0) return undefined;
 
     const animations = new Set<Animation>();
     const states = new Map(candidates.map((element) => [element, revealState(element)]));
-    const indices = new Map(candidates.map((element, index) => [element, index]));
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -78,7 +86,6 @@ export function PageRevealController({ pathname }: { pathname: string }) {
           observer.unobserve(element);
 
           const state = states.get(element) ?? revealState(element);
-          const index = indices.get(element) ?? 0;
           const animation = element.animate(
             [
               { opacity: state.opacity, transform: state.transform },
@@ -86,7 +93,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
             ],
             {
               duration: state.duration,
-              delay: (index % 5) * 72,
+              delay: 0,
               easing: "cubic-bezier(0.16, 1, 0.3, 1)",
               fill: "none",
             },
@@ -102,7 +109,12 @@ export function PageRevealController({ pathname }: { pathname: string }) {
             });
         });
       },
-      { threshold: 0.08, rootMargin: "0px 0px -9% 0px" },
+      {
+        threshold: 0,
+        // Start while the element is still just below the viewport so the user never sees
+        // a settled frame followed by the start pose.
+        rootMargin: "0px 0px 12% 0px",
+      },
     );
 
     candidates.forEach((element) => observer.observe(element));
