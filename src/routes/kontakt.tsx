@@ -212,17 +212,25 @@ function ContactPage() {
                   Doplňte iba kontakt na seba. Telefón a poznámka sú voliteľné.
                 </span>
                 <div style={{ display: "grid", gap: 5, fontSize: 13, lineHeight: 1.45 }}>
-                  {company ? <span><b>Firma:</b> {company}</span> : null}
+                  {company ? (
+                    <span>
+                      <b>Firma:</b> {company}
+                    </span>
+                  ) : null}
                   {web ? (
                     <span>
                       <b>Web:</b>{" "}
-                      <a href={web} target="_blank" rel="noreferrer">{web}</a>
+                      <a href={web} target="_blank" rel="noreferrer">
+                        {web}
+                      </a>
                     </span>
                   ) : null}
                   {demoUrl ? (
                     <span>
                       <b>Ukážka:</b>{" "}
-                      <a href={demoUrl} target="_blank" rel="noreferrer">otvoriť pripravenú ukážku ↗</a>
+                      <a href={demoUrl} target="_blank" rel="noreferrer">
+                        otvoriť pripravenú ukážku ↗
+                      </a>
                     </span>
                   ) : null}
                 </div>
