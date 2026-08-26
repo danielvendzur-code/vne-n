@@ -97,7 +97,7 @@ jobs:
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
           grep -Fq "buildKey" pages-dist/widget-loader.js
-          grep -Fq "premium-motion-20260825-v7" pages-dist/widget-loader.js
+          grep -Fq "premium-motion-20260826-v8" pages-dist/widget-loader.js
           grep -Fq "Rebrand.css" src/components/site/Layout.tsx
           grep -Fq "RebrandPages.css" src/components/site/Layout.tsx
           ! grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx
@@ -183,7 +183,7 @@ jobs:
           fetch_with_retry "/robots.txt" "Sitemap: https://mojchatbot.sk/sitemap.xml"
           fetch_with_retry "/sitemap.xml" "https://mojchatbot.sk/sluzby"
           fetch_with_retry "/brand/logo.svg" "stroke=\"#12372D\""
-          fetch_with_retry "/widget-loader.js" "premium-motion-20260825-v7"
+          fetch_with_retry "/widget-loader.js" "premium-motion-20260826-v8"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
 
