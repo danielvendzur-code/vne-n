@@ -85,26 +85,32 @@ export function Nav() {
         foundIndex >= 0 ? foundIndex : sampleY < firstRect.top ? 0 : sections.length - 1;
       const active = sections[activeIndex] ?? sections[0];
       const activeTone = sectionTone(active) ?? "light";
-      const activeRect = active.getBoundingClientRect();
-      const previousTone = sectionTone(sections[activeIndex - 1]);
-      const nextTone = sectionTone(sections[activeIndex + 1]);
-      const blendZone = Math.max(120, Math.min(210, window.innerHeight * 0.18));
 
       let fromTone: NavTone = activeTone;
       let toTone: NavTone = activeTone;
       let progress = 0;
 
-      const distanceFromTop = sampleY - activeRect.top;
-      const distanceToBottom = activeRect.bottom - sampleY;
+      // Blend around one physical section boundary. The same formula is used on
+      // both sides of the boundary, so crossing it cannot reset the progress.
+      const blendRadius = Math.max(90, Math.min(150, window.innerHeight * 0.13));
+      let nearestBoundaryDistance = Number.POSITIVE_INFINITY;
 
-      if (previousTone && previousTone !== activeTone && distanceFromTop < blendZone) {
-        fromTone = previousTone;
-        toTone = activeTone;
-        progress = clamp01(distanceFromTop / blendZone);
-      } else if (nextTone && nextTone !== activeTone && distanceToBottom < blendZone) {
-        fromTone = activeTone;
+      for (let index = 0; index < sections.length - 1; index += 1) {
+        const currentTone = sectionTone(sections[index]);
+        const nextTone = sectionTone(sections[index + 1]);
+        if (!currentTone || !nextTone || currentTone === nextTone) continue;
+
+        const currentRect = sections[index].getBoundingClientRect();
+        const nextRect = sections[index + 1].getBoundingClientRect();
+        const boundaryY = (currentRect.bottom + nextRect.top) / 2;
+        const distance = Math.abs(sampleY - boundaryY);
+
+        if (distance > blendRadius || distance >= nearestBoundaryDistance) continue;
+
+        nearestBoundaryDistance = distance;
+        fromTone = currentTone;
         toTone = nextTone;
-        progress = 1 - clamp01(distanceToBottom / blendZone);
+        progress = clamp01((sampleY - (boundaryY - blendRadius)) / (blendRadius * 2));
       }
 
       const fromPalette = NAV_PALETTE[fromTone];
@@ -119,8 +125,16 @@ export function Nav() {
       header.dataset.toneFrom = fromTone;
       header.dataset.toneTo = toTone;
 
-      const resolvedTone = progress >= 0.5 ? toTone : fromTone;
-      setTone((current) => (current === resolvedTone ? current : resolvedTone));
+      const adaptiveHome = document.querySelector(".kage-home") !== null;
+      if (adaptiveHome) {
+        // On the home page the visible colors are driven exclusively by the
+        // continuous CSS variables above. Keeping data-tone stable prevents
+        // legacy dark/light selectors from snapping halfway through a blend.
+        setTone((current) => (current === "dark" ? current : "dark"));
+      } else {
+        const resolvedTone = progress >= 0.5 ? toTone : fromTone;
+        setTone((current) => (current === resolvedTone ? current : resolvedTone));
+      }
     };
 
     const onScroll = () => {
