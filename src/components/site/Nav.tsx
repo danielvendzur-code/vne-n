@@ -76,13 +76,13 @@ export function Nav() {
 
       const headerBottom = header.getBoundingClientRect().bottom;
       const sampleY = Math.min(window.innerHeight - 1, headerBottom + 22);
-      const activeIndex = Math.max(
-        0,
-        sections.findIndex((section) => {
-          const rect = section.getBoundingClientRect();
-          return rect.top <= sampleY && rect.bottom > sampleY;
-        }),
-      );
+      const foundIndex = sections.findIndex((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= sampleY && rect.bottom > sampleY;
+      });
+      const firstRect = sections[0].getBoundingClientRect();
+      const activeIndex =
+        foundIndex >= 0 ? foundIndex : sampleY < firstRect.top ? 0 : sections.length - 1;
       const active = sections[activeIndex] ?? sections[0];
       const activeTone = sectionTone(active) ?? "light";
       const activeRect = active.getBoundingClientRect();
