@@ -33,7 +33,7 @@ const revealState = (element: HTMLElement) => {
   const isFeatureGroup = element.matches(
     ".outcome-comparison__group, .hybrid-price__grid > *, .hybrid-final__body > *",
   );
-  const verticalDistance = window.innerWidth <= 720 ? 10 : isRow ? 14 : 12;
+  const verticalDistance = isRow ? 14 : 12;
 
   return {
     opacity: isHeading ? 0.34 : isRow ? 0.48 : 0.56,
@@ -44,14 +44,16 @@ const revealState = (element: HTMLElement) => {
   };
 };
 
-/** Calm entrances that begin before an element becomes visible, preventing first-frame jumps. */
+/** Calm desktop entrances. Mobile stays static to keep touch scrolling cheap. */
 export function PageRevealController({ pathname }: { pathname: string }) {
   useEffect(() => {
     const root = document.querySelector<HTMLElement>(".page-transition");
     if (!root) return undefined;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileViewport = window.matchMedia("(max-width: 720px)").matches;
     const supportsReveal =
+      !mobileViewport &&
       !reducedMotion &&
       typeof IntersectionObserver !== "undefined" &&
       typeof Element.prototype.animate === "function";
@@ -65,8 +67,6 @@ export function PageRevealController({ pathname }: { pathname: string }) {
           return false;
         }
 
-        // Content already visible on the first painted frame stays stable instead of snapping
-        // backwards into an entrance pose.
         const rect = element.getBoundingClientRect();
         return rect.top > viewportHeight * 0.9;
       },
@@ -111,8 +111,6 @@ export function PageRevealController({ pathname }: { pathname: string }) {
       },
       {
         threshold: 0,
-        // Start while the element is still just below the viewport so the user never sees
-        // a settled frame followed by the start pose.
         rootMargin: "0px 0px 12% 0px",
       },
     );

@@ -1,0 +1,227 @@
+/* Mobile smoothness + equal project media.
+   This file is imported last on the homepage and intentionally removes
+   paint-heavy motion on touch-sized viewports while keeping desktop motion. */
+
+/* --------------------------------------------------------------------------
+   One media language: every website screenshot uses the same frame and scale.
+   -------------------------------------------------------------------------- */
+.kage-home .project-composite--koverta,
+.kage-home .project-composite--derat,
+.kage-home .project-composite--mojplot,
+.kage-home .project-composite--webko {
+  --project-scale: 1;
+  --project-scale-hover: 1.008;
+  --project-origin: top center;
+}
+
+.kage-home .hybrid-hero__case .project-composite__site,
+.kage-home .hybrid-project__visual .project-composite__site {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  object-position: top center !important;
+  filter: none !important;
+}
+
+.kage-home .hybrid-project__visual--koverta,
+.kage-home .hybrid-project__visual--derat,
+.kage-home .hybrid-project__visual--mojplot,
+.kage-home .hybrid-project__visual--webko {
+  aspect-ratio: 1.6 !important;
+  background: #f7f7f3 !important;
+}
+
+/* Desktop hero: three equal cards, only their position changes. */
+@media (min-width: 721px) {
+  .kage-home .kage-hero .hybrid-hero__collage {
+    inset: 6% 0 5% 56% !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--1,
+  .kage-home .kage-hero .hybrid-hero__case--2,
+  .kage-home .kage-hero .hybrid-hero__case--3 {
+    width: clamp(17.5rem, 23vw, 23.5rem) !important;
+    aspect-ratio: 1.6 !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--1 {
+    top: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 12% !important;
+    transform: rotate(0.2deg) !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--2 {
+    top: 34% !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 0 !important;
+    transform: rotate(-0.3deg) !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--3 {
+    top: auto !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    transform: rotate(0.3deg) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile performance profile.
+   No scroll-reveal transforms, blur, clip-path or image zoom are painted.
+   -------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  html:has(.kage-home),
+  body:has(.kage-home) {
+    scroll-behavior: auto !important;
+  }
+
+  .kage-home .hybrid-flow__desktop {
+    display: none !important;
+  }
+
+  .kage-home .kage-hero h1 .typed-character {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .kage-home .kage-hero .project-composite,
+  .kage-home .kage-hero .hybrid-hero__case,
+  .kage-home .hybrid-project__visual .project-composite,
+  .kage-home .hybrid-flow__mobile article {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .kage-home .kage-hero .project-composite {
+    clip-path: none !important;
+  }
+
+  .kage-home .hybrid-flow__mobile article {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .kage-home .project-composite__site,
+  .kage-home .hybrid-hero__case:is(:hover, :focus-visible) .project-composite__site,
+  .kage-home .hybrid-project__visual:is(:hover, :focus-visible) .project-composite__site {
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  /* Three equal mobile previews. The overlap is deliberate, the sizes are not. */
+  .kage-home .kage-hero .hybrid-hero__stage {
+    min-height: max(780px, 88svh) !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__collage {
+    inset: 35% 0 2% 0 !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--1,
+  .kage-home .kage-hero .hybrid-hero__case--2,
+  .kage-home .kage-hero .hybrid-hero__case--3 {
+    width: 74% !important;
+    aspect-ratio: 1.6 !important;
+    border-radius: 7px !important;
+    box-shadow: 0 14px 30px -22px rgba(0, 0, 0, 0.62) !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--1 {
+    top: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 13% !important;
+    transform: none !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--2 {
+    top: 30% !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--3 {
+    top: 60% !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
+
+  .kage-home .hybrid-project__visual--koverta,
+  .kage-home .hybrid-project__visual--derat,
+  .kage-home .hybrid-project__visual--mojplot,
+  .kage-home .hybrid-project__visual--webko {
+    aspect-ratio: 1.6 !important;
+    border-radius: 7px !important;
+  }
+
+  /* Remove the oversized tail after the fourth flow step. */
+  .kage-home .kage-flow,
+  .kage-home .hybrid-flow.kage-flow {
+    height: auto !important;
+    padding: 4rem 0 0.9rem !important;
+  }
+
+  .kage-home .hybrid-flow__mobile article {
+    padding: 1.65rem 0 !important;
+  }
+
+  .kage-home .hybrid-flow__mobile article:last-child {
+    padding-bottom: 0.75rem !important;
+    border-bottom: 0 !important;
+  }
+
+  .kage-home .hybrid-flow__mobile h3 {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .kage-home .hybrid-flow__mobile p {
+    margin-bottom: 1rem !important;
+  }
+
+  /* Limit repaints to the individual screenshot frames. */
+  .kage-home .hybrid-hero__case,
+  .kage-home .hybrid-project__visual {
+    contain: paint;
+  }
+}
+
+@media (max-width: 430px) {
+  .kage-home .kage-hero .hybrid-hero__stage {
+    min-height: 760px !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__collage {
+    inset: 36% 0 2% 0 !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--1,
+  .kage-home .kage-hero .hybrid-hero__case--2,
+  .kage-home .kage-hero .hybrid-hero__case--3 {
+    width: 76% !important;
+  }
+
+  .kage-home .kage-hero .hybrid-hero__case--1 {
+    left: 12% !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kage-home .project-composite__site,
+  .kage-home .hybrid-hero__case,
+  .kage-home .hybrid-flow__mobile article {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
