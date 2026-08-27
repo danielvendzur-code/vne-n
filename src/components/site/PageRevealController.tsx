@@ -6,7 +6,7 @@ const REVEAL_TARGETS = [
   ".kage-home .hybrid-work__intro > *",
   ".kage-home .hybrid-work__grid > article",
   ".kage-home .hybrid-work__footer",
-  ".kage-home .hybrid-manifesto__inner > *",
+  ".kage-home .hybrid-manifesto__inner > .section-index",
   ".kage-home .hybrid-manifesto__inner h2 em",
   ".kage-home .outcome-comparison__intro > *",
   ".kage-home .outcome-comparison__group",
@@ -28,13 +28,10 @@ const REVEAL_TARGETS = [
   ".privacy-page .cookies-card",
 ].join(",");
 
-type ScrollDirection = "down" | "up";
-
-type RevealMeta = {
-  downPasses: number;
-  upPasses: number;
+type RevealPass = {
+  down: number;
+  up: number;
   inside: boolean;
-  activeAnimation: Animation | null;
 };
 
 const siblingIndex = (element: HTMLElement) =>
@@ -46,17 +43,16 @@ const revealState = (element: HTMLElement, compactViewport: boolean) => {
   const isProcess = element.matches(".hybrid-process__list > li");
   const isSolution = element.matches(".hybrid-tool");
   const isManifestoAccent = element.matches(".hybrid-manifesto__inner h2 em");
-  const isOutcome = element.matches(".outcome-comparison__group");
-  const isRow = element.matches("li, article, .hybrid-tool");
   const isFeatureGroup = element.matches(
     ".outcome-comparison__group, .hybrid-price__grid > *, .hybrid-final__body > *",
   );
+  const isRow = element.matches("li, article, .hybrid-tool");
 
   if (isManifestoAccent) {
     return {
-      opacity: compactViewport ? 0.34 : 0.16,
-      transform: `translate3d(0, ${compactViewport ? 7 : 11}px, 0)`,
-      duration: compactViewport ? 330 : 390,
+      opacity: compactViewport ? 0.42 : 0.24,
+      transform: `translate3d(0, ${compactViewport ? 6 : 9}px, 0)`,
+      duration: compactViewport ? 320 : 380,
     };
   }
 
@@ -66,284 +62,223 @@ const revealState = (element: HTMLElement, compactViewport: boolean) => {
       : isSolution
         ? 22
         : isProcess
-          ? 20
-          : isOutcome
-            ? 18
-            : isRow
-              ? 15
-              : 11
+          ? 19
+          : isRow
+            ? 15
+            : 10
     : isProject
-      ? 46
+      ? 44
       : isSolution
         ? 34
         : isProcess
-          ? 30
-          : isOutcome
-            ? 28
-            : isRow
-              ? 22
-              : 17;
-
-  const scale = isProject ? 0.982 : isFeatureGroup ? 0.991 : 1;
+          ? 29
+          : isRow
+            ? 22
+            : 16;
 
   return {
     opacity: compactViewport
       ? isProject
-        ? 0.28
-        : isSolution
-          ? 0.3
-          : isProcess
-            ? 0.38
-            : isHeading
-              ? 0.4
-              : isRow
-                ? 0.46
-                : 0.58
+        ? 0.3
+        : isHeading
+          ? 0.42
+          : isSolution
+            ? 0.3
+            : isRow
+              ? 0.46
+              : 0.58
       : isProject
-        ? 0.12
-        : isSolution
-          ? 0.16
-          : isProcess
-            ? 0.24
-            : isHeading
-              ? 0.26
-              : isRow
-                ? 0.34
-                : 0.5,
-    transform:
-      scale === 1
-        ? `translate3d(0, ${verticalDistance}px, 0)`
-        : `translate3d(0, ${verticalDistance}px, 0) scale(${scale})`,
+        ? 0.14
+        : isHeading
+          ? 0.28
+          : isSolution
+            ? 0.18
+            : isRow
+              ? 0.36
+              : 0.52,
+    transform: isFeatureGroup || isProject
+      ? `translate3d(0, ${verticalDistance}px, 0) scale(${isProject ? 0.982 : 0.994})`
+      : `translate3d(0, ${verticalDistance}px, 0)`,
     duration: compactViewport
       ? isProject
-        ? 610
-        : isSolution
-          ? 570
-          : isProcess
-            ? 540
-            : isHeading
+        ? 620
+        : isHeading
+          ? 540
+          : isSolution
+            ? 590
+            : isRow
               ? 520
-              : isRow
-                ? 500
-                : 460
+              : 470
       : isProject
         ? 760
-        : isSolution
-          ? 690
-          : isProcess
-            ? 650
-            : isHeading
-              ? 620
-              : isRow
-                ? 590
-                : 540,
+        : isHeading
+          ? 650
+          : isSolution
+            ? 700
+            : isRow
+              ? 610
+              : 550,
   };
 };
 
 const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
-  const delayScale = compactViewport ? 0.68 : 1;
+  const delayScale = compactViewport ? 0.65 : 1;
 
   if (element.matches(".hybrid-work__grid > article")) {
-    return siblingIndex(element) * 95 * delayScale;
+    return siblingIndex(element) * 90 * delayScale;
   }
   if (element.matches(".hybrid-tool")) {
-    return siblingIndex(element) * 62 * delayScale;
+    return siblingIndex(element) * 65 * delayScale;
   }
   if (element.matches(".hybrid-process__list > li")) {
-    return siblingIndex(element) * 72 * delayScale;
+    return siblingIndex(element) * 70 * delayScale;
   }
   if (element.matches(".outcome-comparison__group")) {
     return siblingIndex(element) * 100 * delayScale;
   }
   if (element.matches(".outcome-comparison__group li")) {
-    return siblingIndex(element) * 52 * delayScale;
+    return siblingIndex(element) * 50 * delayScale;
   }
   if (element.matches(".hybrid-manifesto__inner h2 em")) {
-    const accents = Array.from(
-      element.parentElement?.querySelectorAll<HTMLElement>("em") ?? [],
-    );
-    return Math.max(0, accents.indexOf(element)) * 82 * delayScale;
+    return siblingIndex(element) * 75 * delayScale;
   }
   return 0;
 };
 
-/**
- * Progressive enhancement for page entrances.
- *
- * Home sections get two visible downward passes. Returning upward gets a much
- * smaller motion cue, also capped at two passes. The observer remains attached
- * instead of permanently unobserving an element after its first entrance.
- */
+/** Two visible downward passes and restrained upward feedback. */
 export function PageRevealController({ pathname }: { pathname: string }) {
   useEffect(() => {
     let removeReveal: (() => void) | undefined;
-    let installFrame = 0;
-    let installAttempts = 0;
 
     const installReveal = () => {
       const root = document.querySelector<HTMLElement>(".page-transition");
       if (!root) return undefined;
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const compactViewport = window.matchMedia("(max-width: 720px)").matches;
+      const mobileViewport = window.matchMedia("(max-width: 720px)").matches;
       const supportsReveal =
         !reducedMotion &&
         typeof IntersectionObserver !== "undefined" &&
         typeof Element.prototype.animate === "function";
 
-      if (!supportsReveal) return () => undefined;
+      if (!supportsReveal) return undefined;
 
-      const observed = new Set<HTMLElement>();
-      const states = new Map<HTMLElement, ReturnType<typeof revealState>>();
-      const metadata = new Map<HTMLElement, RevealMeta>();
+      const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
+        (element) =>
+          !element.closest('[aria-hidden="true"]') && element.getAttribute("aria-hidden") !== "true",
+      );
+
+      if (candidates.length === 0) return undefined;
+
       const animations = new Set<Animation>();
+      const states = new Map(
+        candidates.map((element) => [element, revealState(element, mobileViewport)]),
+      );
+      const passes = new Map<HTMLElement, RevealPass>(
+        candidates.map((element) => [element, { down: 0, up: 0, inside: false }]),
+      );
       let lastScrollY = window.scrollY;
-      let direction: ScrollDirection = "down";
+      let scrollDirection: "down" | "up" = "down";
 
-      const onScroll = () => {
+      const trackScrollDirection = () => {
         const nextScrollY = window.scrollY;
-        if (nextScrollY > lastScrollY + 2) direction = "down";
-        else if (nextScrollY < lastScrollY - 2) direction = "up";
+        if (nextScrollY > lastScrollY + 2) scrollDirection = "down";
+        if (nextScrollY < lastScrollY - 2) scrollDirection = "up";
         lastScrollY = nextScrollY;
       };
 
-      const registerAnimation = (element: HTMLElement, animation: Animation) => {
-        const meta = metadata.get(element);
-        if (meta) {
-          meta.activeAnimation?.cancel();
-          meta.activeAnimation = animation;
-        }
+      const registerAnimation = (animation: Animation) => {
         animations.add(animation);
         void animation.finished
           .then(() => {
             animations.delete(animation);
-            const currentMeta = metadata.get(element);
-            if (currentMeta?.activeAnimation === animation) currentMeta.activeAnimation = null;
           })
           .catch(() => {
             animations.delete(animation);
-            const currentMeta = metadata.get(element);
-            if (currentMeta?.activeAnimation === animation) currentMeta.activeAnimation = null;
           });
-      };
-
-      const playDownReveal = (element: HTMLElement, meta: RevealMeta) => {
-        const state = states.get(element) ?? revealState(element, compactViewport);
-        const secondPass = meta.downPasses === 1;
-        const animation = element.animate(
-          [
-            { opacity: state.opacity, transform: state.transform },
-            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
-          ],
-          {
-            duration: Math.round(state.duration * (secondPass ? 0.84 : 1)),
-            delay: Math.round(revealDelay(element, compactViewport) * (secondPass ? 0.72 : 1)),
-            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-            fill: "none",
-          },
-        );
-        registerAnimation(element, animation);
-        meta.downPasses += 1;
-      };
-
-      const playUpCue = (element: HTMLElement, meta: RevealMeta) => {
-        const distance = compactViewport ? 4 : 7;
-        const animation = element.animate(
-          [
-            { opacity: 0.9, transform: `translate3d(0, -${distance}px, 0) scale(0.997)` },
-            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
-          ],
-          {
-            duration: compactViewport ? 230 : 290,
-            delay: Math.round(revealDelay(element, compactViewport) * 0.18),
-            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-            fill: "none",
-          },
-        );
-        registerAnimation(element, animation);
-        meta.upPasses += 1;
       };
 
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             const element = entry.target as HTMLElement;
-            const meta = metadata.get(element);
-            if (!meta) return;
+            const pass = passes.get(element);
+            if (!pass) return;
 
             if (!entry.isIntersecting) {
-              meta.inside = false;
+              pass.inside = false;
               return;
             }
-            if (meta.inside) return;
-            meta.inside = true;
+            if (pass.inside) return;
+            pass.inside = true;
 
-            if (direction === "down" && meta.downPasses < 2) {
-              playDownReveal(element, meta);
+            if (scrollDirection === "down" && pass.down < 2) {
+              const state = states.get(element) ?? revealState(element, mobileViewport);
+              const animation = element.animate(
+                [
+                  { opacity: state.opacity, transform: state.transform },
+                  { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
+                ],
+                {
+                  duration: pass.down === 0 ? state.duration : Math.round(state.duration * 0.84),
+                  delay: pass.down === 0 ? revealDelay(element, mobileViewport) : 0,
+                  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                  fill: "none",
+                },
+              );
+              pass.down += 1;
+              registerAnimation(animation);
               return;
             }
-            if (direction === "up" && meta.upPasses < 2) {
-              playUpCue(element, meta);
+
+            if (scrollDirection === "up" && pass.up < 2) {
+              const distance = mobileViewport ? 4 : 7;
+              const animation = element.animate(
+                [
+                  {
+                    opacity: 0.9,
+                    transform: `translate3d(0, -${distance}px, 0) scale(0.997)`,
+                  },
+                  { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
+                ],
+                {
+                  duration: mobileViewport ? 230 : 290,
+                  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                  fill: "none",
+                },
+              );
+              pass.up += 1;
+              registerAnimation(animation);
             }
           });
         },
         {
           threshold: 0.08,
-          // A negative bottom margin makes the entrance happen while the user
-          // can actually see it instead of finishing below the viewport.
           rootMargin: "0px 0px -9% 0px",
         },
       );
 
-      const isEligible = (element: HTMLElement) =>
-        !element.closest('[aria-hidden="true"]') && element.getAttribute("aria-hidden") !== "true";
-
-      const scan = () => {
-        Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).forEach((element) => {
-          if (observed.has(element) || !isEligible(element)) return;
-          observed.add(element);
-          states.set(element, revealState(element, compactViewport));
-          metadata.set(element, {
-            downPasses: 0,
-            upPasses: 0,
-            inside: false,
-            activeAnimation: null,
-          });
-          element.dataset.motionReveal = "staged";
-          observer.observe(element);
-        });
-      };
-
-      const contentObserver = new MutationObserver(scan);
-      contentObserver.observe(root, { childList: true, subtree: true });
-      scan();
-      window.addEventListener("scroll", onScroll, { passive: true });
+      candidates.forEach((element) => {
+        element.dataset.motionReveal = "staged";
+        observer.observe(element);
+      });
+      window.addEventListener("scroll", trackScrollDirection, { passive: true });
 
       return () => {
-        contentObserver.disconnect();
         observer.disconnect();
-        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("scroll", trackScrollDirection);
         animations.forEach((animation) => animation.cancel());
         animations.clear();
-        observed.forEach((element) => delete element.dataset.motionReveal);
-        observed.clear();
-        states.clear();
-        metadata.clear();
+        candidates.forEach((element) => delete element.dataset.motionReveal);
       };
     };
 
-    const tryInstall = () => {
+    const installationTimer = window.setTimeout(() => {
       removeReveal = installReveal();
-      if (!removeReveal && installAttempts < 12) {
-        installAttempts += 1;
-        installFrame = window.requestAnimationFrame(tryInstall);
-      }
-    };
-
-    tryInstall();
+    }, 120);
 
     return () => {
-      if (installFrame !== 0) window.cancelAnimationFrame(installFrame);
+      window.clearTimeout(installationTimer);
       removeReveal?.();
     };
   }, [pathname]);
