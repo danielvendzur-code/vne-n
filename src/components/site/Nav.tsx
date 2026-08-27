@@ -106,6 +106,8 @@ export function Nav() {
     setOpen(false);
   }, [pathname]);
 
+  const brandHref = pathname === "/" ? "#" : "/";
+
   return (
     <>
       <div className="site-header-spacer" aria-hidden="true" />
@@ -117,7 +119,7 @@ export function Nav() {
         data-adaptive={adaptiveHome ? "true" : "false"}
       >
         <div className="site-header__inner container-page">
-          <a href="/" className="site-brand-lockup" aria-label="Môj Chatbot — domov">
+          <a href={brandHref} className="site-brand-lockup" aria-label="Môj Chatbot — domov">
             <BrandMark size={34} />
             <span className="site-brand-name">Môj Chatbot</span>
           </a>
@@ -161,7 +163,7 @@ export function Nav() {
         >
           <div className="site-menu-head">
             <a
-              href="/"
+              href={brandHref}
               className="site-brand-lockup"
               onClick={closeMenu}
               aria-label="Môj Chatbot — domov"
