@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import {
+  animate,
   motion,
   useMotionValueEvent,
   useReducedMotion,
@@ -30,29 +31,29 @@ const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
       {
         index: "01",
         label: "OTÁZKA",
-        title: "Zákazník sa jednoducho opýta.",
-        copy: "Napíše, čo potrebuje – rovnako ako v bežnej správe.",
+        title: "Návštevník napíše, čo potrebuje.",
+        copy: "Začne obyčajnou otázkou priamo na vašom webe.",
         artifact: "Dobrý deň, čo by ste mi odporučili?",
       },
       {
         index: "02",
         label: "DOPLNENIE",
-        title: "Chatbot doplní, čo chýba.",
-        copy: "Spýta sa iba na údaje, bez ktorých neviete dobre poradiť.",
+        title: "Web sa spýta na dôležité údaje.",
+        copy: "Doplní iba informácie potrebné na správnu odpoveď.",
         artifact: "Typ služby / miesto / termín",
       },
       {
         index: "03",
         label: "ODPOVEĎ",
-        title: "Dá jasnú odpoveď.",
-        copy: "Vysvetlí možnosti podľa vašej ponuky a ukáže ďalší krok.",
+        title: "Návštevník dostane jasnú odpoveď.",
+        copy: "Hneď vie, aké má možnosti a čo môže urobiť ďalej.",
         artifact: "Odpoveď / možnosti / ďalší krok",
       },
       {
         index: "04",
         label: "DOPYT",
-        title: "Pošle vám pripravený dopyt.",
-        copy: "Kontakt príde spolu s tým, čo zákazník rieši a čo už doplnil.",
+        title: "Vy dostanete pripravený kontakt.",
+        copy: "Spolu s kontaktom príde aj zhrnutie celej požiadavky.",
         artifact: "Kontakt + zhrnutie požiadavky",
       },
     ],
@@ -63,29 +64,29 @@ const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
       {
         index: "01",
         label: "ZAČIATOK",
-        title: "Zákazník chce vedieť cenu.",
-        copy: "Výpočet začne priamo na webe bez telefonátu alebo čakania na ponuku.",
+        title: "Návštevník chce poznať cenu.",
+        copy: "Výpočet začne hneď, bez telefonátu alebo čakania.",
         artifact: "Koľko to bude približne stáť?",
       },
       {
         index: "02",
         label: "ÚDAJE",
-        title: "Vyberie, čo cenu mení.",
-        copy: "Napríklad rozmer, množstvo, variant, montáž alebo doplnky.",
+        title: "Zadá niekoľko jednoduchých údajov.",
+        copy: "Vyberie rozmer, množstvo, variant alebo potrebné doplnky.",
         artifact: "Rozmer / množstvo / variant",
       },
       {
         index: "03",
         label: "VÝPOČET",
-        title: "Web použije vaše pravidlá.",
-        copy: "Cenník a podmienky premeníme na výpočet, ktorý zákazník zvládne sám.",
+        title: "Web cenu prepočíta.",
+        copy: "Použije váš cenník a pravidlá, ktoré už vo firme máte.",
         artifact: "Vaše pravidlá + váš cenník",
       },
       {
         index: "04",
         label: "VÝSLEDOK",
-        title: "Ukáže odhad a ďalší krok.",
-        copy: "Zákazník vie, s čím približne počítať, a môže rovno odoslať dopyt.",
+        title: "Ukáže výsledok a ďalší krok.",
+        copy: "Návštevník vie, s čím počítať, a môže rovno odoslať dopyt.",
         artifact: "Odhad ceny + pripravený dopyt",
       },
     ],
@@ -96,29 +97,29 @@ const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
       {
         index: "01",
         label: "VÝBER",
-        title: "Zákazník si vyberie, čo chce.",
-        copy: "Začne jednoduchým výberom namiesto preklikávania celej ponuky.",
+        title: "Návštevník si vyberie, čo hľadá.",
+        copy: "Začne jednoduchou voľbou namiesto preklikávania celej ponuky.",
         artifact: "Čo potrebujem?",
       },
       {
         index: "02",
         label: "MOŽNOSTI",
-        title: "Vidí len dostupné možnosti.",
-        copy: "Rozmery, modely, farby alebo doplnky ukážeme v správnom poradí.",
+        title: "Web ukáže vhodné možnosti.",
+        copy: "Rozmery, modely, farby a doplnky zobrazí v správnom poradí.",
         artifact: "Len možnosti, ktoré viete dodať",
       },
       {
         index: "03",
         label: "KONTROLA",
-        title: "Nevhodné kombinácie sa vyradia.",
-        copy: "Zákazník sa nedostane k variante, ktorý sa nedá objednať alebo vyrobiť.",
+        title: "Skontroluje celý výber.",
+        copy: "Nedovolí zvoliť kombináciu, ktorú neviete dodať alebo vyrobiť.",
         artifact: "Kontrola kombinácií",
       },
       {
         index: "04",
         label: "ZOSTAVA",
-        title: "Hotovú zostavu pošle vám.",
-        copy: "Spolu s kontaktom dostanete presne to, čo si zákazník vybral.",
+        title: "Hotovú zostavu odošle vám.",
+        copy: "Spolu s kontaktom dostanete presný výber návštevníka.",
         artifact: "Zostava + kontakt",
       },
     ],
@@ -325,14 +326,111 @@ function FlowStory() {
   const [activeStage, setActiveStage] = useState(0);
   const stages = flowModes[mode].stages;
   const ref = useRef<HTMLElement>(null);
+  const snapTimerRef = useRef<number | null>(null);
+  const snapAnimationRef = useRef<{ stop: () => void } | null>(null);
+  const settlingRef = useRef(false);
+  const userScrollingRef = useRef(false);
+  const progressRef = useRef(0);
+  const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const lineScale = useTransform(scrollYProgress, [0, 1], [0.03, 1]);
   const trackX = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   useMotionValueEvent(scrollYProgress, "change", (value) => {
+    progressRef.current = value;
     const next = Math.min(stages.length - 1, Math.round(value * (stages.length - 1)));
     setActiveStage((current) => (current === next ? current : next));
+
+    if (
+      reducedMotion ||
+      settlingRef.current ||
+      !userScrollingRef.current ||
+      window.matchMedia("(max-width: 760px)").matches
+    ) {
+      return;
+    }
+
+    if (snapTimerRef.current !== null) window.clearTimeout(snapTimerRef.current);
+    snapTimerRef.current = window.setTimeout(() => {
+      const section = ref.current;
+      if (!section) return;
+
+      const stageCount = stages.length - 1;
+      const scrollRange = Math.max(0, section.offsetHeight - window.innerHeight);
+      const sectionStart = section.offsetTop;
+      const sectionEnd = sectionStart + scrollRange;
+      if (window.scrollY < sectionStart - 2 || window.scrollY > sectionEnd + 2) {
+        userScrollingRef.current = false;
+        return;
+      }
+
+      const scaledProgress = progressRef.current * stageCount;
+      const lowerStage = Math.floor(scaledProgress);
+      const targetStage = Math.min(
+        stageCount,
+        scaledProgress - lowerStage >= 0.5 ? lowerStage + 1 : lowerStage,
+      );
+      const targetY = sectionStart + (targetStage / stageCount) * scrollRange;
+
+      if (Math.abs(window.scrollY - targetY) < 3) {
+        userScrollingRef.current = false;
+        setActiveStage(targetStage);
+        return;
+      }
+
+      settlingRef.current = true;
+      snapAnimationRef.current?.stop();
+      snapAnimationRef.current = animate(window.scrollY, targetY, {
+        duration: 0.78,
+        ease: [0.22, 1, 0.36, 1],
+        onUpdate: (position) => window.scrollTo(0, position),
+        onComplete: () => {
+          settlingRef.current = false;
+          userScrollingRef.current = false;
+          setActiveStage(targetStage);
+        },
+      });
+    }, 190);
   });
+
+  useEffect(() => {
+    const cancelSnap = () => {
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
+        snapTimerRef.current = null;
+      }
+      if (settlingRef.current) {
+        snapAnimationRef.current?.stop();
+        settlingRef.current = false;
+      }
+    };
+    const beginUserScroll = () => {
+      cancelSnap();
+      const section = ref.current;
+      if (!section) return;
+      const sectionEnd = section.offsetTop + Math.max(0, section.offsetHeight - window.innerHeight);
+      userScrollingRef.current =
+        window.scrollY >= section.offsetTop - 2 && window.scrollY <= sectionEnd + 2;
+    };
+    const cancelSnapFromKey = (event: KeyboardEvent) => {
+      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+        beginUserScroll();
+      }
+    };
+
+    window.addEventListener("wheel", beginUserScroll, { passive: true });
+    window.addEventListener("touchstart", beginUserScroll, { passive: true });
+    window.addEventListener("keydown", cancelSnapFromKey);
+
+    return () => {
+      cancelSnap();
+      userScrollingRef.current = false;
+      snapAnimationRef.current?.stop();
+      window.removeEventListener("wheel", beginUserScroll);
+      window.removeEventListener("touchstart", beginUserScroll);
+      window.removeEventListener("keydown", cancelSnapFromKey);
+    };
+  }, []);
 
   return (
     <section
@@ -384,7 +482,7 @@ function FlowStory() {
                       aria-hidden="true"
                       animate={{
                         y: index === activeStage ? 0 : 22,
-                        rotate: index === activeStage ? -0.65 : 1.4,
+                        rotate: 0,
                         scale: index === activeStage ? 1 : 0.985,
                       }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -429,8 +527,8 @@ function FlowStory() {
         {stages.map((item, index) => (
           <motion.article
             key={`${mode}-${item.index}`}
-            initial={{ x: index % 2 === 0 ? -34 : 34 }}
-            whileInView={{ x: 0 }}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.34 }}
             transition={{ duration: 0.82, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
           >

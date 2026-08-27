@@ -9,6 +9,7 @@ import { PageRevealController } from "./PageRevealController";
 import "./Rebrand.css";
 import "./RebrandPages.css";
 import "./SubpagePolish.css";
+import "./RequestedAugustPolish.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });

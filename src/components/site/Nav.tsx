@@ -9,10 +9,10 @@ type NavTone = "dark" | "light";
 
 const desktopLinks = [
   { label: "Riešenia", href: "/#riesenia" },
-  { label: "Pre e-shopy", href: "/#pre-eshopy" },
   { label: "Realizácie", href: "/#realizacie" },
   { label: "Ako to funguje", href: "/#ako-to-funguje" },
   { label: "Cena", href: "/#cena" },
+  { label: "Kontakt", href: "/kontakt" },
 ];
 
 const mobileLinks = [

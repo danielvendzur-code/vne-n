@@ -30,18 +30,32 @@ const REVEAL_TARGETS = [
 const revealState = (element: HTMLElement) => {
   const isHeading = /^H[1-3]$/.test(element.tagName);
   const isRow = element.matches("li, article, .hybrid-tool");
+  const isSolution = element.matches(".hybrid-tool");
   const isFeatureGroup = element.matches(
     ".outcome-comparison__group, .hybrid-price__grid > *, .hybrid-final__body > *",
   );
-  const verticalDistance = isRow ? 14 : 12;
+  const verticalDistance = isSolution ? 24 : isRow ? 16 : 12;
 
   return {
-    opacity: isHeading ? 0.34 : isRow ? 0.48 : 0.56,
+    opacity: isHeading ? 0.3 : isSolution ? 0.18 : isRow ? 0.4 : 0.52,
     transform: isFeatureGroup
       ? `translate3d(0, ${verticalDistance}px, 0) scale(0.994)`
       : `translate3d(0, ${verticalDistance}px, 0)`,
-    duration: isHeading ? 760 : isRow ? 680 : 640,
+    duration: isHeading ? 780 : isSolution ? 760 : isRow ? 700 : 650,
   };
+};
+
+const revealDelay = (element: HTMLElement) => {
+  if (element.matches(".hybrid-tool")) {
+    return Math.max(0, Array.from(element.parentElement?.children ?? []).indexOf(element)) * 70;
+  }
+  if (element.matches(".outcome-comparison__group")) {
+    return Math.max(0, Array.from(element.parentElement?.children ?? []).indexOf(element)) * 110;
+  }
+  if (element.matches(".outcome-comparison__group li")) {
+    return Math.max(0, Array.from(element.parentElement?.children ?? []).indexOf(element)) * 55;
+  }
+  return 0;
 };
 
 /** Calm desktop entrances. Mobile stays static to keep touch scrolling cheap. */
@@ -93,7 +107,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
             ],
             {
               duration: state.duration,
-              delay: 0,
+              delay: revealDelay(element),
               easing: "cubic-bezier(0.16, 1, 0.3, 1)",
               fill: "none",
             },
@@ -115,12 +129,16 @@ export function PageRevealController({ pathname }: { pathname: string }) {
       },
     );
 
-    candidates.forEach((element) => observer.observe(element));
+    candidates.forEach((element) => {
+      element.dataset.motionReveal = "staged";
+      observer.observe(element);
+    });
 
     return () => {
       observer.disconnect();
       animations.forEach((animation) => animation.cancel());
       animations.clear();
+      candidates.forEach((element) => delete element.dataset.motionReveal);
     };
   }, [pathname]);
 
