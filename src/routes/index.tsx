@@ -6,6 +6,7 @@ import "@/components/site/ResponsiveMediaHeaderFinal.css";
 import "@/components/site/HeaderCascadeGuard.css";
 import "@/components/site/MobileSmoothnessMediaFinal.css";
 import "@/components/site/RequestedAugustHome.css";
+import "@/components/site/RequestedAugustDelta.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
