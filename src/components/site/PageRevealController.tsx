@@ -96,9 +96,10 @@ const revealState = (element: HTMLElement, compactViewport: boolean) => {
             : isRow
               ? 0.36
               : 0.52,
-    transform: isFeatureGroup || isProject
-      ? `translate3d(0, ${verticalDistance}px, 0) scale(${isProject ? 0.982 : 0.994})`
-      : `translate3d(0, ${verticalDistance}px, 0)`,
+    transform:
+      isFeatureGroup || isProject
+        ? `translate3d(0, ${verticalDistance}px, 0) scale(${isProject ? 0.982 : 0.994})`
+        : `translate3d(0, ${verticalDistance}px, 0)`,
     duration: compactViewport
       ? isProject
         ? 620
@@ -165,7 +166,8 @@ export function PageRevealController({ pathname }: { pathname: string }) {
 
       const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
         (element) =>
-          !element.closest('[aria-hidden="true"]') && element.getAttribute("aria-hidden") !== "true",
+          !element.closest('[aria-hidden="true"]') &&
+          element.getAttribute("aria-hidden") !== "true",
       );
 
       if (candidates.length === 0) return undefined;
