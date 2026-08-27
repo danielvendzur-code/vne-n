@@ -220,7 +220,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
                   { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
                 ],
                 {
-                  duration: pass.down === 0 ? state.duration : Math.round(state.duration * 0.84),
+                  duration: state.duration,
                   delay: pass.down === 0 ? revealDelay(element, mobileViewport) : 0,
                   easing: "cubic-bezier(0.16, 1, 0.3, 1)",
                   fill: "none",
