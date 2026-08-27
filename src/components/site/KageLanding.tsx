@@ -381,7 +381,7 @@ function FlowStory() {
       settlingRef.current = true;
       snapAnimationRef.current?.stop();
       snapAnimationRef.current = animate(window.scrollY, targetY, {
-        duration: 0.78,
+        duration: 0.48,
         ease: [0.22, 1, 0.36, 1],
         onUpdate: (position) => window.scrollTo(0, position),
         onComplete: () => {
@@ -390,7 +390,7 @@ function FlowStory() {
           setActiveStage(targetStage);
         },
       });
-    }, 190);
+    }, 90);
   });
 
   useEffect(() => {
@@ -485,7 +485,7 @@ function FlowStory() {
                         rotate: 0,
                         scale: index === activeStage ? 1 : 0.985,
                       }}
-                      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <span>
                         {flowModes[mode].label.toUpperCase()} / {stage.index}
@@ -712,7 +712,7 @@ function Process() {
       </div>
       <ol className="container-page hybrid-process__list">
         {process.map(([index, title, copy]) => (
-          <li key={index}>
+          <li key={index} style={{ boxShadow: "none" }}>
             <span>{index}</span>
             <strong>{title}</strong>
             <p>{copy}</p>
@@ -846,8 +846,9 @@ export function KageLanding() {
             <b>03</b> ČO TO ZMENÍ
           </span>
           <h2 id="hybrid-manifesto-title">
-            Web môže <em>odpovedať.</em> Môže <em>vypočítať cenu.</em> Môže{" "}
-            <em>pomôcť s výberom.</em>
+            Web môže <em style={{ display: "inline-block" }}>odpovedať.</em> Môže{" "}
+            <em style={{ display: "inline-block" }}>vypočítať cenu.</em> Môže{" "}
+            <em style={{ display: "inline-block" }}>pomôcť s výberom.</em>
           </h2>
         </div>
       </section>
