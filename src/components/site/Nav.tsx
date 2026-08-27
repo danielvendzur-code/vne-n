@@ -17,11 +17,12 @@ const desktopLinks = [
 
 const mobileLinks = [
   { index: "01", label: "Riešenia", href: "/#riesenia" },
-  { index: "02", label: "Pre e-shopy", href: "/#pre-eshopy" },
-  { index: "03", label: "Realizácie", href: "/#realizacie" },
-  { index: "04", label: "Proces", href: "/#proces" },
-  { index: "05", label: "Cena", href: "/#cena" },
-  { index: "06", label: "Kontakt", to: "/kontakt" as const },
+  { index: "02", label: "Realizácie", href: "/#realizacie" },
+  { index: "03", label: "Ako to funguje", href: "/#ako-to-funguje" },
+  { index: "04", label: "Výsledok", href: "/#pre-eshopy" },
+  { index: "05", label: "Proces", href: "/#proces" },
+  { index: "06", label: "Cena", href: "/#cena" },
+  { index: "07", label: "Kontakt", to: "/kontakt" as const },
 ];
 
 function sectionTone(section: HTMLElement | undefined): NavTone | null {
@@ -106,11 +107,11 @@ export function Nav() {
     setOpen(false);
   }, [pathname]);
 
-  const brandHref = pathname === "/" ? "#" : "/";
+  const brandHref = pathname === "/" ? "#page-top" : "/#page-top";
 
   return (
     <>
-      <div className="site-header-spacer" aria-hidden="true" />
+      <div id="page-top" className="site-header-spacer" aria-hidden="true" />
       <header
         ref={headerRef}
         className="site-header"
@@ -119,7 +120,7 @@ export function Nav() {
         data-adaptive={adaptiveHome ? "true" : "false"}
       >
         <div className="site-header__inner container-page">
-          <a href={brandHref} className="site-brand-lockup" aria-label="Môj Chatbot — domov">
+          <a href={brandHref} className="site-brand-lockup" aria-label="Môj Chatbot — naspäť hore">
             <BrandMark size={34} />
             <span className="site-brand-name">Môj Chatbot</span>
           </a>
@@ -166,7 +167,7 @@ export function Nav() {
               href={brandHref}
               className="site-brand-lockup"
               onClick={closeMenu}
-              aria-label="Môj Chatbot — domov"
+              aria-label="Môj Chatbot — naspäť hore"
             >
               <BrandMark size={34} />
               <span className="site-brand-name">Môj Chatbot</span>
