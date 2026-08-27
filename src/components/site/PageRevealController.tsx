@@ -68,10 +68,10 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
 
   if (isProject) {
     return {
-      opacity: compactViewport ? 0.1 : 0.04,
-      transform: `translate3d(0, ${compactViewport ? 54 : 74}px, 0) scale(0.965)`,
-      filter: "blur(4px) saturate(0.88)",
-      duration: compactViewport ? 820 : 980,
+      opacity: compactViewport ? 0.04 : 0,
+      transform: `translate3d(0, ${compactViewport ? 48 : 64}px, 0) scale(0.955) rotate(${compactViewport ? 0.35 : 0.65}deg)`,
+      filter: "blur(3px) saturate(0.9)",
+      duration: compactViewport ? 680 : 760,
     };
   }
 
@@ -109,7 +109,7 @@ const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
   const scale = compactViewport ? 0.72 : 1;
 
   if (element.matches(".hybrid-work__grid > article")) {
-    return siblingIndex(element) * 140 * scale;
+    return siblingIndex(element) * 90 * scale;
   }
   if (element.matches(".hybrid-tool")) {
     return siblingIndex(element) * 90 * scale;
@@ -214,6 +214,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
         if (!pass.staged || pass.down >= 2) return;
         const state = states.get(element) ?? revealState(element, compactViewport);
         const firstPass = pass.down === 0;
+        const isProject = element.matches(".hybrid-work__grid > article");
         pass.down += 1;
 
         const animation = element.animate(
@@ -226,13 +227,15 @@ export function PageRevealController({ pathname }: { pathname: string }) {
             },
             {
               opacity: 1,
-              transform: "translate3d(0, -3px, 0) scale(1.002)",
+              transform: isProject
+                ? "translate3d(0, -6px, 0) scale(1.005) rotate(-0.12deg)"
+                : "translate3d(0, -3px, 0) scale(1.002)",
               filter: "blur(0px) saturate(1)",
-              offset: 0.86,
+              offset: isProject ? 0.82 : 0.86,
             },
             {
               opacity: 1,
-              transform: "translate3d(0, 0, 0) scale(1)",
+              transform: "translate3d(0, 0, 0) scale(1) rotate(0deg)",
               filter: "blur(0px) saturate(1)",
               offset: 1,
             },
@@ -328,6 +331,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
         if (!flow) return;
         flow.querySelectorAll<HTMLElement>("[data-scroll-settle]").forEach((element) => {
           delete element.dataset.scrollSettle;
+          element.style.removeProperty("animation-duration");
         });
       };
 
@@ -346,8 +350,9 @@ export function PageRevealController({ pathname }: { pathname: string }) {
           if (!activeArtifact) return;
 
           settleLeft = !settleLeft;
+          activeArtifact.style.animationDuration = "480ms";
           activeArtifact.dataset.scrollSettle = settleLeft ? "left" : "right";
-        }, 240);
+        }, 105);
       };
 
       const onScroll = () => {
