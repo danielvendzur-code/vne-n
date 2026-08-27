@@ -59,72 +59,72 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
 
   if (isManifestoAccent) {
     return {
-      opacity: 0,
-      transform: `translate3d(0, ${compactViewport ? 9 : 14}px, 0)`,
-      filter: "blur(3px)",
-      duration: compactViewport ? 300 : 360,
+      opacity: compactViewport ? 0.08 : 0.04,
+      transform: `translate3d(0, ${compactViewport ? 7 : 10}px, 0)`,
+      filter: "blur(2px)",
+      duration: compactViewport ? 420 : 480,
     };
   }
 
   if (isProject) {
     return {
-      opacity: compactViewport ? 0.04 : 0,
-      transform: `translate3d(0, ${compactViewport ? 48 : 64}px, 0) scale(0.955) rotate(${compactViewport ? 0.35 : 0.65}deg)`,
-      filter: "blur(3px) saturate(0.9)",
-      duration: compactViewport ? 680 : 760,
+      opacity: compactViewport ? 0.08 : 0.04,
+      transform: `translate3d(0, ${compactViewport ? 26 : 38}px, 0) scale(${compactViewport ? 0.982 : 0.976})`,
+      filter: "blur(2px) saturate(0.94)",
+      duration: compactViewport ? 720 : 800,
     };
   }
 
   if (isSolution) {
     return {
-      opacity: compactViewport ? 0.14 : 0.07,
-      transform: `translate3d(0, ${compactViewport ? 38 : 52}px, 0) scale(0.985)`,
-      filter: "blur(2px)",
-      duration: compactViewport ? 700 : 820,
+      opacity: compactViewport ? 0.18 : 0.12,
+      transform: `translate3d(0, ${compactViewport ? 20 : 30}px, 0) scale(0.992)`,
+      filter: "blur(1.5px)",
+      duration: compactViewport ? 680 : 760,
     };
   }
 
   if (isProcess) {
     return {
-      opacity: compactViewport ? 0.18 : 0.1,
-      transform: `translate3d(0, ${compactViewport ? 30 : 42}px, 0)`,
-      filter: "blur(1.5px)",
-      duration: compactViewport ? 650 : 760,
+      opacity: compactViewport ? 0.22 : 0.16,
+      transform: `translate3d(0, ${compactViewport ? 16 : 24}px, 0)`,
+      filter: "blur(1px)",
+      duration: compactViewport ? 620 : 700,
     };
   }
 
-  const verticalDistance = compactViewport ? (isRow ? 20 : 14) : isRow ? 30 : 22;
+  const verticalDistance = compactViewport ? (isRow ? 14 : 10) : isRow ? 20 : 16;
 
   return {
-    opacity: compactViewport ? (isHeading ? 0.24 : isRow ? 0.3 : 0.42) : isHeading ? 0.12 : 0.22,
+    opacity: compactViewport ? (isHeading ? 0.28 : isRow ? 0.34 : 0.46) : isHeading ? 0.18 : 0.28,
     transform: isFeatureGroup
-      ? `translate3d(0, ${verticalDistance}px, 0) scale(0.985)`
+      ? `translate3d(0, ${verticalDistance}px, 0) scale(0.992)`
       : `translate3d(0, ${verticalDistance}px, 0)`,
-    filter: isHeading ? "blur(2px)" : "blur(1px)",
-    duration: compactViewport ? (isHeading ? 500 : 560) : isHeading ? 620 : 680,
+    filter: isHeading ? "blur(1.5px)" : "blur(0.8px)",
+    duration: compactViewport ? (isHeading ? 540 : 600) : isHeading ? 620 : 680,
   };
 };
 
 const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
-  const scale = compactViewport ? 0.72 : 1;
+  const scale = compactViewport ? 0.55 : 1;
 
   if (element.matches(".hybrid-work__grid > article")) {
-    return siblingIndex(element) * 90 * scale;
-  }
-  if (element.matches(".hybrid-tool")) {
-    return siblingIndex(element) * 90 * scale;
-  }
-  if (element.matches(".hybrid-process__list > li")) {
-    return siblingIndex(element) * 100 * scale;
-  }
-  if (element.matches(".outcome-comparison__group")) {
-    return siblingIndex(element) * 120 * scale;
-  }
-  if (element.matches(".outcome-comparison__group li")) {
     return siblingIndex(element) * 65 * scale;
   }
+  if (element.matches(".hybrid-tool")) {
+    return siblingIndex(element) * 60 * scale;
+  }
+  if (element.matches(".hybrid-process__list > li")) {
+    return siblingIndex(element) * 70 * scale;
+  }
+  if (element.matches(".outcome-comparison__group")) {
+    return siblingIndex(element) * 90 * scale;
+  }
+  if (element.matches(".outcome-comparison__group li")) {
+    return siblingIndex(element) * 45 * scale;
+  }
   if (element.matches(".hybrid-manifesto__inner h2 em")) {
-    return siblingIndex(element) * 95 * scale;
+    return siblingIndex(element) * 70 * scale;
   }
   return 0;
 };
@@ -214,7 +214,6 @@ export function PageRevealController({ pathname }: { pathname: string }) {
         if (!pass.staged || pass.down >= 2) return;
         const state = states.get(element) ?? revealState(element, compactViewport);
         const firstPass = pass.down === 0;
-        const isProject = element.matches(".hybrid-work__grid > article");
         pass.down += 1;
 
         const animation = element.animate(
@@ -223,27 +222,17 @@ export function PageRevealController({ pathname }: { pathname: string }) {
               opacity: state.opacity,
               transform: state.transform,
               filter: state.filter,
-              offset: 0,
             },
             {
               opacity: 1,
-              transform: isProject
-                ? "translate3d(0, -6px, 0) scale(1.005) rotate(-0.12deg)"
-                : "translate3d(0, -3px, 0) scale(1.002)",
+              transform: "translate3d(0, 0, 0) scale(1)",
               filter: "blur(0px) saturate(1)",
-              offset: isProject ? 0.82 : 0.86,
-            },
-            {
-              opacity: 1,
-              transform: "translate3d(0, 0, 0) scale(1) rotate(0deg)",
-              filter: "blur(0px) saturate(1)",
-              offset: 1,
             },
           ],
           {
             duration: state.duration,
             delay: firstPass ? revealDelay(element, compactViewport) : 0,
-            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
             fill: "both",
           },
         );
@@ -255,19 +244,19 @@ export function PageRevealController({ pathname }: { pathname: string }) {
         if (pass.up >= 2) return;
         if (pass.staged) releaseStage(element, pass);
         pass.up += 1;
-        const distance = compactViewport ? 3 : 5;
+        const distance = compactViewport ? 2 : 3;
         const animation = element.animate(
           [
             { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
             {
-              opacity: 0.95,
-              transform: `translate3d(0, -${distance}px, 0) scale(0.998)`,
+              opacity: 0.98,
+              transform: `translate3d(0, -${distance}px, 0) scale(0.999)`,
             },
             { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
           ],
           {
-            duration: compactViewport ? 230 : 290,
-            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            duration: compactViewport ? 320 : 380,
+            easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
             fill: "none",
           },
         );
