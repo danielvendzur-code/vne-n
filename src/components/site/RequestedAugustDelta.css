@@ -1,16 +1,35 @@
-/* Final delta on top of the existing Codex August work. Keep this file small and home-scoped. */
+/* Final home-only interaction delta. Keep it scoped to the Kage homepage. */
 
-/* 03 — the emphasized phrases reveal independently through PageRevealController. */
+/* 03 — fast sequential emphasis. The controller pre-stages these phrases before they enter view. */
 .kage-home .hybrid-manifesto__inner h2 em[data-motion-reveal="staged"] {
   display: inline-block;
-  will-change: transform, opacity;
+  transform-origin: left center;
+  will-change: transform, opacity, filter;
 }
 
-/* 03 flow — easier controls and a delayed, restrained settle after scrolling stops. */
+/* Header CTA — requested order: lime first, dark on hover. */
+body:has(.kage-home) .site-header__cta {
+  border-color: #c8f06a !important;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+  box-shadow: 0 10px 24px -18px rgba(200, 240, 106, 0.72);
+}
+
+body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible) {
+  border-color: #020806 !important;
+  background: #020806 !important;
+  color: #c8f06a !important;
+  box-shadow:
+    0 0 0 1px rgba(200, 240, 106, 0.22),
+    0 16px 32px -22px rgba(2, 8, 6, 0.8);
+  transform: translateY(-2px) scale(1.015) !important;
+}
+
+/* Flow controls — easier to hit and easier to understand. */
 .kage-home .hybrid-flow__modes button,
 .kage-home .hybrid-flow__mobile-modes button {
-  min-height: 42px;
-  padding-inline: 0.82rem;
+  min-height: 44px;
+  padding-inline: 0.9rem;
   cursor: pointer;
 }
 
@@ -20,55 +39,176 @@
   outline-offset: 3px;
 }
 
+/* The rubber settle is now triggered only after scrolling has stopped. */
 @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-  .kage-home .kage-flow .hybrid-flow__panel[data-active="true"] .hybrid-flow__artifact {
-    animation: kage-requested-settle 520ms cubic-bezier(0.22, 1, 0.36, 1) 230ms both;
+  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="left"] {
+    animation: kage-scroll-settle-left 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    transform-origin: 50% 54%;
+    will-change: rotate, translate;
   }
 
-  @keyframes kage-requested-settle {
+  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="right"] {
+    animation: kage-scroll-settle-right 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    transform-origin: 50% 54%;
+    will-change: rotate, translate;
+  }
+
+  @keyframes kage-scroll-settle-left {
     0% {
-      transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+      rotate: 0deg;
+      translate: 0 0;
     }
-    42% {
-      transform: translate3d(0, -2px, 0) rotate(-0.72deg) scale(1.012);
+    34% {
+      rotate: -1.25deg;
+      translate: 0 -4px;
     }
-    72% {
-      transform: translate3d(0, 0, 0) rotate(0.28deg) scale(0.998);
+    66% {
+      rotate: 0.48deg;
+      translate: 0 1px;
+    }
+    84% {
+      rotate: -0.16deg;
+      translate: 0 0;
     }
     100% {
-      transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+      rotate: 0deg;
+      translate: 0 0;
+    }
+  }
+
+  @keyframes kage-scroll-settle-right {
+    0% {
+      rotate: 0deg;
+      translate: 0 0;
+    }
+    34% {
+      rotate: 1.25deg;
+      translate: 0 -4px;
+    }
+    66% {
+      rotate: -0.48deg;
+      translate: 0 1px;
+    }
+    84% {
+      rotate: 0.16deg;
+      translate: 0 0;
+    }
+    100% {
+      rotate: 0deg;
+      translate: 0 0;
     }
   }
 }
 
-/* 04 — make the result section read as two clear transformations, not two generic cards. */
+/* 01 — clearer affordance and stronger, but stable, reveal target. */
+.kage-home .hybrid-tool {
+  position: relative;
+  transition:
+    background-color 280ms ease,
+    color 280ms ease,
+    box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kage-home .hybrid-tool:is(:hover, :focus-visible) {
+  box-shadow: inset 4px 0 0 #c8f06a;
+}
+
+.kage-home .hybrid-tool:focus-visible {
+  outline: 2px solid rgba(18, 56, 45, 0.75);
+  outline-offset: -3px;
+}
+
+.kage-home .hybrid-tool:is(:hover, :focus-visible) .hybrid-tool__cta {
+  border-color: #c8f06a;
+  background: #c8f06a;
+  color: #071b15;
+}
+
+/* Realizácie — stronger hover feedback without moving the card wrapper used by scroll reveal. */
+.kage-home .hybrid-project__visual {
+  border-radius: 12px;
+  box-shadow: 0 18px 46px -38px rgba(7, 27, 21, 0.48);
+  transition:
+    box-shadow 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 240ms ease;
+}
+
+.kage-home .hybrid-project__visual:is(:hover, :focus-visible) {
+  border-color: rgba(18, 56, 45, 0.36);
+  box-shadow: 0 30px 62px -36px rgba(7, 27, 21, 0.56);
+}
+
+.kage-home .hybrid-project__visual:focus-visible {
+  outline: 3px solid #c8f06a;
+  outline-offset: 4px;
+}
+
+.kage-home .hybrid-project__open {
+  transition:
+    opacity 220ms ease,
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+.kage-home .hybrid-project__visual:is(:hover, :focus-visible) .hybrid-project__open {
+  background: #c8f06a;
+  color: #071b15;
+}
+
+/* 04 — one clear result story per audience, stacked full-width instead of two generic cards. */
 .kage-home .outcome-comparison {
   padding-top: clamp(6.5rem, 8.5vw, 9rem);
   padding-bottom: clamp(6.5rem, 8.5vw, 9rem);
 }
 
 .kage-home .outcome-comparison__intro {
+  grid-template-columns: minmax(0, 0.78fr) minmax(18rem, 1.22fr);
+  gap: clamp(2rem, 4.5vw, 5.5rem);
+  align-items: end;
   margin-bottom: clamp(2.8rem, 4.6vw, 4.5rem);
 }
 
+.kage-home .outcome-comparison__intro > span {
+  grid-column: 1 / -1;
+  margin-bottom: -0.5rem;
+}
+
 .kage-home .outcome-comparison__intro h2 {
-  max-width: 9ch;
+  max-width: 12ch;
+  font-size: clamp(3.8rem, 5.8vw, 6.4rem);
+  line-height: 0.92;
+}
+
+.kage-home .outcome-comparison__intro p {
+  max-width: 34rem;
+  font-size: clamp(1rem, 1.18vw, 1.12rem);
+  line-height: 1.6;
 }
 
 .kage-home .outcome-comparison__grid {
-  gap: clamp(1rem, 1.8vw, 1.5rem);
+  grid-template-columns: 1fr;
+  gap: clamp(1.2rem, 2vw, 1.8rem);
   border: 0;
 }
 
 .kage-home .outcome-comparison__group,
 .kage-home .outcome-comparison__group + .outcome-comparison__group {
   min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.36fr) minmax(0, 1fr);
+  grid-template-areas:
+    "label rows"
+    "title rows"
+    "cta rows";
+  grid-template-rows: auto 1fr auto;
+  column-gap: clamp(2.5rem, 5vw, 6rem);
+  row-gap: 1.2rem;
   overflow: hidden;
-  padding: clamp(1.7rem, 2.7vw, 2.6rem);
+  padding: clamp(2rem, 3vw, 3.1rem);
   border: 1px solid rgba(18, 56, 45, 0.16);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.28);
-  box-shadow: 0 28px 60px -52px rgba(18, 56, 45, 0.45);
+  border-radius: 18px;
+  box-shadow: 0 30px 70px -56px rgba(18, 56, 45, 0.55);
 }
 
 .kage-home .outcome-comparison__group + .outcome-comparison__group {
@@ -77,61 +217,71 @@
 
 .kage-home .outcome-comparison__group[data-tone="service"] {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.18)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.16)),
     #ecebe2;
 }
 
 .kage-home .outcome-comparison__group[data-tone="shop"] {
   background:
-    linear-gradient(180deg, rgba(200, 240, 106, 0.18), rgba(200, 240, 106, 0.04)),
-    #e8eadf;
+    linear-gradient(135deg, rgba(200, 240, 106, 0.2), rgba(200, 240, 106, 0.035)),
+    #e7eadf;
 }
 
 .kage-home .outcome-comparison__group::before {
   top: 0;
-  right: 0;
+  right: auto;
   left: 0;
-  width: auto;
-  height: 3px;
+  width: 5px;
+  height: 100%;
   border-radius: 0;
   background: #12382d;
   opacity: 1;
 }
 
 .kage-home .outcome-comparison__group[data-tone="shop"]::before {
-  background: #8bad32;
+  background: #9dc43f;
 }
 
 .kage-home .outcome-comparison__group > span {
+  grid-area: label;
   width: fit-content;
-  margin-top: 0.45rem;
-  margin-bottom: 1.25rem;
-  padding: 0.48rem 0.62rem;
+  align-self: start;
+  margin: 0;
+  padding: 0.5rem 0.65rem;
   border: 1px solid rgba(18, 56, 45, 0.18);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.42);
   color: #234d40;
 }
 
 .kage-home .outcome-comparison__group h3 {
+  grid-area: title;
   max-width: 11ch;
-  margin-bottom: clamp(1.8rem, 2.8vw, 2.5rem);
-  font-size: clamp(2.5rem, 3.45vw, 3.8rem);
-  line-height: 0.96;
+  align-self: start;
+  margin: 0;
+  color: #12382d !important;
+  font-size: clamp(2.7rem, 3.7vw, 4.35rem);
+  line-height: 0.95;
 }
 
 .kage-home .outcome-comparison__group ol {
-  margin: 0 0 1.6rem;
+  grid-area: rows;
+  align-self: stretch;
+  margin: 0;
   border: 0;
 }
 
 .kage-home .outcome-comparison__group li {
-  grid-template-columns: 2.2rem minmax(0, 0.9fr) 2.25rem minmax(0, 1.12fr);
-  gap: clamp(0.65rem, 1.2vw, 1rem);
-  min-height: 106px;
-  padding: 1.05rem 0;
+  grid-template-columns: 2.2rem minmax(0, 0.95fr) 2.6rem minmax(0, 1.2fr);
+  gap: clamp(0.75rem, 1.4vw, 1.2rem);
+  min-height: 116px;
+  padding: 1.2rem 0;
+  border: 0;
   border-top: 1px solid rgba(18, 56, 45, 0.16);
   background: transparent;
+  transition:
+    background-color 220ms ease,
+    box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .kage-home .outcome-comparison__group li:last-child {
@@ -139,9 +289,10 @@
 }
 
 .kage-home .outcome-comparison__group li:is(:hover, :focus-within) {
-  padding-right: 0.7rem;
-  padding-left: 0.7rem;
-  background: rgba(255, 255, 255, 0.38);
+  padding-right: 0;
+  padding-left: 0;
+  background: rgba(255, 255, 255, 0.34);
+  box-shadow: inset 4px 0 0 rgba(18, 56, 45, 0.18);
 }
 
 .kage-home .outcome-comparison__group li small {
@@ -150,94 +301,207 @@
   display: grid;
   place-items: center;
   padding: 0;
+  border: 1px solid rgba(18, 56, 45, 0.22);
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.42);
   font-weight: 720;
 }
 
 .kage-home .outcome-comparison__group li > svg {
-  width: 2.05rem;
-  height: 2.05rem;
-  padding: 0.45rem;
-  border: 1px solid rgba(18, 56, 45, 0.16);
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0.46rem;
+  border: 1px solid rgba(18, 56, 45, 0.18);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.48);
+  background: rgba(255, 255, 255, 0.58);
   color: #12382d;
+}
+
+.kage-home .outcome-comparison__group li p,
+.kage-home .outcome-comparison__group li strong {
+  position: relative;
+  margin: 0;
+  padding-top: 1.15rem;
+}
+
+.kage-home .outcome-comparison__group li p::before,
+.kage-home .outcome-comparison__group li strong::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #66736b;
+  font: 700 0.54rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.kage-home .outcome-comparison__group li p::before {
+  content: "PREDTÝM";
+}
+
+.kage-home .outcome-comparison__group li strong::before {
+  content: "PO NASADENÍ";
+  color: #4d6f31;
 }
 
 .kage-home .outcome-comparison__group li p {
   color: #59655e;
-  line-height: 1.42;
+  line-height: 1.45;
 }
 
 .kage-home .outcome-comparison__group li strong {
   color: #12382d;
-  font-weight: 680;
-  line-height: 1.4;
+  font-weight: 690;
+  line-height: 1.42;
 }
 
 .kage-home .outcome-comparison__group > button {
+  grid-area: cta;
+  width: fit-content;
   min-height: 50px;
+  align-self: end;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0;
   padding-inline: 1rem;
   border-radius: 8px;
   transition:
     transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
     background-color 180ms ease,
-    color 180ms ease;
+    color 180ms ease,
+    box-shadow 220ms ease;
 }
 
 .kage-home .outcome-comparison__group > button:is(:hover, :focus-visible) {
   transform: translateY(-2px);
+  box-shadow: 0 14px 28px -22px rgba(18, 56, 45, 0.65);
 }
 
-/* Keep the stronger 01 / Realizácie / 05 entrances smooth on GPU. */
+/* 05 — make every step feel selectable/readable without shifting layout. */
+.kage-home .hybrid-process__list > li {
+  transition:
+    background-color 240ms ease,
+    box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kage-home .hybrid-process__list > li:is(:hover, :focus-within) {
+  background: rgba(200, 240, 106, 0.11);
+  box-shadow: inset 4px 0 0 rgba(157, 196, 63, 0.74);
+}
+
+.kage-home .hybrid-process__intro > a,
+.kage-home .hybrid-work__footer > a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.kage-home .hybrid-process__intro > a:focus-visible,
+.kage-home .hybrid-work__footer > a:focus-visible,
+.kage-home .outcome-comparison__group > button:focus-visible {
+  outline: 2px solid #12382d;
+  outline-offset: 4px;
+}
+
+/* Strong reveal targets stay on their own compositor layer while staged. */
 .kage-home :is(
   .hybrid-tool,
   .hybrid-work__grid > article,
-  .hybrid-process__list > li
+  .hybrid-process__list > li,
+  .outcome-comparison__group,
+  .outcome-comparison__group li
 )[data-motion-reveal="staged"] {
   backface-visibility: hidden;
-  transform-origin: 50% 50%;
-  will-change: transform, opacity;
+  transform-origin: 50% 30%;
+  will-change: transform, opacity, filter;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.kage-home) {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (max-width: 980px) {
+  .kage-home .outcome-comparison__intro {
+    grid-template-columns: 1fr;
+  }
+
+  .kage-home .outcome-comparison__intro > span {
+    grid-column: auto;
+    margin-bottom: 0;
+  }
 }
 
 @media (max-width: 760px) {
+  .kage-home .outcome-comparison__intro h2 {
+    font-size: clamp(3rem, 13vw, 4.8rem);
+  }
+
   .kage-home .outcome-comparison__grid {
     gap: 1rem;
   }
 
   .kage-home .outcome-comparison__group,
   .kage-home .outcome-comparison__group + .outcome-comparison__group {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "label"
+      "title"
+      "rows"
+      "cta";
+    grid-template-rows: auto;
+    gap: 1.15rem;
     margin-inline: 0;
-    padding: 1.35rem;
+    padding: 1.4rem;
     border: 1px solid rgba(18, 56, 45, 0.16);
-    border-radius: 10px;
+    border-radius: 14px;
   }
 
   .kage-home .outcome-comparison__group[data-tone="shop"] {
     margin-inline: 0;
-    padding-inline: 1.35rem;
+    padding-inline: 1.4rem;
   }
 
   .kage-home .outcome-comparison__group::before {
+    top: 0;
     left: 0;
+    width: 100%;
+    height: 4px;
+  }
+
+  .kage-home .outcome-comparison__group h3 {
+    max-width: 12ch;
+    font-size: clamp(2.5rem, 11vw, 3.6rem);
   }
 
   .kage-home .outcome-comparison__group li {
-    grid-template-columns: 2rem minmax(0, 1fr) 1.8rem;
-    gap: 0.65rem;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.65rem 0.8rem;
     min-height: 0;
-    padding: 1rem 0;
+    padding: 1.05rem 0;
   }
 
-  .kage-home .outcome-comparison__group li strong {
-    grid-column: 2 / -1;
-    padding-top: 0.1rem;
+  .kage-home .outcome-comparison__group li p {
+    grid-column: 2;
   }
 
   .kage-home .outcome-comparison__group li > svg {
+    grid-column: 1;
+    grid-row: 2;
     width: 1.8rem;
     height: 1.8rem;
     padding: 0.4rem;
+    rotate: 90deg;
+  }
+
+  .kage-home .outcome-comparison__group li strong {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .kage-home .outcome-comparison__group > button {
+    width: 100%;
   }
 }
 
@@ -246,8 +510,10 @@
   .kage-home :is(
     .hybrid-tool,
     .hybrid-work__grid > article,
-    .hybrid-process__list > li
-  )[data-motion-reveal="staged"] {
+    .hybrid-process__list > li,
+    .outcome-comparison__group,
+    .outcome-comparison__group li
+  )[data-motion-reveal] {
     animation: none !important;
     transition: none !important;
     will-change: auto;
