@@ -1,5 +1,11 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+} from "react";
 import { ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
@@ -39,6 +45,22 @@ export function Nav() {
   const panelRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
+
+  const handleBrandClick = useCallback(
+    (event: ReactMouseEvent<HTMLAnchorElement>) => {
+      closeMenu();
+      if (pathname !== "/") return;
+
+      event.preventDefault();
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: reducedMotion ? "auto" : "smooth",
+      });
+    },
+    [closeMenu, pathname],
+  );
 
   useFocusTrap(panelRef, open, closeMenu, menuButtonRef);
 
@@ -117,7 +139,12 @@ export function Nav() {
         data-adaptive={adaptiveHome ? "true" : "false"}
       >
         <div className="site-header__inner container-page">
-          <Link to="/" className="site-brand-lockup" aria-label="Môj Chatbot — domov">
+          <Link
+            to="/"
+            className="site-brand-lockup"
+            aria-label="Môj Chatbot — domov"
+            onClick={handleBrandClick}
+          >
             <BrandMark size={34} />
             <span className="site-brand-name">Môj Chatbot</span>
           </Link>
@@ -163,7 +190,7 @@ export function Nav() {
             <Link
               to="/"
               className="site-brand-lockup"
-              onClick={closeMenu}
+              onClick={handleBrandClick}
               aria-label="Môj Chatbot — domov"
             >
               <BrandMark size={34} />
