@@ -117,10 +117,10 @@ export function Nav() {
         data-adaptive={adaptiveHome ? "true" : "false"}
       >
         <div className="site-header__inner container-page">
-          <Link to="/" className="site-brand-lockup" aria-label="Môj Chatbot — domov">
+          <a href="/" className="site-brand-lockup" aria-label="Môj Chatbot — domov">
             <BrandMark size={34} />
             <span className="site-brand-name">Môj Chatbot</span>
-          </Link>
+          </a>
 
           <nav className="site-nav" aria-label="Hlavná navigácia">
             {desktopLinks.map((item) => (
@@ -160,15 +160,15 @@ export function Nav() {
           tabIndex={-1}
         >
           <div className="site-menu-head">
-            <Link
-              to="/"
+            <a
+              href="/"
               className="site-brand-lockup"
               onClick={closeMenu}
               aria-label="Môj Chatbot — domov"
             >
               <BrandMark size={34} />
               <span className="site-brand-name">Môj Chatbot</span>
-            </Link>
+            </a>
             <button type="button" className="site-menu-close" onClick={closeMenu}>
               ZAVRIEŤ
             </button>
