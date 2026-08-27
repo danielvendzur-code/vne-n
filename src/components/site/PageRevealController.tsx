@@ -113,88 +113,103 @@ const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
 /** Calm, staggered entrances across desktop and mobile. */
 export function PageRevealController({ pathname }: { pathname: string }) {
   useEffect(() => {
-    const root = document.querySelector<HTMLElement>(".page-transition");
-    if (!root) return undefined;
+    let removeReveal: (() => void) | undefined;
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mobileViewport = window.matchMedia("(max-width: 720px)").matches;
-    const supportsReveal =
-      !reducedMotion &&
-      typeof IntersectionObserver !== "undefined" &&
-      typeof Element.prototype.animate === "function";
+    const installReveal = () => {
+      const root = document.querySelector<HTMLElement>(".page-transition");
+      if (!root) return undefined;
 
-    if (!supportsReveal) return undefined;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const mobileViewport = window.matchMedia("(max-width: 720px)").matches;
+      const supportsReveal =
+        !reducedMotion &&
+        typeof IntersectionObserver !== "undefined" &&
+        typeof Element.prototype.animate === "function";
 
-    const viewportHeight = window.innerHeight;
-    const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
-      (element) => {
-        if (
-          element.closest('[aria-hidden="true"]') ||
-          element.getAttribute("aria-hidden") === "true"
-        ) {
-          return false;
-        }
+      if (!supportsReveal) return undefined;
 
-        const rect = element.getBoundingClientRect();
-        return rect.top > viewportHeight * 0.9;
-      },
-    );
+      const viewportHeight = window.innerHeight;
+      const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
+        (element) => {
+          if (
+            element.closest('[aria-hidden="true"]') ||
+            element.getAttribute("aria-hidden") === "true"
+          ) {
+            return false;
+          }
 
-    if (candidates.length === 0) return undefined;
+          const rect = element.getBoundingClientRect();
+          return rect.top > viewportHeight * 0.9;
+        },
+      );
 
-    const animations = new Set<Animation>();
-    const states = new Map(
-      candidates.map((element) => [element, revealState(element, mobileViewport)]),
-    );
+      if (candidates.length === 0) return undefined;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+      const animations = new Set<Animation>();
+      const states = new Map(
+        candidates.map((element) => [element, revealState(element, mobileViewport)]),
+      );
 
-          const element = entry.target as HTMLElement;
-          observer.unobserve(element);
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
 
-          const state = states.get(element) ?? revealState(element, mobileViewport);
-          const animation = element.animate(
-            [
-              { opacity: state.opacity, transform: state.transform },
-              { opacity: 1, transform: "translate3d(0, 0, 0)" },
-            ],
-            {
-              duration: state.duration,
-              delay: revealDelay(element, mobileViewport),
-              easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-              fill: "none",
-            },
-          );
+            const element = entry.target as HTMLElement;
+            observer.unobserve(element);
 
-          animations.add(animation);
-          void animation.finished
-            .then(() => {
-              animations.delete(animation);
-            })
-            .catch(() => {
-              animations.delete(animation);
-            });
-        });
-      },
-      {
-        threshold: 0.04,
-        rootMargin: "0px 0px 8% 0px",
-      },
-    );
+            const state = states.get(element) ?? revealState(element, mobileViewport);
+            const animation = element.animate(
+              [
+                { opacity: state.opacity, transform: state.transform },
+                { opacity: 1, transform: "translate3d(0, 0, 0)" },
+              ],
+              {
+                duration: state.duration,
+                delay: revealDelay(element, mobileViewport),
+                easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                fill: "none",
+              },
+            );
 
-    candidates.forEach((element) => {
-      element.dataset.motionReveal = "staged";
-      observer.observe(element);
-    });
+            animations.add(animation);
+            void animation.finished
+              .then(() => {
+                animations.delete(animation);
+              })
+              .catch(() => {
+                animations.delete(animation);
+              });
+          });
+        },
+        {
+          threshold: 0.04,
+          rootMargin: "0px 0px 8% 0px",
+        },
+      );
+
+      candidates.forEach((element) => {
+        element.dataset.motionReveal = "staged";
+        observer.observe(element);
+      });
+
+      return () => {
+        observer.disconnect();
+        animations.forEach((animation) => animation.cancel());
+        animations.clear();
+        candidates.forEach((element) => delete element.dataset.motionReveal);
+      };
+    };
+
+    // Parent effects can run while a lazy child route is still hydrating. Waiting
+    // briefly keeps these progressive-enhancement attributes out of React's pass.
+    const installationTimer = window.setTimeout(() => {
+      removeReveal = installReveal();
+    }, 120);
 
     return () => {
-      observer.disconnect();
-      animations.forEach((animation) => animation.cancel());
-      animations.clear();
-      candidates.forEach((element) => delete element.dataset.motionReveal);
+      window.clearTimeout(installationTimer);
+      removeReveal?.();
     };
   }, [pathname]);
 
