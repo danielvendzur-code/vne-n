@@ -1,5 +1,117 @@
 /* Final mobile/subpage audit. Loaded after the shared rebrand stack. */
 
+/* Light pages need a visible header boundary instead of disappearing into the page. */
+.site-header[data-tone="light"] .site-header__inner {
+  background: rgba(235, 241, 229, 0.97) !important;
+  border-bottom-color: rgba(18, 55, 45, 0.18) !important;
+  box-shadow: 0 14px 34px -32px rgba(18, 55, 45, 0.55);
+  -webkit-backdrop-filter: blur(12px) saturate(1.08);
+  backdrop-filter: blur(12px) saturate(1.08);
+}
+
+.site-header[data-tone="light"] .site-nav {
+  padding: 0.22rem 0.34rem;
+  border: 1px solid rgba(18, 55, 45, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.36);
+}
+
+.site-header[data-tone="light"] .site-nav a {
+  padding-inline: 0.48rem;
+  color: #173d32 !important;
+  border-radius: 999px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.site-header[data-tone="light"] .site-nav a:is(:hover, :focus-visible) {
+  background: rgba(200, 240, 106, 0.22);
+  color: #071b15 !important;
+}
+
+/* Začať projekt must be visible regardless of what section sits below the header. */
+.site-header .site-header__cta {
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #c8f06a !important;
+  border-radius: 9px;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+}
+
+.site-header .site-header__cta:is(:hover, :focus-visible) {
+  border-color: #020806 !important;
+  background: #020806 !important;
+  color: #c8f06a !important;
+}
+
+/* Subpages: small green cues so the pages feel branded, not clinical. */
+.sp-page > .sp-hero,
+.contact-page > .sp-hero {
+  background:
+    radial-gradient(circle at 82% 22%, rgba(200, 240, 106, 0.13), transparent 27rem),
+    linear-gradient(180deg, rgba(232, 239, 225, 0.56), rgba(242, 240, 232, 0.18));
+}
+
+.sp-page .section-kicker,
+.contact-page .section-kicker {
+  width: fit-content;
+  padding: 0.34rem 0.5rem;
+  border: 1px solid rgba(18, 55, 45, 0.13);
+  border-radius: 999px;
+  background: rgba(200, 240, 106, 0.12);
+  color: #315d4d !important;
+}
+
+.contact-page .contact-section {
+  background:
+    linear-gradient(90deg, rgba(200, 240, 106, 0.035), transparent 28%),
+    var(--paper);
+}
+
+.contact-page .contact-editorial-aside > div {
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(18, 55, 45, 0.11);
+  border-radius: 12px;
+  background: rgba(232, 239, 225, 0.52);
+}
+
+.contact-page .contact-editorial-aside > div:first-child a {
+  display: block;
+  width: fit-content;
+  margin-top: 0.55rem;
+  color: #12372d;
+}
+
+.contact-page .contact-form-wrap {
+  border-color: rgba(18, 55, 45, 0.18) !important;
+  background:
+    linear-gradient(180deg, rgba(200, 240, 106, 0.055), transparent 8rem),
+    rgba(255, 255, 255, 0.48) !important;
+  box-shadow: 0 24px 58px -52px rgba(18, 55, 45, 0.6);
+}
+
+.contact-page .contact-form :is(input, textarea, select):focus {
+  border-color: rgba(18, 55, 45, 0.48) !important;
+  background: #fbfcf7 !important;
+  box-shadow: 0 0 0 3px rgba(200, 240, 106, 0.14);
+}
+
+.pricing-page--rebrand .pricing-hero__fact,
+.pricing-page--rebrand .pricing-row {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pricing-page--rebrand .pricing-row:hover {
+    border-color: rgba(18, 55, 45, 0.24) !important;
+    background: rgba(232, 239, 225, 0.46) !important;
+  }
+}
+
 @media (max-width: 1100px) {
   .site-header__inner.container-page {
     grid-template-columns: minmax(0, 1fr) auto !important;
@@ -28,6 +140,10 @@
   .site-header__inner.container-page {
     padding-right: max(1rem, env(safe-area-inset-right)) !important;
     padding-left: max(1rem, env(safe-area-inset-left)) !important;
+  }
+
+  .site-header[data-tone="light"] .site-nav {
+    display: none !important;
   }
 
   /* Contact: one predictable mobile column with no off-canvas form geometry. */
@@ -71,13 +187,16 @@
     border-bottom: 1px solid rgba(18, 55, 45, 0.16);
   }
 
+  .contact-page .contact-editorial-aside > div {
+    padding: 0.9rem !important;
+  }
+
   .contact-page .contact-form-wrap {
     width: 100% !important;
     margin: 0 !important;
     padding: 1.25rem !important;
     border: 1px solid rgba(18, 55, 45, 0.14);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.38);
   }
 
   .contact-page .contact-form {

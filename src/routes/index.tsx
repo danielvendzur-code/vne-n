@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { FlowSnapFinal } from "@/components/site/FlowSnapFinal";
 import { KageLanding } from "@/components/site/KageLanding";
 import "@/components/site/UserExperiencePolish.css";
 import "@/components/site/UserExperiencePolishFinal.css";
@@ -79,10 +78,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return (
-    <>
-      <FlowSnapFinal />
-      <KageLanding />
-    </>
-  );
+  return <KageLanding />;
 }
