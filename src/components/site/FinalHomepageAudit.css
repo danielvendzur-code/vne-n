@@ -1,50 +1,172 @@
 /* Final homepage audit: mobile composition first, desktop only where explicitly requested. */
 
-/* Desktop header CTA: green at rest, black on hover. */
+/* Header CTA: lime at rest on both dark and light sections, near-black on hover. */
+body:has(.kage-home) .site-header__cta,
+body:has(.kage-home) .site-header[data-adaptive="true"] .site-header__cta,
+body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="dark"] .site-header__cta,
+body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="light"] .site-header__cta {
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #c8f06a !important;
+  border-radius: 9px;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+  box-shadow: 0 12px 26px -22px rgba(200, 240, 106, 0.7);
+  transform: none !important;
+}
+
+body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible),
+body:has(.kage-home) .site-header[data-adaptive="true"] .site-header__cta:is(:hover, :focus-visible),
+body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="dark"] .site-header__cta:is(:hover, :focus-visible),
+body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="light"] .site-header__cta:is(:hover, :focus-visible) {
+  border-color: #020806 !important;
+  background: #020806 !important;
+  color: #c8f06a !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 01: keep every text column on one consistent baseline. */
 @media (min-width: 1101px) {
-  body:has(.kage-home) .site-header[data-adaptive="true"] .site-header__cta,
-  body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="dark"] .site-header__cta,
-  body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="light"] .site-header__cta {
-    border-color: #c8f06a !important;
-    background: #c8f06a !important;
-    color: #071b15 !important;
-    transform: none !important;
+  .kage-home .hybrid-tool__inner {
+    grid-template-columns: 2.5rem minmax(13.5rem, 0.86fr) minmax(14.5rem, 0.9fr) minmax(19rem, 1.12fr) 13.5rem !important;
+    gap: clamp(1.2rem, 2vw, 2.2rem) !important;
+    align-items: center !important;
   }
 
-  body:has(.kage-home) .site-header[data-adaptive="true"] .site-header__cta:is(:hover, :focus-visible),
-  body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="dark"] .site-header__cta:is(:hover, :focus-visible),
-  body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="light"] .site-header__cta:is(:hover, :focus-visible) {
-    border-color: #020806 !important;
-    background: #020806 !important;
-    color: #c8f06a !important;
-    transform: translateY(-1px) !important;
+  .kage-home .hybrid-tool strong,
+  .kage-home .hybrid-tool b,
+  .kage-home .hybrid-tool p,
+  .kage-home .hybrid-tool__cta {
+    margin: 0 !important;
+  }
+
+  .kage-home .hybrid-tool__cta {
+    width: 100%;
+    min-width: 0 !important;
   }
 }
 
-/* Make the full-pricing action read like an intentional CTA, not a loose grid cell. */
+/* 03: let the sentence flow naturally. Inline-block phrases caused the broken line geometry. */
+.kage-home .hybrid-manifesto__inner h2 {
+  max-width: 17.5ch !important;
+  text-wrap: pretty;
+}
+
+.kage-home .hybrid-manifesto__inner h2 em,
+.kage-home .hybrid-manifesto__inner h2 em[data-motion-reveal="staged"] {
+  display: inline !important;
+  white-space: normal !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Scrollytelling: one snap controller only, shorter travel, no rubber-card shake. */
+.kage-home .kage-flow {
+  height: 235vh !important;
+}
+
+.kage-home .kage-flow .hybrid-flow__panel-inner {
+  grid-template-columns: 4.5rem minmax(0, 1fr) minmax(19rem, 0.62fr) !important;
+  gap: clamp(2rem, 4.5vw, 5.2rem) !important;
+  align-items: center !important;
+  padding-top: calc(var(--header-h) + 5.6rem) !important;
+  padding-bottom: 3.4rem !important;
+}
+
+.kage-home .kage-flow .hybrid-flow__number {
+  align-self: center !important;
+  margin: 0 !important;
+}
+
+.kage-home .kage-flow .hybrid-flow__copy {
+  align-self: center;
+}
+
+.kage-home .kage-flow .hybrid-flow__artifact {
+  width: min(100%, 430px);
+  min-height: clamp(300px, 39vh, 360px) !important;
+  justify-self: end !important;
+  align-self: center !important;
+  animation: none !important;
+  rotate: 0deg !important;
+  translate: 0 0 !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+.kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="left"],
+.kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="right"] {
+  animation: none !important;
+  rotate: 0deg !important;
+  translate: 0 0 !important;
+  transform: none !important;
+}
+
+/* 04: remove the unwanted vertical bar and keep the result cards calm. */
+.kage-home .outcome-comparison__group::before {
+  content: none !important;
+  display: none !important;
+}
+
+.kage-home .outcome-comparison__group,
+.kage-home .outcome-comparison__group + .outcome-comparison__group {
+  border-left: 1px solid rgba(18, 56, 45, 0.16) !important;
+}
+
+.kage-home .outcome-comparison__group li:is(:hover, :focus-within) {
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.42) !important;
+}
+
+/* 05: no sideways shove or green inset line. */
+.kage-home .hybrid-process__list > li,
+.kage-home .hybrid-process__list > li:is(:hover, :focus-within) {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.kage-home .hybrid-process__list > li:is(:hover, :focus-within) {
+  background: rgba(200, 240, 106, 0.08) !important;
+}
+
+/* Price action: quiet by default, green only when the user actually interacts. */
 .kage-home .hybrid-price__link {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 56px;
-  padding: 0.85rem 1rem;
-  border: 1px solid rgba(200, 240, 106, 0.32);
+  min-height: 58px;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(246, 245, 238, 0.3);
   border-radius: 9px;
-  background: rgba(200, 240, 106, 0.08);
+  background: transparent;
   color: #f6f5ee;
   font-weight: 650;
   transition:
     background-color 180ms ease,
     border-color 180ms ease,
-    color 180ms ease;
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .kage-home .hybrid-price__link:is(:hover, :focus-visible) {
     border-color: #c8f06a;
-    background: #c8f06a;
-    color: #071b15;
+    background: rgba(200, 240, 106, 0.14);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 721px) {
+  .kage-home .kage-flow .hybrid-flow__panel-inner {
+    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(17rem, 0.58fr) !important;
+    gap: 2rem !important;
+  }
+
+  .kage-home .kage-flow .hybrid-flow__artifact {
+    width: min(100%, 360px);
+    min-height: 310px !important;
   }
 }
 
@@ -93,6 +215,12 @@
     font-size: 0.58rem !important;
   }
 
+  .kage-home .hybrid-manifesto__inner h2 {
+    max-width: 100% !important;
+    font-size: clamp(2.95rem, 12.5vw, 4.15rem) !important;
+    line-height: 0.96 !important;
+  }
+
   /* Keep the three solution modes together as one clear control. */
   .kage-home .hybrid-flow__mobile-modes {
     display: grid !important;
@@ -109,6 +237,14 @@
     font-size: clamp(0.68rem, 3.1vw, 0.8rem) !important;
     line-height: 1.05 !important;
     text-align: center !important;
+  }
+
+  /* Mobile flow cards are static: no entrance shove or reflow jitter. */
+  .kage-home .hybrid-flow__mobile article {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
   }
 
   /* 05: no sideways reveal, hover shove or green-step jitter on touch. */
@@ -148,15 +284,15 @@
     padding-block: 0.9rem !important;
   }
 
-  /* Homepage price CTA becomes the obvious next step on touch. */
+  /* Homepage price CTA remains quiet on touch; no permanent lime tile. */
   .kage-home .hybrid-price__link {
     grid-column: 1 / -1 !important;
     width: 100% !important;
     min-height: 58px !important;
     margin-top: 0.35rem !important;
-    border-color: #c8f06a !important;
-    background: #c8f06a !important;
-    color: #071b15 !important;
+    border-color: rgba(246, 245, 238, 0.34) !important;
+    background: transparent !important;
+    color: #f6f5ee !important;
   }
 }
 
