@@ -98,6 +98,14 @@
     transition: none !important;
   }
 
+  /* Base hero cards start at opacity:0 because desktop reveals them with an
+     animation. Mobile deliberately disables that animation, so explicitly
+     restore the final visible state instead of leaving the screenshots hidden. */
+  .kage-home .kage-hero .hybrid-hero__case {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
   .kage-home .kage-hero .project-composite {
     clip-path: none !important;
   }
