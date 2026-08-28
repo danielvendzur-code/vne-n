@@ -6,11 +6,13 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
+import { FlowScrollTuner } from "./FlowScrollTuner";
 import "./Rebrand.css";
 import "./RebrandPages.css";
 import "./SubpagePolish.css";
 import "./RequestedAugustPolish.css";
 import "./FinalMobileAudit.css";
+import "./FinalUxAuthority.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -28,6 +30,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             {children}
           </div>
           <PageRevealController pathname={pathname} />
+          <FlowScrollTuner pathname={pathname} />
         </main>
         <AnalyticsConsent />
         <Footer />
