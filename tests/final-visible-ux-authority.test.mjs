@@ -14,8 +14,9 @@ const tuner = readFileSync(
 test("desktop solutions keep independent readable columns and strong CTAs", () => {
   assert.match(
     css,
-    /grid-template-columns:[\s\S]*minmax\(14\.75rem, 0\.88fr\)[\s\S]*minmax\(12\.5rem, 0\.74fr\)[\s\S]*minmax\(16\.25rem, 1fr\)/,
+    /grid-template-columns:[\s\S]*minmax\(18\.5rem, 1\.05fr\)[\s\S]*minmax\(12rem, 0\.72fr\)[\s\S]*minmax\(15\.5rem, 0\.9fr\)/,
   );
+  assert.match(css, /font-size: clamp\(2\.55rem, 2\.9vw, 3\.25rem\) !important/);
   assert.match(css, /\.hybrid-tool__cta[\s\S]*min-height: 48px/);
   assert.match(
     css,
