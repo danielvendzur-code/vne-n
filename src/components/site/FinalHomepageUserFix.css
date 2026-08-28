@@ -123,8 +123,6 @@
   .kage-home .kage-flow .hybrid-flow__artifact {
     animation: none !important;
     transform: none !important;
-    rotate: initial !important;
-    translate: initial !important;
     will-change: auto !important;
   }
 
