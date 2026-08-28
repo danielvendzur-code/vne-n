@@ -47,11 +47,14 @@ const siblingIndex = (element: HTMLElement) =>
   Math.max(0, Array.from(element.parentElement?.children ?? []).indexOf(element));
 
 const revealState = (element: HTMLElement, compactViewport: boolean): RevealState => {
+  const index = siblingIndex(element);
+  const direction = index % 2 === 0 ? -1 : 1;
   const isHeading = /^H[1-3]$/.test(element.tagName);
   const isProject = element.matches(".hybrid-work__grid > article");
   const isProcess = element.matches(".hybrid-process__list > li");
   const isSolution = element.matches(".hybrid-tool");
   const isManifestoAccent = element.matches(".hybrid-manifesto__inner h2 em");
+  const isOutcomeRow = element.matches(".outcome-comparison__group li");
   const isFeatureGroup = element.matches(
     ".outcome-comparison__group, .hybrid-price__grid > *, .hybrid-final__body > *",
   );
@@ -59,72 +62,91 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
 
   if (isManifestoAccent) {
     return {
-      opacity: compactViewport ? 0.08 : 0.04,
-      transform: `translate3d(0, ${compactViewport ? 7 : 10}px, 0)`,
-      filter: "blur(2px)",
-      duration: compactViewport ? 420 : 480,
+      opacity: compactViewport ? 0.14 : 0.08,
+      transform: `translate3d(0, ${compactViewport ? 6 : 9}px, 0)`,
+      filter: "blur(1.2px)",
+      duration: compactViewport ? 460 : 520,
     };
   }
 
   if (isProject) {
     return {
-      opacity: compactViewport ? 0.08 : 0.04,
-      transform: `translate3d(0, ${compactViewport ? 26 : 38}px, 0) scale(${compactViewport ? 0.982 : 0.976})`,
-      filter: "blur(2px) saturate(0.94)",
-      duration: compactViewport ? 720 : 800,
+      opacity: compactViewport ? 0.12 : 0.07,
+      transform: `translate3d(0, ${compactViewport ? 22 : 32}px, 0) scale(${compactViewport ? 0.986 : 0.98})`,
+      filter: "blur(1.4px) saturate(0.96)",
+      duration: compactViewport ? 760 : 840,
     };
   }
 
   if (isSolution) {
+    const x = direction * (compactViewport ? 16 : 26);
     return {
-      opacity: compactViewport ? 0.18 : 0.12,
-      transform: `translate3d(0, ${compactViewport ? 20 : 30}px, 0) scale(0.992)`,
-      filter: "blur(1.5px)",
-      duration: compactViewport ? 680 : 760,
-    };
-  }
-
-  if (isProcess) {
-    return {
-      opacity: compactViewport ? 0.22 : 0.16,
-      transform: `translate3d(0, ${compactViewport ? 16 : 24}px, 0)`,
-      filter: "blur(1px)",
+      opacity: compactViewport ? 0.28 : 0.2,
+      transform: `translate3d(${x}px, ${compactViewport ? 4 : 6}px, 0) scale(0.996)`,
+      filter: "blur(0.7px)",
       duration: compactViewport ? 620 : 700,
     };
   }
 
-  const verticalDistance = compactViewport ? (isRow ? 14 : 10) : isRow ? 20 : 16;
+  if (isProcess) {
+    const x = direction * (compactViewport ? 18 : 28);
+    return {
+      opacity: compactViewport ? 0.34 : 0.24,
+      transform: `translate3d(${x}px, 0, 0)`,
+      filter: "blur(0.45px)",
+      duration: compactViewport ? 580 : 650,
+    };
+  }
+
+  if (isOutcomeRow) {
+    const x = direction * (compactViewport ? 14 : 20);
+    return {
+      opacity: compactViewport ? 0.38 : 0.28,
+      transform: `translate3d(${x}px, 0, 0)`,
+      filter: "blur(0.45px)",
+      duration: compactViewport ? 560 : 620,
+    };
+  }
+
+  if (isFeatureGroup) {
+    return {
+      opacity: compactViewport ? 0.2 : 0.12,
+      transform: `translate3d(0, ${compactViewport ? 12 : 18}px, 0) scale(${compactViewport ? 0.988 : 0.982})`,
+      filter: "blur(0.8px)",
+      duration: compactViewport ? 650 : 720,
+    };
+  }
+
+  const verticalDistance = compactViewport ? (isRow ? 12 : 9) : isRow ? 18 : 14;
 
   return {
-    opacity: compactViewport ? (isHeading ? 0.28 : isRow ? 0.34 : 0.46) : isHeading ? 0.18 : 0.28,
-    transform: isFeatureGroup
-      ? `translate3d(0, ${verticalDistance}px, 0) scale(0.992)`
-      : `translate3d(0, ${verticalDistance}px, 0)`,
-    filter: isHeading ? "blur(1.5px)" : "blur(0.8px)",
-    duration: compactViewport ? (isHeading ? 540 : 600) : isHeading ? 620 : 680,
+    opacity: compactViewport ? (isHeading ? 0.32 : isRow ? 0.4 : 0.5) : isHeading ? 0.22 : 0.32,
+    transform: `translate3d(0, ${verticalDistance}px, 0)`,
+    filter: isHeading ? "blur(1px)" : "blur(0.5px)",
+    duration: compactViewport ? (isHeading ? 520 : 570) : isHeading ? 600 : 650,
   };
 };
 
 const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
-  const scale = compactViewport ? 0.55 : 1;
+  const scale = compactViewport ? 0.42 : 1;
 
   if (element.matches(".hybrid-work__grid > article")) {
-    return siblingIndex(element) * 65 * scale;
+    return siblingIndex(element) * 58 * scale;
   }
   if (element.matches(".hybrid-tool")) {
-    return siblingIndex(element) * 60 * scale;
+    return siblingIndex(element) * 50 * scale;
   }
   if (element.matches(".hybrid-process__list > li")) {
-    return siblingIndex(element) * 70 * scale;
+    return siblingIndex(element) * 55 * scale;
   }
   if (element.matches(".outcome-comparison__group")) {
-    return siblingIndex(element) * 90 * scale;
+    return siblingIndex(element) * 70 * scale;
   }
   if (element.matches(".outcome-comparison__group li")) {
-    return siblingIndex(element) * 45 * scale;
+    return siblingIndex(element) * 35 * scale;
   }
   if (element.matches(".hybrid-manifesto__inner h2 em")) {
-    return siblingIndex(element) * 70 * scale;
+    return siblingIndex(element) * 55 * scale;
   }
   return 0;
 };
@@ -147,7 +169,7 @@ const releaseStage = (element: HTMLElement, pass: RevealPass) => {
   pass.staged = false;
 };
 
-/** Visible, pre-staged entrances without first-frame flashing or layout jumps. */
+/** Early, varied entrances without first-frame flashing or layout jumps. */
 export function PageRevealController({ pathname }: { pathname: string }) {
   useEffect(() => {
     let removeReveal: (() => void) | undefined;
@@ -297,8 +319,8 @@ export function PageRevealController({ pathname }: { pathname: string }) {
           });
         },
         {
-          threshold: 0.1,
-          rootMargin: "0px 0px -12% 0px",
+          threshold: 0.04,
+          rootMargin: "0px 0px 18% 0px",
         },
       );
 
