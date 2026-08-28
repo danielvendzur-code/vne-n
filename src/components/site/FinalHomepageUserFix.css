@@ -1,0 +1,140 @@
+/* Final route-level authority for the three user-reported live failures.
+   Loaded after FinalHomepageAudit.css so old audit values cannot silently
+   reintroduce overlap or shorten the scrollytelling track. */
+
+/* 01 / Riešenia — guarantee independent columns at real desktop widths. */
+@media (min-width: 1100px) {
+  .kage-home .hybrid-tool__inner {
+    min-height: 164px !important;
+    grid-template-columns:
+      2rem
+      minmax(20rem, 1.08fr)
+      minmax(14rem, 0.78fr)
+      minmax(19rem, 1fr)
+      minmax(15.5rem, auto) !important;
+    gap: clamp(0.95rem, 1.35vw, 1.35rem) !important;
+    align-items: center !important;
+  }
+
+  .kage-home .hybrid-tool strong {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(2.5rem, 2.78vw, 3.18rem) !important;
+    line-height: 0.94 !important;
+    letter-spacing: -0.052em !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    text-wrap: balance;
+  }
+
+  .kage-home .hybrid-tool b {
+    min-width: 0 !important;
+    max-width: 14rem !important;
+    margin: 0 !important;
+    font-size: clamp(0.98rem, 1.04vw, 1.1rem) !important;
+    line-height: 1.28 !important;
+  }
+
+  .kage-home .hybrid-tool p {
+    min-width: 0 !important;
+    max-width: 22rem !important;
+    margin: 0 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .kage-home .hybrid-tool__cta {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 50px !important;
+    padding: 0.76rem 0.9rem !important;
+    border: 1px solid rgba(18, 56, 45, 0.52) !important;
+    border-radius: 8px !important;
+    background: #f3f7e9 !important;
+    color: #12382d !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.88),
+      0 12px 28px -23px rgba(7, 27, 21, 0.7) !important;
+    font-size: 0.86rem !important;
+    font-weight: 790 !important;
+  }
+
+  .kage-home .hybrid-tool:first-child .hybrid-tool__cta {
+    border-color: #c8f06a !important;
+    background: #c8f06a !important;
+    color: #071b15 !important;
+    box-shadow: 0 14px 30px -20px rgba(157, 196, 63, 0.72) !important;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1099px) {
+  .kage-home .hybrid-tool__inner {
+    min-height: 152px !important;
+    grid-template-columns:
+      2rem
+      minmax(17.5rem, 1.08fr)
+      minmax(13rem, 0.92fr)
+      minmax(12rem, auto) !important;
+    gap: 1rem !important;
+    align-items: center !important;
+  }
+
+  .kage-home .hybrid-tool strong {
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(2.35rem, 4.05vw, 2.8rem) !important;
+    line-height: 0.94 !important;
+    letter-spacing: -0.05em !important;
+  }
+
+  .kage-home .hybrid-tool b,
+  .kage-home .hybrid-tool__cta {
+    margin: 0 !important;
+  }
+
+  .kage-home .hybrid-tool p {
+    display: none !important;
+  }
+
+  .kage-home .hybrid-tool__cta {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .hybrid-tool:is(:hover, :focus-visible) .hybrid-tool__cta {
+    border-color: #c8f06a !important;
+    background: #c8f06a !important;
+    color: #071b15 !important;
+    box-shadow: 0 15px 32px -20px rgba(157, 196, 63, 0.76) !important;
+  }
+}
+
+/* 03 / Ako to funguje — long native travel, decisive idle snap.
+   FlowScrollTuner owns the 50% threshold and 210–300ms completion. */
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  .kage-home .kage-flow {
+    height: 440vh !important;
+  }
+
+  .kage-home .kage-flow .hybrid-flow__artifact {
+    animation: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="left"] {
+    animation: kage-scroll-settle-left 660ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
+    transform-origin: 50% 54% !important;
+    will-change: rotate, translate !important;
+  }
+
+  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="right"] {
+    animation: kage-scroll-settle-right 660ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
+    transform-origin: 50% 54% !important;
+    will-change: rotate, translate !important;
+  }
+}
