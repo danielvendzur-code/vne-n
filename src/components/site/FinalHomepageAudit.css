@@ -129,32 +129,45 @@ body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="light"] .site
   background: rgba(200, 240, 106, 0.08) !important;
 }
 
-/* Price action: quiet by default, green only when the user actually interacts. */
+/* Price: three compact facts, then one horizontal full-width action row. */
+.kage-home .hybrid-price__grid {
+  grid-template-columns: 1fr 1.15fr 0.72fr !important;
+}
+
 .kage-home .hybrid-price__link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  grid-column: 1 / -1 !important;
+  min-width: 0 !important;
+  min-height: 62px !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
   gap: 1rem;
-  min-height: 58px;
-  padding: 0.9rem 1rem;
-  border: 1px solid rgba(246, 245, 238, 0.3);
-  border-radius: 9px;
-  background: transparent;
+  padding: 1rem 0 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(246, 245, 238, 0.26) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
   color: #f6f5ee;
   font-weight: 650;
   transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
     color 180ms ease,
-    transform 180ms ease;
+    padding-left 180ms ease,
+    padding-right 180ms ease,
+    border-color 180ms ease;
+}
+
+.kage-home .hybrid-price__link svg {
+  align-self: center !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .kage-home .hybrid-price__link:is(:hover, :focus-visible) {
-    border-color: #c8f06a;
-    background: rgba(200, 240, 106, 0.14);
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+    border-top-color: #c8f06a !important;
+    background: rgba(200, 240, 106, 0.1) !important;
     color: #ffffff;
-    transform: translateY(-1px);
+    transform: none !important;
   }
 }
 
@@ -167,6 +180,14 @@ body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="light"] .site
   .kage-home .kage-flow .hybrid-flow__artifact {
     width: min(100%, 360px);
     min-height: 310px !important;
+  }
+
+  .kage-home .hybrid-price__grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .kage-home .hybrid-price__grid > div:last-of-type {
+    grid-column: 1 / -1;
   }
 }
 
@@ -284,13 +305,18 @@ body:has(.kage-home) .site-header[data-adaptive="true"][data-tone="light"] .site
     padding-block: 0.9rem !important;
   }
 
-  /* Homepage price CTA remains quiet on touch; no permanent lime tile. */
+  .kage-home .hybrid-price__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Full pricing becomes one compact row rather than a fourth tall card. */
   .kage-home .hybrid-price__link {
-    grid-column: 1 / -1 !important;
+    grid-column: 1 !important;
     width: 100% !important;
     min-height: 58px !important;
-    margin-top: 0.35rem !important;
-    border-color: rgba(246, 245, 238, 0.34) !important;
+    margin-top: 0 !important;
+    padding: 0.95rem 0 !important;
+    border-top-color: rgba(246, 245, 238, 0.34) !important;
     background: transparent !important;
     color: #f6f5ee !important;
   }
