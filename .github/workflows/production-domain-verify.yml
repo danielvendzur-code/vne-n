@@ -1,0 +1,141 @@
+name: Verify live mojchatbot.sk
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-domain-current-main
+  cancel-in-progress: true
+
+jobs:
+  verify-production-domain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Verify real custom domain, loader and homepage CSS
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -u -o pipefail
+
+          echo "=== DNS / routing diagnostics ==="
+          getent ahosts mojchatbot.sk || true
+          getent ahosts www.mojchatbot.sk || true
+          echo
+          echo "=== Apex response chain ==="
+          curl --silent --show-error --location --head --max-time 20 \
+            --header 'Cache-Control: no-cache' \
+            "https://mojchatbot.sk/?verify=${SOURCE_SHA}" || true
+          echo
+          echo "=== WWW response chain ==="
+          curl --silent --show-error --location --head --max-time 20 \
+            --header 'Cache-Control: no-cache' \
+            "https://www.mojchatbot.sk/?verify=${SOURCE_SHA}" || true
+
+          verify_live() {
+            local origin="$1"
+            local workdir
+            workdir="$(mktemp -d)"
+
+            for attempt in $(seq 1 24); do
+              echo
+              echo "=== live verification attempt ${attempt}/24: ${origin} ==="
+              local stamp="${SOURCE_SHA}-${attempt}-$(date +%s)"
+              local html="${workdir}/index-${attempt}.html"
+              local loader="${workdir}/loader-${attempt}.js"
+              local css="${workdir}/css-${attempt}.txt"
+
+              if ! curl --location --fail --silent --show-error --max-time 25 \
+                --header 'Cache-Control: no-cache, no-store, max-age=0' \
+                "${origin}/?verify=${stamp}" -o "${html}"; then
+                sleep 10
+                continue
+              fi
+
+              local final_url
+              final_url="$(curl --location --silent --show-error --output /dev/null \
+                --write-out '%{url_effective}' --max-time 25 \
+                --header 'Cache-Control: no-cache, no-store, max-age=0' \
+                "${origin}/?verify=${stamp}" || true)"
+              echo "final_url=${final_url}"
+
+              curl --location --fail --silent --show-error --max-time 25 \
+                --header 'Cache-Control: no-cache, no-store, max-age=0' \
+                "${origin}/widget-loader.js?verify=${stamp}" -o "${loader}" || true
+
+              if ! grep -Fq 'transparent-launcher-20260828-v12' "${loader}" 2>/dev/null; then
+                echo "loader marker v12 not live yet"
+                sleep 10
+                continue
+              fi
+
+              : > "${css}"
+              python3 - "${html}" "${final_url:-${origin}/}" <<'PY' > "${workdir}/css-urls.txt"
+          import re
+          import sys
+          from urllib.parse import urljoin
+
+          html_path, base_url = sys.argv[1:]
+          html = open(html_path, encoding='utf-8', errors='ignore').read()
+          seen = set()
+          for href in re.findall(r'<link[^>]+href=["\']([^"\']+\.css(?:\?[^"\']*)?)["\']', html, re.I):
+              url = urljoin(base_url, href)
+              if url not in seen:
+                  seen.add(url)
+                  print(url)
+          PY
+
+              while IFS= read -r css_url; do
+                [ -n "${css_url}" ] || continue
+                echo "fetch css: ${css_url}"
+                curl --location --fail --silent --show-error --max-time 25 \
+                  --header 'Cache-Control: no-cache, no-store, max-age=0' \
+                  "${css_url}" >> "${css}" || true
+                printf '\n' >> "${css}"
+              done < "${workdir}/css-urls.txt"
+
+              if ! grep -Fq '440vh' "${css}"; then
+                echo "homepage CSS marker 440vh not live yet"
+                sleep 10
+                continue
+              fi
+
+              if ! grep -Eq 'minmax\(20rem[^)]*1\.08fr' "${css}"; then
+                echo "homepage CSS marker minmax(20rem, 1.08fr) not live yet"
+                sleep 10
+                continue
+              fi
+
+              echo "LIVE_DOMAIN_VERIFIED=success"
+              echo "verified_origin=${origin}"
+              echo "verified_final_url=${final_url}"
+              echo "verified_loader=transparent-launcher-20260828-v12"
+              echo "verified_solution_title_column=20rem"
+              echo "verified_flow_height=440vh"
+              return 0
+            done
+
+            echo "Live custom domain did not serve the expected current build."
+            echo "Last loader excerpt:"
+            head -c 1000 "${loader}" 2>/dev/null || true
+            echo
+            echo "Last CSS marker diagnostics:"
+            grep -Eo '([0-9]+(\.[0-9]+)?rem|[0-9]+vh)' "${css}" 2>/dev/null | tail -80 || true
+            return 1
+          }
+
+          # The apex is the URL customers type and the one shown in the reported screenshots.
+          # Redirecting to www is fine; curl follows redirects and verifies the final live build.
+          verify_live 'https://mojchatbot.sk'
