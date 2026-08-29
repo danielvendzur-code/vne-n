@@ -26,7 +26,7 @@ jobs:
       - name: Inspect actual mojchatbot.sk computed layout
         shell: bash
         run: |
-          cat > /tmp/live-visual-check.mjs <<'JS'
+          cat > live-visual-check.mjs <<'JS'
           import { chromium } from 'playwright';
           import fs from 'node:fs';
 
@@ -163,7 +163,7 @@ jobs:
           }
           console.log('\nLIVE_COMPUTED_VISUAL=success');
           JS
-          node /tmp/live-visual-check.mjs
+          node live-visual-check.mjs
 
       - name: Upload screenshots and computed metrics
         if: always()
