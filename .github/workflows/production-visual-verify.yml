@@ -34,7 +34,7 @@ jobs:
           const results = [];
 
           async function inspect(viewport, label) {
-            const page = await browser.newPage({ viewportSize: viewport, deviceScaleFactor: 1 });
+            const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
             await page.goto(`https://mojchatbot.sk/?visual=${Date.now()}-${label}`, {
               waitUntil: 'networkidle',
               timeout: 60000,
@@ -117,6 +117,8 @@ jobs:
             }
 
             const bodyOverflow = await page.evaluate(() => ({
+              innerWidth,
+              innerHeight,
               scrollWidth: document.documentElement.scrollWidth,
               clientWidth: document.documentElement.clientWidth,
               bodyScrollWidth: document.body.scrollWidth,
