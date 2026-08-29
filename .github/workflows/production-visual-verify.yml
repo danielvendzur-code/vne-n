@@ -37,9 +37,11 @@ jobs:
           import fs from 'node:fs';
 
           const browser = await chromium.launch({ headless: true });
-          const transparent = (value) => {
-            const bg = String(value || '').replace(/\s+/g, '');
-            return bg === 'transparent' || bg === 'rgba(0,0,0,0)';
+          const alphaOf = (value) => {
+            const channels = String(value || '').match(/[\d.]+/g)?.map(Number) ?? [];
+            if (channels.length >= 4) return channels[3];
+            if (channels.length >= 3) return 1;
+            return 0;
           };
 
           async function inspect(viewport, label, attempt) {
@@ -97,6 +99,8 @@ jobs:
                     backgroundImage: s.backgroundImage,
                     boxShadow: s.boxShadow,
                     borderColor: s.borderColor,
+                    borderRadius: s.borderRadius,
+                    backdropFilter: s.backdropFilter || s.webkitBackdropFilter || '',
                     rect: el.getBoundingClientRect().toJSON(),
                     hostVersion: document.getElementById('dv-assistant-root')?.getAttribute('data-dv-assistant-version') ?? null,
                   };
@@ -141,20 +145,29 @@ jobs:
               failures.push(`mobile viewport is ${mobile.geometry.innerWidth}x${mobile.geometry.innerHeight}`);
             }
             if (desktop.flow && desktop.flow.ratio < 4.2) failures.push(`flow too short: ${desktop.flow.ratio.toFixed(2)}vh`);
-            if (!desktop.launcher) {
-              failures.push('desktop launcher missing');
-            } else {
-              if (!transparent(desktop.launcher.background)) failures.push(`desktop launcher background ${desktop.launcher.background}`);
-              if (desktop.launcher.backgroundImage !== 'none') failures.push(`desktop launcher background-image ${desktop.launcher.backgroundImage}`);
-              if (desktop.launcher.hostVersion !== 'premium-motion-20260829-v13') failures.push(`desktop widget version ${desktop.launcher.hostVersion}`);
-            }
-            if (!mobile.launcher) {
-              failures.push('mobile launcher missing');
-            } else {
-              if (!transparent(mobile.launcher.background)) failures.push(`mobile launcher background ${mobile.launcher.background}`);
-              if (mobile.launcher.backgroundImage !== 'none') failures.push(`mobile launcher background-image ${mobile.launcher.backgroundImage}`);
-              if (mobile.launcher.hostVersion !== 'premium-motion-20260829-v13') failures.push(`mobile widget version ${mobile.launcher.hostVersion}`);
-            }
+
+            const checkLauncher = (launcher, label) => {
+              if (!launcher) {
+                failures.push(`${label} launcher missing`);
+                return;
+              }
+              const backgroundAlpha = alphaOf(launcher.background);
+              const borderAlpha = alphaOf(launcher.borderColor);
+              if (!(backgroundAlpha >= 0.03 && backgroundAlpha <= 0.14)) {
+                failures.push(`${label} launcher background alpha ${backgroundAlpha} (${launcher.background})`);
+              }
+              if (!(borderAlpha >= 0.15 && borderAlpha <= 0.55)) {
+                failures.push(`${label} launcher border alpha ${borderAlpha} (${launcher.borderColor})`);
+              }
+              if (launcher.backgroundImage !== 'none') failures.push(`${label} launcher background-image ${launcher.backgroundImage}`);
+              if (launcher.borderRadius !== '50%') failures.push(`${label} launcher radius ${launcher.borderRadius}`);
+              if (!launcher.backdropFilter.includes('blur(')) failures.push(`${label} launcher backdrop-filter ${launcher.backdropFilter}`);
+              if (launcher.hostVersion !== 'premium-motion-20260829-v14') failures.push(`${label} widget version ${launcher.hostVersion}`);
+            };
+
+            checkLauncher(desktop.launcher, 'desktop');
+            checkLauncher(mobile.launcher, 'mobile');
+
             if (mobile.geometry.scrollWidth > mobile.geometry.clientWidth + 2) {
               failures.push(`mobile horizontal overflow ${mobile.geometry.scrollWidth} > ${mobile.geometry.clientWidth}`);
             }

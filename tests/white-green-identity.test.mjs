@@ -72,7 +72,7 @@ test("website polish leaves the existing chatbot fallback launcher untouched", a
   assert.match(loader, /color:\s*"#b9ed4d"/);
   assert.match(loader, /borderRadius:\s*"20px"/);
   assert.match(loader, /background:\s*"#ffffff"/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"transparent-launcher-20260829-v13"/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"translucent-launcher-20260829-v14"/);
 });
 
 test("homepage art direction explicitly handles reduced motion and mobile composition", async () => {
