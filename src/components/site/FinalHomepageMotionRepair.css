@@ -1,0 +1,45 @@
+/* Targeted repair for the current homepage only.
+   Keep this after the historical homepage layers so two user-visible regressions
+   cannot be reintroduced by older absolute-position and broad span rules. */
+
+/* The desktop scrollytelling track is 400vw wide and translated from 0% to -75%.
+   Every stage therefore has to remain a real 100vw flex item. A historical Kage
+   override made all four stages absolute at inset: 0, stacking them on top of
+   each other and moving the stack sideways instead of handing off stage by stage. */
+@media (min-width: 761px) {
+  .kage-home .kage-flow .kage-flow__panel {
+    position: relative !important;
+    inset: auto !important;
+    width: 100vw !important;
+    min-width: 100vw !important;
+    height: 100% !important;
+    flex: 0 0 100vw !important;
+  }
+}
+
+/* The hero contains nested spans for words and animated characters. The older
+   `.hybrid-hero h1 span { display: block; }` selector also targeted those nested
+   spans, which produced inconsistent line boxes. Only the three intended hero
+   rows are blocks; words and characters stay inline-block within one shared
+   inherited line-height. */
+.kage-home .kage-hero h1 > .typed-line,
+.kage-home .kage-hero h1 > em,
+.kage-home .kage-hero h1 > em > .typed-line {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: inherit !important;
+}
+
+.kage-home .kage-hero h1 .typed-word,
+.kage-home .kage-hero h1 .typed-character {
+  display: inline-block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: inherit !important;
+  vertical-align: baseline;
+}
+
+.kage-home .kage-hero h1 .typed-word {
+  white-space: nowrap;
+}
