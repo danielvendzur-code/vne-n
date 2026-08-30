@@ -84,3 +84,21 @@ test("homepage art direction explicitly handles reduced motion and mobile compos
   assert.match(css, /\.hybrid-flow__mobile[\s\S]*display:\s*block/);
   assert.match(css, /\.page-guide/);
 });
+
+test("homepage repair keeps horizontal stages sequential and hero lines geometrically even", async () => {
+  const route = await read("src/routes/index.tsx");
+  const repair = await read("src/components/site/FinalHomepageMotionRepair.css");
+
+  const userFixImport = route.indexOf('import "@/components/site/FinalHomepageUserFix.css"');
+  const repairImport = route.indexOf('import "@/components/site/FinalHomepageMotionRepair.css"');
+  assert.ok(userFixImport >= 0);
+  assert.ok(repairImport > userFixImport);
+
+  assert.match(repair, /\.kage-flow \.kage-flow__panel[\s\S]*position:\s*relative !important/);
+  assert.match(repair, /width:\s*100vw !important/);
+  assert.match(repair, /flex:\s*0 0 100vw !important/);
+  assert.match(repair, /h1 > \.typed-line/);
+  assert.match(repair, /h1 > em > \.typed-line/);
+  assert.match(repair, /\.typed-word,[\s\S]*\.typed-character[\s\S]*display:\s*inline-block !important/);
+  assert.match(repair, /line-height:\s*inherit !important/);
+});
