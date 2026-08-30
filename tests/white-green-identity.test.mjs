@@ -99,6 +99,9 @@ test("homepage repair keeps horizontal stages sequential and hero lines geometri
   assert.match(repair, /flex:\s*0 0 100vw !important/);
   assert.match(repair, /h1 > \.typed-line/);
   assert.match(repair, /h1 > em > \.typed-line/);
-  assert.match(repair, /\.typed-word,[\s\S]*\.typed-character[\s\S]*display:\s*inline-block !important/);
+  assert.match(
+    repair,
+    /\.typed-word,[\s\S]*\.typed-character[\s\S]*display:\s*inline-block !important/,
+  );
   assert.match(repair, /line-height:\s*inherit !important/);
 });
