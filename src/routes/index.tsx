@@ -9,6 +9,7 @@ import "@/components/site/RequestedAugustHome.css";
 import "@/components/site/RequestedAugustDelta.css";
 import "@/components/site/FinalHomepageAudit.css";
 import "@/components/site/FinalHomepageUserFix.css";
+import "@/components/site/FinalHomepageMotionRepair.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
