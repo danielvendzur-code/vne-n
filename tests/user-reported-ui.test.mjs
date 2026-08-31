@@ -61,3 +61,16 @@ test("header pricing and contact fixes are final global authority", async () => 
     /\.pricing-page--rebrand \.pricing-hero__facts[\s\S]*background:\s*transparent/,
   );
 });
+
+test("website fallback launcher matches the shortened no-glow widget state", async () => {
+  const loader = await read("public/widget-loader.js");
+
+  assert.match(loader, /LOGO_CYCLE_MS = 4000/);
+  assert.match(loader, /progress < 0\.01/);
+  assert.match(loader, /progress < 0\.87/);
+  assert.match(loader, /border:\s*"0"/);
+  assert.match(loader, /background:\s*"rgba\(200,240,106,\.08\)"/);
+  assert.match(loader, /boxShadow:\s*"none"/);
+  assert.match(loader, /anchor\.style\.background = "rgba\(200,240,106,\.14\)"/);
+  assert.doesNotMatch(loader, /background:\s*"#ffffff"/);
+});
