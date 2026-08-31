@@ -116,6 +116,12 @@ const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
   },
 };
 
+function presetForMode(mode: FlowMode): "inquiry" | "calculator" | "product" {
+  if (mode === "calculator") return "calculator";
+  if (mode === "configurator") return "product";
+  return "inquiry";
+}
+
 export function PlainFlowStoryRescue(): JSX.Element | null {
   const [mountNode, setMountNode] = useState<HTMLElement | null>(null);
   const [mode, setMode] = useState<FlowMode>("chatbot");
@@ -126,11 +132,15 @@ export function PlainFlowStoryRescue(): JSX.Element | null {
 
     const originalId = legacy.id;
     const originalAriaHidden = legacy.getAttribute("aria-hidden");
+    const originalNavTone = legacy.getAttribute("data-nav-tone");
+    const originalSignalChapter = legacy.getAttribute("data-signal-chapter");
     const portalMount = document.createElement("div");
     portalMount.dataset.plainFlowMount = "true";
 
     legacy.id = "ako-to-funguje-legacy-hidden";
     legacy.setAttribute("aria-hidden", "true");
+    legacy.removeAttribute("data-nav-tone");
+    legacy.removeAttribute("data-signal-chapter");
     legacy.dataset.flowRescued = "true";
     legacy.before(portalMount);
     setMountNode(portalMount);
@@ -140,10 +150,23 @@ export function PlainFlowStoryRescue(): JSX.Element | null {
       portalMount.remove();
       legacy.id = originalId;
       delete legacy.dataset.flowRescued;
+
       if (originalAriaHidden === null) {
         legacy.removeAttribute("aria-hidden");
       } else {
         legacy.setAttribute("aria-hidden", originalAriaHidden);
+      }
+
+      if (originalNavTone === null) {
+        legacy.removeAttribute("data-nav-tone");
+      } else {
+        legacy.setAttribute("data-nav-tone", originalNavTone);
+      }
+
+      if (originalSignalChapter === null) {
+        legacy.removeAttribute("data-signal-chapter");
+      } else {
+        legacy.setAttribute("data-signal-chapter", originalSignalChapter);
       }
     };
   }, []);
@@ -201,7 +224,9 @@ export function PlainFlowStoryRescue(): JSX.Element | null {
         <button
           type="button"
           className="plain-flow-story__cta"
-          onClick={() => openSiteAssistant({ source: "plain-flow-story", preset: mode === "calculator" ? "calculator" : mode === "configurator" ? "product" : "inquiry" })}
+          onClick={() =>
+            openSiteAssistant({ source: "plain-flow-story", preset: presetForMode(mode) })
+          }
         >
           Vyskúšať na mojom webe <ArrowRight aria-hidden="true" />
         </button>
