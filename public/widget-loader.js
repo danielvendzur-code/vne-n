@@ -19,7 +19,7 @@
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
   const WIDGET_RELEASE = "round-one-stroke-launcher-20260831-v15";
-  const LOGO_CYCLE_MS = 5400;
+  const LOGO_CYCLE_MS = 4000;
   const DARK_LOGO = [11, 47, 32];
   const PALE_LOGO = [185, 237, 77];
   const ONE_STROKE =
@@ -65,10 +65,10 @@
   };
 
   const logoOffset = (progress) => {
-    if (progress < 0.05) return 1;
-    if (progress < 0.35) return 1 - (progress - 0.05) / 0.3;
-    if (progress < 0.5) return 0;
-    if (progress < 0.8) return (progress - 0.5) / 0.3;
+    if (progress < 0.01) return 1;
+    if (progress < 0.36) return 1 - (progress - 0.01) / 0.35;
+    if (progress < 0.52) return 0;
+    if (progress < 0.87) return (progress - 0.52) / 0.35;
     return 1;
   };
 
@@ -80,12 +80,12 @@
 
   const logoColor = (progress) => {
     let mix = 0;
-    if (progress >= 0.05 && progress < 0.35) {
-      mix = (progress - 0.05) / 0.3;
-    } else if (progress >= 0.35 && progress < 0.5) {
+    if (progress >= 0.01 && progress < 0.36) {
+      mix = (progress - 0.01) / 0.35;
+    } else if (progress >= 0.36 && progress < 0.52) {
       mix = 1;
-    } else if (progress >= 0.5 && progress < 0.8) {
-      mix = 1 - (progress - 0.5) / 0.3;
+    } else if (progress >= 0.52 && progress < 0.87) {
+      mix = 1 - (progress - 0.52) / 0.35;
     }
 
     const channel = (index) =>
@@ -127,15 +127,17 @@
       display: "grid",
       placeItems: "center",
       padding: "10px",
-      border: "1px solid rgba(11,47,32,.16)",
+      border: "0",
       borderRadius: "50%",
       color: "#0b2f20",
-      background: "#ffffff",
-      boxShadow: "0 18px 40px -26px rgba(11,47,32,.52), inset 0 1px 0 rgba(255,255,255,.9)",
+      background: "rgba(200,240,106,.08)",
+      boxShadow: "none",
+      backdropFilter: "blur(8px) saturate(1.03)",
+      WebkitBackdropFilter: "blur(8px) saturate(1.03)",
       textDecoration: "none",
       overflow: "hidden",
       cursor: "pointer",
-      transition: "border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease",
+      transition: "background-color 180ms ease, transform 180ms ease",
     });
 
     const stroke = anchor.querySelector("path");
@@ -164,15 +166,13 @@
     }
 
     anchor.onmouseenter = () => {
-      anchor.style.borderColor = "rgba(25,131,79,.34)";
-      anchor.style.boxShadow =
-        "0 20px 44px -24px rgba(11,47,32,.58), inset 0 1px 0 rgba(255,255,255,.9)";
+      anchor.style.background = "rgba(200,240,106,.14)";
+      anchor.style.boxShadow = "none";
       anchor.style.transform = "translateY(-2px)";
     };
     anchor.onmouseleave = () => {
-      anchor.style.borderColor = "rgba(11,47,32,.16)";
-      anchor.style.boxShadow =
-        "0 18px 40px -26px rgba(11,47,32,.52), inset 0 1px 0 rgba(255,255,255,.9)";
+      anchor.style.background = "rgba(200,240,106,.08)";
+      anchor.style.boxShadow = "none";
       anchor.style.transform = "translateY(0)";
     };
     anchor.onclick = (event) => {

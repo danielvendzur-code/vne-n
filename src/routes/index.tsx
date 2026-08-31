@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HomepagePriceReliabilityGuard } from "@/components/site/HomepagePriceReliabilityGuard";
+import { HomepageRequestedCorrections } from "@/components/site/HomepageRequestedCorrections";
 import { KageLanding } from "@/components/site/KageLanding";
-import { PlainFlowStoryRescue } from "@/components/site/PlainFlowStoryRescue";
 import "@/components/site/UserExperiencePolish.css";
 import "@/components/site/UserExperiencePolishFinal.css";
 import "@/components/site/ResponsiveMediaHeaderFinal.css";
@@ -13,6 +13,7 @@ import "@/components/site/FinalHomepageAudit.css";
 import "@/components/site/FinalHomepageUserFix.css";
 import "@/components/site/FinalHomepageMotionRepair.css";
 import "@/components/site/UserReportedVisualFinal.css";
+import "@/components/site/FinalUserRequestedRepair.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -86,7 +87,7 @@ function HomePage() {
   return (
     <>
       <KageLanding />
-      <PlainFlowStoryRescue />
+      <HomepageRequestedCorrections />
       <HomepagePriceReliabilityGuard />
     </>
   );

@@ -99,6 +99,7 @@ jobs:
                     backgroundImage: s.backgroundImage,
                     boxShadow: s.boxShadow,
                     borderColor: s.borderColor,
+                    borderTopWidth: s.borderTopWidth,
                     borderRadius: s.borderRadius,
                     backdropFilter: s.backdropFilter || s.webkitBackdropFilter || '',
                     rect: el.getBoundingClientRect().toJSON(),
@@ -152,12 +153,14 @@ jobs:
                 return;
               }
               const backgroundAlpha = alphaOf(launcher.background);
-              const borderAlpha = alphaOf(launcher.borderColor);
-              if (!(backgroundAlpha >= 0.03 && backgroundAlpha <= 0.14)) {
+              if (!(backgroundAlpha >= 0.025 && backgroundAlpha <= 0.16)) {
                 failures.push(`${label} launcher background alpha ${backgroundAlpha} (${launcher.background})`);
               }
-              if (!(borderAlpha >= 0.15 && borderAlpha <= 0.55)) {
-                failures.push(`${label} launcher border alpha ${borderAlpha} (${launcher.borderColor})`);
+              if (launcher.borderTopWidth !== '0px') {
+                failures.push(`${label} launcher border width ${launcher.borderTopWidth}`);
+              }
+              if (launcher.boxShadow !== 'none') {
+                failures.push(`${label} launcher shadow ${launcher.boxShadow}`);
               }
               if (launcher.backgroundImage !== 'none') failures.push(`${label} launcher background-image ${launcher.backgroundImage}`);
               if (launcher.borderRadius !== '50%') failures.push(`${label} launcher radius ${launcher.borderRadius}`);

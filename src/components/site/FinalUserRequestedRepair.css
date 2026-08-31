@@ -1,0 +1,127 @@
+/* Final homepage-only authority for the user-reported 2026-08-31 fixes.
+   This file is intentionally imported last by the home route. */
+
+/* Give Slovak diacritics real vertical clearance. The previous 0.79 leading
+   visually collided carons/acute accents with the line above. */
+.kage-home .kage-hero h1 {
+  line-height: 0.9 !important;
+}
+
+.kage-home .kage-hero h1 > .typed-line,
+.kage-home .kage-hero h1 > em,
+.kage-home .kage-hero h1 > em > .typed-line {
+  line-height: inherit !important;
+}
+
+/* Solution CTAs are brand lime at rest, black on hover/focus, with no glow.
+   Visible wording is corrected here while the companion component synchronizes
+   the button's accessible name. */
+.kage-home .hybrid-tool__cta {
+  min-height: 48px !important;
+  border: 1px solid #c8f06a !important;
+  border-radius: 14px !important;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+  box-shadow: none !important;
+  font-size: 0 !important;
+}
+
+.kage-home .hybrid-tool__cta::before {
+  font-size: 0.85rem;
+  font-weight: 780;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+}
+
+.kage-home .hybrid-tool:nth-child(1) .hybrid-tool__cta::before {
+  content: "Otvoriť chatbot";
+}
+
+.kage-home .hybrid-tool:nth-child(2) .hybrid-tool__cta::before {
+  content: "Otvoriť kalkulačku";
+}
+
+.kage-home .hybrid-tool:nth-child(3) .hybrid-tool__cta::before {
+  content: "Otvoriť konfigurátor";
+}
+
+.kage-home .hybrid-tool:nth-child(4) .hybrid-tool__cta::before {
+  content: "Otvoriť poradcu";
+}
+
+.kage-home .hybrid-tool__cta svg {
+  font-size: initial;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .hybrid-tool:is(:hover, :focus-visible) .hybrid-tool__cta {
+    border-color: #0b0e0c !important;
+    background: #0b0e0c !important;
+    color: #f6f5ee !important;
+    box-shadow: none !important;
+  }
+}
+
+/* The original 03 section stays a native vertical scroll that continuously
+   drives the horizontal 400%-wide track. Rounded controls remove the accidental
+   boxy dashboard feel without changing the stage geometry. */
+.kage-home .hybrid-flow__modes {
+  gap: 0.45rem !important;
+}
+
+.kage-home .hybrid-flow__modes button,
+.kage-home .hybrid-flow__mobile-modes button {
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+.kage-home .hybrid-flow__modes button[data-active="true"],
+.kage-home .hybrid-flow__mobile-modes button[data-active="true"] {
+  box-shadow: none !important;
+}
+
+.kage-home .hybrid-flow__artifact {
+  border-radius: 18px !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.kage-home .kage-flow__steps i {
+  border-radius: 999px;
+}
+
+/* Realization screenshots keep their editorial composition but no longer read
+   as hard-edged image boxes. */
+.kage-home .hybrid-project__visual,
+.kage-home .project-composite,
+.kage-home .hybrid-hero__case {
+  border-radius: 18px !important;
+}
+
+.kage-home .hybrid-project__visual {
+  overflow: hidden;
+}
+
+/* Secondary motion targets are composited and never alter layout. */
+.kage-home [data-secondary-motion] {
+  will-change: transform, opacity;
+}
+
+@media (max-width: 720px) {
+  .kage-home .kage-hero h1 {
+    line-height: 0.94 !important;
+  }
+
+  .kage-home .hybrid-project__visual,
+  .kage-home .project-composite,
+  .kage-home .hybrid-hero__case,
+  .kage-home .hybrid-flow__artifact {
+    border-radius: 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kage-home [data-secondary-motion] {
+    will-change: auto;
+  }
+}
