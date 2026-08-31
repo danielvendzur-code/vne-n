@@ -40,6 +40,10 @@ test("flow final authority is slow during travel and restores the settle cue", (
   assert.match(tuner, /clamp\(210 \+ Math\.abs\(distance\) \* 0\.09, 210, 300\)/);
 });
 
-test("website requests a fresh transparent-launcher widget release", () => {
-  assert.match(loader, /WIDGET_RELEASE = "transparent-launcher-20260828-v12"/);
+test("website requests the round one-stroke launcher release and never the text pill fallback", () => {
+  assert.match(loader, /WIDGET_RELEASE = "round-one-stroke-launcher-20260831-v15"/);
+  assert.match(loader, /borderRadius: "50%"/);
+  assert.match(loader, /requestAnimationFrame/);
+  assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);
+  assert.doesNotMatch(loader, /<small>Otvoriť krátke zadanie<\/small>/);
 });
