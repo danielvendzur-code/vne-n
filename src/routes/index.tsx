@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { KageLanding } from "@/components/site/KageLanding";
+import { PlainFlowStoryRescue } from "@/components/site/PlainFlowStoryRescue";
 import "@/components/site/UserExperiencePolish.css";
 import "@/components/site/UserExperiencePolishFinal.css";
 import "@/components/site/ResponsiveMediaHeaderFinal.css";
@@ -10,6 +11,7 @@ import "@/components/site/RequestedAugustDelta.css";
 import "@/components/site/FinalHomepageAudit.css";
 import "@/components/site/FinalHomepageUserFix.css";
 import "@/components/site/FinalHomepageMotionRepair.css";
+import "@/components/site/UserReportedVisualFinal.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -80,5 +82,10 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <KageLanding />;
+  return (
+    <>
+      <KageLanding />
+      <PlainFlowStoryRescue />
+    </>
+  );
 }
