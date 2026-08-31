@@ -16,7 +16,10 @@ test("homepage restores continuous horizontal flow without forced snapping", asy
   assert.match(landing, /\["0%", "-75%"\]/);
   assert.match(tuner, /stopImmediatePropagation/);
   assert.match(tuner, /Do not preventDefault/);
-  assert.doesNotMatch(tuner, /window\.scrollTo|requestAnimationFrame|FLOW_IDLE_MS|targetForCurrentPosition/);
+  assert.doesNotMatch(
+    tuner,
+    /window\.scrollTo|requestAnimationFrame|FLOW_IDLE_MS|targetForCurrentPosition/,
+  );
 });
 
 test("homepage CTAs diacritics and cards keep the requested visual states", async () => {
@@ -44,11 +47,17 @@ test("header pricing and contact fixes are final global authority", async () => 
 
   assert.match(layout, /FinalGlobalUserRepair\.css/);
   assert.match(css, /\.site-theme-white-green \.site-header__cta[\s\S]*background:\s*#c8f06a/);
-  assert.match(css, /\.site-theme-white-green \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background:\s*#0b0e0c/);
+  assert.match(
+    css,
+    /\.site-theme-white-green \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background:\s*#0b0e0c/,
+  );
   assert.match(css, /\.site-theme-white-green \.site-nav a::after[\s\S]*height:\s*1px/);
   assert.match(css, /\.site-theme-white-green \.site-nav a[\s\S]*background:\s*transparent/);
   assert.match(css, /minmax\(22rem, 1\.4fr\)/);
   assert.match(css, /grid-template-columns:\s*minmax\(0, 1fr\) auto auto/);
   assert.match(css, /\.contact-page \.sp-hero \.sp-hero-lead[\s\S]*display:\s*none/);
-  assert.match(css, /\.pricing-page--rebrand \.pricing-hero__facts[\s\S]*background:\s*transparent/);
+  assert.match(
+    css,
+    /\.pricing-page--rebrand \.pricing-hero__facts[\s\S]*background:\s*transparent/,
+  );
 });
