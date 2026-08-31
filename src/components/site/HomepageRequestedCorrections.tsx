@@ -76,18 +76,20 @@ export function HomepageRequestedCorrections(): null {
     }
 
     const targets: Array<{ element: HTMLElement; kind: MotionKind }> = [];
-    root.querySelectorAll<HTMLElement>(".hybrid-project__visual").forEach((element) =>
-      targets.push({ element, kind: "project" }),
-    );
-    root.querySelectorAll<HTMLElement>(".hybrid-process__list > li > span:first-child").forEach((element) =>
-      targets.push({ element, kind: "process" }),
-    );
-    root.querySelectorAll<SVGElement>(".outcome-comparison__group li > svg").forEach((element) =>
-      targets.push({ element: element as unknown as HTMLElement, kind: "outcome" }),
-    );
-    root.querySelectorAll<HTMLElement>(".hybrid-price__grid > div > strong").forEach((element) =>
-      targets.push({ element, kind: "price" }),
-    );
+    root
+      .querySelectorAll<HTMLElement>(".hybrid-project__visual")
+      .forEach((element) => targets.push({ element, kind: "project" }));
+    root
+      .querySelectorAll<HTMLElement>(".hybrid-process__list > li > span:first-child")
+      .forEach((element) => targets.push({ element, kind: "process" }));
+    root
+      .querySelectorAll<SVGElement>(".outcome-comparison__group li > svg")
+      .forEach((element) =>
+        targets.push({ element: element as unknown as HTMLElement, kind: "outcome" }),
+      );
+    root
+      .querySelectorAll<HTMLElement>(".hybrid-price__grid > div > strong")
+      .forEach((element) => targets.push({ element, kind: "price" }));
 
     const kindByElement = new Map(targets.map(({ element, kind }) => [element, kind]));
     const observer = new IntersectionObserver(
