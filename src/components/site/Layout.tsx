@@ -13,6 +13,7 @@ import "./SubpagePolish.css";
 import "./RequestedAugustPolish.css";
 import "./FinalMobileAudit.css";
 import "./FinalUxAuthority.css";
+import "./FinalGlobalUserRepair.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
