@@ -75,8 +75,8 @@ jobs:
                 --header 'Cache-Control: no-cache, no-store, max-age=0' \
                 "${origin}/widget-loader.js?verify=${stamp}" -o "${loader}" || true
 
-              if ! grep -Fq 'translucent-launcher-20260829-v14' "${loader}" 2>/dev/null; then
-                echo "loader marker v14 not live yet"
+              if ! grep -Fq 'round-one-stroke-launcher-20260831-v15' "${loader}" 2>/dev/null; then
+                echo "round launcher marker v15 not live yet"
                 sleep 10
                 continue
               fi
@@ -106,14 +106,14 @@ jobs:
                 printf '\n' >> "${css}"
               done < "${workdir}/css-urls.txt"
 
-              if ! grep -Fq '440vh' "${css}"; then
-                echo "homepage CSS marker 440vh not live yet"
+              if ! grep -Fq 'plain-flow-story' "${css}"; then
+                echo "plain flow CSS marker not live yet"
                 sleep 10
                 continue
               fi
 
-              if ! grep -Eq 'minmax\(20rem[^)]*1\.08fr' "${css}"; then
-                echo "homepage CSS marker minmax(20rem, 1.08fr) not live yet"
+              if ! grep -Fq 'line-height:1.08' "${css}" && ! grep -Fq 'line-height: 1.08' "${css}"; then
+                echo "safe heading line-height marker not live yet"
                 sleep 10
                 continue
               fi
@@ -121,9 +121,9 @@ jobs:
               echo "LIVE_DOMAIN_VERIFIED=success"
               echo "verified_origin=${origin}"
               echo "verified_final_url=${final_url}"
-              echo "verified_loader=translucent-launcher-20260829-v14"
-              echo "verified_solution_title_column=20rem"
-              echo "verified_flow_height=440vh"
+              echo "verified_loader=round-one-stroke-launcher-20260831-v15"
+              echo "verified_flow=plain-scroll-four-step"
+              echo "verified_heading_leading=1.08"
               return 0
             done
 
@@ -131,8 +131,8 @@ jobs:
             echo "Last loader excerpt:"
             head -c 1000 "${loader}" 2>/dev/null || true
             echo
-            echo "Last CSS marker diagnostics:"
-            grep -Eo '([0-9]+(\.[0-9]+)?rem|[0-9]+vh)' "${css}" 2>/dev/null | tail -80 || true
+            echo "Last CSS diagnostics:"
+            grep -Eo '(plain-flow-story|line-height:[[:space:]]*1\.08)' "${css}" 2>/dev/null | tail -80 || true
             return 1
           }
 
