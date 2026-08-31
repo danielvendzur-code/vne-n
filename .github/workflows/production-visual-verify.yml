@@ -37,12 +37,6 @@ jobs:
           import fs from 'node:fs';
 
           const browser = await chromium.launch({ headless: true });
-          const alphaOf = (value) => {
-            const channels = String(value || '').match(/[\d.]+/g)?.map(Number) ?? [];
-            if (channels.length >= 4) return channels[3];
-            if (channels.length >= 3) return 1;
-            return 0;
-          };
 
           async function inspect(viewport, label, attempt) {
             const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
@@ -78,13 +72,34 @@ jobs:
               };
             }));
 
-            const flow = await page.locator('.kage-flow').first().evaluate((el) => {
+            const flow = await page.locator('#ako-to-funguje.plain-flow-story').first().evaluate((el) => {
               const rect = el.getBoundingClientRect();
+              const style = getComputedStyle(el);
               return {
-                computedHeight: getComputedStyle(el).height,
                 rectHeight: rect.height,
                 viewportHeight: innerHeight,
                 ratio: rect.height / innerHeight,
+                position: style.position,
+                stepCount: el.querySelectorAll('.plain-flow-story__step').length,
+                modeCount: el.querySelectorAll('.plain-flow-story__modes button').length,
+              };
+            }).catch(() => null);
+
+            const legacyFlow = await page.locator('.kage-flow[data-flow-rescued="true"]').first().evaluate((el) => ({
+              display: getComputedStyle(el).display,
+              ariaHidden: el.getAttribute('aria-hidden'),
+            })).catch(() => null);
+
+            const outcomeHeading = await page.locator('.outcome-comparison__intro h2').first().evaluate((el) => ({
+              lineHeight: getComputedStyle(el).lineHeight,
+              fontSize: getComputedStyle(el).fontSize,
+            })).catch(() => null);
+
+            const cta = await page.locator('.site-header__cta').first().evaluate((el) => {
+              const style = getComputedStyle(el);
+              return {
+                background: style.backgroundColor,
+                color: style.color,
               };
             }).catch(() => null);
 
@@ -118,7 +133,7 @@ jobs:
 
             const shot = `live-${label}.png`;
             await page.screenshot({ path: shot, fullPage: true });
-            const result = { label, viewport, url: page.url(), rows, flow, launcher, geometry, shot };
+            const result = { label, viewport, url: page.url(), rows, flow, legacyFlow, outcomeHeading, cta, launcher, geometry, shot };
             await page.close();
             return result;
           }
@@ -144,24 +159,64 @@ jobs:
             if (mobile.geometry.innerWidth !== 390 || mobile.geometry.innerHeight !== 844) {
               failures.push(`mobile viewport is ${mobile.geometry.innerWidth}x${mobile.geometry.innerHeight}`);
             }
-            if (desktop.flow && desktop.flow.ratio < 4.2) failures.push(`flow too short: ${desktop.flow.ratio.toFixed(2)}vh`);
+
+            const checkFlow = (result, label) => {
+              if (!result.flow) {
+                failures.push(`${label} plain flow missing`);
+                return;
+              }
+              if (result.flow.stepCount !== 4) failures.push(`${label} flow step count ${result.flow.stepCount}`);
+              if (result.flow.modeCount !== 3) failures.push(`${label} flow mode count ${result.flow.modeCount}`);
+              if (['fixed', 'sticky'].includes(result.flow.position)) failures.push(`${label} flow unexpectedly ${result.flow.position}`);
+              if (result.flow.ratio < 1.6) failures.push(`${label} flow too short: ${result.flow.ratio.toFixed(2)} viewport heights`);
+              if (!result.legacyFlow || result.legacyFlow.display !== 'none' || result.legacyFlow.ariaHidden !== 'true') {
+                failures.push(`${label} legacy snapping flow is not fully hidden`);
+              }
+            };
+
+            checkFlow(desktop, 'desktop');
+            checkFlow(mobile, 'mobile');
+
+            const checkHeading = (result, label) => {
+              if (!result.outcomeHeading) {
+                failures.push(`${label} outcome heading missing`);
+                return;
+              }
+              const lineHeight = Number.parseFloat(result.outcomeHeading.lineHeight);
+              const fontSize = Number.parseFloat(result.outcomeHeading.fontSize);
+              if (!(lineHeight >= fontSize * 1.04)) {
+                failures.push(`${label} heading leading too tight: ${lineHeight}/${fontSize}`);
+              }
+            };
+
+            checkHeading(desktop, 'desktop');
+            checkHeading(mobile, 'mobile');
+
+            const checkCta = (result, label) => {
+              if (!result.cta) {
+                failures.push(`${label} header CTA missing`);
+                return;
+              }
+              if (result.cta.background !== 'rgb(200, 240, 106)') {
+                failures.push(`${label} CTA background ${result.cta.background}`);
+              }
+              if (result.cta.color !== 'rgb(7, 27, 21)') {
+                failures.push(`${label} CTA color ${result.cta.color}`);
+              }
+            };
+
+            checkCta(desktop, 'desktop');
+            checkCta(mobile, 'mobile');
 
             const checkLauncher = (launcher, label) => {
               if (!launcher) {
                 failures.push(`${label} launcher missing`);
                 return;
               }
-              const backgroundAlpha = alphaOf(launcher.background);
-              const borderAlpha = alphaOf(launcher.borderColor);
-              if (!(backgroundAlpha >= 0.03 && backgroundAlpha <= 0.14)) {
-                failures.push(`${label} launcher background alpha ${backgroundAlpha} (${launcher.background})`);
-              }
-              if (!(borderAlpha >= 0.15 && borderAlpha <= 0.55)) {
-                failures.push(`${label} launcher border alpha ${borderAlpha} (${launcher.borderColor})`);
-              }
+              if (launcher.background !== 'rgb(255, 255, 255)') failures.push(`${label} launcher background ${launcher.background}`);
               if (launcher.backgroundImage !== 'none') failures.push(`${label} launcher background-image ${launcher.backgroundImage}`);
               if (launcher.borderRadius !== '50%') failures.push(`${label} launcher radius ${launcher.borderRadius}`);
-              if (!launcher.backdropFilter.includes('blur(')) failures.push(`${label} launcher backdrop-filter ${launcher.backdropFilter}`);
+              if (launcher.backdropFilter && launcher.backdropFilter !== 'none') failures.push(`${label} launcher backdrop-filter ${launcher.backdropFilter}`);
               if (launcher.hostVersion !== 'premium-motion-20260829-v14') failures.push(`${label} widget version ${launcher.hostVersion}`);
             };
 
