@@ -51,7 +51,12 @@ export function HomepageFinishingPass(): null {
     const animations: Animation[] = [];
     let priceObserver: IntersectionObserver | null = null;
 
-    if (priceSection && !reducedMotion && canAnimate && typeof IntersectionObserver !== "undefined") {
+    if (
+      priceSection &&
+      !reducedMotion &&
+      canAnimate &&
+      typeof IntersectionObserver !== "undefined"
+    ) {
       priceObserver = new IntersectionObserver(
         ([entry]) => {
           if (!entry?.isIntersecting) return;

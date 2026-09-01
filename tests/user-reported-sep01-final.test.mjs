@@ -38,6 +38,9 @@ test("Sep 1 header and launcher polish remove hover boxes and keep requested CTA
 
   assert.match(css, /\.site-nav a::before[\s\S]*content: none !important/);
   assert.match(css, /\.site-header \.site-header__cta[\s\S]*background: #c8f06a !important/);
-  assert.match(css, /\.site-header \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background: #0b0e0c !important/);
+  assert.match(
+    css,
+    /\.site-header \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background: #0b0e0c !important/,
+  );
   assert.match(css, /#dv-assistant-fallback[\s\S]*0 0 0 6px/);
 });
