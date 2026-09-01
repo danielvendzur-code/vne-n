@@ -1,0 +1,107 @@
+/* Final corrective authority for the Sep 1 screenshot follow-up.
+   This file is intentionally narrow: header CTA, contact first view, and fallback launcher. */
+
+/* Začať projekt must be lime at rest on every adaptive header tone. */
+html body .site-theme-white-green .site-header.site-header .site-header__actions > .site-header__cta,
+html body
+  .site-theme-white-green
+  .site-header.site-header[data-adaptive="true"][data-tone]
+  .site-header__actions
+  > .site-header__cta {
+  border: 1px solid #c8f06a !important;
+  background: #c8f06a !important;
+  background-color: #c8f06a !important;
+  color: #071b15 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html body
+    .site-theme-white-green
+    .site-header.site-header
+    .site-header__actions
+    > .site-header__cta:is(:hover, :focus-visible),
+  html body
+    .site-theme-white-green
+    .site-header.site-header[data-adaptive="true"][data-tone]
+    .site-header__actions
+    > .site-header__cta:is(:hover, :focus-visible) {
+    border-color: #0b0e0c !important;
+    background: #0b0e0c !important;
+    background-color: #0b0e0c !important;
+    color: #f6f5ee !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+/* The local fallback should never disappear into the paper background. */
+html body #dv-assistant-fallback {
+  border: 1px solid rgba(18, 56, 45, 0.28) !important;
+  box-shadow:
+    0 0 0 5px rgba(18, 56, 45, 0.045),
+    0 18px 40px -26px rgba(11, 47, 32, 0.52) !important;
+}
+
+/* Contact: show the actual form in the first viewport instead of placing a full
+   editorial hero in front of it. */
+.contact-page--rebrand > .sp-hero {
+  min-height: 0 !important;
+  padding-top: clamp(2.1rem, 4vw, 3.6rem) !important;
+  padding-bottom: clamp(0.9rem, 1.8vw, 1.35rem) !important;
+}
+
+.contact-page--rebrand > .sp-hero .container-page {
+  gap: clamp(0.7rem, 1.25vw, 1.1rem) !important;
+}
+
+.contact-page--rebrand > .sp-hero h1 {
+  max-width: 12ch !important;
+  margin: 0 !important;
+  font-size: clamp(3rem, 5.6vw, 5.5rem) !important;
+  line-height: 0.94 !important;
+}
+
+.contact-page--rebrand > .sp-hero .sp-hero-lead {
+  max-width: 43rem !important;
+  font-size: clamp(0.96rem, 1.15vw, 1.08rem) !important;
+  line-height: 1.48 !important;
+}
+
+.contact-page--rebrand > .contact-section {
+  padding-top: clamp(0.9rem, 1.8vw, 1.4rem) !important;
+}
+
+.contact-page--rebrand .contact-form-wrap {
+  padding-top: 0.85rem !important;
+}
+
+.contact-page--rebrand .contact-form {
+  margin-top: 1.15rem !important;
+}
+
+@media (max-width: 900px) {
+  .contact-page--rebrand > .sp-hero {
+    padding-top: 1.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+
+  .contact-page--rebrand > .sp-hero h1 {
+    max-width: 10ch !important;
+    font-size: clamp(2.65rem, 11vw, 4.4rem) !important;
+  }
+
+  .contact-page--rebrand .contact-editorial-grid {
+    gap: 2rem !important;
+  }
+
+  /* On narrow screens the form is the primary action, so it comes before the
+     supporting contact notes. */
+  .contact-page--rebrand .contact-form-wrap {
+    order: 1;
+  }
+
+  .contact-page--rebrand .contact-editorial-aside {
+    order: 2;
+  }
+}
