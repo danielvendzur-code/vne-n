@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { HomepageFinishingPass } from "@/components/site/HomepageFinishingPass";
 import { HomepagePriceReliabilityGuard } from "@/components/site/HomepagePriceReliabilityGuard";
 import { KageLanding } from "@/components/site/KageLanding";
 import { PlainFlowStoryRescue } from "@/components/site/PlainFlowStoryRescue";
@@ -88,6 +89,7 @@ function HomePage() {
       <KageLanding />
       <PlainFlowStoryRescue />
       <HomepagePriceReliabilityGuard />
+      <HomepageFinishingPass />
     </>
   );
 }

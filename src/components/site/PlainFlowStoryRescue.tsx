@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { openSiteAssistant } from "@/lib/site-assistant";
 
@@ -122,9 +122,14 @@ function presetForMode(mode: FlowMode): "inquiry" | "calculator" | "product" {
   return "inquiry";
 }
 
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
 export function PlainFlowStoryRescue(): JSX.Element | null {
   const [mountNode, setMountNode] = useState<HTMLElement | null>(null);
   const [mode, setMode] = useState<FlowMode>("chatbot");
+  const [activeStage, setActiveStage] = useState(0);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const reducedMotionRef = useRef(false);
 
   useEffect(() => {
     const legacy = document.querySelector<HTMLElement>(".hybrid-flow.kage-flow");
@@ -171,9 +176,99 @@ export function PlainFlowStoryRescue(): JSX.Element | null {
     };
   }, []);
 
+  useEffect(() => {
+    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!mountNode || !viewport) return undefined;
+
+    let frame = 0;
+
+    const syncActiveStage = () => {
+      frame = 0;
+      const panels = Array.from(viewport.querySelectorAll<HTMLElement>("[data-flow-stage]"));
+      if (panels.length === 0) return;
+
+      const center = viewport.scrollLeft + viewport.clientWidth / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      panels.forEach((panel, index) => {
+        const panelCenter = panel.offsetLeft + panel.offsetWidth / 2;
+        const distance = Math.abs(panelCenter - center);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActiveStage((current) => (current === closestIndex ? current : closestIndex));
+    };
+
+    const requestSync = () => {
+      if (frame !== 0) return;
+      frame = window.requestAnimationFrame(syncActiveStage);
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+      const maxScrollLeft = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+      if (maxScrollLeft <= 1) return;
+
+      const movingForward = event.deltaY > 0;
+      const canMove = movingForward
+        ? viewport.scrollLeft < maxScrollLeft - 1
+        : viewport.scrollLeft > 1;
+
+      if (!canMove) return;
+
+      event.preventDefault();
+      viewport.scrollLeft = clamp(viewport.scrollLeft + event.deltaY, 0, maxScrollLeft);
+      requestSync();
+    };
+
+    viewport.addEventListener("wheel", onWheel, { passive: false });
+    viewport.addEventListener("scroll", requestSync, { passive: true });
+    window.addEventListener("resize", requestSync, { passive: true });
+    requestSync();
+
+    return () => {
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+      viewport.removeEventListener("wheel", onWheel);
+      viewport.removeEventListener("scroll", requestSync);
+      window.removeEventListener("resize", requestSync);
+    };
+  }, [mountNode, mode]);
+
   if (!mountNode) return null;
 
   const stages = flowModes[mode].stages;
+
+  const goToStage = (index: number) => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const panels = Array.from(viewport.querySelectorAll<HTMLElement>("[data-flow-stage]"));
+    const panel = panels[index];
+    if (!panel) return;
+
+    viewport.scrollTo({
+      left: panel.offsetLeft,
+      behavior: reducedMotionRef.current ? "auto" : "smooth",
+    });
+    setActiveStage(index);
+  };
+
+  const selectMode = (nextMode: FlowMode) => {
+    setMode(nextMode);
+    setActiveStage(0);
+    window.requestAnimationFrame(() => {
+      viewportRef.current?.scrollTo({ left: 0, behavior: "auto" });
+    });
+  };
 
   return createPortal(
     <section
@@ -183,49 +278,107 @@ export function PlainFlowStoryRescue(): JSX.Element | null {
       data-nav-tone="dark"
       data-signal-chapter="3"
     >
-      <div className="container-page plain-flow-story__inner">
-        <header className="plain-flow-story__header">
-          <span className="plain-flow-story__eyebrow">03 · AKO TO FUNGUJE</span>
-          <h2 id="plain-flow-story-title">Štyri jasné kroky. Bez zadržiavania scrollu.</h2>
-          <div className="plain-flow-story__modes" aria-label="Vyberte typ riešenia">
-            {(Object.keys(flowModes) as FlowMode[]).map((item) => (
-              <button
-                key={item}
-                type="button"
-                data-active={mode === item}
-                aria-pressed={mode === item}
-                onClick={() => setMode(item)}
-              >
-                {flowModes[item].label}
-              </button>
-            ))}
-          </div>
-        </header>
+      <div className="container-page plain-flow-story__header">
+        <span className="plain-flow-story__eyebrow">03 · AKO TO FUNGUJE</span>
+        <h2 id="plain-flow-story-title">Štyri jasné kroky. Bez zadržiavania scrollu.</h2>
+        <div className="plain-flow-story__modes" aria-label="Vyberte typ riešenia">
+          {(Object.keys(flowModes) as FlowMode[]).map((item) => (
+            <button
+              key={item}
+              type="button"
+              data-active={mode === item}
+              aria-pressed={mode === item}
+              onClick={() => selectMode(item)}
+            >
+              {flowModes[item].label}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        <ol className="plain-flow-story__steps">
-          {stages.map((stage) => (
-            <li key={`${mode}-${stage.index}`} className="plain-flow-story__step">
-              <div className="plain-flow-story__number" aria-hidden="true">
-                {stage.index}
-              </div>
-              <div className="plain-flow-story__copy">
-                <span>{stage.label}</span>
-                <h3>{stage.title}</h3>
-                <p>{stage.copy}</p>
-              </div>
-              <div className="plain-flow-story__artifact">
-                <span>VÝSLEDOK KROKU</span>
-                <strong>{stage.artifact}</strong>
+      <div
+        ref={viewportRef}
+        className="plain-flow-story__viewport"
+        tabIndex={0}
+        aria-label={`${flowModes[mode].label}: štyri kroky, posúvajte do strany`}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            goToStage(Math.min(stages.length - 1, activeStage + 1));
+          }
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            goToStage(Math.max(0, activeStage - 1));
+          }
+        }}
+      >
+        <ol className="plain-flow-story__track">
+          {stages.map((stage, index) => (
+            <li
+              key={`${mode}-${stage.index}`}
+              className="plain-flow-story__panel"
+              data-flow-stage={stage.index}
+              data-active={index === activeStage || undefined}
+            >
+              <div className="container-page plain-flow-story__panel-inner">
+                <div className="plain-flow-story__number" aria-hidden="true">
+                  {stage.index}
+                </div>
+                <div className="plain-flow-story__copy">
+                  <span>{stage.label}</span>
+                  <h3>{stage.title}</h3>
+                  <p>{stage.copy}</p>
+                </div>
+                <div className="plain-flow-story__artifact">
+                  <span>VÝSLEDOK KROKU</span>
+                  <strong>{stage.artifact}</strong>
+                </div>
               </div>
             </li>
           ))}
         </ol>
+      </div>
+
+      <div className="container-page plain-flow-story__footer">
+        <div className="plain-flow-story__stage-controls" aria-label="Prejsť na krok">
+          {stages.map((stage, index) => (
+            <button
+              key={stage.index}
+              type="button"
+              data-active={index === activeStage}
+              aria-current={index === activeStage ? "step" : undefined}
+              aria-label={`Krok ${index + 1}: ${stage.label}`}
+              onClick={() => goToStage(index)}
+            >
+              {stage.index}
+            </button>
+          ))}
+        </div>
+
+        <div className="plain-flow-story__arrows" aria-label="Posun krokov">
+          <button
+            type="button"
+            aria-label="Predchádzajúci krok"
+            disabled={activeStage === 0}
+            onClick={() => goToStage(Math.max(0, activeStage - 1))}
+          >
+            <ArrowLeft aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            aria-label="Nasledujúci krok"
+            disabled={activeStage === stages.length - 1}
+            onClick={() => goToStage(Math.min(stages.length - 1, activeStage + 1))}
+          >
+            <ArrowRight aria-hidden="true" />
+          </button>
+        </div>
 
         <button
           type="button"
           className="plain-flow-story__cta"
           onClick={() =>
-            openSiteAssistant({ source: "plain-flow-story", preset: presetForMode(mode) })
+            openSiteAssistant({ source: "horizontal-flow-story", preset: presetForMode(mode) })
           }
         >
           Vyskúšať na mojom webe <ArrowRight aria-hidden="true" />
