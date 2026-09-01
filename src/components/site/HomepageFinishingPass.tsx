@@ -1,41 +1,47 @@
 import { useEffect } from "react";
 
-const CALCULATOR_LABEL = "Kalkulačka";
-const CALCULATOR_CTA = "Vyskladať kalkulačku";
+const TOOL_CTAS = new Map<string, string>([
+  ["Chatbot", "Vyskladať chatbota"],
+  ["Kalkulačka", "Vyskladať kalkulačku"],
+  ["Konfigurátor", "Vyskladať konfigurátor"],
+  ["Produktový poradca", "Vyskladať poradcu"],
+]);
 
-function updateCalculatorCta(): void {
-  const calculatorButton = Array.from(
-    document.querySelectorAll<HTMLButtonElement>(".hybrid-tool"),
-  ).find((button) => button.querySelector("strong")?.textContent?.trim() === CALCULATOR_LABEL);
+function updateToolCtas(): void {
+  const toolButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".hybrid-tool"));
 
-  if (!calculatorButton) return;
+  toolButtons.forEach((button) => {
+    const toolName = button.querySelector("strong")?.textContent?.trim() ?? "";
+    const expectedCta = TOOL_CTAS.get(toolName);
+    if (!expectedCta) return;
 
-  const cta = calculatorButton.querySelector<HTMLElement>(".hybrid-tool__cta");
-  if (!cta) return;
+    const cta = button.querySelector<HTMLElement>(".hybrid-tool__cta");
+    if (!cta) return;
 
-  const textNode = Array.from(cta.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
-  const expectedText = `${CALCULATOR_CTA} `;
+    const textNode = Array.from(cta.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
+    const expectedText = `${expectedCta} `;
 
-  if (textNode) {
-    if (textNode.textContent !== expectedText) textNode.textContent = expectedText;
-  } else {
-    cta.prepend(document.createTextNode(expectedText));
-  }
+    if (textNode) {
+      if (textNode.textContent !== expectedText) textNode.textContent = expectedText;
+    } else {
+      cta.prepend(document.createTextNode(expectedText));
+    }
 
-  const expectedAriaLabel = `${CALCULATOR_CTA}: ${CALCULATOR_LABEL}`;
-  if (calculatorButton.getAttribute("aria-label") !== expectedAriaLabel) {
-    calculatorButton.setAttribute("aria-label", expectedAriaLabel);
-  }
+    const expectedAriaLabel = `${expectedCta}: ${toolName}`;
+    if (button.getAttribute("aria-label") !== expectedAriaLabel) {
+      button.setAttribute("aria-label", expectedAriaLabel);
+    }
+  });
 }
 
 export function HomepageFinishingPass(): null {
   useEffect(() => {
-    updateCalculatorCta();
+    updateToolCtas();
 
     const toolsRoot = document.querySelector<HTMLElement>(".hybrid-tools__rows");
     const textObserver = toolsRoot
       ? new MutationObserver(() => {
-          updateCalculatorCta();
+          updateToolCtas();
         })
       : null;
 
