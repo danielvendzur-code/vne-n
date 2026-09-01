@@ -43,9 +43,21 @@ html body #dv-assistant-fallback {
     0 18px 40px -26px rgba(11, 47, 32, 0.52) !important;
 }
 
-/* Contact: show the actual form in the first viewport instead of placing a full
-   editorial hero in front of it. */
+/* Contact: the form is now the first visible content directly below navigation.
+   Keep the editorial intro below it instead of forcing users to scroll past copy. */
+.contact-page--rebrand {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-page--rebrand > .contact-section {
+  order: 1;
+  padding-top: clamp(0.45rem, 1vw, 0.8rem) !important;
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem) !important;
+}
+
 .contact-page--rebrand > .sp-hero {
+  order: 2;
   min-height: 0 !important;
   padding-top: clamp(2.1rem, 4vw, 3.6rem) !important;
   padding-bottom: clamp(0.9rem, 1.8vw, 1.35rem) !important;
@@ -68,19 +80,23 @@ html body #dv-assistant-fallback {
   line-height: 1.48 !important;
 }
 
-.contact-page--rebrand > .contact-section {
-  padding-top: clamp(0.9rem, 1.8vw, 1.4rem) !important;
+.contact-page--rebrand .contact-editorial-grid {
+  align-items: start !important;
 }
 
 .contact-page--rebrand .contact-form-wrap {
-  padding-top: 0.85rem !important;
+  padding-top: 0 !important;
 }
 
 .contact-page--rebrand .contact-form {
-  margin-top: 1.15rem !important;
+  margin-top: 0.75rem !important;
 }
 
 @media (max-width: 900px) {
+  .contact-page--rebrand > .contact-section {
+    padding-top: 0.25rem !important;
+  }
+
   .contact-page--rebrand > .sp-hero {
     padding-top: 1.75rem !important;
     padding-bottom: 0.75rem !important;
