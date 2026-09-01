@@ -70,6 +70,7 @@ jobs:
               const cr = cta?.getBoundingClientRect();
               return {
                 title: title?.textContent?.trim(),
+                cta: cta?.textContent?.trim(),
                 titleBenefitOverlap: overlap(tr, br),
                 benefitCopyOverlap: overlap(br, pr),
                 copyCtaOverlap: overlap(pr, cr),
@@ -78,15 +79,35 @@ jobs:
               };
             }));
 
-            const flow = await page.locator('.kage-flow').first().evaluate((el) => {
-              const rect = el.getBoundingClientRect();
+            const flow = await page.locator('.plain-flow-story__viewport').first().evaluate((el) => {
+              const style = getComputedStyle(el);
+              const panels = Array.from(el.querySelectorAll('[data-flow-stage]'));
               return {
-                computedHeight: getComputedStyle(el).height,
-                rectHeight: rect.height,
-                viewportHeight: innerHeight,
-                ratio: rect.height / innerHeight,
+                overflowX: style.overflowX,
+                clientWidth: el.clientWidth,
+                scrollWidth: el.scrollWidth,
+                panelCount: panels.length,
+                panelWidths: panels.map((panel) => panel.getBoundingClientRect().width),
               };
             }).catch(() => null);
+
+            const hero = await page.locator('.kage-hero h1').first().evaluate((el) => {
+              const style = getComputedStyle(el);
+              const characters = Array.from(el.querySelectorAll('.typed-character'));
+              return {
+                lineHeight: Number.parseFloat(style.lineHeight),
+                fontSize: Number.parseFloat(style.fontSize),
+                characterTransforms: characters.map((character) => getComputedStyle(character).transform),
+              };
+            }).catch(() => null);
+
+            const projectCta = await page.locator('.site-header__cta').first().evaluate(async (el) => {
+              const rest = getComputedStyle(el);
+              const restBackground = rest.backgroundColor;
+              return { restBackground };
+            }).catch(() => null);
+
+            const calculatorCta = rows.find((row) => row.title === 'Kalkulačka')?.cta ?? null;
 
             let launcher = null;
             for (const frame of page.frames()) {
@@ -118,7 +139,19 @@ jobs:
 
             const shot = `live-${label}.png`;
             await page.screenshot({ path: shot, fullPage: true });
-            const result = { label, viewport, url: page.url(), rows, flow, launcher, geometry, shot };
+            const result = {
+              label,
+              viewport,
+              url: page.url(),
+              rows,
+              flow,
+              hero,
+              projectCta,
+              calculatorCta,
+              launcher,
+              geometry,
+              shot,
+            };
             await page.close();
             return result;
           }
@@ -144,7 +177,40 @@ jobs:
             if (mobile.geometry.innerWidth !== 390 || mobile.geometry.innerHeight !== 844) {
               failures.push(`mobile viewport is ${mobile.geometry.innerWidth}x${mobile.geometry.innerHeight}`);
             }
-            if (desktop.flow && desktop.flow.ratio < 4.2) failures.push(`flow too short: ${desktop.flow.ratio.toFixed(2)}vh`);
+
+            const checkHorizontalFlow = (flow, label) => {
+              if (!flow) {
+                failures.push(`${label} horizontal flow missing`);
+                return;
+              }
+              if (!['auto', 'scroll'].includes(flow.overflowX)) {
+                failures.push(`${label} flow overflow-x ${flow.overflowX}`);
+              }
+              if (flow.panelCount !== 4) failures.push(`${label} flow panel count ${flow.panelCount}`);
+              if (flow.scrollWidth <= flow.clientWidth * 2.5) {
+                failures.push(`${label} flow is not horizontally scrollable: ${flow.scrollWidth}/${flow.clientWidth}`);
+              }
+              if (flow.panelWidths.some((width) => width <= 0)) failures.push(`${label} flow contains zero-width panel`);
+            };
+
+            checkHorizontalFlow(desktop.flow, 'desktop');
+            checkHorizontalFlow(mobile.flow, 'mobile');
+
+            if (!desktop.hero || !Number.isFinite(desktop.hero.lineHeight) || !Number.isFinite(desktop.hero.fontSize)) {
+              failures.push('desktop hero typography unavailable');
+            } else if (desktop.hero.lineHeight / desktop.hero.fontSize < 0.9) {
+              failures.push(`desktop hero line-height ratio ${(desktop.hero.lineHeight / desktop.hero.fontSize).toFixed(2)}`);
+            }
+            if (desktop.hero?.characterTransforms.some((transform) => transform !== 'none')) {
+              failures.push('desktop hero characters retain transforms after typing');
+            }
+
+            if (desktop.projectCta?.restBackground !== 'rgb(200, 240, 106)') {
+              failures.push(`desktop project CTA background ${desktop.projectCta?.restBackground ?? 'missing'}`);
+            }
+            if (desktop.calculatorCta !== 'Vyskladať kalkulačku') {
+              failures.push(`calculator CTA is ${desktop.calculatorCta ?? 'missing'}`);
+            }
 
             const checkLauncher = (launcher, label) => {
               if (!launcher) {
