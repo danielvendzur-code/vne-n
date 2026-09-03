@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./AwardHome.css";
@@ -320,154 +320,17 @@ function presetForMode(mode: FlowMode): "inquiry" | "calculator" | "product" {
   return "inquiry";
 }
 
-const flowPanels = (viewport: HTMLElement) =>
-  Array.from(viewport.querySelectorAll<HTMLElement>("[data-flow-stage]"));
-
-/** Scroll offset of a stage inside its own scroller, independent of layout. */
-const flowStageOffset = (viewport: HTMLElement, panel: HTMLElement) =>
-  panel.getBoundingClientRect().left - viewport.getBoundingClientRect().left + viewport.scrollLeft;
-
-const scrollToFlowStage = (viewport: HTMLElement, index: number, smooth: boolean) => {
-  const panel = flowPanels(viewport)[index];
-  if (!panel) return;
-
-  viewport.scrollTo({
-    left: flowStageOffset(viewport, panel),
-    behavior: smooth ? "smooth" : "auto",
-  });
-};
-
-const nearestFlowStage = (viewport: HTMLElement) => {
-  let closest = 0;
-  let smallest = Number.POSITIVE_INFINITY;
-
-  flowPanels(viewport).forEach((panel, index) => {
-    const distance = Math.abs(flowStageOffset(viewport, panel) - viewport.scrollLeft);
-    if (distance >= smallest) return;
-    smallest = distance;
-    closest = index;
-  });
-
-  return closest;
-};
-
 /**
  * 03 / Ako to funguje.
  *
- * The four stages live in one native horizontal scroller: the page keeps its
- * own vertical scrolling at all times (no pinned section, no wheel capture and
- * no programmatic window.scrollTo), and the stages are moved by swipe, drag,
- * the step buttons or the keyboard. The active stage is read from an
- * IntersectionObserver inside the scroller, so nothing runs on page scroll.
+ * Four steps, read top to bottom with the page's own scrolling. There is no
+ * pinned stage, no horizontal viewport and no control the visitor has to find
+ * first: scrolling is the only interaction the section needs, and the three
+ * mode buttons simply swap the copy of all four steps at once.
  */
 function FlowStory() {
   const [mode, setMode] = useState<FlowMode>("chatbot");
-  const [activeStage, setActiveStage] = useState(0);
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
   const stages = flowModes[mode].stages;
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport || typeof IntersectionObserver === "undefined") return undefined;
-
-    const panels = flowPanels(viewport);
-    if (panels.length === 0) return undefined;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const index = panels.indexOf(entry.target as HTMLElement);
-          if (index < 0) return;
-          setActiveStage((current) => (current === index ? current : index));
-        });
-      },
-      { root: viewport, threshold: 0.6 },
-    );
-
-    panels.forEach((panel) => observer.observe(panel));
-    return () => observer.disconnect();
-  }, [mode]);
-
-  const goToStage = (index: number) => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-
-    scrollToFlowStage(viewport, index, !reducedMotion);
-    setActiveStage(index);
-  };
-
-  // Mouse drag panning. Touch and trackpad already pan the scroller natively.
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return undefined;
-
-    let pointerId: number | null = null;
-    let dragging = false;
-    let startX = 0;
-    let startScrollLeft = 0;
-
-    const stopDrag = (event: PointerEvent) => {
-      if (pointerId !== event.pointerId) return;
-      pointerId = null;
-      if (!dragging) return;
-
-      dragging = false;
-      delete viewport.dataset.dragging;
-      viewport.style.removeProperty("scroll-snap-type");
-      if (viewport.hasPointerCapture(event.pointerId)) {
-        viewport.releasePointerCapture(event.pointerId);
-      }
-      const stage = nearestFlowStage(viewport);
-      scrollToFlowStage(viewport, stage, !reducedMotion);
-      setActiveStage(stage);
-    };
-
-    const onPointerDown = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse" || event.button !== 0) return;
-      pointerId = event.pointerId;
-      dragging = false;
-      startX = event.clientX;
-      startScrollLeft = viewport.scrollLeft;
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (pointerId !== event.pointerId) return;
-
-      const delta = event.clientX - startX;
-      if (!dragging) {
-        if (Math.abs(delta) < 6) return;
-        dragging = true;
-        viewport.dataset.dragging = "true";
-        viewport.style.setProperty("scroll-snap-type", "none");
-        viewport.setPointerCapture(event.pointerId);
-      }
-
-      viewport.scrollLeft = startScrollLeft - delta;
-    };
-
-    viewport.addEventListener("pointerdown", onPointerDown);
-    viewport.addEventListener("pointermove", onPointerMove);
-    viewport.addEventListener("pointerup", stopDrag);
-    viewport.addEventListener("pointercancel", stopDrag);
-
-    return () => {
-      viewport.removeEventListener("pointerdown", onPointerDown);
-      viewport.removeEventListener("pointermove", onPointerMove);
-      viewport.removeEventListener("pointerup", stopDrag);
-      viewport.removeEventListener("pointercancel", stopDrag);
-      delete viewport.dataset.dragging;
-      viewport.style.removeProperty("scroll-snap-type");
-    };
-  }, [mode, reducedMotion]);
-
-  const selectMode = (nextMode: FlowMode) => {
-    if (nextMode === mode) return;
-    setMode(nextMode);
-    setActiveStage(0);
-    viewportRef.current?.scrollTo({ left: 0, behavior: "auto" });
-  };
 
   return (
     <section
@@ -489,7 +352,7 @@ function FlowStory() {
               key={item}
               data-active={mode === item}
               aria-pressed={mode === item}
-              onClick={() => selectMode(item)}
+              onClick={() => setMode(item)}
             >
               {flowModes[item].label}
             </button>
@@ -497,88 +360,29 @@ function FlowStory() {
         </div>
       </div>
 
-      <div
-        ref={viewportRef}
-        className="kage-flow-story__viewport"
-        tabIndex={0}
-        role="group"
-        aria-label={`${flowModes[mode].label}: štyri kroky, posúvajte do strany`}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowRight") {
-            event.preventDefault();
-            goToStage(Math.min(stages.length - 1, activeStage + 1));
-          }
-          if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            goToStage(Math.max(0, activeStage - 1));
-          }
-        }}
-      >
-        <ol className="kage-flow__track">
-          {stages.map((stage, index) => (
-            <li
-              className="kage-flow__panel"
-              key={`${mode}-${stage.index}`}
-              data-flow-stage={stage.index}
-              data-active={index === activeStage || undefined}
-            >
-              <div className="container-page kage-flow__panel-inner">
-                <span className="kage-flow__number" aria-hidden="true">
-                  {stage.index}
-                </span>
-                <div className="kage-flow__copy">
-                  <span>{stage.label}</span>
-                  <h3>{stage.title}</h3>
-                  <p>{stage.copy}</p>
-                </div>
-                <div className="kage-flow__artifact">
-                  <span>
-                    {flowModes[mode].label.toUpperCase()} / {stage.index}
-                  </span>
-                  <strong>{stage.artifact}</strong>
-                  <i aria-hidden="true">→</i>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
+      <ol className="container-page kage-flow-story__steps">
+        {stages.map((stage) => (
+          <li className="kage-flow__step" key={`${mode}-${stage.index}`}>
+            <span className="kage-flow__number" aria-hidden="true">
+              {stage.index}
+            </span>
+            <div className="kage-flow__copy">
+              <span>{stage.label}</span>
+              <h3>{stage.title}</h3>
+              <p>{stage.copy}</p>
+            </div>
+            <div className="kage-flow__artifact">
+              <span>
+                {flowModes[mode].label.toUpperCase()} / {stage.index}
+              </span>
+              <strong>{stage.artifact}</strong>
+            </div>
+          </li>
+        ))}
+      </ol>
 
       <div className="container-page kage-flow-story__footer">
-        <div className="kage-flow-story__steps" aria-label="Prejsť na krok">
-          {stages.map((stage, index) => (
-            <button
-              type="button"
-              key={stage.index}
-              data-active={index === activeStage || undefined}
-              aria-current={index === activeStage ? "step" : undefined}
-              aria-label={`Krok ${index + 1}: ${stage.label}`}
-              onClick={() => goToStage(index)}
-            >
-              {stage.index}
-            </button>
-          ))}
-        </div>
-
-        <div className="kage-flow-story__arrows">
-          <button
-            type="button"
-            aria-label="Predchádzajúci krok"
-            disabled={activeStage === 0}
-            onClick={() => goToStage(activeStage - 1)}
-          >
-            <ArrowLeft size={17} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            aria-label="Nasledujúci krok"
-            disabled={activeStage === stages.length - 1}
-            onClick={() => goToStage(activeStage + 1)}
-          >
-            <ArrowRight size={17} aria-hidden="true" />
-          </button>
-        </div>
-
+        <p>Rovnaký postup vieme pripraviť pre váš web a vašu ponuku.</p>
         <button
           type="button"
           className="kage-flow-story__cta"
@@ -586,10 +390,6 @@ function FlowStory() {
         >
           Vyskúšať na mojom webe <ArrowUpRight size={17} />
         </button>
-
-        <div className="kage-flow-story__rail" aria-hidden="true">
-          <i style={{ transform: `scaleX(${(activeStage + 1) / stages.length})` }} />
-        </div>
       </div>
     </section>
   );

@@ -104,10 +104,11 @@ test("homepage repair keeps horizontal stages sequential and hero lines geometri
   assert.ok(userFixImport >= 0);
   assert.ok(repairImport > userFixImport);
 
-  // The stages are laid out once, in one stylesheet: four real flex items on a
-  // 400% track. No later sheet has to undo an absolute-position stack any more.
-  assert.match(homeCss, /\.kage-flow__track[\s\S]*width:\s*400%/);
-  assert.match(homeCss, /\.kage-flow__panel[\s\S]*flex:\s*0 0 25%/);
+  // The stages are laid out once, in one stylesheet, as an ordinary list of
+  // four rows. No later sheet has to undo an absolute-position stack any more.
+  assert.match(homeCss, /\.kage-flow-story__steps[\s\S]*list-style:\s*none/);
+  assert.match(homeCss, /\.kage-flow__step[\s\S]*grid-template-columns/);
+  assert.doesNotMatch(homeCss, /position:\s*sticky[\s\S]{0,400}kage-flow/);
   assert.doesNotMatch(repair, /kage-flow|hybrid-flow/);
   assert.match(repair, /h1 > \.typed-line/);
   assert.match(repair, /h1 > em > \.typed-line/);

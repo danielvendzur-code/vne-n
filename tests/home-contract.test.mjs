@@ -49,9 +49,13 @@ test("active homepage keeps three clean hero previews and four realizations", as
   assert.match(landing, /AnimatedPrice value=\{347\}/);
   assert.match(landing, /AnimatedPrice value=\{447\}/);
   assert.match(landing, /data-nav-tone="dark"/);
-  assert.match(landing, /className="kage-flow__track"/);
+  // 03 / Ako to funguje is four steps read with the page's own scrolling:
+  // no pinned stage, no horizontal viewport, no control to find first.
+  assert.match(landing, /className="kage-flow-story"/);
+  assert.match(landing, /className="kage-flow__step"/);
   assert.doesNotMatch(landing, /AnimatePresence/);
-  assert.match(css, /\.kage-flow__track[\s\S]*width:\s*400%/);
+  assert.doesNotMatch(landing, /scrollLeft|scroll-snap|useScroll|window\.scrollTo\(/);
+  assert.match(css, /\.kage-flow__step[\s\S]*display:\s*grid/);
   assert.match(css, /kage-character-write/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /@media \(max-width: 720px\)/);

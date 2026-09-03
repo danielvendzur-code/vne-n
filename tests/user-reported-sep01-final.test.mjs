@@ -14,18 +14,19 @@ test("Sep 1 homepage repair keeps hero type stable and restores safe leading", a
   assert.doesNotMatch(css, /@keyframes homepage-character-write-stable[\s\S]*?blur\([\s\S]*?\n\}/);
 });
 
-test("Sep 1 flow uses local horizontal scrolling and no body scroll snapping", async () => {
+test("Sep 1 flow reads by scrolling and needs no control to be discovered", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
   const css = await read("src/components/site/KageLanding.css");
 
-  assert.match(landing, /className="kage-flow-story__viewport"/);
-  assert.match(landing, /viewport\.scrollLeft/);
-  assert.match(css, /\.kage-flow-story__viewport[\s\S]*scroll-snap-type: x mandatory/);
-  assert.match(css, /\.kage-flow__panel[\s\S]*scroll-snap-align: start/);
+  // All four steps are in the page at once, one under another.
+  assert.match(landing, /<ol className="container-page kage-flow-story__steps">/);
+  assert.match(landing, /stages\.map\(\(stage\) => \(/);
+  assert.match(css, /\.kage-flow__step[\s\S]*border-bottom: 1px solid var\(--hh-line-dark\)/);
 
-  // Snapping belongs to the scroller itself; nothing drives the window scroll.
-  assert.doesNotMatch(landing, /animate\(window\.scrollY|window\.scrollTo\(/);
+  // Nothing drives, holds or reinterprets a scroller of any axis.
+  assert.doesNotMatch(landing, /animate\(window\.scrollY|window\.scrollTo\(|scrollLeft/);
   assert.doesNotMatch(landing, /addEventListener\("wheel"/);
+  assert.doesNotMatch(css, /scroll-snap-type/);
 });
 
 test("Sep 1 solution copy and price motion live in the rendered component", async () => {
