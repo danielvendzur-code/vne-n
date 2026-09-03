@@ -8,6 +8,8 @@ const REVEAL_TARGETS = [
   ".kage-home .hybrid-work__footer",
   ".kage-home .hybrid-manifesto__inner > .section-index",
   ".kage-home .hybrid-manifesto__inner h2 em",
+  ".kage-home .kage-flow-story__header > *",
+  ".kage-home .kage-flow__step",
   ".kage-home .outcome-comparison__intro > *",
   ".kage-home .outcome-comparison__group",
   ".kage-home .outcome-comparison__group li",
@@ -53,7 +55,7 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
   const isProcess = element.matches(".hybrid-process__list > li");
   const isSolution = element.matches(".hybrid-tool");
   const isManifestoAccent = element.matches(".hybrid-manifesto__inner h2 em");
-  const isOutcomeRow = element.matches(".outcome-comparison__group li");
+  const isOutcomeRow = element.matches(".outcome-comparison__group li, .kage-flow__step");
   const isFeatureGroup = element.matches(
     ".outcome-comparison__group, .hybrid-price__grid > *, .hybrid-final__body > *",
   );
@@ -139,6 +141,9 @@ const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
   }
   if (element.matches(".hybrid-manifesto__inner h2 em")) {
     return siblingIndex(element) * 55 * scale;
+  }
+  if (element.matches(".kage-flow__step")) {
+    return siblingIndex(element) * 45 * scale;
   }
   return 0;
 };
