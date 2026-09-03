@@ -1,8 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { HomepageFinishingPass } from "@/components/site/HomepageFinishingPass";
-import { HomepagePriceReliabilityGuard } from "@/components/site/HomepagePriceReliabilityGuard";
 import { KageLanding } from "@/components/site/KageLanding";
-import { PlainFlowStoryRescue } from "@/components/site/PlainFlowStoryRescue";
 import "@/components/site/UserExperiencePolish.css";
 import "@/components/site/UserExperiencePolishFinal.css";
 import "@/components/site/ResponsiveMediaHeaderFinal.css";
@@ -84,12 +81,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return (
-    <>
-      <KageLanding />
-      <PlainFlowStoryRescue />
-      <HomepagePriceReliabilityGuard />
-      <HomepageFinishingPass />
-    </>
-  );
+  return <KageLanding />;
 }

@@ -11,8 +11,8 @@ const oldAudit = readFileSync(
   new URL("../src/components/site/FinalHomepageAudit.css", import.meta.url),
   "utf8",
 );
-const tuner = readFileSync(
-  new URL("../src/components/site/FlowScrollTuner.tsx", import.meta.url),
+const landing = readFileSync(
+  new URL("../src/components/site/KageLanding.tsx", import.meta.url),
   "utf8",
 );
 const loader = readFileSync(new URL("../public/widget-loader.js", import.meta.url), "utf8");
@@ -31,13 +31,12 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
   assert.match(oldAudit, /minmax\(13\.5rem, 0\.86fr\)/);
 });
 
-test("flow final authority is slow during travel and restores the settle cue", () => {
-  assert.match(finalFix, /height: 440vh !important/);
-  assert.match(finalFix, /animation: kage-scroll-settle-left 660ms/);
-  assert.match(finalFix, /animation: kage-scroll-settle-right 660ms/);
-  assert.match(tuner, /const FLOW_IDLE_MS = 55/);
-  assert.match(tuner, /localProgress >= 0\.5/);
-  assert.match(tuner, /clamp\(210 \+ Math\.abs\(distance\) \* 0\.09, 210, 300\)/);
+test("the flow section no longer stretches the page or shakes its artifact card", () => {
+  assert.doesNotMatch(finalFix, /height: 440vh !important/);
+  assert.doesNotMatch(finalFix, /kage-scroll-settle/);
+  assert.doesNotMatch(oldAudit, /kage-flow|hybrid-flow/);
+  assert.match(landing, /className="kage-flow-story"/);
+  assert.doesNotMatch(landing, /window\.scrollTo\(/);
 });
 
 test("website requests the round one-stroke launcher release and never the text pill fallback", () => {

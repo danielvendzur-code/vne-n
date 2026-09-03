@@ -112,29 +112,3 @@
     box-shadow: 0 15px 32px -20px rgba(157, 196, 63, 0.76) !important;
   }
 }
-
-/* 03 / Ako to funguje — long native travel, decisive idle snap.
-   FlowScrollTuner owns the 50% threshold and 210–300ms completion. */
-@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-  .kage-home .kage-flow {
-    height: 440vh !important;
-  }
-
-  .kage-home .kage-flow .hybrid-flow__artifact {
-    animation: none !important;
-    transform: none !important;
-    will-change: auto !important;
-  }
-
-  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="left"] {
-    animation: kage-scroll-settle-left 660ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
-    transform-origin: 50% 54% !important;
-    will-change: rotate, translate !important;
-  }
-
-  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="right"] {
-    animation: kage-scroll-settle-right 660ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
-    transform-origin: 50% 54% !important;
-    will-change: rotate, translate !important;
-  }
-}

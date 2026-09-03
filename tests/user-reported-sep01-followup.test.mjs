@@ -5,12 +5,14 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("all homepage solution CTAs use builder wording", async () => {
-  const finishing = await read("src/components/site/HomepageFinishingPass.tsx");
+  const landing = await read("src/components/site/KageLanding.tsx");
 
-  assert.match(finishing, /Vyskladať chatbota/);
-  assert.match(finishing, /Vyskladať kalkulačku/);
-  assert.match(finishing, /Vyskladať konfigurátor/);
-  assert.match(finishing, /Vyskladať poradcu/);
+  assert.match(landing, /cta: "Vyskladať chatbota"/);
+  assert.match(landing, /cta: "Vyskladať kalkulačku"/);
+  assert.match(landing, /cta: "Vyskladať konfigurátor"/);
+  assert.match(landing, /cta: "Vyskladať poradcu"/);
+  // The wording is data on the button, not text patched in after render.
+  assert.doesNotMatch(landing, /MutationObserver/);
 });
 
 test("header CTA is lime at rest and black on hover", async () => {

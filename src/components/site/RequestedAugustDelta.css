@@ -25,81 +25,6 @@ body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible) {
   transform: translateY(-2px) scale(1.015) !important;
 }
 
-/* Flow controls — easier to hit and easier to understand. */
-.kage-home .hybrid-flow__modes button,
-.kage-home .hybrid-flow__mobile-modes button {
-  min-height: 44px;
-  padding-inline: 0.9rem;
-  cursor: pointer;
-}
-
-.kage-home .hybrid-flow__modes button:focus-visible,
-.kage-home .hybrid-flow__mobile-modes button:focus-visible {
-  outline: 2px solid #c8f06a;
-  outline-offset: 3px;
-}
-
-/* The rubber settle is now triggered only after scrolling has stopped. */
-@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="left"] {
-    animation: kage-scroll-settle-left 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    transform-origin: 50% 54%;
-    will-change: rotate, translate;
-  }
-
-  .kage-home .kage-flow .hybrid-flow__artifact[data-scroll-settle="right"] {
-    animation: kage-scroll-settle-right 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    transform-origin: 50% 54%;
-    will-change: rotate, translate;
-  }
-
-  @keyframes kage-scroll-settle-left {
-    0% {
-      rotate: 0deg;
-      translate: 0 0;
-    }
-    34% {
-      rotate: -1.25deg;
-      translate: 0 -4px;
-    }
-    66% {
-      rotate: 0.48deg;
-      translate: 0 1px;
-    }
-    84% {
-      rotate: -0.16deg;
-      translate: 0 0;
-    }
-    100% {
-      rotate: 0deg;
-      translate: 0 0;
-    }
-  }
-
-  @keyframes kage-scroll-settle-right {
-    0% {
-      rotate: 0deg;
-      translate: 0 0;
-    }
-    34% {
-      rotate: 1.25deg;
-      translate: 0 -4px;
-    }
-    66% {
-      rotate: -0.48deg;
-      translate: 0 1px;
-    }
-    84% {
-      rotate: 0.16deg;
-      translate: 0 0;
-    }
-    100% {
-      rotate: 0deg;
-      translate: 0 0;
-    }
-  }
-}
-
 /* 01 — clearer affordance and stronger, but stable, reveal target. */
 .kage-home .hybrid-tool {
   position: relative;
@@ -506,7 +431,6 @@ body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kage-home .kage-flow .hybrid-flow__artifact,
   .kage-home :is(
     .hybrid-tool,
     .hybrid-work__grid > article,

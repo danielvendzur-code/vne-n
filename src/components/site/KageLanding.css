@@ -297,108 +297,545 @@
   text-decoration: none;
 }
 
-/* ---------- Clear scrollytelling ---------- */
-.kage-flow {
-  height: 320vh;
+/* ---------- 03 / Ako to funguje ----------
+   A green storyboard that never takes the page scroll away. The four stages
+   live in one native horizontal scroller: swipe, drag, arrows, step buttons or
+   the keyboard move them, while vertical scrolling stays entirely the browser's. */
+.kage-flow-story {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: clamp(5.2rem, 7vw, 7.4rem) 0 clamp(3.4rem, 4.6vw, 4.6rem);
+  background: var(--hh-green);
+  color: #f6f5ee;
+  scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
-.kage-flow .hybrid-flow__hud {
-  min-height: 58px;
-  background: rgba(7, 27, 21, 0.9);
-  -webkit-backdrop-filter: blur(9px) saturate(1.15);
-  backdrop-filter: blur(9px) saturate(1.15);
+.kage-flow-story::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 86% 8%, rgba(200, 240, 106, 0.11), transparent 30rem),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size:
+    auto,
+    100% 8rem;
 }
 
-.kage-flow__hud-right {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.kage-flow-story__header {
+  display: grid;
+  grid-template-columns: minmax(0, 0.28fr) minmax(0, 1fr) auto;
+  gap: clamp(1.4rem, 3vw, 3rem);
+  align-items: end;
+  margin-bottom: clamp(2.4rem, 3.6vw, 3.6rem);
 }
 
-.kage-flow__counter {
-  color: #d2dad4;
-  font: 650 0.6rem/1 var(--font-mono);
-  letter-spacing: 0.06em;
+/* The chapter label sits on the dark green surface, so it overrides the
+   light-section defaults that are declared later in this sheet. */
+.kage-home .kage-flow-story .section-index {
+  align-self: start;
+  padding-top: 0.5rem;
+  color: #cad4cc;
   white-space: nowrap;
 }
 
-.kage-flow__stage {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
+.kage-home .kage-flow-story .section-index b {
+  color: var(--hh-lime);
+}
+
+.kage-flow-story__header h2 {
+  max-width: 11ch;
+  margin: 0;
+  color: #f6f5ee;
+  font-size: clamp(3rem, 5.2vw, 5.6rem);
+  font-weight: 470;
+  line-height: 0.98;
+  letter-spacing: -0.052em;
+  text-wrap: balance;
+}
+
+.kage-flow-story__modes {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border: 1px solid rgba(246, 245, 238, 0.18);
+  background: rgba(246, 245, 238, 0.05);
+}
+
+.kage-flow-story__modes button {
+  min-height: 42px;
+  padding: 0.65rem 1rem;
+  border: 0;
+  background: transparent;
+  color: #cbd3cd;
+  font: 650 0.74rem/1 var(--font-sans);
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--hh-ease),
+    color 180ms var(--hh-ease);
+}
+
+.kage-flow-story__modes button[data-active="true"] {
+  background: var(--hh-lime);
+  color: var(--hh-dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-flow-story__modes button:not([data-active="true"]):hover {
+    background: rgba(246, 245, 238, 0.09);
+    color: #f6f5ee;
+  }
+}
+
+.kage-flow-story__viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  touch-action: pan-x pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hh-lime) rgba(246, 245, 238, 0.12);
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+}
+
+.kage-flow-story__viewport[data-dragging="true"] {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.kage-flow-story__viewport::-webkit-scrollbar {
+  height: 4px;
+}
+
+.kage-flow-story__viewport::-webkit-scrollbar-track {
+  background: rgba(246, 245, 238, 0.12);
+}
+
+.kage-flow-story__viewport::-webkit-scrollbar-thumb {
+  background: var(--hh-lime);
+}
+
+.kage-flow-story__viewport:focus-visible,
+.kage-flow-story__modes button:focus-visible,
+.kage-flow-story__steps button:focus-visible,
+.kage-flow-story__arrows button:focus-visible,
+.kage-flow-story__cta:focus-visible {
+  outline: 2px solid var(--hh-lime);
+  outline-offset: 3px;
+}
+
+.kage-flow__track {
+  width: 400%;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .kage-flow__panel {
-  position: absolute;
-  inset: 0;
+  flex: 0 0 25%;
+  min-width: 0;
+  scroll-snap-align: start;
+  border-top: 1px solid var(--hh-line-dark);
+  border-bottom: 1px solid var(--hh-line-dark);
+  border-right: 1px solid rgba(246, 245, 238, 0.1);
+}
+
+.kage-flow__panel-inner {
+  min-height: clamp(27rem, 56vh, 38rem);
+  display: grid;
+  grid-template-columns: minmax(4.5rem, 0.12fr) minmax(0, 1fr) minmax(19rem, 0.56fr);
+  gap: clamp(1.5rem, 3.2vw, 3.6rem);
+  align-items: center;
+  padding-top: clamp(2.6rem, 4vw, 4rem);
+  padding-bottom: clamp(2.6rem, 4vw, 4rem);
+}
+
+.kage-flow__number {
+  align-self: start;
+  color: var(--hh-lime);
+  font: 500 clamp(3rem, 4.6vw, 5rem)/0.92 var(--font-display);
+  letter-spacing: -0.055em;
+}
+
+.kage-flow__copy,
+.kage-flow__artifact {
+  opacity: 0.55;
+  transform: translate3d(14px, 0, 0);
+  transition:
+    opacity 420ms var(--hh-ease),
+    transform 520ms var(--hh-ease);
+}
+
+.kage-flow__panel[data-active="true"] .kage-flow__copy,
+.kage-flow__panel[data-active="true"] .kage-flow__artifact {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.kage-flow__copy > span,
+.kage-flow__artifact > span {
+  display: block;
+  margin-bottom: 1.05rem;
+  color: #aeb9b1;
+  font: 650 0.62rem/1.2 var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.kage-flow__copy h3 {
+  max-width: 12.5ch;
+  margin: 0 0 1.1rem;
+  color: #f6f5ee;
+  font-size: clamp(2.6rem, 4.4vw, 4.8rem);
+  font-weight: 480;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.kage-flow__copy p {
+  max-width: 32rem;
+  margin: 0;
+  color: #cfd7d0;
+  font-size: clamp(0.95rem, 1vw, 1.06rem);
+  line-height: 1.6;
+}
+
+.kage-flow__artifact {
+  min-height: clamp(13rem, 30vh, 19rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.4rem, 2.2vw, 2rem);
+  border: 1px solid rgba(200, 240, 106, 0.5);
+  background: #d8f49a;
+  color: var(--hh-dark);
+}
+
+.kage-flow__artifact > span {
+  color: rgba(7, 27, 21, 0.6);
+}
+
+.kage-flow__artifact strong {
+  max-width: 13ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 2.9vw, 3.2rem);
+  font-weight: 560;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.kage-flow__artifact i {
+  align-self: flex-end;
+  font: normal 400 clamp(2.6rem, 4vw, 4rem)/0.8 var(--font-display);
+}
+
+.kage-flow-story__footer {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding-top: 1.6rem;
+}
+
+.kage-flow-story__steps,
+.kage-flow-story__arrows {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.kage-flow-story__steps button,
+.kage-flow-story__arrows button {
+  min-width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(246, 245, 238, 0.18);
+  background: transparent;
+  color: #c6d0c9;
+  font: 650 0.68rem/1 var(--font-mono);
+  cursor: pointer;
+  transition:
+    border-color 180ms var(--hh-ease),
+    background-color 180ms var(--hh-ease),
+    color 180ms var(--hh-ease);
+}
+
+.kage-flow-story__steps button[data-active="true"] {
+  border-color: var(--hh-lime);
+  background: var(--hh-lime);
+  color: var(--hh-dark);
+}
+
+.kage-flow-story__arrows button:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-flow-story__steps button:not([data-active="true"]):hover,
+  .kage-flow-story__arrows button:not(:disabled):hover {
+    border-color: var(--hh-lime);
+    color: #f6f5ee;
+  }
+}
+
+.kage-flow-story__cta {
+  justify-self: end;
+  width: max-content;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--hh-lime);
+  background: var(--hh-lime);
+  color: var(--hh-dark);
+  font: 680 0.82rem/1 var(--font-sans);
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--hh-ease),
+    border-color 180ms var(--hh-ease),
+    color 180ms var(--hh-ease);
+}
+
+.kage-flow-story__cta:is(:hover, :focus-visible) {
+  border-color: #0b0e0c;
+  background: #0b0e0c;
+  color: #f6f5ee;
+}
+
+.kage-flow-story__rail {
+  grid-column: 1 / -1;
+  height: 3px;
+  margin-top: 0.4rem;
+  background: rgba(246, 245, 238, 0.12);
+}
+
+.kage-flow-story__rail i {
+  display: block;
   width: 100%;
   height: 100%;
+  background: var(--hh-lime);
+  transform-origin: left center;
+  transition: transform 420ms var(--hh-ease);
 }
 
-.kage-flow .hybrid-flow__panel-inner {
-  grid-template-columns: 0.1fr minmax(0, 1fr) minmax(17rem, 0.58fr);
-  gap: clamp(1.6rem, 3.4vw, 3.8rem);
-  padding-top: calc(var(--header-h) + 6.5rem);
-  padding-bottom: 4rem;
+@media (max-width: 980px) {
+  .kage-flow-story__header {
+    grid-template-columns: minmax(0, 0.24fr) minmax(0, 1fr);
+  }
+
+  .kage-flow-story__modes {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .kage-flow__panel-inner {
+    grid-template-columns: 4rem minmax(0, 1fr) minmax(16rem, 0.46fr);
+  }
+
+  .kage-flow__copy h3 {
+    font-size: clamp(2.4rem, 4.8vw, 3.8rem);
+  }
 }
 
-.kage-flow .hybrid-flow__number {
-  margin-top: clamp(4rem, 7vh, 5.6rem);
-  font-size: clamp(3rem, 4.6vw, 4.5rem);
+@media (max-width: 720px) {
+  .kage-flow-story {
+    padding: 4.4rem 0 3rem;
+  }
+
+  .kage-flow-story__header {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+    margin-bottom: 1.9rem;
+  }
+
+  .kage-flow-story .section-index,
+  .kage-flow-story__modes {
+    grid-column: 1;
+  }
+
+  .kage-flow-story__header h2 {
+    max-width: 12ch;
+    font-size: clamp(2.7rem, 11.5vw, 4.2rem);
+    line-height: 1.02;
+  }
+
+  .kage-flow-story__modes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .kage-flow-story__modes button {
+    min-width: 0;
+    padding-inline: 0.4rem;
+    font-size: 0.72rem;
+  }
+
+  /* Peeking cards make the sideways gesture obvious on a phone. */
+  .kage-flow__track {
+    width: max-content;
+    gap: 0.75rem;
+    padding-inline: var(--gutter);
+  }
+
+  .kage-flow__panel {
+    flex: 0 0 86vw;
+    border: 1px solid var(--hh-line-dark);
+  }
+
+  .kage-flow__panel-inner {
+    min-height: 0;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 0.9rem;
+    padding: 1.9rem 1.3rem;
+  }
+
+  .kage-flow__number {
+    font-size: 2.6rem;
+  }
+
+  .kage-flow__copy,
+  .kage-flow__artifact {
+    transform: translate3d(8px, 0, 0);
+  }
+
+  .kage-flow__copy h3 {
+    max-width: 14ch;
+    font-size: clamp(2rem, 8.8vw, 3rem);
+    line-height: 1.04;
+  }
+
+  .kage-flow__artifact {
+    grid-column: 1 / -1;
+    min-height: 8.5rem;
+    margin-top: 0.35rem;
+  }
+
+  .kage-flow__artifact strong {
+    font-size: clamp(1.6rem, 7vw, 2.3rem);
+  }
+
+  .kage-flow__artifact i {
+    display: none;
+  }
+
+  .kage-flow-story__footer {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+  }
+
+  .kage-flow-story__steps button {
+    min-width: 38px;
+    height: 38px;
+  }
+
+  /* Touch swipes and the numbered steps cover navigation on a phone, and the
+     floating assistant launcher owns the bottom-right corner. */
+  .kage-flow-story__arrows {
+    display: none;
+  }
+
+  .kage-flow-story__cta {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+  }
 }
 
-.kage-flow .hybrid-flow__copy > span,
-.kage-flow .hybrid-flow__artifact > span {
-  color: #b6c0b9;
+@media (prefers-reduced-motion: reduce) {
+  .kage-flow-story__viewport {
+    scroll-behavior: auto;
+  }
+
+  .kage-flow-story__modes button,
+  .kage-flow-story__steps button,
+  .kage-flow-story__arrows button,
+  .kage-flow-story__cta,
+  .kage-flow-story__rail i,
+  .kage-flow__copy,
+  .kage-flow__artifact {
+    transition: none;
+  }
+
+  .kage-flow__copy,
+  .kage-flow__artifact {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-.kage-flow .hybrid-flow__copy h2 {
-  max-width: 10.5ch;
-  margin-bottom: 1.3rem;
-  font-size: clamp(3rem, 4.6vw, 4.9rem);
-  line-height: 0.94;
+/* ---------- 06 / Cena ----------
+   The number counts up when the row arrives; a tabular glyph box keeps the
+   surrounding copy still while the digits change, and one lime rule wipes in
+   underneath so the section reads as animated, not just as a static list. */
+.hybrid-price__grid strong,
+.hybrid-price__grid b {
+  font-variant-numeric: tabular-nums;
 }
 
-.kage-flow .hybrid-flow__copy p {
-  max-width: 31rem;
-  color: #d0d8d2;
-  font-size: clamp(0.96rem, 1vw, 1.05rem);
-  line-height: 1.55;
+.hybrid-price__grid > div {
+  position: relative;
 }
 
-.kage-flow .hybrid-flow__artifact {
-  min-height: min(40vh, 22rem);
-  padding: clamp(1.2rem, 1.8vw, 1.7rem);
-}
-
-.kage-flow .hybrid-flow__artifact strong {
-  max-width: 13ch;
-  font-size: clamp(2rem, 2.9vw, 3.15rem);
-  line-height: 0.98;
-}
-
-.kage-flow .hybrid-flow__artifact i {
-  font-size: clamp(3rem, 4.6vw, 4.8rem);
-}
-
-.kage-flow__steps {
+.hybrid-price__grid > div::after {
+  content: "";
   position: absolute;
-  right: max(var(--gutter), calc((100vw - var(--container)) / 2));
-  bottom: 1.45rem;
-  z-index: 9;
-  display: flex;
-  gap: 0.42rem;
+  left: 0;
+  right: 1.5rem;
+  bottom: 0;
+  height: 2px;
+  background: var(--hh-lime);
+  opacity: 0.5;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms var(--hh-ease);
 }
 
-.kage-flow__steps i {
-  width: 28px;
-  height: 3px;
-  background: rgba(246, 245, 238, 0.2);
-  transition: background 220ms ease;
+.hybrid-price__grid > div:not(:first-child)::after {
+  left: 1.5rem;
 }
 
-.kage-flow__steps i[data-active="true"] {
-  background: #c8f06a;
+.hybrid-price__grid > div:has(strong[data-counting="true"])::after,
+.hybrid-price__grid > div:has(strong[data-counted="true"])::after {
+  transform: scaleX(1);
+}
+
+.hybrid-price__grid strong[data-counting="true"] {
+  animation: kage-price-count 1150ms var(--hh-ease) both;
+}
+
+@keyframes kage-price-count {
+  from {
+    opacity: 0.35;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hybrid-price__grid > div::after {
+    transform: scaleX(1);
+    transition: none;
+  }
+
+  .hybrid-price__grid strong[data-counting="true"] {
+    animation: none;
+  }
 }
 
 /* ---------- Live demos ---------- */
@@ -666,16 +1103,6 @@
   }
 }
 
-@media (max-width: 920px) {
-  .kage-flow__counter {
-    display: none;
-  }
-
-  .kage-flow .hybrid-flow__panel-inner {
-    grid-template-columns: 0.08fr 1fr minmax(16rem, 0.58fr);
-  }
-}
-
 @media (max-width: 720px) {
   .kage-hero .hybrid-hero__stage {
     min-height: 71svh;
@@ -759,23 +1186,6 @@
     max-width: none;
     font-size: clamp(2.75rem, 12.2vw, 4.25rem);
     line-height: 0.99;
-  }
-
-  .kage-flow {
-    height: auto;
-  }
-
-  .kage-flow .hybrid-flow__mobile article {
-    padding: 2.15rem 0;
-  }
-
-  .kage-flow .hybrid-flow__mobile h3 {
-    font-size: clamp(2.15rem, 9.7vw, 3.25rem);
-    line-height: 0.97;
-  }
-
-  .kage-flow .hybrid-flow__mobile p {
-    color: #d2dad4;
   }
 
   .kage-demos {
@@ -867,6 +1277,9 @@
   }
 }
 
+/* The header tone still cross-fades, but backdrop-filter is never transitioned:
+   interpolating a blur re-reads and re-blurs the page behind the sticky header
+   on every frame of the transition, which is felt as scroll stutter. */
 body:has(.kage-home) .site-header__inner {
   background: transparent;
   -webkit-backdrop-filter: none;
@@ -874,13 +1287,12 @@ body:has(.kage-home) .site-header__inner {
   transition:
     color 320ms var(--ease-standard),
     border-color 320ms var(--ease-standard),
-    background-color 320ms var(--ease-standard),
-    backdrop-filter 320ms var(--ease-standard);
+    background-color 320ms var(--ease-standard);
 }
 
 body:has(.kage-home) .site-header[data-scrolled="true"] .site-header__inner {
-  -webkit-backdrop-filter: blur(16px) saturate(1.08);
-  backdrop-filter: blur(16px) saturate(1.08);
+  -webkit-backdrop-filter: blur(10px) saturate(1.06);
+  backdrop-filter: blur(10px) saturate(1.06);
 }
 
 body:has(.kage-home) .site-header[data-tone="dark"][data-scrolled="true"] .site-header__inner {
@@ -1157,23 +1569,8 @@ body:has(.kage-home) .site-header[data-tone="light"] .site-header__cta {
   max-width: 22rem;
 }
 
-/* A lighter, slower scrollytelling band removes the abrupt black jump. */
-.kage-flow {
+/* A lighter {
   height: 360vh;
-  background: #12382d;
-}
-
-.kage-flow .hybrid-flow__hud {
-  background: rgba(18, 56, 45, 0.9);
-  border-bottom-color: rgba(246, 245, 238, 0.19);
-}
-
-.kage-flow .hybrid-flow__artifact {
-  border-color: rgba(246, 245, 238, 0.18);
-  background: #d8f49a;
-}
-
-.kage-flow__panel {
   background: #12382d;
 }
 
@@ -1479,8 +1876,7 @@ body:has(.kage-home) .site-header__inner {
   transition:
     color 520ms var(--hh-ease),
     border-color 520ms var(--hh-ease),
-    background-color 520ms var(--hh-ease),
-    backdrop-filter 520ms var(--hh-ease);
+    background-color 520ms var(--hh-ease);
 }
 
 body:has(.kage-home) .site-header[data-scrolled="true"] .site-header__inner {
@@ -1628,41 +2024,6 @@ body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible) svg {
   transition:
     opacity 320ms ease,
     transform 520ms var(--hh-ease);
-}
-
-/* Scrollytelling moves as one continuous horizontal hand-off without fading. */
-.kage-flow {
-  height: 410vh;
-  background: #173f34;
-}
-
-.kage-flow .hybrid-flow__hud,
-.kage-flow__panel {
-  background: #173f34;
-}
-
-.kage-flow__panel {
-  will-change: transform;
-}
-
-.kage-flow .hybrid-flow__artifact {
-  box-shadow: 0 32px 80px -54px rgba(0, 0, 0, 0.72);
-  transform-origin: 54% 100%;
-}
-
-.kage-flow .hybrid-flow__copy h2 {
-  text-wrap: balance;
-}
-
-.kage-flow__steps i {
-  overflow: hidden;
-  transition:
-    width 520ms var(--hh-ease),
-    background-color 420ms ease;
-}
-
-.kage-flow__steps i[data-active="true"] {
-  width: 44px;
 }
 
 /* The two outcomes share one baseline while remaining immediately distinct. */
@@ -1863,9 +2224,6 @@ body:has(.kage-home) .site-header__cta:is(:hover, :focus-visible) svg {
     animation: none;
   }
 
-  .kage-flow__panel,
-  .kage-flow .hybrid-flow__artifact,
-  .kage-flow__steps i,
   body:has(.kage-home) .site-nav a,
   body:has(.kage-home) .site-header__cta {
     transition: none;
@@ -2085,43 +2443,6 @@ body:has(.kage-home) .site-menu-toggle {
   }
 }
 
-/* One wide rail follows scroll continuously; panels are never unmounted or faded. */
-.kage-flow {
-  height: 430vh;
-  background: #173f34;
-}
-
-.kage-flow .hybrid-flow__hud,
-.kage-flow__panel {
-  background: #173f34;
-}
-
-.kage-flow__track {
-  display: flex;
-  width: 400%;
-  height: 100%;
-  will-change: transform;
-}
-
-.kage-flow__panel {
-  position: relative !important;
-  inset: auto !important;
-  flex: 0 0 25%;
-  width: 25%;
-  height: 100%;
-}
-
-.kage-flow .hybrid-flow__artifact {
-  transition:
-    filter 680ms ease,
-    box-shadow 680ms ease;
-}
-
-.kage-flow__panel:not([data-active="true"]) .hybrid-flow__artifact {
-  filter: saturate(0.84) brightness(0.96);
-  box-shadow: 0 24px 64px -54px rgba(0, 0, 0, 0.6);
-}
-
 /* Quiet editorial artifacts add depth while real content stays dominant. */
 .kage-tools,
 .kage-work,
@@ -2219,10 +2540,6 @@ body:has(.kage-home) .site-menu-toggle {
   .kage-hero .hybrid-hero__collage {
     left: 51%;
   }
-
-  .kage-flow {
-    height: 400vh;
-  }
 }
 
 @media (max-width: 720px) {
@@ -2295,10 +2612,6 @@ body:has(.kage-home) .site-menu-toggle {
     animation: none;
     transform: none;
   }
-
-  .kage-flow__track {
-    will-change: auto;
-  }
 }
 
 /* =====================================================================
@@ -2367,29 +2680,10 @@ body:has(.kage-home) .site-header__inner.container-page {
   background: #071b15;
 }
 
-.kage-home .section-index,
-.kage-flow .hybrid-flow__hud > span,
-.kage-flow__mobile-label {
+.kage-home .section-index {
   font-size: clamp(0.86rem, 0.96vw, 1rem);
   font-weight: 720;
   letter-spacing: 0.11em;
-}
-
-.kage-flow__counter {
-  font-size: clamp(0.72rem, 0.78vw, 0.84rem);
-  letter-spacing: 0.08em;
-}
-
-.kage-flow .hybrid-flow__modes,
-.kage-flow .hybrid-flow__mobile-modes {
-  gap: 0.38rem;
-}
-
-.kage-flow .hybrid-flow__modes button,
-.kage-flow .hybrid-flow__mobile-modes button {
-  min-height: 46px;
-  padding: 0.68rem 1rem;
-  font-size: 0.9rem;
 }
 
 .outcome-comparison__group[data-tone="service"] {
@@ -2455,10 +2749,5 @@ body:has(.kage-home) .site-header__inner.container-page {
   .hybrid-project__visual--mojplot,
   .hybrid-project__visual--webko {
     aspect-ratio: 1.72;
-  }
-
-  .kage-flow .hybrid-flow__mobile-modes button {
-    min-height: 44px;
-    padding-inline: 0.82rem;
   }
 }

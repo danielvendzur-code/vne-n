@@ -1,14 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import {
-  animate,
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import "./AwardHome.css";
@@ -133,7 +126,7 @@ const tools = [
     statement: "Odpovedá na otázky a pripraví dopyt.",
     copy: "Keď zákazníci často riešia rovnaké otázky alebo potrebujú poradiť.",
     preset: "inquiry" as const,
-    cta: "Vyskúšať chatbot",
+    cta: "Vyskladať chatbota",
   },
   {
     index: "02",
@@ -141,7 +134,7 @@ const tools = [
     statement: "Vypočíta orientačnú cenu.",
     copy: "Keď cenu mení rozmer, množstvo, model, montáž alebo doplnky.",
     preset: "calculator" as const,
-    cta: "Vyskúšať kalkulačku",
+    cta: "Vyskladať kalkulačku",
   },
   {
     index: "03",
@@ -149,7 +142,7 @@ const tools = [
     statement: "Prevedie zákazníka výberom.",
     copy: "Keď si zákazník skladá riešenie z viacerých dostupných možností.",
     preset: "product" as const,
-    cta: "Vyskúšať konfigurátor",
+    cta: "Vyskladať konfigurátor",
   },
   {
     index: "04",
@@ -157,7 +150,7 @@ const tools = [
     statement: "Pomôže vybrať správny produkt.",
     copy: "Keď má e-shop veľa podobných produktov a zákazník nevie, ktorý je preňho vhodný.",
     preset: "product" as const,
-    cta: "Vyskúšať poradcu",
+    cta: "Vyskladať poradcu",
   },
 ];
 
@@ -321,226 +314,282 @@ function HeroCollage() {
   );
 }
 
+function presetForMode(mode: FlowMode): "inquiry" | "calculator" | "product" {
+  if (mode === "calculator") return "calculator";
+  if (mode === "configurator") return "product";
+  return "inquiry";
+}
+
+const flowPanels = (viewport: HTMLElement) =>
+  Array.from(viewport.querySelectorAll<HTMLElement>("[data-flow-stage]"));
+
+/** Scroll offset of a stage inside its own scroller, independent of layout. */
+const flowStageOffset = (viewport: HTMLElement, panel: HTMLElement) =>
+  panel.getBoundingClientRect().left - viewport.getBoundingClientRect().left + viewport.scrollLeft;
+
+const scrollToFlowStage = (viewport: HTMLElement, index: number, smooth: boolean) => {
+  const panel = flowPanels(viewport)[index];
+  if (!panel) return;
+
+  viewport.scrollTo({
+    left: flowStageOffset(viewport, panel),
+    behavior: smooth ? "smooth" : "auto",
+  });
+};
+
+const nearestFlowStage = (viewport: HTMLElement) => {
+  let closest = 0;
+  let smallest = Number.POSITIVE_INFINITY;
+
+  flowPanels(viewport).forEach((panel, index) => {
+    const distance = Math.abs(flowStageOffset(viewport, panel) - viewport.scrollLeft);
+    if (distance >= smallest) return;
+    smallest = distance;
+    closest = index;
+  });
+
+  return closest;
+};
+
+/**
+ * 03 / Ako to funguje.
+ *
+ * The four stages live in one native horizontal scroller: the page keeps its
+ * own vertical scrolling at all times (no pinned section, no wheel capture and
+ * no programmatic window.scrollTo), and the stages are moved by swipe, drag,
+ * the step buttons or the keyboard. The active stage is read from an
+ * IntersectionObserver inside the scroller, so nothing runs on page scroll.
+ */
 function FlowStory() {
   const [mode, setMode] = useState<FlowMode>("chatbot");
   const [activeStage, setActiveStage] = useState(0);
-  const stages = flowModes[mode].stages;
-  const ref = useRef<HTMLElement>(null);
-  const snapTimerRef = useRef<number | null>(null);
-  const snapAnimationRef = useRef<{ stop: () => void } | null>(null);
-  const settlingRef = useRef(false);
-  const userScrollingRef = useRef(false);
-  const progressRef = useRef(0);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const lineScale = useTransform(scrollYProgress, [0, 1], [0.03, 1]);
-  const trackX = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
-
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
-    progressRef.current = value;
-    const next = Math.min(stages.length - 1, Math.round(value * (stages.length - 1)));
-    setActiveStage((current) => (current === next ? current : next));
-
-    if (
-      reducedMotion ||
-      settlingRef.current ||
-      !userScrollingRef.current ||
-      window.matchMedia("(max-width: 760px)").matches
-    ) {
-      return;
-    }
-
-    if (snapTimerRef.current !== null) window.clearTimeout(snapTimerRef.current);
-    snapTimerRef.current = window.setTimeout(() => {
-      const section = ref.current;
-      if (!section) return;
-
-      const stageCount = stages.length - 1;
-      const scrollRange = Math.max(0, section.offsetHeight - window.innerHeight);
-      const sectionStart = section.offsetTop;
-      const sectionEnd = sectionStart + scrollRange;
-      if (window.scrollY < sectionStart - 2 || window.scrollY > sectionEnd + 2) {
-        userScrollingRef.current = false;
-        return;
-      }
-
-      const scaledProgress = progressRef.current * stageCount;
-      const lowerStage = Math.floor(scaledProgress);
-      const targetStage = Math.min(
-        stageCount,
-        scaledProgress - lowerStage >= 0.5 ? lowerStage + 1 : lowerStage,
-      );
-      const targetY = sectionStart + (targetStage / stageCount) * scrollRange;
-
-      if (Math.abs(window.scrollY - targetY) < 3) {
-        userScrollingRef.current = false;
-        setActiveStage(targetStage);
-        return;
-      }
-
-      settlingRef.current = true;
-      snapAnimationRef.current?.stop();
-      snapAnimationRef.current = animate(window.scrollY, targetY, {
-        duration: 0.48,
-        ease: [0.22, 1, 0.36, 1],
-        onUpdate: (position) => window.scrollTo(0, position),
-        onComplete: () => {
-          settlingRef.current = false;
-          userScrollingRef.current = false;
-          setActiveStage(targetStage);
-        },
-      });
-    }, 90);
-  });
+  const stages = flowModes[mode].stages;
 
   useEffect(() => {
-    const cancelSnap = () => {
-      if (snapTimerRef.current !== null) {
-        window.clearTimeout(snapTimerRef.current);
-        snapTimerRef.current = null;
+    const viewport = viewportRef.current;
+    if (!viewport || typeof IntersectionObserver === "undefined") return undefined;
+
+    const panels = flowPanels(viewport);
+    if (panels.length === 0) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const index = panels.indexOf(entry.target as HTMLElement);
+          if (index < 0) return;
+          setActiveStage((current) => (current === index ? current : index));
+        });
+      },
+      { root: viewport, threshold: 0.6 },
+    );
+
+    panels.forEach((panel) => observer.observe(panel));
+    return () => observer.disconnect();
+  }, [mode]);
+
+  const goToStage = (index: number) => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    scrollToFlowStage(viewport, index, !reducedMotion);
+    setActiveStage(index);
+  };
+
+  // Mouse drag panning. Touch and trackpad already pan the scroller natively.
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return undefined;
+
+    let pointerId: number | null = null;
+    let dragging = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+
+    const stopDrag = (event: PointerEvent) => {
+      if (pointerId !== event.pointerId) return;
+      pointerId = null;
+      if (!dragging) return;
+
+      dragging = false;
+      delete viewport.dataset.dragging;
+      viewport.style.removeProperty("scroll-snap-type");
+      if (viewport.hasPointerCapture(event.pointerId)) {
+        viewport.releasePointerCapture(event.pointerId);
       }
-      if (settlingRef.current) {
-        snapAnimationRef.current?.stop();
-        settlingRef.current = false;
-      }
-    };
-    const beginUserScroll = () => {
-      cancelSnap();
-      const section = ref.current;
-      if (!section) return;
-      const sectionEnd = section.offsetTop + Math.max(0, section.offsetHeight - window.innerHeight);
-      userScrollingRef.current =
-        window.scrollY >= section.offsetTop - 2 && window.scrollY <= sectionEnd + 2;
-    };
-    const cancelSnapFromKey = (event: KeyboardEvent) => {
-      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
-        beginUserScroll();
-      }
+      const stage = nearestFlowStage(viewport);
+      scrollToFlowStage(viewport, stage, !reducedMotion);
+      setActiveStage(stage);
     };
 
-    window.addEventListener("wheel", beginUserScroll, { passive: true });
-    window.addEventListener("touchstart", beginUserScroll, { passive: true });
-    window.addEventListener("keydown", cancelSnapFromKey);
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse" || event.button !== 0) return;
+      pointerId = event.pointerId;
+      dragging = false;
+      startX = event.clientX;
+      startScrollLeft = viewport.scrollLeft;
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (pointerId !== event.pointerId) return;
+
+      const delta = event.clientX - startX;
+      if (!dragging) {
+        if (Math.abs(delta) < 6) return;
+        dragging = true;
+        viewport.dataset.dragging = "true";
+        viewport.style.setProperty("scroll-snap-type", "none");
+        viewport.setPointerCapture(event.pointerId);
+      }
+
+      viewport.scrollLeft = startScrollLeft - delta;
+    };
+
+    viewport.addEventListener("pointerdown", onPointerDown);
+    viewport.addEventListener("pointermove", onPointerMove);
+    viewport.addEventListener("pointerup", stopDrag);
+    viewport.addEventListener("pointercancel", stopDrag);
 
     return () => {
-      cancelSnap();
-      userScrollingRef.current = false;
-      snapAnimationRef.current?.stop();
-      window.removeEventListener("wheel", beginUserScroll);
-      window.removeEventListener("touchstart", beginUserScroll);
-      window.removeEventListener("keydown", cancelSnapFromKey);
+      viewport.removeEventListener("pointerdown", onPointerDown);
+      viewport.removeEventListener("pointermove", onPointerMove);
+      viewport.removeEventListener("pointerup", stopDrag);
+      viewport.removeEventListener("pointercancel", stopDrag);
+      delete viewport.dataset.dragging;
+      viewport.style.removeProperty("scroll-snap-type");
     };
-  }, []);
+  }, [mode, reducedMotion]);
+
+  const selectMode = (nextMode: FlowMode) => {
+    if (nextMode === mode) return;
+    setMode(nextMode);
+    setActiveStage(0);
+    viewportRef.current?.scrollTo({ left: 0, behavior: "auto" });
+  };
 
   return (
     <section
-      ref={ref}
-      className="hybrid-flow kage-flow"
+      className="kage-flow-story"
       id="ako-to-funguje"
-      aria-label="Ako to funguje"
+      aria-labelledby="kage-flow-story-title"
       data-signal-chapter="3"
       data-nav-tone="dark"
     >
-      <div className="hybrid-flow__desktop">
-        <div className="hybrid-flow__sticky">
-          <div className="hybrid-flow__hud container-page">
-            <span>AKO TO FUNGUJE</span>
-            <div className="kage-flow__hud-right">
-              <span className="kage-flow__counter">KROK {activeStage + 1} / 4</span>
-              <div className="hybrid-flow__modes" aria-label="Vyberte typ riešenia">
-                {(Object.keys(flowModes) as FlowMode[]).map((item) => (
-                  <button
-                    type="button"
-                    key={item}
-                    data-active={mode === item}
-                    onClick={() => setMode(item)}
-                  >
-                    {flowModes[item].label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="kage-flow__stage">
-            <motion.div className="kage-flow__track" style={{ x: trackX }}>
-              {stages.map((stage, index) => (
-                <article
-                  className="hybrid-flow__panel kage-flow__panel"
-                  data-active={index === activeStage || undefined}
-                  key={`${mode}-${stage.index}`}
-                >
-                  <div className="container-page hybrid-flow__panel-inner">
-                    <div className="hybrid-flow__number">{stage.index}</div>
-                    <div className="hybrid-flow__copy">
-                      <span>{stage.label}</span>
-                      <h2>{stage.title}</h2>
-                      <p>{stage.copy}</p>
-                    </div>
-                    <motion.div
-                      className="hybrid-flow__artifact"
-                      aria-hidden="true"
-                      animate={{
-                        y: index === activeStage ? 0 : 22,
-                        rotate: 0,
-                        scale: index === activeStage ? 1 : 0.985,
-                      }}
-                      transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <span>
-                        {flowModes[mode].label.toUpperCase()} / {stage.index}
-                      </span>
-                      <strong>{stage.artifact}</strong>
-                      <i>→</i>
-                    </motion.div>
-                  </div>
-                </article>
-              ))}
-            </motion.div>
-          </div>
-
-          <div className="kage-flow__steps" aria-hidden="true">
-            {stages.map((item, index) => (
-              <i key={item.index} data-active={index <= activeStage || undefined} />
-            ))}
-          </div>
-          <div className="hybrid-flow__progress" aria-hidden="true">
-            <motion.i style={{ scaleX: lineScale }} />
-          </div>
-        </div>
-      </div>
-
-      <div className="hybrid-flow__mobile container-page">
-        <p className="hybrid-flow__mobile-label">AKO TO FUNGUJE</p>
-        <div className="hybrid-flow__mobile-modes" aria-label="Vyberte typ riešenia">
+      <div className="container-page kage-flow-story__header">
+        <span className="section-index">
+          <b>03</b> AKO TO FUNGUJE
+        </span>
+        <h2 id="kage-flow-story-title">Štyri kroky od otázky k výsledku.</h2>
+        <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
           {(Object.keys(flowModes) as FlowMode[]).map((item) => (
             <button
               type="button"
               key={item}
               data-active={mode === item}
-              onClick={() => setMode(item)}
+              aria-pressed={mode === item}
+              onClick={() => selectMode(item)}
             >
               {flowModes[item].label}
             </button>
           ))}
         </div>
-        {stages.map((item, index) => (
-          <motion.article
-            key={`${mode}-${item.index}`}
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.34 }}
-            transition={{ duration: 0.82, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
+      </div>
+
+      <div
+        ref={viewportRef}
+        className="kage-flow-story__viewport"
+        tabIndex={0}
+        role="group"
+        aria-label={`${flowModes[mode].label}: štyri kroky, posúvajte do strany`}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            goToStage(Math.min(stages.length - 1, activeStage + 1));
+          }
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            goToStage(Math.max(0, activeStage - 1));
+          }
+        }}
+      >
+        <ol className="kage-flow__track">
+          {stages.map((stage, index) => (
+            <li
+              className="kage-flow__panel"
+              key={`${mode}-${stage.index}`}
+              data-flow-stage={stage.index}
+              data-active={index === activeStage || undefined}
+            >
+              <div className="container-page kage-flow__panel-inner">
+                <span className="kage-flow__number" aria-hidden="true">
+                  {stage.index}
+                </span>
+                <div className="kage-flow__copy">
+                  <span>{stage.label}</span>
+                  <h3>{stage.title}</h3>
+                  <p>{stage.copy}</p>
+                </div>
+                <div className="kage-flow__artifact">
+                  <span>
+                    {flowModes[mode].label.toUpperCase()} / {stage.index}
+                  </span>
+                  <strong>{stage.artifact}</strong>
+                  <i aria-hidden="true">→</i>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="container-page kage-flow-story__footer">
+        <div className="kage-flow-story__steps" aria-label="Prejsť na krok">
+          {stages.map((stage, index) => (
+            <button
+              type="button"
+              key={stage.index}
+              data-active={index === activeStage || undefined}
+              aria-current={index === activeStage ? "step" : undefined}
+              aria-label={`Krok ${index + 1}: ${stage.label}`}
+              onClick={() => goToStage(index)}
+            >
+              {stage.index}
+            </button>
+          ))}
+        </div>
+
+        <div className="kage-flow-story__arrows">
+          <button
+            type="button"
+            aria-label="Predchádzajúci krok"
+            disabled={activeStage === 0}
+            onClick={() => goToStage(activeStage - 1)}
           >
-            <div className="hybrid-flow__mobile-head">
-              <span>{item.index}</span>
-              <b>{item.label}</b>
-            </div>
-            <h3>{item.title}</h3>
-            <p>{item.copy}</p>
-            <strong>{item.artifact}</strong>
-          </motion.article>
-        ))}
+            <ArrowLeft size={17} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            aria-label="Nasledujúci krok"
+            disabled={activeStage === stages.length - 1}
+            onClick={() => goToStage(activeStage + 1)}
+          >
+            <ArrowRight size={17} aria-hidden="true" />
+          </button>
+        </div>
+
+        <button
+          type="button"
+          className="kage-flow-story__cta"
+          onClick={() => openSiteAssistant({ source: "flow-story", preset: presetForMode(mode) })}
+        >
+          Vyskúšať na mojom webe <ArrowUpRight size={17} />
+        </button>
+
+        <div className="kage-flow-story__rail" aria-hidden="true">
+          <i style={{ transform: `scaleX(${(activeStage + 1) / stages.length})` }} />
+        </div>
       </div>
     </section>
   );
@@ -723,46 +772,81 @@ function Process() {
   );
 }
 
-function AnimatedPrice({ value }: { value: number }) {
-  const [displayValue, setDisplayValue] = useState(0);
+/**
+ * Counts a price up when its row reaches the viewport.
+ *
+ * The final value is what renders on the server and on the first client frame.
+ * The counter only ever drops to zero from inside the IntersectionObserver
+ * callback, so a browser without the observer — or one that never fires it —
+ * shows the real price instead of a permanent "od 0 €".
+ */
+function AnimatedPrice({ value, lead = "od " }: { value: number; lead?: string }) {
+  const [displayValue, setDisplayValue] = useState(value);
   const ref = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return;
-    if (reducedMotion) {
+    if (!element || reducedMotion || typeof IntersectionObserver === "undefined") {
       setDisplayValue(value);
-      return;
+      return undefined;
     }
 
     let frame = 0;
     let started = false;
+
+    const countUp = () => {
+      started = true;
+      element.dataset.counting = "true";
+      const startedAt = performance.now();
+      const duration = 1150;
+
+      const tick = (now: number) => {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        setDisplayValue(progress >= 1 ? value : Math.round(value * eased));
+
+        if (progress < 1) {
+          frame = requestAnimationFrame(tick);
+          return;
+        }
+
+        frame = 0;
+        delete element.dataset.counting;
+        element.dataset.counted = "true";
+      };
+
+      frame = requestAnimationFrame(tick);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry?.isIntersecting || started) return;
-        started = true;
-        const start = performance.now();
-        const duration = 1250;
-        const tick = (now: number) => {
-          const progress = Math.min(1, (now - start) / duration);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          setDisplayValue(Math.round(value * eased));
-          if (progress < 1) frame = requestAnimationFrame(tick);
-        };
-        frame = requestAnimationFrame(tick);
+        if (started || !entry) return;
+
+        if (!entry.isIntersecting) {
+          // The observer is alive, so staging at zero is safe to undo later.
+          setDisplayValue(0);
+          return;
+        }
+
         observer.disconnect();
+        setDisplayValue(0);
+        countUp();
       },
-      { threshold: 0.55 },
+      { threshold: 0.4 },
     );
+
     observer.observe(element);
+
     return () => {
       observer.disconnect();
-      cancelAnimationFrame(frame);
+      if (frame !== 0) cancelAnimationFrame(frame);
+      delete element.dataset.counting;
+      delete element.dataset.counted;
     };
   }, [reducedMotion, value]);
 
-  return <strong ref={ref}>od {displayValue} €</strong>;
+  return <strong ref={ref}>{`${lead}${displayValue} €`}</strong>;
 }
 
 function Price() {
@@ -792,7 +876,7 @@ function Price() {
         </div>
         <div>
           <span>PREVÁDZKA</span>
-          <strong>10 €</strong>
+          <AnimatedPrice value={10} lead="" />
           <b>/ mesiac</b>
           <p>Technická prevádzka a základná starostlivosť.</p>
         </div>

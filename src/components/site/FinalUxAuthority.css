@@ -168,30 +168,6 @@
   }
 }
 
-/* ---------------- 03 / Ako to funguje ---------------- */
-@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-  .kage-home .kage-flow {
-    /* Give each of the four stages enough physical scroll distance to read calmly. */
-    height: 440vh !important;
-  }
-
-  .kage-home .hybrid-flow__modes button {
-    min-height: 42px !important;
-    padding-inline: 1rem !important;
-    border: 1px solid rgba(246, 245, 238, 0.28) !important;
-    background: rgba(246, 245, 238, 0.055) !important;
-    color: #dbe2dd !important;
-    font-weight: 700 !important;
-  }
-
-  .kage-home .hybrid-flow__modes button[data-active="true"] {
-    border-color: #c8f06a !important;
-    background: #c8f06a !important;
-    color: #071b15 !important;
-    box-shadow: 0 10px 28px -18px rgba(200, 240, 106, 0.72) !important;
-  }
-}
-
 /* ---------------- Contact alignment ---------------- */
 .contact-page .contact-editorial-grid {
   align-items: start !important;
@@ -257,24 +233,6 @@
     width: 100% !important;
     min-width: 0 !important;
     min-height: 48px !important;
-  }
-
-  .kage-home .hybrid-flow__mobile-modes {
-    gap: 0.5rem !important;
-  }
-
-  .kage-home .hybrid-flow__mobile-modes button {
-    min-height: 44px !important;
-    border: 1px solid rgba(18, 56, 45, 0.24) !important;
-    background: rgba(255, 255, 255, 0.38) !important;
-    color: #12382d !important;
-    font-weight: 720 !important;
-  }
-
-  .kage-home .hybrid-flow__mobile-modes button[data-active="true"] {
-    border-color: #12382d !important;
-    background: #12382d !important;
-    color: #f6f5ee !important;
   }
 
   .contact-page .contact-editorial-grid {
