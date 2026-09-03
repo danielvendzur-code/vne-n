@@ -6,21 +6,23 @@ const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("homepage replaces the fragile snapping flow with an ordinary-scroll four-step section", async () => {
   const route = await read("src/routes/index.tsx");
-  const rescue = await read("src/components/site/PlainFlowStoryRescue.tsx");
-  const css = await read("src/components/site/UserReportedVisualFinal.css");
+  const landing = await read("src/components/site/KageLanding.tsx");
 
-  assert.match(route, /PlainFlowStoryRescue/);
   assert.match(route, /UserReportedVisualFinal\.css/);
-  assert.match(rescue, /id="ako-to-funguje"/);
-  assert.match(rescue, /Štyri jasné kroky\. Bez zadržiavania scrollu\./);
-  assert.match(rescue, /index: "01"/);
-  assert.match(rescue, /index: "02"/);
-  assert.match(rescue, /index: "03"/);
-  assert.match(rescue, /index: "04"/);
-  assert.match(rescue, /legacy\.removeAttribute\("data-nav-tone"\)/);
-  assert.match(rescue, /legacy\.removeAttribute\("data-signal-chapter"\)/);
-  assert.match(css, /\.kage-flow\[data-flow-rescued="true"\][\s\S]*display: none !important/);
-  assert.doesNotMatch(rescue, /animate\(window\.scrollY|scrollTo\(0,/);
+  assert.match(landing, /id="ako-to-funguje"/);
+  assert.match(landing, /className="kage-flow-story"/);
+  for (const index of ["01", "02", "03", "04"]) {
+    assert.match(landing, new RegExp(`index: "${index}"`));
+  }
+
+  // The section must never move, hold or reinterpret the page's own scrolling.
+  assert.doesNotMatch(landing, /animate\(window\.scrollY|window\.scrollTo\(/);
+  assert.doesNotMatch(landing, /useScroll|useMotionValueEvent|scrollYProgress/);
+  assert.doesNotMatch(landing, /addEventListener\("wheel"/);
+  assert.doesNotMatch(landing, /preventDefault\(\)[\s\S]{0,200}scrollLeft/);
+
+  // No second copy of the section is portalled over a hidden legacy one.
+  assert.doesNotMatch(landing, /createPortal|data-flow-rescued/);
 });
 
 test("reported heading has safe Slovak-diacritic leading", async () => {

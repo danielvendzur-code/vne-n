@@ -31,7 +31,6 @@ const REVEAL_TARGETS = [
 type RevealState = {
   opacity: number;
   transform: string;
-  filter: string;
   duration: number;
 };
 
@@ -64,7 +63,6 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
     return {
       opacity: compactViewport ? 0.14 : 0.08,
       transform: `translate3d(0, ${compactViewport ? 6 : 9}px, 0)`,
-      filter: "blur(1.2px)",
       duration: compactViewport ? 460 : 520,
     };
   }
@@ -73,7 +71,6 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
     return {
       opacity: compactViewport ? 0.12 : 0.07,
       transform: `translate3d(0, ${compactViewport ? 22 : 32}px, 0) scale(${compactViewport ? 0.986 : 0.98})`,
-      filter: "blur(1.4px) saturate(0.96)",
       duration: compactViewport ? 760 : 840,
     };
   }
@@ -83,7 +80,6 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
     return {
       opacity: compactViewport ? 0.28 : 0.2,
       transform: `translate3d(${x}px, ${compactViewport ? 4 : 6}px, 0) scale(0.996)`,
-      filter: "blur(0.7px)",
       duration: compactViewport ? 620 : 700,
     };
   }
@@ -93,7 +89,6 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
     return {
       opacity: compactViewport ? 0.34 : 0.24,
       transform: `translate3d(${x}px, 0, 0)`,
-      filter: "blur(0.45px)",
       duration: compactViewport ? 580 : 650,
     };
   }
@@ -103,7 +98,6 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
     return {
       opacity: compactViewport ? 0.38 : 0.28,
       transform: `translate3d(${x}px, 0, 0)`,
-      filter: "blur(0.45px)",
       duration: compactViewport ? 560 : 620,
     };
   }
@@ -112,7 +106,6 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
     return {
       opacity: compactViewport ? 0.2 : 0.12,
       transform: `translate3d(0, ${compactViewport ? 12 : 18}px, 0) scale(${compactViewport ? 0.988 : 0.982})`,
-      filter: "blur(0.8px)",
       duration: compactViewport ? 650 : 720,
     };
   }
@@ -122,7 +115,6 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
   return {
     opacity: compactViewport ? (isHeading ? 0.32 : isRow ? 0.4 : 0.5) : isHeading ? 0.22 : 0.32,
     transform: `translate3d(0, ${verticalDistance}px, 0)`,
-    filter: isHeading ? "blur(1px)" : "blur(0.5px)",
     duration: compactViewport ? (isHeading ? 520 : 570) : isHeading ? 600 : 650,
   };
 };
@@ -154,8 +146,7 @@ const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
 const applyStage = (element: HTMLElement, state: RevealState, pass: RevealPass) => {
   element.style.opacity = String(state.opacity);
   element.style.transform = state.transform;
-  element.style.filter = state.filter;
-  element.style.willChange = "opacity, transform, filter";
+  element.style.willChange = "opacity, transform";
   element.dataset.motionReveal = "staged";
   pass.staged = true;
 };
@@ -163,7 +154,6 @@ const applyStage = (element: HTMLElement, state: RevealState, pass: RevealPass) 
 const releaseStage = (element: HTMLElement, pass: RevealPass) => {
   element.style.removeProperty("opacity");
   element.style.removeProperty("transform");
-  element.style.removeProperty("filter");
   element.style.removeProperty("will-change");
   element.dataset.motionReveal = "shown";
   pass.staged = false;
@@ -205,9 +195,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
       );
       let lastScrollY = window.scrollY;
       let scrollDirection: "down" | "up" = "down";
-      let settleTimer: number | null = null;
-      let settleLeft = false;
-      const flow = root.querySelector<HTMLElement>(".kage-flow");
+      let directionFrame = 0;
 
       const registerAnimation = (
         element: HTMLElement,
@@ -240,16 +228,8 @@ export function PageRevealController({ pathname }: { pathname: string }) {
 
         const animation = element.animate(
           [
-            {
-              opacity: state.opacity,
-              transform: state.transform,
-              filter: state.filter,
-            },
-            {
-              opacity: 1,
-              transform: "translate3d(0, 0, 0) scale(1)",
-              filter: "blur(0px) saturate(1)",
-            },
+            { opacity: state.opacity, transform: state.transform },
+            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
           ],
           {
             duration: state.duration,
@@ -338,40 +318,19 @@ export function PageRevealController({ pathname }: { pathname: string }) {
         observer.observe(element);
       });
 
-      const clearFlowSettle = () => {
-        if (!flow) return;
-        flow.querySelectorAll<HTMLElement>("[data-scroll-settle]").forEach((element) => {
-          delete element.dataset.scrollSettle;
-          element.style.removeProperty("animation-duration");
-        });
-      };
-
-      const scheduleFlowSettle = () => {
-        if (!flow) return;
-        if (settleTimer !== null) window.clearTimeout(settleTimer);
-        clearFlowSettle();
-
-        const rect = flow.getBoundingClientRect();
-        if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
-
-        settleTimer = window.setTimeout(() => {
-          const activeArtifact = flow.querySelector<HTMLElement>(
-            '.hybrid-flow__panel[data-active="true"] .hybrid-flow__artifact',
-          );
-          if (!activeArtifact) return;
-
-          settleLeft = !settleLeft;
-          activeArtifact.style.animationDuration = "480ms";
-          activeArtifact.dataset.scrollSettle = settleLeft ? "left" : "right";
-        }, 105);
-      };
-
-      const onScroll = () => {
+      // Scroll only feeds the reveal direction, and only once per frame: the
+      // observer does the rest, so no layout is read while the page scrolls.
+      const readScrollDirection = () => {
+        directionFrame = 0;
         const nextScrollY = window.scrollY;
         if (nextScrollY > lastScrollY + 2) scrollDirection = "down";
         if (nextScrollY < lastScrollY - 2) scrollDirection = "up";
         lastScrollY = nextScrollY;
-        scheduleFlowSettle();
+      };
+
+      const onScroll = () => {
+        if (directionFrame !== 0) return;
+        directionFrame = window.requestAnimationFrame(readScrollDirection);
       };
 
       window.addEventListener("scroll", onScroll, { passive: true });
@@ -379,8 +338,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
       return () => {
         observer.disconnect();
         window.removeEventListener("scroll", onScroll);
-        if (settleTimer !== null) window.clearTimeout(settleTimer);
-        clearFlowSettle();
+        if (directionFrame !== 0) window.cancelAnimationFrame(directionFrame);
         animations.forEach((animation) => animation.cancel());
         animations.clear();
         candidates.forEach((element) => {

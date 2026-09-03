@@ -97,15 +97,18 @@ test("homepage art direction explicitly handles reduced motion and mobile compos
 test("homepage repair keeps horizontal stages sequential and hero lines geometrically even", async () => {
   const route = await read("src/routes/index.tsx");
   const repair = await read("src/components/site/FinalHomepageMotionRepair.css");
+  const homeCss = await read("src/components/site/KageLanding.css");
 
   const userFixImport = route.indexOf('import "@/components/site/FinalHomepageUserFix.css"');
   const repairImport = route.indexOf('import "@/components/site/FinalHomepageMotionRepair.css"');
   assert.ok(userFixImport >= 0);
   assert.ok(repairImport > userFixImport);
 
-  assert.match(repair, /\.kage-flow \.kage-flow__panel[\s\S]*position:\s*relative !important/);
-  assert.match(repair, /width:\s*100vw !important/);
-  assert.match(repair, /flex:\s*0 0 100vw !important/);
+  // The stages are laid out once, in one stylesheet: four real flex items on a
+  // 400% track. No later sheet has to undo an absolute-position stack any more.
+  assert.match(homeCss, /\.kage-flow__track[\s\S]*width:\s*400%/);
+  assert.match(homeCss, /\.kage-flow__panel[\s\S]*flex:\s*0 0 25%/);
+  assert.doesNotMatch(repair, /kage-flow|hybrid-flow/);
   assert.match(repair, /h1 > \.typed-line/);
   assert.match(repair, /h1 > em > \.typed-line/);
   assert.match(

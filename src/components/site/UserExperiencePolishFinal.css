@@ -1,7 +1,5 @@
 /* Final geometry lock for the user-approved sharper UI language. */
 
-.kage-home .hybrid-flow__modes button,
-.kage-home .hybrid-flow__mobile-modes button,
 .kage-home .section-index,
 .kage-home .hybrid-tools__intro > span,
 .kage-home .hybrid-work__intro > span,
@@ -10,25 +8,4 @@
 .kage-home .outcome-comparison__intro > span,
 .kage-home .outcome-comparison__group > span {
   border-radius: 6px !important;
-}
-
-.kage-home .hybrid-flow__modes button,
-.kage-home .hybrid-flow__mobile-modes button {
-  transform: none !important;
-  transition:
-    background-color 220ms ease,
-    color 220ms ease,
-    border-color 220ms ease !important;
-}
-
-.kage-home .hybrid-flow__modes button:is(:hover, :focus-visible),
-.kage-home .hybrid-flow__mobile-modes button:is(:hover, :focus-visible) {
-  transform: none !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kage-home .hybrid-flow__modes button,
-  .kage-home .hybrid-flow__mobile-modes button {
-    transition: none !important;
-  }
 }

@@ -138,10 +138,6 @@
   border-radius: 8px;
 }
 
-.kage-home .kage-flow .hybrid-flow__artifact {
-  transform-origin: center;
-}
-
 @media (max-width: 980px) {
   .kage-home .outcome-comparison__intro {
     grid-template-columns: 1fr;
