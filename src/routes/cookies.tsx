@@ -107,9 +107,9 @@ function CookiesPage() {
             <p className="cookies-card__kicker">04 / Právny základ</p>
             <h2>Rozlišujeme cookie-free meranie a súhlas.</h2>
             <p>
-              Cookie-free Vercel Analytics používame na základe oprávneného záujmu na zlepšovaní a
-              bezpečnej prevádzke webu. Google Analytics používame iba po súhlase návštevníka; bez
-              súhlasu sa jeho skript nenačíta.
+              Cookie-free Vercel Analytics používame bez ukladania analytických cookies. Google
+              Analytics a iné voliteľné ukladanie alebo čítanie údajov zo zariadenia na analytický
+              účel používame iba po súhlase návštevníka; bez súhlasu sa jeho skript nenačíta.
             </p>
           </Reveal>
         </div>
@@ -121,7 +121,7 @@ function CookiesPage() {
             Otázky k súkromiu:{" "}
             <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
           </p>
-          <small>Posledná aktualizácia: 13. augusta 2026</small>
+          <small>Posledná aktualizácia: 6. septembra 2026</small>
         </div>
       </section>
     </div>
