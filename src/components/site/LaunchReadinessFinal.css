@@ -101,6 +101,42 @@ body:has(.analytics-consent) #dv-assistant-fallback {
   grid-column: 1 / -1;
 }
 
+.contact-fallback {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(18, 55, 45, 0.22);
+  border-radius: 8px;
+  background: #f4f6ed;
+  color: #27342e;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.contact-fallback p {
+  margin: 0;
+}
+
+.contact-fallback__action {
+  width: fit-content;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.62rem 0.8rem;
+  border: 1px solid #12372d;
+  border-radius: 4px;
+  background: #12372d;
+  color: #f6f5ee !important;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+
+.contact-fallback__action:is(:hover, :focus-visible) {
+  background: #071b15;
+  border-color: #071b15;
+}
+
 .contact-privacy-note {
   display: grid;
   gap: 0.35rem;
@@ -239,6 +275,40 @@ body:has(.hybrid-home) .kage-hero h1 .typed-character {
 
   body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
     left: 60% !important;
+  }
+
+  /* Desktop had a real blank-preview failure: old crop/unmask layers left the
+     absolute project composite clipped even though the card itself measured
+     correctly. Reset every inherited crop/animation at the final authority
+     layer and make the image fill the deterministic grid cell directly. */
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite {
+    position: absolute !important;
+    inset: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    overflow: hidden !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+    animation: none !important;
+    transform: none !important;
+    background: #eef0e9 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    max-width: none !important;
+    display: block !important;
+    object-fit: cover !important;
+    object-position: 50% 8% !important;
+    transform: none !important;
+    transform-origin: center !important;
+    opacity: 1 !important;
   }
 }
 
