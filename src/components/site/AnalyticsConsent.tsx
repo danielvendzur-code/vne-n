@@ -36,6 +36,14 @@ function writeConsent(value: Exclude<Consent, null>) {
   }
 }
 
+function syncConsentDataset(value: Consent) {
+  if (value === null) {
+    delete document.documentElement.dataset.analyticsConsent;
+    return;
+  }
+  document.documentElement.dataset.analyticsConsent = value;
+}
+
 function removeGoogleAnalyticsCookies() {
   const names = document.cookie
     .split(";")
@@ -97,6 +105,7 @@ export function AnalyticsConsent() {
     if (!measurementId) return;
 
     const stored = readConsent();
+    syncConsentDataset(stored);
     setConsent(stored);
     setShowPrompt(stored === null);
 
@@ -128,6 +137,7 @@ export function AnalyticsConsent() {
 
   const choose = (value: Exclude<Consent, null>) => {
     writeConsent(value);
+    syncConsentDataset(value);
     setConsent(value);
     setShowPrompt(false);
 
