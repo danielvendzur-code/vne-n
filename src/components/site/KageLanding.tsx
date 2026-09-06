@@ -624,8 +624,10 @@ function AnimatedPrice({ value, lead = "od " }: { value: number; lead?: string }
         if (started || !entry) return;
 
         if (!entry.isIntersecting) {
-          // The observer is alive, so staging at zero is safe to undo later.
-          setDisplayValue(0);
+          // Keep the real price in the DOM until the row actually enters the
+          // viewport. Full-page screenshots, crawlers and accessibility tools
+          // must never observe a fake "0 €" price just because the animation
+          // has not started yet.
           return;
         }
 
@@ -726,9 +728,7 @@ export function KageLanding() {
         data-nav-tone="light"
       >
         <div className="container-page hybrid-manifesto__inner">
-          <span className="section-index">
-            <b>03</b> ČO TO ZMENÍ
-          </span>
+          <span className="section-index">ČO TO ZMENÍ</span>
           <h2 id="hybrid-manifesto-title">
             Web môže <em style={{ display: "inline-block" }}>odpovedať.</em> Môže{" "}
             <em style={{ display: "inline-block" }}>vypočítať cenu.</em> Môže{" "}
