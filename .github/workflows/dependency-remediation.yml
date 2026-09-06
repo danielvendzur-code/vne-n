@@ -1,0 +1,70 @@
+name: Dependency remediation candidate
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-remediation-candidate
+  cancel-in-progress: true
+
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Capture audit before remediation
+        shell: bash
+        run: bun audit --prod --audit-level=high > audit-before.txt 2>&1 || true
+
+      - name: Produce safe in-range audit fix candidate
+        shell: bash
+        run: bun audit fix > audit-fix.txt 2>&1 || true
+
+      - name: Validate candidate
+        shell: bash
+        run: |
+          set +e
+          bun audit --prod --audit-level=high > audit-after.txt 2>&1
+          echo "audit_exit=$?" > validation.txt
+          bun run lint >> validation.txt 2>&1
+          echo "lint_exit=$?" >> validation.txt
+          bun run test >> validation.txt 2>&1
+          echo "test_exit=$?" >> validation.txt
+          NITRO_PRESET=vercel bun run build >> validation.txt 2>&1
+          echo "build_exit=$?" >> validation.txt
+          git diff -- package.json bun.lock package-lock.json > dependency-diff.patch
+
+      - name: Upload remediation candidate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-remediation-${{ github.run_id }}
+          path: |
+            package.json
+            bun.lock
+            package-lock.json
+            audit-before.txt
+            audit-fix.txt
+            audit-after.txt
+            validation.txt
+            dependency-diff.patch
+          retention-days: 2
