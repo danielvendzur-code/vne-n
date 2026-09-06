@@ -55,6 +55,7 @@ export function Footer() {
       <div className="container-page premium-footer-bottom">
         <span>© {new Date().getFullYear()} Môj Chatbot</span>
         <span className="premium-footer-privacy">
+          <Link to="/pravne-informacie">Právne informácie</Link>
           <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
           <Link to="/cookies">Cookies</Link>
         </span>
