@@ -64,7 +64,6 @@ test("privacy copy matches actual browser and server chat retention", async () =
   assert.match(privacy, /serverová história konverzácie najviac 90 dní/);
 });
 
-
 test("legal page does not pretend a contact form creates a consumer contract", async () => {
   const legal = await read("src/routes/pravne-informacie.tsx");
 
