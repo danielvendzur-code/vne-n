@@ -39,9 +39,11 @@ jobs:
         shell: bash
         run: bun audit fix > audit-fix.txt 2>&1 || true
 
-      - name: Synchronize npm lockfile
+      - name: Synchronize and remediate npm lockfile
         shell: bash
-        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          npm audit fix --package-lock-only --ignore-scripts --no-fund
 
       - name: Validate candidate
         shell: bash
