@@ -30,7 +30,7 @@ test("the price counter can never get stuck at zero", async () => {
   // crawlers and assistive technology.
   assert.equal((counter.match(/setDisplayValue\(0\)/g) ?? []).length, 1);
   assert.match(counter, /if \(!entry\.isIntersecting\) \{[\s\S]*?return;/);
-  assert.doesNotMatch(counter, /if \(!entry\.isIntersecting\) \{[\s\S]*?setDisplayValue\(0\)/);
+  assert.doesNotMatch(counter, /if \(!entry\.isIntersecting\) \{[^}]*setDisplayValue\(0\)/);
   assert.match(counter, /new IntersectionObserver\(/);
   assert.match(counter, /progress >= 1 \? value : Math\.round\(value \* eased\)/);
 });
