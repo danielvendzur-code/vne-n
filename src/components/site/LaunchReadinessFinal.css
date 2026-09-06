@@ -82,6 +82,25 @@ body:has(.analytics-consent) #dv-assistant-fallback {
   pointer-events: none !important;
 }
 
+.pricing-tax-note {
+  grid-column: 1 / -1;
+  margin: 0.4rem 0 0;
+  max-width: 58rem;
+  color: #536159;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.pricing-tax-note a {
+  color: #12372d;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.legal-information-page .cookies-card--wide {
+  grid-column: 1 / -1;
+}
+
 .contact-privacy-note {
   display: grid;
   gap: 0.35rem;
