@@ -20,6 +20,7 @@ const routes = [
   "/kontakt",
   "/dakujeme",
   "/cookies",
+  "/pravne-informacie",
   "/ochrana-udajov",
   "/farby",
 ];
