@@ -55,7 +55,9 @@ function normalizeHttpUrl(value: string): string {
   if (!value) return "";
   try {
     const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:" ? url.toString().slice(0, LIMITS.web) : "";
+    return url.protocol === "http:" || url.protocol === "https:"
+      ? url.toString().slice(0, LIMITS.web)
+      : "";
   } catch {
     return "";
   }
