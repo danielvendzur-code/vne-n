@@ -19,6 +19,47 @@ function validMeasurementId(value: string | undefined): string | null {
   return candidate && /^G-[A-Z0-9]+$/.test(candidate) ? candidate : null;
 }
 
+function readConsent(): Consent {
+  try {
+    const stored = window.localStorage.getItem(CONSENT_KEY);
+    return stored === "granted" || stored === "denied" ? stored : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeConsent(value: Exclude<Consent, null>) {
+  try {
+    window.localStorage.setItem(CONSENT_KEY, value);
+  } catch {
+    // Privacy mode or a blocked storage API must not break the website.
+  }
+}
+
+function removeGoogleAnalyticsCookies() {
+  const names = document.cookie
+    .split(";")
+    .map((part) => part.split("=")[0]?.trim())
+    .filter((name): name is string => Boolean(name))
+    .filter((name) => name === "_gid" || name.startsWith("_ga") || name.startsWith("_gat"));
+
+  if (!names.length) return;
+
+  const hostname = window.location.hostname;
+  const labels = hostname.split(".").filter(Boolean);
+  const parentDomain = labels.length >= 2 ? `.${labels.slice(-2).join(".")}` : "";
+
+  for (const name of names) {
+    document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax`;
+    if (hostname) {
+      document.cookie = `${name}=; Max-Age=0; Path=/; Domain=${hostname}; SameSite=Lax`;
+    }
+    if (parentDomain) {
+      document.cookie = `${name}=; Max-Age=0; Path=/; Domain=${parentDomain}; SameSite=Lax`;
+    }
+  }
+}
+
 function ensureGoogleAnalytics(measurementId: string) {
   window.dataLayer = window.dataLayer || [];
   window.gtag =
@@ -55,13 +96,9 @@ export function AnalyticsConsent() {
   useEffect(() => {
     if (!measurementId) return;
 
-    const stored = window.localStorage.getItem(CONSENT_KEY);
-    if (stored === "granted" || stored === "denied") {
-      setConsent(stored);
-      setShowPrompt(false);
-    } else {
-      setShowPrompt(true);
-    }
+    const stored = readConsent();
+    setConsent(stored);
+    setShowPrompt(stored === null);
 
     const reopen = () => setShowPrompt(true);
     window.addEventListener(ANALYTICS_CONSENT_EVENT, reopen);
@@ -90,29 +127,36 @@ export function AnalyticsConsent() {
   if (!measurementId || !showPrompt) return null;
 
   const choose = (value: Exclude<Consent, null>) => {
-    window.localStorage.setItem(CONSENT_KEY, value);
+    writeConsent(value);
     setConsent(value);
     setShowPrompt(false);
 
-    if (value === "denied" && typeof window.gtag === "function") {
-      window.gtag("consent", "update", { analytics_storage: "denied" });
+    if (value === "denied") {
+      window.gtag?.("consent", "update", { analytics_storage: "denied" });
+      removeGoogleAnalyticsCookies();
     }
   };
 
   return (
-    <aside className="analytics-consent" aria-label="Nastavenie analytiky">
-      <div>
-        <strong>Analytika návštevnosti</strong>
-        <p>
-          Vercel Analytics je bez cookies. Google Analytics spustíme iba po vašom súhlase.
-          <Link to="/cookies"> Podrobnosti</Link>
+    <aside
+      className="analytics-consent"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="analytics-consent-title"
+      aria-describedby="analytics-consent-description"
+    >
+      <div className="analytics-consent__copy">
+        <strong id="analytics-consent-title">Analytika návštevnosti</strong>
+        <p id="analytics-consent-description">
+          Google Analytics spustíme iba po vašom súhlase. Odmietnutie nijako neobmedzí web.
+          <Link to="/cookies"> Podrobnosti a zmena nastavenia</Link>
         </p>
       </div>
       <div className="analytics-consent__actions">
         <button type="button" onClick={() => choose("denied")}>
-          Len nevyhnutné
+          Odmietnuť analytiku
         </button>
-        <button type="button" data-primary="true" onClick={() => choose("granted")}>
+        <button type="button" onClick={() => choose("granted")}>
           Povoliť analytiku
         </button>
       </div>
