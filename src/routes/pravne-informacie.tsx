@@ -119,6 +119,30 @@ function LegalInformationPage() {
 
           <Reveal className="cookies-card cookies-card--wide" direction="left" delay={0.18}>
             <h2>
+              <Scale aria-hidden="true" /> Spotrebiteľský spor a zmluva na diaľku
+            </h2>
+            <p>
+              Odoslanie formulára alebo dopytu na tomto webe samo osebe nevytvára objednávku ani
+              zmluvu. Ak má byť konkrétna zmluva uzatvorená so spotrebiteľom na diaľku, povinné
+              informácie k danej službe vrátane podmienok a prípadného práva na odstúpenie budú
+              poskytnuté pred jej uzavretím.
+            </p>
+            <p className="cookies-note">
+              Ak vystupujete ako spotrebiteľ a spor sa nepodarí vyriešiť priamo s nami, môžete po
+              splnení zákonných podmienok využiť alternatívne riešenie spotrebiteľského sporu.{" "}
+              <a
+                href="https://www.soi.sk/alternativne-riesenie-spotrebitelskych-sporov"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Informácie o ARS na stránke SOI
+              </a>
+              .
+            </p>
+          </Reveal>
+
+          <Reveal className="cookies-card cookies-card--wide" direction="right" delay={0.22}>
+            <h2>
               <ShieldCheck aria-hidden="true" /> Súkromie a cookies
             </h2>
             <p>
