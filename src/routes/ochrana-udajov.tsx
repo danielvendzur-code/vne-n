@@ -52,7 +52,7 @@ const purposes = [
     why: "Aby asistent odpovedal a pripravil použiteľné zadanie pre tím Môj Chatbot.",
     basis:
       "Kroky pred uzatvorením zmluvy — čl. 6 ods. 1 písm. b) GDPR; pri anonymnej otázke oprávnený záujem na poskytovaní služby.",
-    keep: "Podľa účelu komunikácie, najviac 24 mesiacov; technické záznamy kratšie podľa nastavenia poskytovateľa.",
+    keep: "Rozpracovaný chat v prehliadači najviac 24 hodín; serverová história konverzácie najviac 90 dní. Ak z komunikácie vznikne dopyt alebo spolupráca, údaje potrebné na jej vybavenie sa uchovávajú podľa príslušného účelu.",
   },
   {
     icon: Clock3,
