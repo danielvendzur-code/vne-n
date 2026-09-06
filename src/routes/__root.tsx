@@ -316,7 +316,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "manifest", href: `${import.meta.env.BASE_URL}manifest.webmanifest` },
       { rel: "dns-prefetch", href: "https://danielvendzur-code.github.io" },
-      { rel: "preconnect", href: "https://www.googletagmanager.com" },
     ],
     scripts: [{ type: "application/ld+json", children: structuredData }],
   }),
