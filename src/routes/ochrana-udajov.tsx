@@ -96,9 +96,9 @@ const rights = [
 ];
 
 function PrivacyPage() {
-  const { legal, contact, team } = siteConfig;
+  const { legal, contact, brand } = siteConfig;
   const identity = [
-    { label: "Značka", value: team.label },
+    { label: "Značka", value: brand },
     { label: "Prevádzkovateľ", value: legal.operator },
     { label: "Sídlo / miesto podnikania", value: legal.address },
     { label: "IČO", value: legal.ico },
@@ -122,6 +122,7 @@ function PrivacyPage() {
       <section className="cookies-section">
         <div className="container-page cookies-grid">
           <Reveal className="cookies-card" direction="left">
+            <div id="prevadzkovatel" className="legal-anchor" />
             <h2>
               <Building2 aria-hidden="true" /> Kto je prevádzkovateľ
             </h2>
@@ -153,6 +154,10 @@ function PrivacyPage() {
             </h2>
             <ul className="cookies-list">
               <li>Zbierame iba údaje potrebné na odpoveď, realizáciu a bezpečnú prevádzku.</li>
+              <li>
+                Pri kontaktnom formulári potrebujeme meno, e-mail a obsah zadania, aby sme vedeli
+                na dopyt odpovedať. Telefón, firma, web a termín sú dobrovoľné.
+              </li>
               <li>Údaje nepredávame a nepoužívame na reklamu tretích strán.</li>
               <li>Obsah formulára ani chatbota neposielame do analytiky.</li>
               <li>
@@ -226,6 +231,8 @@ function PrivacyPage() {
               </li>
               <li>
                 <b>Anthropic</b> — spracovanie otázok, keď návštevník použije AI odpoveď chatbota.
+                Do AI chatu neposielajte osobitné kategórie osobných údajov ani iné citlivé údaje,
+                ktoré nie sú potrebné na vybavenie dopytu.
               </li>
               {googleAnalyticsEnabled ? (
                 <li>
@@ -268,6 +275,16 @@ function PrivacyPage() {
               nastavení súhlasu nájdete na stránke <Link to="/cookies">Cookies a analytika</Link>.
             </p>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="cookies-contact">
+        <div className="container-page">
+          <p>
+            Identifikačné a daňové údaje poskytovateľa nájdete aj na stránke{" "}
+            <Link to="/pravne-informacie">Právne informácie</Link>.
+          </p>
+          <small>Posledná aktualizácia: 6. septembra 2026</small>
         </div>
       </section>
     </div>
