@@ -400,8 +400,8 @@ function ContactPage() {
               {fallbackHref ? (
                 <div className="contact-fallback" role="status">
                   <p>
-                    Nič ste nestratili. Ak chcete dopyt dokončiť hneď, otvoríme pripravený e-mail
-                    s vyplneným zadaním; odoslanie zostáva pod vašou kontrolou.
+                    Nič ste nestratili. Ak chcete dopyt dokončiť hneď, otvoríme pripravený e-mail s
+                    vyplneným zadaním; odoslanie zostáva pod vašou kontrolou.
                   </p>
                   <a className="contact-fallback__action" href={fallbackHref}>
                     Otvoriť pripravený e-mail <ArrowRight size={15} aria-hidden="true" />
