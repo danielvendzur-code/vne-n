@@ -221,7 +221,7 @@ body:has(.hybrid-home) .kage-hero h1 .typed-character {
   }
 
   body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
-    inset-left: 60% !important;
+    left: 60% !important;
   }
 }
 
