@@ -200,13 +200,17 @@ if (/backdrop-filter:\s*blur\(/i.test(homeCss)) {
 const contact = await read("src/routes/kontakt.tsx");
 for (const token of [
   "cleanField",
+  "normalizeHttpUrl",
   "contact-website",
-  "contact-consent",
+  "contact-privacy-note",
   "submitWebsiteLead",
   "result.fallback",
   "dakujeme",
 ]) {
   if (!contact.includes(token)) fail(`Contact flow is missing ${token}`);
+}
+if (/type="checkbox"/.test(contact)) {
+  fail("Contact flow still contains the obsolete consent checkbox");
 }
 
 const leadClient = await read("src/lib/lead-submission.ts");
