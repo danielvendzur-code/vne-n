@@ -53,3 +53,14 @@ test("desktop hero final authority removes stale preview clipping", async () => 
     /\.hybrid-hero__case \.project-composite__site \{[\s\S]*?transform:\s*none\s*!important/,
   );
 });
+
+
+test("privacy copy matches actual browser and server chat retention", async () => {
+  const cookies = await read("src/routes/cookies.tsx");
+  const privacy = await read("src/routes/ochrana-udajov.tsx");
+
+  assert.match(cookies, /náhodný identifikátor[\s\S]*?najviac 24 hodín/);
+  assert.match(cookies, /neslúžia na reklamu ani profilovanie/);
+  assert.match(privacy, /Rozpracovaný chat v prehliadači najviac 24 hodín/);
+  assert.match(privacy, /serverová história konverzácie najviac 90 dní/);
+});
