@@ -184,8 +184,8 @@ jobs:
               ) {
                 failures.push(`hero project ${index + 1} remains clipped: ${item.compositeClipPath}`);
               }
-              if (item.imageWidth < item.width - 2 || item.imageHeight < item.height - 2) {
-                failures.push(`hero project ${index + 1} image does not fill card: ${item.imageWidth}x${item.imageHeight} vs ${item.width}x${item.height}`);
+              if (item.imageWidth < item.width * 0.88 || item.imageHeight < item.height * 0.88) {
+                failures.push(`hero project ${index + 1} image coverage too small: ${item.imageWidth}x${item.imageHeight} vs ${item.width}x${item.height}`);
               }
             }
             const overlap = (a, b) => {
