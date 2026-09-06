@@ -130,6 +130,10 @@ jobs:
                 const style = getComputedStyle(item);
                 return Number(style.opacity) < 0.98 || style.visibility === 'hidden';
               }).length;
+              const lines = Array.from(root.querySelectorAll('h1 .typed-line')).map((item) => {
+                const rect = item.getBoundingClientRect();
+                return { top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right };
+              });
               return {
                 cases,
                 cta: cta
@@ -140,6 +144,7 @@ jobs:
                   : null,
                 characterCount: characters.length,
                 hiddenCharacters,
+                lines,
                 viewportHeight: innerHeight,
                 viewportWidth: innerWidth,
               };
@@ -164,6 +169,14 @@ jobs:
             }
             if (!hero.characterCount) failures.push('hero headline characters missing');
             if (hero.hiddenCharacters) failures.push(`hero headline has ${hero.hiddenCharacters} hidden characters`);
+            if (hero.lines.length !== 3) failures.push(`hero headline line count ${hero.lines.length}`);
+            for (let index = 1; index < hero.lines.length; index += 1) {
+              const previous = hero.lines[index - 1];
+              const current = hero.lines[index];
+              if (current.top < previous.bottom - 1) {
+                failures.push(`hero headline lines ${index} and ${index + 1} overlap vertically`);
+              }
+            }
             if (!hero.cta) failures.push('hero CTA missing');
             else {
               if (hero.cta.width < 90 || hero.cta.height < 40) failures.push(`hero CTA too small: ${hero.cta.width}x${hero.cta.height}`);
