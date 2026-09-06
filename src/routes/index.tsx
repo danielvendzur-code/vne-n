@@ -28,17 +28,25 @@ const faqJsonLd = JSON.stringify({
 
 const serviceJsonLd = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
+  "@type": "Service",
   name: "Môj Chatbot — digitálne predajné nástroje na mieru",
   url: `${SITE_URL}/`,
-  logo: `${SITE_URL}/brand/logo.svg`,
   image: `${SITE_URL}/og/og-home.png`,
-  email: siteConfig.contact.email,
-  telephone: siteConfig.contact.phoneHref,
+  serviceType:
+    "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami",
+  provider: {
+    "@type": "Organization",
+    name: siteConfig.legal.operator,
+    legalName: siteConfig.legal.operator,
+    identifier: siteConfig.legal.ico,
+    taxID: siteConfig.legal.dic,
+    vatID: siteConfig.legal.icDph,
+    email: siteConfig.contact.email,
+    telephone: siteConfig.contact.phoneHref,
+  },
   areaServed: "SK",
   description:
     "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami.",
-  founder: { "@type": "Person", name: siteConfig.team.founder },
   knowsAbout: [
     "chatbot pre e-shop",
     "chatbot pre služby",
