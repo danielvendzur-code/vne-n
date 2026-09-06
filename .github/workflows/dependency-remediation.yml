@@ -28,8 +28,8 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install locked dependencies
-        run: bun install --frozen-lockfile
+      - name: Re-resolve candidate dependencies
+        run: bun install
 
       - name: Capture audit before remediation
         shell: bash
@@ -39,12 +39,18 @@ jobs:
         shell: bash
         run: bun audit fix > audit-fix.txt 2>&1 || true
 
+      - name: Synchronize npm lockfile
+        shell: bash
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
       - name: Validate candidate
         shell: bash
         run: |
           set +e
           bun audit --prod --audit-level=high > audit-after.txt 2>&1
           echo "audit_exit=$?" > validation.txt
+          npm audit --omit=dev --audit-level=high > npm-audit-after.txt 2>&1
+          echo "npm_audit_exit=$?" >> validation.txt
           bun run lint >> validation.txt 2>&1
           echo "lint_exit=$?" >> validation.txt
           bun run test >> validation.txt 2>&1
@@ -65,6 +71,7 @@ jobs:
             audit-before.txt
             audit-fix.txt
             audit-after.txt
+            npm-audit-after.txt
             validation.txt
             dependency-diff.patch
           retention-days: 2
