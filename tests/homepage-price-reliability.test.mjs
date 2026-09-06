@@ -25,8 +25,12 @@ test("the price counter can never get stuck at zero", async () => {
     counter,
     /if \(!element \|\| reducedMotion \|\| typeof IntersectionObserver === "undefined"\) \{\s*setDisplayValue\(value\);/,
   );
-  // Zero is only ever shown from inside a live observer callback.
-  assert.equal((counter.match(/setDisplayValue\(0\)/g) ?? []).length, 2);
+  // Zero is introduced only when the price is actually entering the viewport.
+  // Until then the authoritative price remains in the DOM for screenshots,
+  // crawlers and assistive technology.
+  assert.equal((counter.match(/setDisplayValue\(0\)/g) ?? []).length, 1);
+  assert.match(counter, /if \(!entry\.isIntersecting\) \{[\s\S]*?return;/);
+  assert.doesNotMatch(counter, /if \(!entry\.isIntersecting\) \{[\s\S]*?setDisplayValue\(0\)/);
   assert.match(counter, /new IntersectionObserver\(/);
   assert.match(counter, /progress >= 1 \? value : Math\.round\(value \* eased\)/);
 });
