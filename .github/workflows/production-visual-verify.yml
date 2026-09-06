@@ -125,6 +125,11 @@ jobs:
               });
               const cta = root.querySelector('.hybrid-hero__primary')?.getBoundingClientRect();
               const headline = root.querySelector('h1')?.getBoundingClientRect();
+              const characters = Array.from(root.querySelectorAll('.typed-character'));
+              const hiddenCharacters = characters.filter((item) => {
+                const style = getComputedStyle(item);
+                return Number(style.opacity) < 0.98 || style.visibility === 'hidden';
+              }).length;
               return {
                 cases,
                 cta: cta
@@ -133,6 +138,8 @@ jobs:
                 headline: headline
                   ? { left: headline.left, top: headline.top, right: headline.right, bottom: headline.bottom }
                   : null,
+                characterCount: characters.length,
+                hiddenCharacters,
                 viewportHeight: innerHeight,
                 viewportWidth: innerWidth,
               };
@@ -155,6 +162,8 @@ jobs:
               if (overlap(hero.cases[0], hero.cases[2]) > 2) failures.push('lead hero project overlaps support project 2');
               if (overlap(hero.cases[1], hero.cases[2]) > 2) failures.push('support hero projects overlap');
             }
+            if (!hero.characterCount) failures.push('hero headline characters missing');
+            if (hero.hiddenCharacters) failures.push(`hero headline has ${hero.hiddenCharacters} hidden characters`);
             if (!hero.cta) failures.push('hero CTA missing');
             else {
               if (hero.cta.width < 90 || hero.cta.height < 40) failures.push(`hero CTA too small: ${hero.cta.width}x${hero.cta.height}`);
