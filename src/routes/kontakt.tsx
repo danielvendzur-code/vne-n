@@ -90,6 +90,7 @@ function ContactPage() {
   const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
+  const [fallbackHref, setFallbackHref] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -142,6 +143,7 @@ function ContactPage() {
       .trim();
 
     setError("");
+    setFallbackHref("");
     setSubmitState("sending");
 
     try {
@@ -162,7 +164,11 @@ function ContactPage() {
       });
 
       if (result.fallback) {
-        window.location.assign(result.fallback);
+        setSubmitState("idle");
+        setFallbackHref(result.fallback);
+        setError(
+          "Automatické odoslanie sa nepodarilo dokončiť. Zadanie zostalo vyplnené a môžete ho odoslať pripraveným e-mailom.",
+        );
         return;
       }
 
@@ -389,6 +395,18 @@ function ContactPage() {
                 <p className="contact-error" role="alert">
                   {error}
                 </p>
+              ) : null}
+
+              {fallbackHref ? (
+                <div className="contact-fallback" role="status">
+                  <p>
+                    Nič ste nestratili. Ak chcete dopyt dokončiť hneď, otvoríme pripravený e-mail
+                    s vyplneným zadaním; odoslanie zostáva pod vašou kontrolou.
+                  </p>
+                  <a className="contact-fallback__action" href={fallbackHref}>
+                    Otvoriť pripravený e-mail <ArrowRight size={15} aria-hidden="true" />
+                  </a>
+                </div>
               ) : null}
 
               <button
