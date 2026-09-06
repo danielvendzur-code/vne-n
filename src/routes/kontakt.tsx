@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
@@ -57,6 +57,26 @@ function cleanField(value: string, limit: number): string {
     .slice(0, limit);
 }
 
+function normalizeHttpUrl(value: string): string {
+  const candidate = value.trim();
+  if (!candidate) return "";
+
+  try {
+    const withProtocol = /^[a-z][a-z0-9+.-]*:\/\//i.test(candidate)
+      ? candidate
+      : `https://${candidate}`;
+    const url = new URL(withProtocol);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return "";
+    return url.toString().slice(0, FIELD_LIMITS.web);
+  } catch {
+    return "";
+  }
+}
+
+function isEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(value);
+}
+
 function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -67,7 +87,6 @@ function ContactPage() {
   const [project, setProject] = useState("");
   const [leadSource, setLeadSource] = useState("website-contact");
   const [timing, setTiming] = useState("Bez pevného termínu");
-  const [consent, setConsent] = useState(false);
   const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
@@ -76,8 +95,8 @@ function ContactPage() {
     const params = new URLSearchParams(window.location.search);
     const sourceParam = cleanField(params.get("source") ?? "", FIELD_LIMITS.source);
     const companyParam = cleanField(params.get("company") ?? "", FIELD_LIMITS.company);
-    const webParam = cleanField(params.get("web") ?? "", FIELD_LIMITS.web);
-    const demoParam = cleanField(params.get("demo") ?? "", FIELD_LIMITS.demo);
+    const webParam = normalizeHttpUrl(cleanField(params.get("web") ?? "", FIELD_LIMITS.web));
+    const demoParam = normalizeHttpUrl(cleanField(params.get("demo") ?? "", FIELD_LIMITS.demo));
 
     if (sourceParam) setLeadSource(sourceParam);
     if (companyParam) setCompany((current) => current || companyParam);
@@ -95,14 +114,20 @@ function ContactPage() {
     const safeEmail = cleanField(email, FIELD_LIMITS.email);
     const safePhone = cleanField(phone, FIELD_LIMITS.phone);
     const safeCompany = cleanField(company, FIELD_LIMITS.company);
-    const safeWeb = cleanField(web, FIELD_LIMITS.web);
-    const safeDemo = cleanField(demoUrl, FIELD_LIMITS.demo);
+    const rawWeb = cleanField(web, FIELD_LIMITS.web);
+    const safeWeb = normalizeHttpUrl(rawWeb);
+    const safeDemo = normalizeHttpUrl(cleanField(demoUrl, FIELD_LIMITS.demo));
     const safeProject = cleanField(project, FIELD_LIMITS.project);
     const safeSource = cleanField(leadSource, FIELD_LIMITS.source) || "website-contact";
     const isCoffeeLead = safeSource.startsWith("coffee-demo-");
 
-    if (!safeName || !safeEmail || (!isCoffeeLead && !safeProject) || !consent) {
-      setError("Vyplňte povinné polia a potvrďte súhlas so spracovaním údajov.");
+    if (!safeName || !isEmail(safeEmail) || (!isCoffeeLead && !safeProject)) {
+      setError("Vyplňte meno, platný e-mail a povinný obsah zadania.");
+      return;
+    }
+
+    if (rawWeb && !safeWeb) {
+      setError("Web musí byť platná adresa HTTP alebo HTTPS.");
       return;
     }
 
@@ -178,6 +203,13 @@ function ContactPage() {
                 <li>Čo zákazníci stále riešia ručne.</li>
                 <li>Čo má byť výsledkom na webe.</li>
               </ol>
+            </div>
+            <div>
+              <p className="section-kicker">PREVÁDZKOVATEĽ</p>
+              <p>{siteConfig.legal.operator}</p>
+              <Link to="/pravne-informacie" className="text-link">
+                IČO, DIČ a registrácia <ArrowRight size={14} />
+              </Link>
             </div>
             <button
               type="button"
@@ -341,14 +373,17 @@ function ContactPage() {
                 />
               </div>
 
-              <label className="contact-consent">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(event) => setConsent(event.target.checked)}
-                />
-                <span>Súhlasím so spracovaním údajov na prípravu návrhu.</span>
-              </label>
+              <div className="contact-privacy-note">
+                <p>
+                  Odoslaním zadania požiadate prevádzkovateľa Venaco s.r.o. o kontakt a prípravu
+                  návrhu. Údaje použijeme na vybavenie dopytu a prípadné kroky pred uzatvorením
+                  spolupráce, nie na prihlásenie do marketingového newslettera.
+                </p>
+                <p>
+                  Podrobnosti: <Link to="/ochrana-udajov">Ochrana osobných údajov</Link> ·{" "}
+                  <Link to="/pravne-informacie">Právne informácie</Link>
+                </p>
+              </div>
 
               {error ? (
                 <p className="contact-error" role="alert">
