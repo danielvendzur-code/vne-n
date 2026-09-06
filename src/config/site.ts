@@ -30,8 +30,7 @@ export const siteConfig = {
     ico: "45648107",
     dic: "2023076407",
     icDph: "SK2023076407",
-    registration:
-      "Obchodný register Okresného súdu Nitra, oddiel Sro, vložka č. 27111/N",
+    registration: "Obchodný register Okresného súdu Nitra, oddiel Sro, vložka č. 27111/N",
     supervisor:
       "Inšpektorát Slovenskej obchodnej inšpekcie pre Nitriansky kraj, Staničná 9, P. O. BOX 49A, 950 50 Nitra 1",
     vatPayer: true,
