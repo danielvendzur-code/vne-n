@@ -87,8 +87,8 @@ function LegalInformationPage() {
               Telefón: <a href={`tel:${contact.phoneHref}`}>{contact.phoneLabel}</a>
             </p>
             <p className="cookies-note">
-              Tieto kontakty môžete použiť aj na otázky k objednávke služby, fakturácii,
-              ochrane osobných údajov alebo technickej prevádzke.
+              Tieto kontakty môžete použiť aj na otázky k objednávke služby, fakturácii, ochrane
+              osobných údajov alebo technickej prevádzke.
             </p>
           </Reveal>
 
@@ -108,8 +108,8 @@ function LegalInformationPage() {
               <ReceiptText aria-hidden="true" /> Ceny a fakturácia
             </h2>
             <p>
-              Venaco s.r.o. je platiteľ DPH. Sumy „od“ na webe sú informatívne ceny za
-              predpokladaný rozsah riešenia; nejde o automaticky uzatvorenú objednávku.
+              Venaco s.r.o. je platiteľ DPH. Sumy „od“ na webe sú informatívne ceny za predpokladaný
+              rozsah riešenia; nejde o automaticky uzatvorenú objednávku.
             </p>
             <p className="cookies-note">
               Pred začatím práce dostanete konkrétnu cenovú ponuku s jasne uvedeným rozsahom,
