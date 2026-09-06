@@ -54,6 +54,12 @@ function CookiesPage() {
               Analytics sa načíta až po voľbe „Povoliť analytiku“ a pri jeho používaní môžu byť
               uložené analytické cookies podľa nastavenia služby Google.
             </p>
+            <p>
+              Funkčné lokálne úložisko používame aj na zapamätanie vašej voľby analytiky. AI
+              asistent môže v prehliadači uchovať rozpracovanú konverzáciu a náhodný identifikátor
+              vlákna najviac 24 hodín, aby sa chat nestratil pri prechode medzi stránkami. Tieto
+              údaje neslúžia na reklamu ani profilovanie.
+            </p>
           </Reveal>
 
           <Reveal className="cookies-card" direction="right" delay={0.06}>
