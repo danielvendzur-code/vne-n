@@ -15,7 +15,7 @@ concurrency:
 jobs:
   verify-production-domain:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - name: Checkout current main
         uses: actions/checkout@v4
@@ -23,117 +23,52 @@ jobs:
           ref: main
           fetch-depth: 1
 
-      - name: Verify real custom domain, loader and homepage CSS
+      - name: Verify current custom-domain release
         shell: bash
         env:
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          set -u -o pipefail
+          set -euo pipefail
 
           echo "=== DNS / routing diagnostics ==="
           getent ahosts mojchatbot.sk || true
           getent ahosts www.mojchatbot.sk || true
-          echo
-          echo "=== Apex response chain ==="
-          curl --silent --show-error --location --head --max-time 20 \
-            --header 'Cache-Control: no-cache' \
-            "https://mojchatbot.sk/?verify=${SOURCE_SHA}" || true
-          echo
-          echo "=== WWW response chain ==="
-          curl --silent --show-error --location --head --max-time 20 \
-            --header 'Cache-Control: no-cache' \
-            "https://www.mojchatbot.sk/?verify=${SOURCE_SHA}" || true
 
-          verify_live() {
-            local origin="$1"
-            local workdir
-            workdir="$(mktemp -d)"
+          verify_text() {
+            local path="$1"
+            local expected="$2"
+            local body
+            body="$(mktemp)"
 
-            for attempt in $(seq 1 24); do
-              echo
-              echo "=== live verification attempt ${attempt}/24: ${origin} ==="
+            for attempt in $(seq 1 30); do
               local stamp="${SOURCE_SHA}-${attempt}-$(date +%s)"
-              local html="${workdir}/index-${attempt}.html"
-              local loader="${workdir}/loader-${attempt}.js"
-              local css="${workdir}/css-${attempt}.txt"
-
-              if ! curl --location --fail --silent --show-error --max-time 25 \
+              if curl --location --fail --silent --show-error --max-time 25 \
                 --header 'Cache-Control: no-cache, no-store, max-age=0' \
-                "${origin}/?verify=${stamp}" -o "${html}"; then
-                sleep 10
-                continue
+                "https://mojchatbot.sk${path}?verify=${stamp}" -o "${body}"; then
+                if grep -Fq "${expected}" "${body}"; then
+                  echo "verified ${path}: ${expected}"
+                  rm -f "${body}"
+                  return 0
+                fi
               fi
-
-              local final_url
-              final_url="$(curl --location --silent --show-error --output /dev/null \
-                --write-out '%{url_effective}' --max-time 25 \
-                --header 'Cache-Control: no-cache, no-store, max-age=0' \
-                "${origin}/?verify=${stamp}" || true)"
-              echo "final_url=${final_url}"
-
-              curl --location --fail --silent --show-error --max-time 25 \
-                --header 'Cache-Control: no-cache, no-store, max-age=0' \
-                "${origin}/widget-loader.js?verify=${stamp}" -o "${loader}" || true
-
-              if ! grep -Fq 'translucent-launcher-20260829-v14' "${loader}" 2>/dev/null; then
-                echo "loader marker v14 not live yet"
-                sleep 10
-                continue
-              fi
-
-              : > "${css}"
-              python3 - "${html}" "${final_url:-${origin}/}" <<'PY' > "${workdir}/css-urls.txt"
-          import re
-          import sys
-          from urllib.parse import urljoin
-
-          html_path, base_url = sys.argv[1:]
-          html = open(html_path, encoding='utf-8', errors='ignore').read()
-          seen = set()
-          for href in re.findall(r'<link[^>]+href=["\']([^"\']+\.css(?:\?[^"\']*)?)["\']', html, re.I):
-              url = urljoin(base_url, href)
-              if url not in seen:
-                  seen.add(url)
-                  print(url)
-          PY
-
-              while IFS= read -r css_url; do
-                [ -n "${css_url}" ] || continue
-                echo "fetch css: ${css_url}"
-                curl --location --fail --silent --show-error --max-time 25 \
-                  --header 'Cache-Control: no-cache, no-store, max-age=0' \
-                  "${css_url}" >> "${css}" || true
-                printf '\n' >> "${css}"
-              done < "${workdir}/css-urls.txt"
-
-              if ! grep -Fq '440vh' "${css}"; then
-                echo "homepage CSS marker 440vh not live yet"
-                sleep 10
-                continue
-              fi
-
-              if ! grep -Eq 'minmax\(20rem[^)]*1\.08fr' "${css}"; then
-                echo "homepage CSS marker minmax(20rem, 1.08fr) not live yet"
-                sleep 10
-                continue
-              fi
-
-              echo "LIVE_DOMAIN_VERIFIED=success"
-              echo "verified_origin=${origin}"
-              echo "verified_final_url=${final_url}"
-              echo "verified_loader=translucent-launcher-20260829-v14"
-              echo "verified_solution_title_column=20rem"
-              echo "verified_flow_height=440vh"
-              return 0
+              sleep 8
             done
 
-            echo "Live custom domain did not serve the expected current build."
-            echo "Last loader excerpt:"
-            head -c 1000 "${loader}" 2>/dev/null || true
-            echo
-            echo "Last CSS marker diagnostics:"
-            grep -Eo '([0-9]+(\.[0-9]+)?rem|[0-9]+vh)' "${css}" 2>/dev/null | tail -80 || true
+            echo "Verification failed for ${path}; expected: ${expected}"
+            head -c 2500 "${body}" 2>/dev/null || true
+            rm -f "${body}"
             return 1
           }
 
-          verify_live 'https://mojchatbot.sk'
+          verify_text "/" "Z otázky"
+          verify_text "/" "Vyskladať kalkulačku"
+          verify_text "/widget-loader.js" "round-one-stroke-launcher-20260831-v15"
+          verify_text "/kontakt" "Ochrana osobných údajov"
+          verify_text "/cookies" "Google Analytics"
+          verify_text "/ochrana-udajov" "Venaco s.r.o."
+          verify_text "/pravne-informacie" "Venaco s.r.o."
+          verify_text "/pravne-informacie" "45648107"
+          verify_text "/pravne-informacie" "SK2023076407"
+          verify_text "/cennik" "platiteľ DPH"
+
+          echo "LIVE_DOMAIN_VERIFIED=success"
