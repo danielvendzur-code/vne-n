@@ -112,6 +112,11 @@ jobs:
               const cases = Array.from(root.querySelectorAll('.hybrid-hero__case')).map((item) => {
                 const rect = item.getBoundingClientRect();
                 const style = getComputedStyle(item);
+                const composite = item.querySelector('.project-composite');
+                const image = item.querySelector('.project-composite__site');
+                const compositeStyle = composite ? getComputedStyle(composite) : null;
+                const imageStyle = image ? getComputedStyle(image) : null;
+                const imageRect = image?.getBoundingClientRect();
                 return {
                   left: rect.left,
                   top: rect.top,
@@ -121,6 +126,14 @@ jobs:
                   height: rect.height,
                   opacity: Number(style.opacity),
                   visibility: style.visibility,
+                  compositeClipPath: compositeStyle?.clipPath ?? null,
+                  compositeOpacity: compositeStyle ? Number(compositeStyle.opacity) : null,
+                  imageComplete: image instanceof HTMLImageElement ? image.complete : false,
+                  imageNaturalWidth: image instanceof HTMLImageElement ? image.naturalWidth : 0,
+                  imageNaturalHeight: image instanceof HTMLImageElement ? image.naturalHeight : 0,
+                  imageOpacity: imageStyle ? Number(imageStyle.opacity) : null,
+                  imageWidth: imageRect?.width ?? 0,
+                  imageHeight: imageRect?.height ?? 0,
                 };
               });
               const cta = root.querySelector('.hybrid-hero__primary')?.getBoundingClientRect();
@@ -155,6 +168,25 @@ jobs:
               if (item.width < 100 || item.height < 70) failures.push(`hero project ${index + 1} too small: ${item.width}x${item.height}`);
               if (item.opacity < 0.98 || item.visibility === 'hidden') failures.push(`hero project ${index + 1} is not visible`);
               if (item.left < -2 || item.right > hero.viewportWidth + 2) failures.push(`hero project ${index + 1} outside viewport`);
+              if (!item.imageComplete || item.imageNaturalWidth <= 0 || item.imageNaturalHeight <= 0) {
+                failures.push(`hero project ${index + 1} image did not load`);
+              }
+              if (item.compositeOpacity !== null && item.compositeOpacity < 0.98) {
+                failures.push(`hero project ${index + 1} composite opacity ${item.compositeOpacity}`);
+              }
+              if (item.imageOpacity !== null && item.imageOpacity < 0.98) {
+                failures.push(`hero project ${index + 1} image opacity ${item.imageOpacity}`);
+              }
+              if (
+                item.compositeClipPath &&
+                item.compositeClipPath !== 'none' &&
+                !/^inset\(0(px)?( 0(px)?){0,3}\)$/.test(item.compositeClipPath)
+              ) {
+                failures.push(`hero project ${index + 1} remains clipped: ${item.compositeClipPath}`);
+              }
+              if (item.imageWidth < item.width - 2 || item.imageHeight < item.height - 2) {
+                failures.push(`hero project ${index + 1} image does not fill card: ${item.imageWidth}x${item.imageHeight} vs ${item.width}x${item.height}`);
+              }
             }
             const overlap = (a, b) => {
               if (!a || !b) return 0;
@@ -235,12 +267,50 @@ jobs:
               }
             }
 
-            const geometry = await page.evaluate(() => ({
-              scrollWidth: document.documentElement.scrollWidth,
-              clientWidth: document.documentElement.clientWidth,
-            }));
+            const pageTruth = await page.evaluate(() => {
+              const sectionNumbers = Array.from(document.querySelectorAll('.kage-home .section-index b'))
+                .map((item) => item.textContent?.trim() ?? '')
+                .filter(Boolean);
+              const priceTexts = Array.from(document.querySelectorAll('.hybrid-price__grid > div > strong'))
+                .map((item) => item.textContent?.trim() ?? '');
+              const skip = document.querySelector('.skip-link');
+              const skipRect = skip?.getBoundingClientRect();
+              return {
+                scrollWidth: document.documentElement.scrollWidth,
+                clientWidth: document.documentElement.clientWidth,
+                sectionNumbers,
+                priceTexts,
+                skip: skip && skipRect
+                  ? {
+                      focused: document.activeElement === skip,
+                      top: skipRect.top,
+                      bottom: skipRect.bottom,
+                      visibility: getComputedStyle(skip).visibility,
+                    }
+                  : null,
+              };
+            });
+            const geometry = {
+              scrollWidth: pageTruth.scrollWidth,
+              clientWidth: pageTruth.clientWidth,
+            };
             if (geometry.scrollWidth > geometry.clientWidth + 2) {
               failures.push(`horizontal overflow ${geometry.scrollWidth} > ${geometry.clientWidth}`);
+            }
+            if (new Set(pageTruth.sectionNumbers).size !== pageTruth.sectionNumbers.length) {
+              failures.push(`duplicate homepage section numbers: ${pageTruth.sectionNumbers.join(',')}`);
+            }
+            if (pageTruth.priceTexts.join('|') !== 'od 347 €|od 447 €|10 €') {
+              failures.push(`homepage price DOM is not authoritative before scroll: ${pageTruth.priceTexts.join('|')}`);
+            }
+            if (
+              pageTruth.skip &&
+              !pageTruth.skip.focused &&
+              pageTruth.skip.visibility !== 'hidden' &&
+              pageTruth.skip.bottom > 0 &&
+              pageTruth.skip.top < viewport.height
+            ) {
+              failures.push(`skip link visible without focus: ${JSON.stringify(pageTruth.skip)}`);
             }
 
             const launcher = await mountedLauncher(page);
@@ -321,7 +391,7 @@ jobs:
             const shot = `live-${label}.png`;
             await page.screenshot({ path: shot, fullPage: true });
             await page.close();
-            return { label, viewport, hero, heroShot, rows, flow, geometry, lightTone, darkTone, launcher: launcher?.data ?? null, failures, shot };
+            return { label, viewport, hero, heroShot, rows, flow, geometry, pageTruth, lightTone, darkTone, launcher: launcher?.data ?? null, failures, shot };
           }
 
           async function inspectContact() {
