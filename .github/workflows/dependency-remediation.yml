@@ -1,4 +1,4 @@
-name: Dependency remediation candidate
+name: Dependency remediation
 
 on:
   push:
@@ -6,74 +6,71 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: dependency-remediation-candidate
+  group: dependency-remediation
   cancel-in-progress: true
 
 jobs:
-  candidate:
+  remediate:
+    if: github.event_name != 'push' || !contains(github.event.head_commit.message, 'Apply audited dependency lockfiles')
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - name: Checkout current main
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 1
+          persist-credentials: true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      - name: Re-resolve candidate dependencies
-        run: bun install
-
-      - name: Capture audit before remediation
-        shell: bash
-        run: bun audit --prod --audit-level=high > audit-before.txt 2>&1 || true
-
-      - name: Produce safe in-range audit fix candidate
-        shell: bash
-        run: bun audit fix > audit-fix.txt 2>&1 || true
-
-      - name: Synchronize and remediate npm lockfile
+      - name: Re-resolve and remediate Bun lockfile
         shell: bash
         run: |
+          set -euo pipefail
+          bun install
+          bun audit fix
+          bun audit --prod --audit-level=high
+
+      - name: Re-resolve and remediate npm lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
           npm install --package-lock-only --ignore-scripts --no-audit --no-fund
           npm audit fix --package-lock-only --ignore-scripts --no-fund
+          npm audit --omit=dev --audit-level=high
 
-      - name: Validate candidate
+      - name: Validate production candidate
         shell: bash
         run: |
-          set +e
-          bun audit --prod --audit-level=high > audit-after.txt 2>&1
-          echo "audit_exit=$?" > validation.txt
-          npm audit --omit=dev --audit-level=high > npm-audit-after.txt 2>&1
-          echo "npm_audit_exit=$?" >> validation.txt
-          bun run lint >> validation.txt 2>&1
-          echo "lint_exit=$?" >> validation.txt
-          bun run test >> validation.txt 2>&1
-          echo "test_exit=$?" >> validation.txt
-          NITRO_PRESET=vercel bun run build >> validation.txt 2>&1
-          echo "build_exit=$?" >> validation.txt
-          git diff -- package.json bun.lock package-lock.json > dependency-diff.patch
+          set -euo pipefail
+          bun run lint
+          bun run test
+          NITRO_PRESET=vercel bun run build
 
-      - name: Upload remediation candidate
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-remediation-${{ github.run_id }}
-          path: |
-            package.json
-            bun.lock
-            package-lock.json
-            audit-before.txt
-            audit-fix.txt
-            audit-after.txt
-            npm-audit-after.txt
-            validation.txt
-            dependency-diff.patch
-          retention-days: 2
+      - name: Commit only audited lockfiles
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- package.json || {
+            echo "Dependency tooling unexpectedly changed package.json; refusing automatic commit."
+            git diff -- package.json
+            exit 1
+          }
+
+          if git diff --quiet -- bun.lock package-lock.json; then
+            echo "Lockfiles already match the audited dependency graph."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bun.lock package-lock.json
+          git commit -m "Apply audited dependency lockfiles"
+          git push origin HEAD:main
