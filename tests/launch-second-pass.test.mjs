@@ -54,7 +54,6 @@ test("desktop hero final authority removes stale preview clipping", async () => 
   );
 });
 
-
 test("privacy copy matches actual browser and server chat retention", async () => {
   const cookies = await read("src/routes/cookies.tsx");
   const privacy = await read("src/routes/ochrana-udajov.tsx");
