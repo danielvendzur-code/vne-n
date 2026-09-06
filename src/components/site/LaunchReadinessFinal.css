@@ -195,6 +195,24 @@ body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom {
    several seconds on desktop, so the first screen looked out of focus long
    after the page had loaded. This preserves the writing motion without the
    blur or late settling. */
+body:has(.hybrid-home) .kage-hero h1 {
+  line-height: 0.92 !important;
+}
+
+body:has(.hybrid-home) .kage-hero h1 > span,
+body:has(.hybrid-home) .kage-hero h1 > em,
+body:has(.hybrid-home) .kage-hero h1 .typed-line {
+  line-height: 1 !important;
+}
+
+body:has(.hybrid-home) .kage-hero h1 > em {
+  margin-top: 0.035em !important;
+}
+
+body:has(.hybrid-home) .kage-hero h1 .typed-word:not(:last-child) {
+  margin-right: 0.3em !important;
+}
+
 body:has(.hybrid-home) .kage-hero h1 .typed-character {
   opacity: 1 !important;
   filter: none !important;
@@ -283,7 +301,7 @@ body:has(.hybrid-home) .kage-hero h1 .typed-character {
     width: 100% !important;
     max-width: 7.2ch !important;
     font-size: clamp(3.8rem, 17.2vw, 5.25rem) !important;
-    line-height: 0.82 !important;
+    line-height: 0.92 !important;
   }
 
   body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
