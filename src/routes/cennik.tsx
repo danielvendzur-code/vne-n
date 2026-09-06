@@ -76,6 +76,11 @@ function PricingPage() {
               <span>TECHNICKÁ PREVÁDZKA</span>
               <strong>10 € / mes.</strong>
             </div>
+            <p className="pricing-tax-note">
+              Ceny „od“ sú informatívne. Venaco s.r.o. je platiteľ DPH; v konkrétnej ponuke vždy
+              uvedieme základ dane, DPH aj celkovú cenu.{" "}
+              <Link to="/pravne-informacie">Právne informácie</Link>
+            </p>
           </div>
         </div>
       </header>
