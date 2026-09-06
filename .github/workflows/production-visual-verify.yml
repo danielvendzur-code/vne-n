@@ -251,6 +251,62 @@ jobs:
               if (data.width < 40 || data.height < 40) failures.push(`launcher size ${data.width}x${data.height}`);
               if (data.radius !== '50%') failures.push(`launcher radius ${data.radius}`);
               if (!data.stroke || !data.stroke.includes('url(')) failures.push(`adaptive launcher stroke missing: ${data.stroke}`);
+
+              const widgetFrame = launcher.frame;
+              const launcherButton = widgetFrame.locator('.cw-launcher').first();
+              await launcherButton.click();
+              const panel = widgetFrame.locator('.cw-panel');
+              await panel.waitFor({ state: 'visible', timeout: 5000 });
+
+              const headerStroke = widgetFrame.locator('.cw-panel-head .bl__stroke').first();
+              const headerStart = await headerStroke.evaluate((el) => ({
+                dash: getComputedStyle(el).strokeDashoffset,
+                opacity: getComputedStyle(el).opacity,
+              }));
+              await page.waitForTimeout(450);
+              const headerEnd = await headerStroke.evaluate((el) => ({
+                dash: getComputedStyle(el).strokeDashoffset,
+                opacity: getComputedStyle(el).opacity,
+              }));
+              if (headerStart.dash !== headerEnd.dash || headerStart.opacity !== headerEnd.opacity) {
+                failures.push(`open chatbot logo moves: ${JSON.stringify({ headerStart, headerEnd })}`);
+              }
+
+              await widgetFrame.locator('[data-testid="tab-calculator"]').click();
+              const firstChoice = widgetFrame.locator('[data-testid="interest-chatbot"]');
+              await firstChoice.waitFor({ state: 'visible', timeout: 5000 });
+              await firstChoice.click();
+              await page.waitForTimeout(70);
+
+              const selectedState = await firstChoice.evaluate((el) => {
+                const indicator = el.querySelector('.cw-selection-indicator');
+                const pseudo = getComputedStyle(el, '::after');
+                const rect = indicator?.getBoundingClientRect();
+                const card = el.getBoundingClientRect();
+                return {
+                  selected: el.getAttribute('data-selected'),
+                  pseudoContent: pseudo.content,
+                  indicatorCount: el.querySelectorAll('.cw-selection-indicator').length,
+                  indicatorVisible: indicator?.getAttribute('data-visible') ?? null,
+                  indicatorCenterY: rect ? rect.top + rect.height / 2 : null,
+                  cardCenterY: card.top + card.height / 2,
+                };
+              });
+              if (selectedState.selected !== 'true') failures.push('configurator choice did not become selected');
+              if (selectedState.indicatorCount !== 1) failures.push(`selected choice has ${selectedState.indicatorCount} indicators`);
+              if (selectedState.indicatorVisible !== 'true') failures.push('selected choice indicator is not visible');
+              if (!['none', 'normal'].includes(selectedState.pseudoContent)) {
+                failures.push(`selected choice still renders pseudo check ${selectedState.pseudoContent}`);
+              }
+              if (
+                selectedState.indicatorCenterY !== null &&
+                Math.abs(selectedState.indicatorCenterY - selectedState.cardCenterY) > 1.5
+              ) {
+                failures.push('selected check is not vertically centered');
+              }
+
+              await widgetFrame.locator('[data-testid="widget-close"]').click();
+              await page.waitForTimeout(300);
             }
 
             await page.locator('#riesenia').scrollIntoViewIfNeeded();
