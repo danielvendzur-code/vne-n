@@ -134,6 +134,71 @@ body:has(.analytics-consent) #dv-assistant-fallback {
   overflow-wrap: anywhere;
 }
 
+/* Homepage hero launch composition.
+   The previous three absolutely-positioned previews overlapped differently at
+   each viewport and could push the CTA below the first screen. Keep the same
+   projects, but make their geometry deterministic: one lead case, two support
+   cases, no accidental collisions. */
+body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
+  position: absolute !important;
+  inset: clamp(2.2rem, 5vh, 4rem) 0 clamp(1.8rem, 4vh, 3.2rem) 55% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: minmax(0, 1.16fr) minmax(0, 0.84fr) !important;
+  gap: clamp(0.7rem, 1.1vw, 1rem) !important;
+  align-content: stretch !important;
+  pointer-events: none !important;
+}
+
+body:has(.hybrid-home) .kage-hero .hybrid-hero__case {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  border-radius: 12px !important;
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  pointer-events: auto !important;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.28) !important;
+}
+
+body:has(.hybrid-home) .kage-hero .hybrid-hero__case--1 {
+  grid-column: 1 / -1 !important;
+}
+
+body:has(.hybrid-home) .kage-hero .hybrid-hero__case--2,
+body:has(.hybrid-home) .kage-hero .hybrid-hero__case--3 {
+  grid-row: 2 !important;
+}
+
+body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite,
+body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
+  object-fit: cover !important;
+  object-position: top center !important;
+}
+
+body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom {
+  position: relative !important;
+  z-index: 8 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case:hover {
+    z-index: 4 !important;
+    transform: translateY(-5px) scale(1.012) !important;
+    box-shadow: 0 28px 66px rgba(0, 0, 0, 0.34) !important;
+  }
+}
+
 @media (max-width: 720px) {
   .analytics-consent {
     grid-template-columns: 1fr;
