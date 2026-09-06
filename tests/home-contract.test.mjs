@@ -170,13 +170,17 @@ test("homepage, form and subpages share the smooth one-way reveal controller", a
   assert.match(motion, /data-motion-reveal/);
 });
 
-test("contact form retains sanitization, consent, honeypot and resilient lead submission", async () => {
+test("contact form retains sanitization, privacy notice, honeypot and resilient lead submission", async () => {
   const contact = await read("src/routes/kontakt.tsx");
   const client = await read("src/lib/lead-submission.ts");
 
   assert.match(contact, /cleanField/);
+  assert.match(contact, /normalizeHttpUrl/);
+  assert.match(contact, /isEmail/);
   assert.match(contact, /contact-website/);
-  assert.match(contact, /consent/);
+  assert.match(contact, /contact-privacy-note/);
+  assert.match(contact, /Ochrana osobných údajov/);
+  assert.doesNotMatch(contact, /type="checkbox"/);
   assert.match(contact, /submitWebsiteLead/);
   assert.match(contact, /result\.fallback/);
   assert.match(contact, /dakujeme/);
@@ -216,4 +220,48 @@ test("client landing remains a noindex continuation of the same brand", async ()
   assert.match(navrh, /noindex:\s*true/);
   assert.match(landing, /Návrh už máte/);
   assert.match(landing, /Teraz ho zažite/);
+});
+
+test("launch legal identity is complete, permanent and absent from homepage copy", async () => {
+  const config = await read("src/config/site.ts");
+  const footer = await read("src/components/site/Footer.tsx");
+  const legal = await read("src/routes/pravne-informacie.tsx");
+  const privacy = await read("src/routes/ochrana-udajov.tsx");
+  const home = await read("src/components/site/KageLanding.tsx");
+
+  for (const required of [
+    "Venaco s.r.o.",
+    "J. C. Hronského 3427/6, 949 07 Nitra",
+    "45648107",
+    "2023076407",
+    "SK2023076407",
+    "27111/N",
+  ]) {
+    assert.ok(config.includes(required), `Missing legal identity field: ${required}`);
+  }
+
+  assert.match(footer, /to="\/pravne-informacie"/);
+  assert.match(legal, /createFileRoute\("\/pravne-informacie"\)/);
+  assert.match(legal, /Orgán dozoru/);
+  assert.match(privacy, /legal\.operator/);
+  assert.doesNotMatch(home, /45648107|2023076407|SK2023076407/);
+});
+
+test("analytics consent is optional, reversible and cannot cover the chatbot", async () => {
+  const consent = await read("src/components/site/AnalyticsConsent.tsx");
+  const css = await read("src/components/site/LaunchReadinessFinal.css");
+  const layout = await read("src/components/site/Layout.tsx");
+
+  assert.match(consent, /Odmietnuť analytiku/);
+  assert.match(consent, /Povoliť analytiku/);
+  assert.match(consent, /removeGoogleAnalyticsCookies/);
+  assert.match(consent, /localStorage/);
+  assert.doesNotMatch(consent, /data-primary/);
+  assert.match(css, /body:has\(\.analytics-consent\) #dv-assistant-root/);
+  assert.match(css, /z-index:\s*90/);
+  assert.match(layout, /LaunchReadinessFinal\.css/);
+  assert.ok(
+    layout.indexOf("LaunchReadinessFinal.css") > layout.indexOf("UserFollowupSep01.css"),
+    "launch authority must load last",
+  );
 });
