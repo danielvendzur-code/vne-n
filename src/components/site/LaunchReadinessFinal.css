@@ -191,6 +191,40 @@ body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom {
   z-index: 8 !important;
 }
 
+/* Keep the headline readable immediately. The previous per-letter blur ran for
+   several seconds on desktop, so the first screen looked out of focus long
+   after the page had loaded. This preserves the writing motion without the
+   blur or late settling. */
+body:has(.hybrid-home) .kage-hero h1 .typed-character {
+  opacity: 0 !important;
+  filter: none !important;
+  transform: translate3d(0, 0.1em, 0) !important;
+  animation: launch-character-write 380ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  animation-delay: calc(100ms + var(--character-index) * 16ms) !important;
+  will-change: opacity, transform;
+}
+
+@keyframes launch-character-write {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.1em, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (min-width: 721px) {
+  body:has(.hybrid-home) .kage-hero h1 {
+    width: min(55%, 8.7ch) !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
+    inset-left: 60% !important;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   body:has(.hybrid-home) .kage-hero .hybrid-hero__case:hover {
     z-index: 4 !important;
