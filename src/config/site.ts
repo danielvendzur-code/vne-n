@@ -23,19 +23,18 @@ export const siteConfig = {
     { label: "Cena", to: "/cennik" },
   ],
 
-  /**
-   * Pred komerčným spustením treba doplniť subjekt, ktorý službu skutočne
-   * predáva a vystavuje faktúry. Údaje nesmú patriť inej firme iba kvôli
-   * dôveryhodnosti stránky.
-   */
   legal: {
-    operator: "Daniel Vendžúr",
-    address: "",
-    ico: "",
-    dic: "",
-    icDph: "",
-    registration: "",
-    notVatPayer: true,
+    operator: "Venaco s.r.o.",
+    legalForm: "spoločnosť s ručením obmedzeným",
+    address: "J. C. Hronského 3427/6, 949 07 Nitra",
+    ico: "45648107",
+    dic: "2023076407",
+    icDph: "SK2023076407",
+    registration:
+      "Obchodný register Okresného súdu Nitra, oddiel Sro, vložka č. 27111/N",
+    supervisor:
+      "Inšpektorát Slovenskej obchodnej inšpekcie pre Nitriansky kraj, Staničná 9, P. O. BOX 49A, 950 50 Nitra 1",
+    vatPayer: true,
   },
 };
 
