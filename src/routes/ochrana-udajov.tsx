@@ -155,8 +155,8 @@ function PrivacyPage() {
             <ul className="cookies-list">
               <li>Zbierame iba údaje potrebné na odpoveď, realizáciu a bezpečnú prevádzku.</li>
               <li>
-                Pri kontaktnom formulári potrebujeme meno, e-mail a obsah zadania, aby sme vedeli
-                na dopyt odpovedať. Telefón, firma, web a termín sú dobrovoľné.
+                Pri kontaktnom formulári potrebujeme meno, e-mail a obsah zadania, aby sme vedeli na
+                dopyt odpovedať. Telefón, firma, web a termín sú dobrovoľné.
               </li>
               <li>Údaje nepredávame a nepoužívame na reklamu tretích strán.</li>
               <li>Obsah formulára ani chatbota neposielame do analytiky.</li>
