@@ -46,6 +46,11 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://mojchatbot.sk/pravne-informacie</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://mojchatbot.sk/ochrana-udajov</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
