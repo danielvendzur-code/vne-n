@@ -28,6 +28,7 @@ const CENTRAL_LEAD_API_URL =
   process.env.CENTRAL_LEAD_API_URL?.trim() || "https://moj-chatbot-backend.vercel.app/api/lead";
 const CENTRAL_LEAD_ORIGIN = "https://moj-chatbot-backend.vercel.app";
 const CENTRAL_TIMEOUT_MS = 12_000;
+const MAX_BODY_BYTES = 32_000;
 
 /** Znaky, ktoré v hlavičke e-mailu umožňujú vložiť vlastný riadok. */
 const HEADER_INJECTION = /[\r\n]/;
@@ -48,6 +49,16 @@ function clean(value: unknown, limit: number): string {
 /** Zámerne voľná kontrola — cieľom je odhaliť preklep, nie strážiť RFC. */
 function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(value) && !HEADER_INJECTION.test(value);
+}
+
+function normalizeHttpUrl(value: string): string {
+  if (!value) return "";
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.toString().slice(0, LIMITS.web) : "";
+  } catch {
+    return "";
+  }
 }
 
 /**
@@ -92,7 +103,12 @@ function mailtoFallback(lead: LeadPayload): string {
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "no-referrer",
+    },
   });
 
 type CentralLeadResponse = {
@@ -140,6 +156,16 @@ export const Route = createFileRoute("/api/lead")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const contentType = request.headers.get("content-type")?.toLowerCase() ?? "";
+        if (!contentType.includes("application/json")) {
+          return json({ ok: false, error: "content-type-must-be-json" }, 415);
+        }
+
+        const contentLength = Number(request.headers.get("content-length") ?? 0);
+        if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+          return json({ ok: false, error: "request-too-large" }, 413);
+        }
+
         const ip =
           request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
           request.headers.get("x-real-ip") ||
@@ -167,7 +193,7 @@ export const Route = createFileRoute("/api/lead")({
           email: clean(raw.email, LIMITS.email),
           phone: clean(raw.phone, LIMITS.phone),
           company: clean(raw.company, LIMITS.company),
-          web: clean(raw.web, LIMITS.web),
+          web: normalizeHttpUrl(clean(raw.web, LIMITS.web)),
           note: clean(raw.note, LIMITS.note),
           interest: clean(raw.interest, LIMITS.interest),
           industry: clean(raw.industry, LIMITS.industry),
