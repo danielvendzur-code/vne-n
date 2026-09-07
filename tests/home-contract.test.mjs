@@ -49,17 +49,22 @@ test("active homepage keeps three clean hero previews and four realizations", as
   assert.match(landing, /AnimatedPrice value=\{347\}/);
   assert.match(landing, /AnimatedPrice value=\{447\}/);
   assert.match(landing, /data-nav-tone="dark"/);
-  // 03 / Ako to funguje is four steps read with the page's own scrolling:
-  // no pinned stage, no horizontal viewport, no control to find first.
-  assert.match(landing, /className="kage-flow-story"/);
-  assert.match(landing, /className="kage-flow__step"/);
-  assert.doesNotMatch(landing, /AnimatePresence/);
-  assert.doesNotMatch(landing, /scrollLeft|scroll-snap|useScroll|window\.scrollTo\(/);
+  // 03 / Ako to funguje is a real vertical chapter: normal page scroll drives
+  // a sticky horizontal story. There is no wheel interception or separate
+  // sideways-scroll gesture.
+  const reworkCss = await read("src/components/site/HomepageReworkSep07.css");
+  assert.match(landing, /ref=\{storyRef\}[\s\S]*className="kage-flow-story"/);
+  assert.match(landing, /className="kage-flow-story__sticky"/);
+  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
+  assert.match(landing, /translate3d\(\$\{offset\}px, 0, 0\)/);
+  assert.doesNotMatch(landing, /onWheel|addEventListener\("wheel"/);
+  assert.doesNotMatch(landing, /scrollLeft\s*[+\-]?=/);
+  assert.match(reworkCss, /\.kage-home \.kage-flow-story \{[\s\S]*height:\s*390svh/);
+  assert.match(reworkCss, /\.kage-home \.kage-flow-story__sticky \{[\s\S]*position:\s*sticky/);
+  assert.match(reworkCss, /touch-action:\s*pan-y/);
   assert.match(css, /\.kage-flow__step[\s\S]*display:\s*grid/);
-  assert.match(css, /kage-character-write/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.match(css, /@media \(max-width: 720px\)/);
-  assert.doesNotMatch(landing, /SignalLens|signal-rail|scroll-progress|back-to-top/i);
+  assert.doesNotMatch(landing, /SignalLens|signal-rail|back-to-top/i);
   assert.doesNotMatch(landing, /LiveDemos|Nie iba screenshot/i);
 });
 
@@ -114,34 +119,42 @@ test("homepage uses four real projects with one consistent realization frame", a
   assert.doesNotMatch(landing, /placeholder/i);
 });
 
-test("navigation remains an editorial header with a visible project CTA and fullscreen mobile menu", async () => {
+test("navigation uses the real subpages and keeps the project CTA", async () => {
   const nav = await read("src/components/site/Nav.tsx");
   const globalCss = await read("src/components/site/Rebrand.css");
   const homeCss = await read("src/components/site/AwardHome.css");
 
   assert.match(nav, /Riešenia/);
-  assert.match(nav, /Pre e-shopy/);
   assert.match(nav, /Realizácie/);
   assert.match(nav, /Ako to funguje/);
+  assert.match(nav, /Cenník/);
   assert.match(nav, /Začať projekt/);
-  assert.match(nav, /01/);
-  assert.match(nav, /06/);
+  for (const href of ["/sluzby", "/projekty", "/postup", "/cennik", "/kontakt"]) {
+    assert.ok(nav.includes(`href: "${href}"`) || nav.includes(`to: "${href}"`), `Missing subpage link: ${href}`);
+  }
+  assert.doesNotMatch(nav, /\/#(?:riesenia|realizacie|ako-to-funguje|cena|proces|pre-eshopy)/);
+  assert.match(nav, /const isAdaptiveRoute = sections\.length > 0/);
   assert.doesNotMatch(nav, /backdrop-blur|rounded-\[20px\]|LineSidebar|menuSolutions/);
   assert.match(globalCss, /\.site-menu-layer/);
   assert.match(globalCss, /min-height:\s*100dvh/);
   assert.match(homeCss, /\.site-header__cta[\s\S]*border:/);
 });
 
-test("pricing keeps the updated public prices and avoids fake plans", async () => {
+test("pricing is a real routed hero and keeps the public prices without fake plans", async () => {
   const pricing = await read("src/routes/cennik.tsx");
-  const landing = await read("src/components/site/PremiumLanding.tsx");
+  const landing = await read("src/components/site/KageLanding.tsx");
+  const pricingCss = await read("src/components/site/PricingReworkSep07.css");
+  const homeCss = await read("src/components/site/HomepageReworkSep07.css");
 
   assert.equal((pricing.match(/setup: "od 347 €"/g) ?? []).length, 1);
   assert.equal((pricing.match(/setup: "od 447 €"/g) ?? []).length, 2);
   assert.equal((pricing.match(/monthly: "10 € \/ mesiac"/g) ?? []).length, 3);
-  assert.match(landing, /od 347 €/);
-  assert.match(landing, /10 €/);
-  assert.match(landing, /od 447 €/);
+  assert.match(landing, /to="\/cennik"/);
+  assert.match(pricing, /id="baliky"/);
+  assert.match(pricing, /pricing-hero__eyebrow/);
+  assert.match(pricing, /data-nav-tone="dark"/);
+  assert.match(pricingCss, /min-height:\s*calc\(100svh - var\(--header-h\)\)/);
+  assert.match(homeCss, /\.kage-home \.kage-price-hero/);
   assert.match(pricing, /V CENE VYTVORENIA/);
   assert.match(pricing, /MESAČNE/);
   assert.match(pricing, /AK TREBA NIEČO NAVYŠE/);
