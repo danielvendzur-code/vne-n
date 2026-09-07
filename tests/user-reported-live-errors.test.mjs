@@ -31,7 +31,6 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
   assert.match(oldAudit, /minmax\(13\.5rem, 0\.86fr\)/);
 });
 
-
 test("the flow section intentionally consumes page height without scroll hijacking", () => {
   const rework = readFileSync(
     new URL("../src/components/site/HomepageReworkSep07.css", import.meta.url),
