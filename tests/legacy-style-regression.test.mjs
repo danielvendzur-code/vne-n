@@ -41,4 +41,3 @@ test("active homepage flow is one scroll-driven sticky chapter", async () => {
   assert.match(css, /overflow:\s*hidden !important/);
   assert.match(css, /touch-action:\s*pan-y/);
 });
-
