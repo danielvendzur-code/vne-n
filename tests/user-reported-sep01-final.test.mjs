@@ -14,7 +14,6 @@ test("Sep 1 homepage repair keeps hero type stable and restores safe leading", a
   assert.doesNotMatch(css, /@keyframes homepage-character-write-stable[\s\S]*?blur\([\s\S]*?\n\}/);
 });
 
-
 test("Sep 7 flow is driven by normal vertical scroll and cannot be skipped as a side scroller", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
   const css = await read("src/components/site/HomepageReworkSep07.css");
@@ -29,7 +28,6 @@ test("Sep 7 flow is driven by normal vertical scroll and cannot be skipped as a 
   assert.doesNotMatch(landing, /animate\(window\.scrollY|window\.scrollTo\(|scrollLeft\s*[+\-]?=/);
   assert.doesNotMatch(landing, /addEventListener\("wheel"/);
 });
-
 
 test("Sep 7 solution copy and pricing hero live in the rendered component", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
