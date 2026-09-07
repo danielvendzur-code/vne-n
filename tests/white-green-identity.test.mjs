@@ -94,22 +94,23 @@ test("homepage art direction explicitly handles reduced motion and mobile compos
   assert.match(css, /\.page-guide/);
 });
 
-test("homepage repair keeps horizontal stages sequential and hero lines geometrically even", async () => {
+
+test("homepage repair keeps scroll-driven stages sequential and hero lines geometrically even", async () => {
   const route = await read("src/routes/index.tsx");
   const repair = await read("src/components/site/FinalHomepageMotionRepair.css");
-  const homeCss = await read("src/components/site/KageLanding.css");
+  const flowCss = await read("src/components/site/HomepageReworkSep07.css");
 
   const userFixImport = route.indexOf('import "@/components/site/FinalHomepageUserFix.css"');
   const repairImport = route.indexOf('import "@/components/site/FinalHomepageMotionRepair.css"');
+  const reworkImport = route.indexOf('import "@/components/site/HomepageReworkSep07.css"');
   assert.ok(userFixImport >= 0);
   assert.ok(repairImport > userFixImport);
+  assert.ok(reworkImport > repairImport);
 
-  // The stages are laid out once, in one stylesheet, as an ordinary list of
-  // four rows. No later sheet has to undo an absolute-position stack any more.
-  assert.match(homeCss, /\.kage-flow-story__steps[\s\S]*list-style:\s*none/);
-  assert.match(homeCss, /\.kage-flow__step[\s\S]*grid-template-columns/);
-  assert.doesNotMatch(homeCss, /position:\s*sticky[\s\S]{0,400}kage-flow/);
-  assert.doesNotMatch(repair, /kage-flow|hybrid-flow/);
+  assert.match(flowCss, /\.kage-home \.kage-flow-story__steps/);
+  assert.match(flowCss, /\.kage-home \.kage-flow__step/);
+  assert.match(flowCss, /position:\s*sticky/);
+  assert.match(flowCss, /height:\s*390svh/);
   assert.match(repair, /h1 > \.typed-line/);
   assert.match(repair, /h1 > em > \.typed-line/);
   assert.match(
@@ -118,3 +119,4 @@ test("homepage repair keeps horizontal stages sequential and hero lines geometri
   );
   assert.match(repair, /line-height:\s*inherit !important/);
 });
+
