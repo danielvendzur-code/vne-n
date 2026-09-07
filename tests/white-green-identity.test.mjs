@@ -118,4 +118,3 @@ test("homepage repair keeps scroll-driven stages sequential and hero lines geome
   );
   assert.match(repair, /line-height:\s*inherit !important/);
 });
-
