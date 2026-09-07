@@ -31,12 +31,20 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
   assert.match(oldAudit, /minmax\(13\.5rem, 0\.86fr\)/);
 });
 
-test("the flow section no longer stretches the page or shakes its artifact card", () => {
-  assert.doesNotMatch(finalFix, /height: 440vh !important/);
+
+test("the flow section intentionally consumes page height without scroll hijacking", () => {
+  const rework = readFileSync(
+    new URL("../src/components/site/HomepageReworkSep07.css", import.meta.url),
+    "utf8",
+  );
+
   assert.doesNotMatch(finalFix, /kage-scroll-settle/);
   assert.doesNotMatch(oldAudit, /kage-flow|hybrid-flow/);
   assert.match(landing, /className="kage-flow-story"/);
-  assert.doesNotMatch(landing, /window\.scrollTo\(/);
+  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
+  assert.doesNotMatch(landing, /window\.scrollTo\(|addEventListener\("wheel"/);
+  assert.match(rework, /height:\s*390svh/);
+  assert.match(rework, /\.kage-home \.kage-flow-story__sticky \{[\s\S]*position:\s*sticky/);
 });
 
 test("website requests the round one-stroke launcher release and never the text pill fallback", () => {
