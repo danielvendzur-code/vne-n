@@ -436,6 +436,7 @@ function FlowStory() {
       section.style.setProperty("--flow-footer-reveal", String(footerReveal));
       section.style.setProperty("--flow-header-shift", `${Math.round((1 - headerReveal) * 18)}px`);
       section.style.setProperty("--flow-footer-shift", `${Math.round((1 - footerReveal) * 18)}px`);
+      section.dataset.footerReady = footerReveal >= 0.85 ? "true" : "false";
     };
 
     const scheduleUpdate = () => {
@@ -475,6 +476,7 @@ function FlowStory() {
       section.style.removeProperty("--flow-footer-reveal");
       section.style.removeProperty("--flow-header-shift");
       section.style.removeProperty("--flow-footer-shift");
+      delete section.dataset.footerReady;
     };
   }, [mode, stages.length]);
 
