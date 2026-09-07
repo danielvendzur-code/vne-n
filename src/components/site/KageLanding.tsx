@@ -24,30 +24,30 @@ const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
       {
         index: "01",
         label: "OTÁZKA",
-        title: "Návštevník napíše, čo potrebuje.",
-        copy: "Začne obyčajnou otázkou priamo na vašom webe.",
-        artifact: "Dobrý deň, čo by ste mi odporučili?",
+        title: "Zákazník sa pýta na produkt alebo nákup.",
+        copy: "Namiesto hľadania medzi desiatkami stránok sa opýta priamo na webe.",
+        artifact: "Ktorý produkt je pre mňa vhodný?",
       },
       {
         index: "02",
-        label: "DOPLNENIE",
-        title: "Web sa spýta na dôležité údaje.",
-        copy: "Doplní iba informácie potrebné na správnu odpoveď.",
-        artifact: "Typ služby / miesto / termín",
+        label: "POTREBY",
+        title: "Chatbot zistí, čo zákazník skutočne hľadá.",
+        copy: "Doplní použitie, preferencie, rozpočet alebo parametre potrebné na dobrú odpoveď.",
+        artifact: "Použitie / preferencie / rozpočet",
       },
       {
         index: "03",
-        label: "ODPOVEĎ",
-        title: "Návštevník dostane jasnú odpoveď.",
-        copy: "Hneď vie, aké má možnosti a čo môže urobiť ďalej.",
-        artifact: "Odpoveď / možnosti / ďalší krok",
+        label: "ODPORÚČANIE",
+        title: "Zúži ponuku na relevantné produkty.",
+        copy: "Ukáže vhodné možnosti, vysvetlí rozdiely a odpovie na otázky k nákupu.",
+        artifact: "2–3 vhodné produkty + rozdiely",
       },
       {
         index: "04",
-        label: "DOPYT",
-        title: "Vy dostanete pripravený kontakt.",
-        copy: "Spolu s kontaktom príde aj zhrnutie celej požiadavky.",
-        artifact: "Kontakt + zhrnutie požiadavky",
+        label: "NÁKUP",
+        title: "Zákazník pokračuje k produktu alebo do košíka.",
+        copy: "Rozhodnutie sa nestratí v ďalšom formulári. Pokračuje priamo tam, kde môže nakúpiť.",
+        artifact: "Produkt / košík / nákup",
       },
     ],
   },
@@ -123,9 +123,9 @@ const tools = [
   {
     index: "01",
     name: "Chatbot",
-    statement: "Odpovedá na otázky a pripraví dopyt.",
-    copy: "Keď zákazníci často riešia rovnaké otázky alebo potrebujú poradiť.",
-    preset: "inquiry" as const,
+    statement: "Odpovedá na otázky k produktom a nákupu.",
+    copy: "Najmä pre e-shopy: parametre, dostupnosť, doprava, porovnanie a pomoc pred nákupom.",
+    preset: "advisor" as const,
     cta: "Vyskladať chatbota",
   },
   {
@@ -314,10 +314,77 @@ function HeroCollage() {
   );
 }
 
-function presetForMode(mode: FlowMode): "inquiry" | "calculator" | "product" {
+function presetForMode(mode: FlowMode): "advisor" | "calculator" | "product" {
   if (mode === "calculator") return "calculator";
   if (mode === "configurator") return "product";
-  return "inquiry";
+  return "advisor";
+}
+
+const pageSections = [
+  { id: "riesenia", index: "01", label: "Riešenia" },
+  { id: "realizacie", index: "02", label: "Realizácie" },
+  { id: "ako-to-funguje", index: "03", label: "Ako to funguje" },
+  { id: "pre-eshopy", index: "04", label: "Výsledok" },
+  { id: "proces", index: "05", label: "Spolupráca" },
+  { id: "cena", index: "06", label: "Cenník" },
+] as const;
+
+function PageNavigator() {
+  const [activeSection, setActiveSection] =
+    useState<(typeof pageSections)[number]["id"]>("riesenia");
+
+  useEffect(() => {
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const sampleY = Math.min(window.innerHeight - 1, 148);
+      let next = pageSections[0].id;
+
+      for (const item of pageSections) {
+        const section = document.getElementById(item.id);
+        if (!section) continue;
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= sampleY) next = item.id;
+        if (rect.top <= sampleY && rect.bottom > sampleY) break;
+      }
+
+      setActiveSection((current) => (current === next ? current : next));
+    };
+
+    const scheduleUpdate = () => {
+      if (frame !== 0) return;
+      frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+
+    return () => {
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, []);
+
+  return (
+    <nav className="page-section-nav" aria-label="Orientácia na úvodnej stránke">
+      <div className="container-page page-section-nav__inner">
+        {pageSections.map((item) => (
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            data-active={activeSection === item.id}
+            aria-current={activeSection === item.id ? "location" : undefined}
+          >
+            <span>{item.index}</span>
+            <b>{item.label}</b>
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
 }
 
 /**
@@ -361,8 +428,16 @@ function FlowStory() {
       const dpr = Math.max(1, window.devicePixelRatio || 1);
       const offset = Math.round(-maxTravel * visualProgress * dpr) / dpr;
 
+      const headerReveal = Math.min(1, Math.max(0, (progress - 0.07) / 0.16));
+      const footerReveal = Math.min(1, Math.max(0, (progress - 0.66) / 0.16));
+
       track.style.transform = `translate3d(${offset}px, 0, 0)`;
       section.style.setProperty("--flow-progress", String(progress));
+      section.style.setProperty("--flow-header-reveal", String(headerReveal));
+      section.style.setProperty("--flow-footer-reveal", String(footerReveal));
+      section.style.setProperty("--flow-header-shift", `${Math.round((1 - headerReveal) * 18)}px`);
+      section.style.setProperty("--flow-footer-shift", `${Math.round((1 - footerReveal) * 18)}px`);
+      section.dataset.footerReady = footerReveal >= 0.85 ? "true" : "false";
     };
 
     const scheduleUpdate = () => {
@@ -398,6 +473,11 @@ function FlowStory() {
       }
       track.style.removeProperty("transform");
       section.style.removeProperty("--flow-progress");
+      section.style.removeProperty("--flow-header-reveal");
+      section.style.removeProperty("--flow-footer-reveal");
+      section.style.removeProperty("--flow-header-shift");
+      section.style.removeProperty("--flow-footer-shift");
+      delete section.dataset.footerReady;
     };
   }, [mode, stages.length]);
 
@@ -428,7 +508,13 @@ function FlowStory() {
           <span className="section-index">
             <b>03</b> AKO TO FUNGUJE
           </span>
-          <h2 id="kage-flow-story-title">Štyri kroky od otázky k výsledku.</h2>
+          <div className="kage-flow-story__header-copy">
+            <h2 id="kage-flow-story-title">Ako sa návštevník dostane k výsledku.</h2>
+            <p>
+              Chatbot, kalkulačka aj konfigurátor majú vlastný postup. Scrollom uvidíte, čo zákazník
+              robí, čo mu web ukáže a kam ho posunie ďalej.
+            </p>
+          </div>
           <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
             {(Object.keys(flowModes) as FlowMode[]).map((item) => (
               <button
@@ -485,7 +571,7 @@ function FlowStory() {
           <p>Scrollom prejdete celý postup. Rovnaký systém vieme pripraviť pre váš web.</p>
           <button
             type="button"
-            className="kage-flow-story__cta"
+            className="kage-flow-story__cta site-cta site-cta--primary"
             onClick={() => openSiteAssistant({ source: "flow-story", preset: presetForMode(mode) })}
           >
             Vyskúšať na mojom webe <ArrowUpRight size={17} />
@@ -528,7 +614,7 @@ function CoreTools() {
               <strong>{tool.name}</strong>
               <b>{tool.statement}</b>
               <p>{tool.copy}</p>
-              <span className="hybrid-tool__cta">
+              <span className="hybrid-tool__cta site-cta site-cta--secondary site-cta--compact">
                 {tool.cta} <ArrowUpRight size={18} />
               </span>
             </div>
@@ -582,7 +668,7 @@ function SelectedWork() {
         ))}
       </div>
       <div className="container-page hybrid-work__footer">
-        <Link to="/projekty">
+        <Link to="/projekty" className="site-cta site-cta--secondary">
           Pozrieť všetky projekty <ArrowRight size={18} />
         </Link>
       </div>
@@ -629,6 +715,7 @@ function Audience() {
             </ol>
             <button
               type="button"
+              className="site-cta site-cta--secondary"
               onClick={() =>
                 openSiteAssistant({ source: `outcome-${groupIndex + 1}`, preset: group.preset })
               }
@@ -656,7 +743,7 @@ function Process() {
           <b>05</b> SPOLUPRÁCA
         </span>
         <h2 id="hybrid-process-title">Takto spolupráca prebehne.</h2>
-        <Link to="/postup">
+        <Link to="/postup" className="site-cta site-cta--secondary">
           Pozrieť celý postup <ArrowRight size={17} />
         </Link>
       </div>
@@ -772,7 +859,7 @@ function Price() {
             Základnú cenu vidíte hneď. Presný rozsah si odsúhlasíme pred začiatkom práce, aby ste
             vedeli, čo dostanete a za čo platíte.
           </p>
-          <Link to="/cennik" className="kage-price-hero__primary">
+          <Link to="/cennik" className="kage-price-hero__primary site-cta site-cta--primary">
             Otvoriť celý cenník <ArrowUpRight size={18} />
           </Link>
         </div>
@@ -834,12 +921,13 @@ export function KageLanding() {
         </div>
         <div className="container-page hybrid-hero__bottom kage-hero__bottom">
           <p>Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru.</p>
-          <a href="#riesenia" className="hybrid-hero__primary">
+          <a href="#riesenia" className="hybrid-hero__primary site-cta site-cta--primary">
             Vybrať riešenie <ArrowUpRight size={17} />
           </a>
         </div>
       </section>
 
+      <PageNavigator />
       <CoreTools />
       <SelectedWork />
 
@@ -875,7 +963,7 @@ export function KageLanding() {
             konkrétnym návrhom.
           </p>
           <div>
-            <Link to="/kontakt" className="hybrid-final__button">
+            <Link to="/kontakt" className="hybrid-final__button site-cta site-cta--primary">
               Chcem návrh <ArrowUpRight size={19} />
             </Link>
             <a href="mailto:info@mojchatbot.sk">info@mojchatbot.sk</a>
