@@ -298,9 +298,9 @@
 }
 
 /* ---------- 03 / Ako to funguje ----------
-   The green chapter of the old scrollytelling stage, rebuilt as four steps that
-   simply follow one another down the page. Nothing here is pinned, nothing
-   captures the wheel and nothing has to be operated: reading is scrolling. */
+   Four horizontal panels on the green chapter. The strip uses native overflow
+   and scroll snap; desktop wheel input is mapped locally in FlowStory only
+   while the rail can still move, and touch devices swipe it natively. */
 .kage-flow-story {
   position: relative;
   isolation: isolate;
@@ -397,21 +397,58 @@
   }
 }
 
-/* Keeps the .container-page measure: only the list defaults are reset, never
-   the horizontal padding that aligns the steps with the chapter heading. */
+.kage-flow-story__rail-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
 .kage-flow-story__steps {
+  display: flex;
+  gap: clamp(0.85rem, 1.4vw, 1.25rem);
   margin-block: 0;
+  padding-block: 0 1rem;
   list-style: none;
-  border-top: 1px solid var(--hh-line-dark);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--page-pad);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 240, 106, 0.72) rgba(246, 245, 238, 0.1);
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}
+
+.kage-flow-story__steps::-webkit-scrollbar {
+  height: 8px;
+}
+
+.kage-flow-story__steps::-webkit-scrollbar-track {
+  background: rgba(246, 245, 238, 0.1);
+}
+
+.kage-flow-story__steps::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(200, 240, 106, 0.72);
+}
+
+.kage-flow-story__steps:focus-visible {
+  outline: 2px solid var(--hh-lime);
+  outline-offset: 4px;
 }
 
 .kage-flow__step {
+  flex: 0 0 min(78vw, 62rem);
   display: grid;
   grid-template-columns: minmax(4.5rem, 0.1fr) minmax(0, 1fr) minmax(19rem, 0.66fr);
   gap: clamp(1.4rem, 3vw, 3.4rem);
   align-items: center;
-  padding: clamp(2.2rem, 3.4vw, 3.4rem) 0;
-  border-bottom: 1px solid var(--hh-line-dark);
+  min-height: clamp(18rem, 31vw, 25rem);
+  padding: clamp(2rem, 3vw, 3rem);
+  border: 1px solid rgba(246, 245, 238, 0.2);
+  background: rgba(246, 245, 238, 0.035);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .kage-flow__number {
@@ -565,9 +602,11 @@
   }
 
   .kage-flow__step {
+    flex-basis: min(88vw, 33rem);
     grid-template-columns: 2.9rem minmax(0, 1fr);
     gap: 0.55rem 1rem;
-    padding: 1.9rem 0;
+    min-height: 25rem;
+    padding: 1.45rem;
   }
 
   .kage-flow__number {
