@@ -1,0 +1,173 @@
+/* Unified interaction system — September 7.
+   One CTA language across the website: same proportions, radius, typography,
+   arrow motion and focus treatment. Context only changes colour. */
+
+:root {
+  --site-action-height: 50px;
+  --site-action-height-compact: 42px;
+  --site-action-radius: 999px;
+  --site-action-pad-x: 1.15rem;
+  --site-action-gap: 0.62rem;
+  --site-action-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --site-ui-radius: 18px;
+}
+
+.site-cta {
+  min-height: var(--site-action-height);
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--site-action-gap);
+  padding: 0.8rem var(--site-action-pad-x);
+  border: 1px solid transparent;
+  border-radius: var(--site-action-radius);
+  font: 680 0.84rem/1 var(--font-sans);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    transform 220ms var(--site-action-ease),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.site-cta--compact {
+  min-height: var(--site-action-height-compact);
+  padding: 0.68rem 0.95rem;
+  font-size: 0.78rem;
+}
+
+.site-cta svg {
+  flex: 0 0 auto;
+  transition: transform 220ms var(--site-action-ease);
+}
+
+.site-cta:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+}
+
+.site-cta:is(:hover, :focus-visible) svg {
+  transform: translate(3px, -3px);
+}
+
+.site-cta:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.site-cta--primary {
+  border-color: var(--forest);
+  background: var(--forest);
+  color: var(--inverse);
+}
+
+.site-cta--primary:is(:hover, :focus-visible) {
+  border-color: var(--forest-2);
+  background: var(--forest-2);
+  color: var(--inverse);
+}
+
+.site-cta--secondary {
+  border-color: rgba(18, 55, 45, 0.28);
+  background: transparent;
+  color: var(--forest);
+}
+
+.site-cta--secondary:is(:hover, :focus-visible) {
+  border-color: var(--forest);
+  background: rgba(18, 55, 45, 0.07);
+  color: var(--forest);
+}
+
+[data-nav-tone="dark"] .site-cta--primary,
+.site-header[data-tone="dark"] .site-cta--primary {
+  border-color: #c8f06a;
+  background: #c8f06a;
+  color: #071b15;
+}
+
+[data-nav-tone="dark"] .site-cta--primary:is(:hover, :focus-visible),
+.site-header[data-tone="dark"] .site-cta--primary:is(:hover, :focus-visible) {
+  border-color: #f6f5ee;
+  background: #f6f5ee;
+  color: #071b15;
+}
+
+[data-nav-tone="dark"] .site-cta--secondary {
+  border-color: rgba(246, 245, 238, 0.34);
+  color: #f6f5ee;
+}
+
+[data-nav-tone="dark"] .site-cta--secondary:is(:hover, :focus-visible) {
+  border-color: #c8f06a;
+  background: rgba(200, 240, 106, 0.1);
+  color: #c8f06a;
+}
+
+/* Existing subpage CTA classes keep their semantics but now share the same geometry. */
+.button-primary,
+.button-inverse {
+  min-height: var(--site-action-height);
+  gap: var(--site-action-gap);
+  padding: 0.8rem var(--site-action-pad-x);
+  border-radius: var(--site-action-radius);
+  font-size: 0.84rem;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+}
+
+.button-primary,
+.button-inverse,
+.text-link {
+  transition:
+    transform 220ms var(--site-action-ease),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.button-primary:is(:hover, :focus-visible),
+.button-inverse:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+}
+
+.button-primary:is(:hover, :focus-visible) svg,
+.button-inverse:is(:hover, :focus-visible) svg,
+.text-link:is(:hover, :focus-visible) svg {
+  transform: translate(3px, -3px);
+}
+
+.site-header__cta.site-cta {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --site-action-height: 48px;
+    --site-action-height-compact: 42px;
+  }
+
+  .site-cta {
+    max-width: 100%;
+  }
+
+  .site-header__cta.site-cta {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cta,
+  .site-cta svg,
+  .button-primary,
+  .button-inverse,
+  .text-link,
+  .button-primary svg,
+  .button-inverse svg,
+  .text-link svg {
+    transition: none !important;
+  }
+}
