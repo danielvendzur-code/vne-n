@@ -369,9 +369,23 @@ body:has(.hybrid-home) .kage-hero h1 .typed-character {
 
   body:has(.hybrid-home) .kage-hero h1 {
     width: 100% !important;
-    max-width: 7.2ch !important;
-    font-size: clamp(3.8rem, 17.2vw, 5.25rem) !important;
+    max-width: 100% !important;
+    /*
+     * The second fixed hero line ("mení návštevy") is the widest one. The old
+     * 17.2vw size was wider than the mobile content box, so its final "y"
+     * could render outside the viewport. Size the whole three-line lockup from
+     * the viewport width instead of an artificial ch-width; this keeps every
+     * glyph inside the page even on narrow phones while preserving the exact
+     * three-line composition.
+     */
+    font-size: min(15vw, 4.55rem) !important;
     line-height: 0.92 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero h1 > span,
+  body:has(.hybrid-home) .kage-hero h1 > em,
+  body:has(.hybrid-home) .kage-hero h1 .typed-line {
+    max-width: 100% !important;
   }
 
   body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
