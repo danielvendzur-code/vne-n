@@ -25,7 +25,6 @@ test("historical visual authority layers stay out of the active layout", async (
   assert.match(layout, /LaunchReadinessFinal\.css/);
 });
 
-
 test("active homepage flow is one scroll-driven sticky chapter", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
   const css = await read("src/components/site/HomepageReworkSep07.css");
