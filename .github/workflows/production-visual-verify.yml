@@ -145,8 +145,33 @@ jobs:
               }).length;
               const lines = Array.from(root.querySelectorAll('h1 .typed-line')).map((item) => {
                 const rect = item.getBoundingClientRect();
-                return { top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right };
+                const glyphRects = Array.from(item.querySelectorAll('.typed-character')).map((glyph) => {
+                  const glyphRect = glyph.getBoundingClientRect();
+                  return {
+                    text: glyph.textContent ?? '',
+                    left: glyphRect.left,
+                    right: glyphRect.right,
+                    top: glyphRect.top,
+                    bottom: glyphRect.bottom,
+                  };
+                });
+                return {
+                  top: rect.top,
+                  bottom: rect.bottom,
+                  left: rect.left,
+                  right: rect.right,
+                  glyphRects,
+                };
               });
+              const stage = root.querySelector('.hybrid-hero__stage');
+              const stageRect = stage?.getBoundingClientRect();
+              const stageStyle = stage ? getComputedStyle(stage) : null;
+              const contentLeft = stageRect && stageStyle
+                ? stageRect.left + parseFloat(stageStyle.paddingLeft || '0')
+                : 0;
+              const contentRight = stageRect && stageStyle
+                ? stageRect.right - parseFloat(stageStyle.paddingRight || '0')
+                : innerWidth;
               return {
                 cases,
                 cta: cta
@@ -158,6 +183,8 @@ jobs:
                 characterCount: characters.length,
                 hiddenCharacters,
                 lines,
+                contentLeft,
+                contentRight,
                 viewportHeight: innerHeight,
                 viewportWidth: innerWidth,
               };
@@ -202,11 +229,25 @@ jobs:
             if (!hero.characterCount) failures.push('hero headline characters missing');
             if (hero.hiddenCharacters) failures.push(`hero headline has ${hero.hiddenCharacters} hidden characters`);
             if (hero.lines.length !== 3) failures.push(`hero headline line count ${hero.lines.length}`);
-            for (let index = 1; index < hero.lines.length; index += 1) {
-              const previous = hero.lines[index - 1];
+            for (let index = 0; index < hero.lines.length; index += 1) {
               const current = hero.lines[index];
-              if (current.top < previous.bottom - 1) {
-                failures.push(`hero headline lines ${index} and ${index + 1} overlap vertically`);
+              if (index > 0) {
+                const previous = hero.lines[index - 1];
+                if (current.top < previous.bottom - 1) {
+                  failures.push(`hero headline lines ${index} and ${index + 1} overlap vertically`);
+                }
+              }
+              for (const glyph of current.glyphRects) {
+                if (glyph.left < hero.contentLeft - 1 || glyph.right > hero.contentRight + 1) {
+                  failures.push(
+                    `hero headline glyph "${glyph.text}" on line ${index + 1} escapes content: ${glyph.left}-${glyph.right} / ${hero.contentLeft}-${hero.contentRight}`,
+                  );
+                }
+                if (glyph.left < -1 || glyph.right > hero.viewportWidth + 1) {
+                  failures.push(
+                    `hero headline glyph "${glyph.text}" on line ${index + 1} escapes viewport: ${glyph.left}-${glyph.right} / ${hero.viewportWidth}`,
+                  );
+                }
               }
             }
             if (!hero.cta) failures.push('hero CTA missing');
@@ -394,6 +435,61 @@ jobs:
             return { label, viewport, hero, heroShot, rows, flow, geometry, pageTruth, lightTone, darkTone, launcher: launcher?.data ?? null, failures, shot };
           }
 
+          async function inspectMobileHeadlineWidths() {
+            const widths = [280, 320, 360, 375, 390, 414, 430, 480, 600, 720];
+            const page = await browser.newPage({ viewport: { width: widths[0], height: 900 }, deviceScaleFactor: 1 });
+            await page.goto(`https://mojchatbot.sk/?headline-sweep=${Date.now()}`, {
+              waitUntil: 'networkidle',
+              timeout: 60000,
+            });
+            await page.evaluate(() => document.fonts?.ready);
+            await dismissAnalytics(page);
+
+            const results = [];
+            const failures = [];
+            for (const width of widths) {
+              await page.setViewportSize({ width, height: 900 });
+              await page.waitForTimeout(80);
+              const result = await page.locator('.kage-hero').evaluate((root) => {
+                const stage = root.querySelector('.hybrid-hero__stage');
+                const stageRect = stage?.getBoundingClientRect();
+                const stageStyle = stage ? getComputedStyle(stage) : null;
+                const contentLeft = stageRect && stageStyle
+                  ? stageRect.left + parseFloat(stageStyle.paddingLeft || '0')
+                  : 0;
+                const contentRight = stageRect && stageStyle
+                  ? stageRect.right - parseFloat(stageStyle.paddingRight || '0')
+                  : innerWidth;
+                const glyphs = Array.from(root.querySelectorAll('h1 .typed-character')).map((glyph) => {
+                  const rect = glyph.getBoundingClientRect();
+                  return {
+                    text: glyph.textContent ?? '',
+                    left: rect.left,
+                    right: rect.right,
+                  };
+                });
+                return { width: innerWidth, contentLeft, contentRight, glyphs };
+              });
+
+              for (const glyph of result.glyphs) {
+                if (
+                  glyph.left < result.contentLeft - 1 ||
+                  glyph.right > result.contentRight + 1 ||
+                  glyph.left < -1 ||
+                  glyph.right > result.width + 1
+                ) {
+                  failures.push(
+                    `mobile headline overflow at ${width}px: "${glyph.text}" ${glyph.left}-${glyph.right}, content ${result.contentLeft}-${result.contentRight}`,
+                  );
+                }
+              }
+              results.push(result);
+            }
+
+            await page.close();
+            return { widths, results, failures };
+          }
+
           async function inspectContact() {
             const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
             await page.goto(`https://mojchatbot.sk/kontakt?visual=${Date.now()}`, {
@@ -443,15 +539,22 @@ jobs:
 
           const desktop = await inspectHome({ width: 1583, height: 900 }, 'desktop-1583');
           const mobile = await inspectHome({ width: 390, height: 844 }, 'mobile-390');
+          const mobileHeadlineWidths = await inspectMobileHeadlineWidths();
           const contact = await inspectContact();
           const legal = await inspectLegal();
-          const failures = [...desktop.failures, ...mobile.failures, ...contact.failures, ...legal.failures];
+          const failures = [
+            ...desktop.failures,
+            ...mobile.failures,
+            ...mobileHeadlineWidths.failures,
+            ...contact.failures,
+            ...legal.failures,
+          ];
 
           fs.writeFileSync(
             'live-visual-results.json',
-            JSON.stringify({ desktop, mobile, contact, legal, failures }, null, 2),
+            JSON.stringify({ desktop, mobile, mobileHeadlineWidths, contact, legal, failures }, null, 2),
           );
-          console.log(JSON.stringify({ desktop, mobile, contact, legal, failures }, null, 2));
+          console.log(JSON.stringify({ desktop, mobile, mobileHeadlineWidths, contact, legal, failures }, null, 2));
 
           await browser.close();
           if (failures.length) {
