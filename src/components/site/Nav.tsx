@@ -132,7 +132,10 @@ export function Nav() {
           </nav>
 
           <div className="site-header__actions">
-            <Link to="/kontakt" className="site-header__cta site-cta site-cta--primary site-cta--compact">
+            <Link
+              to="/kontakt"
+              className="site-header__cta site-cta site-cta--primary site-cta--compact"
+            >
               Začať projekt <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
             <button
