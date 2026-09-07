@@ -510,8 +510,8 @@ function FlowStory() {
           <div className="kage-flow-story__header-copy">
             <h2 id="kage-flow-story-title">Ako sa návštevník dostane k výsledku.</h2>
             <p>
-              Každý režim ukazuje reálnu cestu zákazníka. Obsah nad kartami sa odhalí až po vstupe
-              do kapitoly, aby najprv vynikol samotný pohyb.
+              Chatbot, kalkulačka aj konfigurátor majú vlastný postup. Scrollom uvidíte, čo
+              zákazník robí, čo mu web ukáže a kam ho posunie ďalej.
             </p>
           </div>
           <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
