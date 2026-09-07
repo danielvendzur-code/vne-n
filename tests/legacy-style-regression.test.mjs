@@ -25,12 +25,17 @@ test("historical visual authority layers stay out of the active layout", async (
   assert.match(layout, /LaunchReadinessFinal\.css/);
 });
 
-test("active homepage flow uses one ordinary vertical implementation", async () => {
+test("active homepage flow is one stable horizontal local scroller", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
   const css = await read("src/components/site/KageLanding.css");
 
   assert.match(landing, /className="kage-flow-story"/);
   assert.match(landing, /className="kage-flow__step"/);
-  assert.doesNotMatch(landing, /createPortal|plain-flow-story__viewport|scrollLeft|scroll-snap/);
-  assert.doesNotMatch(css, /scroll-snap-type/);
+  assert.match(landing, /stepsRef/);
+  assert.match(landing, /scroller\.scrollLeft \+= event\.deltaY/);
+  assert.match(landing, /passive: false/);
+  assert.doesNotMatch(landing, /window\.scrollTo|createPortal|plain-flow-story__viewport/);
+  assert.match(css, /overflow-x:\s*auto/);
+  assert.match(css, /scroll-snap-type:\s*x mandatory/);
+  assert.match(css, /scroll-snap-align:\s*start/);
 });
