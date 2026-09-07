@@ -72,3 +72,15 @@ test("legal page does not pretend a contact form creates a consumer contract", a
   assert.match(legal, /alternatívne riešenie spotrebiteľského sporu/);
   assert.match(legal, /soi\.sk\/alternativne-riesenie-spotrebitelskych-sporov/);
 });
+test("mobile hero typography is viewport-bounded and swept across phone widths", async () => {
+  const css = await read("src/components/site/LaunchReadinessFinal.css");
+  const workflow = await read(".github/workflows/production-visual-verify.yml");
+
+  assert.match(
+    css,
+    /body:has\(\.hybrid-home\) \.kage-hero h1 \{[\s\S]*?max-width:\s*100%\s*!important;[\s\S]*?font-size:\s*min\(15vw, 4\.55rem\)\s*!important;/,
+  );
+  assert.match(workflow, /const widths = \[280, 320, 360, 375, 390, 414, 430, 480, 600, 720\]/);
+  assert.match(workflow, /hero headline glyph/);
+  assert.match(workflow, /mobile headline overflow at/);
+});
