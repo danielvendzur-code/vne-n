@@ -1,0 +1,426 @@
+/* September 7 homepage correction.
+   This file is loaded last on the homepage. It fixes the user-reported hero
+   softness, turns 03 into a real scroll-driven chapter and rebuilds 06 as a
+   full pricing hero without reviving old visual variants. */
+
+/* 00 / Hero — keep the approved composition, remove the haze. */
+.kage-home .kage-hero h1,
+.kage-home .kage-hero h1 *,
+.kage-home .kage-hero .typed-character {
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.kage-home .kage-hero .typed-character {
+  backface-visibility: visible;
+}
+
+/* 03 / Ako to funguje — vertical page scroll is the only conductor.
+   The chapter consumes real page height, the stage stays pinned and the
+   horizontal track follows scroll progress. No wheel interception, no native
+   sideways scroller and no accidental skip-through. */
+.kage-home .kage-flow-story {
+  --flow-progress: 0;
+  position: relative;
+  height: 390svh;
+  min-height: 220rem;
+  padding: 0 !important;
+  overflow: visible !important;
+  isolation: isolate;
+  background: var(--hh-green);
+}
+
+.kage-home .kage-flow-story__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 42rem;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-content: center;
+  gap: clamp(1rem, 2vh, 1.65rem);
+  overflow: hidden;
+  box-sizing: border-box;
+  padding:
+    calc(var(--header-h) + clamp(1rem, 2.2vh, 1.8rem))
+    0
+    clamp(1rem, 2.3vh, 1.8rem);
+  background:
+    radial-gradient(circle at 86% 8%, rgba(200, 240, 106, 0.12), transparent 30rem),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    var(--hh-green);
+  background-size:
+    auto,
+    100% 8rem,
+    auto;
+}
+
+.kage-home .kage-flow-story__sticky::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  height: 3px;
+  background: var(--hh-lime);
+  transform: scaleX(var(--flow-progress));
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.kage-home .kage-flow-story__header {
+  margin-bottom: 0;
+}
+
+.kage-home .kage-flow-story__rail-wrap {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden !important;
+}
+
+.kage-home .kage-flow-story__steps {
+  width: max-content;
+  max-width: none !important;
+  flex: 0 0 auto;
+  margin: 0 !important;
+  padding:
+    0
+    max(var(--page-pad), 1rem)
+    0
+    max(var(--page-pad), 1rem) !important;
+  overflow: visible !important;
+  overscroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  scrollbar-width: none;
+  touch-action: pan-y;
+  will-change: transform;
+}
+
+.kage-home .kage-flow-story__steps::-webkit-scrollbar {
+  display: none;
+}
+
+.kage-home .kage-flow__step {
+  flex-basis: min(76vw, 62rem);
+  min-height: clamp(18rem, 43vh, 26rem);
+  max-height: 31rem;
+}
+
+.kage-home .kage-flow-story__footer {
+  padding-top: 0;
+}
+
+/* 06 / Cenník — this is now a full hero and every visible price leads to the
+   dedicated /cennik route instead of behaving like a dead summary block. */
+.kage-home .kage-price-hero {
+  position: relative;
+  min-height: min(96svh, 60rem);
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  padding: clamp(6.5rem, 9vw, 9rem) 0;
+  background:
+    radial-gradient(circle at 82% 14%, rgba(200, 240, 106, 0.15), transparent 27rem),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.025), transparent 42%),
+    #071b15;
+  color: #f6f5ee;
+}
+
+.kage-home .kage-price-hero::before {
+  content: "CENNÍK";
+  position: absolute;
+  right: -0.04em;
+  bottom: -0.18em;
+  color: rgba(246, 245, 238, 0.035);
+  font: 470 clamp(9rem, 20vw, 22rem) / 0.72 var(--font-display);
+  letter-spacing: -0.075em;
+  pointer-events: none;
+}
+
+.kage-home .kage-price-hero__layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(28rem, 1.1fr);
+  gap: clamp(4rem, 8vw, 9rem);
+  align-items: center;
+}
+
+.kage-home .kage-price-hero .section-index {
+  margin-bottom: clamp(1.4rem, 2.5vw, 2.2rem);
+  color: #cbd5cd;
+}
+
+.kage-home .kage-price-hero .section-index b {
+  color: var(--hh-lime);
+}
+
+.kage-home .kage-price-hero__intro h2 {
+  max-width: 8.6ch;
+  margin: 0;
+  color: #f6f5ee;
+  font-size: clamp(4.4rem, 7.2vw, 8rem);
+  font-weight: 470;
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+  text-wrap: balance;
+}
+
+.kage-home .kage-price-hero__intro h2 em {
+  display: block;
+  color: var(--hh-lime);
+  font-style: normal;
+}
+
+.kage-home .kage-price-hero__intro > p {
+  max-width: 34rem;
+  margin: clamp(1.5rem, 2.4vw, 2.2rem) 0 0;
+  color: #cbd5cd;
+  font-size: clamp(0.98rem, 1.05vw, 1.08rem);
+  line-height: 1.62;
+}
+
+.kage-home .kage-price-hero__primary {
+  width: fit-content;
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: clamp(2rem, 3vw, 2.8rem);
+  padding: 0.85rem 1.05rem;
+  border: 1px solid var(--hh-lime);
+  background: var(--hh-lime);
+  color: var(--hh-dark);
+  font: 720 0.82rem / 1 var(--font-sans);
+  text-decoration: none;
+  transition:
+    transform 220ms var(--hh-ease),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.kage-home .kage-price-hero__primary:is(:hover, :focus-visible) {
+  border-color: #f6f5ee;
+  background: #f6f5ee;
+  color: #071b15;
+  transform: translateY(-2px);
+}
+
+.kage-home .kage-price-hero__offers {
+  border-top: 1px solid rgba(246, 245, 238, 0.28);
+  border-bottom: 1px solid rgba(246, 245, 238, 0.28);
+}
+
+.kage-home .kage-price-hero__offer {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(13rem, 0.5fr);
+  grid-template-areas:
+    "label price"
+    "copy price";
+  gap: 0.55rem 2rem;
+  align-items: center;
+  min-height: 9.7rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(246, 245, 238, 0.18);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    padding 240ms var(--hh-ease),
+    background-color 220ms ease;
+}
+
+.kage-home .kage-price-hero__offer:last-child {
+  border-bottom: 0;
+}
+
+.kage-home .kage-price-hero__offer > span {
+  grid-area: label;
+  color: #aebbb2;
+  font: 680 0.63rem / 1.25 var(--font-mono);
+  letter-spacing: 0.075em;
+}
+
+.kage-home .kage-price-hero__offer > div {
+  grid-area: price;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  color: var(--hh-lime);
+}
+
+.kage-home .kage-price-hero__offer strong {
+  color: var(--hh-lime);
+  font: 520 clamp(2.65rem, 4.3vw, 4.8rem) / 0.9 var(--font-display);
+  letter-spacing: -0.055em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.kage-home .kage-price-hero__offer b {
+  color: #cbd5cd;
+  font-size: 0.78rem;
+  font-weight: 620;
+  white-space: nowrap;
+}
+
+.kage-home .kage-price-hero__offer > p {
+  grid-area: copy;
+  max-width: 27rem;
+  margin: 0;
+  color: #cbd5cd;
+  line-height: 1.48;
+}
+
+.kage-home .kage-price-hero__offer svg {
+  flex: 0 0 auto;
+  align-self: center;
+  transition: transform 220ms var(--hh-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .kage-price-hero__offer:hover {
+    padding-inline: 1rem;
+    background: rgba(246, 245, 238, 0.055);
+  }
+
+  .kage-home .kage-price-hero__offer:hover svg {
+    transform: translate(3px, -3px);
+  }
+}
+
+.kage-home .kage-price-hero__offer:focus-visible,
+.kage-home .kage-price-hero__primary:focus-visible {
+  outline: 2px solid var(--hh-lime);
+  outline-offset: 4px;
+}
+
+@media (max-width: 980px) {
+  .kage-home .kage-flow-story {
+    height: 410svh;
+  }
+
+  .kage-home .kage-flow-story__sticky {
+    gap: 0.85rem;
+    padding-top: calc(var(--header-h) + 0.8rem);
+  }
+
+  .kage-home .kage-price-hero__layout {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  .kage-home .kage-price-hero__intro h2 {
+    max-width: 10ch;
+  }
+}
+
+@media (max-width: 760px) {
+  .kage-home .kage-flow-story {
+    height: 440svh;
+    min-height: 185rem;
+  }
+
+  .kage-home .kage-flow-story__sticky {
+    min-height: 38rem;
+    gap: 0.7rem;
+    padding:
+      calc(var(--header-h) + 0.65rem)
+      0
+      max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .kage-home .kage-flow-story__header {
+    gap: 0.75rem;
+  }
+
+  .kage-home .kage-flow-story__header h2 {
+    font-size: clamp(2.35rem, 9.8vw, 3.5rem);
+  }
+
+  .kage-home .kage-flow-story__modes button {
+    min-height: 40px;
+    font-size: 0.66rem;
+  }
+
+  .kage-home .kage-flow__step {
+    flex-basis: calc(100vw - 2.5rem);
+    min-height: min(52svh, 25rem);
+    max-height: min(52svh, 25rem);
+    padding: 1.15rem;
+  }
+
+  .kage-home .kage-flow__copy h3 {
+    font-size: clamp(1.45rem, 6.4vw, 2rem);
+  }
+
+  .kage-home .kage-flow__copy p {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .kage-home .kage-flow__artifact {
+    padding: 0.9rem;
+  }
+
+  .kage-home .kage-flow-story__footer p {
+    display: none;
+  }
+
+  .kage-home .kage-flow-story__cta {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .kage-home .kage-price-hero {
+    min-height: auto;
+    padding: 6rem 0;
+  }
+
+  .kage-home .kage-price-hero::before {
+    display: none;
+  }
+
+  .kage-home .kage-price-hero__layout {
+    gap: 2.8rem;
+  }
+
+  .kage-home .kage-price-hero__intro h2 {
+    max-width: 9ch;
+    font-size: clamp(3.6rem, 15.2vw, 5rem);
+  }
+
+  .kage-home .kage-price-hero__offer {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "label"
+      "price"
+      "copy";
+    gap: 0.75rem;
+    min-height: 0;
+    padding: 1.35rem 0;
+  }
+
+  .kage-home .kage-price-hero__offer > div {
+    justify-content: flex-start;
+  }
+
+  .kage-home .kage-price-hero__offer strong {
+    font-size: clamp(2.75rem, 13vw, 4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kage-home .kage-flow-story__steps,
+  .kage-home .kage-price-hero__offer,
+  .kage-home .kage-price-hero__primary {
+    transition: none !important;
+  }
+}
