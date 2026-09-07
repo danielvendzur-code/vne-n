@@ -12,6 +12,7 @@ import "@/components/site/FinalHomepageUserFix.css";
 import "@/components/site/FinalHomepageMotionRepair.css";
 import "@/components/site/UserReportedVisualFinal.css";
 import "@/components/site/HomepageReworkSep07.css";
+import "@/components/site/HomepageOrientationSep07.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
