@@ -25,17 +25,21 @@ test("historical visual authority layers stay out of the active layout", async (
   assert.match(layout, /LaunchReadinessFinal\.css/);
 });
 
-test("active homepage flow is one stable horizontal local scroller", async () => {
+
+test("active homepage flow is one scroll-driven sticky chapter", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
-  const css = await read("src/components/site/KageLanding.css");
+  const css = await read("src/components/site/HomepageReworkSep07.css");
 
   assert.match(landing, /className="kage-flow-story"/);
   assert.match(landing, /className="kage-flow__step"/);
-  assert.match(landing, /stepsRef/);
-  assert.match(landing, /scroller\.scrollLeft \+= event\.deltaY/);
-  assert.match(landing, /passive: false/);
+  assert.match(landing, /storyRef/);
+  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
+  assert.match(landing, /translate3d\(\$\{offset\}px, 0, 0\)/);
+  assert.doesNotMatch(landing, /addEventListener\("wheel"|passive:\s*false|scrollLeft\s*[+\-]?=/);
   assert.doesNotMatch(landing, /window\.scrollTo|createPortal|plain-flow-story__viewport/);
-  assert.match(css, /overflow-x:\s*auto/);
-  assert.match(css, /scroll-snap-type:\s*x mandatory/);
-  assert.match(css, /scroll-snap-align:\s*start/);
+  assert.match(css, /height:\s*390svh/);
+  assert.match(css, /position:\s*sticky/);
+  assert.match(css, /overflow:\s*hidden !important/);
+  assert.match(css, /touch-action:\s*pan-y/);
 });
+
