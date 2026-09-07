@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
+import "@/components/site/PricingReworkSep07.css";
 
 export const Route = createFileRoute("/cennik")({
   head: () => ({
@@ -51,16 +52,25 @@ const pricing = [
 function PricingPage() {
   return (
     <div className="sp-page pricing-page--rebrand">
-      <header className="sp-hero pricing-hero">
+      <header className="sp-hero pricing-hero" data-nav-tone="dark">
         <div className="container-page pricing-hero__layout">
           <div className="pricing-hero__copy">
+            <span className="pricing-hero__eyebrow">CENNÍK / MÔJ CHATBOT</span>
             <h1>
-              Vopred viete, <em>za čo platíte.</em>
+              Jasná cena. <em>Bez hádania.</em>
             </h1>
             <p className="sp-hero-lead">
-              Cena závisí od toho, čo má riešenie vedieť. Základnú cenu vidíte hneď a presný rozsah
-              si odsúhlasíme pred začiatkom práce.
+              Základnú cenu vidíte hneď. Presný rozsah si odsúhlasíme pred začiatkom práce, aby ste
+              ešte pred realizáciou vedeli, čo dostanete a koľko to bude stáť.
             </p>
+            <div className="pricing-hero__actions">
+              <a href="#baliky" className="pricing-hero__primary">
+                Pozrieť celý cenník <ArrowRight size={16} />
+              </a>
+              <Link to="/kontakt" className="pricing-hero__secondary">
+                Chcem presnú cenu <ArrowUpRight size={16} />
+              </Link>
+            </div>
           </div>
 
           <div className="pricing-hero__facts" aria-label="Základný prehľad cien">
@@ -85,7 +95,15 @@ function PricingPage() {
         </div>
       </header>
 
-      <section className="sp-section">
+      <section className="sp-section pricing-catalog" id="baliky" data-nav-tone="light">
+        <div className="container-page pricing-catalog__intro">
+          <span className="section-kicker">CELÝ CENNÍK</span>
+          <h2>Tri typy riešení. Jasný základ, presný rozsah pred štartom.</h2>
+          <p>
+            Vyberte si smer, ktorý najviac zodpovedá tomu, čo má návštevník na vašom webe zvládnuť.
+            Každé riešenie upravujeme podľa reálnej ponuky a procesov firmy.
+          </p>
+        </div>
         <div className="container-page pricing-table">
           <div className="pricing-table__head" aria-hidden="true">
             <span>RIEŠENIE</span>
@@ -120,7 +138,7 @@ function PricingPage() {
         </div>
       </section>
 
-      <section className="sp-section">
+      <section className="sp-section pricing-notes-section" data-nav-tone="light">
         <div className="container-page pricing-notes">
           <div>
             <p className="section-kicker">V CENE VYTVORENIA</p>
@@ -143,7 +161,7 @@ function PricingPage() {
         </div>
       </section>
 
-      <section className="pricing-bridge">
+      <section className="pricing-bridge" data-nav-tone="dark">
         <div className="container-page pricing-bridge__grid">
           <div>
             <p className="section-kicker">PRESNÁ CENA</p>
