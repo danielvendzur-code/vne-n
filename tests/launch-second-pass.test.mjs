@@ -91,9 +91,9 @@ test("desktop hero keeps the approved layered Kage composition and animation", a
   assert.match(landingCss, /\.kage-hero \.hybrid-hero__collage \{\s*inset: 3% 0 3% 52\.5%/);
   assert.match(landingCss, /\.hybrid-hero__case--1 \{[\s\S]*?transform: rotate\(1\.35deg\)/);
   assert.match(landingCss, /animation: kage-character-write 820ms/);
-  assert.match(launchCss, /Desktop hero intentionally inherits the original KageLanding composition/);
-  assert.doesNotMatch(
+  assert.match(
     launchCss,
-    /@media \(min-width: 721px\)[\s\S]*?\.hybrid-hero__collage/,
+    /Desktop hero intentionally inherits the original KageLanding composition/,
   );
+  assert.doesNotMatch(launchCss, /@media \(min-width: 721px\)[\s\S]*?\.hybrid-hero__collage/);
 });
