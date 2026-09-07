@@ -4,24 +4,25 @@ import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("homepage replaces the fragile snapping flow with an ordinary-scroll four-step section", async () => {
+
+test("homepage uses ordinary vertical scroll to drive the four-step story", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
+  const rework = await read("src/components/site/HomepageReworkSep07.css");
 
-  assert.match(route, /UserReportedVisualFinal\.css/);
+  assert.match(route, /HomepageReworkSep07\.css/);
   assert.match(landing, /id="ako-to-funguje"/);
   assert.match(landing, /className="kage-flow-story"/);
   for (const index of ["01", "02", "03", "04"]) {
     assert.match(landing, new RegExp(`index: "${index}"`));
   }
 
-  // The section must never move, hold or reinterpret the page's own scrolling.
+  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
+  assert.match(landing, /className="kage-flow-story__sticky"/);
   assert.doesNotMatch(landing, /animate\(window\.scrollY|window\.scrollTo\(/);
-  assert.doesNotMatch(landing, /useScroll|useMotionValueEvent|scrollYProgress/);
   assert.doesNotMatch(landing, /addEventListener\("wheel"/);
-  assert.doesNotMatch(landing, /preventDefault\(\)[\s\S]{0,200}scrollLeft/);
-
-  // No second copy of the section is portalled over a hidden legacy one.
+  assert.doesNotMatch(landing, /scrollLeft\s*[+\-]?=/);
+  assert.match(rework, /touch-action:\s*pan-y/);
   assert.doesNotMatch(landing, /createPortal|data-flow-rescued/);
 });
 
