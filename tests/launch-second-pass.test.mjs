@@ -84,3 +84,16 @@ test("mobile hero typography is viewport-bounded and swept across phone widths",
   assert.match(workflow, /hero headline glyph/);
   assert.match(workflow, /mobile headline overflow at/);
 });
+test("desktop hero keeps the approved layered Kage composition and animation", async () => {
+  const landingCss = await read("src/components/site/KageLanding.css");
+  const launchCss = await read("src/components/site/LaunchReadinessFinal.css");
+
+  assert.match(landingCss, /\.kage-hero \.hybrid-hero__collage \{\s*inset: 3% 0 3% 52\.5%/);
+  assert.match(landingCss, /\.hybrid-hero__case--1 \{[\s\S]*?transform: rotate\(1\.35deg\)/);
+  assert.match(landingCss, /animation: kage-character-write 820ms/);
+  assert.match(launchCss, /Desktop hero intentionally inherits the original KageLanding composition/);
+  assert.doesNotMatch(
+    launchCss,
+    /@media \(min-width: 721px\)[\s\S]*?\.hybrid-hero__collage/,
+  );
+});
