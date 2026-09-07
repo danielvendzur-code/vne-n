@@ -170,155 +170,9 @@ body:has(.analytics-consent) #dv-assistant-fallback {
   overflow-wrap: anywhere;
 }
 
-/* Homepage hero launch composition.
-   The previous three absolutely-positioned previews overlapped differently at
-   each viewport and could push the CTA below the first screen. Keep the same
-   projects, but make their geometry deterministic: one lead case, two support
-   cases, no accidental collisions. */
-body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
-  position: absolute !important;
-  inset: clamp(2.2rem, 5vh, 4rem) 0 clamp(1.8rem, 4vh, 3.2rem) 55% !important;
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  grid-template-rows: minmax(0, 1.16fr) minmax(0, 0.84fr) !important;
-  gap: clamp(0.7rem, 1.1vw, 1rem) !important;
-  align-content: stretch !important;
-  pointer-events: none !important;
-}
-
-body:has(.hybrid-home) .kage-hero .hybrid-hero__case {
-  position: relative !important;
-  inset: auto !important;
-  width: auto !important;
-  height: auto !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  aspect-ratio: auto !important;
-  border-radius: 12px !important;
-  opacity: 1 !important;
-  transform: none !important;
-  animation: none !important;
-  pointer-events: auto !important;
-  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.28) !important;
-}
-
-body:has(.hybrid-home) .kage-hero .hybrid-hero__case--1 {
-  grid-column: 1 / -1 !important;
-}
-
-body:has(.hybrid-home) .kage-hero .hybrid-hero__case--2,
-body:has(.hybrid-home) .kage-hero .hybrid-hero__case--3 {
-  grid-row: 2 !important;
-}
-
-body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite,
-body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
-  object-fit: cover !important;
-  object-position: top center !important;
-}
-
-body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom {
-  position: relative !important;
-  z-index: 8 !important;
-}
-
-/* Keep the headline readable immediately. The previous per-letter blur ran for
-   several seconds on desktop, so the first screen looked out of focus long
-   after the page had loaded. This preserves the writing motion without the
-   blur or late settling. */
-body:has(.hybrid-home) .kage-hero h1 {
-  line-height: 0.92 !important;
-}
-
-body:has(.hybrid-home) .kage-hero h1 > span,
-body:has(.hybrid-home) .kage-hero h1 > em,
-body:has(.hybrid-home) .kage-hero h1 .typed-line {
-  line-height: 1 !important;
-}
-
-body:has(.hybrid-home) .kage-hero h1 > em {
-  margin-top: 0.035em !important;
-}
-
-body:has(.hybrid-home) .kage-hero h1 .typed-word:not(:last-child) {
-  margin-right: 0.3em !important;
-}
-
-body:has(.hybrid-home) .kage-hero h1 .typed-character {
-  opacity: 1 !important;
-  filter: none !important;
-  transform: none !important;
-  translate: 0 0.08em;
-  animation: launch-character-settle 320ms cubic-bezier(0.16, 1, 0.3, 1) both !important;
-  animation-delay: calc(80ms + var(--character-index) * 14ms) !important;
-  will-change: translate;
-}
-
-@keyframes launch-character-settle {
-  from {
-    translate: 0 0.08em;
-  }
-  to {
-    translate: 0 0;
-  }
-}
-
-@media (min-width: 721px) {
-  body:has(.hybrid-home) .kage-hero h1 {
-    width: min(55%, 8.7ch) !important;
-  }
-
-  body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
-    left: 60% !important;
-  }
-
-  /* Desktop had a real blank-preview failure: old crop/unmask layers left the
-     absolute project composite clipped even though the card itself measured
-     correctly. Reset every inherited crop/animation at the final authority
-     layer and make the image fill the deterministic grid cell directly. */
-  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite {
-    position: absolute !important;
-    inset: 0 !important;
-    width: auto !important;
-    height: auto !important;
-    display: block !important;
-    overflow: hidden !important;
-    opacity: 1 !important;
-    clip-path: none !important;
-    animation: none !important;
-    transform: none !important;
-    background: #eef0e9 !important;
-  }
-
-  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-width: 100% !important;
-    min-height: 100% !important;
-    max-width: none !important;
-    display: block !important;
-    object-fit: cover !important;
-    object-position: 50% 8% !important;
-    transform: none !important;
-    transform-origin: center !important;
-    opacity: 1 !important;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  body:has(.hybrid-home) .kage-hero .hybrid-hero__case:hover {
-    z-index: 4 !important;
-    transform: translateY(-5px) scale(1.012) !important;
-    box-shadow: 0 28px 66px rgba(0, 0, 0, 0.34) !important;
-  }
-}
+/* Desktop hero intentionally inherits the original KageLanding composition and
+   animation. Launch-specific overrides below are mobile-only, so desktop stays
+   exactly on the approved layered layout. */
 
 @media (max-width: 720px) {
   .analytics-consent {
@@ -371,12 +225,9 @@ body:has(.hybrid-home) .kage-hero h1 .typed-character {
     width: 100% !important;
     max-width: 100% !important;
     /*
-     * The second fixed hero line ("mení návštevy") is the widest one. The old
-     * 17.2vw size was wider than the mobile content box, so its final "y"
-     * could render outside the viewport. Size the whole three-line lockup from
-     * the viewport width instead of an artificial ch-width; this keeps every
-     * glyph inside the page even on narrow phones while preserving the exact
-     * three-line composition.
+     * Mobile-only safety: the widest fixed line ("mení návštevy") must fit
+     * inside the content box at every phone width. Desktop sizing and motion
+     * are deliberately untouched.
      */
     font-size: min(15vw, 4.55rem) !important;
     line-height: 0.92 !important;
@@ -386,6 +237,15 @@ body:has(.hybrid-home) .kage-hero h1 .typed-character {
   body:has(.hybrid-home) .kage-hero h1 > em,
   body:has(.hybrid-home) .kage-hero h1 .typed-line {
     max-width: 100% !important;
+    line-height: 1 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero h1 > em {
+    margin-top: 0.035em !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero h1 .typed-word:not(:last-child) {
+    margin-right: 0.3em !important;
   }
 
   body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
@@ -394,13 +254,48 @@ body:has(.hybrid-home) .kage-hero h1 .typed-character {
     width: 100% !important;
     height: clamp(16.5rem, 73vw, 19rem) !important;
     margin: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     grid-template-rows: minmax(0, 1.16fr) minmax(0, 0.84fr) !important;
     gap: 0.55rem !important;
+    align-content: stretch !important;
+    pointer-events: none !important;
   }
 
   body:has(.hybrid-home) .kage-hero .hybrid-hero__case {
+    position: relative !important;
+    inset: auto !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
     border-radius: 9px !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    pointer-events: auto !important;
     box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case--1 {
+    grid-column: 1 / -1 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case--2,
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case--3 {
+    grid-row: 2 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite,
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
+    object-fit: cover !important;
+    object-position: top center !important;
   }
 
   body:has(.hybrid-home) .kage-hero .hybrid-hero__case > span {
