@@ -323,14 +323,55 @@ function presetForMode(mode: FlowMode): "inquiry" | "calculator" | "product" {
 /**
  * 03 / Ako to funguje.
  *
- * Four steps, read top to bottom with the page's own scrolling. There is no
- * pinned stage, no horizontal viewport and no control the visitor has to find
- * first: scrolling is the only interaction the section needs, and the three
- * mode buttons simply swap the copy of all four steps at once.
+ * Four stable horizontal panels. On desktop a vertical wheel gesture advances
+ * only this local strip while it can still move; at either edge the page keeps
+ * scrolling normally. Touch devices use native horizontal swiping. Nothing is
+ * pinned to the viewport and the body is never programmatically scrolled.
  */
 function FlowStory() {
   const [mode, setMode] = useState<FlowMode>("chatbot");
   const stages = flowModes[mode].stages;
+  const stepsRef = useRef<HTMLOListElement | null>(null);
+
+  useEffect(() => {
+    const scroller = stepsRef.current;
+    if (!scroller) return undefined;
+
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      if (maxScroll <= 2) return;
+
+      const movingBack = event.deltaY < 0;
+      const atStart = scroller.scrollLeft <= 1;
+      const atEnd = scroller.scrollLeft >= maxScroll - 1;
+
+      if ((movingBack && atStart) || (!movingBack && atEnd)) return;
+
+      event.preventDefault();
+      scroller.scrollLeft += event.deltaY;
+    };
+
+    scroller.addEventListener("wheel", onWheel, { passive: false });
+    return () => scroller.removeEventListener("wheel", onWheel);
+  }, []);
+
+  useEffect(() => {
+    const scroller = stepsRef.current;
+    if (!scroller) return;
+    scroller.scrollTo({ left: 0, behavior: "auto" });
+  }, [mode]);
+
+  const moveFlow = (direction: -1 | 1) => {
+    const scroller = stepsRef.current;
+    if (!scroller) return;
+    const amount = Math.max(scroller.clientWidth * 0.78, 280);
+    scroller.scrollBy({
+      left: direction * amount,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  };
 
   return (
     <section
@@ -360,26 +401,42 @@ function FlowStory() {
         </div>
       </div>
 
-      <ol className="container-page kage-flow-story__steps">
-        {stages.map((stage) => (
-          <li className="kage-flow__step" key={`${mode}-${stage.index}`}>
-            <span className="kage-flow__number" aria-hidden="true">
-              {stage.index}
-            </span>
-            <div className="kage-flow__copy">
-              <span>{stage.label}</span>
-              <h3>{stage.title}</h3>
-              <p>{stage.copy}</p>
-            </div>
-            <div className="kage-flow__artifact">
-              <span>
-                {flowModes[mode].label.toUpperCase()} / {stage.index}
+      <div className="kage-flow-story__rail-wrap">
+        <ol
+          ref={stepsRef}
+          className="container-page kage-flow-story__steps"
+          tabIndex={0}
+          aria-label="Štyri kroky. Posúvajte do strán alebo použite šípky."
+          onKeyDown={(event) => {
+            if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              moveFlow(-1);
+            } else if (event.key === "ArrowRight") {
+              event.preventDefault();
+              moveFlow(1);
+            }
+          }}
+        >
+          {stages.map((stage) => (
+            <li className="kage-flow__step" key={`${mode}-${stage.index}`}>
+              <span className="kage-flow__number" aria-hidden="true">
+                {stage.index}
               </span>
-              <strong>{stage.artifact}</strong>
-            </div>
-          </li>
-        ))}
-      </ol>
+              <div className="kage-flow__copy">
+                <span>{stage.label}</span>
+                <h3>{stage.title}</h3>
+                <p>{stage.copy}</p>
+              </div>
+              <div className="kage-flow__artifact">
+                <span>
+                  {flowModes[mode].label.toUpperCase()} / {stage.index}
+                </span>
+                <strong>{stage.artifact}</strong>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
 
       <div className="container-page kage-flow-story__footer">
         <p>Rovnaký postup vieme pripraviť pre váš web a vašu ponuku.</p>
