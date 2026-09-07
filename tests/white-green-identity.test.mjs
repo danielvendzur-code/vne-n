@@ -94,7 +94,6 @@ test("homepage art direction explicitly handles reduced motion and mobile compos
   assert.match(css, /\.page-guide/);
 });
 
-
 test("homepage repair keeps scroll-driven stages sequential and hero lines geometrically even", async () => {
   const route = await read("src/routes/index.tsx");
   const repair = await read("src/components/site/FinalHomepageMotionRepair.css");
