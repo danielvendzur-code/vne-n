@@ -330,7 +330,8 @@ const pageSections = [
 ] as const;
 
 function PageNavigator() {
-  const [activeSection, setActiveSection] = useState<(typeof pageSections)[number]["id"]>("riesenia");
+  const [activeSection, setActiveSection] =
+    useState<(typeof pageSections)[number]["id"]>("riesenia");
 
   useEffect(() => {
     let frame = 0;
@@ -510,8 +511,8 @@ function FlowStory() {
           <div className="kage-flow-story__header-copy">
             <h2 id="kage-flow-story-title">Ako sa návštevník dostane k výsledku.</h2>
             <p>
-              Chatbot, kalkulačka aj konfigurátor majú vlastný postup. Scrollom uvidíte, čo
-              zákazník robí, čo mu web ukáže a kam ho posunie ďalej.
+              Chatbot, kalkulačka aj konfigurátor majú vlastný postup. Scrollom uvidíte, čo zákazník
+              robí, čo mu web ukáže a kam ho posunie ďalej.
             </p>
           </div>
           <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
