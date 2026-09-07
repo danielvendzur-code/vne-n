@@ -323,130 +323,174 @@ function presetForMode(mode: FlowMode): "inquiry" | "calculator" | "product" {
 /**
  * 03 / Ako to funguje.
  *
- * Four stable horizontal panels. On desktop a vertical wheel gesture advances
- * only this local strip while it can still move; at either edge the page keeps
- * scrolling normally. Touch devices use native horizontal swiping. Nothing is
- * pinned to the viewport and the body is never programmatically scrolled.
+ * The section is a real vertical chapter. Normal page scroll drives the
+ * horizontal story while a full-viewport stage stays sticky. There is no
+ * wheel interception and no separate sideways scrolling gesture.
  */
 function FlowStory() {
   const [mode, setMode] = useState<FlowMode>("chatbot");
   const stages = flowModes[mode].stages;
+  const storyRef = useRef<HTMLElement | null>(null);
+  const railRef = useRef<HTMLDivElement | null>(null);
   const stepsRef = useRef<HTMLOListElement | null>(null);
+  const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const scroller = stepsRef.current;
-    if (!scroller) return undefined;
+    const section = storyRef.current;
+    const rail = railRef.current;
+    const track = stepsRef.current;
+    if (!section || !rail || !track) return undefined;
 
-    const onWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
-      if (maxScroll <= 2) return;
+    const update = () => {
+      frameRef.current = null;
 
-      const movingBack = event.deltaY < 0;
-      const atStart = scroller.scrollLeft <= 1;
-      const atEnd = scroller.scrollLeft >= maxScroll - 1;
+      const viewportHeight = Math.max(1, window.innerHeight);
+      const sectionRect = section.getBoundingClientRect();
+      const scrollRange = Math.max(1, section.offsetHeight - viewportHeight);
+      const rawProgress = -sectionRect.top / scrollRange;
+      const progress = Math.min(1, Math.max(0, rawProgress));
+      const maxTravel = Math.max(0, track.scrollWidth - rail.clientWidth);
 
-      if ((movingBack && atStart) || (!movingBack && atEnd)) return;
+      const visualProgress =
+        reducedMotionQuery.matches && stages.length > 1
+          ? Math.round(progress * (stages.length - 1)) / (stages.length - 1)
+          : progress;
 
-      event.preventDefault();
-      scroller.scrollLeft += event.deltaY;
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const offset = Math.round(-maxTravel * visualProgress * dpr) / dpr;
+
+      track.style.transform = `translate3d(${offset}px, 0, 0)`;
+      section.style.setProperty("--flow-progress", String(progress));
     };
 
-    scroller.addEventListener("wheel", onWheel, { passive: false });
-    return () => scroller.removeEventListener("wheel", onWheel);
-  }, []);
+    const scheduleUpdate = () => {
+      if (frameRef.current !== null) return;
+      frameRef.current = window.requestAnimationFrame(update);
+    };
 
-  useEffect(() => {
-    const scroller = stepsRef.current;
-    if (!scroller) return;
-    scroller.scrollTo({ left: 0, behavior: "auto" });
-  }, [mode]);
+    update();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(scheduleUpdate) : null;
+    resizeObserver?.observe(section);
+    resizeObserver?.observe(rail);
+    resizeObserver?.observe(track);
+
+    const onReducedMotionChange = () => scheduleUpdate();
+    if (typeof reducedMotionQuery.addEventListener === "function") {
+      reducedMotionQuery.addEventListener("change", onReducedMotionChange);
+    }
+
+    return () => {
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      resizeObserver?.disconnect();
+      if (typeof reducedMotionQuery.removeEventListener === "function") {
+        reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
+      }
+      track.style.removeProperty("transform");
+      section.style.removeProperty("--flow-progress");
+    };
+  }, [mode, stages.length]);
 
   const moveFlow = (direction: -1 | 1) => {
-    const scroller = stepsRef.current;
-    if (!scroller) return;
-    const amount = Math.max(scroller.clientWidth * 0.78, 280);
-    scroller.scrollBy({
-      left: direction * amount,
+    const section = storyRef.current;
+    if (!section) return;
+
+    const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
+    const stageDistance = scrollRange / Math.max(1, stages.length - 1);
+
+    window.scrollBy({
+      top: direction * stageDistance,
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
     });
   };
 
   return (
     <section
+      ref={storyRef}
       className="kage-flow-story"
       id="ako-to-funguje"
       aria-labelledby="kage-flow-story-title"
       data-signal-chapter="3"
       data-nav-tone="dark"
     >
-      <div className="container-page kage-flow-story__header">
-        <span className="section-index">
-          <b>03</b> AKO TO FUNGUJE
-        </span>
-        <h2 id="kage-flow-story-title">Štyri kroky od otázky k výsledku.</h2>
-        <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
-          {(Object.keys(flowModes) as FlowMode[]).map((item) => (
-            <button
-              type="button"
-              key={item}
-              data-active={mode === item}
-              aria-pressed={mode === item}
-              onClick={() => setMode(item)}
-            >
-              {flowModes[item].label}
-            </button>
-          ))}
+      <div className="kage-flow-story__sticky">
+        <div className="container-page kage-flow-story__header">
+          <span className="section-index">
+            <b>03</b> AKO TO FUNGUJE
+          </span>
+          <h2 id="kage-flow-story-title">Štyri kroky od otázky k výsledku.</h2>
+          <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
+            {(Object.keys(flowModes) as FlowMode[]).map((item) => (
+              <button
+                type="button"
+                key={item}
+                data-active={mode === item}
+                aria-pressed={mode === item}
+                onClick={() => setMode(item)}
+              >
+                {flowModes[item].label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="kage-flow-story__rail-wrap">
-        <ol
-          ref={stepsRef}
-          className="container-page kage-flow-story__steps"
-          tabIndex={0}
-          aria-label="Štyri kroky. Posúvajte do strán alebo použite šípky."
-          onKeyDown={(event) => {
-            if (event.key === "ArrowLeft") {
-              event.preventDefault();
-              moveFlow(-1);
-            } else if (event.key === "ArrowRight") {
-              event.preventDefault();
-              moveFlow(1);
-            }
-          }}
-        >
-          {stages.map((stage) => (
-            <li className="kage-flow__step" key={`${mode}-${stage.index}`}>
-              <span className="kage-flow__number" aria-hidden="true">
-                {stage.index}
-              </span>
-              <div className="kage-flow__copy">
-                <span>{stage.label}</span>
-                <h3>{stage.title}</h3>
-                <p>{stage.copy}</p>
-              </div>
-              <div className="kage-flow__artifact">
-                <span>
-                  {flowModes[mode].label.toUpperCase()} / {stage.index}
+        <div ref={railRef} className="kage-flow-story__rail-wrap">
+          <ol
+            ref={stepsRef}
+            className="kage-flow-story__steps"
+            tabIndex={0}
+            aria-label="Štyri kroky. Vertikálnym scrollom prejdete celý príbeh; šípky posunú o jeden krok."
+            onKeyDown={(event) => {
+              if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                event.preventDefault();
+                moveFlow(-1);
+              } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                event.preventDefault();
+                moveFlow(1);
+              }
+            }}
+          >
+            {stages.map((stage) => (
+              <li className="kage-flow__step" key={`${mode}-${stage.index}`}>
+                <span className="kage-flow__number" aria-hidden="true">
+                  {stage.index}
                 </span>
-                <strong>{stage.artifact}</strong>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
+                <div className="kage-flow__copy">
+                  <span>{stage.label}</span>
+                  <h3>{stage.title}</h3>
+                  <p>{stage.copy}</p>
+                </div>
+                <div className="kage-flow__artifact">
+                  <span>
+                    {flowModes[mode].label.toUpperCase()} / {stage.index}
+                  </span>
+                  <strong>{stage.artifact}</strong>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
 
-      <div className="container-page kage-flow-story__footer">
-        <p>Rovnaký postup vieme pripraviť pre váš web a vašu ponuku.</p>
-        <button
-          type="button"
-          className="kage-flow-story__cta"
-          onClick={() => openSiteAssistant({ source: "flow-story", preset: presetForMode(mode) })}
-        >
-          Vyskúšať na mojom webe <ArrowUpRight size={17} />
-        </button>
+        <div className="container-page kage-flow-story__footer">
+          <p>Scrollom prejdete celý postup. Rovnaký systém vieme pripraviť pre váš web.</p>
+          <button
+            type="button"
+            className="kage-flow-story__cta"
+            onClick={() => openSiteAssistant({ source: "flow-story", preset: presetForMode(mode) })}
+          >
+            Vyskúšať na mojom webe <ArrowUpRight size={17} />
+          </button>
+        </div>
       </div>
     </section>
   );
@@ -711,37 +755,57 @@ function AnimatedPrice({ value, lead = "od " }: { value: number; lead?: string }
 function Price() {
   return (
     <section
-      className="hybrid-price"
+      className="hybrid-price kage-price-hero"
       id="cena"
       aria-labelledby="hybrid-price-title"
       data-nav-tone="dark"
     >
-      <div className="container-page hybrid-price__top">
-        <span className="section-index">
-          <b>06</b> CENA
-        </span>
-        <h2 id="hybrid-price-title">Koľko to stojí?</h2>
-      </div>
-      <div className="container-page hybrid-price__grid">
-        <div>
-          <span>CHATBOT / PRODUKTOVÝ PORADCA</span>
-          <AnimatedPrice value={347} />
-          <p>Návrh, dizajn, obsah a nasadenie na web.</p>
+      <div className="container-page kage-price-hero__layout">
+        <div className="kage-price-hero__intro">
+          <span className="section-index">
+            <b>06</b> CENNÍK
+          </span>
+          <h2 id="hybrid-price-title">
+            Jasná cena. <em>Reálne riešenie.</em>
+          </h2>
+          <p>
+            Základnú cenu vidíte hneď. Presný rozsah si odsúhlasíme pred začiatkom práce, aby ste
+            vedeli, čo dostanete a za čo platíte.
+          </p>
+          <Link to="/cennik" className="kage-price-hero__primary">
+            Otvoriť celý cenník <ArrowUpRight size={18} />
+          </Link>
         </div>
-        <div>
-          <span>KALKULAČKA / KONFIGURÁTOR</span>
-          <AnimatedPrice value={447} />
-          <p>Výpočet alebo výber podľa vašich pravidiel.</p>
+
+        <div className="kage-price-hero__offers" aria-label="Základné ceny">
+          <Link to="/cennik" className="kage-price-hero__offer">
+            <span>01 / CHATBOT · PRODUKTOVÝ PORADCA</span>
+            <div>
+              <AnimatedPrice value={347} />
+              <ArrowUpRight size={20} aria-hidden="true" />
+            </div>
+            <p>Návrh, dizajn, obsah, logika a nasadenie na web.</p>
+          </Link>
+
+          <Link to="/cennik" className="kage-price-hero__offer">
+            <span>02 / KALKULAČKA · KONFIGURÁTOR</span>
+            <div>
+              <AnimatedPrice value={447} />
+              <ArrowUpRight size={20} aria-hidden="true" />
+            </div>
+            <p>Výpočet alebo výber postavený na vašich pravidlách a ponuke.</p>
+          </Link>
+
+          <Link to="/cennik" className="kage-price-hero__offer kage-price-hero__offer--monthly">
+            <span>03 / TECHNICKÁ PREVÁDZKA</span>
+            <div>
+              <AnimatedPrice value={10} lead="" />
+              <b>/ mesiac</b>
+              <ArrowUpRight size={20} aria-hidden="true" />
+            </div>
+            <p>Prevádzka riešenia a základná technická starostlivosť.</p>
+          </Link>
         </div>
-        <div>
-          <span>PREVÁDZKA</span>
-          <AnimatedPrice value={10} lead="" />
-          <b>/ mesiac</b>
-          <p>Technická prevádzka a základná starostlivosť.</p>
-        </div>
-        <Link to="/cennik" className="hybrid-price__link">
-          Pozrieť celý cenník <ArrowUpRight size={18} />
-        </Link>
       </div>
     </section>
   );
