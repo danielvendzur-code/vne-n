@@ -130,7 +130,10 @@ test("navigation uses the real subpages and keeps the project CTA", async () => 
   assert.match(nav, /Cenník/);
   assert.match(nav, /Začať projekt/);
   for (const href of ["/sluzby", "/projekty", "/postup", "/cennik", "/kontakt"]) {
-    assert.ok(nav.includes(`href: "${href}"`) || nav.includes(`to: "${href}"`), `Missing subpage link: ${href}`);
+    assert.ok(
+      nav.includes(`href: "${href}"`) || nav.includes(`to: "${href}"`),
+      `Missing subpage link: ${href}`,
+    );
   }
   assert.doesNotMatch(nav, /\/#(?:riesenia|realizacie|ako-to-funguje|cena|proces|pre-eshopy)/);
   assert.match(nav, /const isAdaptiveRoute = sections\.length > 0/);
