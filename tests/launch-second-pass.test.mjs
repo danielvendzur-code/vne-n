@@ -37,23 +37,21 @@ test("homepage transition label does not duplicate numbered chapter 03", async (
   assert.match(landing, /<b>03<\/b> AKO TO FUNGUJE/);
 });
 
-test("desktop hero final authority removes stale preview clipping", async () => {
-  const css = await read("src/components/site/LaunchReadinessFinal.css");
+test("hero previews stay full-bleed without legacy clipping hacks", async () => {
+  const landingCss = await read("src/components/site/KageLanding.css");
+  const launchCss = await read("src/components/site/LaunchReadinessFinal.css");
 
   assert.match(
-    css,
-    /\.hybrid-hero__case \.project-composite \{[\s\S]*?clip-path:\s*none\s*!important/,
+    landingCss,
+    /\.hybrid-hero__case \.project-composite__site,[\s\S]*?object-fit:\s*cover/,
   );
   assert.match(
-    css,
-    /\.hybrid-hero__case \.project-composite__site \{[\s\S]*?object-fit:\s*cover\s*!important/,
+    launchCss,
+    /body:has\(\.hybrid-home\) \.kage-hero \.hybrid-hero__case \.project-composite__site \{[\s\S]*?object-fit:\s*cover\s*!important/,
   );
-  assert.match(
-    css,
-    /\.hybrid-hero__case \.project-composite__site \{[\s\S]*?transform:\s*none\s*!important/,
-  );
+  assert.doesNotMatch(landingCss, /clip-path:\s*[^;]+!important/);
+  assert.doesNotMatch(launchCss, /clip-path:\s*[^;]+!important/);
 });
-
 test("privacy copy matches actual browser and server chat retention", async () => {
   const cookies = await read("src/routes/cookies.tsx");
   const privacy = await read("src/routes/ochrana-udajov.tsx");
@@ -91,9 +89,9 @@ test("desktop hero keeps the approved layered Kage composition and animation", a
   assert.match(landingCss, /\.kage-hero \.hybrid-hero__collage \{\s*inset: 3% 0 3% 52\.5%/);
   assert.match(landingCss, /\.hybrid-hero__case--1 \{[\s\S]*?transform: rotate\(1\.35deg\)/);
   assert.match(landingCss, /animation: kage-character-write 820ms/);
-  assert.match(launchCss, /Desktop hero intentionally inherits the original KageLanding composition/);
-  assert.doesNotMatch(
+  assert.match(
     launchCss,
-    /@media \(min-width: 721px\)[\s\S]*?\.hybrid-hero__collage/,
+    /Desktop hero intentionally inherits the original KageLanding composition/,
   );
+  assert.doesNotMatch(launchCss, /@media \(min-width: 721px\)[\s\S]*?\.hybrid-hero__collage/);
 });

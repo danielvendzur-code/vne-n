@@ -14,29 +14,31 @@ test("Sep 1 homepage repair keeps hero type stable and restores safe leading", a
   assert.doesNotMatch(css, /@keyframes homepage-character-write-stable[\s\S]*?blur\([\s\S]*?\n\}/);
 });
 
-test("Sep 1 flow reads by scrolling and needs no control to be discovered", async () => {
+test("Sep 7 flow is driven by normal vertical scroll and cannot be skipped as a side scroller", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
-  const css = await read("src/components/site/KageLanding.css");
+  const css = await read("src/components/site/HomepageReworkSep07.css");
 
-  // All four steps are in the page at once, one under another.
-  assert.match(landing, /<ol className="container-page kage-flow-story__steps">/);
+  assert.match(landing, /ref=\{storyRef\}/);
   assert.match(landing, /stages\.map\(\(stage\) => \(/);
-  assert.match(css, /\.kage-flow__step[\s\S]*border-bottom: 1px solid var\(--hh-line-dark\)/);
+  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
+  assert.match(css, /height:\s*390svh/);
+  assert.match(css, /position:\s*sticky/);
+  assert.match(css, /touch-action:\s*pan-y/);
 
-  // Nothing drives, holds or reinterprets a scroller of any axis.
-  assert.doesNotMatch(landing, /animate\(window\.scrollY|window\.scrollTo\(|scrollLeft/);
+  assert.doesNotMatch(landing, /animate\(window\.scrollY|window\.scrollTo\(|scrollLeft\s*[+\-]?=/);
   assert.doesNotMatch(landing, /addEventListener\("wheel"/);
-  assert.doesNotMatch(css, /scroll-snap-type/);
 });
 
-test("Sep 1 solution copy and price motion live in the rendered component", async () => {
+test("Sep 7 solution copy and pricing hero live in the rendered component", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
-  const css = await read("src/components/site/KageLanding.css");
+  const css = await read("src/components/site/HomepageReworkSep07.css");
 
   assert.match(landing, /cta: "Vyskladať kalkulačku"/);
-  assert.match(landing, /hybrid-price__grid/);
+  assert.match(landing, /className="hybrid-price kage-price-hero"/);
+  assert.match(landing, /to="\/cennik"/);
   assert.match(landing, /new IntersectionObserver\(/);
-  assert.match(css, /@keyframes kage-price-count/);
+  assert.match(css, /\.kage-home \.kage-price-hero/);
+  assert.match(css, /\.kage-home \.kage-price-hero__offer/);
 });
 
 test("Sep 1 header and launcher polish remove hover boxes and keep requested CTA colors", async () => {
