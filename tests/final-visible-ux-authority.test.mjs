@@ -25,7 +25,6 @@ test("desktop solutions keep independent readable columns and strong CTAs", () =
   );
 });
 
-
 test("flow chapter uses normal page scroll without wheel takeover", () => {
   const rework = readFileSync(
     new URL("../src/components/site/HomepageReworkSep07.css", import.meta.url),
@@ -33,7 +32,10 @@ test("flow chapter uses normal page scroll without wheel takeover", () => {
   );
 
   assert.doesNotMatch(layout, /FlowScrollTuner|FlowSnapFinal/);
-  assert.doesNotMatch(landing, /window\.scrollTo\(|stopImmediatePropagation|addEventListener\("wheel"/);
+  assert.doesNotMatch(
+    landing,
+    /window\.scrollTo\(|stopImmediatePropagation|addEventListener\("wheel"/,
+  );
   assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
   assert.match(landing, /className="kage-flow-story__sticky"/);
   assert.match(rework, /\.kage-home \.kage-flow-story__sticky \{[\s\S]*position:\s*sticky/);
