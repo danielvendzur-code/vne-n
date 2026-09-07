@@ -8,21 +8,19 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 type NavTone = "dark" | "light";
 
 const desktopLinks = [
-  { label: "Riešenia", href: "/#riesenia" },
-  { label: "Realizácie", href: "/#realizacie" },
-  { label: "Ako to funguje", href: "/#ako-to-funguje" },
-  { label: "Cena", href: "/#cena" },
+  { label: "Riešenia", href: "/sluzby" },
+  { label: "Realizácie", href: "/projekty" },
+  { label: "Ako to funguje", href: "/postup" },
+  { label: "Cenník", href: "/cennik" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 
 const mobileLinks = [
-  { index: "01", label: "Riešenia", href: "/#riesenia" },
-  { index: "02", label: "Realizácie", href: "/#realizacie" },
-  { index: "03", label: "Ako to funguje", href: "/#ako-to-funguje" },
-  { index: "04", label: "Výsledok · Pre e-shopy", href: "/#pre-eshopy" },
-  { index: "05", label: "Proces", href: "/#proces" },
-  { index: "06", label: "Cena", href: "/#cena" },
-  { index: "07", label: "Kontakt", to: "/kontakt" as const },
+  { index: "01", label: "Riešenia", href: "/sluzby" },
+  { index: "02", label: "Realizácie", href: "/projekty" },
+  { index: "03", label: "Ako to funguje", href: "/postup" },
+  { index: "04", label: "Cenník", href: "/cennik" },
+  { index: "05", label: "Kontakt", to: "/kontakt" as const },
 ];
 
 function sectionTone(section: HTMLElement | undefined): NavTone | null {
