@@ -240,7 +240,7 @@ const structuredData = JSON.stringify({
         "produktový konfigurátor",
         "produktový poradca",
         "kvalifikácia dopytov",
-        "guided selling",
+        "asistovaný výber produktov",
       ],
     },
     {
