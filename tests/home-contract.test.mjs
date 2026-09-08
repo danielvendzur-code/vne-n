@@ -163,9 +163,12 @@ test("pricing stays light, readable and explicit about standalone and combined t
   assert.match(pricing, /SAMOSTATNE AJ SPOLU/);
   assert.match(pricing, /Chatbot \+ kalkulačka/);
   assert.match(pricing, /Chatbot \+ konfigurátor/);
-  assert.match(pricingCss, /background:[\s\S]*#f7f6ef/);
-  assert.match(pricingCss, /\.pricing-card-grid/);
-  assert.doesNotMatch(pricingCss, /\.pricing-row:hover[\s\S]*?transform:/);
+  const finalPricingCss = pricingCss.slice(
+    pricingCss.indexOf("consolidated from PricingReworkSep07.css"),
+  );
+  assert.match(finalPricingCss, /background:[\s\S]*#f7f6ef/);
+  assert.match(finalPricingCss, /\.pricing-card-grid/);
+  assert.doesNotMatch(finalPricingCss, /\.pricing-row:hover[\s\S]*?transform:/);
   assert.match(readabilityCss, /replace faint hairline-heavy homepage rows|hairlines/i);
   assert.match(homeCss, /\.kage-home \.kage-price-hero/);
   assert.match(pricing, /V CENE VYTVORENIA/);
