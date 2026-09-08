@@ -13336,3 +13336,490 @@ shorter travel {
     transition: none !important;
   }
 }
+
+/* ===== September 8 screenshot regression authority ===== */
+/* This is the final visual authority for the currently reported homepage issues.
+   It intentionally lives in the single site stylesheet so no new override file
+   can compete with it. */
+
+/* Hero words: every animated word has a real, measurable spacer. */
+.kage-home .kage-hero .typed-space {
+  display: inline-block !important;
+  width: 0.22em !important;
+  min-width: 0.22em !important;
+  overflow: hidden;
+  white-space: pre;
+  line-height: inherit !important;
+  vertical-align: baseline;
+}
+
+.kage-home .kage-hero h1 .typed-word:not(:last-child) {
+  margin-right: 0 !important;
+}
+
+/* Section labels are content-sized badges, never stretched grid cells. */
+.kage-home :is(
+    .hybrid-tools__intro,
+    .hybrid-work__intro,
+    .outcome-comparison__intro,
+    .hybrid-process__intro
+  )
+  > .section-index {
+  width: fit-content !important;
+  height: auto !important;
+  min-height: 32px !important;
+  align-self: start !important;
+  justify-self: start !important;
+  padding: 0.45rem 0.68rem !important;
+  border-radius: 999px !important;
+}
+
+/* Homepage orientation moves into the unused desktop left gutter.
+   The narrow hourglass fills from the bottom as the visitor moves through the
+   six chapters. There is no full-width sticky strip anymore. */
+.kage-home .page-section-nav {
+  --page-progress: 0;
+  position: fixed !important;
+  inset: auto !important;
+  left: max(1rem, calc((100vw - var(--container)) / 2 - 12.4rem)) !important;
+  top: 50% !important;
+  z-index: 64;
+  width: 11rem !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(-50% + 10px)) !important;
+  transition:
+    opacity 220ms ease,
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kage-home .page-section-nav[data-visible="true"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) !important;
+}
+
+.kage-home .page-section-nav__inner {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: 12px minmax(0, 1fr) !important;
+  align-items: stretch !important;
+  gap: 0.8rem !important;
+  margin: 0 !important;
+  padding: 0.78rem !important;
+  overflow: visible !important;
+  border: 1px solid rgba(18, 55, 45, 0.13);
+  border-radius: 20px;
+  background: rgba(242, 240, 232, 0.94);
+  box-shadow: 0 18px 42px -34px rgba(18, 55, 45, 0.48);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.kage-home .page-section-nav__progress {
+  position: relative;
+  width: 10px;
+  min-height: 15.4rem;
+  align-self: stretch;
+  overflow: hidden;
+  background: rgba(18, 55, 45, 0.12);
+  clip-path: polygon(0 0, 100% 0, 64% 44%, 64% 56%, 100% 100%, 0 100%, 36% 56%, 36% 44%);
+}
+
+.kage-home .page-section-nav__progress > i {
+  position: absolute;
+  inset: auto 0 0;
+  height: calc(var(--page-progress) * 100%);
+  min-height: 0;
+  background: #b7df55;
+  transition: height 100ms linear;
+}
+
+.kage-home .page-section-nav__links {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.kage-home .page-section-nav a,
+.kage-home .page-section-nav a:first-child {
+  position: relative;
+  min-width: 0 !important;
+  min-height: 40px !important;
+  display: grid !important;
+  grid-template-columns: 1.7rem minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 0.38rem !important;
+  padding: 0.44rem 0.5rem !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: #536159 !important;
+  text-decoration: none !important;
+}
+
+.kage-home .page-section-nav a::after {
+  display: none !important;
+}
+
+.kage-home .page-section-nav a > span {
+  color: #728078 !important;
+  font: 740 0.63rem/1 var(--font-mono) !important;
+  letter-spacing: 0 !important;
+}
+
+.kage-home .page-section-nav a > b {
+  min-width: 0;
+  overflow: visible !important;
+  color: inherit;
+  font-size: 0.78rem !important;
+  font-weight: 680 !important;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.kage-home .page-section-nav a[data-active="true"] {
+  background: rgba(18, 55, 45, 0.08) !important;
+  color: #12372d !important;
+}
+
+.kage-home .page-section-nav a[data-active="true"] > span {
+  color: #4e7225 !important;
+}
+
+.kage-home .page-section-nav[data-tone="dark"] .page-section-nav__inner {
+  border-color: rgba(246, 245, 238, 0.14);
+  background: rgba(7, 27, 21, 0.9);
+  box-shadow: 0 18px 42px -34px rgba(0, 0, 0, 0.72);
+}
+
+.kage-home .page-section-nav[data-tone="dark"] .page-section-nav__progress {
+  background: rgba(246, 245, 238, 0.13);
+}
+
+.kage-home .page-section-nav[data-tone="dark"] .page-section-nav__progress > i {
+  background: #c8f06a;
+}
+
+.kage-home .page-section-nav[data-tone="dark"] a {
+  color: #afbbb4 !important;
+}
+
+.kage-home .page-section-nav[data-tone="dark"] a > span {
+  color: #84958b !important;
+}
+
+.kage-home .page-section-nav[data-tone="dark"] a[data-active="true"] {
+  background: rgba(200, 240, 106, 0.1) !important;
+  color: #f2f5ef !important;
+}
+
+.kage-home .page-section-nav[data-tone="dark"] a[data-active="true"] > span {
+  color: #c8f06a !important;
+}
+
+.kage-home :is(#riesenia, #realizacie, #ako-to-funguje, #pre-eshopy, #proces, #cena) {
+  scroll-margin-top: calc(var(--header-h) + 1rem) !important;
+}
+
+@media (max-width: 1759px) {
+  .kage-home .page-section-nav {
+    display: none !important;
+  }
+}
+
+/* 03 / Ako to funguje: the horizontal story is now the viewport chapter.
+   The large explanatory title above it is removed from the visible composition;
+   only the mode control and the actual horizontal cards remain. */
+.kage-home .kage-flow-story {
+  --flow-footer-reveal: 0;
+  --flow-footer-shift: 18px;
+  height: 430svh !important;
+  min-height: 245rem !important;
+}
+
+.kage-home .kage-flow-story__sticky {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100svh !important;
+  min-height: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.kage-home .kage-flow-story__toolbar {
+  position: absolute;
+  top: calc(var(--header-h) + 0.85rem);
+  right: max(var(--page-pad), 1rem);
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.kage-home .kage-flow-story__sr-title {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.kage-home .kage-flow-story__modes {
+  width: auto !important;
+  display: inline-flex !important;
+  grid-column: auto !important;
+  justify-self: auto !important;
+  pointer-events: auto;
+  background: rgba(7, 27, 21, 0.82);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.kage-home .kage-flow-story__rail-wrap {
+  width: 100%;
+  height: 100%;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box;
+  overflow: hidden !important;
+  padding:
+    calc(var(--header-h) + 0.8rem)
+    0
+    clamp(1rem, 2.2vh, 1.7rem);
+}
+
+.kage-home .kage-flow-story__steps {
+  width: max-content !important;
+  height: 100%;
+  max-width: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(1rem, 1.5vw, 1.5rem) !important;
+  margin: 0 !important;
+  padding:
+    0
+    max(var(--page-pad), 1rem)
+    0
+    max(var(--page-pad), 1rem) !important;
+}
+
+.kage-home .kage-flow__step {
+  flex: 0 0 min(90vw, 86rem) !important;
+  width: min(90vw, 86rem);
+  min-height: calc(100svh - var(--header-h) - 4rem) !important;
+  max-height: calc(100svh - var(--header-h) - 4rem) !important;
+  box-sizing: border-box;
+  display: grid !important;
+  grid-template-columns: minmax(5rem, 0.09fr) minmax(0, 1.08fr) minmax(22rem, 0.68fr) !important;
+  align-items: center !important;
+  gap: clamp(1.8rem, 3vw, 3.6rem) !important;
+  padding: clamp(2.5rem, 3.5vw, 3.8rem) !important;
+  overflow: hidden;
+}
+
+.kage-home .kage-flow__number {
+  align-self: start;
+  font-size: clamp(3rem, 4vw, 4.5rem) !important;
+}
+
+.kage-home .kage-flow__copy {
+  min-width: 0;
+}
+
+.kage-home .kage-flow__copy h3 {
+  max-width: 15ch !important;
+  margin-bottom: 1rem !important;
+  font-size: clamp(2.25rem, 3.35vw, 3.8rem) !important;
+  line-height: 0.98 !important;
+  text-wrap: balance;
+}
+
+.kage-home .kage-flow__copy p {
+  max-width: 38rem;
+  margin: 0;
+}
+
+.kage-home .kage-flow__artifact {
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.kage-home .kage-flow__artifact strong {
+  max-width: 12ch;
+  font-size: clamp(2.35rem, 3.15vw, 3.8rem) !important;
+  line-height: 0.98 !important;
+  text-wrap: balance;
+  overflow-wrap: normal;
+}
+
+.kage-home .kage-flow-story__footer {
+  position: absolute !important;
+  right: max(var(--page-pad), 1rem);
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 6;
+  width: auto !important;
+  padding: 0 !important;
+  opacity: var(--flow-footer-reveal);
+  transform: translateY(var(--flow-footer-shift));
+  pointer-events: none;
+}
+
+.kage-home .kage-flow-story[data-footer-ready="true"] .kage-flow-story__footer {
+  pointer-events: auto;
+}
+
+.kage-home .kage-flow-story__footer p {
+  display: none !important;
+}
+
+@media (max-width: 1180px) {
+  .kage-home .kage-flow-story__toolbar {
+    top: calc(var(--header-h) + 0.6rem);
+    right: 1rem;
+  }
+
+  .kage-home .kage-flow-story__rail-wrap {
+    padding:
+      calc(var(--header-h) + 3.9rem)
+      0
+      0.9rem;
+  }
+
+  .kage-home .kage-flow__step {
+    flex-basis: calc(100vw - 2rem) !important;
+    width: calc(100vw - 2rem);
+    min-height: calc(100svh - var(--header-h) - 5.7rem) !important;
+    max-height: calc(100svh - var(--header-h) - 5.7rem) !important;
+    grid-template-columns: 4rem minmax(0, 1fr) !important;
+    grid-template-rows: auto minmax(0, 1fr) !important;
+    gap: 1rem 1.4rem !important;
+    padding: clamp(1.35rem, 3vw, 2.2rem) !important;
+  }
+
+  .kage-home .kage-flow__artifact {
+    grid-column: 2;
+    min-height: 0;
+    margin-top: 0;
+    padding: 1rem;
+  }
+
+  .kage-home .kage-flow__artifact strong {
+    max-width: 18ch;
+    font-size: clamp(1.8rem, 4.8vw, 3rem) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .kage-home .kage-flow-story {
+    height: 455svh !important;
+    min-height: 205rem !important;
+  }
+
+  .kage-home .kage-flow-story__toolbar {
+    left: 0.75rem;
+    right: 0.75rem;
+    justify-content: stretch;
+  }
+
+  .kage-home .kage-flow-story__modes {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .kage-home .kage-flow__step {
+    flex-basis: calc(100vw - 1.5rem) !important;
+    width: calc(100vw - 1.5rem);
+    min-height: calc(100svh - var(--header-h) - 5.4rem) !important;
+    max-height: calc(100svh - var(--header-h) - 5.4rem) !important;
+    grid-template-columns: 2.8rem minmax(0, 1fr) !important;
+    gap: 0.8rem 1rem !important;
+    padding: 1.15rem !important;
+    border-radius: 16px !important;
+  }
+
+  .kage-home .kage-flow__copy h3 {
+    font-size: clamp(1.55rem, 7vw, 2.15rem) !important;
+  }
+
+  .kage-home .kage-flow__copy p {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .kage-home .kage-flow__artifact {
+    padding: 0.9rem;
+  }
+}
+
+/* 06 / Cenník: price is an auto-width column, never a fractional column that
+   can overwrite the description. At narrower widths it deliberately stacks. */
+.kage-home .kage-price-hero__offer {
+  grid-template-columns: minmax(20rem, 1fr) auto !important;
+  grid-template-areas:
+    "label price"
+    "copy price" !important;
+  column-gap: clamp(1.5rem, 2.8vw, 3rem) !important;
+  overflow: hidden;
+}
+
+.kage-home .kage-price-hero__offer > div {
+  min-width: max-content;
+  justify-content: flex-end !important;
+}
+
+.kage-home .kage-price-hero__offer strong {
+  font-size: clamp(2.75rem, 3.65vw, 4.2rem) !important;
+}
+
+.kage-home .kage-price-hero__offer > p {
+  width: 100%;
+  max-width: 30rem !important;
+  min-width: 0;
+}
+
+@media (max-width: 1280px) {
+  .kage-home .kage-price-hero__offer {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "label"
+      "price"
+      "copy" !important;
+    gap: 0.68rem !important;
+    min-height: 0 !important;
+    padding: 1.35rem 0 !important;
+  }
+
+  .kage-home .kage-price-hero__offer > div {
+    min-width: 0;
+    justify-content: flex-start !important;
+  }
+
+  .kage-home .kage-price-hero__offer strong {
+    font-size: clamp(2.7rem, 7vw, 4rem) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kage-home .page-section-nav,
+  .kage-home .page-section-nav__progress > i {
+    transition: none !important;
+  }
+}
