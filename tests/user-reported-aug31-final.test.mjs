@@ -7,10 +7,9 @@ const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 test("homepage uses ordinary vertical scroll to drive the four-step story", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
-  const rework = await read("src/components/site/HomepageVisualAuthority.css");
+  const rework = await read("src/components/site/SiteVisualAuthority.css");
 
-  assert.match(route, /HomepageVisualAuthority\.css/);
-  assert.doesNotMatch(route, /HomepageReworkSep07\.css/);
+  assert.doesNotMatch(route, /components\/site\/[^"]+\.css/);
   assert.match(landing, /id="ako-to-funguje"/);
   assert.match(landing, /className="kage-flow-story"/);
   for (const index of ["01", "02", "03", "04"]) {
