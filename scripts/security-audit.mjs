@@ -161,7 +161,13 @@ for (const runtimePatch of [
   }
 }
 
-const brandCss = await read("src/components/site/SiteVisualAuthority.css");
+const siteVisualCss = await read("src/components/site/SiteVisualAuthority.css");
+const baseBrandStart = siteVisualCss.indexOf("consolidated from Rebrand.css");
+const baseBrandEnd = siteVisualCss.indexOf("consolidated from RebrandPages.css");
+if (baseBrandStart < 0 || baseBrandEnd <= baseBrandStart) {
+  fail("Consolidated site authority is missing the base brand sections");
+}
+const brandCss = siteVisualCss.slice(baseBrandStart, baseBrandEnd);
 for (const token of [
   "--paper: #f2f0e8",
   "--pure: #fcfbf7",
