@@ -454,3 +454,95 @@
     grid-column: 2;
   }
 }
+
+/* ------------------------------------------------------------------
+   Homepage orientation — clear active pills, not a row of tiny hairlines.
+   ------------------------------------------------------------------ */
+
+.kage-home .page-section-nav {
+  min-height: 62px;
+  padding-block: 0.55rem;
+  border-top: 0;
+  border-bottom: 1px solid rgba(18, 55, 45, 0.1);
+  background: rgba(242, 240, 232, 0.96);
+}
+
+.kage-home .page-section-nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.kage-home .page-section-nav__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.kage-home .page-section-nav a,
+.kage-home .page-section-nav a:first-child {
+  flex: 0 0 auto;
+  min-height: 44px;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #415048;
+}
+
+.kage-home .page-section-nav a::after {
+  display: none;
+}
+
+.kage-home .page-section-nav a > span {
+  color: #68766e;
+  font: 720 0.7rem/1 var(--font-sans);
+  letter-spacing: 0;
+}
+
+.kage-home .page-section-nav a > b {
+  font-size: 0.86rem;
+  font-weight: 700;
+  overflow: visible;
+}
+
+.kage-home .page-section-nav a[data-active="true"] {
+  background: #12372d;
+  color: #ffffff;
+}
+
+.kage-home .page-section-nav a[data-active="true"] > span {
+  color: #c8f06a;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .page-section-nav a:hover:not([data-active="true"]) {
+    background: rgba(18, 55, 45, 0.08);
+    color: #12372d;
+  }
+}
+
+/* Decorative index rotation made rows feel unstable. Keep information still;
+   only arrows and colour may respond to hover. */
+.kage-home .hybrid-tool:is(:hover, :focus-visible) .hybrid-tool__inner > span:first-child,
+.kage-home .hybrid-process__list > li:is(:hover, :focus-within) > span {
+  transform: none !important;
+}
+
+@media (max-width: 760px) {
+  .kage-home .page-section-nav {
+    min-height: 56px;
+    padding-block: 0.4rem;
+  }
+
+  .kage-home .page-section-nav a {
+    min-height: 42px;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .kage-home .page-section-nav a > b {
+    font-size: 0.8rem;
+  }
+}
+
