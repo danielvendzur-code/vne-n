@@ -195,8 +195,11 @@ for (const token of [
 ]) {
   if (!landing.includes(token)) fail(`Homepage story is missing ${token}`);
 }
-if (!landing.includes('import "./AwardHome.css"')) {
-  fail("Homepage does not own its dedicated art-direction stylesheet");
+if (landing.includes('import "./AwardHome.css"')) {
+  fail("PremiumLanding still imports the duplicated AwardHome stylesheet");
+}
+if (!siteVisualCss.includes("consolidated from AwardHome.css")) {
+  fail("Single site visual authority is missing the AwardHome art direction");
 }
 if (/\+\s*\d+\s*%|\d+×|conversion\s+rate/i.test(landing)) {
   fail("Unsupported marketing metric is present on the homepage");
@@ -247,15 +250,12 @@ for (const token of ["POST", "consent", "website", "RESEND_API_KEY"]) {
 }
 
 const homeRoute = await read("src/routes/index.tsx");
-if (!homeRoute.includes('import "@/components/site/HomepageVisualAuthority.css"')) {
-  fail("Homepage route is missing its consolidated visual authority");
-}
 const activeHomeCssImports = homeRoute.match(/import "@\/components\/site\/[^"]+\.css";/g) ?? [];
-if (
-  activeHomeCssImports.length !== 1 ||
-  activeHomeCssImports[0] !== 'import "@/components/site/HomepageVisualAuthority.css";'
-) {
-  fail("Homepage route must load exactly one homepage visual stylesheet");
+if (activeHomeCssImports.length !== 0) {
+  fail("Homepage route must not add a second visual stylesheet");
+}
+if (!siteVisualCss.includes("consolidated homepage authority")) {
+  fail("Single site visual authority is missing the homepage rules");
 }
 if (/hasOfferCatalog|price\s*:\s*["'](?:497|500)["']/.test(homeRoute)) {
   fail("Homepage structured data contains a hard-coded commercial offer");

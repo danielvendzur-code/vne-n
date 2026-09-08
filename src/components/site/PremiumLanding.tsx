@@ -12,7 +12,6 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { realizations } from "@/data/realizations";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import "./AwardHome.css";
 
 export type LandingVariant = "public" | "client";
 type FlowMode = "chatbot" | "calculator" | "configurator";
