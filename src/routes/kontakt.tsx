@@ -183,7 +183,7 @@ function ContactPage() {
     <div className="contact-page contact-page--rebrand">
       <header className="sp-hero">
         <div className="container-page">
-          <p className="section-kicker">CONTACT</p>
+          <p className="section-kicker">KONTAKT</p>
           <h1>
             Preberme, čo má váš web <em>robiť ďalej.</em>
           </h1>
@@ -232,24 +232,10 @@ function ContactPage() {
             </p>
 
             {fromCoffeeDemo ? (
-              <div
-                style={{
-                  display: "grid",
-                  gap: 10,
-                  marginBottom: 22,
-                  padding: "16px 18px",
-                  border: "1px solid rgba(38, 111, 74, .22)",
-                  borderRadius: 16,
-                  background: "rgba(236, 247, 240, .72)",
-                }}
-              >
-                <strong style={{ fontSize: 16, lineHeight: 1.25 }}>
-                  Firmu, web aj konkrétnu ukážku už máme.
-                </strong>
-                <span style={{ fontSize: 13, lineHeight: 1.55, opacity: 0.72 }}>
-                  Doplňte iba kontakt na seba. Telefón a poznámka sú voliteľné.
-                </span>
-                <div style={{ display: "grid", gap: 5, fontSize: 13, lineHeight: 1.45 }}>
+              <div className="contact-demo-summary">
+                <strong>Firmu, web aj konkrétnu ukážku už máme.</strong>
+                <p>Doplňte iba kontakt na seba. Telefón a poznámka sú voliteľné.</p>
+                <div className="contact-demo-summary__meta">
                   {company ? (
                     <span>
                       <b>Firma:</b> {company}
@@ -383,7 +369,7 @@ function ContactPage() {
                 <p>
                   Odoslaním zadania požiadate prevádzkovateľa Venaco s.r.o. o kontakt a prípravu
                   návrhu. Údaje použijeme na vybavenie dopytu a prípadné kroky pred uzatvorením
-                  spolupráce, nie na prihlásenie do marketingového newslettera.
+                  spolupráce, nie na posielanie marketingových správ.
                 </p>
                 <p>
                   Podrobnosti: <Link to="/ochrana-udajov">Ochrana osobných údajov</Link> ·{" "}
@@ -411,7 +397,7 @@ function ContactPage() {
 
               <button
                 type="submit"
-                className="contact-submit"
+                className="contact-submit site-cta site-cta--primary"
                 data-state={submitState}
                 disabled={submitState === "sending"}
               >
