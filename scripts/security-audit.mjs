@@ -195,8 +195,11 @@ for (const token of [
 ]) {
   if (!landing.includes(token)) fail(`Homepage story is missing ${token}`);
 }
-if (!landing.includes('import "./AwardHome.css"')) {
-  fail("Homepage does not own its dedicated art-direction stylesheet");
+if (landing.includes('import "./AwardHome.css"')) {
+  fail("PremiumLanding still imports the duplicated AwardHome stylesheet");
+}
+if (!siteVisualCss.includes("consolidated from AwardHome.css")) {
+  fail("Single site visual authority is missing the AwardHome art direction");
 }
 if (/\+\s*\d+\s*%|\d+×|conversion\s+rate/i.test(landing)) {
   fail("Unsupported marketing metric is present on the homepage");
