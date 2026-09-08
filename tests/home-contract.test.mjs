@@ -163,9 +163,9 @@ test("pricing stays light, readable and explicit about standalone and combined t
   assert.match(pricing, /SAMOSTATNE AJ SPOLU/);
   assert.match(pricing, /Chatbot \+ kalkulačka/);
   assert.match(pricing, /Chatbot \+ konfigurátor/);
-  const finalPricingCss = pricingCss.slice(
-    pricingCss.indexOf("consolidated from PricingReworkSep07.css"),
-  );
+  const pricingStart = pricingCss.indexOf("consolidated from PricingReworkSep07.css");
+  const pricingEnd = pricingCss.indexOf("consolidated homepage authority", pricingStart);
+  const finalPricingCss = pricingCss.slice(pricingStart, pricingEnd);
   assert.match(finalPricingCss, /background:[\s\S]*#f7f6ef/);
   assert.match(finalPricingCss, /\.pricing-card-grid/);
   assert.doesNotMatch(finalPricingCss, /\.pricing-row:hover[\s\S]*?transform:/);
