@@ -247,15 +247,12 @@ for (const token of ["POST", "consent", "website", "RESEND_API_KEY"]) {
 }
 
 const homeRoute = await read("src/routes/index.tsx");
-if (!homeRoute.includes('import "@/components/site/HomepageVisualAuthority.css"')) {
-  fail("Homepage route is missing its consolidated visual authority");
-}
 const activeHomeCssImports = homeRoute.match(/import "@\/components\/site\/[^"]+\.css";/g) ?? [];
-if (
-  activeHomeCssImports.length !== 1 ||
-  activeHomeCssImports[0] !== 'import "@/components/site/HomepageVisualAuthority.css";'
-) {
-  fail("Homepage route must load exactly one homepage visual stylesheet");
+if (activeHomeCssImports.length !== 0) {
+  fail("Homepage route must not add a second visual stylesheet");
+}
+if (!siteVisualCss.includes("consolidated homepage authority")) {
+  fail("Single site visual authority is missing the homepage rules");
 }
 if (/hasOfferCatalog|price\s*:\s*["'](?:497|500)["']/.test(homeRoute)) {
   fail("Homepage structured data contains a hard-coded commercial offer");
