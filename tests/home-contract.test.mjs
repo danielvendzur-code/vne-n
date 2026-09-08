@@ -7,8 +7,9 @@ const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 test("layout loads one coherent brand system instead of historical override stack", async () => {
   const layout = await read("src/components/site/Layout.tsx");
 
-  assert.match(layout, /Rebrand\.css/);
-  assert.match(layout, /RebrandPages\.css/);
+  assert.match(layout, /SiteVisualAuthority\.css/);
+  const cssImports = layout.match(/import "\.\/[^"]+\.css";/g) ?? [];
+  assert.deepEqual(cssImports, ['import "./SiteVisualAuthority.css";']);
   for (const legacy of [
     "FinalUserCorrection.css",
     "CompetitionWinnerFinal.css",
@@ -29,7 +30,7 @@ test("layout loads one coherent brand system instead of historical override stac
 test("active homepage keeps three clean hero previews and four realizations", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
-  const css = await read("src/components/site/KageLanding.css");
+  const css = await read("src/components/site/HomepageVisualAuthority.css");
 
   assert.match(route, /KageLanding/);
   assert.match(landing, /Web, ktorý mení návštevy na výsledky\./);
@@ -52,7 +53,7 @@ test("active homepage keeps three clean hero previews and four realizations", as
   // 03 / Ako to funguje is a real vertical chapter: normal page scroll drives
   // a sticky horizontal story. There is no wheel interception or separate
   // sideways-scroll gesture.
-  const reworkCss = await read("src/components/site/HomepageReworkSep07.css");
+  const reworkCss = css;
   assert.match(landing, /ref=\{storyRef\}[\s\S]*className="kage-flow-story"/);
   assert.match(landing, /className="kage-flow-story__sticky"/);
   assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
@@ -121,8 +122,8 @@ test("homepage uses four real projects with one consistent realization frame", a
 
 test("navigation uses the real subpages and keeps the project CTA", async () => {
   const nav = await read("src/components/site/Nav.tsx");
-  const globalCss = await read("src/components/site/Rebrand.css");
-  const homeCss = await read("src/components/site/AwardHome.css");
+  const globalCss = await read("src/components/site/SiteVisualAuthority.css");
+  const homeCss = await read("src/components/site/HomepageVisualAuthority.css");
 
   assert.match(nav, /Riešenia/);
   assert.match(nav, /Realizácie/);
@@ -146,9 +147,9 @@ test("navigation uses the real subpages and keeps the project CTA", async () => 
 test("pricing stays light, readable and explicit about standalone and combined tools", async () => {
   const pricing = await read("src/routes/cennik.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
-  const pricingCss = await read("src/components/site/PricingReworkSep07.css");
-  const readabilityCss = await read("src/components/site/ReadabilitySep08.css");
-  const homeCss = await read("src/components/site/HomepageReworkSep07.css");
+  const pricingCss = await read("src/components/site/SiteVisualAuthority.css");
+  const readabilityCss = pricingCss;
+  const homeCss = await read("src/components/site/HomepageVisualAuthority.css");
 
   assert.equal((pricing.match(/setup: "od 347 €"/g) ?? []).length, 1);
   assert.equal((pricing.match(/setup: "od 447 €"/g) ?? []).length, 2);
@@ -177,7 +178,7 @@ test("pricing stays light, readable and explicit about standalone and combined t
 test("homepage, form and subpages share the smooth one-way reveal controller", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const controller = await read("src/components/site/PageRevealController.tsx");
-  const pagesCss = await read("src/components/site/RebrandPages.css");
+  const pagesCss = await read("src/components/site/SiteVisualAuthority.css");
   const motion = await read("src/components/site/motion-primitives.tsx");
 
   assert.match(layout, /PageRevealController pathname=\{pathname\}/);
@@ -221,7 +222,7 @@ test("public SEO positions Môj Chatbot as digital sales tools without unsupport
   assert.match(home, /produktoví poradcovia/);
   assert.doesNotMatch(home, /sledovanie objednávky|zrušenie objednávky|reklamácie/);
   assert.match(root, /produktový poradca/);
-  assert.match(root, /guided selling/);
+  assert.match(root, /asistovaný výber produktov/);
   assert.doesNotMatch(root, /AI asistent pre web/);
 });
 
@@ -274,7 +275,7 @@ test("launch legal identity is complete, permanent and absent from homepage copy
 
 test("analytics consent is optional, reversible and cannot cover the chatbot", async () => {
   const consent = await read("src/components/site/AnalyticsConsent.tsx");
-  const css = await read("src/components/site/LaunchReadinessFinal.css");
+  const css = await read("src/components/site/SiteVisualAuthority.css");
   const layout = await read("src/components/site/Layout.tsx");
 
   assert.match(consent, /Odmietnuť analytiku/);
@@ -284,9 +285,11 @@ test("analytics consent is optional, reversible and cannot cover the chatbot", a
   assert.doesNotMatch(consent, /data-primary/);
   assert.match(css, /body:has\(\.analytics-consent\) #dv-assistant-root/);
   assert.match(css, /z-index:\s*90/);
-  assert.match(layout, /LaunchReadinessFinal\.css/);
+  assert.match(layout, /SiteVisualAuthority\.css/);
+  assert.doesNotMatch(layout, /LaunchReadinessFinal\.css|UserFollowupSep01\.css/);
   assert.ok(
-    layout.indexOf("LaunchReadinessFinal.css") > layout.indexOf("UserFollowupSep01.css"),
-    "launch authority must load last",
+    css.indexOf("consolidated from LaunchReadinessFinal.css") >
+      css.indexOf("consolidated from UserFollowupSep01.css"),
+    "consolidated launch rules must preserve their previous cascade order",
   );
 });
