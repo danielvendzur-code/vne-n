@@ -283,7 +283,11 @@ function TypedLine({ text, startAt }: { text: string; startAt: number }) {
                 {character}
               </span>
             ))}
-            {wordIndex < words.length - 1 ? " " : null}
+            {wordIndex < words.length - 1 ? (
+              <span className="typed-space" aria-hidden="true">
+                {"\u00a0"}
+              </span>
+            ) : null}
           </span>
         );
       })}
@@ -330,6 +334,7 @@ const pageSections = [
 function PageNavigator() {
   const [activeSection, setActiveSection] =
     useState<(typeof pageSections)[number]["id"]>("riesenia");
+  const navRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -338,13 +343,41 @@ function PageNavigator() {
       frame = 0;
       const sampleY = Math.min(window.innerHeight - 1, 148);
       let next = pageSections[0].id;
+      let nextSection: HTMLElement | null = null;
 
       for (const item of pageSections) {
         const section = document.getElementById(item.id);
         if (!section) continue;
         const rect = section.getBoundingClientRect();
-        if (rect.top <= sampleY) next = item.id;
-        if (rect.top <= sampleY && rect.bottom > sampleY) break;
+        if (rect.top <= sampleY) {
+          next = item.id;
+          nextSection = section;
+        }
+        if (rect.top <= sampleY && rect.bottom > sampleY) {
+          nextSection = section;
+          break;
+        }
+      }
+
+      const firstSection = document.getElementById(pageSections[0].id);
+      const lastSection = document.getElementById(pageSections[pageSections.length - 1].id);
+      const nav = navRef.current;
+
+      if (nav && firstSection && lastSection) {
+        const start = window.scrollY + firstSection.getBoundingClientRect().top;
+        const end =
+          window.scrollY +
+          lastSection.getBoundingClientRect().bottom -
+          Math.max(1, window.innerHeight);
+        const range = Math.max(1, end - start);
+        const progress = Math.min(1, Math.max(0, (window.scrollY - start) / range));
+        const visible =
+          window.scrollY >= start - window.innerHeight * 0.22 &&
+          window.scrollY <= end + window.innerHeight * 0.45;
+
+        nav.style.setProperty("--page-progress", progress.toFixed(4));
+        nav.dataset.visible = visible ? "true" : "false";
+        nav.dataset.tone = nextSection?.dataset.navTone === "dark" ? "dark" : "light";
       }
 
       setActiveSection((current) => (current === next ? current : next));
@@ -367,19 +400,30 @@ function PageNavigator() {
   }, []);
 
   return (
-    <nav className="page-section-nav" aria-label="Orientácia na úvodnej stránke">
-      <div className="container-page page-section-nav__inner">
-        {pageSections.map((item) => (
-          <a
-            key={item.id}
-            href={`#${item.id}`}
-            data-active={activeSection === item.id}
-            aria-current={activeSection === item.id ? "location" : undefined}
-          >
-            <span>{item.index}</span>
-            <b>{item.label}</b>
-          </a>
-        ))}
+    <nav
+      ref={navRef}
+      className="page-section-nav"
+      aria-label="Orientácia na úvodnej stránke"
+      data-visible="false"
+      data-tone="light"
+    >
+      <div className="page-section-nav__inner">
+        <span className="page-section-nav__progress" aria-hidden="true">
+          <i />
+        </span>
+        <div className="page-section-nav__links">
+          {pageSections.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              data-active={activeSection === item.id}
+              aria-current={activeSection === item.id ? "location" : undefined}
+            >
+              <span>{item.index}</span>
+              <b>{item.label}</b>
+            </a>
+          ))}
+        </div>
       </div>
     </nav>
   );
@@ -426,14 +470,11 @@ function FlowStory() {
       const dpr = Math.max(1, window.devicePixelRatio || 1);
       const offset = Math.round(-maxTravel * visualProgress * dpr) / dpr;
 
-      const headerReveal = Math.min(1, Math.max(0, (progress - 0.07) / 0.16));
-      const footerReveal = Math.min(1, Math.max(0, (progress - 0.66) / 0.16));
+      const footerReveal = Math.min(1, Math.max(0, (progress - 0.7) / 0.14));
 
       track.style.transform = `translate3d(${offset}px, 0, 0)`;
       section.style.setProperty("--flow-progress", String(progress));
-      section.style.setProperty("--flow-header-reveal", String(headerReveal));
       section.style.setProperty("--flow-footer-reveal", String(footerReveal));
-      section.style.setProperty("--flow-header-shift", `${Math.round((1 - headerReveal) * 18)}px`);
       section.style.setProperty("--flow-footer-shift", `${Math.round((1 - footerReveal) * 18)}px`);
       section.dataset.footerReady = footerReveal >= 0.85 ? "true" : "false";
     };
@@ -471,9 +512,7 @@ function FlowStory() {
       }
       track.style.removeProperty("transform");
       section.style.removeProperty("--flow-progress");
-      section.style.removeProperty("--flow-header-reveal");
       section.style.removeProperty("--flow-footer-reveal");
-      section.style.removeProperty("--flow-header-shift");
       section.style.removeProperty("--flow-footer-shift");
       delete section.dataset.footerReady;
     };
@@ -502,17 +541,10 @@ function FlowStory() {
       data-nav-tone="dark"
     >
       <div className="kage-flow-story__sticky">
-        <div className="container-page kage-flow-story__header">
-          <span className="section-index">
-            <b>03</b> AKO TO FUNGUJE
-          </span>
-          <div className="kage-flow-story__header-copy">
-            <h2 id="kage-flow-story-title">Ako sa návštevník dostane k výsledku.</h2>
-            <p>
-              Chatbot, kalkulačka aj konfigurátor majú vlastný postup. Posúvaním stránky uvidíte, čo
-              zákazník robí, čo mu web ukáže a kam ho posunie ďalej.
-            </p>
-          </div>
+        <div className="container-page kage-flow-story__toolbar">
+          <h2 id="kage-flow-story-title" className="kage-flow-story__sr-title">
+            Ako sa návštevník dostane k výsledku.
+          </h2>
           <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
             {(Object.keys(flowModes) as FlowMode[]).map((item) => (
               <button
