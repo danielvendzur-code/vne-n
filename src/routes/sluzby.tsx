@@ -59,7 +59,8 @@ const tools: Array<{
     name: "Produktový poradca",
     copy: "Pomôže zúžiť ponuku podľa použitia, preferencií, parametrov alebo rozpočtu.",
     customer: "Rýchlejšie sa dostane k produktu alebo variantu, ktorý mu dáva zmysel.",
-    business: "Získava vrstvu asistovaného výberu bez toho, aby zákazník musel poznať celý katalóg.",
+    business:
+      "Získava vrstvu asistovaného výberu bez toho, aby zákazník musel poznať celý katalóg.",
     preset: "advisor",
   },
 ];
