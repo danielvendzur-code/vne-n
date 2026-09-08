@@ -26,7 +26,7 @@ test("homepage uses ordinary vertical scroll to drive the four-step story", asyn
 });
 
 test("reported heading has safe Slovak-diacritic leading", async () => {
-  const css = await read("src/components/site/HomepageVisualAuthority.css");
+  const css = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(css, /\.outcome-comparison__intro h2[\s\S]*line-height: 1\.08 !important/);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*line-height: 1\.1 !important/);
