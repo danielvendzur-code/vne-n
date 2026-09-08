@@ -56,7 +56,7 @@ const purposes = [
   },
   {
     icon: Clock3,
-    title: "Cookie-free meranie návštevnosti",
+    title: "Meranie návštevnosti bez súborov cookie",
     what: "Súhrnné údaje o otvorenej stránke, zdroji návštevy, krajine, zariadení a prehliadači.",
     why: "Aby sme rozumeli používaniu webu, opravovali problémy a zlepšovali obsah.",
     basis: "Oprávnený záujem na meraní a zlepšovaní webu — čl. 6 ods. 1 písm. f) GDPR.",
@@ -71,7 +71,7 @@ const purposes = [
           why: "Aby sme vedeli podrobnejšie vyhodnotiť návštevnosť a zlepšovať jednotlivé stránky.",
           basis:
             "Súhlas návštevníka — čl. 6 ods. 1 písm. a) GDPR. Bez súhlasu sa Google Analytics nenačíta.",
-          keep: "Podľa retenčného nastavenia Google Analytics; súhlas je možné kedykoľvek zmeniť na stránke Cookies a analytika.",
+          keep: "Podľa retenčného nastavenia Google Analytics; súhlas je možné kedykoľvek zmeniť na stránke Súbory cookie a analytika.",
         },
       ]
     : []),
@@ -272,7 +272,7 @@ function PrivacyPage() {
             <p className="cookies-note">
               Žiadosť pošlite na <a href={`mailto:${contact.email}`}>{contact.email}</a>. Odpovieme
               bez zbytočného odkladu, spravidla najneskôr do jedného mesiaca. Podrobnosti o meraní a
-              nastavení súhlasu nájdete na stránke <Link to="/cookies">Cookies a analytika</Link>.
+              nastavení súhlasu nájdete na stránke <Link to="/cookies">Súbory cookie a analytika</Link>.
             </p>
           </Reveal>
         </div>
