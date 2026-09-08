@@ -69,7 +69,7 @@ function ProcessPage() {
         <div className="container-page">
           <p className="section-kicker">POSTUP</p>
           <h1>
-            Od prvého briefu <em>po živý web.</em>
+            Od prvého zadania <em>po živý web.</em>
           </h1>
           <p className="sp-hero-lead">
             Každý krok má konkrétny výstup. Klient vie, čo sa práve rozhoduje, čo dostane a kedy má
