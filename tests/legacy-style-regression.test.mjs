@@ -18,16 +18,18 @@ test("historical visual authority layers stay out of the active layout", async (
     assert.doesNotMatch(layout, new RegExp(retired.replace(".", "\\.")));
   }
 
-  assert.match(layout, /Rebrand\.css/);
-  assert.match(layout, /RebrandPages\.css/);
-  assert.match(layout, /FinalMobileAudit\.css/);
-  assert.match(layout, /FinalUxAuthority\.css/);
-  assert.match(layout, /LaunchReadinessFinal\.css/);
+  assert.match(layout, /SiteVisualAuthority\.css/);
+  const cssImports = layout.match(/import "\.\/[^"]+\.css";/g) ?? [];
+  assert.deepEqual(cssImports, ['import "./SiteVisualAuthority.css";']);
+  assert.doesNotMatch(
+    layout,
+    /Rebrand\.css|RebrandPages\.css|FinalMobileAudit\.css|FinalUxAuthority\.css|LaunchReadinessFinal\.css/,
+  );
 });
 
 test("active homepage flow is one scroll-driven sticky chapter", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
-  const css = await read("src/components/site/HomepageReworkSep07.css");
+  const css = await read("src/components/site/HomepageVisualAuthority.css");
 
   assert.match(landing, /className="kage-flow-story"/);
   assert.match(landing, /className="kage-flow__step"/);
