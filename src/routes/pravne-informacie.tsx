@@ -143,7 +143,7 @@ function LegalInformationPage() {
 
           <Reveal className="cookies-card cookies-card--wide" direction="right" delay={0.22}>
             <h2>
-              <ShieldCheck aria-hidden="true" /> Súkromie a cookies
+              <ShieldCheck aria-hidden="true" /> Súkromie a súbory cookie
             </h2>
             <p>
               Informácie o spracúvaní osobných údajov sú na stránke{" "}
