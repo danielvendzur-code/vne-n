@@ -128,7 +128,7 @@ function PricingPage() {
             <span>RIEŠENIE</span>
             <span>VYTVORENIE</span>
             <span>PREVÁDZKA</span>
-            <span>ČO OBSahUJE</span>
+            <span>ČO OBSAHUJE</span>
             <span />
           </div>
 
