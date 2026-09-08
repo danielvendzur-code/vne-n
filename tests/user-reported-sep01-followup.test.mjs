@@ -17,18 +17,23 @@ test("all homepage solution CTAs use builder wording", async () => {
 
 test("header CTA is lime at rest and black on hover", async () => {
   const layout = await read("src/components/site/Layout.tsx");
-  const css = await read("src/components/site/UserFollowupSep01.css");
+  const css = await read("src/components/site/SiteVisualAuthority.css");
 
-  assert.match(layout, /UserFollowupSep01\.css/);
+  assert.match(layout, /SiteVisualAuthority\.css/);
+  assert.doesNotMatch(layout, /UserFollowupSep01\.css/);
   assert.match(css, /background:\s*#c8f06a !important/);
   assert.match(css, /background:\s*#0b0e0c !important/);
 });
 
-test("contact form is pulled into the first view and precedes notes on narrow screens", async () => {
-  const css = await read("src/components/site/UserFollowupSep01.css");
+test("contact uses the unified card form without hairline separators", async () => {
+  const css = await read("src/components/site/SiteVisualAuthority.css");
+  const contact = await read("src/routes/kontakt.tsx");
 
-  assert.match(css, /\.contact-page--rebrand > \.sp-hero[\s\S]*min-height:\s*0 !important/);
-  assert.match(css, /\.contact-page--rebrand > \.contact-section[\s\S]*padding-top:/);
-  assert.match(css, /\.contact-page--rebrand \.contact-form-wrap[\s\S]*order:\s*1/);
-  assert.match(css, /\.contact-page--rebrand \.contact-editorial-aside[\s\S]*order:\s*2/);
+  assert.match(css, /\.contact-page--rebrand > \.sp-hero[\s\S]*order:\s*1 !important/);
+  assert.match(css, /\.contact-page--rebrand > \.contact-section[\s\S]*order:\s*2 !important/);
+  assert.match(css, /\.contact-page--rebrand \.contact-form-wrap[\s\S]*border:\s*0 !important/);
+  assert.match(css, /\.contact-page--rebrand \.contact-form :is\(input, textarea, select\)[\s\S]*border:\s*1px solid/);
+  assert.match(css, /\.contact-page--rebrand \.contact-editorial-aside li[\s\S]*border:\s*0 !important/);
+  assert.match(contact, /className="contact-demo-summary"/);
+  assert.doesNotMatch(contact, /<p className="section-kicker">CONTACT<\/p>/);
 });
