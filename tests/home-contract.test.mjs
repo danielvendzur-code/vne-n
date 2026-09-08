@@ -143,10 +143,11 @@ test("navigation uses the real subpages and keeps the project CTA", async () => 
   assert.match(homeCss, /\.site-header__cta[\s\S]*border:/);
 });
 
-test("pricing is a real routed hero and keeps the public prices without fake plans", async () => {
+test("pricing stays light, readable and explicit about standalone and combined tools", async () => {
   const pricing = await read("src/routes/cennik.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
   const pricingCss = await read("src/components/site/PricingReworkSep07.css");
+  const readabilityCss = await read("src/components/site/ReadabilitySep08.css");
   const homeCss = await read("src/components/site/HomepageReworkSep07.css");
 
   assert.equal((pricing.match(/setup: "od 347 €"/g) ?? []).length, 1);
@@ -155,8 +156,16 @@ test("pricing is a real routed hero and keeps the public prices without fake pla
   assert.match(landing, /to="\/cennik"/);
   assert.match(pricing, /id="baliky"/);
   assert.match(pricing, /pricing-hero__eyebrow/);
-  assert.match(pricing, /data-nav-tone="dark"/);
-  assert.match(pricingCss, /min-height:\s*calc\(100svh - var\(--header-h\)\)/);
+  assert.match(pricing, /data-nav-tone="light"/);
+  assert.match(pricing, /Samostatný výpočet/);
+  assert.match(pricing, /Samostatný krokový výber/);
+  assert.match(pricing, /SAMOSTATNE AJ SPOLU/);
+  assert.match(pricing, /Chatbot \+ kalkulačka/);
+  assert.match(pricing, /Chatbot \+ konfigurátor/);
+  assert.match(pricingCss, /background:[\s\S]*#f7f6ef/);
+  assert.match(pricingCss, /\.pricing-card-grid/);
+  assert.doesNotMatch(pricingCss, /\.pricing-row:hover[\s\S]*?transform:/);
+  assert.match(readabilityCss, /replace faint hairline-heavy homepage rows|hairlines/i);
   assert.match(homeCss, /\.kage-home \.kage-price-hero/);
   assert.match(pricing, /V CENE VYTVORENIA/);
   assert.match(pricing, /MESAČNE/);
