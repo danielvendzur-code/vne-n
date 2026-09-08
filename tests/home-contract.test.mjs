@@ -30,7 +30,7 @@ test("layout loads one coherent brand system instead of historical override stac
 test("active homepage keeps three clean hero previews and four realizations", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
-  const css = await read("src/components/site/HomepageVisualAuthority.css");
+  const css = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(route, /KageLanding/);
   assert.match(landing, /Web, ktorý mení návštevy na výsledky\./);
@@ -123,7 +123,7 @@ test("homepage uses four real projects with one consistent realization frame", a
 test("navigation uses the real subpages and keeps the project CTA", async () => {
   const nav = await read("src/components/site/Nav.tsx");
   const globalCss = await read("src/components/site/SiteVisualAuthority.css");
-  const homeCss = await read("src/components/site/HomepageVisualAuthority.css");
+  const homeCss = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(nav, /Riešenia/);
   assert.match(nav, /Realizácie/);
@@ -149,7 +149,7 @@ test("pricing stays light, readable and explicit about standalone and combined t
   const landing = await read("src/components/site/KageLanding.tsx");
   const pricingCss = await read("src/components/site/SiteVisualAuthority.css");
   const readabilityCss = pricingCss;
-  const homeCss = await read("src/components/site/HomepageVisualAuthority.css");
+  const homeCss = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.equal((pricing.match(/setup: "od 347 €"/g) ?? []).length, 1);
   assert.equal((pricing.match(/setup: "od 447 €"/g) ?? []).length, 2);
