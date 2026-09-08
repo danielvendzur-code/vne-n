@@ -8,14 +8,7 @@ import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
 import "./Rebrand.css";
 import "./RebrandPages.css";
-import "./SubpagePolish.css";
-import "./RequestedAugustPolish.css";
-import "./FinalMobileAudit.css";
-import "./FinalUxAuthority.css";
-import "./UserFollowupSep01.css";
-import "./LaunchReadinessFinal.css";
-import "./UnifiedInteractionSep07.css";
-import "./ReadabilitySep08.css";
+import "./SiteVisualAuthority.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
