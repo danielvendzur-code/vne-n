@@ -112,8 +112,7 @@ const layout = await read("src/components/site/Layout.tsx");
 if (!layout.includes('import "./SiteVisualAuthority.css"')) {
   fail('Layout is missing import "./SiteVisualAuthority.css"');
 }
-const activeSiteCssImports =
-  layout.match(/import "\.\/[^"]+\.css";/g) ?? [];
+const activeSiteCssImports = layout.match(/import "\.\/[^"]+\.css";/g) ?? [];
 if (
   activeSiteCssImports.length !== 1 ||
   activeSiteCssImports[0] !== 'import "./SiteVisualAuthority.css";'
@@ -251,8 +250,7 @@ const homeRoute = await read("src/routes/index.tsx");
 if (!homeRoute.includes('import "@/components/site/HomepageVisualAuthority.css"')) {
   fail("Homepage route is missing its consolidated visual authority");
 }
-const activeHomeCssImports =
-  homeRoute.match(/import "@\/components\/site\/[^"]+\.css";/g) ?? [];
+const activeHomeCssImports = homeRoute.match(/import "@\/components\/site\/[^"]+\.css";/g) ?? [];
 if (
   activeHomeCssImports.length !== 1 ||
   activeHomeCssImports[0] !== 'import "@/components/site/HomepageVisualAuthority.css";'
