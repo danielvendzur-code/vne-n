@@ -60,7 +60,7 @@ const purposes = [
     what: "Súhrnné údaje o otvorenej stránke, zdroji návštevy, krajine, zariadení a prehliadači.",
     why: "Aby sme rozumeli používaniu webu, opravovali problémy a zlepšovali obsah.",
     basis: "Oprávnený záujem na meraní a zlepšovaní webu — čl. 6 ods. 1 písm. f) GDPR.",
-    keep: "Vercel Analytics nepoužíva analytické cookies. Súhrnné reporty môžu byť uchované podľa nastavenia služby.",
+    keep: "Vercel Analytics nepoužíva analytické súbory cookie. Súhrnné reporty môžu byť uchované podľa nastavenia služby.",
   },
   ...(googleAnalyticsEnabled
     ? [
@@ -221,7 +221,7 @@ function PrivacyPage() {
             <p>Na technickú prevádzku používame najmä tieto kategórie dodávateľov:</p>
             <ul className="cookies-list">
               <li>
-                <b>Vercel</b> — hosting webu, serverové funkcie a cookie-free Web Analytics.
+                <b>Vercel</b> — hosting webu, serverové funkcie a Web Analytics bez súborov cookie.
               </li>
               <li>
                 <b>Resend</b> — odosielanie transakčných e-mailov a potvrdení dopytu.
