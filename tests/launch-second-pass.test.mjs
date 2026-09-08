@@ -33,10 +33,7 @@ test("homepage chapter 03 is represented by the side navigator without a duplica
   const landing = await read("src/components/site/KageLanding.tsx");
 
   assert.match(landing, /<span className="section-index">ČO TO ZMENÍ<\/span>/);
-  assert.match(
-    landing,
-    /\{ id: "ako-to-funguje", index: "03", label: "Ako to funguje" \}/,
-  );
+  assert.match(landing, /\{ id: "ako-to-funguje", index: "03", label: "Ako to funguje" \}/);
   assert.match(landing, /className="kage-flow-story__sr-title"/);
   assert.doesNotMatch(landing, /<b>03<\/b> AKO TO FUNGUJE/);
 });
