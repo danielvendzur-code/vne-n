@@ -148,7 +148,7 @@ function LegalInformationPage() {
             <p>
               Informácie o spracúvaní osobných údajov sú na stránke{" "}
               <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>. Používanie analytiky a
-              možnosti súhlasu nájdete na stránke <Link to="/cookies">Cookies a analytika</Link>.
+              možnosti súhlasu nájdete na stránke <Link to="/cookies">Súbory cookie a analytika</Link>.
             </p>
           </Reveal>
         </div>
