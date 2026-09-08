@@ -147,7 +147,7 @@ export function Nav() {
               aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
               onClick={() => setOpen((value) => !value)}
             >
-              MENU
+              PONUKA
             </button>
           </div>
         </div>
