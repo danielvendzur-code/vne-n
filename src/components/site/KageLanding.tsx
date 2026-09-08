@@ -149,7 +149,7 @@ const tools = [
     name: "Produktový poradca",
     statement: "Pomôže vybrať správny produkt.",
     copy: "Keď má e-shop veľa podobných produktov a zákazník nevie, ktorý je preňho vhodný.",
-    preset: "product" as const,
+    preset: "advisor" as const,
     cta: "Vyskladať poradcu",
   },
 ];
