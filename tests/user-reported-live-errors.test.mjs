@@ -3,6 +3,10 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const route = readFileSync(new URL("../src/routes/index.tsx", import.meta.url), "utf8");
+const homeAuthority = readFileSync(
+  new URL("../src/components/site/HomepageVisualAuthority.css", import.meta.url),
+  "utf8",
+);
 const finalFix = readFileSync(
   new URL("../src/components/site/FinalHomepageUserFix.css", import.meta.url),
   "utf8",
@@ -17,11 +21,12 @@ const landing = readFileSync(
 );
 const loader = readFileSync(new URL("../public/widget-loader.js", import.meta.url), "utf8");
 
-test("reported-error authority loads after the older homepage audit", () => {
-  const auditImport = route.indexOf('import "@/components/site/FinalHomepageAudit.css"');
-  const fixImport = route.indexOf('import "@/components/site/FinalHomepageUserFix.css"');
-  assert.ok(auditImport >= 0);
-  assert.ok(fixImport > auditImport);
+test("reported-error rules retain their order inside the consolidated homepage authority", () => {
+  assert.match(route, /HomepageVisualAuthority\.css/);
+  const auditMarker = homeAuthority.indexOf("consolidated from FinalHomepageAudit.css");
+  const fixMarker = homeAuthority.indexOf("consolidated from FinalHomepageUserFix.css");
+  assert.ok(auditMarker >= 0);
+  assert.ok(fixMarker > auditMarker);
 });
 
 test("solution geometry cannot regress to the overlapping audit columns", () => {
@@ -33,7 +38,7 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
 
 test("the flow section intentionally consumes page height without scroll hijacking", () => {
   const rework = readFileSync(
-    new URL("../src/components/site/HomepageReworkSep07.css", import.meta.url),
+    new URL("../src/components/site/HomepageVisualAuthority.css", import.meta.url),
     "utf8",
   );
 

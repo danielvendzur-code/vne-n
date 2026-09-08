@@ -109,10 +109,27 @@ if (
 }
 
 const layout = await read("src/components/site/Layout.tsx");
-for (const token of ['import "./Rebrand.css"', 'import "./RebrandPages.css"']) {
-  if (!layout.includes(token)) fail(`Layout is missing ${token}`);
+if (!layout.includes('import "./SiteVisualAuthority.css"')) {
+  fail('Layout is missing import "./SiteVisualAuthority.css"');
+}
+const activeSiteCssImports = layout.match(/import "\.\/[^"]+\.css";/g) ?? [];
+if (
+  activeSiteCssImports.length !== 1 ||
+  activeSiteCssImports[0] !== 'import "./SiteVisualAuthority.css";'
+) {
+  fail("Layout must load exactly one site visual stylesheet");
 }
 const legacyLayers = [
+  "Rebrand.css",
+  "RebrandPages.css",
+  "SubpagePolish.css",
+  "RequestedAugustPolish.css",
+  "FinalMobileAudit.css",
+  "FinalUxAuthority.css",
+  "UserFollowupSep01.css",
+  "LaunchReadinessFinal.css",
+  "UnifiedInteractionSep07.css",
+  "ReadabilitySep08.css",
   "CompetitionWinnerFinal.css",
   "TasteSystemFinal.css",
   "ApprovedInteractionsFinal.css",
@@ -143,7 +160,13 @@ for (const runtimePatch of [
   }
 }
 
-const brandCss = await read("src/components/site/Rebrand.css");
+const siteVisualCss = await read("src/components/site/SiteVisualAuthority.css");
+const baseBrandStart = siteVisualCss.indexOf("consolidated from Rebrand.css");
+const baseBrandEnd = siteVisualCss.indexOf("consolidated from RebrandPages.css");
+if (baseBrandStart < 0 || baseBrandEnd <= baseBrandStart) {
+  fail("Consolidated site authority is missing the base brand sections");
+}
+const brandCss = siteVisualCss.slice(baseBrandStart, baseBrandEnd);
 for (const token of [
   "--paper: #f2f0e8",
   "--pure: #fcfbf7",
@@ -224,6 +247,16 @@ for (const token of ["POST", "consent", "website", "RESEND_API_KEY"]) {
 }
 
 const homeRoute = await read("src/routes/index.tsx");
+if (!homeRoute.includes('import "@/components/site/HomepageVisualAuthority.css"')) {
+  fail("Homepage route is missing its consolidated visual authority");
+}
+const activeHomeCssImports = homeRoute.match(/import "@\/components\/site\/[^"]+\.css";/g) ?? [];
+if (
+  activeHomeCssImports.length !== 1 ||
+  activeHomeCssImports[0] !== 'import "@/components/site/HomepageVisualAuthority.css";'
+) {
+  fail("Homepage route must load exactly one homepage visual stylesheet");
+}
 if (/hasOfferCatalog|price\s*:\s*["'](?:497|500)["']/.test(homeRoute)) {
   fail("Homepage structured data contains a hard-coded commercial offer");
 }

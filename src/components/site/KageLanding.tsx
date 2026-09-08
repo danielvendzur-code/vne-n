@@ -4,8 +4,6 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { openSiteAssistant } from "@/lib/site-assistant";
-import "./AwardHome.css";
-import "./KageLanding.css";
 
 type FlowMode = "chatbot" | "calculator" | "configurator";
 
@@ -164,7 +162,7 @@ const process = [
   [
     "03",
     "Riešenie vytvoríme a otestujeme",
-    "Pripravíme dizajn, logiku aj napojenia a otestujeme desktop aj mobil.",
+    "Pripravíme dizajn, logiku aj napojenia a otestujeme počítač aj mobil.",
   ],
   [
     "04",
@@ -179,7 +177,7 @@ const featuredProjects = [
     name: "Koverta",
     domain: "koverta.sk",
     href: "https://koverta.sk/",
-    type: "E-commerce · dopytový asistent",
+    type: "E-shop · dopytový asistent",
     result: "Asistent zistí typ produktu, rozmery a použitie ešte pred odoslaním dopytu.",
     siteImage: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,
     alt: "Domovská stránka Koverta s modernou pergolou",
@@ -199,7 +197,7 @@ const featuredProjects = [
     name: "Môj Plot",
     domain: "mojplot.sk",
     href: "https://mojplot.sk/",
-    type: "E-commerce · produktová kalkulačka",
+    type: "E-shop · produktová kalkulačka",
     result: "Zákazník si vyberie typ oplotenia a pokračuje priamo k výpočtu alebo kontaktu.",
     siteImage: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
     alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",
@@ -511,8 +509,8 @@ function FlowStory() {
           <div className="kage-flow-story__header-copy">
             <h2 id="kage-flow-story-title">Ako sa návštevník dostane k výsledku.</h2>
             <p>
-              Chatbot, kalkulačka aj konfigurátor majú vlastný postup. Scrollom uvidíte, čo zákazník
-              robí, čo mu web ukáže a kam ho posunie ďalej.
+              Chatbot, kalkulačka aj konfigurátor majú vlastný postup. Posúvaním stránky uvidíte, čo
+              zákazník robí, čo mu web ukáže a kam ho posunie ďalej.
             </p>
           </div>
           <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
@@ -568,7 +566,7 @@ function FlowStory() {
         </div>
 
         <div className="container-page kage-flow-story__footer">
-          <p>Scrollom prejdete celý postup. Rovnaký systém vieme pripraviť pre váš web.</p>
+          <p>Posúvaním stránky prejdete celý postup. Rovnaký systém vieme pripraviť pre váš web.</p>
           <button
             type="button"
             className="kage-flow-story__cta site-cta site-cta--primary"

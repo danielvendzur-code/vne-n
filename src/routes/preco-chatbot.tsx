@@ -49,7 +49,7 @@ function WhyPage() {
     <div className="sp-page">
       <header className="sp-hero">
         <div className="container-page">
-          <p className="section-kicker">WHY IT WORKS</p>
+          <p className="section-kicker">PREČO TO FUNGUJE</p>
           <h1>
             Menej slepých miest medzi otázkou a <em>ďalším krokom.</em>
           </h1>
@@ -77,7 +77,7 @@ function WhyPage() {
       <section className="pricing-bridge">
         <div className="container-page pricing-bridge__grid">
           <div>
-            <p className="section-kicker">FIT</p>
+            <p className="section-kicker">PRE KOHO TO JE</p>
             <h2 className="section-title">
               Má to zmysel <em>u vás?</em>
             </h2>

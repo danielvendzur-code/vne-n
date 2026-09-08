@@ -1,18 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { KageLanding } from "@/components/site/KageLanding";
-import "@/components/site/UserExperiencePolish.css";
-import "@/components/site/UserExperiencePolishFinal.css";
-import "@/components/site/ResponsiveMediaHeaderFinal.css";
-import "@/components/site/HeaderCascadeGuard.css";
-import "@/components/site/MobileSmoothnessMediaFinal.css";
-import "@/components/site/RequestedAugustHome.css";
-import "@/components/site/RequestedAugustDelta.css";
-import "@/components/site/FinalHomepageAudit.css";
-import "@/components/site/FinalHomepageUserFix.css";
-import "@/components/site/FinalHomepageMotionRepair.css";
-import "@/components/site/UserReportedVisualFinal.css";
-import "@/components/site/HomepageReworkSep07.css";
-import "@/components/site/HomepageOrientationSep07.css";
+import "@/components/site/HomepageVisualAuthority.css";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -56,7 +44,7 @@ const serviceJsonLd = JSON.stringify({
     "produktový konfigurátor",
     "produktový poradca",
     "kvalifikácia dopytov",
-    "guided selling",
+    "asistovaný výber produktov",
   ],
 });
 

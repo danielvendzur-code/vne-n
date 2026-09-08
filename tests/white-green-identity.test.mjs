@@ -96,15 +96,16 @@ test("homepage art direction explicitly handles reduced motion and mobile compos
 
 test("homepage repair keeps scroll-driven stages sequential and hero lines geometrically even", async () => {
   const route = await read("src/routes/index.tsx");
-  const repair = await read("src/components/site/FinalHomepageMotionRepair.css");
-  const flowCss = await read("src/components/site/HomepageReworkSep07.css");
+  const repair = await read("src/components/site/HomepageVisualAuthority.css");
+  const flowCss = repair;
 
-  const userFixImport = route.indexOf('import "@/components/site/FinalHomepageUserFix.css"');
-  const repairImport = route.indexOf('import "@/components/site/FinalHomepageMotionRepair.css"');
-  const reworkImport = route.indexOf('import "@/components/site/HomepageReworkSep07.css"');
-  assert.ok(userFixImport >= 0);
-  assert.ok(repairImport > userFixImport);
-  assert.ok(reworkImport > repairImport);
+  assert.match(route, /HomepageVisualAuthority\.css/);
+  const userFixMarker = repair.indexOf("consolidated from FinalHomepageUserFix.css");
+  const repairMarker = repair.indexOf("consolidated from FinalHomepageMotionRepair.css");
+  const reworkMarker = repair.indexOf("consolidated from HomepageReworkSep07.css");
+  assert.ok(userFixMarker >= 0);
+  assert.ok(repairMarker > userFixMarker);
+  assert.ok(reworkMarker > repairMarker);
 
   assert.match(flowCss, /\.kage-home \.kage-flow-story__steps/);
   assert.match(flowCss, /\.kage-home \.kage-flow__step/);

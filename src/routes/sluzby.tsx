@@ -59,8 +59,9 @@ const tools: Array<{
     name: "Produktový poradca",
     copy: "Pomôže zúžiť ponuku podľa použitia, preferencií, parametrov alebo rozpočtu.",
     customer: "Rýchlejšie sa dostane k produktu alebo variantu, ktorý mu dáva zmysel.",
-    business: "Získava guided-selling vrstvu bez toho, aby zákazník musel poznať celý katalóg.",
-    preset: "product",
+    business:
+      "Získava vrstvu asistovaného výberu bez toho, aby zákazník musel poznať celý katalóg.",
+    preset: "advisor",
   },
 ];
 
@@ -69,7 +70,7 @@ function ServicesPage() {
     <div className="sp-page">
       <header className="sp-hero">
         <div className="container-page">
-          <p className="section-kicker">WHAT WE BUILD</p>
+          <p className="section-kicker">ČO TVORÍME</p>
           <h1>
             Nástroje, ktoré posunú zákazníka <em>k výsledku.</em>
           </h1>
@@ -120,7 +121,7 @@ function ServicesPage() {
       <section className="sp-section">
         <div className="container-page audience__grid">
           <div className="audience__copy">
-            <p className="section-kicker">WHERE IT WORKS / SERVICES</p>
+            <p className="section-kicker">KDE TO FUNGUJE / SLUŽBY</p>
             <h2 className="section-title">
               Pre firmy <em>so službami.</em>
             </h2>
@@ -136,7 +137,7 @@ function ServicesPage() {
             </ul>
           </div>
           <div className="audience__copy">
-            <p className="section-kicker">WHERE IT WORKS / E-COMMERCE</p>
+            <p className="section-kicker">KDE TO FUNGUJE / E-SHOPY</p>
             <h2 className="section-title">
               Pre <em>e-shopy.</em>
             </h2>
@@ -148,7 +149,7 @@ function ServicesPage() {
               <li>produktový poradca</li>
               <li>výber variantu</li>
               <li>produktové otázky</li>
-              <li>guided selling pred nákupom</li>
+              <li>asistovaný výber pred nákupom</li>
             </ul>
           </div>
         </div>
@@ -157,7 +158,7 @@ function ServicesPage() {
       <section className="pricing-bridge">
         <div className="container-page pricing-bridge__grid">
           <div>
-            <p className="section-kicker">NEXT STEP</p>
+            <p className="section-kicker">ĎALŠÍ KROK</p>
             <h2 className="section-title">
               Neviete, čo sa hodí <em>práve vám?</em>
             </h2>

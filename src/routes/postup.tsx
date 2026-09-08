@@ -46,7 +46,7 @@ const processJsonLd = JSON.stringify({
 export const Route = createFileRoute("/postup")({
   head: () => ({
     ...seo({
-      title: "Ako to funguje — od briefu po živý web",
+      title: "Ako to funguje — od zadania po živý web",
       description:
         "Štyri konkrétne kroky od pochopenia procesu cez návrh a vývoj až po nasadenie chatbota, kalkulačky alebo konfigurátora.",
       path: "/postup",
@@ -67,9 +67,9 @@ function ProcessPage() {
     <div className="sp-page process-page--rebrand">
       <header className="sp-hero">
         <div className="container-page">
-          <p className="section-kicker">PROCESS</p>
+          <p className="section-kicker">POSTUP</p>
           <h1>
-            Od prvého briefu <em>po živý web.</em>
+            Od prvého zadania <em>po živý web.</em>
           </h1>
           <p className="sp-hero-lead">
             Každý krok má konkrétny výstup. Klient vie, čo sa práve rozhoduje, čo dostane a kedy má
@@ -81,7 +81,7 @@ function ProcessPage() {
       <section className="sp-section">
         <div className="container-page process-page-grid">
           <aside className="process-page-intro">
-            <p className="section-kicker">QUESTION → OUTCOME</p>
+            <p className="section-kicker">OTÁZKA → VÝSLEDOK</p>
             <p>
               Technológia je až druhá. Najprv musí byť jasné, čo má byť výsledkom pre zákazníka a
               pre firmu.
@@ -107,7 +107,7 @@ function ProcessPage() {
       <section className="pricing-bridge">
         <div className="container-page pricing-bridge__grid">
           <div>
-            <p className="section-kicker">START</p>
+            <p className="section-kicker">ZAČIATOK</p>
             <h2 className="section-title">
               Začnime tým, čo dnes <em>riešite ručne.</em>
             </h2>

@@ -57,7 +57,7 @@ export function Footer() {
         <span className="premium-footer-privacy">
           <Link to="/pravne-informacie">Právne informácie</Link>
           <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
-          <Link to="/cookies">Cookies</Link>
+          <Link to="/cookies">Súbory cookie</Link>
         </span>
       </div>
     </footer>

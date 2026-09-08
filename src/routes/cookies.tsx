@@ -13,15 +13,15 @@ const googleAnalyticsEnabled = /^G-[A-Z0-9]+$/i.test(
 export const Route = createFileRoute("/cookies")({
   head: () => ({
     ...seo({
-      title: "Cookies a meranie návštevnosti — Môj Chatbot",
+      title: "Súbory cookie a meranie návštevnosti — Môj Chatbot",
       description:
-        "Prehľad technológií používaných na meranie návštevnosti: cookie-free Vercel Analytics a voliteľný Google Analytics iba po súhlase.",
+        "Prehľad technológií používaných na meranie návštevnosti: Vercel Analytics bez súborov cookie a voliteľný Google Analytics iba po súhlase.",
       path: "/cookies",
     }),
     scripts: [
       {
         type: "application/ld+json",
-        children: breadcrumbJsonLd([{ name: "Cookies a analytika", path: "/cookies" }]),
+        children: breadcrumbJsonLd([{ name: "Súbory cookie a analytika", path: "/cookies" }]),
       },
     ],
   }),
@@ -38,7 +38,7 @@ function CookiesPage() {
             Meranie návštevnosti <em>pod vašou kontrolou.</em>
           </>
         }
-        lead="Vercel Web Analytics používame bez analytických cookies. Google Analytics sa spustí iba vtedy, keď je na webe nakonfigurovaný a návštevník ho výslovne povolí."
+        lead="Vercel Web Analytics používame bez analytických súborov cookie. Google Analytics sa spustí iba vtedy, keď je na webe nakonfigurovaný a návštevník ho výslovne povolí."
       />
 
       <section className="cookies-section">
@@ -47,12 +47,12 @@ function CookiesPage() {
             <span className="cookies-card__icon" aria-hidden="true">
               <Cookie />
             </span>
-            <p className="cookies-card__kicker">01 / Cookies</p>
-            <h2>Žiadne sledovacie cookies bez vášho súhlasu.</h2>
+            <p className="cookies-card__kicker">01 / SÚBORY COOKIE</p>
+            <h2>Žiadne sledovacie súbory cookie bez vášho súhlasu.</h2>
             <p>
-              Základné meranie cez Vercel Analytics funguje bez analytických cookies. Google
+              Základné meranie cez Vercel Analytics funguje bez analytických súborov cookie. Google
               Analytics sa načíta až po voľbe „Povoliť analytiku“ a pri jeho používaní môžu byť
-              uložené analytické cookies podľa nastavenia služby Google.
+              uložené analytické súbory cookie podľa nastavenia služby Google.
             </p>
             <p>
               Funkčné lokálne úložisko používame aj na zapamätanie vašej voľby analytiky. AI
@@ -67,7 +67,7 @@ function CookiesPage() {
               <BarChart3 />
             </span>
             <p className="cookies-card__kicker">02 / Vercel Analytics</p>
-            <h2>Cookie-free súhrnné meranie</h2>
+            <h2>Súhrnné meranie bez súborov cookie</h2>
             <p>
               Zobrazujú sa súhrnné počty návštev, otvorené stránky, zdroje návštevnosti, krajina,
               typ zariadenia a prehliadač. Údaje používame na zlepšovanie obsahu, použiteľnosti a
@@ -75,7 +75,7 @@ function CookiesPage() {
             </p>
             <div className="cookies-status">
               <span>Režim merania</span>
-              <b>Bez analytických cookies</b>
+              <b>Bez analytických súborov cookie</b>
               <p>Obsah formulára ani chatbota sa do analytiky neposiela.</p>
             </div>
           </Reveal>
@@ -111,11 +111,12 @@ function CookiesPage() {
               <ShieldCheck />
             </span>
             <p className="cookies-card__kicker">04 / Právny základ</p>
-            <h2>Rozlišujeme cookie-free meranie a súhlas.</h2>
+            <h2>Rozlišujeme meranie bez súborov cookie a meranie so súhlasom.</h2>
             <p>
-              Cookie-free Vercel Analytics používame bez ukladania analytických cookies. Google
-              Analytics a iné voliteľné ukladanie alebo čítanie údajov zo zariadenia na analytický
-              účel používame iba po súhlase návštevníka; bez súhlasu sa jeho skript nenačíta.
+              Vercel Analytics bez súborov cookie používame bez ukladania analytických súborov
+              cookie. Google Analytics a iné voliteľné ukladanie alebo čítanie údajov zo zariadenia
+              na analytický účel používame iba po súhlase návštevníka; bez súhlasu sa jeho skript
+              nenačíta.
             </p>
           </Reveal>
         </div>

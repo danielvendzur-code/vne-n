@@ -7,9 +7,10 @@ const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 test("homepage uses ordinary vertical scroll to drive the four-step story", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/KageLanding.tsx");
-  const rework = await read("src/components/site/HomepageReworkSep07.css");
+  const rework = await read("src/components/site/HomepageVisualAuthority.css");
 
-  assert.match(route, /HomepageReworkSep07\.css/);
+  assert.match(route, /HomepageVisualAuthority\.css/);
+  assert.doesNotMatch(route, /HomepageReworkSep07\.css/);
   assert.match(landing, /id="ako-to-funguje"/);
   assert.match(landing, /className="kage-flow-story"/);
   for (const index of ["01", "02", "03", "04"]) {
@@ -26,7 +27,7 @@ test("homepage uses ordinary vertical scroll to drive the four-step story", asyn
 });
 
 test("reported heading has safe Slovak-diacritic leading", async () => {
-  const css = await read("src/components/site/UserReportedVisualFinal.css");
+  const css = await read("src/components/site/HomepageVisualAuthority.css");
 
   assert.match(css, /\.outcome-comparison__intro h2[\s\S]*line-height: 1\.08 !important/);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*line-height: 1\.1 !important/);
