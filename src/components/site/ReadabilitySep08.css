@@ -1,0 +1,456 @@
+/* Readability and visual hierarchy authority — September 8.
+   The previous editorial pass leaned too heavily on hairlines, tiny mono labels
+   and low-contrast helper text. This layer keeps the brand but makes every
+   section easier to scan and read. */
+
+/* ------------------------------------------------------------------
+   Global small-label system
+   ------------------------------------------------------------------ */
+
+.site-theme-white-green :is(
+  .section-index,
+  .section-kicker,
+  .sp-service-index,
+  .hybrid-manifesto > span,
+  .hybrid-work__intro > span,
+  .hybrid-tools__intro > span,
+  .hybrid-process__intro > span,
+  .hybrid-price__top > span
+) {
+  width: fit-content;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.68rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d !important;
+  font: 720 0.74rem/1 var(--font-sans) !important;
+  letter-spacing: 0.025em !important;
+  text-transform: uppercase;
+}
+
+.site-theme-white-green .section-index b {
+  color: #12372d;
+  font-weight: 780;
+}
+
+.site-theme-white-green :is(
+  .hybrid-tools__intro p,
+  .hybrid-work__intro > p,
+  .outcome-comparison__intro > p,
+  .hybrid-process__list p,
+  .sp-hero-lead,
+  .sp-service-head > p
+) {
+  color: #46544c !important;
+  font-size: clamp(1rem, 1.05vw, 1.08rem);
+  line-height: 1.62;
+}
+
+.site-theme-white-green :is(
+  .text-link,
+  .pricing-inline-link
+) {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------
+   Homepage solutions — replace barely-visible row hairlines with real cards.
+   ------------------------------------------------------------------ */
+
+.kage-home .hybrid-tools {
+  padding-bottom: clamp(5rem, 7vw, 7rem);
+}
+
+.kage-home .hybrid-tools__rows {
+  display: grid;
+  gap: 0.85rem;
+  border-top: 0 !important;
+}
+
+.kage-home .hybrid-tool {
+  border-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.kage-home .hybrid-tool__inner {
+  min-height: 154px;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid rgba(18, 55, 45, 0.16);
+  border-radius: 1.25rem;
+  background: #f8f7f1;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.kage-home .hybrid-tool span:not(.hybrid-tool__cta) {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.55rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.09);
+  color: #315d4d !important;
+  font: 740 0.72rem/1 var(--font-sans) !important;
+}
+
+.kage-home .hybrid-tool strong {
+  color: #12372d;
+}
+
+.kage-home .hybrid-tool b {
+  color: #1f3029;
+  font-size: clamp(1.02rem, 1.35vw, 1.28rem);
+}
+
+.kage-home .hybrid-tool p {
+  display: block !important;
+  color: #4a5750 !important;
+  font-size: 0.96rem;
+  line-height: 1.56;
+}
+
+.kage-home .hybrid-tool__cta.site-cta {
+  align-self: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .hybrid-tool:hover .hybrid-tool__inner {
+    border-color: rgba(18, 55, 45, 0.38);
+    background: #fcfbf7;
+  }
+
+  .kage-home .hybrid-tool:hover {
+    color: inherit !important;
+  }
+
+  .kage-home .hybrid-tool:hover :is(strong, b) {
+    color: #12372d !important;
+  }
+
+  .kage-home .hybrid-tool:hover p {
+    color: #4a5750 !important;
+  }
+
+  .kage-home .hybrid-tool:hover span:not(.hybrid-tool__cta) {
+    color: #315d4d !important;
+  }
+}
+
+.kage-home .solution-combination-note {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.28fr) minmax(0, 0.9fr) minmax(18rem, 0.62fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+  margin-top: 1rem;
+  padding-top: clamp(2rem, 3.2vw, 3rem);
+}
+
+.kage-home .solution-combination-note > span {
+  width: fit-content;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.68rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font: 720 0.74rem/1 var(--font-sans);
+  letter-spacing: 0.025em;
+}
+
+.kage-home .solution-combination-note h3 {
+  max-width: 13ch;
+  margin: 0 0 0.8rem;
+  color: #12372d;
+  font-size: clamp(2.3rem, 3.7vw, 4rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.kage-home .solution-combination-note p {
+  max-width: 38rem;
+  margin: 0;
+  color: #46544c;
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+.kage-home .solution-combination-note ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kage-home .solution-combination-note li {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(18, 55, 45, 0.15);
+  border-radius: 0.95rem;
+  background: #f8f7f1;
+  color: #12372d;
+  font-weight: 690;
+}
+
+/* ------------------------------------------------------------------
+   Realisations — labels and descriptions no longer whisper.
+   ------------------------------------------------------------------ */
+
+.kage-home .hybrid-project__domain,
+.kage-home .hybrid-project__open {
+  padding: 0.5rem 0.65rem;
+  border-radius: 999px;
+  font: 700 0.68rem/1 var(--font-sans);
+  letter-spacing: 0.015em;
+}
+
+.kage-home .hybrid-project__meta {
+  grid-template-columns: 2.6rem minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding-top: 1.15rem;
+}
+
+.kage-home .hybrid-project__meta > span {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font: 740 0.7rem/1 var(--font-sans);
+}
+
+.kage-home .hybrid-project__meta div p,
+.kage-home .hybrid-project__meta > p {
+  color: #4b5851 !important;
+  font-size: 0.94rem;
+  line-height: 1.52;
+}
+
+/* ------------------------------------------------------------------
+   Manifesto and result blocks
+   ------------------------------------------------------------------ */
+
+.kage-home .kage-manifesto {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(200, 240, 106, 0.18), transparent 24rem),
+    #f2f0e8;
+}
+
+.kage-home .outcome-comparison__intro > p {
+  font-size: 1.03rem;
+}
+
+.kage-home .outcome-comparison__group {
+  border: 1px solid rgba(18, 55, 45, 0.17);
+  border-radius: 1.25rem;
+  background: #f8f7f1;
+}
+
+.kage-home .outcome-comparison__group > span {
+  min-height: 30px;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font-size: 0.72rem;
+  font-weight: 720;
+}
+
+.kage-home .outcome-comparison__group li {
+  border-bottom-color: rgba(18, 55, 45, 0.17);
+}
+
+.kage-home .outcome-comparison__group li :is(p, strong) {
+  font-size: 0.94rem;
+  line-height: 1.48;
+}
+
+.kage-home .outcome-comparison__group li small {
+  color: #53635a;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------
+   Process — clear cards instead of a stack of faint separator lines.
+   ------------------------------------------------------------------ */
+
+.kage-home .hybrid-process__list {
+  display: grid;
+  gap: 0.85rem;
+  border-top: 0 !important;
+}
+
+.kage-home .hybrid-process__list li {
+  min-height: 142px;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgba(18, 55, 45, 0.16) !important;
+  border-radius: 1.2rem;
+  background: #fbfaf5;
+}
+
+.kage-home .hybrid-process__list li:hover {
+  background: #fbfaf5;
+}
+
+.kage-home .hybrid-process__list span {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.09);
+  color: #315d4d;
+  font: 740 0.72rem/1 var(--font-sans);
+}
+
+.kage-home .hybrid-process__list p {
+  color: #48564e !important;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------
+   Dark chapters still need readable labels, not grey-on-green.
+   ------------------------------------------------------------------ */
+
+.kage-home [data-nav-tone="dark"] .section-index {
+  background: rgba(200, 240, 106, 0.12);
+  color: #e6edE8 !important;
+}
+
+.kage-home [data-nav-tone="dark"] .section-index b {
+  color: #c8f06a;
+}
+
+.kage-home .kage-flow__copy > span,
+.kage-home .kage-flow__artifact > span {
+  font: 700 0.72rem/1.2 var(--font-sans);
+  letter-spacing: 0.025em;
+}
+
+.kage-home .kage-flow__copy p {
+  color: #d9e1db;
+}
+
+.kage-home .kage-flow-story__footer p {
+  color: #d2dbd4;
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------------------------
+   Subpages — stronger readable hierarchy across service/process/contact.
+   ------------------------------------------------------------------ */
+
+.sp-page :is(.sp-service-row, .process-list li, .contact-editorial-aside li) {
+  border-color: rgba(18, 55, 45, 0.18);
+}
+
+.sp-page :is(.sp-service-row p, .process-list p, .contact-editorial-aside ol) {
+  color: #48564e;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.sp-page .sp-service-index,
+.sp-page .sp-service-row > span {
+  color: #315d4d;
+  font: 700 0.76rem/1.2 var(--font-sans);
+}
+
+@media (max-width: 1180px) {
+  .kage-home .hybrid-tool__inner {
+    grid-template-columns: 0.08fr 0.46fr minmax(0, 1fr) auto;
+  }
+
+  .kage-home .hybrid-tool p {
+    grid-column: 3;
+  }
+
+  .kage-home .solution-combination-note {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kage-home .solution-combination-note > span {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-theme-white-green :is(.section-index, .section-kicker) {
+    min-height: 30px;
+    font-size: 0.7rem !important;
+  }
+
+  .kage-home .hybrid-tool__inner {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .kage-home .hybrid-tool strong,
+  .kage-home .hybrid-tool b,
+  .kage-home .hybrid-tool p,
+  .kage-home .hybrid-tool__cta {
+    grid-column: 2;
+  }
+
+  .kage-home .hybrid-tool strong {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .kage-home .hybrid-tool__cta.site-cta {
+    margin-top: 0.3rem;
+  }
+
+  .kage-home .solution-combination-note {
+    grid-template-columns: 1fr;
+  }
+
+  .kage-home .solution-combination-note > span {
+    grid-column: 1;
+  }
+
+  .kage-home .solution-combination-note h3 {
+    font-size: clamp(2.4rem, 11vw, 3.5rem);
+  }
+
+  .kage-home .hybrid-project__meta {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .kage-home .hybrid-project__meta > p {
+    grid-column: 2;
+  }
+
+  .kage-home .hybrid-process__list li {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.8rem 1rem;
+    padding: 1rem;
+  }
+
+  .kage-home .hybrid-process__list strong,
+  .kage-home .hybrid-process__list p {
+    grid-column: 2;
+  }
+}
