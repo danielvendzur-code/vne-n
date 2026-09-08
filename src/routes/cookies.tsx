@@ -113,9 +113,10 @@ function CookiesPage() {
             <p className="cookies-card__kicker">04 / Právny základ</p>
             <h2>Rozlišujeme meranie bez súborov cookie a meranie so súhlasom.</h2>
             <p>
-              Vercel Analytics bez súborov cookie používame bez ukladania analytických súborov cookie. Google
-              Analytics a iné voliteľné ukladanie alebo čítanie údajov zo zariadenia na analytický
-              účel používame iba po súhlase návštevníka; bez súhlasu sa jeho skript nenačíta.
+              Vercel Analytics bez súborov cookie používame bez ukladania analytických súborov
+              cookie. Google Analytics a iné voliteľné ukladanie alebo čítanie údajov zo zariadenia
+              na analytický účel používame iba po súhlase návštevníka; bez súhlasu sa jeho skript
+              nenačíta.
             </p>
           </Reveal>
         </div>
