@@ -272,7 +272,8 @@ function PrivacyPage() {
             <p className="cookies-note">
               Žiadosť pošlite na <a href={`mailto:${contact.email}`}>{contact.email}</a>. Odpovieme
               bez zbytočného odkladu, spravidla najneskôr do jedného mesiaca. Podrobnosti o meraní a
-              nastavení súhlasu nájdete na stránke <Link to="/cookies">Súbory cookie a analytika</Link>.
+              nastavení súhlasu nájdete na stránke{" "}
+              <Link to="/cookies">Súbory cookie a analytika</Link>.
             </p>
           </Reveal>
         </div>
