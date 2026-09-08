@@ -1,0 +1,2293 @@
+/* Single active site-level visual authority.
+   Historical override files are consolidated here in their previous cascade order. */
+
+/* ===== consolidated from SubpagePolish.css ===== */
+/* Shared editorial polish for top-level subpages.
+   Keep one container gutter, reduce dead space and improve text contrast
+   without turning sparse pages into card-heavy layouts. */
+
+.sp-page > .sp-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.9rem, 4.7vw, 4.6rem) 0 clamp(3.2rem, 5.3vw, 5.1rem) !important;
+}
+
+.sp-page > .sp-hero::after {
+  content: "";
+  position: absolute;
+  right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  bottom: 0;
+  width: clamp(4.5rem, 8vw, 8rem);
+  height: 2px;
+  background: linear-gradient(90deg, var(--forest) 0 62%, #c8f06a 62% 100%);
+  opacity: 0.82;
+}
+
+.sp-page > .sp-hero .container-page,
+.contact-page > .sp-hero .container-page {
+  gap: clamp(0.85rem, 1.5vw, 1.25rem);
+}
+
+.sp-page > .sp-hero h1 {
+  margin: 0;
+  max-width: 10.4ch;
+  text-wrap: balance;
+}
+
+.sp-page > .sp-hero .section-kicker {
+  margin: 0 0 0.2rem;
+  color: #315d4d;
+}
+
+.sp-page .sp-hero-lead,
+.sp-page p {
+  color: #4f5a52;
+}
+
+.sp-page .sp-hero-lead {
+  max-width: 43rem;
+  font-size: clamp(1.02rem, 1.25vw, 1.18rem);
+  line-height: 1.58;
+}
+
+.sp-page > .sp-section {
+  padding: clamp(4.5rem, 7.3vw, 7rem) 0 !important;
+}
+
+/* Pricing hero uses the previously empty right side for immediate price anchors. */
+.pricing-page--rebrand > .pricing-hero {
+  padding-top: clamp(2.6rem, 4vw, 3.8rem) !important;
+  padding-bottom: clamp(3rem, 4.8vw, 4.5rem) !important;
+}
+
+.pricing-hero__layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.55fr) minmax(19rem, 0.58fr);
+  gap: clamp(3rem, 7vw, 7.5rem) !important;
+  align-items: end;
+}
+
+.pricing-hero__copy {
+  min-width: 0;
+}
+
+.pricing-page--rebrand .pricing-hero__copy h1 {
+  max-width: 9.4ch !important;
+  margin: 0 0 clamp(1.25rem, 2vw, 1.8rem) !important;
+  font-size: clamp(4.2rem, 6.8vw, 7.35rem) !important;
+  line-height: 0.89 !important;
+}
+
+.pricing-page--rebrand .pricing-hero__copy .sp-hero-lead {
+  max-width: 39rem;
+  margin: 0;
+  color: #46534b !important;
+}
+
+.pricing-hero__facts {
+  align-self: stretch;
+  display: grid;
+  align-content: end;
+  border-top: 1px solid rgba(18, 55, 45, 0.34);
+  border-bottom: 1px solid rgba(18, 55, 45, 0.34);
+}
+
+.pricing-hero__fact {
+  min-height: 5.15rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(18, 55, 45, 0.16);
+}
+
+.pricing-hero__fact:last-child {
+  border-bottom: 0;
+}
+
+.pricing-hero__fact span {
+  color: #546159;
+  font: 600 0.66rem/1.25 var(--font-mono);
+  letter-spacing: 0.055em;
+}
+
+.pricing-hero__fact strong {
+  color: var(--forest);
+  font-size: clamp(1.22rem, 1.65vw, 1.6rem);
+  font-weight: 680;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.pricing-page--rebrand .pricing-table__head {
+  color: #556058;
+}
+
+.pricing-page--rebrand .pricing-row > p,
+.pricing-page--rebrand .pricing-notes p:last-child,
+.pricing-page--rebrand .pricing-bridge__grid > div:last-child p {
+  color: #4e5951;
+}
+
+/* Sparse utility pages should feel deliberately composed, not vertically padded. */
+.thank-you-page__inner {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+}
+
+.thank-you-page__copy,
+.legal-page p,
+.cookies-page p,
+.privacy-page p {
+  color: #4f5a52;
+}
+
+@media (max-width: 900px) {
+  .pricing-hero__layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem !important;
+  }
+
+  .pricing-hero__facts {
+    align-self: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .sp-page > .sp-hero {
+    padding: 2.35rem 0 3rem !important;
+  }
+
+  .sp-page > .sp-hero::after {
+    right: var(--gutter);
+    width: 4rem;
+  }
+
+  .pricing-page--rebrand .pricing-hero__copy h1 {
+    font-size: clamp(3.65rem, 17vw, 5.2rem) !important;
+  }
+
+  .pricing-hero__fact {
+    min-height: 4.6rem;
+  }
+}
+
+/* ===== consolidated from RequestedAugustPolish.css ===== */
+/* Final targeted refinements requested after the current production baseline. */
+
+.premium-footer-brand > p:first-of-type {
+  color: #12382d;
+}
+
+.premium-footer-brand .premium-footer-note {
+  color: #46554d;
+}
+
+.pricing-page--rebrand > .pricing-hero {
+  min-height: calc(100svh - 82px);
+  display: grid;
+  align-items: center;
+  background: #f1efe7;
+}
+
+.pricing-page--rebrand > .pricing-hero::after {
+  display: none;
+}
+
+.pricing-page--rebrand .pricing-hero__layout {
+  align-items: center;
+}
+
+.pricing-page--rebrand .pricing-hero__copy .sp-hero-lead {
+  color: #34473e !important;
+}
+
+.pricing-page--rebrand .pricing-hero__facts {
+  align-self: center;
+  padding-inline: clamp(1.2rem, 2.2vw, 2rem);
+  border: 0;
+  border-radius: 8px;
+  background: #12382d;
+}
+
+.pricing-page--rebrand .pricing-hero__fact {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.pricing-page--rebrand .pricing-hero__fact span {
+  color: rgba(246, 247, 240, 0.72);
+}
+
+.pricing-page--rebrand .pricing-hero__fact strong {
+  color: #c8f06a;
+}
+
+@media (max-width: 900px) {
+  .pricing-page--rebrand > .pricing-hero {
+    min-height: calc(100svh - 64px);
+    display: block;
+    background: #f1efe7;
+  }
+
+  .pricing-page--rebrand .pricing-hero__facts {
+    padding-inline: 1rem;
+    background: #12382d;
+  }
+}
+
+@media (max-width: 720px) {
+  .site-menu-layer[data-open="true"] .site-menu-head .site-brand-lockup,
+  .site-menu-layer[data-open="true"] .site-menu-head .site-brand-name,
+  .site-menu-layer[data-open="true"] .site-menu-head .brand-mark {
+    color: #12382d !important;
+  }
+
+  .site-menu-panel,
+  .site-menu-head,
+  .site-menu-nav,
+  .site-menu-nav a,
+  .site-menu-foot {
+    text-align: left;
+  }
+
+  .site-menu-nav {
+    width: 100%;
+    justify-items: stretch;
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+  .site-menu-nav a {
+    width: 100%;
+    justify-items: start;
+  }
+}
+
+/* ===== consolidated from FinalMobileAudit.css ===== */
+/* Final mobile/subpage audit. Loaded after the shared rebrand stack. */
+
+/* Light pages need a visible header boundary instead of disappearing into the page. */
+.site-header[data-tone="light"] .site-header__inner {
+  background: rgba(235, 241, 229, 0.97) !important;
+  border-bottom-color: rgba(18, 55, 45, 0.18) !important;
+  box-shadow: 0 14px 34px -32px rgba(18, 55, 45, 0.55);
+  -webkit-backdrop-filter: blur(12px) saturate(1.08);
+  backdrop-filter: blur(12px) saturate(1.08);
+}
+
+.site-header[data-tone="light"] .site-nav {
+  padding: 0.22rem 0.34rem;
+  border: 1px solid rgba(18, 55, 45, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.36);
+}
+
+.site-header[data-tone="light"] .site-nav a {
+  padding-inline: 0.48rem;
+  color: #173d32 !important;
+  border-radius: 999px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.site-header[data-tone="light"] .site-nav a:is(:hover, :focus-visible) {
+  background: rgba(200, 240, 106, 0.22);
+  color: #071b15 !important;
+}
+
+/* Začať projekt must be visible regardless of what section sits below the header. */
+.site-header .site-header__cta {
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #c8f06a !important;
+  border-radius: 9px;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+}
+
+.site-header .site-header__cta:is(:hover, :focus-visible) {
+  border-color: #020806 !important;
+  background: #020806 !important;
+  color: #c8f06a !important;
+}
+
+/* Subpages: small green cues so the pages feel branded, not clinical. */
+.sp-page > .sp-hero,
+.contact-page > .sp-hero {
+  background:
+    radial-gradient(circle at 82% 22%, rgba(200, 240, 106, 0.13), transparent 27rem),
+    linear-gradient(180deg, rgba(232, 239, 225, 0.56), rgba(242, 240, 232, 0.18));
+}
+
+.sp-page .section-kicker,
+.contact-page .section-kicker {
+  width: fit-content;
+  padding: 0.34rem 0.5rem;
+  border: 1px solid rgba(18, 55, 45, 0.13);
+  border-radius: 999px;
+  background: rgba(200, 240, 106, 0.12);
+  color: #315d4d !important;
+}
+
+.contact-page .contact-section {
+  background:
+    linear-gradient(90deg, rgba(200, 240, 106, 0.035), transparent 28%),
+    var(--paper);
+}
+
+.contact-page .contact-editorial-aside > div {
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(18, 55, 45, 0.11);
+  border-radius: 12px;
+  background: rgba(232, 239, 225, 0.52);
+}
+
+.contact-page .contact-editorial-aside > div:first-child a {
+  display: block;
+  width: fit-content;
+  margin-top: 0.55rem;
+  color: #12372d;
+}
+
+.contact-page .contact-form-wrap {
+  border-color: rgba(18, 55, 45, 0.18) !important;
+  background:
+    linear-gradient(180deg, rgba(200, 240, 106, 0.055), transparent 8rem),
+    rgba(255, 255, 255, 0.48) !important;
+  box-shadow: 0 24px 58px -52px rgba(18, 55, 45, 0.6);
+}
+
+.contact-page .contact-form :is(input, textarea, select):focus {
+  border-color: rgba(18, 55, 45, 0.48) !important;
+  background: #fbfcf7 !important;
+  box-shadow: 0 0 0 3px rgba(200, 240, 106, 0.14);
+}
+
+.pricing-page--rebrand .pricing-hero__fact,
+.pricing-page--rebrand .pricing-row {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pricing-page--rebrand .pricing-row:hover {
+    border-color: rgba(18, 55, 45, 0.24) !important;
+    background: rgba(232, 239, 225, 0.46) !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .site-header__inner.container-page {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 1rem !important;
+  }
+
+  .site-header__inner .site-brand-lockup {
+    grid-column: 1 !important;
+    min-width: 0;
+  }
+
+  .site-header__actions {
+    grid-column: 2 !important;
+    justify-self: end !important;
+    margin-left: auto !important;
+  }
+
+  .site-menu-toggle {
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    text-align: right !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header__inner.container-page {
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+  }
+
+  .site-header[data-tone="light"] .site-nav {
+    display: none !important;
+  }
+
+  /* Contact: one predictable mobile column with no off-canvas form geometry. */
+  .contact-page,
+  .contact-page .container-page,
+  .contact-page .contact-editorial-grid,
+  .contact-page .contact-editorial-aside,
+  .contact-page .contact-form-wrap,
+  .contact-page .contact-form,
+  .contact-page .contact-fields-two,
+  .contact-page .contact-field {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .contact-page > .sp-hero {
+    padding-top: 2.15rem !important;
+    padding-bottom: 2.7rem !important;
+  }
+
+  .contact-page .sp-hero h1 {
+    max-width: 9ch !important;
+    font-size: clamp(3.35rem, 16vw, 4.7rem) !important;
+    line-height: 0.9 !important;
+  }
+
+  .contact-page .contact-editorial-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 2rem !important;
+    width: 100% !important;
+  }
+
+  .contact-page .contact-editorial-aside {
+    position: static !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem 1rem !important;
+    margin: 0 !important;
+    padding: 0 0 1.35rem !important;
+    border-bottom: 1px solid rgba(18, 55, 45, 0.16);
+  }
+
+  .contact-page .contact-editorial-aside > div {
+    padding: 0.9rem !important;
+  }
+
+  .contact-page .contact-form-wrap {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1.25rem !important;
+    border: 1px solid rgba(18, 55, 45, 0.14);
+    border-radius: 12px;
+  }
+
+  .contact-page .contact-form {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    margin: 1.2rem 0 0 !important;
+  }
+
+  .contact-page .contact-fields-two {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  .contact-page :is(input, textarea, select, button) {
+    max-width: 100% !important;
+  }
+
+  .contact-page .contact-submit {
+    width: 100% !important;
+    min-height: 52px !important;
+    justify-content: center !important;
+  }
+
+  /* Pricing page: turn the compressed desktop table into calm mobile cards. */
+  .pricing-page--rebrand > .pricing-hero {
+    min-height: auto !important;
+    padding: 2.25rem 0 3rem !important;
+  }
+
+  .pricing-page--rebrand .pricing-hero__layout {
+    gap: 1.65rem !important;
+  }
+
+  .pricing-page--rebrand .pricing-hero__copy h1 {
+    max-width: 8.7ch !important;
+    margin-bottom: 1rem !important;
+    font-size: clamp(3.3rem, 15.5vw, 4.65rem) !important;
+  }
+
+  .pricing-page--rebrand .pricing-hero__facts {
+    overflow: hidden;
+    padding: 0 !important;
+    border: 1px solid rgba(18, 55, 45, 0.12) !important;
+    border-radius: 12px !important;
+  }
+
+  .pricing-page--rebrand .pricing-hero__fact {
+    min-height: 4.45rem !important;
+    padding: 0.85rem 1rem !important;
+  }
+
+  .pricing-page--rebrand > .sp-section {
+    padding: 3.3rem 0 !important;
+  }
+
+  .pricing-page--rebrand .pricing-table {
+    display: grid !important;
+    gap: 0.85rem !important;
+  }
+
+  .pricing-page--rebrand .pricing-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 0.85rem 1rem !important;
+    align-items: start !important;
+    margin: 0 !important;
+    padding: 1.25rem !important;
+    border: 1px solid rgba(18, 55, 45, 0.14) !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.34) !important;
+  }
+
+  .pricing-page--rebrand .pricing-row__name {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: 2rem minmax(0, 1fr) !important;
+    gap: 0.75rem !important;
+    align-items: start !important;
+  }
+
+  .pricing-page--rebrand .pricing-row__name h2 {
+    margin: 0 !important;
+    font-size: clamp(1.65rem, 7.2vw, 2.15rem) !important;
+    line-height: 1 !important;
+  }
+
+  .pricing-page--rebrand .pricing-row > strong {
+    font-size: 1rem !important;
+    white-space: nowrap;
+  }
+
+  .pricing-page--rebrand .pricing-row > p {
+    grid-column: 1 / -1 !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+  }
+
+  .pricing-page--rebrand .pricing-row > .text-link {
+    grid-column: 1 / -1 !important;
+    min-height: 44px;
+    margin-top: 0.15rem;
+  }
+
+  .pricing-page--rebrand .pricing-notes {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.8rem !important;
+  }
+
+  .pricing-page--rebrand .pricing-bridge {
+    padding-block: 3.5rem !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .contact-page .contact-editorial-aside {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-page .contact-form-wrap {
+    margin-inline: -0.15rem !important;
+    width: calc(100% + 0.3rem) !important;
+    padding: 1.05rem !important;
+  }
+}
+
+/* ===== consolidated from FinalUxAuthority.css ===== */
+/* Final visible UX authority — fixes issues confirmed in real desktop/mobile screenshots.
+   Keep this scoped to the public site and avoid layout-shifting hover tricks. */
+
+/* ---------------- Header / navigation ---------------- */
+@media (min-width: 981px) {
+  body .site-header__inner {
+    display: grid !important;
+    grid-template-columns: minmax(9.5rem, auto) minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    column-gap: clamp(1.5rem, 3vw, 3rem) !important;
+  }
+
+  body .site-nav {
+    position: static !important;
+    inset: auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    justify-self: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: clamp(1.55rem, 2.5vw, 2.7rem) !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  body .site-nav::before,
+  body .site-nav::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  body .site-nav a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.68rem 0 !important;
+    border-radius: 0 !important;
+    white-space: nowrap;
+  }
+}
+
+.site-brand-lockup {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ---------------- 01 / Riešenia ---------------- */
+.kage-home .hybrid-tool,
+.kage-home .hybrid-tool__inner,
+.kage-home .hybrid-tool strong,
+.kage-home .hybrid-tool b,
+.kage-home .hybrid-tool p,
+.kage-home .hybrid-tool__cta {
+  min-width: 0;
+}
+
+/* The longest unbroken title is "Konfigurátor". Its column and font size are
+   deliberately bounded so it cannot spill into the benefit column at common
+   laptop/desktop widths. */
+@media (min-width: 1100px) {
+  .kage-home .hybrid-tool__inner {
+    min-height: 162px !important;
+    grid-template-columns:
+      2rem
+      minmax(18.5rem, 1.05fr)
+      minmax(12rem, 0.72fr)
+      minmax(15.5rem, 0.9fr)
+      minmax(12rem, auto) !important;
+    gap: clamp(0.9rem, 1.25vw, 1.25rem) !important;
+    align-items: center !important;
+  }
+
+  .kage-home .hybrid-tool strong {
+    max-width: 100% !important;
+    font-size: clamp(2.55rem, 2.9vw, 3.25rem) !important;
+    line-height: 0.94 !important;
+    letter-spacing: -0.052em !important;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .kage-home .hybrid-tool b {
+    max-width: 13.75rem !important;
+    font-size: clamp(0.98rem, 1.05vw, 1.1rem);
+    line-height: 1.28;
+  }
+
+  .kage-home .hybrid-tool p {
+    max-width: 20rem !important;
+    font-size: 0.94rem;
+    line-height: 1.5;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1099px) {
+  .kage-home .hybrid-tool__inner {
+    min-height: 150px !important;
+    grid-template-columns: 2rem minmax(17.5rem, 1.08fr) minmax(13rem, 0.92fr) minmax(11.5rem, auto) !important;
+    gap: clamp(0.85rem, 1.6vw, 1.25rem) !important;
+  }
+
+  .kage-home .hybrid-tool strong {
+    max-width: 100% !important;
+    font-size: clamp(2.45rem, 4.15vw, 2.85rem) !important;
+    line-height: 0.94 !important;
+    letter-spacing: -0.05em !important;
+  }
+
+  .kage-home .hybrid-tool b {
+    max-width: 14rem !important;
+    line-height: 1.3;
+  }
+
+  .kage-home .hybrid-tool p {
+    display: none !important;
+  }
+}
+
+.kage-home .hybrid-tool__cta {
+  min-width: 12rem !important;
+  min-height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.8rem !important;
+  padding: 0.72rem 0.85rem !important;
+  border: 1px solid rgba(18, 56, 45, 0.48) !important;
+  border-radius: 8px !important;
+  background: #f5f7ee !important;
+  color: #12382d !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    0 12px 26px -22px rgba(7, 27, 21, 0.76) !important;
+  font-size: 0.85rem !important;
+  font-weight: 780 !important;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+}
+
+.kage-home .hybrid-tool__cta svg {
+  flex: 0 0 auto;
+  width: 1rem !important;
+  height: 1rem !important;
+  stroke-width: 2.25;
+}
+
+.kage-home .hybrid-tool:first-child .hybrid-tool__cta {
+  border-color: #c8f06a !important;
+  background: #c8f06a !important;
+  color: #071b15 !important;
+  box-shadow: 0 12px 28px -18px rgba(200, 240, 106, 0.68) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .hybrid-tool:hover .hybrid-tool__cta,
+  .kage-home .hybrid-tool:focus-visible .hybrid-tool__cta {
+    border-color: #c8f06a !important;
+    background: #c8f06a !important;
+    color: #071b15 !important;
+    box-shadow: 0 14px 30px -18px rgba(157, 196, 63, 0.72) !important;
+  }
+}
+
+/* ---------------- Contact alignment ---------------- */
+.contact-page .contact-editorial-grid {
+  align-items: start !important;
+  grid-template-columns: minmax(15rem, 0.58fr) minmax(0, 1.42fr) !important;
+  gap: clamp(2.5rem, 6vw, 6.5rem) !important;
+}
+
+.contact-page .contact-editorial-aside,
+.contact-page .contact-form-wrap,
+.contact-page .contact-form,
+.contact-page .contact-fields-two {
+  min-width: 0;
+}
+
+.contact-page .contact-form-wrap {
+  width: 100%;
+  max-width: 50rem;
+  justify-self: end;
+}
+
+@media (max-width: 900px) {
+  body .site-header__inner {
+    min-height: 64px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+  }
+
+  body .site-brand-lockup {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
+  body .site-header__actions {
+    margin-left: auto;
+    gap: 0.4rem !important;
+  }
+
+  body .site-menu-toggle {
+    min-width: auto !important;
+    min-height: 42px !important;
+    padding: 0.55rem 0.25rem !important;
+    border: 0 !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .contact-page .contact-editorial-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .contact-page .contact-form-wrap {
+    max-width: none;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 760px) {
+  .kage-home .hybrid-tool__cta {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+  }
+
+  .contact-page .contact-editorial-grid {
+    gap: 2rem !important;
+  }
+
+  .contact-page .contact-editorial-aside,
+  .contact-page .contact-form-wrap {
+    width: 100% !important;
+  }
+}
+
+/* ===== consolidated from UserFollowupSep01.css ===== */
+/* Final corrective authority for the Sep 1 screenshot follow-up.
+   This file is intentionally narrow: header CTA, contact first view, and fallback launcher. */
+
+/* Začať projekt must be lime at rest on every adaptive header tone. */
+html body .site-theme-white-green .site-header.site-header .site-header__actions > .site-header__cta,
+html body
+  .site-theme-white-green
+  .site-header.site-header[data-adaptive="true"][data-tone]
+  .site-header__actions
+  > .site-header__cta {
+  border: 1px solid #c8f06a !important;
+  background: #c8f06a !important;
+  background-color: #c8f06a !important;
+  color: #071b15 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html body
+    .site-theme-white-green
+    .site-header.site-header
+    .site-header__actions
+    > .site-header__cta:is(:hover, :focus-visible),
+  html body
+    .site-theme-white-green
+    .site-header.site-header[data-adaptive="true"][data-tone]
+    .site-header__actions
+    > .site-header__cta:is(:hover, :focus-visible) {
+    border-color: #0b0e0c !important;
+    background: #0b0e0c !important;
+    background-color: #0b0e0c !important;
+    color: #f6f5ee !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+/* The local fallback should never disappear into the paper background. */
+html body #dv-assistant-fallback {
+  border: 1px solid rgba(18, 56, 45, 0.28) !important;
+  box-shadow:
+    0 0 0 5px rgba(18, 56, 45, 0.045),
+    0 18px 40px -26px rgba(11, 47, 32, 0.52) !important;
+}
+
+/* Contact: the form is now the first visible content directly below navigation.
+   Keep the editorial intro below it instead of forcing users to scroll past copy. */
+.contact-page--rebrand {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-page--rebrand > .contact-section {
+  order: 1;
+  padding-top: clamp(0.45rem, 1vw, 0.8rem) !important;
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem) !important;
+}
+
+.contact-page--rebrand > .sp-hero {
+  order: 2;
+  min-height: 0 !important;
+  padding-top: clamp(2.1rem, 4vw, 3.6rem) !important;
+  padding-bottom: clamp(0.9rem, 1.8vw, 1.35rem) !important;
+}
+
+.contact-page--rebrand > .sp-hero .container-page {
+  gap: clamp(0.7rem, 1.25vw, 1.1rem) !important;
+}
+
+.contact-page--rebrand > .sp-hero h1 {
+  max-width: 12ch !important;
+  margin: 0 !important;
+  font-size: clamp(3rem, 5.6vw, 5.5rem) !important;
+  line-height: 0.94 !important;
+}
+
+.contact-page--rebrand > .sp-hero .sp-hero-lead {
+  max-width: 43rem !important;
+  font-size: clamp(0.96rem, 1.15vw, 1.08rem) !important;
+  line-height: 1.48 !important;
+}
+
+.contact-page--rebrand .contact-editorial-grid {
+  align-items: start !important;
+}
+
+.contact-page--rebrand .contact-form-wrap {
+  padding-top: 0 !important;
+}
+
+.contact-page--rebrand .contact-form {
+  margin-top: 0.75rem !important;
+}
+
+@media (max-width: 900px) {
+  .contact-page--rebrand > .contact-section {
+    padding-top: 0.25rem !important;
+  }
+
+  .contact-page--rebrand > .sp-hero {
+    padding-top: 1.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+
+  .contact-page--rebrand > .sp-hero h1 {
+    max-width: 10ch !important;
+    font-size: clamp(2.65rem, 11vw, 4.4rem) !important;
+  }
+
+  .contact-page--rebrand .contact-editorial-grid {
+    gap: 2rem !important;
+  }
+
+  /* On narrow screens the form is the primary action, so it comes before the
+     supporting contact notes. */
+  .contact-page--rebrand .contact-form-wrap {
+    order: 1;
+  }
+
+  .contact-page--rebrand .contact-editorial-aside {
+    order: 2;
+  }
+}
+
+/* ===== consolidated from LaunchReadinessFinal.css ===== */
+/* Launch-readiness authority.
+   This file is intentionally loaded last. It fixes only legal/consent surfaces,
+   stacking, overflow and form clarity; it does not restyle the approved homepage. */
+
+.analytics-consent {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: max(1rem, env(safe-area-inset-left));
+  z-index: 90;
+  width: min(48rem, calc(100vw - 2rem));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(18, 55, 45, 0.22);
+  border-radius: 10px;
+  background: #fcfbf7;
+  color: #111310;
+  box-shadow: 0 18px 48px -24px rgba(7, 27, 21, 0.42);
+}
+
+.analytics-consent__copy {
+  min-width: 0;
+}
+
+.analytics-consent__copy strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.analytics-consent__copy p {
+  margin: 0;
+  color: #536159;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.analytics-consent__copy a,
+.contact-privacy-note a {
+  color: #12372d;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.analytics-consent__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.analytics-consent__actions button {
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #12372d;
+  border-radius: 4px;
+  background: transparent;
+  color: #12372d;
+  font: 650 0.78rem/1.1 "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.analytics-consent__actions button:is(:hover, :focus-visible) {
+  background: #12372d;
+  color: #fcfbf7;
+}
+
+/* The cookie choice must never compete spatially with the chatbot launcher. */
+body:has(.analytics-consent) #dv-assistant-root,
+body:has(.analytics-consent) #dv-assistant-fallback {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.pricing-tax-note {
+  grid-column: 1 / -1;
+  margin: 0.4rem 0 0;
+  max-width: 58rem;
+  color: #536159;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.pricing-tax-note a {
+  color: #12372d;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.legal-information-page .cookies-card--wide {
+  grid-column: 1 / -1;
+}
+
+.contact-fallback {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(18, 55, 45, 0.22);
+  border-radius: 8px;
+  background: #f4f6ed;
+  color: #27342e;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.contact-fallback p {
+  margin: 0;
+}
+
+.contact-fallback__action {
+  width: fit-content;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.62rem 0.8rem;
+  border: 1px solid #12372d;
+  border-radius: 4px;
+  background: #12372d;
+  color: #f6f5ee !important;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+
+.contact-fallback__action:is(:hover, :focus-visible) {
+  background: #071b15;
+  border-color: #071b15;
+}
+
+.contact-privacy-note {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid rgba(18, 55, 45, 0.16);
+  border-bottom: 1px solid rgba(18, 55, 45, 0.16);
+  color: #536159;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.contact-privacy-note p {
+  margin: 0;
+}
+
+.legal-anchor {
+  position: relative;
+  top: calc(-1 * var(--header-h, 72px));
+  height: 0;
+  pointer-events: none;
+}
+
+.premium-footer-privacy {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.premium-footer a,
+.cookies-page a,
+.contact-page a {
+  overflow-wrap: anywhere;
+}
+
+/* Desktop hero intentionally inherits the original KageLanding composition and
+   animation. Launch-specific overrides below are mobile-only, so desktop stays
+   exactly on the approved layered layout. */
+
+@media (max-width: 720px) {
+  .analytics-consent {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 0.8rem;
+    padding: 0.9rem;
+    max-height: min(70dvh, 30rem);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  .analytics-consent__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: stretch;
+  }
+
+  .analytics-consent__actions button {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .premium-footer-privacy {
+    justify-content: flex-start;
+    gap: 0.75rem 1rem;
+  }
+
+  .contact-page .contact-editorial-aside {
+    grid-template-columns: 1fr !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero {
+    min-height: auto !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__stage {
+    min-height: auto !important;
+    display: grid !important;
+    grid-template-rows: auto auto !important;
+    align-items: start !important;
+    gap: 1.15rem !important;
+    padding-top: 2rem !important;
+    padding-bottom: 1.1rem !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero h1 {
+    width: 100% !important;
+    max-width: 100% !important;
+    /*
+     * Mobile-only safety: the widest fixed line ("mení návštevy") must fit
+     * inside the content box at every phone width. Desktop sizing and motion
+     * are deliberately untouched.
+     */
+    font-size: min(15vw, 4.55rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero h1 > span,
+  body:has(.hybrid-home) .kage-hero h1 > em,
+  body:has(.hybrid-home) .kage-hero h1 .typed-line {
+    max-width: 100% !important;
+    line-height: 1 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero h1 > em {
+    margin-top: 0.035em !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero h1 .typed-word:not(:last-child) {
+    margin-right: 0.3em !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: clamp(16.5rem, 73vw, 19rem) !important;
+    margin: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: minmax(0, 1.16fr) minmax(0, 0.84fr) !important;
+    gap: 0.55rem !important;
+    align-content: stretch !important;
+    pointer-events: none !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case {
+    position: relative !important;
+    inset: auto !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    border-radius: 9px !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    pointer-events: auto !important;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case--1 {
+    grid-column: 1 / -1 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case--2,
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case--3 {
+    grid-row: 2 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite,
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case .project-composite__site {
+    object-fit: cover !important;
+    object-position: top center !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__case > span {
+    left: 0.5rem !important;
+    bottom: 0.5rem !important;
+    padding: 0.3rem 0.4rem !important;
+    font-size: 0.49rem !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom {
+    min-height: 86px !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 0.8rem !important;
+    padding-top: 0.85rem !important;
+    padding-bottom: 0.85rem !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom > p {
+    max-width: 14.5rem !important;
+    font-size: 0.79rem !important;
+    line-height: 1.35 !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__primary {
+    min-height: 44px !important;
+    padding: 0.68rem 0.78rem !important;
+    white-space: nowrap !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .analytics-consent__actions {
+    grid-template-columns: 1fr;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__stage {
+    padding-top: 1.55rem !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__collage {
+    height: clamp(15.75rem, 72vw, 18rem) !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  body:has(.hybrid-home) .kage-hero .hybrid-hero__bottom > p {
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .analytics-consent,
+  .analytics-consent * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+/* ===== consolidated from UnifiedInteractionSep07.css ===== */
+/* Unified interaction system — September 7.
+   One CTA language across the website: same proportions, radius, typography,
+   arrow motion and focus treatment. Context only changes colour. */
+
+:root {
+  --site-action-height: 50px;
+  --site-action-height-compact: 42px;
+  --site-action-radius: 999px;
+  --site-action-pad-x: 1.15rem;
+  --site-action-gap: 0.62rem;
+  --site-action-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --site-ui-radius: 18px;
+}
+
+.site-cta {
+  min-height: var(--site-action-height);
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--site-action-gap);
+  padding: 0.8rem var(--site-action-pad-x);
+  border: 1px solid transparent;
+  border-radius: var(--site-action-radius);
+  font: 680 0.84rem/1 var(--font-sans);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    transform 220ms var(--site-action-ease),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.site-cta--compact {
+  min-height: var(--site-action-height-compact);
+  padding: 0.68rem 0.95rem;
+  font-size: 0.78rem;
+}
+
+.site-cta svg {
+  flex: 0 0 auto;
+  transition: transform 220ms var(--site-action-ease);
+}
+
+.site-cta:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+}
+
+.site-cta:is(:hover, :focus-visible) svg {
+  transform: translate(3px, -3px);
+}
+
+.site-cta:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.site-cta--primary {
+  border-color: var(--forest);
+  background: var(--forest);
+  color: var(--inverse);
+}
+
+.site-cta--primary:is(:hover, :focus-visible) {
+  border-color: var(--forest-2);
+  background: var(--forest-2);
+  color: var(--inverse);
+}
+
+.site-cta--secondary {
+  border-color: rgba(18, 55, 45, 0.28);
+  background: transparent;
+  color: var(--forest);
+}
+
+.site-cta--secondary:is(:hover, :focus-visible) {
+  border-color: var(--forest);
+  background: rgba(18, 55, 45, 0.07);
+  color: var(--forest);
+}
+
+[data-nav-tone="dark"] .site-cta--primary,
+.site-header[data-tone="dark"] .site-cta--primary {
+  border-color: #c8f06a;
+  background: #c8f06a;
+  color: #071b15;
+}
+
+[data-nav-tone="dark"] .site-cta--primary:is(:hover, :focus-visible),
+.site-header[data-tone="dark"] .site-cta--primary:is(:hover, :focus-visible) {
+  border-color: #f6f5ee;
+  background: #f6f5ee;
+  color: #071b15;
+}
+
+[data-nav-tone="dark"] .site-cta--secondary {
+  border-color: rgba(246, 245, 238, 0.34);
+  color: #f6f5ee;
+}
+
+[data-nav-tone="dark"] .site-cta--secondary:is(:hover, :focus-visible) {
+  border-color: #c8f06a;
+  background: rgba(200, 240, 106, 0.1);
+  color: #c8f06a;
+}
+
+/* Existing subpage CTA classes keep their semantics but now share the same geometry. */
+.button-primary,
+.button-inverse {
+  min-height: var(--site-action-height);
+  gap: var(--site-action-gap);
+  padding: 0.8rem var(--site-action-pad-x);
+  border-radius: var(--site-action-radius);
+  font-size: 0.84rem;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+}
+
+.button-primary,
+.button-inverse,
+.text-link {
+  transition:
+    transform 220ms var(--site-action-ease),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.button-primary:is(:hover, :focus-visible),
+.button-inverse:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+}
+
+.button-primary:is(:hover, :focus-visible) svg,
+.button-inverse:is(:hover, :focus-visible) svg,
+.text-link:is(:hover, :focus-visible) svg {
+  transform: translate(3px, -3px);
+}
+
+.site-header__cta.site-cta {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --site-action-height: 48px;
+    --site-action-height-compact: 42px;
+  }
+
+  .site-cta {
+    max-width: 100%;
+  }
+
+  .site-header__cta.site-cta {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cta,
+  .site-cta svg,
+  .button-primary,
+  .button-inverse,
+  .text-link,
+  .button-primary svg,
+  .button-inverse svg,
+  .text-link svg {
+    transition: none !important;
+  }
+}
+
+/* ===== consolidated from ReadabilitySep08.css ===== */
+/* Readability and visual hierarchy authority — September 8.
+   The previous editorial pass leaned too heavily on hairlines, tiny mono labels
+   and low-contrast helper text. This layer keeps the brand but makes every
+   section easier to scan and read. */
+
+/* ------------------------------------------------------------------
+   Global small-label system
+   ------------------------------------------------------------------ */
+
+.site-theme-white-green :is(
+  .section-index,
+  .section-kicker,
+  .sp-service-index,
+  .hybrid-manifesto > span,
+  .hybrid-work__intro > span,
+  .hybrid-tools__intro > span,
+  .hybrid-process__intro > span,
+  .hybrid-price__top > span
+) {
+  width: fit-content;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.68rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d !important;
+  font: 720 0.74rem/1 var(--font-sans) !important;
+  letter-spacing: 0.025em !important;
+  text-transform: uppercase;
+}
+
+.site-theme-white-green .section-index b {
+  color: #12372d;
+  font-weight: 780;
+}
+
+.site-theme-white-green :is(
+  .hybrid-tools__intro p,
+  .hybrid-work__intro > p,
+  .outcome-comparison__intro > p,
+  .hybrid-process__list p,
+  .sp-hero-lead,
+  .sp-service-head > p
+) {
+  color: #46544c !important;
+  font-size: clamp(1rem, 1.05vw, 1.08rem);
+  line-height: 1.62;
+}
+
+.site-theme-white-green :is(
+  .text-link,
+  .pricing-inline-link
+) {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------
+   Homepage solutions — replace barely-visible row hairlines with real cards.
+   ------------------------------------------------------------------ */
+
+.kage-home .hybrid-tools {
+  padding-bottom: clamp(5rem, 7vw, 7rem);
+}
+
+.kage-home .hybrid-tools__rows {
+  display: grid;
+  gap: 0.85rem;
+  border-top: 0 !important;
+}
+
+.kage-home .hybrid-tool {
+  border-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.kage-home .hybrid-tool__inner {
+  min-height: 154px;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid rgba(18, 55, 45, 0.16);
+  border-radius: 1.25rem;
+  background: #f8f7f1;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.kage-home .hybrid-tool span:not(.hybrid-tool__cta) {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.55rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.09);
+  color: #315d4d !important;
+  font: 740 0.72rem/1 var(--font-sans) !important;
+}
+
+.kage-home .hybrid-tool strong {
+  color: #12372d;
+}
+
+.kage-home .hybrid-tool b {
+  color: #1f3029;
+  font-size: clamp(1.02rem, 1.35vw, 1.28rem);
+}
+
+.kage-home .hybrid-tool p {
+  display: block !important;
+  color: #4a5750 !important;
+  font-size: 0.96rem;
+  line-height: 1.56;
+}
+
+.kage-home .hybrid-tool__cta.site-cta {
+  align-self: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .hybrid-tool:hover .hybrid-tool__inner {
+    border-color: rgba(18, 55, 45, 0.38);
+    background: #fcfbf7;
+  }
+
+  .kage-home .hybrid-tool:hover {
+    color: inherit !important;
+  }
+
+  .kage-home .hybrid-tool:hover :is(strong, b) {
+    color: #12372d !important;
+  }
+
+  .kage-home .hybrid-tool:hover p {
+    color: #4a5750 !important;
+  }
+
+  .kage-home .hybrid-tool:hover span:not(.hybrid-tool__cta) {
+    color: #315d4d !important;
+  }
+}
+
+.kage-home .solution-combination-note {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.28fr) minmax(0, 0.9fr) minmax(18rem, 0.62fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+  margin-top: 1rem;
+  padding-top: clamp(2rem, 3.2vw, 3rem);
+}
+
+.kage-home .solution-combination-note > span {
+  width: fit-content;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.68rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font: 720 0.74rem/1 var(--font-sans);
+  letter-spacing: 0.025em;
+}
+
+.kage-home .solution-combination-note h3 {
+  max-width: 13ch;
+  margin: 0 0 0.8rem;
+  color: #12372d;
+  font-size: clamp(2.3rem, 3.7vw, 4rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.kage-home .solution-combination-note p {
+  max-width: 38rem;
+  margin: 0;
+  color: #46544c;
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+.kage-home .solution-combination-note ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kage-home .solution-combination-note li {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(18, 55, 45, 0.15);
+  border-radius: 0.95rem;
+  background: #f8f7f1;
+  color: #12372d;
+  font-weight: 690;
+}
+
+/* ------------------------------------------------------------------
+   Realisations — labels and descriptions no longer whisper.
+   ------------------------------------------------------------------ */
+
+.kage-home .hybrid-project__domain,
+.kage-home .hybrid-project__open {
+  padding: 0.5rem 0.65rem;
+  border-radius: 999px;
+  font: 700 0.68rem/1 var(--font-sans);
+  letter-spacing: 0.015em;
+}
+
+.kage-home .hybrid-project__meta {
+  grid-template-columns: 2.6rem minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding-top: 1.15rem;
+}
+
+.kage-home .hybrid-project__meta > span {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font: 740 0.7rem/1 var(--font-sans);
+}
+
+.kage-home .hybrid-project__meta div p,
+.kage-home .hybrid-project__meta > p {
+  color: #4b5851 !important;
+  font-size: 0.94rem;
+  line-height: 1.52;
+}
+
+/* ------------------------------------------------------------------
+   Manifesto and result blocks
+   ------------------------------------------------------------------ */
+
+.kage-home .kage-manifesto {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(200, 240, 106, 0.18), transparent 24rem),
+    #f2f0e8;
+}
+
+.kage-home .outcome-comparison__intro > p {
+  font-size: 1.03rem;
+}
+
+.kage-home .outcome-comparison__group {
+  border: 1px solid rgba(18, 55, 45, 0.17);
+  border-radius: 1.25rem;
+  background: #f8f7f1;
+}
+
+.kage-home .outcome-comparison__group > span {
+  min-height: 30px;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font-size: 0.72rem;
+  font-weight: 720;
+}
+
+.kage-home .outcome-comparison__group li {
+  border-bottom-color: rgba(18, 55, 45, 0.17);
+}
+
+.kage-home .outcome-comparison__group li :is(p, strong) {
+  font-size: 0.94rem;
+  line-height: 1.48;
+}
+
+.kage-home .outcome-comparison__group li small {
+  color: #53635a;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------
+   Process — clear cards instead of a stack of faint separator lines.
+   ------------------------------------------------------------------ */
+
+.kage-home .hybrid-process__list {
+  display: grid;
+  gap: 0.85rem;
+  border-top: 0 !important;
+}
+
+.kage-home .hybrid-process__list li {
+  min-height: 142px;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgba(18, 55, 45, 0.16) !important;
+  border-radius: 1.2rem;
+  background: #fbfaf5;
+}
+
+.kage-home .hybrid-process__list li:hover {
+  background: #fbfaf5;
+}
+
+.kage-home .hybrid-process__list span {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.09);
+  color: #315d4d;
+  font: 740 0.72rem/1 var(--font-sans);
+}
+
+.kage-home .hybrid-process__list p {
+  color: #48564e !important;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------
+   Dark chapters still need readable labels, not grey-on-green.
+   ------------------------------------------------------------------ */
+
+.kage-home [data-nav-tone="dark"] .section-index {
+  background: rgba(200, 240, 106, 0.12);
+  color: #e6edE8 !important;
+}
+
+.kage-home [data-nav-tone="dark"] .section-index b {
+  color: #c8f06a;
+}
+
+.kage-home .kage-flow__copy > span,
+.kage-home .kage-flow__artifact > span {
+  font: 700 0.72rem/1.2 var(--font-sans);
+  letter-spacing: 0.025em;
+}
+
+.kage-home .kage-flow__copy p {
+  color: #d9e1db;
+}
+
+.kage-home .kage-flow-story__footer p {
+  color: #d2dbd4;
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------------------------
+   Subpages — stronger readable hierarchy across service/process/contact.
+   ------------------------------------------------------------------ */
+
+.sp-page :is(.sp-service-row, .process-list li, .contact-editorial-aside li) {
+  border-color: rgba(18, 55, 45, 0.18);
+}
+
+.sp-page :is(.sp-service-row p, .process-list p, .contact-editorial-aside ol) {
+  color: #48564e;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.sp-page .sp-service-index,
+.sp-page .sp-service-row > span {
+  color: #315d4d;
+  font: 700 0.76rem/1.2 var(--font-sans);
+}
+
+@media (max-width: 1180px) {
+  .kage-home .hybrid-tool__inner {
+    grid-template-columns: 0.08fr 0.46fr minmax(0, 1fr) auto;
+  }
+
+  .kage-home .hybrid-tool p {
+    grid-column: 3;
+  }
+
+  .kage-home .solution-combination-note {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kage-home .solution-combination-note > span {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-theme-white-green :is(.section-index, .section-kicker) {
+    min-height: 30px;
+    font-size: 0.7rem !important;
+  }
+
+  .kage-home .hybrid-tool__inner {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .kage-home .hybrid-tool strong,
+  .kage-home .hybrid-tool b,
+  .kage-home .hybrid-tool p,
+  .kage-home .hybrid-tool__cta {
+    grid-column: 2;
+  }
+
+  .kage-home .hybrid-tool strong {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .kage-home .hybrid-tool__cta.site-cta {
+    margin-top: 0.3rem;
+  }
+
+  .kage-home .solution-combination-note {
+    grid-template-columns: 1fr;
+  }
+
+  .kage-home .solution-combination-note > span {
+    grid-column: 1;
+  }
+
+  .kage-home .solution-combination-note h3 {
+    font-size: clamp(2.4rem, 11vw, 3.5rem);
+  }
+
+  .kage-home .hybrid-project__meta {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .kage-home .hybrid-project__meta > p {
+    grid-column: 2;
+  }
+
+  .kage-home .hybrid-process__list li {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.8rem 1rem;
+    padding: 1rem;
+  }
+
+  .kage-home .hybrid-process__list strong,
+  .kage-home .hybrid-process__list p {
+    grid-column: 2;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Homepage orientation — clear active pills, not a row of tiny hairlines.
+   ------------------------------------------------------------------ */
+
+.kage-home .page-section-nav {
+  min-height: 62px;
+  padding-block: 0.55rem;
+  border-top: 0;
+  border-bottom: 1px solid rgba(18, 55, 45, 0.1);
+  background: rgba(242, 240, 232, 0.96);
+}
+
+.kage-home .page-section-nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.kage-home .page-section-nav__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.kage-home .page-section-nav a,
+.kage-home .page-section-nav a:first-child {
+  flex: 0 0 auto;
+  min-height: 44px;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #415048;
+}
+
+.kage-home .page-section-nav a::after {
+  display: none;
+}
+
+.kage-home .page-section-nav a > span {
+  color: #68766e;
+  font: 720 0.7rem/1 var(--font-sans);
+  letter-spacing: 0;
+}
+
+.kage-home .page-section-nav a > b {
+  font-size: 0.86rem;
+  font-weight: 700;
+  overflow: visible;
+}
+
+.kage-home .page-section-nav a[data-active="true"] {
+  background: #12372d;
+  color: #ffffff;
+}
+
+.kage-home .page-section-nav a[data-active="true"] > span {
+  color: #c8f06a;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kage-home .page-section-nav a:hover:not([data-active="true"]) {
+    background: rgba(18, 55, 45, 0.08);
+    color: #12372d;
+  }
+}
+
+/* Decorative index rotation made rows feel unstable. Keep information still;
+   only arrows and colour may respond to hover. */
+.kage-home .hybrid-tool:is(:hover, :focus-visible) .hybrid-tool__inner > span:first-child,
+.kage-home .hybrid-process__list > li:is(:hover, :focus-within) > span {
+  transform: none !important;
+}
+
+@media (max-width: 760px) {
+  .kage-home .page-section-nav {
+    min-height: 56px;
+    padding-block: 0.4rem;
+  }
+
+  .kage-home .page-section-nav a {
+    min-height: 42px;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .kage-home .page-section-nav a > b {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== one contact-page authority ===== */
+
+.contact-page--rebrand > .sp-hero::after {
+  display: none !important;
+}
+
+.contact-page--rebrand > .contact-section {
+  padding: clamp(2.5rem, 4vw, 4.5rem) 0 clamp(5rem, 8vw, 8rem) !important;
+  background: var(--paper) !important;
+}
+
+.contact-page--rebrand .contact-editorial-grid {
+  grid-template-columns: minmax(17rem, 0.62fr) minmax(0, 1.38fr) !important;
+  gap: clamp(2rem, 5vw, 5rem) !important;
+  align-items: start !important;
+}
+
+.contact-page--rebrand .contact-editorial-aside {
+  position: sticky;
+  top: calc(var(--header-h) + 2rem);
+  display: grid;
+  gap: 0.9rem !important;
+}
+
+.contact-page--rebrand .contact-editorial-aside > div {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.2rem !important;
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: #edf1e8 !important;
+  box-shadow: none !important;
+}
+
+.contact-page--rebrand .contact-editorial-aside > div:first-child {
+  background: #e2eadf !important;
+}
+
+.contact-page--rebrand .contact-editorial-aside ol {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: contact-step;
+  color: #46544c !important;
+}
+
+.contact-page--rebrand .contact-editorial-aside li {
+  counter-increment: contact-step;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: start;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #405047;
+  line-height: 1.5;
+}
+
+.contact-page--rebrand .contact-editorial-aside li::before {
+  content: counter(contact-step, decimal-leading-zero);
+  min-width: 2rem;
+  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.09);
+  color: #315d4d;
+  font: 720 0.68rem/1 var(--font-sans);
+}
+
+.contact-page--rebrand .contact-editorial-aside > button.text-link {
+  width: 100%;
+  min-height: 48px;
+  justify-content: center;
+  padding: 0.78rem 1rem;
+  border: 0 !important;
+  border-radius: 999px;
+  background: #12372d;
+  color: #fff;
+  text-decoration: none;
+}
+
+.contact-page--rebrand .contact-form-wrap {
+  width: 100% !important;
+  max-width: 52rem !important;
+  justify-self: end;
+  padding: clamp(1.35rem, 2.2vw, 2rem) !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  background: #f8f7f1 !important;
+  box-shadow: none !important;
+}
+
+.contact-page--rebrand .contact-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem !important;
+}
+
+.contact-page--rebrand .contact-fields-two {
+  gap: 1rem !important;
+}
+
+.contact-page--rebrand .contact-form label:not(.contact-consent) {
+  gap: 0.5rem;
+}
+
+.contact-page--rebrand .contact-form label > span {
+  color: #26362e !important;
+  font: 700 0.82rem/1.2 var(--font-sans) !important;
+  letter-spacing: 0 !important;
+}
+
+.contact-page--rebrand .contact-form :is(input, textarea, select) {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.82rem 0.9rem !important;
+  border: 1px solid rgba(18, 55, 45, 0.18) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: #111b16 !important;
+  box-shadow: none !important;
+  font: 520 1rem/1.35 var(--font-sans) !important;
+}
+
+.contact-page--rebrand .contact-form textarea {
+  min-height: 9.5rem;
+  resize: vertical;
+}
+
+.contact-page--rebrand .contact-form :is(input, textarea, select):focus {
+  outline: 2px solid rgba(18, 55, 45, 0.24) !important;
+  outline-offset: 2px;
+  border-color: #12372d !important;
+  box-shadow: none !important;
+}
+
+.contact-page--rebrand .contact-form label:focus-within > span {
+  color: #12372d !important;
+}
+
+.contact-page--rebrand .contact-privacy-note {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.15rem;
+  padding: 1rem;
+  border: 0 !important;
+  border-radius: 14px;
+  background: #eef2e9;
+  color: #536159;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.contact-page--rebrand .contact-privacy-note p {
+  margin: 0;
+}
+
+.contact-page--rebrand .contact-submit.site-cta {
+  margin-top: 0.25rem;
+}
+
+.contact-page--rebrand .contact-fallback {
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: #edf3e7 !important;
+  box-shadow: none !important;
+}
+
+.contact-page--rebrand .contact-demo-summary {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+  border: 0;
+  border-radius: 16px;
+  background: #edf3e7;
+}
+
+.contact-page--rebrand .contact-demo-summary > strong {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.contact-page--rebrand .contact-demo-summary > p {
+  margin: 0;
+  color: #52615a;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.contact-page--rebrand .contact-demo-summary__meta {
+  display: grid;
+  gap: 0.35rem;
+  color: #405047;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .contact-page--rebrand .contact-editorial-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-page--rebrand .contact-form-wrap {
+    order: 1;
+    max-width: none !important;
+  }
+
+  .contact-page--rebrand .contact-editorial-aside {
+    order: 2;
+    position: static;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-page--rebrand .contact-editorial-aside > button.text-link {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-page--rebrand .contact-section {
+    padding-top: 1.25rem !important;
+  }
+
+  .contact-page--rebrand .contact-form-wrap {
+    padding: 1rem !important;
+    border-radius: 18px !important;
+  }
+
+  .contact-page--rebrand .contact-fields-two,
+  .contact-page--rebrand .contact-editorial-aside {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-page--rebrand .contact-editorial-aside > button.text-link {
+    grid-column: 1;
+  }
+}
