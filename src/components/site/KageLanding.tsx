@@ -149,7 +149,7 @@ const tools = [
     name: "Produktový poradca",
     statement: "Pomôže vybrať správny produkt.",
     copy: "Keď má e-shop veľa podobných produktov a zákazník nevie, ktorý je preňho vhodný.",
-    preset: "product" as const,
+    preset: "advisor" as const,
     cta: "Vyskladať poradcu",
   },
 ];
@@ -620,6 +620,22 @@ function CoreTools() {
             </div>
           </button>
         ))}
+      </div>
+      <div className="container-page solution-combination-note">
+        <span>SAMOSTATNE AJ SPOLU</span>
+        <div>
+          <h3>Každý nástroj funguje aj samostatne.</h3>
+          <p>
+            Ak to dáva zmysel, spojíme ich: chatbot môže zároveň počítať cenu, viesť konfiguráciu
+            alebo odporúčať produkty. Nie je však nutné mať chatbot ku kalkulačke ani ku
+            konfigurátoru.
+          </p>
+        </div>
+        <ul aria-label="Príklady kombinovaných riešení">
+          <li>Chatbot + kalkulačka</li>
+          <li>Chatbot + konfigurátor</li>
+          <li>Poradca + konfigurátor</li>
+        </ul>
       </div>
     </section>
   );
