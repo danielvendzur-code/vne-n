@@ -38,7 +38,7 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
 
 test("the flow section intentionally consumes page height without scroll hijacking", () => {
   const rework = readFileSync(
-    new URL("../src/components/site/HomepageVisualAuthority.css", import.meta.url),
+    new URL("../src/components/site/SiteVisualAuthority.css", import.meta.url),
     "utf8",
   );
 
