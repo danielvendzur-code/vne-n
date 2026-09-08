@@ -28,15 +28,15 @@ const pricing = [
     name: "Chatbot / produktový poradca",
     setup: "od 347 €",
     monthly: "10 € / mesiac",
-    copy: "Odpovede podľa vašich podkladov, odporúčanie produktu, doplnenie údajov a odoslanie dopytu.",
-    preset: "inquiry" as const,
+    copy: "Odpovedá na otázky, pomáha s výberom a môže zákazníka posunúť priamo na vhodný produkt alebo ďalší krok.",
+    preset: "advisor" as const,
   },
   {
     index: "02",
     name: "Kalkulačka",
     setup: "od 447 €",
     monthly: "10 € / mesiac",
-    copy: "Orientačný výpočet ceny, spotreby alebo rozsahu podľa pravidiel vašej ponuky.",
+    copy: "Samostatný výpočet ceny, spotreby alebo rozsahu podľa vašich pravidiel. Chatbot nie je podmienkou.",
     preset: "calculator" as const,
   },
   {
@@ -44,30 +44,45 @@ const pricing = [
     name: "Konfigurátor",
     setup: "od 447 €",
     monthly: "10 € / mesiac",
-    copy: "Krokový výber produktu alebo služby s dostupnými variantmi, rozmermi a doplnkami.",
+    copy: "Samostatný krokový výber produktu alebo služby s variantmi, rozmermi, farbami a doplnkami.",
     preset: "product" as const,
+  },
+] as const;
+
+const combinations = [
+  {
+    title: "Chatbot + kalkulačka",
+    copy: "Zákazník sa môže najprv opýtať a potom si cenu vypočítať bez opustenia jedného rozhrania.",
+  },
+  {
+    title: "Chatbot + konfigurátor",
+    copy: "Chatbot vysvetlí možnosti a konfigurátor následne prevedie zákazníka presným výberom.",
+  },
+  {
+    title: "Poradca + konfigurátor",
+    copy: "Poradca odporučí vhodný smer a zákazník si potom vyskladá konkrétny variant produktu.",
   },
 ] as const;
 
 function PricingPage() {
   return (
     <div className="sp-page pricing-page--rebrand">
-      <header className="sp-hero pricing-hero" data-nav-tone="dark">
+      <header className="sp-hero pricing-hero" data-nav-tone="light">
         <div className="container-page pricing-hero__layout">
           <div className="pricing-hero__copy">
             <span className="pricing-hero__eyebrow">CENNÍK / MÔJ CHATBOT</span>
             <h1>
-              Jasná cena. <em>Bez hádania.</em>
+              Jasná cena. <em>Jasný rozsah.</em>
             </h1>
             <p className="sp-hero-lead">
-              Základnú cenu vidíte hneď. Presný rozsah si odsúhlasíme pred začiatkom práce, aby ste
-              ešte pred realizáciou vedeli, čo dostanete a koľko to bude stáť.
+              Každý nástroj môže fungovať samostatne. Ak dáva zmysel kombinácia, spojíme chatbot,
+              kalkulačku, konfigurátor alebo produktového poradcu do jedného riešenia.
             </p>
             <div className="pricing-hero__actions">
-              <a href="#baliky" className="pricing-hero__primary">
-                Pozrieť celý cenník <ArrowRight size={16} />
+              <a href="#baliky" className="site-cta site-cta--primary">
+                Pozrieť ceny <ArrowRight size={16} />
               </a>
-              <Link to="/kontakt" className="pricing-hero__secondary">
+              <Link to="/kontakt" className="site-cta site-cta--secondary">
                 Chcem presnú cenu <ArrowUpRight size={16} />
               </Link>
             </div>
@@ -77,14 +92,17 @@ function PricingPage() {
             <div className="pricing-hero__fact">
               <span>CHATBOT / PORADCA</span>
               <strong>od 347 €</strong>
+              <small>vytvorenie</small>
             </div>
             <div className="pricing-hero__fact">
               <span>KALKULAČKA / KONFIGURÁTOR</span>
               <strong>od 447 €</strong>
+              <small>vytvorenie</small>
             </div>
             <div className="pricing-hero__fact">
               <span>TECHNICKÁ PREVÁDZKA</span>
-              <strong>10 € / mes.</strong>
+              <strong>10 €</strong>
+              <small>mesačne</small>
             </div>
             <p className="pricing-tax-note">
               Ceny „od“ sú informatívne. Venaco s.r.o. je platiteľ DPH; v konkrétnej ponuke vždy
@@ -98,41 +116,73 @@ function PricingPage() {
       <section className="sp-section pricing-catalog" id="baliky" data-nav-tone="light">
         <div className="container-page pricing-catalog__intro">
           <span className="section-kicker">CELÝ CENNÍK</span>
-          <h2>Tri typy riešení. Jasný základ, presný rozsah pred štartom.</h2>
+          <h2>Vyberte nástroj podľa toho, čo má návštevník zvládnuť.</h2>
           <p>
-            Vyberte si smer, ktorý najviac zodpovedá tomu, čo má návštevník na vašom webe zvládnuť.
-            Každé riešenie upravujeme podľa reálnej ponuky a procesov firmy.
+            Samostatný chatbot, kalkulačka aj konfigurátor majú vlastnú cenu a vlastný účel.
+            Kombinovať ich budeme iba vtedy, keď to zjednoduší cestu zákazníka.
           </p>
         </div>
+
         <div className="container-page pricing-table">
           <div className="pricing-table__head" aria-hidden="true">
             <span>RIEŠENIE</span>
             <span>VYTVORENIE</span>
             <span>PREVÁDZKA</span>
-            <span>ČO OBSAHUJE</span>
+            <span>ČO OBSahUJE</span>
             <span />
           </div>
-          {pricing.map((item) => (
-            <article className="pricing-row" key={item.name}>
-              <div className="pricing-row__name">
-                <span>{item.index}</span>
-                <h2>{item.name}</h2>
-              </div>
-              <strong>{item.setup}</strong>
-              <strong>{item.monthly}</strong>
+
+          <div className="pricing-card-grid">
+            {pricing.map((item) => (
+              <article className="pricing-row" key={item.name}>
+                <div className="pricing-row__top">
+                  <span>{item.index}</span>
+                  <h2>{item.name}</h2>
+                </div>
+                <p>{item.copy}</p>
+                <div className="pricing-row__prices">
+                  <div>
+                    <span>Vytvorenie</span>
+                    <strong>{item.setup}</strong>
+                  </div>
+                  <div>
+                    <span>Prevádzka</span>
+                    <strong>{item.monthly}</strong>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="site-cta site-cta--secondary pricing-row__action"
+                  onClick={() =>
+                    openSiteAssistant({
+                      source: `pricing-${item.name.toLowerCase()}`,
+                      preset: item.preset,
+                    })
+                  }
+                >
+                  Vyskúšať tento typ <ArrowRight size={15} />
+                </button>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pricing-combine" data-nav-tone="light">
+        <div className="container-page pricing-combine__head">
+          <span className="section-kicker">SAMOSTATNE AJ SPOLU</span>
+          <h2>Nemusíte si vybrať medzi chatbotom a konfigurátorom.</h2>
+          <p>
+            Každá funkcia vie fungovať sama. Pri zložitejšom predaji ich vieme spojiť tak, aby
+            zákazník necítil prechod medzi rozhovorom, výpočtom a výberom produktu.
+          </p>
+        </div>
+        <div className="container-page pricing-combine__grid">
+          {combinations.map((item, index) => (
+            <article key={item.title}>
+              <span>0{index + 1}</span>
+              <h3>{item.title}</h3>
               <p>{item.copy}</p>
-              <button
-                type="button"
-                className="text-link"
-                onClick={() =>
-                  openSiteAssistant({
-                    source: `pricing-${item.name.toLowerCase()}`,
-                    preset: item.preset,
-                  })
-                }
-              >
-                Pozrieť ukážku <ArrowRight size={14} />
-              </button>
             </article>
           ))}
         </div>
@@ -161,7 +211,7 @@ function PricingPage() {
         </div>
       </section>
 
-      <section className="pricing-bridge" data-nav-tone="dark">
+      <section className="pricing-bridge" data-nav-tone="light">
         <div className="container-page pricing-bridge__grid">
           <div>
             <p className="section-kicker">PRESNÁ CENA</p>
@@ -171,12 +221,12 @@ function PricingPage() {
           </div>
           <div>
             <p>
-              Krátko popíšte, čo má zákazník na webe zvládnuť. Povieme vám, aké riešenie dáva zmysel
-              a koľko bude stáť.
+              Krátko popíšte, čo má zákazník na webe zvládnuť. Povieme vám, či stačí jeden nástroj
+              alebo dáva zmysel kombinácia a koľko bude stáť.
             </p>
             <button
               type="button"
-              className="button-primary"
+              className="site-cta site-cta--primary"
               onClick={() => openSiteAssistant({ source: "pricing-final" })}
             >
               Chcem návrh riešenia <ArrowRight size={15} />
