@@ -15,7 +15,7 @@ export const Route = createFileRoute("/cookies")({
     ...seo({
       title: "Súbory cookie a meranie návštevnosti — Môj Chatbot",
       description:
-        "Prehľad technológií používaných na meranie návštevnosti: cookie-free Vercel Analytics a voliteľný Google Analytics iba po súhlase.",
+        "Prehľad technológií používaných na meranie návštevnosti: Vercel Analytics bez súborov cookie a voliteľný Google Analytics iba po súhlase.",
       path: "/cookies",
     }),
     scripts: [
@@ -75,7 +75,7 @@ function CookiesPage() {
             </p>
             <div className="cookies-status">
               <span>Režim merania</span>
-              <b>Bez analytických cookies</b>
+              <b>Bez analytických súborov cookie</b>
               <p>Obsah formulára ani chatbota sa do analytiky neposiela.</p>
             </div>
           </Reveal>
@@ -113,7 +113,7 @@ function CookiesPage() {
             <p className="cookies-card__kicker">04 / Právny základ</p>
             <h2>Rozlišujeme meranie bez súborov cookie a meranie so súhlasom.</h2>
             <p>
-              Vercel Analytics bez súborov cookie používame bez ukladania analytických cookies. Google
+              Vercel Analytics bez súborov cookie používame bez ukladania analytických súborov cookie. Google
               Analytics a iné voliteľné ukladanie alebo čítanie údajov zo zariadenia na analytický
               účel používame iba po súhlase návštevníka; bez súhlasu sa jeho skript nenačíta.
             </p>
