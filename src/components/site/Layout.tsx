@@ -6,8 +6,6 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
-import "./Rebrand.css";
-import "./RebrandPages.css";
 import "./SiteVisualAuthority.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
