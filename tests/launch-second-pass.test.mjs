@@ -29,12 +29,16 @@ test("analytics consent is propagated to the embedded assistant", async () => {
   );
 });
 
-test("homepage transition label does not duplicate numbered chapter 03", async () => {
+test("homepage chapter 03 is represented by the side navigator without a duplicate visible heading", async () => {
   const landing = await read("src/components/site/KageLanding.tsx");
 
   assert.match(landing, /<span className="section-index">ČO TO ZMENÍ<\/span>/);
-  assert.equal((landing.match(/<b>03<\/b>/g) ?? []).length, 1);
-  assert.match(landing, /<b>03<\/b> AKO TO FUNGUJE/);
+  assert.match(
+    landing,
+    /\{ id: "ako-to-funguje", index: "03", label: "Ako to funguje" \}/,
+  );
+  assert.match(landing, /className="kage-flow-story__sr-title"/);
+  assert.doesNotMatch(landing, /<b>03<\/b> AKO TO FUNGUJE/);
 });
 
 test("hero previews stay full-bleed without legacy clipping hacks", async () => {
