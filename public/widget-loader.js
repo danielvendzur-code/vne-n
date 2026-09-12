@@ -41,9 +41,9 @@
     const host = document.getElementById(HOST_ID);
     return Boolean(
       host &&
-        host.childElementCount > 0 &&
-        typeof window.openSiteAssistant === "function" &&
-        window.openSiteAssistant.__siteAssistantEmbed,
+      host.childElementCount > 0 &&
+      typeof window.openSiteAssistant === "function" &&
+      window.openSiteAssistant.__siteAssistantEmbed,
     );
   };
 
