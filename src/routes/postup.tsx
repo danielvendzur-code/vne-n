@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { SubpageHeroMedia } from "@/components/site/SubpageHeroMedia";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
@@ -65,16 +66,22 @@ export const Route = createFileRoute("/postup")({
 function ProcessPage() {
   return (
     <div className="sp-page process-page--rebrand">
-      <header className="sp-hero">
+      <header className="sp-hero sp-hero--media">
         <div className="container-page">
-          <p className="section-kicker">POSTUP</p>
-          <h1>
-            Od prvého zadania <em>po živý web.</em>
-          </h1>
-          <p className="sp-hero-lead">
-            Každý krok má konkrétny výstup. Klient vie, čo sa práve rozhoduje, čo dostane a kedy má
-            zmysel pokračovať ďalej.
-          </p>
+          <div className="sp-hero__copy">
+            <p className="section-kicker">POSTUP</p>
+            <h1>
+              Od prvého zadania <em>po živý web.</em>
+            </h1>
+            <p className="sp-hero-lead">
+              Každý krok má konkrétny výstup. Klient vie, čo sa práve rozhoduje, čo dostane a kedy má
+              zmysel pokračovať ďalej.
+            </p>
+          </div>
+          <SubpageHeroMedia
+            src={`${import.meta.env.BASE_URL}work/live/derat.webp`}
+            alt="Ukážka reálne nasadeného webu DERAT s interaktívnym predajným nástrojom"
+          />
         </div>
       </header>
 
