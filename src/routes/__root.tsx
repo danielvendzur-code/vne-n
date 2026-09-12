@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import { BrandMark } from "../components/BrandMark";
 import { SiteLayout } from "../components/site/Layout";
+import "../components/site/SubpageHeroUnified.css";
 import { SITE_ORIGIN, siteConfig } from "../config/site";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
