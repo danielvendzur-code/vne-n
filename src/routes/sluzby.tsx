@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { SubpageHeroMedia } from "@/components/site/SubpageHeroMedia";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import type { AssistantPreset } from "@/types/assistant";
@@ -68,16 +69,22 @@ const tools: Array<{
 function ServicesPage() {
   return (
     <div className="sp-page">
-      <header className="sp-hero">
+      <header className="sp-hero sp-hero--media">
         <div className="container-page">
-          <p className="section-kicker">ČO TVORÍME</p>
-          <h1>
-            Nástroje, ktoré posunú zákazníka <em>k výsledku.</em>
-          </h1>
-          <p className="sp-hero-lead">
-            Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť, vypočítať,
-            vybrať alebo odoslať.
-          </p>
+          <div className="sp-hero__copy">
+            <p className="section-kicker">ČO TVORÍME</p>
+            <h1>
+              Nástroje, ktoré posunú zákazníka <em>k výsledku.</em>
+            </h1>
+            <p className="sp-hero-lead">
+              Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť, vypočítať,
+              vybrať alebo odoslať.
+            </p>
+          </div>
+          <SubpageHeroMedia
+            src={`${import.meta.env.BASE_URL}work/live/koverta.webp`}
+            alt="Ukážka reálne nasadeného webu Koverta"
+          />
         </div>
       </header>
 
