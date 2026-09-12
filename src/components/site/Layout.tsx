@@ -6,13 +6,13 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
-import "./SubpageRefinement";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
   return (
     <div className="site-theme-white-green min-h-screen flex flex-col">
+      <link rel="stylesheet" href={`${import.meta.env.BASE_URL}subpage-refinement.css`} />
       <a className="skip-link" href="#main-content">
         Preskočiť na obsah
       </a>

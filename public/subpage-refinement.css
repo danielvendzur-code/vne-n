@@ -1,11 +1,9 @@
-/* Final subpage refinement: tighter typography, cleaner navigation and image-led heroes.
-   Loaded after SiteVisualAuthority.css so these rules intentionally own the public subpage chrome. */
+/* Subpage refinement: tighter typography, cleaner navigation and image-led heroes. */
 
 :root {
   --font-ui-clean: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Header: keep the logo mark, but use a calmer UI face for navigation and controls. */
 .site-header .site-brand-name,
 .site-header .site-nav a,
 .site-header .site-header__cta,
@@ -41,7 +39,6 @@
   box-shadow: 0 10px 28px -30px rgba(7, 27, 21, 0.62) !important;
 }
 
-/* Subpage heroes: less billboard-like, more informative and visually anchored. */
 .site-theme-white-green .sp-page > .sp-hero,
 .site-theme-white-green .contact-page > .sp-hero {
   min-height: clamp(24rem, 46svh, 32rem) !important;
@@ -120,7 +117,6 @@
   letter-spacing: 0.085em !important;
 }
 
-/* Media heroes for the sparse informational pages. */
 .site-theme-white-green .sp-page > .sp-hero--media > .container-page {
   display: grid !important;
   grid-template-columns: minmax(0, 1.02fr) minmax(20rem, 0.72fr) !important;
@@ -159,7 +155,6 @@
   object-position: top center;
 }
 
-/* Bring body copy and secondary headings out of the washed-out grey range. */
 .site-theme-white-green .sp-page > .sp-section p,
 .site-theme-white-green .sp-page > .selected-work p,
 .site-theme-white-green .sp-page .process-list p,
@@ -174,7 +169,6 @@
   letter-spacing: -0.042em !important;
 }
 
-/* Pricing and contact have their own right-side content, so only reduce the oversized type. */
 .site-theme-white-green .pricing-page--rebrand > .pricing-hero {
   min-height: clamp(27rem, 52svh, 36rem) !important;
   padding: clamp(2.7rem, 4vw, 4rem) 0 !important;
