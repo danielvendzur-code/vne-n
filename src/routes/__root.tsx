@@ -1,11 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Analytics } from "@vercel/analytics/react";
 import "@fontsource-variable/inter-tight";
 import {
   HeadContent,
   Outlet,
   Scripts,
-  createRootRouteWithContext,
+  createRootRoute,
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
@@ -270,7 +269,7 @@ const contentSecurityPolicy = [
   "upgrade-insecure-requests",
 ].join("; ");
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -350,13 +349,8 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const outlet = <Outlet />;
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      {pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>}
-    </QueryClientProvider>
-  );
+  return pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>;
 }
