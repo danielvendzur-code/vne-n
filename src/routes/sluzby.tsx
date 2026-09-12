@@ -82,8 +82,8 @@ function ServicesPage() {
             </p>
           </div>
           <SubpageHeroMedia
-            src={`${import.meta.env.BASE_URL}work/live/koverta.webp`}
-            alt="Ukážka reálne nasadeného webu Koverta"
+            src={`${import.meta.env.BASE_URL}work/portfolio/koverta.webp`}
+            alt="Ukážka reálne nasadeného webu Koverta s konfigurátorom prístrešku"
           />
         </div>
       </header>
