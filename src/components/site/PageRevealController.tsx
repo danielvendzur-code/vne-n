@@ -41,6 +41,7 @@ type RevealPass = {
   up: number;
   inside: boolean;
   staged: boolean;
+  initialized: boolean;
   activeAnimation: Animation | null;
 };
 
@@ -164,7 +165,11 @@ const releaseStage = (element: HTMLElement, pass: RevealPass) => {
   pass.staged = false;
 };
 
-/** Early, varied entrances without first-frame flashing or layout jumps. */
+/**
+ * One-way reveal controller. Initial visibility is resolved by IntersectionObserver
+ * instead of synchronously calling getBoundingClientRect() for every candidate.
+ * That keeps the effect without forcing a large layout pass during startup.
+ */
 export function PageRevealController({ pathname }: { pathname: string }) {
   useEffect(() => {
     let removeReveal: (() => void) | undefined;
@@ -195,7 +200,14 @@ export function PageRevealController({ pathname }: { pathname: string }) {
       const passes = new Map<HTMLElement, RevealPass>(
         candidates.map((element) => [
           element,
-          { down: 0, up: 0, inside: false, staged: false, activeAnimation: null },
+          {
+            down: 0,
+            up: 0,
+            inside: false,
+            staged: false,
+            initialized: false,
+            activeAnimation: null,
+          },
         ]),
       );
       let lastScrollY = window.scrollY;
@@ -278,6 +290,19 @@ export function PageRevealController({ pathname }: { pathname: string }) {
             const pass = passes.get(element);
             if (!pass) return;
 
+            if (!pass.initialized) {
+              pass.initialized = true;
+              if (!entry.isIntersecting) {
+                const state = states.get(element) ?? revealState(element, compactViewport);
+                applyStage(element, state, pass);
+                return;
+              }
+
+              pass.inside = true;
+              element.dataset.motionReveal = "shown";
+              return;
+            }
+
             if (!entry.isIntersecting) {
               pass.inside = false;
               if (
@@ -309,22 +334,11 @@ export function PageRevealController({ pathname }: { pathname: string }) {
         },
       );
 
-      candidates.forEach((element) => {
-        const pass = passes.get(element);
-        const state = states.get(element);
-        if (!pass || !state) return;
+      // IntersectionObserver resolves initial geometry asynchronously. Avoid a
+      // synchronous getBoundingClientRect() sweep here: that was the main forced
+      // layout hotspot on startup.
+      candidates.forEach((element) => observer.observe(element));
 
-        const rect = element.getBoundingClientRect();
-        if (rect.top > window.innerHeight * 0.82) {
-          applyStage(element, state, pass);
-        } else {
-          element.dataset.motionReveal = "shown";
-        }
-        observer.observe(element);
-      });
-
-      // Scroll only feeds the reveal direction, and only once per frame: the
-      // observer does the rest, so no layout is read while the page scrolls.
       const readScrollDirection = () => {
         directionFrame = 0;
         const nextScrollY = window.scrollY;
