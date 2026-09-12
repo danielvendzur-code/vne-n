@@ -77,8 +77,8 @@ function ServicesPage() {
               Nástroje, ktoré posunú zákazníka <em>k výsledku.</em>
             </h1>
             <p className="sp-hero-lead">
-              Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť, vypočítať,
-              vybrať alebo odoslať.
+              Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť,
+              vypočítať, vybrať alebo odoslať.
             </p>
           </div>
           <SubpageHeroMedia
