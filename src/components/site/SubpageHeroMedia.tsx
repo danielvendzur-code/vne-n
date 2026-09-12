@@ -4,11 +4,7 @@ type SubpageHeroMediaProps = {
   position?: "top" | "center";
 };
 
-export function SubpageHeroMedia({
-  src,
-  alt,
-  position = "top",
-}: SubpageHeroMediaProps) {
+export function SubpageHeroMedia({ src, alt, position = "top" }: SubpageHeroMediaProps) {
   return (
     <figure className="sp-hero-media" data-position={position}>
       <img
