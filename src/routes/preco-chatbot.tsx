@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { SubpageHeroMedia } from "@/components/site/SubpageHeroMedia";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
@@ -47,16 +48,22 @@ const outcomes = [
 function WhyPage() {
   return (
     <div className="sp-page">
-      <header className="sp-hero">
+      <header className="sp-hero sp-hero--media">
         <div className="container-page">
-          <p className="section-kicker">PREČO TO FUNGUJE</p>
-          <h1>
-            Menej slepých miest medzi otázkou a <em>ďalším krokom.</em>
-          </h1>
-          <p className="sp-hero-lead">
-            Hodnota nie je v tom, že na webe „je AI“. Hodnota je v tom, že človek vie rýchlejšie
-            zistiť, vybrať alebo vypočítať to, čo potrebuje.
-          </p>
+          <div className="sp-hero__copy">
+            <p className="section-kicker">PREČO TO FUNGUJE</p>
+            <h1>
+              Menej slepých miest medzi otázkou a <em>ďalším krokom.</em>
+            </h1>
+            <p className="sp-hero-lead">
+              Hodnota nie je v tom, že na webe „je AI“. Hodnota je v tom, že človek vie rýchlejšie
+              zistiť, vybrať alebo vypočítať to, čo potrebuje.
+            </p>
+          </div>
+          <SubpageHeroMedia
+            src={`${import.meta.env.BASE_URL}work/live/webko.webp`}
+            alt="Ukážka reálne nasadeného webu WEBKO"
+          />
         </div>
       </header>
 
