@@ -1,12 +1,15 @@
 import type { ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { AnalyticsConsent } from "./AnalyticsConsent";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
-import "./SubpageHeroUnified.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
   return (
     <div className="site-theme-white-green min-h-screen flex flex-col">
       <a className="skip-link" href="#main-content">
@@ -15,7 +18,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <Nav />
       <main id="main-content" className="relative flex-1">
         <Breadcrumbs />
-        <div className="page-transition">{children}</div>
+        <div key={pathname} className="page-transition">
+          {children}
+        </div>
+        <PageRevealController pathname={pathname} />
       </main>
       <AnalyticsConsent />
       <Footer />
