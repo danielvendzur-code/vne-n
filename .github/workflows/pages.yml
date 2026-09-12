@@ -98,8 +98,10 @@ jobs:
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
           grep -Fq "buildKey" pages-dist/widget-loader.js
           grep -Fq "round-one-stroke-launcher-20260831-v15" pages-dist/widget-loader.js
-          grep -Fq "Rebrand.css" src/components/site/Layout.tsx
-          grep -Fq "RebrandPages.css" src/components/site/Layout.tsx
+          grep -Fq 'import "./SiteVisualAuthority.css";' src/components/site/Layout.tsx
+          grep -Fq 'import "../components/site/SubpageHeroUnified.css";' src/routes/__root.tsx
+          ! grep -Fq "Rebrand.css" src/components/site/Layout.tsx
+          ! grep -Fq "RebrandPages.css" src/components/site/Layout.tsx
           ! grep -Fq "CompetitionWinnerFinal.css" src/components/site/Layout.tsx
           ! grep -Fq "LimeWhiteBrandFinal.css" src/components/site/Layout.tsx
           ! grep -Fq "SiteFunnelBridge" src/components/site/Layout.tsx
