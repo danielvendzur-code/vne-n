@@ -7,19 +7,17 @@
   const normalizeSource = (value) =>
     String(value || "")
       .trim()
-      .replace(/\/embed\.js(?=([?#]|$))/, `/${"widget" + ".js"}`);
+      .replace(/\/embed\.js(?=([?#]|$))/, "/widget.js");
 
   const SOURCE = normalizeSource(
     document.documentElement.dataset.assistantSource ||
-      "https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js",
+      "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
   );
   const HOST_ID = "dv-assistant-root";
   const FALLBACK_ID = "dv-assistant-fallback";
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
-  const RETRY_DELAY = 5000;
   const WIDGET_RELEASE = "round-one-stroke-launcher-20260831-v15";
-  const LOGO_CYCLE_MS = 5400;
   const DARK_LOGO = [11, 47, 32];
   const PALE_LOGO = [185, 237, 77];
   const ONE_STROKE =
@@ -28,69 +26,25 @@
   let settled = false;
   let loading = false;
   let pendingOpen = null;
-  let retryTimer = null;
+  let mountTimer = null;
   let fallbackFrame = 0;
 
   const internalHref = (pathname) => {
-    const basePath = document.documentElement.dataset.basePath || "/vne-n";
+    const basePath = document.documentElement.dataset.basePath || "/";
     const segments = [basePath, pathname]
       .map((segment) => String(segment).replace(/^\/+|\/+$/g, ""))
       .filter(Boolean);
-
     return `/${segments.join("/")}`;
   };
 
   const hasMountedWidget = () => {
     const host = document.getElementById(HOST_ID);
-    if (!host || host.childElementCount === 0 || typeof window.openSiteAssistant !== "function") {
-      return false;
-    }
-
-    return Boolean(window.openSiteAssistant.__siteAssistantEmbed || host.id === HOST_ID);
-  };
-
-  const rememberEarlyOpen = (event) => {
-    if (hasMountedWidget()) return;
-    pendingOpen = event?.detail || { entry: "builder" };
-  };
-
-  window.addEventListener(OPEN_EVENT, rememberEarlyOpen);
-
-  const handOffPendingOpen = () => {
-    window.removeEventListener(OPEN_EVENT, rememberEarlyOpen);
-    if (!pendingOpen || typeof window.openSiteAssistant !== "function") return;
-    const options = pendingOpen;
-    pendingOpen = null;
-    window.openSiteAssistant(options);
-  };
-
-  const logoOffset = (progress) => {
-    if (progress < 0.05) return 1;
-    if (progress < 0.35) return 1 - (progress - 0.05) / 0.3;
-    if (progress < 0.5) return 0;
-    if (progress < 0.8) return (progress - 0.5) / 0.3;
-    return 1;
-  };
-
-  const logoOpacity = (offset) => {
-    if (offset <= 0.965) return 1;
-    if (offset >= 0.995) return 0;
-    return 1 - (offset - 0.965) / 0.03;
-  };
-
-  const logoColor = (progress) => {
-    let mix = 0;
-    if (progress >= 0.05 && progress < 0.35) {
-      mix = (progress - 0.05) / 0.3;
-    } else if (progress >= 0.35 && progress < 0.5) {
-      mix = 1;
-    } else if (progress >= 0.5 && progress < 0.8) {
-      mix = 1 - (progress - 0.5) / 0.3;
-    }
-
-    const channel = (index) =>
-      Math.round(DARK_LOGO[index] + (PALE_LOGO[index] - DARK_LOGO[index]) * mix);
-    return `rgb(${channel(0)}, ${channel(1)}, ${channel(2)})`;
+    return Boolean(
+      host &&
+      host.childElementCount > 0 &&
+      typeof window.openSiteAssistant === "function" &&
+      window.openSiteAssistant.__siteAssistantEmbed,
+    );
   };
 
   const stopFallbackAnimation = () => {
@@ -104,19 +58,47 @@
     document.getElementById(FALLBACK_ID)?.remove();
   };
 
-  const showFallback = () => {
-    if (settled || hasMountedWidget() || document.getElementById(FALLBACK_ID)) return;
+  const completeMount = () => {
+    if (!hasMountedWidget()) return false;
+    settled = true;
+    loading = false;
+    if (mountTimer !== null) {
+      window.clearTimeout(mountTimer);
+      mountTimer = null;
+    }
+    removeFallback();
+    if (pendingOpen && typeof window.openSiteAssistant === "function") {
+      const options = pendingOpen;
+      pendingOpen = null;
+      window.openSiteAssistant(options);
+    }
+    return true;
+  };
+
+  const showFallback = (failed = false) => {
+    if (settled || !document.body) return;
+
+    const existing = document.getElementById(FALLBACK_ID);
+    if (existing) {
+      if (failed) {
+        existing.dataset.failed = "true";
+        existing.setAttribute("aria-label", "Otvoriť kontakt");
+      }
+      return;
+    }
 
     const anchor = document.createElement("a");
     anchor.id = FALLBACK_ID;
     anchor.href = internalHref("/kontakt");
-    anchor.setAttribute("aria-label", "Otvoriť Môj Chatbot");
+    anchor.dataset.failed = failed ? "true" : "false";
+    anchor.setAttribute("aria-label", failed ? "Otvoriť kontakt" : "Otvoriť Môj Chatbot");
     anchor.innerHTML = `
       <svg width="50" height="50" viewBox="0 0 112 112" fill="none" focusable="false" aria-hidden="true">
         <path d="${ONE_STROKE}" pathLength="1" stroke="currentColor" stroke-width="7.75"
           stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 1" />
       </svg>
     `;
+
     Object.assign(anchor.style, {
       position: "fixed",
       right: "max(18px, env(safe-area-inset-right))",
@@ -129,90 +111,86 @@
       padding: "10px",
       border: "1px solid rgba(11,47,32,.16)",
       borderRadius: "50%",
-      color: "#0b2f20",
+      color: failed ? "#355247" : "#0b2f20",
       background: "#ffffff",
       boxShadow: "0 18px 40px -26px rgba(11,47,32,.52), inset 0 1px 0 rgba(255,255,255,.9)",
       textDecoration: "none",
-      overflow: "hidden",
       cursor: "pointer",
+      transform: "translateZ(0)",
       transition: "border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease",
     });
 
     const stroke = anchor.querySelector("path");
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (stroke instanceof SVGPathElement) {
-      if (reducedMotion) {
-        stroke.style.strokeDashoffset = "0";
-        stroke.style.opacity = "1";
-        stroke.style.color = "#19834f";
-      } else {
-        const startedAt = performance.now();
-        const tick = (now) => {
-          if (!document.getElementById(FALLBACK_ID)) {
-            fallbackFrame = 0;
-            return;
-          }
-          const progress = ((now - startedAt) % LOGO_CYCLE_MS) / LOGO_CYCLE_MS;
-          const offset = logoOffset(progress);
-          stroke.style.strokeDashoffset = offset.toFixed(4);
-          stroke.style.opacity = logoOpacity(offset).toFixed(4);
-          stroke.style.color = logoColor(progress);
-          fallbackFrame = window.requestAnimationFrame(tick);
-        };
-        tick(startedAt);
-      }
-    }
+    if (stroke instanceof SVGPathElement) stroke.style.strokeDashoffset = "0";
 
-    anchor.onmouseenter = () => {
+    anchor.addEventListener("pointerenter", () => {
       anchor.style.borderColor = "rgba(25,131,79,.34)";
-      anchor.style.boxShadow =
-        "0 20px 44px -24px rgba(11,47,32,.58), inset 0 1px 0 rgba(255,255,255,.9)";
-      anchor.style.transform = "translateY(-2px)";
-    };
-    anchor.onmouseleave = () => {
+      anchor.style.transform = "translate3d(0,-2px,0)";
+
+      if (
+        anchor.dataset.failed === "true" ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        return;
+      }
+
+      const currentStroke = anchor.querySelector("path");
+      if (!(currentStroke instanceof SVGPathElement)) return;
+
+      stopFallbackAnimation();
+      const startedAt = performance.now();
+      const duration = 620;
+      const channel = (index, progress) =>
+        Math.round(DARK_LOGO[index] + (PALE_LOGO[index] - DARK_LOGO[index]) * progress);
+
+      const tick = (now) => {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        currentStroke.style.strokeDashoffset = (1 - eased).toFixed(4);
+        currentStroke.style.color = `rgb(${channel(0, eased)}, ${channel(1, eased)}, ${channel(2, eased)})`;
+        if (progress < 1) {
+          fallbackFrame = window.requestAnimationFrame(tick);
+        } else {
+          fallbackFrame = 0;
+        }
+      };
+
+      currentStroke.style.strokeDashoffset = "1";
+      fallbackFrame = window.requestAnimationFrame(tick);
+    });
+
+    anchor.addEventListener("pointerleave", () => {
+      stopFallbackAnimation();
       anchor.style.borderColor = "rgba(11,47,32,.16)";
-      anchor.style.boxShadow =
-        "0 18px 40px -26px rgba(11,47,32,.52), inset 0 1px 0 rgba(255,255,255,.9)";
-      anchor.style.transform = "translateY(0)";
-    };
-    anchor.onclick = (event) => {
-      if (!hasMountedWidget()) return;
+      anchor.style.transform = "translate3d(0,0,0)";
+      const currentStroke = anchor.querySelector("path");
+      if (currentStroke instanceof SVGPathElement) {
+        currentStroke.style.strokeDashoffset = "0";
+        currentStroke.style.color = "";
+      }
+    });
+
+    anchor.addEventListener("click", (event) => {
+      if (anchor.dataset.failed === "true") return;
       event.preventDefault();
-      removeFallback();
-      settled = true;
-      window.openSiteAssistant({ entry: "builder" });
-    };
+      pendingOpen = { entry: "builder" };
+      start();
+      anchor.setAttribute("aria-label", "Načítavam Môj Chatbot");
+    });
 
     document.body.appendChild(anchor);
-  };
-
-  const completeMount = () => {
-    if (!hasMountedWidget()) return false;
-    settled = true;
-    loading = false;
-    if (retryTimer !== null) {
-      window.clearTimeout(retryTimer);
-      retryTimer = null;
-    }
-    removeFallback();
-    handOffPendingOpen();
-    return true;
-  };
-
-  const scheduleRetry = () => {
-    if (settled || retryTimer !== null) return;
-    retryTimer = window.setTimeout(() => {
-      retryTimer = null;
-      start();
-    }, RETRY_DELAY);
   };
 
   const confirmMount = () => {
     const startedAt = Date.now();
     const check = () => {
       if (completeMount()) return;
-      if (Date.now() - startedAt >= MOUNT_TIMEOUT) showFallback();
-      window.setTimeout(check, 500);
+      if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
+        loading = false;
+        showFallback(true);
+        return;
+      }
+      mountTimer = window.setTimeout(check, 350);
     };
     check();
   };
@@ -220,10 +198,7 @@
   const start = () => {
     if (settled || loading) return;
     if (completeMount()) return;
-
     loading = true;
-    document.documentElement.dataset.basePath =
-      document.documentElement.dataset.basePath || "/vne-n";
 
     const now = new Date();
     const buildKey = [
@@ -240,19 +215,33 @@
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = SOURCE;
-    script.onload = () => confirmMount();
+    script.onload = confirmMount;
     script.onerror = () => {
       loading = false;
       script.remove();
-      showFallback();
-      scheduleRetry();
+      showFallback(true);
     };
     document.head.appendChild(script);
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start, { once: true });
-  } else {
+  const requestOpen = (options) => {
+    pendingOpen = options || { entry: "builder" };
+    if (hasMountedWidget()) {
+      completeMount();
+      return;
+    }
     start();
+  };
+
+  window.addEventListener(OPEN_EVENT, (event) => {
+    if (settled && typeof window.openSiteAssistant === "function") return;
+    requestOpen(event?.detail);
+  });
+
+  const init = () => showFallback(false);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
   }
 })();
