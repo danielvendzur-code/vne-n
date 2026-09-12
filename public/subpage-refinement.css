@@ -1,12 +1,12 @@
-/* Surgical refinement only for the three image-led informational subpages.
-   Pricing, contact, homepage and every other existing layout intentionally keep
-   their original SiteVisualAuthority.css geometry. */
+/* Surgical refinement only for image-led informational subpage heroes.
+   Pricing, contact, homepage and every non-media hero keep their original
+   SiteVisualAuthority.css geometry and visual treatment. */
 
 :root {
   --font-ui-clean: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Requested navigation typography change only. Do not alter header geometry. */
+/* Requested navigation typography change only. Header geometry stays untouched. */
 .site-header .site-brand-name,
 .site-header .site-nav a,
 .site-header .site-header__cta,
@@ -34,34 +34,34 @@
   letter-spacing: -0.01em !important;
 }
 
-/* Only pages explicitly marked with this class receive the new hero treatment. */
-.site-theme-white-green .subpage-visual-refresh > .sp-hero {
+/* Only heroes that intentionally contain a project image get changed. */
+.site-theme-white-green .sp-page > .sp-hero--media {
   min-height: auto !important;
   padding: clamp(3.1rem, 5vw, 4.8rem) 0 !important;
 }
 
-/* Remove the small decorative line the user called out, but nowhere else. */
-.site-theme-white-green .subpage-visual-refresh > .sp-hero::before,
-.site-theme-white-green .subpage-visual-refresh > .sp-hero::after {
+/* Remove the small decorative line called out in the feedback, only here. */
+.site-theme-white-green .sp-page > .sp-hero--media::before,
+.site-theme-white-green .sp-page > .sp-hero--media::after {
   content: none !important;
   display: none !important;
 }
 
-.site-theme-white-green .subpage-visual-refresh > .sp-hero--media > .container-page {
+.site-theme-white-green .sp-page > .sp-hero--media > .container-page {
   display: grid !important;
   grid-template-columns: minmax(0, 1.08fr) minmax(22rem, 0.72fr) !important;
   gap: clamp(2.5rem, 6vw, 6rem) !important;
   align-items: center !important;
 }
 
-.site-theme-white-green .subpage-visual-refresh .sp-hero__copy {
+.site-theme-white-green .sp-page > .sp-hero--media .sp-hero__copy {
   min-width: 0;
   display: grid;
   gap: clamp(0.9rem, 1.5vw, 1.25rem);
 }
 
-/* Smaller and stronger than the previous oversized, washed-out subpage title. */
-.site-theme-white-green .subpage-visual-refresh > .sp-hero h1 {
+/* Smaller and stronger than the previous oversized, washed-out hero title. */
+.site-theme-white-green .sp-page > .sp-hero--media h1 {
   max-width: 12ch !important;
   margin: 0 !important;
   color: #111310 !important;
@@ -71,12 +71,12 @@
   letter-spacing: -0.04em !important;
 }
 
-.site-theme-white-green .subpage-visual-refresh > .sp-hero h1 em {
+.site-theme-white-green .sp-page > .sp-hero--media h1 em {
   color: #12372d !important;
   font-style: normal;
 }
 
-.site-theme-white-green .subpage-visual-refresh > .sp-hero .sp-hero-lead {
+.site-theme-white-green .sp-page > .sp-hero--media .sp-hero-lead {
   max-width: 38rem !important;
   margin: 0 !important;
   color: #34443c !important;
@@ -84,13 +84,13 @@
   line-height: 1.58 !important;
 }
 
-.site-theme-white-green .subpage-visual-refresh > .sp-hero .section-kicker {
+.site-theme-white-green .sp-page > .sp-hero--media .section-kicker {
   width: fit-content !important;
   margin: 0 !important;
   color: #315d4d !important;
 }
 
-.site-theme-white-green .subpage-visual-refresh .sp-hero-media {
+.site-theme-white-green .sp-page > .sp-hero--media .sp-hero-media {
   position: relative;
   margin: 0;
   padding: 0.5rem;
@@ -102,7 +102,7 @@
   box-shadow: 0 24px 48px -38px rgba(7, 27, 21, 0.58);
 }
 
-.site-theme-white-green .subpage-visual-refresh .sp-hero-media img {
+.site-theme-white-green .sp-page > .sp-hero--media .sp-hero-media img {
   display: block;
   width: 100%;
   height: 100%;
@@ -111,38 +111,38 @@
   object-position: center;
 }
 
-.site-theme-white-green .subpage-visual-refresh .sp-hero-media[data-position="top"] img {
+.site-theme-white-green .sp-page > .sp-hero--media .sp-hero-media[data-position="top"] img {
   object-position: top center;
 }
 
 @media (max-width: 980px) {
-  .site-theme-white-green .subpage-visual-refresh > .sp-hero--media > .container-page {
+  .site-theme-white-green .sp-page > .sp-hero--media > .container-page {
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.68fr) !important;
     gap: 2.2rem !important;
   }
 
-  .site-theme-white-green .subpage-visual-refresh > .sp-hero h1 {
+  .site-theme-white-green .sp-page > .sp-hero--media h1 {
     font-size: clamp(2.9rem, 6vw, 4rem) !important;
   }
 }
 
 @media (max-width: 720px) {
-  .site-theme-white-green .subpage-visual-refresh > .sp-hero {
+  .site-theme-white-green .sp-page > .sp-hero--media {
     padding: 2.35rem 0 2.8rem !important;
   }
 
-  .site-theme-white-green .subpage-visual-refresh > .sp-hero--media > .container-page {
+  .site-theme-white-green .sp-page > .sp-hero--media > .container-page {
     grid-template-columns: 1fr !important;
     gap: 1.45rem !important;
   }
 
-  .site-theme-white-green .subpage-visual-refresh > .sp-hero h1 {
+  .site-theme-white-green .sp-page > .sp-hero--media h1 {
     max-width: 11ch !important;
     font-size: clamp(2.55rem, 10.7vw, 3.55rem) !important;
     line-height: 0.97 !important;
   }
 
-  .site-theme-white-green .subpage-visual-refresh .sp-hero-media {
+  .site-theme-white-green .sp-page > .sp-hero--media .sp-hero-media {
     width: 100%;
     aspect-ratio: 16 / 10;
     padding: 0.4rem;
