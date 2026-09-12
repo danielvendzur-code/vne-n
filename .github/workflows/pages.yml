@@ -87,8 +87,8 @@ jobs:
           test -f pages-dist/sitemap.xml
           test -f pages-dist/brand/logo.svg
 
-          grep -Fq "Z otázky" pages-dist/index.html
-          grep -Fq "k výsledku" pages-dist/index.html
+          grep -Fq "Web, ktorý" pages-dist/index.html
+          grep -Fq "mení návštevy" pages-dist/index.html
           grep -Fq "CHATBOT / PRODUKTOVÝ PORADCA" pages-dist/index.html
           grep -Fq "347 €" pages-dist/cennik/index.html
           grep -Fq "447 €" pages-dist/cennik/index.html
@@ -174,7 +174,7 @@ jobs:
             return 1
           }
 
-          fetch_with_retry "/" "Z otázky"
+          fetch_with_retry "/" "Web, ktorý"
           fetch_with_retry "/navrh/" "Návrh už máte"
           fetch_with_retry "/cennik/" "347 €"
           fetch_with_retry "/cennik/" "447 €"
