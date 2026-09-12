@@ -808,7 +808,11 @@ function AnimatedPrice({ value, lead = "od " }: { value: number; lead?: string }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (started || !entry || !entry.isIntersecting) return;
+        if (!entry) return;
+        if (!entry.isIntersecting) {
+          return;
+        }
+        if (started) return;
         observer.disconnect();
         setDisplayValue(0);
         countUp();
