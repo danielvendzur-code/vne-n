@@ -14,7 +14,7 @@
       "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js",
   );
   const HOST_ID = "dv-assistant-root";
-  const LAUNCHER_ID = "dv-assistant-fallback";
+  const FALLBACK_ID = "dv-assistant-fallback";
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const WIDGET_RELEASE = "round-one-stroke-launcher-20260831-v15";
@@ -27,7 +27,7 @@
   let loading = false;
   let pendingOpen = null;
   let mountTimer = null;
-  let launcherFrame = 0;
+  let fallbackFrame = 0;
 
   const internalHref = (pathname) => {
     const basePath = document.documentElement.dataset.basePath || "/";
@@ -47,15 +47,15 @@
     );
   };
 
-  const stopLauncherAnimation = () => {
-    if (!launcherFrame) return;
-    window.cancelAnimationFrame(launcherFrame);
-    launcherFrame = 0;
+  const stopFallbackAnimation = () => {
+    if (!fallbackFrame) return;
+    window.cancelAnimationFrame(fallbackFrame);
+    fallbackFrame = 0;
   };
 
-  const removeLauncher = () => {
-    stopLauncherAnimation();
-    document.getElementById(LAUNCHER_ID)?.remove();
+  const removeFallback = () => {
+    stopFallbackAnimation();
+    document.getElementById(FALLBACK_ID)?.remove();
   };
 
   const completeMount = () => {
@@ -66,7 +66,7 @@
       window.clearTimeout(mountTimer);
       mountTimer = null;
     }
-    removeLauncher();
+    removeFallback();
     if (pendingOpen && typeof window.openSiteAssistant === "function") {
       const options = pendingOpen;
       pendingOpen = null;
@@ -75,89 +75,22 @@
     return true;
   };
 
-  const confirmMount = () => {
-    const startedAt = Date.now();
-    const check = () => {
-      if (completeMount()) return;
-      if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
-        loading = false;
-        showLauncher(true);
-        return;
+  const showFallback = (failed = false) => {
+    if (settled || !document.body) return;
+
+    const existing = document.getElementById(FALLBACK_ID);
+    if (existing) {
+      if (failed) {
+        existing.dataset.failed = "true";
+        existing.setAttribute("aria-label", "Otvoriť kontakt");
       }
-      mountTimer = window.setTimeout(check, 350);
-    };
-    check();
-  };
-
-  const start = () => {
-    if (settled || loading) return;
-    if (completeMount()) return;
-    loading = true;
-
-    const script = document.createElement("script");
-    const separator = SOURCE.includes("?") ? "&" : "?";
-    script.src = `${SOURCE}${separator}v=${WIDGET_RELEASE}`;
-    script.async = true;
-    script.referrerPolicy = "strict-origin-when-cross-origin";
-    script.dataset.dvAssistantSource = SOURCE;
-    script.onload = confirmMount;
-    script.onerror = () => {
-      loading = false;
-      script.remove();
-      showLauncher(true);
-    };
-    document.head.appendChild(script);
-  };
-
-  const requestOpen = (options) => {
-    pendingOpen = options || { entry: "builder" };
-    if (hasMountedWidget()) {
-      completeMount();
       return;
     }
-    start();
-  };
-
-  const onOpenEvent = (event) => {
-    if (settled && typeof window.openSiteAssistant === "function") return;
-    requestOpen(event?.detail);
-  };
-
-  window.addEventListener(OPEN_EVENT, onOpenEvent);
-
-  const animateLauncherOnDemand = (anchor) => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const stroke = anchor.querySelector("path");
-    if (!(stroke instanceof SVGPathElement)) return;
-
-    stopLauncherAnimation();
-    const startedAt = performance.now();
-    const duration = 620;
-    const channel = (index, progress) =>
-      Math.round(DARK_LOGO[index] + (PALE_LOGO[index] - DARK_LOGO[index]) * progress);
-
-    const tick = (now) => {
-      const progress = Math.min(1, (now - startedAt) / duration);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      stroke.style.strokeDashoffset = (1 - eased).toFixed(4);
-      stroke.style.color = `rgb(${channel(0, eased)}, ${channel(1, eased)}, ${channel(2, eased)})`;
-      if (progress < 1) {
-        launcherFrame = window.requestAnimationFrame(tick);
-      } else {
-        launcherFrame = 0;
-      }
-    };
-
-    stroke.style.strokeDashoffset = "1";
-    launcherFrame = window.requestAnimationFrame(tick);
-  };
-
-  function showLauncher(failed = false) {
-    if (settled || document.getElementById(LAUNCHER_ID) || !document.body) return;
 
     const anchor = document.createElement("a");
-    anchor.id = LAUNCHER_ID;
-    anchor.href = internalHref("kontakt");
+    anchor.id = FALLBACK_ID;
+    anchor.href = internalHref("/kontakt");
+    anchor.dataset.failed = failed ? "true" : "false";
     anchor.setAttribute("aria-label", failed ? "Otvoriť kontakt" : "Otvoriť Môj Chatbot");
     anchor.innerHTML = `
       <svg width="50" height="50" viewBox="0 0 112 112" fill="none" focusable="false" aria-hidden="true">
@@ -188,17 +121,46 @@
     });
 
     const stroke = anchor.querySelector("path");
-    if (stroke instanceof SVGPathElement) {
-      stroke.style.strokeDashoffset = "0";
-    }
+    if (stroke instanceof SVGPathElement) stroke.style.strokeDashoffset = "0";
 
     anchor.addEventListener("pointerenter", () => {
       anchor.style.borderColor = "rgba(25,131,79,.34)";
       anchor.style.transform = "translate3d(0,-2px,0)";
-      if (!failed) animateLauncherOnDemand(anchor);
+
+      if (
+        anchor.dataset.failed === "true" ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        return;
+      }
+
+      const currentStroke = anchor.querySelector("path");
+      if (!(currentStroke instanceof SVGPathElement)) return;
+
+      stopFallbackAnimation();
+      const startedAt = performance.now();
+      const duration = 620;
+      const channel = (index, progress) =>
+        Math.round(DARK_LOGO[index] + (PALE_LOGO[index] - DARK_LOGO[index]) * progress);
+
+      const tick = (now) => {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        currentStroke.style.strokeDashoffset = (1 - eased).toFixed(4);
+        currentStroke.style.color = `rgb(${channel(0, eased)}, ${channel(1, eased)}, ${channel(2, eased)})`;
+        if (progress < 1) {
+          fallbackFrame = window.requestAnimationFrame(tick);
+        } else {
+          fallbackFrame = 0;
+        }
+      };
+
+      currentStroke.style.strokeDashoffset = "1";
+      fallbackFrame = window.requestAnimationFrame(tick);
     });
+
     anchor.addEventListener("pointerleave", () => {
-      stopLauncherAnimation();
+      stopFallbackAnimation();
       anchor.style.borderColor = "rgba(11,47,32,.16)";
       anchor.style.transform = "translate3d(0,0,0)";
       const currentStroke = anchor.querySelector("path");
@@ -207,17 +169,76 @@
         currentStroke.style.color = "";
       }
     });
+
     anchor.addEventListener("click", (event) => {
-      if (failed) return;
+      if (anchor.dataset.failed === "true") return;
       event.preventDefault();
-      requestOpen({ entry: "builder" });
+      pendingOpen = { entry: "builder" };
+      start();
       anchor.setAttribute("aria-label", "Načítavam Môj Chatbot");
     });
 
     document.body.appendChild(anchor);
-  }
+  };
 
-  const init = () => showLauncher(false);
+  const confirmMount = () => {
+    const startedAt = Date.now();
+    const check = () => {
+      if (completeMount()) return;
+      if (Date.now() - startedAt >= MOUNT_TIMEOUT) {
+        loading = false;
+        showFallback(true);
+        return;
+      }
+      mountTimer = window.setTimeout(check, 350);
+    };
+    check();
+  };
+
+  const start = () => {
+    if (settled || loading) return;
+    if (completeMount()) return;
+    loading = true;
+
+    const now = new Date();
+    const buildKey = [
+      now.getUTCFullYear(),
+      String(now.getUTCMonth() + 1).padStart(2, "0"),
+      String(now.getUTCDate()).padStart(2, "0"),
+      String(now.getUTCHours()).padStart(2, "0"),
+      String(Math.floor(now.getUTCMinutes() / 5) * 5).padStart(2, "0"),
+    ].join("");
+
+    const script = document.createElement("script");
+    const separator = SOURCE.includes("?") ? "&" : "?";
+    script.src = `${SOURCE}${separator}v=${WIDGET_RELEASE}-${buildKey}`;
+    script.async = true;
+    script.referrerPolicy = "strict-origin-when-cross-origin";
+    script.dataset.dvAssistantSource = SOURCE;
+    script.onload = confirmMount;
+    script.onerror = () => {
+      loading = false;
+      script.remove();
+      showFallback(true);
+    };
+    document.head.appendChild(script);
+  };
+
+  const requestOpen = (options) => {
+    pendingOpen = options || { entry: "builder" };
+    if (hasMountedWidget()) {
+      completeMount();
+      return;
+    }
+    start();
+  };
+
+  window.addEventListener(OPEN_EVENT, (event) => {
+    if (settled && typeof window.openSiteAssistant === "function") return;
+    requestOpen(event?.detail);
+  });
+
+  const init = () => showFallback(false);
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init, { once: true });
   } else {
