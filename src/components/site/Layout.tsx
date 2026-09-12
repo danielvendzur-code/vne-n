@@ -6,7 +6,7 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
-import "./SubpageRefinement.css";
+import "./SubpageRefinement";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
