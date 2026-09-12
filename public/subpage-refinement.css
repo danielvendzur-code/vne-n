@@ -1,9 +1,12 @@
-/* Subpage refinement: tighter typography, cleaner navigation and image-led heroes. */
+/* Surgical refinement only for the three image-led informational subpages.
+   Pricing, contact, homepage and every other existing layout intentionally keep
+   their original SiteVisualAuthority.css geometry. */
 
 :root {
   --font-ui-clean: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* Requested navigation typography change only. Do not alter header geometry. */
 .site-header .site-brand-name,
 .site-header .site-nav a,
 .site-header .site-header__cta,
@@ -15,221 +18,133 @@
 }
 
 .site-header .site-brand-name {
-  font-size: 0.98rem !important;
   font-weight: 700 !important;
   letter-spacing: -0.018em !important;
 }
 
 .site-header .site-nav a {
-  color: #18372f !important;
-  font-size: 0.9rem !important;
-  font-weight: 560 !important;
-  letter-spacing: -0.012em !important;
+  color: #213d35 !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
 }
 
 .site-header .site-header__cta {
-  font-size: 0.87rem !important;
-  font-weight: 720 !important;
-  letter-spacing: -0.012em !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
 }
 
-.site-header[data-tone="light"] .site-header__inner {
-  background: rgba(248, 249, 244, 0.97) !important;
-  border-bottom-color: rgba(18, 55, 45, 0.14) !important;
-  box-shadow: 0 10px 28px -30px rgba(7, 27, 21, 0.62) !important;
+/* Only pages explicitly marked with this class receive the new hero treatment. */
+.site-theme-white-green .subpage-visual-refresh > .sp-hero {
+  min-height: auto !important;
+  padding: clamp(3.1rem, 5vw, 4.8rem) 0 !important;
 }
 
-.site-theme-white-green .sp-page > .sp-hero,
-.site-theme-white-green .contact-page > .sp-hero {
-  min-height: clamp(24rem, 46svh, 32rem) !important;
-  align-items: center !important;
-  padding: clamp(2.6rem, 4vw, 4rem) 0 !important;
-  border-bottom: 1px solid rgba(18, 55, 45, 0.14) !important;
-  background: #f5f4ee !important;
-  color: #10140f !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero::before,
-.site-theme-white-green .sp-page > .sp-hero::after,
-.site-theme-white-green .contact-page > .sp-hero::before,
-.site-theme-white-green .contact-page > .sp-hero::after {
+/* Remove the small decorative line the user called out, but nowhere else. */
+.site-theme-white-green .subpage-visual-refresh > .sp-hero::before,
+.site-theme-white-green .subpage-visual-refresh > .sp-hero::after {
   content: none !important;
   display: none !important;
 }
 
-.site-theme-white-green .sp-page > .sp-hero > .container-page,
-.site-theme-white-green .contact-page > .sp-hero > .container-page {
-  width: min(100%, var(--container)) !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero:not(.sp-hero--media) > .container-page {
+.site-theme-white-green .subpage-visual-refresh > .sp-hero--media > .container-page {
   display: grid !important;
-  grid-template-columns: minmax(0, 0.92fr) minmax(18rem, 0.42fr) !important;
-  gap: clamp(2.5rem, 7vw, 7rem) !important;
-  align-items: end !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero:not(.sp-hero--media) .section-kicker {
-  grid-column: 1 / -1 !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero h1,
-.site-theme-white-green .contact-page > .sp-hero h1 {
-  max-width: 12ch !important;
-  margin: 0 !important;
-  color: #10140f !important;
-  font-size: clamp(3.15rem, 5vw, 5.35rem) !important;
-  font-weight: 510 !important;
-  line-height: 0.95 !important;
-  letter-spacing: -0.045em !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero h1 em,
-.site-theme-white-green .contact-page > .sp-hero h1 em {
-  color: #12382d !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero .sp-hero-lead,
-.site-theme-white-green .contact-page > .sp-hero .sp-hero-lead {
-  max-width: 34rem !important;
-  margin: 0 !important;
-  color: #34443c !important;
-  font-family: var(--font-ui-clean) !important;
-  font-size: clamp(1rem, 1.08vw, 1.08rem) !important;
-  line-height: 1.58 !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero .section-kicker,
-.site-theme-white-green .contact-page > .sp-hero .section-kicker {
-  width: fit-content !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  color: #315d4d !important;
-  font-family: var(--font-ui-clean) !important;
-  font-size: 0.7rem !important;
-  font-weight: 760 !important;
-  line-height: 1.2 !important;
-  letter-spacing: 0.085em !important;
-}
-
-.site-theme-white-green .sp-page > .sp-hero--media > .container-page {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1.02fr) minmax(20rem, 0.72fr) !important;
-  gap: clamp(2.4rem, 6vw, 6.5rem) !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(22rem, 0.72fr) !important;
+  gap: clamp(2.5rem, 6vw, 6rem) !important;
   align-items: center !important;
 }
 
-.sp-hero__copy {
+.site-theme-white-green .subpage-visual-refresh .sp-hero__copy {
   min-width: 0;
   display: grid;
-  gap: clamp(0.9rem, 1.6vw, 1.3rem);
+  gap: clamp(0.9rem, 1.5vw, 1.25rem);
 }
 
-.sp-hero-media {
+/* Smaller and stronger than the previous oversized, washed-out subpage title. */
+.site-theme-white-green .subpage-visual-refresh > .sp-hero h1 {
+  max-width: 12ch !important;
+  margin: 0 !important;
+  color: #111310 !important;
+  font-size: clamp(3.05rem, 4.15vw, 4.55rem) !important;
+  font-weight: 520 !important;
+  line-height: 0.96 !important;
+  letter-spacing: -0.04em !important;
+}
+
+.site-theme-white-green .subpage-visual-refresh > .sp-hero h1 em {
+  color: #12372d !important;
+  font-style: normal;
+}
+
+.site-theme-white-green .subpage-visual-refresh > .sp-hero .sp-hero-lead {
+  max-width: 38rem !important;
+  margin: 0 !important;
+  color: #34443c !important;
+  font-size: clamp(1rem, 1.05vw, 1.08rem) !important;
+  line-height: 1.58 !important;
+}
+
+.site-theme-white-green .subpage-visual-refresh > .sp-hero .section-kicker {
+  width: fit-content !important;
+  margin: 0 !important;
+  color: #315d4d !important;
+}
+
+.site-theme-white-green .subpage-visual-refresh .sp-hero-media {
   position: relative;
   margin: 0;
-  padding: clamp(0.45rem, 0.7vw, 0.7rem);
-  aspect-ratio: 1.35 / 1;
+  padding: 0.5rem;
+  aspect-ratio: 1.42 / 1;
   overflow: hidden;
   border: 1px solid rgba(7, 27, 21, 0.16);
-  border-radius: 12px;
-  background: #12382d;
-  box-shadow: 0 28px 58px -44px rgba(7, 27, 21, 0.66);
+  border-radius: 10px;
+  background: #12372d;
+  box-shadow: 0 24px 48px -38px rgba(7, 27, 21, 0.58);
 }
 
-.sp-hero-media img {
+.site-theme-white-green .subpage-visual-refresh .sp-hero-media img {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 7px;
+  border-radius: 6px;
   object-fit: cover;
   object-position: center;
 }
 
-.sp-hero-media[data-position="top"] img {
+.site-theme-white-green .subpage-visual-refresh .sp-hero-media[data-position="top"] img {
   object-position: top center;
 }
 
-.site-theme-white-green .sp-page > .sp-section p,
-.site-theme-white-green .sp-page > .selected-work p,
-.site-theme-white-green .sp-page .process-list p,
-.site-theme-white-green .sp-page .sp-service p {
-  color: #3d4942;
-}
-
-.site-theme-white-green .sp-page .section-title {
-  max-width: 12ch !important;
-  font-size: clamp(2.65rem, 4.6vw, 4.85rem) !important;
-  line-height: 0.97 !important;
-  letter-spacing: -0.042em !important;
-}
-
-.site-theme-white-green .pricing-page--rebrand > .pricing-hero {
-  min-height: clamp(27rem, 52svh, 36rem) !important;
-  padding: clamp(2.7rem, 4vw, 4rem) 0 !important;
-  background: #f5f4ee !important;
-}
-
-.site-theme-white-green .pricing-page--rebrand .pricing-hero__copy h1 {
-  max-width: 11ch !important;
-  font-size: clamp(3.15rem, 5vw, 5.3rem) !important;
-  line-height: 0.95 !important;
-}
-
-.site-theme-white-green .contact-page--rebrand > .sp-hero h1 {
-  max-width: 11.5ch !important;
-  font-size: clamp(3rem, 4.7vw, 4.9rem) !important;
-  line-height: 0.96 !important;
-}
-
 @media (max-width: 980px) {
-  .site-theme-white-green .sp-page > .sp-hero:not(.sp-hero--media) > .container-page,
-  .site-theme-white-green .sp-page > .sp-hero--media > .container-page {
-    grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.68fr) !important;
+  .site-theme-white-green .subpage-visual-refresh > .sp-hero--media > .container-page {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.68fr) !important;
     gap: 2.2rem !important;
   }
 
-  .site-theme-white-green .sp-page > .sp-hero h1,
-  .site-theme-white-green .contact-page > .sp-hero h1 {
-    font-size: clamp(3rem, 6.8vw, 4.7rem) !important;
+  .site-theme-white-green .subpage-visual-refresh > .sp-hero h1 {
+    font-size: clamp(2.9rem, 6vw, 4rem) !important;
   }
 }
 
 @media (max-width: 720px) {
-  .site-theme-white-green .sp-page > .sp-hero,
-  .site-theme-white-green .contact-page > .sp-hero {
-    min-height: auto !important;
-    padding: 2.35rem 0 2.7rem !important;
+  .site-theme-white-green .subpage-visual-refresh > .sp-hero {
+    padding: 2.35rem 0 2.8rem !important;
   }
 
-  .site-theme-white-green .sp-page > .sp-hero:not(.sp-hero--media) > .container-page,
-  .site-theme-white-green .sp-page > .sp-hero--media > .container-page,
-  .site-theme-white-green .contact-page > .sp-hero > .container-page {
+  .site-theme-white-green .subpage-visual-refresh > .sp-hero--media > .container-page {
     grid-template-columns: 1fr !important;
-    gap: 1.35rem !important;
+    gap: 1.45rem !important;
   }
 
-  .site-theme-white-green .sp-page > .sp-hero h1,
-  .site-theme-white-green .contact-page > .sp-hero h1,
-  .site-theme-white-green .pricing-page--rebrand .pricing-hero__copy h1,
-  .site-theme-white-green .contact-page--rebrand > .sp-hero h1 {
-    max-width: 10.5ch !important;
-    font-size: clamp(2.75rem, 11.8vw, 4.05rem) !important;
-    line-height: 0.96 !important;
+  .site-theme-white-green .subpage-visual-refresh > .sp-hero h1 {
+    max-width: 11ch !important;
+    font-size: clamp(2.55rem, 10.7vw, 3.55rem) !important;
+    line-height: 0.97 !important;
   }
 
-  .sp-hero-media {
+  .site-theme-white-green .subpage-visual-refresh .sp-hero-media {
     width: 100%;
     aspect-ratio: 16 / 10;
     padding: 0.4rem;
-  }
-
-  .site-theme-white-green .sp-page .section-title {
-    font-size: clamp(2.35rem, 10.5vw, 3.7rem) !important;
   }
 }
