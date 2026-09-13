@@ -7,7 +7,12 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
-import "./NavRefinement.css";
+
+const navRefinement = `
+.site-nav a::after { display: none !important; }
+.site-nav a { transition: color var(--duration-fast) ease, opacity var(--duration-fast) ease; }
+.site-nav a:hover, .site-nav a:focus-visible { color: var(--forest); }
+`;
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -15,6 +20,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
       <div className="site-theme-white-green min-h-screen flex flex-col">
+        <style data-nav-refinement>{navRefinement}</style>
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>
