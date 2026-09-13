@@ -68,7 +68,7 @@
   }
 
   .pricing-page--rebrand .pricing-hero__fact:nth-child(3) {
-    min-height: 5.35rem !important;
+    min-height: 5.7rem !important;
     grid-column: 1 / -1;
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -172,6 +172,6 @@
   }
 
   .pricing-page--rebrand .pricing-hero__fact:nth-child(3) {
-    min-height: 4.95rem !important;
+    min-height: 5.7rem !important;
   }
 }
