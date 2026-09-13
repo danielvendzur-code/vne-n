@@ -1,0 +1,403 @@
+/* Scoped refinement for the pricing and services pages only.
+   Keeps the approved hero language while making pricing and audience choices clearer. */
+
+/* ---------------- Pricing ---------------- */
+.pricing-page--rebrand .pricing-hero__scope-note {
+  grid-column: 1 / -1;
+  margin: 0.15rem 0 0;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #284b40 !important;
+  font-size: 0.84rem !important;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.pricing-page--rebrand .pricing-catalog__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(22rem, 1.22fr);
+  column-gap: clamp(3rem, 8vw, 8rem);
+  align-items: end;
+}
+
+.pricing-page--rebrand .pricing-catalog__intro .section-kicker {
+  grid-column: 1;
+}
+
+.pricing-page--rebrand .pricing-catalog__intro h2 {
+  grid-column: 1;
+  max-width: 9ch;
+  margin: 1.2rem 0 0;
+  font-size: clamp(3rem, 5.5vw, 6.2rem);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.pricing-page--rebrand .pricing-catalog__intro > p {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  max-width: 36rem;
+  margin: 0 0 0.45rem auto;
+  color: #46544c !important;
+  font-size: 1.05rem;
+  line-height: 1.62;
+}
+
+.pricing-page--rebrand .pricing-table {
+  margin-top: clamp(2.6rem, 4vw, 4rem);
+  border-top: 0 !important;
+}
+
+.pricing-page--rebrand .pricing-card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+.pricing-page--rebrand .pricing-row {
+  min-height: 24rem !important;
+  padding: clamp(1.35rem, 2vw, 1.8rem) !important;
+  border: 1px solid rgba(18, 55, 45, 0.14) !important;
+  border-radius: 20px !important;
+  background: #f8f7f1 !important;
+}
+
+.pricing-page--rebrand .pricing-row:nth-child(2) {
+  background: #edf1e8 !important;
+}
+
+.pricing-page--rebrand .pricing-row:nth-child(3) {
+  background: #f3f1e8 !important;
+}
+
+.pricing-page--rebrand .pricing-row__top {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.pricing-page--rebrand .pricing-row__top > span {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font: 720 0.7rem/1 var(--font-sans);
+}
+
+.pricing-page--rebrand .pricing-row h2 {
+  max-width: 10ch;
+  margin: 0 !important;
+  font-size: clamp(2.45rem, 3.8vw, 4.35rem) !important;
+  line-height: 0.94 !important;
+  letter-spacing: -0.05em !important;
+}
+
+.pricing-page--rebrand .pricing-row > p {
+  min-height: 0 !important;
+  max-width: 36rem;
+  margin: 1.35rem 0 2rem !important;
+  color: #4b5851 !important;
+  font-size: 1rem !important;
+  line-height: 1.58 !important;
+}
+
+.pricing-page--rebrand .pricing-row__prices {
+  margin-top: auto !important;
+}
+
+.pricing-page--rebrand .pricing-row__prices > div {
+  min-height: 4.5rem !important;
+  padding: 0.75rem 0 !important;
+  border-top: 1px solid rgba(18, 55, 45, 0.15) !important;
+}
+
+.pricing-page--rebrand .pricing-row__action {
+  margin-top: 1.35rem;
+}
+
+.pricing-page--rebrand .pricing-row--3d {
+  border-color: #12372d !important;
+  background: #12372d !important;
+  color: #f6f5ee !important;
+}
+
+.pricing-page--rebrand .pricing-row--3d h2,
+.pricing-page--rebrand .pricing-row--3d > p,
+.pricing-page--rebrand .pricing-row--3d .pricing-row__prices span,
+.pricing-page--rebrand .pricing-row--3d .pricing-row__prices strong {
+  color: #f6f5ee !important;
+}
+
+.pricing-page--rebrand .pricing-row--3d > p {
+  color: #cad3cd !important;
+}
+
+.pricing-page--rebrand .pricing-row--3d .pricing-row__top > span {
+  background: rgba(200, 240, 106, 0.16);
+  color: #c8f06a;
+}
+
+.pricing-page--rebrand .pricing-row--3d .pricing-row__prices > div {
+  border-top-color: rgba(246, 245, 238, 0.18) !important;
+}
+
+.pricing-page--rebrand .pricing-row--3d .pricing-row__action {
+  border-color: #c8f06a;
+  background: #c8f06a;
+  color: #071b15;
+}
+
+.pricing-page--rebrand .pricing-row--3d .pricing-row__action:is(:hover, :focus-visible) {
+  border-color: #f6f5ee;
+  background: #f6f5ee;
+  color: #071b15;
+}
+
+/* ---------------- Services hero ---------------- */
+.services-page > .sp-hero > .container-page {
+  grid-template-columns: minmax(0, 1.08fr) minmax(25rem, 0.92fr) !important;
+  gap: clamp(3rem, 7vw, 7rem) !important;
+}
+
+.services-page .subpage-hero-visual {
+  display: none !important;
+}
+
+.services-page .services-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.9rem;
+}
+
+.services-page .services-hero__summary {
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #12372d;
+  color: #f6f5ee;
+}
+
+.services-page .services-hero__summary-row {
+  min-height: 5.4rem;
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(246, 245, 238, 0.14);
+}
+
+.services-page .services-hero__summary-row:last-child {
+  border-bottom: 0;
+}
+
+.services-page .services-hero__summary-row > span {
+  color: #c8f06a;
+  font: 720 0.68rem/1 var(--font-sans);
+}
+
+.services-page .services-hero__summary-row strong {
+  color: #f6f5ee;
+  font-size: clamp(1.25rem, 1.7vw, 1.7rem);
+  font-weight: 620;
+  letter-spacing: -0.025em;
+}
+
+.services-page .services-hero__summary-row small {
+  color: #b9c5be;
+  font-size: 0.82rem;
+  font-weight: 560;
+  text-align: right;
+}
+
+/* ---------------- Services audiences ---------------- */
+.services-page .services-audiences {
+  background: #ecebe3 !important;
+}
+
+.services-page .services-audiences__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(20rem, 1.18fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: end;
+}
+
+.services-page .services-audiences__intro h2 {
+  max-width: 9.5ch;
+  margin: 1.15rem 0 0;
+  font-size: clamp(3rem, 5.6vw, 6.3rem);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.services-page .services-audiences__intro > div:last-child {
+  max-width: 38rem;
+  justify-self: end;
+}
+
+.services-page .services-audiences__intro > div:last-child > p {
+  margin: 0;
+  color: #46544c !important;
+  font-size: 1.05rem;
+  line-height: 1.62;
+}
+
+.services-page .services-audiences__list {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(2.8rem, 5vw, 4.5rem);
+}
+
+.services-page .services-audience {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.78fr) minmax(0, 1.22fr) auto;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  border: 1px solid rgba(18, 55, 45, 0.13);
+  border-radius: 20px;
+  background: #f8f7f1;
+}
+
+.services-page .services-audience--shop {
+  background: #e6ece2;
+}
+
+.services-page .services-audience__heading {
+  display: grid;
+  grid-template-columns: 2.35rem minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.services-page .services-audience__heading > span {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(18, 55, 45, 0.08);
+  color: #315d4d;
+  font: 720 0.68rem/1 var(--font-sans);
+}
+
+.services-page .services-audience__heading h3 {
+  margin: 0;
+  font-size: clamp(2.1rem, 3.6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.services-page .services-audience__body > p {
+  max-width: 42rem;
+  margin: 0 0 1.15rem;
+  color: #46544c !important;
+  font-size: 1rem;
+  line-height: 1.58;
+}
+
+.services-page .services-audience__body ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.services-page .services-audience__body li {
+  padding: 0.72rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(18, 55, 45, 0.055);
+  color: #2f443a;
+  font-size: 0.88rem;
+  font-weight: 620;
+}
+
+.services-page .services-audience__action {
+  align-self: end;
+}
+
+@media (max-width: 980px) {
+  .pricing-page--rebrand .pricing-catalog__intro,
+  .services-page .services-audiences__intro {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .pricing-page--rebrand .pricing-catalog__intro > p,
+  .services-page .services-audiences__intro > div:last-child {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-left: 0;
+  }
+
+  .services-page > .sp-hero > .container-page {
+    grid-template-columns: 1fr !important;
+  }
+
+  .services-page .services-hero__summary {
+    min-height: 0;
+  }
+
+  .services-page .services-audience {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .services-page .services-audience__action {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .pricing-page--rebrand .pricing-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .pricing-page--rebrand .pricing-row {
+    min-height: 0 !important;
+    border-radius: 16px !important;
+  }
+
+  .pricing-page--rebrand .pricing-row__prices > div {
+    align-items: flex-start !important;
+  }
+
+  .services-page .services-hero__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .services-page .services-hero__actions .site-cta {
+    width: 100%;
+  }
+
+  .services-page .services-hero__summary-row {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+
+  .services-page .services-hero__summary-row small {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .services-page .services-audience__body ul {
+    grid-template-columns: 1fr;
+  }
+
+  .services-page .services-audience__action.site-cta {
+    width: 100%;
+  }
+}
