@@ -1,0 +1,54 @@
+/* Discovery hint for the first configurator step only.
+   Some option cards continue below the visible panel; make that discoverable
+   without changing the existing flow or card sizing. */
+.cw-calculator[data-step="interest"] .cw-calc-actions {
+  position: relative;
+}
+
+.cw-calculator[data-step="interest"] .cw-calc-actions::before {
+  content: "Ďalšie možnosti sú nižšie  ↓";
+  position: absolute;
+  left: 50%;
+  top: -2rem;
+  z-index: 4;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  padding: 0.32rem 0.7rem;
+  border: 1px solid rgba(179, 233, 208, 0.22);
+  border-radius: 999px;
+  background: rgba(17, 31, 27, 0.92);
+  box-shadow: 0 10px 24px -18px rgba(0, 0, 0, 0.8);
+  color: var(--cw-mint);
+  font: 650 0.7rem/1.2 var(--cw-font);
+  letter-spacing: 0.01em;
+  text-align: center;
+  pointer-events: none;
+}
+
+.cw-calculator[data-step="interest"] .cw-calc-body {
+  padding-bottom: 2.65rem;
+  scroll-padding-bottom: 3.5rem;
+}
+
+@media (max-width: 520px) {
+  .cw-calculator[data-step="interest"] .cw-calc-actions::before {
+    top: -1.85rem;
+    font-size: 0.67rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cw-calculator[data-step="interest"] .cw-calc-actions::before {
+    animation: cw-first-step-cue 1.9s ease-in-out 2;
+  }
+}
+
+@keyframes cw-first-step-cue {
+  0%, 100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 3px);
+  }
+}
