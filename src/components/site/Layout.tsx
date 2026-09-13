@@ -32,39 +32,39 @@ body:has(.hybrid-home) .site-header .site-nav a:focus-visible {
   color: #071b15 !important;
 }
 
-/* The contact page should show the actual form in the first viewport instead of
-   spending the opening screen on explanatory copy. */
+/* Keep the contact headline, but let the actual form enter the first viewport
+   immediately. The previous hero spent too much vertical space above it. */
 .contact-page--rebrand > .sp-hero {
   min-height: 0 !important;
-  padding: clamp(2.4rem, 4vw, 3.8rem) 0 clamp(1rem, 1.8vw, 1.6rem) !important;
+  padding: clamp(1rem, 1.8vw, 1.6rem) 0 0.25rem !important;
 }
 .contact-page--rebrand > .sp-hero .container-page {
-  gap: 0.8rem !important;
+  gap: 0.55rem !important;
 }
 .contact-page--rebrand > .sp-hero .sp-hero-lead {
   display: none !important;
 }
 .contact-page--rebrand > .sp-hero h1 {
-  max-width: 11ch !important;
+  max-width: 11.5ch !important;
   margin: 0 !important;
-  font-size: clamp(3.5rem, 6vw, 6.5rem) !important;
-  line-height: 0.9 !important;
+  font-size: clamp(3.45rem, 5.1vw, 5.5rem) !important;
+  line-height: 0.88 !important;
 }
 .contact-page--rebrand > .contact-section {
-  padding-top: clamp(1rem, 2vw, 1.75rem) !important;
+  padding-top: 0.35rem !important;
 }
 
 @media (max-width: 720px) {
   .contact-page--rebrand > .sp-hero {
-    padding-top: 1.6rem !important;
-    padding-bottom: 0.8rem !important;
+    padding-top: 0.9rem !important;
+    padding-bottom: 0.2rem !important;
   }
   .contact-page--rebrand > .sp-hero h1 {
     max-width: 10ch !important;
-    font-size: clamp(3rem, 14vw, 4.25rem) !important;
+    font-size: clamp(2.8rem, 12.8vw, 3.95rem) !important;
   }
   .contact-page--rebrand > .contact-section {
-    padding-top: 0.7rem !important;
+    padding-top: 0.25rem !important;
   }
 }
 `;
