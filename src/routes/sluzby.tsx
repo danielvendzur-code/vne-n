@@ -213,7 +213,8 @@ function ServicesPage() {
             <div className="services-audience__body">
               <p>
                 Keď má zákazník veľa produktov, parametrov alebo variantov a nevie, ktorý zvoliť.
-                Najčastejšie pomôže produktový poradca alebo riadený výber podľa konkrétnych potrieb.
+                Najčastejšie pomôže produktový poradca alebo riadený výber podľa konkrétnych
+                potrieb.
               </p>
               <ul>
                 <li>produktový poradca</li>
