@@ -15,7 +15,7 @@ concurrency:
 jobs:
   visual-production:
     runs-on: ubuntu-latest
-    timeout-minutes: 14
+    timeout-minutes: 16
     steps:
       - name: Checkout current main
         uses: actions/checkout@v4
@@ -29,594 +29,311 @@ jobs:
           npm install --no-save --ignore-scripts playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Inspect current homepage, widget, contact and legal surfaces
+      - name: Wait until this exact SHA is live
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          for attempt in {1..90}; do
+            body="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' \
+              "https://mojchatbot.sk/build-meta.json?visual=${SOURCE_SHA}-${attempt}" || true)"
+            if printf '%s' "$body" | grep -Fq "$SOURCE_SHA"; then
+              echo "Verified live SHA: $SOURCE_SHA"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Timed out waiting for $SOURCE_SHA on mojchatbot.sk"
+          exit 1
+
+      - name: Inspect restored baseline and scoped subpage changes
         shell: bash
         run: |
           cat > live-visual-check.mjs <<'JS'
           import { chromium } from 'playwright';
           import fs from 'node:fs';
 
+          fs.mkdirSync('visual-artifacts', { recursive: true });
           const browser = await chromium.launch({ headless: true });
+          const failures = [];
+          const results = [];
 
           const overlapArea = (a, b) => {
             if (!a || !b) return 0;
-            const x = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
-            const y = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+            const x = Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x));
+            const y = Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
             return x * y;
           };
 
+          const cleanText = (value) => (value || '').replace(/\s+/g, ' ').trim();
+
           async function dismissAnalytics(page) {
             const banner = page.locator('.analytics-consent');
-            if (await banner.count()) {
-              const buttons = await banner.locator('button').evaluateAll((items) =>
-                items.map((button) => {
-                  const rect = button.getBoundingClientRect();
-                  return { width: rect.width, height: rect.height, text: button.textContent?.trim() };
-                }),
-              );
-              if (buttons.length !== 2 || buttons.some((button) => button.height < 40)) {
-                throw new Error(`invalid analytics choices: ${JSON.stringify(buttons)}`);
-              }
-              await banner.getByRole('button', { name: 'Odmietnuť analytiku' }).click();
-              await banner.waitFor({ state: 'detached', timeout: 5000 }).catch(() => {});
+            if (!(await banner.count())) return;
+            const reject = banner.getByRole('button', { name: /Odmietnuť analytiku/i });
+            if (await reject.count()) {
+              await reject.click();
+              await banner.waitFor({ state: 'detached', timeout: 4000 }).catch(() => {});
             }
           }
 
-          async function mountedLauncher(page) {
-            for (let attempt = 0; attempt < 25; attempt += 1) {
-              for (const frame of page.frames()) {
-                const launcher = frame.locator('.cw-launcher');
-                if (await launcher.count()) {
-                  const data = await launcher.first().evaluate((el) => {
-                    const style = getComputedStyle(el);
-                    const path = el.querySelector('.bl--launcher .bl__stroke');
-                    return {
-                      background: style.backgroundColor,
-                      borderColor: style.borderColor,
-                      backdropFilter: style.backdropFilter || style.webkitBackdropFilter || '',
-                      radius: style.borderRadius,
-                      width: el.getBoundingClientRect().width,
-                      height: el.getBoundingClientRect().height,
-                      surfaceTone: el.dataset.surfaceTone || null,
-                      stroke: path ? getComputedStyle(path).stroke : null,
-                      hostVersion:
-                        document.getElementById('dv-assistant-root')?.getAttribute('data-dv-assistant-version') ??
-                        null,
-                    };
-                  });
-                  if (data.hostVersion) return { frame, data };
-                }
-              }
-              await page.waitForTimeout(400);
-            }
-            return null;
-          }
-
-          async function readSurfaceTone(page) {
-            const mounted = await mountedLauncher(page);
-            return mounted?.data.surfaceTone ?? null;
-          }
-
-          async function inspectHome(viewport, label) {
+          async function openPage(path, viewport, label) {
             const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
-            await page.goto(`https://mojchatbot.sk/?visual=${Date.now()}-${label}`, {
+            await page.emulateMedia({ reducedMotion: 'reduce' });
+            await page.goto(`https://mojchatbot.sk${path}?visual=${Date.now()}-${label}`, {
               waitUntil: 'networkidle',
               timeout: 60000,
             });
             await page.evaluate(() => document.fonts?.ready);
             await dismissAnalytics(page);
-            await page.waitForTimeout(3600);
+            await page.waitForTimeout(700);
+            return page;
+          }
 
-            const failures = [];
-            const hero = await page.locator('.kage-hero').evaluate((root) => {
-              const cases = Array.from(root.querySelectorAll('.hybrid-hero__case')).map((item) => {
-                const rect = item.getBoundingClientRect();
-                const style = getComputedStyle(item);
-                const composite = item.querySelector('.project-composite');
-                const image = item.querySelector('.project-composite__site');
-                const compositeStyle = composite ? getComputedStyle(composite) : null;
-                const imageStyle = image ? getComputedStyle(image) : null;
-                const imageRect = image?.getBoundingClientRect();
-                return {
-                  left: rect.left,
-                  top: rect.top,
-                  right: rect.right,
-                  bottom: rect.bottom,
-                  width: rect.width,
-                  height: rect.height,
-                  opacity: Number(style.opacity),
-                  visibility: style.visibility,
-                  compositeClipPath: compositeStyle?.clipPath ?? null,
-                  compositeOpacity: compositeStyle ? Number(compositeStyle.opacity) : null,
-                  imageComplete: image instanceof HTMLImageElement ? image.complete : false,
-                  imageNaturalWidth: image instanceof HTMLImageElement ? image.naturalWidth : 0,
-                  imageNaturalHeight: image instanceof HTMLImageElement ? image.naturalHeight : 0,
-                  imageOpacity: imageStyle ? Number(imageStyle.opacity) : null,
-                  imageWidth: imageRect?.width ?? 0,
-                  imageHeight: imageRect?.height ?? 0,
-                };
-              });
-              const cta = root.querySelector('.hybrid-hero__primary')?.getBoundingClientRect();
-              const headline = root.querySelector('h1')?.getBoundingClientRect();
-              const characters = Array.from(root.querySelectorAll('.typed-character'));
-              const hiddenCharacters = characters.filter((item) => {
-                const style = getComputedStyle(item);
-                return Number(style.opacity) < 0.98 || style.visibility === 'hidden';
-              }).length;
-              const lines = Array.from(root.querySelectorAll('h1 .typed-line')).map((item) => {
-                const rect = item.getBoundingClientRect();
-                const glyphRects = Array.from(item.querySelectorAll('.typed-character')).map((glyph) => {
-                  const glyphRect = glyph.getBoundingClientRect();
-                  return {
-                    text: glyph.textContent ?? '',
-                    left: glyphRect.left,
-                    right: glyphRect.right,
-                    top: glyphRect.top,
-                    bottom: glyphRect.bottom,
-                  };
-                });
-                return {
-                  top: rect.top,
-                  bottom: rect.bottom,
-                  left: rect.left,
-                  right: rect.right,
-                  glyphRects,
-                };
-              });
-              const stage = root.querySelector('.hybrid-hero__stage');
-              const stageRect = stage?.getBoundingClientRect();
-              const stageStyle = stage ? getComputedStyle(stage) : null;
-              const contentLeft = stageRect && stageStyle
-                ? stageRect.left + parseFloat(stageStyle.paddingLeft || '0')
-                : 0;
-              const contentRight = stageRect && stageStyle
-                ? stageRect.right - parseFloat(stageStyle.paddingRight || '0')
-                : innerWidth;
-              return {
-                cases,
-                cta: cta
-                  ? { left: cta.left, top: cta.top, right: cta.right, bottom: cta.bottom, width: cta.width, height: cta.height }
-                  : null,
-                headline: headline
-                  ? { left: headline.left, top: headline.top, right: headline.right, bottom: headline.bottom }
-                  : null,
-                characterCount: characters.length,
-                hiddenCharacters,
-                lines,
-                contentLeft,
-                contentRight,
-                viewportHeight: innerHeight,
-                viewportWidth: innerWidth,
-              };
-            });
+          async function assertNoHorizontalOverflow(page, label) {
+            const sizes = await page.evaluate(() => ({
+              scrollWidth: document.documentElement.scrollWidth,
+              clientWidth: document.documentElement.clientWidth,
+            }));
+            if (sizes.scrollWidth > sizes.clientWidth + 3) {
+              throw new Error(`${label} horizontal overflow ${sizes.scrollWidth}/${sizes.clientWidth}`);
+            }
+          }
 
-            if (hero.cases.length !== 3) failures.push(`hero project count ${hero.cases.length}`);
-            for (const [index, item] of hero.cases.entries()) {
-              if (item.width < 100 || item.height < 70) failures.push(`hero project ${index + 1} too small: ${item.width}x${item.height}`);
-              if (item.opacity < 0.98 || item.visibility === 'hidden') failures.push(`hero project ${index + 1} is not visible`);
-              if (item.left < -2 || item.right > hero.viewportWidth + 2) failures.push(`hero project ${index + 1} outside viewport`);
-              if (!item.imageComplete || item.imageNaturalWidth <= 0 || item.imageNaturalHeight <= 0) {
-                failures.push(`hero project ${index + 1} image did not load`);
-              }
-              if (item.compositeOpacity !== null && item.compositeOpacity < 0.98) {
-                failures.push(`hero project ${index + 1} composite opacity ${item.compositeOpacity}`);
-              }
-              if (item.imageOpacity !== null && item.imageOpacity < 0.98) {
-                failures.push(`hero project ${index + 1} image opacity ${item.imageOpacity}`);
-              }
-              if (
-                item.compositeClipPath &&
-                item.compositeClipPath !== 'none' &&
-                !/^inset\(0(px)?( 0(px)?){0,3}\)$/.test(item.compositeClipPath)
-              ) {
-                failures.push(`hero project ${index + 1} remains clipped: ${item.compositeClipPath}`);
-              }
-              if (item.imageWidth < item.width * 0.88 || item.imageHeight < item.height * 0.88) {
-                failures.push(`hero project ${index + 1} image coverage too small: ${item.imageWidth}x${item.imageHeight} vs ${item.width}x${item.height}`);
-              }
-            }
-            const overlap = (a, b) => {
-              if (!a || !b) return 0;
-              const x = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
-              const y = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
-              return x * y;
-            };
-            if (viewport.width <= 720 && hero.cases.length === 3) {
-              if (overlap(hero.cases[0], hero.cases[1]) > 2) failures.push('mobile lead hero project overlaps support project 1');
-              if (overlap(hero.cases[0], hero.cases[2]) > 2) failures.push('mobile lead hero project overlaps support project 2');
-              if (overlap(hero.cases[1], hero.cases[2]) > 2) failures.push('mobile support hero projects overlap');
-            }
-            if (!hero.characterCount) failures.push('hero headline characters missing');
-            if (hero.hiddenCharacters) failures.push(`hero headline has ${hero.hiddenCharacters} hidden characters`);
-            if (hero.lines.length !== 3) failures.push(`hero headline line count ${hero.lines.length}`);
-            for (let index = 0; index < hero.lines.length; index += 1) {
-              const current = hero.lines[index];
-              if (index > 0) {
-                const previous = hero.lines[index - 1];
-                if (current.top < previous.bottom - 1) {
-                  failures.push(`hero headline lines ${index} and ${index + 1} overlap vertically`);
-                }
-              }
-              for (const glyph of current.glyphRects) {
-                if (glyph.left < hero.contentLeft - 1 || glyph.right > hero.contentRight + 1) {
-                  failures.push(
-                    `hero headline glyph "${glyph.text}" on line ${index + 1} escapes content: ${glyph.left}-${glyph.right} / ${hero.contentLeft}-${hero.contentRight}`,
-                  );
-                }
-                if (glyph.left < -1 || glyph.right > hero.viewportWidth + 1) {
-                  failures.push(
-                    `hero headline glyph "${glyph.text}" on line ${index + 1} escapes viewport: ${glyph.left}-${glyph.right} / ${hero.viewportWidth}`,
-                  );
-                }
-              }
-            }
-            if (!hero.cta) failures.push('hero CTA missing');
-            else {
-              if (hero.cta.width < 90 || hero.cta.height < 40) failures.push(`hero CTA too small: ${hero.cta.width}x${hero.cta.height}`);
-              if (hero.cta.top < 0 || hero.cta.bottom > hero.viewportHeight + 2) {
-                failures.push(`hero CTA outside first viewport: ${hero.cta.top}-${hero.cta.bottom} / ${hero.viewportHeight}`);
-              }
-            }
-            if (hero.headline && hero.cases.length && overlap(hero.headline, hero.cases[0]) > 2) {
-              failures.push('hero headline overlaps lead project');
-            }
+          async function screenshot(page, name, fullPage = true) {
+            await page.screenshot({ path: `visual-artifacts/${name}.png`, fullPage });
+          }
 
-            const heroShot = `live-${label}-hero.png`;
-            await page.screenshot({ path: heroShot, fullPage: false });
-
-            const rows = await page.locator('.hybrid-tool').evaluateAll((els) => {
-              const overlap = (a, b) => {
-                if (!a || !b) return 0;
-                const x = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
-                const y = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
-                return x * y;
-              };
-              return els.map((row) => {
-                const title = row.querySelector('strong')?.getBoundingClientRect();
-                const benefit = row.querySelector('b')?.getBoundingClientRect();
-                const copy = row.querySelector('p')?.getBoundingClientRect();
-                const cta = row.querySelector('.hybrid-tool__cta')?.getBoundingClientRect();
-                return {
-                  name: row.querySelector('strong')?.textContent?.trim() || 'unknown',
-                  titleBenefitOverlap: overlap(title, benefit),
-                  benefitCopyOverlap: overlap(benefit, copy),
-                  copyCtaOverlap: overlap(copy, cta),
-                  scrollWidth: row.scrollWidth,
-                  clientWidth: row.clientWidth,
-                };
-              });
-            });
-
-            for (const row of rows) {
-              if (row.titleBenefitOverlap > 1) failures.push(`${row.name}: title overlaps benefit`);
-              if (row.benefitCopyOverlap > 1) failures.push(`${row.name}: benefit overlaps copy`);
-              if (row.copyCtaOverlap > 1) failures.push(`${row.name}: copy overlaps CTA`);
-              if (row.scrollWidth > row.clientWidth + 2) failures.push(`${row.name}: row overflows`);
+          async function run(name, fn) {
+            try {
+              await fn();
+              results.push({ name, status: 'passed' });
+            } catch (error) {
+              const message = error instanceof Error ? error.message : String(error);
+              failures.push(`${name}: ${message}`);
+              results.push({ name, status: 'failed', message });
             }
+          }
 
-            const flowScroller = page.locator('.kage-flow-story__steps');
-            const flow = await flowScroller.evaluate((scroller) => {
-              const style = getComputedStyle(scroller);
-              const panels = Array.from(scroller.querySelectorAll('.kage-flow__step')).map((step) => {
-                const rect = step.getBoundingClientRect();
-                return {
-                  left: rect.left,
-                  right: rect.right,
-                  top: rect.top,
-                  bottom: rect.bottom,
-                  width: rect.width,
-                  height: rect.height,
-                };
-              });
-              return {
-                overflowX: style.overflowX,
-                scrollSnapType: style.scrollSnapType,
-                clientWidth: scroller.clientWidth,
-                scrollWidth: scroller.scrollWidth,
-                scrollLeft: scroller.scrollLeft,
-                panels,
-              };
-            });
-            if (flow.panels.length !== 4) failures.push(`flow step count ${flow.panels.length}`);
-            if (!['auto', 'scroll'].includes(flow.overflowX)) failures.push(`flow overflow-x is ${flow.overflowX}`);
-            if (!flow.scrollSnapType.includes('x')) failures.push(`flow scroll snap is ${flow.scrollSnapType}`);
-            if (flow.scrollWidth <= flow.clientWidth * 2) {
-              failures.push(`flow is not horizontal: ${flow.scrollWidth} / ${flow.clientWidth}`);
-            }
-            for (let index = 0; index < flow.panels.length; index += 1) {
-              const panel = flow.panels[index];
-              if (panel.height <= 120 || panel.width <= 180) failures.push(`flow step ${index + 1} has invalid size`);
-              if (index > 0 && panel.left <= flow.panels[index - 1].left) {
-                failures.push(`flow panel ${index + 1} is not placed to the right`);
+          async function checkNavigation(page, mobile = false) {
+            const header = page.locator('.site-header');
+            if (!(await header.count()) || !(await header.isVisible())) throw new Error('site header missing');
+
+            if (!mobile) {
+              const links = page.locator('.site-nav a');
+              if ((await links.count()) < 4) throw new Error('desktop navigation links missing');
+              const styles = await links.evaluateAll((items) =>
+                items.map((item) => ({
+                  afterDisplay: getComputedStyle(item, '::after').display,
+                  fontFamily: getComputedStyle(item).fontFamily,
+                  fontSize: getComputedStyle(item).fontSize,
+                })),
+              );
+              if (styles.some((item) => item.afterDisplay !== 'none')) {
+                throw new Error(`navigation hairline still active: ${JSON.stringify(styles)}`);
               }
-            }
-
-            if (viewport.width > 760) {
-              await flowScroller.scrollIntoViewIfNeeded();
-              const flowBox = await flowScroller.boundingBox();
-              const beforeWheel = await flowScroller.evaluate((el) => el.scrollLeft);
-              if (flowBox) {
-                await page.mouse.move(flowBox.x + flowBox.width * 0.5, flowBox.y + flowBox.height * 0.5);
-                await page.mouse.wheel(0, 520);
-                await page.waitForTimeout(120);
-              }
-              const afterWheel = await flowScroller.evaluate((el) => el.scrollLeft);
-              if (afterWheel <= beforeWheel + 4) {
-                failures.push(`desktop wheel did not slide flow sideways: ${beforeWheel} -> ${afterWheel}`);
-              }
-              await flowScroller.evaluate((el) => {
-                el.scrollLeft = 0;
-              });
-            }
-
-            const pageTruth = await page.evaluate(() => {
-              const sectionNumbers = Array.from(document.querySelectorAll('.kage-home .section-index b'))
-                .map((item) => item.textContent?.trim() ?? '')
-                .filter(Boolean);
-              const priceTexts = Array.from(document.querySelectorAll('.hybrid-price__grid > div > strong'))
-                .map((item) => item.textContent?.trim() ?? '');
-              const skip = document.querySelector('.skip-link');
-              const skipRect = skip?.getBoundingClientRect();
-              return {
-                scrollWidth: document.documentElement.scrollWidth,
-                clientWidth: document.documentElement.clientWidth,
-                sectionNumbers,
-                priceTexts,
-                skip: skip && skipRect
-                  ? {
-                      focused: document.activeElement === skip,
-                      top: skipRect.top,
-                      bottom: skipRect.bottom,
-                      visibility: getComputedStyle(skip).visibility,
-                    }
-                  : null,
-              };
-            });
-            const geometry = {
-              scrollWidth: pageTruth.scrollWidth,
-              clientWidth: pageTruth.clientWidth,
-            };
-            if (geometry.scrollWidth > geometry.clientWidth + 2) {
-              failures.push(`horizontal overflow ${geometry.scrollWidth} > ${geometry.clientWidth}`);
-            }
-            if (new Set(pageTruth.sectionNumbers).size !== pageTruth.sectionNumbers.length) {
-              failures.push(`duplicate homepage section numbers: ${pageTruth.sectionNumbers.join(',')}`);
-            }
-            if (pageTruth.priceTexts.join('|') !== 'od 347 €|od 447 €|10 €') {
-              failures.push(`homepage price DOM is not authoritative before scroll: ${pageTruth.priceTexts.join('|')}`);
-            }
-            if (
-              pageTruth.skip &&
-              !pageTruth.skip.focused &&
-              pageTruth.skip.visibility !== 'hidden' &&
-              pageTruth.skip.bottom > 0 &&
-              pageTruth.skip.top < viewport.height
-            ) {
-              failures.push(`skip link visible without focus: ${JSON.stringify(pageTruth.skip)}`);
-            }
-
-            const launcher = await mountedLauncher(page);
-            if (!launcher) {
-              failures.push('mounted chatbot launcher missing');
             } else {
-              const data = launcher.data;
-              if (data.width < 40 || data.height < 40) failures.push(`launcher size ${data.width}x${data.height}`);
-              if (data.radius !== '50%') failures.push(`launcher radius ${data.radius}`);
-              if (!data.stroke || !data.stroke.includes('url(')) failures.push(`adaptive launcher stroke missing: ${data.stroke}`);
-
-              const widgetFrame = launcher.frame;
-              const launcherButton = widgetFrame.locator('.cw-launcher').first();
-              await launcherButton.click();
-              const panel = widgetFrame.locator('.cw-panel');
-              await panel.waitFor({ state: 'visible', timeout: 5000 });
-
-              const headerStroke = widgetFrame.locator('.cw-panel-head .bl__stroke').first();
-              const headerStart = await headerStroke.evaluate((el) => ({
-                dash: getComputedStyle(el).strokeDashoffset,
-                opacity: getComputedStyle(el).opacity,
-              }));
-              await page.waitForTimeout(450);
-              const headerEnd = await headerStroke.evaluate((el) => ({
-                dash: getComputedStyle(el).strokeDashoffset,
-                opacity: getComputedStyle(el).opacity,
-              }));
-              if (headerStart.dash !== headerEnd.dash || headerStart.opacity !== headerEnd.opacity) {
-                failures.push(`open chatbot logo moves: ${JSON.stringify({ headerStart, headerEnd })}`);
-              }
-
-              await widgetFrame.locator('[data-testid="tab-calculator"]').click();
-              const firstChoice = widgetFrame.locator('[data-testid="interest-chatbot"]');
-              await firstChoice.waitFor({ state: 'visible', timeout: 5000 });
-              await firstChoice.click();
-              await page.waitForTimeout(70);
-
-              const selectedState = await firstChoice.evaluate((el) => {
-                const indicator = el.querySelector('.cw-selection-indicator');
-                const pseudo = getComputedStyle(el, '::after');
-                const rect = indicator?.getBoundingClientRect();
-                const card = el.getBoundingClientRect();
-                return {
-                  selected: el.getAttribute('data-selected'),
-                  pseudoContent: pseudo.content,
-                  indicatorCount: el.querySelectorAll('.cw-selection-indicator').length,
-                  indicatorVisible: indicator?.getAttribute('data-visible') ?? null,
-                  indicatorCenterY: rect ? rect.top + rect.height / 2 : null,
-                  cardCenterY: card.top + card.height / 2,
-                };
-              });
-              if (selectedState.selected !== 'true') failures.push('configurator choice did not become selected');
-              if (selectedState.indicatorCount !== 1) failures.push(`selected choice has ${selectedState.indicatorCount} indicators`);
-              if (selectedState.indicatorVisible !== 'true') failures.push('selected choice indicator is not visible');
-              if (!['none', 'normal'].includes(selectedState.pseudoContent)) {
-                failures.push(`selected choice still renders pseudo check ${selectedState.pseudoContent}`);
-              }
-              if (
-                selectedState.indicatorCenterY !== null &&
-                Math.abs(selectedState.indicatorCenterY - selectedState.cardCenterY) > 1.5
-              ) {
-                failures.push('selected check is not vertically centered');
-              }
-
-              await widgetFrame.locator('[data-testid="widget-close"]').click();
-              await page.waitForTimeout(300);
+              const toggle = page.locator('.site-menu-toggle');
+              if (!(await toggle.count()) || !(await toggle.isVisible())) throw new Error('mobile menu toggle missing');
+              await toggle.click();
+              const layer = page.locator('.site-menu-layer[data-open="true"]');
+              await layer.waitFor({ state: 'visible', timeout: 3000 });
+              if ((await layer.locator('.site-menu-nav a').count()) < 4) throw new Error('mobile menu links missing');
+              const close = layer.locator('.site-menu-close');
+              if (await close.count()) await close.click();
             }
-
-            await page.locator('#riesenia').scrollIntoViewIfNeeded();
-            await page.waitForTimeout(700);
-            const lightTone = await readSurfaceTone(page);
-            await page.locator('#ako-to-funguje').scrollIntoViewIfNeeded();
-            await page.waitForTimeout(700);
-            const darkTone = await readSurfaceTone(page);
-            if (lightTone !== 'light') failures.push(`launcher light-section tone is ${lightTone}`);
-            if (darkTone !== 'dark') failures.push(`launcher dark-section tone is ${darkTone}`);
-
-            const shot = `live-${label}.png`;
-            await page.screenshot({ path: shot, fullPage: true });
-            await page.close();
-            return { label, viewport, hero, heroShot, rows, flow, geometry, pageTruth, lightTone, darkTone, launcher: launcher?.data ?? null, failures, shot };
           }
 
-          async function inspectMobileHeadlineWidths() {
-            const widths = [280, 320, 360, 375, 390, 414, 430, 480, 600, 720];
-            const page = await browser.newPage({ viewport: { width: widths[0], height: 900 }, deviceScaleFactor: 1 });
-            await page.goto(`https://mojchatbot.sk/?headline-sweep=${Date.now()}`, {
-              waitUntil: 'networkidle',
-              timeout: 60000,
-            });
-            await page.evaluate(() => document.fonts?.ready);
-            await dismissAnalytics(page);
+          async function checkHomepage(viewport, label, mobile = false) {
+            const page = await openPage('/', viewport, label);
+            try {
+              await assertNoHorizontalOverflow(page, `${label} homepage`);
+              await checkNavigation(page, mobile);
 
-            const results = [];
-            const failures = [];
-            for (const width of widths) {
-              await page.setViewportSize({ width, height: 900 });
-              await page.waitForTimeout(80);
-              const result = await page.locator('.kage-hero').evaluate((root) => {
-                const stage = root.querySelector('.hybrid-hero__stage');
-                const stageRect = stage?.getBoundingClientRect();
-                const stageStyle = stage ? getComputedStyle(stage) : null;
-                const contentLeft = stageRect && stageStyle
-                  ? stageRect.left + parseFloat(stageStyle.paddingLeft || '0')
-                  : 0;
-                const contentRight = stageRect && stageStyle
-                  ? stageRect.right - parseFloat(stageStyle.paddingRight || '0')
-                  : innerWidth;
-                const glyphs = Array.from(root.querySelectorAll('h1 .typed-character')).map((glyph) => {
-                  const rect = glyph.getBoundingClientRect();
-                  return {
-                    text: glyph.textContent ?? '',
-                    left: rect.left,
-                    right: rect.right,
-                  };
-                });
-                return { width: innerWidth, contentLeft, contentRight, glyphs };
-              });
+              const hero = page.locator('.kage-hero');
+              if (!(await hero.count())) throw new Error('homepage hero missing');
+              const h1 = hero.locator('h1');
+              const headline = cleanText(await h1.textContent());
+              if (!headline.includes('Z otázky') || !headline.includes('k výsledku')) {
+                throw new Error(`unexpected restored headline: ${headline}`);
+              }
 
-              for (const glyph of result.glyphs) {
-                if (
-                  glyph.left < result.contentLeft - 1 ||
-                  glyph.right > result.contentRight + 1 ||
-                  glyph.left < -1 ||
-                  glyph.right > result.width + 1
-                ) {
-                  failures.push(
-                    `mobile headline overflow at ${width}px: "${glyph.text}" ${glyph.left}-${glyph.right}, content ${result.contentLeft}-${result.contentRight}`,
-                  );
+              const heroBox = await h1.boundingBox();
+              if (!heroBox || heroBox.width < 200 || heroBox.height < 60) throw new Error('homepage headline has invalid geometry');
+              if (heroBox.x < -2 || heroBox.x + heroBox.width > viewport.width + 2) throw new Error('homepage headline escapes viewport');
+
+              const cases = page.locator('.hybrid-hero__case');
+              if ((await cases.count()) !== 3) throw new Error(`hero realization count ${await cases.count()}`);
+              for (let index = 0; index < 3; index += 1) {
+                const item = cases.nth(index);
+                const box = await item.boundingBox();
+                if (!box || box.width < 90 || box.height < 65) throw new Error(`hero realization ${index + 1} invalid geometry`);
+                const image = item.locator('img').first();
+                const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
+                if (!loaded) throw new Error(`hero realization ${index + 1} image not loaded`);
+              }
+
+              const cta = page.locator('.hybrid-hero__primary');
+              if (!(await cta.count()) || !(await cta.isVisible())) throw new Error('homepage primary CTA missing');
+              await screenshot(page, `${label}-homepage`, false);
+            } finally {
+              await page.close();
+            }
+          }
+
+          async function checkPricing(viewport, label) {
+            const page = await openPage('/cennik/', viewport, label);
+            try {
+              await assertNoHorizontalOverflow(page, `${label} pricing`);
+              const heading = page.locator('.pricing-hero__copy h1');
+              const facts = page.locator('.pricing-hero__fact');
+              if (!(await heading.count())) throw new Error('pricing heading missing');
+              if ((await facts.count()) !== 3) throw new Error(`pricing fact count ${await facts.count()}`);
+
+              const headingText = cleanText(await heading.textContent());
+              if (!headingText.includes('Jasná cena') || !headingText.includes('Jasný rozsah')) {
+                throw new Error(`unexpected pricing heading: ${headingText}`);
+              }
+
+              const factTexts = await facts.allTextContents();
+              for (const expected of ['347 €', '447 €', '10 €']) {
+                if (!factTexts.some((text) => cleanText(text).includes(expected))) {
+                  throw new Error(`pricing value ${expected} missing: ${JSON.stringify(factTexts)}`);
                 }
               }
-              results.push(result);
+
+              const boxes = [];
+              for (let index = 0; index < 3; index += 1) {
+                const card = facts.nth(index);
+                const box = await card.boundingBox();
+                if (!box || box.width < 140 || box.height < 90) throw new Error(`pricing card ${index + 1} invalid geometry`);
+                const overflow = await card.evaluate((el) => ({ scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }));
+                if (overflow.scrollWidth > overflow.clientWidth + 3) {
+                  throw new Error(`pricing card ${index + 1} content overflows ${overflow.scrollWidth}/${overflow.clientWidth}`);
+                }
+                boxes.push(box);
+              }
+              for (let a = 0; a < boxes.length; a += 1) {
+                for (let b = a + 1; b < boxes.length; b += 1) {
+                  if (overlapArea(boxes[a], boxes[b]) > 2) throw new Error(`pricing cards ${a + 1}/${b + 1} overlap`);
+                }
+              }
+
+              if (viewport.width >= 900) {
+                const headingBox = await heading.boundingBox();
+                const factsBox = await page.locator('.pricing-hero__facts').boundingBox();
+                if (overlapArea(headingBox, factsBox) > 2) throw new Error('pricing heading overlaps pricing facts');
+              }
+
+              await screenshot(page, `${label}-cennik`);
+            } finally {
+              await page.close();
             }
-
-            await page.close();
-            return { widths, results, failures };
           }
 
-          async function inspectContact() {
-            const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
-            await page.goto(`https://mojchatbot.sk/kontakt?visual=${Date.now()}`, {
-              waitUntil: 'networkidle',
-              timeout: 60000,
-            });
-            await dismissAnalytics(page);
+          async function checkProjects(viewport, label) {
+            const page = await openPage('/projekty/', viewport, label);
+            try {
+              await assertNoHorizontalOverflow(page, `${label} projects`);
+              const cards = page.locator('.work-project');
+              if ((await cards.count()) !== 4) throw new Error(`realization count ${await cards.count()}`);
 
-            const failures = [];
-            if ((await page.locator('.contact-privacy-note').count()) !== 1) failures.push('contact privacy notice missing');
-            if (await page.locator('.contact-form input[type="checkbox"]').count()) failures.push('obsolete contact consent checkbox remains');
+              for (let index = 0; index < 4; index += 1) {
+                const card = cards.nth(index);
+                await card.scrollIntoViewIfNeeded();
+                await page.waitForTimeout(150);
+                const visual = card.locator('.work-project__visual');
+                const meta = card.locator('.work-project__meta');
+                const image = visual.locator('img');
+                const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
+                if (!loaded) throw new Error(`realization ${index + 1} image not loaded`);
+                const visualBox = await visual.boundingBox();
+                const metaBox = await meta.boundingBox();
+                if (!visualBox || visualBox.width < 180 || visualBox.height < 120) throw new Error(`realization ${index + 1} visual invalid`);
+                if (!metaBox || metaBox.width < 120 || metaBox.height < 60) throw new Error(`realization ${index + 1} meta invalid`);
+                if (overlapArea(visualBox, metaBox) > 2) throw new Error(`realization ${index + 1} visual overlaps text`);
+              }
 
-            const form = await page.locator('.contact-form-wrap').evaluate((el) => {
-              const rect = el.getBoundingClientRect();
-              return {
-                left: rect.left,
-                right: rect.right,
-                width: rect.width,
-                scrollWidth: el.scrollWidth,
-                clientWidth: el.clientWidth,
-              };
-            });
-            if (form.left < -1 || form.right > 391) failures.push(`contact form outside viewport: ${JSON.stringify(form)}`);
-            if (form.scrollWidth > form.clientWidth + 2) failures.push('contact form overflows horizontally');
-
-            const text = await page.locator('body').innerText();
-            if (!text.includes('Venaco s.r.o.')) failures.push('contact page operator missing');
-
-            const shot = 'live-contact-mobile.png';
-            await page.screenshot({ path: shot, fullPage: true });
-            await page.close();
-            return { failures, form, shot };
+              await screenshot(page, `${label}-realizacie`);
+            } finally {
+              await page.close();
+            }
           }
 
-          async function inspectLegal() {
-            const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-            await page.goto(`https://mojchatbot.sk/pravne-informacie?visual=${Date.now()}`, {
-              waitUntil: 'networkidle',
-              timeout: 60000,
-            });
-            const text = await page.locator('body').innerText();
-            const required = ['Venaco s.r.o.', '45648107', '2023076407', 'SK2023076407', '27111/N', 'Orgán dozoru'];
-            const failures = required.filter((item) => !text.includes(item)).map((item) => `legal page missing ${item}`);
-            await page.close();
-            return { failures };
+          async function checkInfoPage(path, label, viewport, screenshotName) {
+            const page = await openPage(path, viewport, screenshotName);
+            try {
+              await assertNoHorizontalOverflow(page, `${screenshotName} info page`);
+              const heading = page.locator('.sp-hero h1');
+              const visual = page.locator('.subpage-hero-visual');
+              const image = visual.locator('img');
+              if (!(await heading.count()) || !(await heading.isVisible())) throw new Error(`${label} heading missing`);
+              if ((await visual.count()) !== 1 || !(await visual.isVisible())) throw new Error(`${label} hero visual missing`);
+              const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
+              if (!loaded) throw new Error(`${label} hero image not loaded`);
+
+              const fontSize = Number.parseFloat(await heading.evaluate((el) => getComputedStyle(el).fontSize));
+              const maxFont = viewport.width >= 900 ? 80 : 66;
+              if (fontSize > maxFont) throw new Error(`${label} heading too large: ${fontSize}px`);
+
+              const headingBox = await heading.boundingBox();
+              const visualBox = await visual.boundingBox();
+              if (!headingBox || !visualBox) throw new Error(`${label} invalid hero geometry`);
+              if (overlapArea(headingBox, visualBox) > 2) throw new Error(`${label} heading overlaps hero image`);
+              await screenshot(page, screenshotName);
+            } finally {
+              await page.close();
+            }
           }
 
-          const desktop = await inspectHome({ width: 1583, height: 900 }, 'desktop-1583');
-          const mobile = await inspectHome({ width: 390, height: 844 }, 'mobile-390');
-          const mobileHeadlineWidths = await inspectMobileHeadlineWidths();
-          const contact = await inspectContact();
-          const legal = await inspectLegal();
-          const failures = [
-            ...desktop.failures,
-            ...mobile.failures,
-            ...mobileHeadlineWidths.failures,
-            ...contact.failures,
-            ...legal.failures,
-          ];
+          async function checkContact() {
+            const page = await openPage('/kontakt/', { width: 1440, height: 1000 }, 'desktop-contact');
+            try {
+              await assertNoHorizontalOverflow(page, 'contact');
+              if (!(await page.locator('form').count())) throw new Error('contact form missing');
+              const controls = page.locator('form input, form textarea, form select');
+              if ((await controls.count()) < 3) throw new Error(`contact form control count ${await controls.count()}`);
+              const submit = page.locator('form button[type="submit"]');
+              if (!(await submit.count()) || !(await submit.isVisible())) throw new Error('contact submit missing');
+              await screenshot(page, 'desktop-kontakt');
+            } finally {
+              await page.close();
+            }
+          }
+
+          await run('desktop homepage + navigation', () => checkHomepage({ width: 1440, height: 1000 }, 'desktop', false));
+          await run('mobile homepage + navigation', () => checkHomepage({ width: 390, height: 844 }, 'mobile', true));
+          await run('desktop pricing geometry', () => checkPricing({ width: 1440, height: 1000 }, 'desktop'));
+          await run('mobile pricing geometry', () => checkPricing({ width: 390, height: 844 }, 'mobile'));
+          await run('desktop realizations geometry', () => checkProjects({ width: 1440, height: 1000 }, 'desktop'));
+          await run('mobile realizations geometry', () => checkProjects({ width: 390, height: 844 }, 'mobile'));
+          await run('services hero', () => checkInfoPage('/sluzby/', 'services', { width: 1440, height: 1000 }, 'desktop-sluzby'));
+          await run('process hero', () => checkInfoPage('/postup/', 'process', { width: 1440, height: 1000 }, 'desktop-postup'));
+          await run('why hero', () => checkInfoPage('/preco-chatbot/', 'why', { width: 1440, height: 1000 }, 'desktop-preco'));
+          await run('mobile services hero', () => checkInfoPage('/sluzby/', 'services mobile', { width: 390, height: 844 }, 'mobile-sluzby'));
+          await run('contact form', checkContact);
 
           fs.writeFileSync(
-            'live-visual-results.json',
-            JSON.stringify({ desktop, mobile, mobileHeadlineWidths, contact, legal, failures }, null, 2),
+            'visual-artifacts/report.json',
+            JSON.stringify({ checkedAt: new Date().toISOString(), results, failures }, null, 2),
           );
-          console.log(JSON.stringify({ desktop, mobile, mobileHeadlineWidths, contact, legal, failures }, null, 2));
 
           await browser.close();
           if (failures.length) {
-            console.error('\nVISUAL_FAILURES');
-            failures.forEach((failure) => console.error(`- ${failure}`));
+            console.error(failures.join('\n'));
             process.exit(1);
           }
-          console.log('\nLIVE_COMPUTED_VISUAL=success');
+          console.log(JSON.stringify(results, null, 2));
           JS
+
           node live-visual-check.mjs
 
-      - name: Upload screenshots and computed metrics
+      - name: Upload visual verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: live-computed-visual-${{ github.run_id }}
-          path: |
-            live-desktop-1583.png
-            live-desktop-1583-hero.png
-            live-mobile-390.png
-            live-mobile-390-hero.png
-            live-contact-mobile.png
-            live-visual-results.json
-          retention-days: 7
+          name: live-visual-${{ github.run_id }}
+          path: visual-artifacts
+          if-no-files-found: warn
+          retention-days: 14
