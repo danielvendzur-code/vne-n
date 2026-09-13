@@ -2,13 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
+import "./sales-pages-refinement.css";
 
 export const Route = createFileRoute("/cennik")({
   head: () => ({
     ...seo({
       title: "Cenník — chatbot, kalkulačka, konfigurátor a produktový poradca",
       description:
-        "Chatbot alebo produktový poradca na mieru od 347 € jednorazovo a 10 € mesačne. Kalkulačka alebo konfigurátor od 447 € jednorazovo a 10 € mesačne. Presnú cenu dohodneme vopred.",
+        "Chatbot alebo produktový poradca na mieru od 347 € jednorazovo. Kalkulačka alebo krokový konfigurátor od 447 €. 3D konfigurátory naceňujeme podľa rozsahu modelu, logiky a integrácií.",
       path: "/cennik",
     }),
     scripts: [
@@ -40,10 +41,10 @@ const pricing = [
   },
   {
     index: "03",
-    name: "Konfigurátor",
+    name: "Krokový konfigurátor",
     setup: "od 447 €",
     monthly: "10 € / mesiac",
-    copy: "Samostatný krokový výber produktu alebo služby s variantmi, rozmermi, farbami a doplnkami.",
+    copy: "Samostatný krokový výber produktu alebo služby s variantmi, rozmermi, farbami a doplnkami — bez 3D modelu.",
     preset: "product" as const,
   },
 ] as const;
@@ -94,15 +95,19 @@ function PricingPage() {
               <small>vytvorenie</small>
             </div>
             <div className="pricing-hero__fact">
-              <span>KALKULAČKA / KONFIGURÁTOR</span>
+              <span>KALKULAČKA / KROKOVÝ KONFIGURÁTOR</span>
               <strong>od 447 €</strong>
               <small>vytvorenie</small>
             </div>
             <div className="pricing-hero__fact">
               <span>TECHNICKÁ PREVÁDZKA</span>
               <strong>10 €</strong>
-              <small>mesačne</small>
+              <small>mesačne pri štandardných riešeniach</small>
             </div>
+            <p className="pricing-hero__scope-note">
+              3D konfigurátor nie je v cene „od 447 €“. Naceňuje sa individuálne podľa rozsahu 3D
+              modelu, produktovej logiky a potrebných integrácií.
+            </p>
             <p className="pricing-tax-note">
               Ceny „od“ sú informatívne. Venaco s.r.o. je platiteľ DPH; v konkrétnej ponuke vždy
               uvedieme základ dane, DPH aj celkovú cenu.{" "}
@@ -115,10 +120,11 @@ function PricingPage() {
       <section className="sp-section pricing-catalog" id="baliky" data-nav-tone="light">
         <div className="container-page pricing-catalog__intro">
           <span className="section-kicker">CELÝ CENNÍK</span>
-          <h2>Vyberte nástroj podľa toho, čo má návštevník zvládnuť.</h2>
+          <h2>Najprv typ riešenia. Potom presný rozsah.</h2>
           <p>
-            Samostatný chatbot, kalkulačka aj konfigurátor majú vlastnú cenu a vlastný účel.
-            Kombinovať ich budeme iba vtedy, keď to zjednoduší cestu zákazníka.
+            Chatbot, kalkulačka a jednoduchší krokový konfigurátor majú orientačnú cenu od. Pri 3D
+            konfigurátore cenu neurčujeme jedným číslom — závisí od modelu, možností, pravidiel a
+            napojení, ktoré má riešenie obsahovať.
           </p>
         </div>
 
@@ -163,6 +169,31 @@ function PricingPage() {
                 </button>
               </article>
             ))}
+
+            <article className="pricing-row pricing-row--3d">
+              <div className="pricing-row__top">
+                <span>04</span>
+                <h2>3D konfigurátor</h2>
+              </div>
+              <p>
+                Interaktívny 3D model s rozmermi, farbami, variantmi, doplnkami a produktovou
+                logikou. Rozsah sa môže výrazne líšiť, preto ho nenaceňujeme ako jednoduchý krokový
+                konfigurátor.
+              </p>
+              <div className="pricing-row__prices">
+                <div>
+                  <span>Vytvorenie</span>
+                  <strong>podľa rozsahu</strong>
+                </div>
+                <div>
+                  <span>Prevádzka</span>
+                  <strong>podľa riešenia</strong>
+                </div>
+              </div>
+              <Link to="/kontakt" className="site-cta pricing-row__action">
+                Prebrať 3D konfigurátor <ArrowUpRight size={15} />
+              </Link>
+            </article>
           </div>
         </div>
       </section>
@@ -203,8 +234,8 @@ function PricingPage() {
           <div>
             <p className="section-kicker">AK TREBA NIEČO NAVYŠE</p>
             <p>
-              Väčšie integrácie, nové vetvy alebo rozsiahlejšie rozšírenia naceníme samostatne ešte
-              pred tým, ako na nich začneme pracovať.
+              3D modely, väčšie integrácie, nové vetvy alebo rozsiahlejšie rozšírenia naceníme
+              samostatne ešte pred tým, ako na nich začneme pracovať.
             </p>
           </div>
         </div>
