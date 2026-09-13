@@ -165,8 +165,8 @@ function ServicesPage() {
           </div>
           <div>
             <p>
-              Nástroj nevyberáme podľa názvu firmy, ale podľa rozhodnutia, ktoré má zákazník na
-              webe zvládnuť. Pri službách ide častejšie o cenu a presné zadanie; pri e-shope o výber
+              Nástroj nevyberáme podľa názvu firmy, ale podľa rozhodnutia, ktoré má zákazník na webe
+              zvládnuť. Pri službách ide častejšie o cenu a presné zadanie; pri e-shope o výber
               správneho produktu alebo variantu.
             </p>
           </div>
@@ -181,7 +181,8 @@ function ServicesPage() {
             <div className="services-audience__body">
               <p>
                 Keď cenu alebo zadanie nemožno vyriešiť jedným statickým formulárom. Typicky pomôže
-                kalkulačka, krátky krokový konfigurátor alebo chatbot, ktorý zozbiera presné podklady.
+                kalkulačka, krátky krokový konfigurátor alebo chatbot, ktorý zozbiera presné
+                podklady.
               </p>
               <ul>
                 <li>orientačný výpočet</li>
@@ -194,7 +195,10 @@ function ServicesPage() {
               type="button"
               className="site-cta site-cta--secondary services-audience__action"
               onClick={() =>
-                openSiteAssistant({ source: "services-audience-services", preset: "calculator" })
+                openSiteAssistant({
+                  source: "services-audience-services",
+                  preset: "calculator",
+                })
               }
             >
               Riešenie pre služby <ArrowRight size={15} />
@@ -222,7 +226,10 @@ function ServicesPage() {
               type="button"
               className="site-cta site-cta--secondary services-audience__action"
               onClick={() =>
-                openSiteAssistant({ source: "services-audience-shop", preset: "advisor" })
+                openSiteAssistant({
+                  source: "services-audience-shop",
+                  preset: "advisor",
+                })
               }
             >
               Riešenie pre e-shop <ArrowRight size={15} />
