@@ -29,25 +29,28 @@ jobs:
           npm install --no-save --ignore-scripts playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Wait until this exact SHA is live
+      - name: Wait until revised sales pages are live
         shell: bash
-        env:
-          SOURCE_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           for attempt in {1..90}; do
-            body="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' \
-              "https://mojchatbot.sk/build-meta.json?visual=${SOURCE_SHA}-${attempt}" || true)"
-            if printf '%s' "$body" | grep -Fq "$SOURCE_SHA"; then
-              echo "Verified live SHA: $SOURCE_SHA"
+            stamp="${{ github.sha }}-${attempt}-$(date +%s)"
+            pricing="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' \
+              "https://mojchatbot.sk/cennik/?visual=${stamp}" || true)"
+            services="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' \
+              "https://mojchatbot.sk/sluzby/?visual=${stamp}" || true)"
+            if printf '%s' "$pricing" | grep -Fq "3D konfigurátor" \
+              && printf '%s' "$pricing" | grep -Fq "podľa rozsahu" \
+              && printf '%s' "$services" | grep -Fq "Iný problém pri službách"; then
+              echo "Verified revised pricing and services content on mojchatbot.sk"
               exit 0
             fi
             sleep 5
           done
-          echo "Timed out waiting for $SOURCE_SHA on mojchatbot.sk"
+          echo "Timed out waiting for revised sales pages on mojchatbot.sk"
           exit 1
 
-      - name: Inspect restored baseline and scoped subpage changes
+      - name: Inspect restored baseline and scoped sales-page changes
         shell: bash
         run: |
           cat > live-visual-check.mjs <<'JS'
@@ -128,6 +131,14 @@ jobs:
               );
               if (styles.some((item) => item.afterDisplay !== 'none')) {
                 throw new Error(`navigation hairline still active: ${JSON.stringify(styles)}`);
+              }
+              const first = links.first();
+              const before = await first.evaluate((item) => getComputedStyle(item).backgroundColor);
+              await first.hover();
+              await page.waitForTimeout(220);
+              const after = await first.evaluate((item) => getComputedStyle(item).backgroundColor);
+              if (before === after || after === 'rgba(0, 0, 0, 0)') {
+                throw new Error(`navigation hover background did not change: ${before} -> ${after}`);
               }
             } else {
               const toggle = page.locator('.site-menu-toggle');
@@ -228,20 +239,48 @@ jobs:
               for (let index = 0; index < 3; index += 1) {
                 const card = facts.nth(index);
                 const box = await card.boundingBox();
-                if (!box || box.width < 140 || box.height < 90) throw new Error(`pricing card ${index + 1} invalid geometry`);
+                if (!box || box.width < 140 || box.height < 90) throw new Error(`pricing fact ${index + 1} invalid geometry`);
                 const size = await card.evaluate((el) => ({ scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }));
-                if (size.scrollWidth > size.clientWidth + 3) throw new Error(`pricing card ${index + 1} content overflows`);
+                if (size.scrollWidth > size.clientWidth + 3) throw new Error(`pricing fact ${index + 1} content overflows`);
                 boxes.push(box);
               }
               for (let a = 0; a < boxes.length; a += 1) {
                 for (let b = a + 1; b < boxes.length; b += 1) {
-                  if (overlapArea(boxes[a], boxes[b]) > 2) throw new Error(`pricing cards ${a + 1}/${b + 1} overlap`);
+                  if (overlapArea(boxes[a], boxes[b]) > 2) throw new Error(`pricing facts ${a + 1}/${b + 1} overlap`);
                 }
               }
               if (viewport.width >= 900) {
                 const headingBox = await heading.boundingBox();
                 const factsBox = await page.locator('.pricing-hero__facts').boundingBox();
                 if (overlapArea(headingBox, factsBox) > 2) throw new Error('pricing heading overlaps pricing facts');
+              }
+
+              const catalog = page.locator('.pricing-card-grid .pricing-row');
+              if ((await catalog.count()) !== 4) throw new Error(`pricing solution card count ${await catalog.count()}`);
+              const catalogText = cleanText(await catalog.allTextContents().then((items) => items.join(' ')));
+              if (!catalogText.includes('Krokový konfigurátor')) throw new Error('step configurator label missing');
+              const custom3d = page.locator('.pricing-row--3d');
+              const custom3dText = cleanText(await custom3d.textContent());
+              if (!custom3dText.includes('3D konfigurátor') || !custom3dText.includes('podľa rozsahu')) {
+                throw new Error(`3D pricing scope missing: ${custom3dText}`);
+              }
+              if (custom3dText.includes('447 €')) throw new Error('3D configurator incorrectly inherits 447 € price');
+              const catalogBoxes = [];
+              for (let index = 0; index < 4; index += 1) {
+                const card = catalog.nth(index);
+                await card.scrollIntoViewIfNeeded();
+                const box = await card.boundingBox();
+                if (!box || box.width < 180 || box.height < 160) throw new Error(`pricing solution ${index + 1} invalid geometry`);
+                const size = await card.evaluate((el) => ({ scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }));
+                if (size.scrollWidth > size.clientWidth + 3) throw new Error(`pricing solution ${index + 1} overflows`);
+                catalogBoxes.push(box);
+              }
+              if (viewport.width >= 900) {
+                for (let a = 0; a < catalogBoxes.length; a += 1) {
+                  for (let b = a + 1; b < catalogBoxes.length; b += 1) {
+                    if (overlapArea(catalogBoxes[a], catalogBoxes[b]) > 2) throw new Error(`pricing solutions ${a + 1}/${b + 1} overlap`);
+                  }
+                }
               }
               await shot(page, `${label}-cennik`);
             } finally {
@@ -300,12 +339,56 @@ jobs:
             }
           }
 
+          async function checkServices(viewport, label) {
+            const page = await openPage('/sluzby/', viewport, label);
+            try {
+              await noOverflow(page, `${label} services`);
+              const heading = page.locator('.sp-hero h1');
+              const summary = page.locator('.services-hero__summary');
+              const rows = page.locator('.services-hero__summary-row');
+              const actions = page.locator('.services-hero__actions .site-cta');
+              if (!(await heading.count()) || !(await heading.isVisible())) throw new Error('services heading missing');
+              if ((await summary.count()) !== 1 || !(await summary.isVisible())) throw new Error('services summary missing');
+              if ((await rows.count()) !== 4) throw new Error(`services summary row count ${await rows.count()}`);
+              if ((await actions.count()) !== 2) throw new Error(`services hero CTA count ${await actions.count()}`);
+              for (let index = 0; index < 2; index += 1) {
+                if (!(await actions.nth(index).isVisible())) throw new Error(`services CTA ${index + 1} not visible`);
+              }
+              const legacyVisual = page.locator('.subpage-hero-visual');
+              if ((await legacyVisual.count()) > 0 && (await legacyVisual.first().isVisible())) {
+                throw new Error('services legacy hero photo is still visible');
+              }
+              const audiences = page.locator('.services-audience');
+              if ((await audiences.count()) !== 2) throw new Error(`services audience count ${await audiences.count()}`);
+              const audienceText = cleanText(await audiences.allTextContents().then((items) => items.join(' ')));
+              if (!audienceText.includes('Firmy so službami') || !audienceText.includes('E-shopy')) {
+                throw new Error('services audience labels missing');
+              }
+              if (viewport.width >= 900) {
+                const headingBox = await heading.boundingBox();
+                const summaryBox = await summary.boundingBox();
+                if (!headingBox || !summaryBox) throw new Error('services hero geometry missing');
+                if (overlapArea(headingBox, summaryBox) > 2) throw new Error('services heading overlaps summary');
+              }
+              await shot(page, `${label}-sluzby`);
+            } finally {
+              await page.close();
+            }
+          }
+
           async function checkContact() {
             const page = await openPage('/kontakt/', { width: 1440, height: 1000 }, 'desktop-contact');
             try {
               await noOverflow(page, 'contact');
-              if (!(await page.locator('form').count())) throw new Error('contact form missing');
+              const form = page.locator('form');
+              if (!(await form.count())) throw new Error('contact form missing');
               if ((await page.locator('form input, form textarea, form select').count()) < 3) throw new Error('contact controls missing');
+              const firstInput = form.locator('input').first();
+              if (!(await firstInput.isVisible())) throw new Error('contact first input not visible in loaded page');
+              const formWrapBox = await page.locator('.contact-form-wrap').boundingBox();
+              if (!formWrapBox || formWrapBox.y >= 1000) throw new Error(`contact form starts below first viewport: ${formWrapBox?.y}`);
+              const lead = page.locator('.contact-page--rebrand > .sp-hero .sp-hero-lead');
+              if ((await lead.count()) && (await lead.isVisible())) throw new Error('unnecessary contact lead still visible');
               const submit = page.locator('form button[type="submit"]');
               if (!(await submit.count()) || !(await submit.isVisible())) throw new Error('contact submit missing');
               await shot(page, 'desktop-kontakt');
@@ -321,11 +404,11 @@ jobs:
           await run('mobile pricing geometry', () => checkPricing({ width: 390, height: 844 }, 'mobile'));
           await run('desktop realizations geometry', () => checkProjects({ width: 1440, height: 1000 }, 'desktop'));
           await run('mobile realizations geometry', () => checkProjects({ width: 390, height: 844 }, 'mobile'));
-          await run('services hero', () => checkInfoPage('/sluzby/', 'services', { width: 1440, height: 1000 }, 'desktop-sluzby'));
+          await run('desktop services hero + audiences', () => checkServices({ width: 1440, height: 1000 }, 'desktop'));
           await run('process hero', () => checkInfoPage('/postup/', 'process', { width: 1440, height: 1000 }, 'desktop-postup'));
           await run('why hero', () => checkInfoPage('/preco-chatbot/', 'why', { width: 1440, height: 1000 }, 'desktop-preco'));
-          await run('mobile services hero', () => checkInfoPage('/sluzby/', 'services mobile', { width: 390, height: 844 }, 'mobile-sluzby'));
-          await run('contact form', checkContact);
+          await run('mobile services hero + audiences', () => checkServices({ width: 390, height: 844 }, 'mobile'));
+          await run('contact form above fold', checkContact);
 
           fs.writeFileSync(
             'visual-artifacts/report.json',
