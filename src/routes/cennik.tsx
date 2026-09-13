@@ -105,15 +105,6 @@ function PricingPage() {
               <strong>10 €</strong>
               <small>mesačne pri štandardných riešeniach</small>
             </div>
-            <p className="pricing-hero__scope-note">
-              3D konfigurátor nie je v cene „od 447 €“. Naceňuje sa individuálne podľa rozsahu 3D
-              modelu, produktovej logiky a potrebných integrácií.
-            </p>
-            <p className="pricing-tax-note">
-              Ceny „od“ sú informatívne. Venaco s.r.o. je platiteľ DPH; v konkrétnej ponuke vždy
-              uvedieme základ dane, DPH aj celkovú cenu.{" "}
-              <Link to="/pravne-informacie">Právne informácie</Link>
-            </p>
           </div>
         </div>
       </header>
