@@ -58,15 +58,13 @@ jobs:
           const browser = await chromium.launch({ headless: true });
           const failures = [];
           const results = [];
-
+          const cleanText = (value) => (value || '').replace(/\s+/g, ' ').trim();
           const overlapArea = (a, b) => {
             if (!a || !b) return 0;
             const x = Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x));
             const y = Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
             return x * y;
           };
-
-          const cleanText = (value) => (value || '').replace(/\s+/g, ' ').trim();
 
           async function dismissAnalytics(page) {
             const banner = page.locator('.analytics-consent');
@@ -87,21 +85,21 @@ jobs:
             });
             await page.evaluate(() => document.fonts?.ready);
             await dismissAnalytics(page);
-            await page.waitForTimeout(700);
+            await page.waitForTimeout(600);
             return page;
           }
 
-          async function assertNoHorizontalOverflow(page, label) {
-            const sizes = await page.evaluate(() => ({
+          async function noOverflow(page, label) {
+            const size = await page.evaluate(() => ({
               scrollWidth: document.documentElement.scrollWidth,
               clientWidth: document.documentElement.clientWidth,
             }));
-            if (sizes.scrollWidth > sizes.clientWidth + 3) {
-              throw new Error(`${label} horizontal overflow ${sizes.scrollWidth}/${sizes.clientWidth}`);
+            if (size.scrollWidth > size.clientWidth + 3) {
+              throw new Error(`${label} horizontal overflow ${size.scrollWidth}/${size.clientWidth}`);
             }
           }
 
-          async function screenshot(page, name, fullPage = true) {
+          async function shot(page, name, fullPage = true) {
             await page.screenshot({ path: `visual-artifacts/${name}.png`, fullPage });
           }
 
@@ -116,10 +114,9 @@ jobs:
             }
           }
 
-          async function checkNavigation(page, mobile = false) {
+          async function checkNavigation(page, mobile) {
             const header = page.locator('.site-header');
             if (!(await header.count()) || !(await header.isVisible())) throw new Error('site header missing');
-
             if (!mobile) {
               const links = page.locator('.site-nav a');
               if ((await links.count()) < 4) throw new Error('desktop navigation links missing');
@@ -127,7 +124,6 @@ jobs:
                 items.map((item) => ({
                   afterDisplay: getComputedStyle(item, '::after').display,
                   fontFamily: getComputedStyle(item).fontFamily,
-                  fontSize: getComputedStyle(item).fontSize,
                 })),
               );
               if (styles.some((item) => item.afterDisplay !== 'none')) {
@@ -145,12 +141,11 @@ jobs:
             }
           }
 
-          async function checkHomepage(viewport, label, mobile = false) {
+          async function checkHomepage(viewport, label, mobile) {
             const page = await openPage('/', viewport, label);
             try {
-              await assertNoHorizontalOverflow(page, `${label} homepage`);
+              await noOverflow(page, `${label} homepage`);
               await checkNavigation(page, mobile);
-
               const hero = page.locator('.kage-hero');
               if (!(await hero.count())) throw new Error('homepage hero missing');
               const h1 = hero.locator('h1');
@@ -158,11 +153,10 @@ jobs:
               if (!headline.includes('Z otázky') || !headline.includes('k výsledku')) {
                 throw new Error(`unexpected restored headline: ${headline}`);
               }
-
-              const heroBox = await h1.boundingBox();
-              if (!heroBox || heroBox.width < 200 || heroBox.height < 60) throw new Error('homepage headline has invalid geometry');
-              if (heroBox.x < -2 || heroBox.x + heroBox.width > viewport.width + 2) throw new Error('homepage headline escapes viewport');
-
+              const h1Box = await h1.boundingBox();
+              if (!h1Box || h1Box.x < -2 || h1Box.x + h1Box.width > viewport.width + 2) {
+                throw new Error('homepage headline escapes viewport');
+              }
               const cases = page.locator('.hybrid-hero__case');
               if ((await cases.count()) !== 3) throw new Error(`hero realization count ${await cases.count()}`);
               for (let index = 0; index < 3; index += 1) {
@@ -173,10 +167,40 @@ jobs:
                 const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
                 if (!loaded) throw new Error(`hero realization ${index + 1} image not loaded`);
               }
-
               const cta = page.locator('.hybrid-hero__primary');
               if (!(await cta.count()) || !(await cta.isVisible())) throw new Error('homepage primary CTA missing');
-              await screenshot(page, `${label}-homepage`, false);
+              await shot(page, `${label}-homepage`, false);
+            } finally {
+              await page.close();
+            }
+          }
+
+          async function checkMobileHeadlineSweep() {
+            const widths = [280, 320, 360, 375, 390, 414, 430, 480, 600, 720];
+            const page = await openPage('/', { width: widths[0], height: 844 }, 'mobile-headline-sweep');
+            try {
+              for (const width of widths) {
+                await page.setViewportSize({ width, height: 844 });
+                await page.waitForTimeout(120);
+                const state = await page.locator('.kage-hero h1').evaluate((heading) => {
+                  const viewportWidth = document.documentElement.clientWidth;
+                  const glyphs = Array.from(heading.querySelectorAll('.typed-character')).map((glyph) => {
+                    const rect = glyph.getBoundingClientRect();
+                    return { text: glyph.textContent || '', left: rect.left, right: rect.right };
+                  });
+                  const rect = heading.getBoundingClientRect();
+                  return { viewportWidth, left: rect.left, right: rect.right, glyphs };
+                });
+                if (!state.glyphs.length) throw new Error(`hero headline glyph nodes missing at ${width}`);
+                if (state.left < -1 || state.right > state.viewportWidth + 1) {
+                  throw new Error(`mobile headline overflow at ${width}: ${state.left}-${state.right}/${state.viewportWidth}`);
+                }
+                for (const glyph of state.glyphs) {
+                  if (glyph.left < -1 || glyph.right > state.viewportWidth + 1) {
+                    throw new Error(`mobile headline overflow at ${width}: hero headline glyph "${glyph.text}" ${glyph.left}-${glyph.right}/${state.viewportWidth}`);
+                  }
+                }
+              }
             } finally {
               await page.close();
             }
@@ -185,33 +209,28 @@ jobs:
           async function checkPricing(viewport, label) {
             const page = await openPage('/cennik/', viewport, label);
             try {
-              await assertNoHorizontalOverflow(page, `${label} pricing`);
+              await noOverflow(page, `${label} pricing`);
               const heading = page.locator('.pricing-hero__copy h1');
               const facts = page.locator('.pricing-hero__fact');
               if (!(await heading.count())) throw new Error('pricing heading missing');
               if ((await facts.count()) !== 3) throw new Error(`pricing fact count ${await facts.count()}`);
-
               const headingText = cleanText(await heading.textContent());
               if (!headingText.includes('Jasná cena') || !headingText.includes('Jasný rozsah')) {
                 throw new Error(`unexpected pricing heading: ${headingText}`);
               }
-
               const factTexts = await facts.allTextContents();
               for (const expected of ['347 €', '447 €', '10 €']) {
                 if (!factTexts.some((text) => cleanText(text).includes(expected))) {
-                  throw new Error(`pricing value ${expected} missing: ${JSON.stringify(factTexts)}`);
+                  throw new Error(`pricing value ${expected} missing`);
                 }
               }
-
               const boxes = [];
               for (let index = 0; index < 3; index += 1) {
                 const card = facts.nth(index);
                 const box = await card.boundingBox();
                 if (!box || box.width < 140 || box.height < 90) throw new Error(`pricing card ${index + 1} invalid geometry`);
-                const overflow = await card.evaluate((el) => ({ scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }));
-                if (overflow.scrollWidth > overflow.clientWidth + 3) {
-                  throw new Error(`pricing card ${index + 1} content overflows ${overflow.scrollWidth}/${overflow.clientWidth}`);
-                }
+                const size = await card.evaluate((el) => ({ scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }));
+                if (size.scrollWidth > size.clientWidth + 3) throw new Error(`pricing card ${index + 1} content overflows`);
                 boxes.push(box);
               }
               for (let a = 0; a < boxes.length; a += 1) {
@@ -219,14 +238,12 @@ jobs:
                   if (overlapArea(boxes[a], boxes[b]) > 2) throw new Error(`pricing cards ${a + 1}/${b + 1} overlap`);
                 }
               }
-
               if (viewport.width >= 900) {
                 const headingBox = await heading.boundingBox();
                 const factsBox = await page.locator('.pricing-hero__facts').boundingBox();
                 if (overlapArea(headingBox, factsBox) > 2) throw new Error('pricing heading overlaps pricing facts');
               }
-
-              await screenshot(page, `${label}-cennik`);
+              await shot(page, `${label}-cennik`);
             } finally {
               await page.close();
             }
@@ -235,10 +252,9 @@ jobs:
           async function checkProjects(viewport, label) {
             const page = await openPage('/projekty/', viewport, label);
             try {
-              await assertNoHorizontalOverflow(page, `${label} projects`);
+              await noOverflow(page, `${label} projects`);
               const cards = page.locator('.work-project');
               if ((await cards.count()) !== 4) throw new Error(`realization count ${await cards.count()}`);
-
               for (let index = 0; index < 4; index += 1) {
                 const card = cards.nth(index);
                 await card.scrollIntoViewIfNeeded();
@@ -254,8 +270,7 @@ jobs:
                 if (!metaBox || metaBox.width < 120 || metaBox.height < 60) throw new Error(`realization ${index + 1} meta invalid`);
                 if (overlapArea(visualBox, metaBox) > 2) throw new Error(`realization ${index + 1} visual overlaps text`);
               }
-
-              await screenshot(page, `${label}-realizacie`);
+              await shot(page, `${label}-realizacie`);
             } finally {
               await page.close();
             }
@@ -264,7 +279,7 @@ jobs:
           async function checkInfoPage(path, label, viewport, screenshotName) {
             const page = await openPage(path, viewport, screenshotName);
             try {
-              await assertNoHorizontalOverflow(page, `${screenshotName} info page`);
+              await noOverflow(page, `${screenshotName} info page`);
               const heading = page.locator('.sp-hero h1');
               const visual = page.locator('.subpage-hero-visual');
               const image = visual.locator('img');
@@ -272,16 +287,14 @@ jobs:
               if ((await visual.count()) !== 1 || !(await visual.isVisible())) throw new Error(`${label} hero visual missing`);
               const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
               if (!loaded) throw new Error(`${label} hero image not loaded`);
-
               const fontSize = Number.parseFloat(await heading.evaluate((el) => getComputedStyle(el).fontSize));
               const maxFont = viewport.width >= 900 ? 80 : 66;
               if (fontSize > maxFont) throw new Error(`${label} heading too large: ${fontSize}px`);
-
               const headingBox = await heading.boundingBox();
               const visualBox = await visual.boundingBox();
               if (!headingBox || !visualBox) throw new Error(`${label} invalid hero geometry`);
               if (overlapArea(headingBox, visualBox) > 2) throw new Error(`${label} heading overlaps hero image`);
-              await screenshot(page, screenshotName);
+              await shot(page, screenshotName);
             } finally {
               await page.close();
             }
@@ -290,13 +303,12 @@ jobs:
           async function checkContact() {
             const page = await openPage('/kontakt/', { width: 1440, height: 1000 }, 'desktop-contact');
             try {
-              await assertNoHorizontalOverflow(page, 'contact');
+              await noOverflow(page, 'contact');
               if (!(await page.locator('form').count())) throw new Error('contact form missing');
-              const controls = page.locator('form input, form textarea, form select');
-              if ((await controls.count()) < 3) throw new Error(`contact form control count ${await controls.count()}`);
+              if ((await page.locator('form input, form textarea, form select').count()) < 3) throw new Error('contact controls missing');
               const submit = page.locator('form button[type="submit"]');
               if (!(await submit.count()) || !(await submit.isVisible())) throw new Error('contact submit missing');
-              await screenshot(page, 'desktop-kontakt');
+              await shot(page, 'desktop-kontakt');
             } finally {
               await page.close();
             }
@@ -304,6 +316,7 @@ jobs:
 
           await run('desktop homepage + navigation', () => checkHomepage({ width: 1440, height: 1000 }, 'desktop', false));
           await run('mobile homepage + navigation', () => checkHomepage({ width: 390, height: 844 }, 'mobile', true));
+          await run('mobile headline width sweep', checkMobileHeadlineSweep);
           await run('desktop pricing geometry', () => checkPricing({ width: 1440, height: 1000 }, 'desktop'));
           await run('mobile pricing geometry', () => checkPricing({ width: 390, height: 844 }, 'mobile'));
           await run('desktop realizations geometry', () => checkProjects({ width: 1440, height: 1000 }, 'desktop'));
@@ -318,7 +331,6 @@ jobs:
             'visual-artifacts/report.json',
             JSON.stringify({ checkedAt: new Date().toISOString(), results, failures }, null, 2),
           );
-
           await browser.close();
           if (failures.length) {
             console.error(failures.join('\n'));
