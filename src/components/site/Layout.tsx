@@ -7,6 +7,7 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
+import "./NavHoverFinal.css";
 
 const navRefinement = `
 body .site-header .site-nav a::before,
