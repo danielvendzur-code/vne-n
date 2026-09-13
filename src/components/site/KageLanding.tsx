@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { openSiteAssistant } from "@/lib/site-assistant";
 
 type FlowMode = "chatbot" | "calculator" | "configurator";
@@ -214,6 +214,8 @@ const featuredProjects = [
   },
 ] as const;
 
+// WEBKO remains in the realizations grid, but the approved hero composition
+// intentionally uses only three overlapping website previews.
 const heroProjects = featuredProjects.slice(0, 3);
 
 const outcomeGroups = [
@@ -254,14 +256,43 @@ function ProjectVisual({
         alt={project.alt}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
-        fetchPriority={eager ? "high" : "low"}
+        fetchPriority={eager ? "high" : "auto"}
       />
     </span>
   );
 }
 
-function TypedLine({ text }: { text: string; startAt: number }) {
-  return <span className="typed-line">{text}</span>;
+function TypedLine({ text, startAt }: { text: string; startAt: number }) {
+  const words = text.split(" ");
+
+  return (
+    <span className="typed-line" aria-hidden="true">
+      {words.map((word, wordIndex) => {
+        const wordOffset =
+          startAt +
+          words.slice(0, wordIndex).reduce((total, item) => total + item.length, 0) +
+          wordIndex;
+        return (
+          <span className="typed-word" key={`${word}-${wordIndex}`}>
+            {Array.from(word).map((character, characterIndex) => (
+              <span
+                className="typed-character"
+                key={`${character}-${characterIndex}`}
+                style={{ "--character-index": wordOffset + characterIndex } as CSSProperties}
+              >
+                {character}
+              </span>
+            ))}
+            {wordIndex < words.length - 1 ? (
+              <span className="typed-space" aria-hidden="true">
+                {"\u00a0"}
+              </span>
+            ) : null}
+          </span>
+        );
+      })}
+    </span>
+  );
 }
 
 function HeroCollage() {
@@ -275,7 +306,7 @@ function HeroCollage() {
           target="_blank"
           rel="noreferrer"
         >
-          <ProjectVisual project={project} eager={index === 0} />
+          <ProjectVisual project={project} eager />
           <span>
             0{index + 1} / {project.name}
           </span>
@@ -398,6 +429,13 @@ function PageNavigator() {
   );
 }
 
+/**
+ * 03 / Ako to funguje.
+ *
+ * The section is a real vertical chapter. Normal page scroll drives the
+ * horizontal story while a full-viewport stage stays sticky. There is no
+ * wheel interception and no separate sideways scrolling gesture.
+ */
 function FlowStory() {
   const [mode, setMode] = useState<FlowMode>("chatbot");
   const stages = flowModes[mode].stages;
@@ -431,6 +469,7 @@ function FlowStory() {
 
       const dpr = Math.max(1, window.devicePixelRatio || 1);
       const offset = Math.round(-maxTravel * visualProgress * dpr) / dpr;
+
       const footerReveal = Math.min(1, Math.max(0, (progress - 0.7) / 0.14));
 
       track.style.transform = `translate3d(${offset}px, 0, 0)`;
@@ -767,6 +806,14 @@ function Process() {
   );
 }
 
+/**
+ * Counts a price up when its row reaches the viewport.
+ *
+ * The final value is what renders on the server and on the first client frame.
+ * The counter only ever drops to zero from inside the IntersectionObserver
+ * callback, so a browser without the observer — or one that never fires it —
+ * shows the real price instead of a permanent "od 0 €".
+ */
 function AnimatedPrice({ value, lead = "od " }: { value: number; lead?: string }) {
   const [displayValue, setDisplayValue] = useState(value);
   const ref = useRef<HTMLElement>(null);
@@ -808,11 +855,16 @@ function AnimatedPrice({ value, lead = "od " }: { value: number; lead?: string }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry) return;
+        if (started || !entry) return;
+
         if (!entry.isIntersecting) {
+          // Keep the real price in the DOM until the row actually enters the
+          // viewport. Full-page screenshots, crawlers and accessibility tools
+          // must never observe a fake "0 €" price just because the animation
+          // has not started yet.
           return;
         }
-        if (started) return;
+
         observer.disconnect();
         setDisplayValue(0);
         countUp();

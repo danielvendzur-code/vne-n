@@ -73,7 +73,6 @@ function ProjectsPage() {
                   decoding="async"
                   width={1440}
                   height={1000}
-                  sizes="(max-width: 720px) 100vw, 90vw"
                 />
               </a>
               <div className="work-project__meta">
