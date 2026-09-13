@@ -1,10 +1,11 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Analytics } from "@vercel/analytics/react";
 import "@fontsource-variable/inter-tight";
 import {
   HeadContent,
   Outlet,
   Scripts,
-  createRootRoute,
+  createRootRouteWithContext,
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
@@ -12,7 +13,6 @@ import { useEffect, type ReactNode } from "react";
 
 import { BrandMark } from "../components/BrandMark";
 import { SiteLayout } from "../components/site/Layout";
-import "../components/site/SubpageHeroUnified.css";
 import { SITE_ORIGIN, siteConfig } from "../config/site";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -270,7 +270,7 @@ const contentSecurityPolicy = [
   "upgrade-insecure-requests",
 ].join("; ");
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -350,8 +350,13 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const outlet = <Outlet />;
 
-  return pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      {pathname.startsWith("/farby") ? outlet : <SiteLayout>{outlet}</SiteLayout>}
+    </QueryClientProvider>
+  );
 }

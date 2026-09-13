@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { SubpageHeroMedia } from "@/components/site/SubpageHeroMedia";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
+import "./subpage-hero-refresh.css";
 
 export const Route = createFileRoute("/preco-chatbot")({
   head: () => ({
@@ -47,10 +47,10 @@ const outcomes = [
 
 function WhyPage() {
   return (
-    <div className="sp-page">
-      <header className="sp-hero sp-hero--media">
+    <div className="sp-page why-page">
+      <header className="sp-hero">
         <div className="container-page">
-          <div className="sp-hero__copy">
+          <div className="subpage-hero-copy">
             <p className="section-kicker">PREČO TO FUNGUJE</p>
             <h1>
               Menej slepých miest medzi otázkou a <em>ďalším krokom.</em>
@@ -60,10 +60,18 @@ function WhyPage() {
               zistiť, vybrať alebo vypočítať to, čo potrebuje.
             </p>
           </div>
-          <SubpageHeroMedia
-            src={`${import.meta.env.BASE_URL}work/live/webko.webp`}
-            alt="Ukážka reálne nasadeného webu WEBKO"
-          />
+          <figure className="subpage-hero-visual">
+            <img
+              src={`${import.meta.env.BASE_URL}work/live/webko.webp`}
+              alt="Ukážka živého projektu WEBKO s predajným webovým rozhraním"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              width={1440}
+              height={1000}
+            />
+            <figcaption>Živá realizácia / WEBKO</figcaption>
+          </figure>
         </div>
       </header>
 

@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { SubpageHeroMedia } from "@/components/site/SubpageHeroMedia";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import type { AssistantPreset } from "@/types/assistant";
+import "./subpage-hero-refresh.css";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
@@ -68,10 +68,10 @@ const tools: Array<{
 
 function ServicesPage() {
   return (
-    <div className="sp-page">
-      <header className="sp-hero sp-hero--media">
+    <div className="sp-page services-page">
+      <header className="sp-hero">
         <div className="container-page">
-          <div className="sp-hero__copy">
+          <div className="subpage-hero-copy">
             <p className="section-kicker">ČO TVORÍME</p>
             <h1>
               Nástroje, ktoré posunú zákazníka <em>k výsledku.</em>
@@ -81,10 +81,18 @@ function ServicesPage() {
               vypočítať, vybrať alebo odoslať.
             </p>
           </div>
-          <SubpageHeroMedia
-            src={`${import.meta.env.BASE_URL}work/portfolio/koverta.webp`}
-            alt="Ukážka reálne nasadeného webu Koverta s konfigurátorom prístrešku"
-          />
+          <figure className="subpage-hero-visual">
+            <img
+              src={`${import.meta.env.BASE_URL}work/portfolio/koverta.webp`}
+              alt="Ukážka webu Koverta s interaktívnym konfigurátorom prístrešku"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              width={1440}
+              height={1000}
+            />
+            <figcaption>Ukážka riešenia / Koverta</figcaption>
+          </figure>
         </div>
       </header>
 
