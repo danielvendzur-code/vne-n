@@ -9,22 +9,26 @@ import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
 
 const navRefinement = `
-.site-nav a::after { display: none !important; }
-.site-nav a {
-  margin-inline: -0.55rem;
-  padding-inline: 0.55rem;
-  border-radius: 999px;
-  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease, transform var(--duration-fast) ease;
+body .site-header .site-nav a::before,
+body .site-header .site-nav a::after {
+  content: none !important;
+  display: none !important;
 }
-.site-nav a:hover,
-.site-nav a:focus-visible {
-  background: rgba(200, 240, 106, 0.24);
+body .site-header .site-nav a {
+  margin-inline: -0.55rem !important;
+  padding-inline: 0.55rem !important;
+  border-radius: 999px !important;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease, transform var(--duration-fast) ease !important;
+}
+body .site-header .site-nav a:hover,
+body .site-header .site-nav a:focus-visible {
+  background: rgba(200, 240, 106, 0.32) !important;
   color: #071b15 !important;
   transform: translateY(-1px);
 }
-body:has(.hybrid-home) .site-nav a:hover,
-body:has(.hybrid-home) .site-nav a:focus-visible {
-  background: #c8f06a;
+body:has(.hybrid-home) .site-header .site-nav a:hover,
+body:has(.hybrid-home) .site-header .site-nav a:focus-visible {
+  background: #c8f06a !important;
   color: #071b15 !important;
 }
 

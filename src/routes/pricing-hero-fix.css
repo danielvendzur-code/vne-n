@@ -1,0 +1,40 @@
+/* Keep the approved pricing hero composition, but make both top price cards
+   fully self-contained on desktop. This specifically prevents the large
+   “od 347 € / od 447 €” values from spilling into the neighbouring card. */
+
+@media (min-width: 981px) {
+  .pricing-page--rebrand .pricing-hero__layout {
+    grid-template-columns: minmax(0, 0.88fr) minmax(31rem, 1.12fr) !important;
+    gap: clamp(3rem, 6vw, 6rem) !important;
+  }
+
+  .pricing-page--rebrand .pricing-hero__facts {
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  .pricing-page--rebrand .pricing-hero__fact {
+    min-width: 0;
+    overflow: hidden;
+    padding: clamp(1.05rem, 1.5vw, 1.35rem) !important;
+  }
+
+  .pricing-page--rebrand .pricing-hero__fact span {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .pricing-page--rebrand .pricing-hero__fact strong {
+    max-width: 100%;
+    font-size: clamp(2.35rem, 3.15vw, 3.9rem) !important;
+    line-height: 0.92 !important;
+    white-space: nowrap;
+  }
+
+  .pricing-page--rebrand .pricing-hero__fact:nth-child(3),
+  .pricing-page--rebrand .pricing-hero__scope-note,
+  .pricing-page--rebrand .pricing-tax-note {
+    grid-column: 1 / -1;
+  }
+}

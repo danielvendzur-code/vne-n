@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./sales-pages-refinement.css";
+import "./pricing-hero-fix.css";
 
 export const Route = createFileRoute("/cennik")({
   head: () => ({
@@ -95,7 +96,7 @@ function PricingPage() {
               <small>vytvorenie</small>
             </div>
             <div className="pricing-hero__fact">
-              <span>KALKULAČKA / KROKOVÝ KONFIGURÁTOR</span>
+              <span>KALKULAČKA / KROKOVÝ VÝBER</span>
               <strong>od 447 €</strong>
               <small>vytvorenie</small>
             </div>
