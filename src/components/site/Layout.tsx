@@ -9,10 +9,10 @@ import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
 
 const navRefinement = `
-html body .site-theme-white-green .site-header .site-nav a::before,
-html body .site-theme-white-green .site-header .site-nav a::after,
-html body .site-theme-white-green .site-header[data-adaptive="true"] .site-nav a::before,
-html body .site-theme-white-green .site-header[data-adaptive="true"] .site-nav a::after {
+html:root body .site-theme-white-green.site-theme-white-green .site-header.site-header .site-nav.site-nav.site-nav a::before,
+html:root body .site-theme-white-green.site-theme-white-green .site-header.site-header .site-nav.site-nav.site-nav a::after,
+html:root body .site-theme-white-green.site-theme-white-green .site-header.site-header[data-adaptive="true"] .site-nav.site-nav.site-nav a::before,
+html:root body .site-theme-white-green.site-theme-white-green .site-header.site-header[data-adaptive="true"] .site-nav.site-nav.site-nav a::after {
   content: none !important;
   display: none !important;
 }
