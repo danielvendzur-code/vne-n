@@ -7,11 +7,12 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
 import "./SiteVisualAuthority.css";
-import "./NavHoverFinal.css";
 
 const navRefinement = `
-body .site-header .site-nav a::before,
-body .site-header .site-nav a::after {
+html body .site-theme-white-green .site-header .site-nav a::before,
+html body .site-theme-white-green .site-header .site-nav a::after,
+html body .site-theme-white-green .site-header[data-adaptive="true"] .site-nav a::before,
+html body .site-theme-white-green .site-header[data-adaptive="true"] .site-nav a::after {
   content: none !important;
   display: none !important;
 }
