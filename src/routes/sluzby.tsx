@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import type { AssistantPreset } from "@/types/assistant";
 import "./subpage-hero-refresh.css";
+import "./sales-pages-refinement.css";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
@@ -80,19 +81,42 @@ function ServicesPage() {
               Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť,
               vypočítať, vybrať alebo odoslať.
             </p>
+            <div className="services-hero__actions">
+              <button
+                type="button"
+                className="site-cta site-cta--primary"
+                onClick={() => openSiteAssistant({ source: "services-hero" })}
+              >
+                Vyskladať riešenie <ArrowRight size={15} />
+              </button>
+              <Link to="/projekty" className="site-cta site-cta--secondary">
+                Pozrieť realizácie <ArrowUpRight size={15} />
+              </Link>
+            </div>
           </div>
-          <figure className="subpage-hero-visual">
-            <img
-              src={`${import.meta.env.BASE_URL}work/portfolio/koverta.webp`}
-              alt="Ukážka webu Koverta s interaktívnym konfigurátorom prístrešku"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              width={1440}
-              height={1000}
-            />
-            <figcaption>Ukážka riešenia / Koverta</figcaption>
-          </figure>
+
+          <div className="services-hero__summary" aria-label="Typy riešení">
+            <div className="services-hero__summary-row">
+              <span>01</span>
+              <strong>Chatbot / poradca</strong>
+              <small>odpovede a výber</small>
+            </div>
+            <div className="services-hero__summary-row">
+              <span>02</span>
+              <strong>Kalkulačka</strong>
+              <small>výpočet podľa pravidiel</small>
+            </div>
+            <div className="services-hero__summary-row">
+              <span>03</span>
+              <strong>Krokový konfigurátor</strong>
+              <small>varianty a zadanie</small>
+            </div>
+            <div className="services-hero__summary-row">
+              <span>04</span>
+              <strong>3D konfigurátor</strong>
+              <small>individuálny rozsah</small>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -133,40 +157,77 @@ function ServicesPage() {
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="container-page audience__grid">
-          <div className="audience__copy">
-            <p className="section-kicker">KDE TO FUNGUJE / SLUŽBY</p>
-            <h2 className="section-title">
-              Pre firmy <em>so službami.</em>
-            </h2>
-            <p>
-              Keď zákazník potrebuje cenu, vysvetlenie, konfiguráciu alebo musí firme poslať
-              presnejšie zadanie, interaktívny nástroj skráti cestu medzi otázkou a kontaktom.
-            </p>
-            <ul className="plain-list">
-              <li>orientačný výpočet</li>
-              <li>kvalifikácia dopytu</li>
-              <li>konfigurácia zákazky</li>
-              <li>zber potrebných údajov</li>
-            </ul>
+      <section className="sp-section services-audiences">
+        <div className="container-page services-audiences__intro">
+          <div>
+            <p className="section-kicker">PRE KOHO</p>
+            <h2>Iný problém pri službách. Iný pri e-shope.</h2>
           </div>
-          <div className="audience__copy">
-            <p className="section-kicker">KDE TO FUNGUJE / E-SHOPY</p>
-            <h2 className="section-title">
-              Pre <em>e-shopy.</em>
-            </h2>
+          <div>
             <p>
-              Keď je výber produktu zložitý, poradca môže viesť zákazníka cez parametre a
-              preferencie, porovnať možnosti a dostať ho k relevantnému produktu alebo variantu.
+              Nástroj nevyberáme podľa názvu firmy, ale podľa rozhodnutia, ktoré má zákazník na
+              webe zvládnuť. Pri službách ide častejšie o cenu a presné zadanie; pri e-shope o výber
+              správneho produktu alebo variantu.
             </p>
-            <ul className="plain-list">
-              <li>produktový poradca</li>
-              <li>výber variantu</li>
-              <li>produktové otázky</li>
-              <li>asistovaný výber pred nákupom</li>
-            </ul>
           </div>
+        </div>
+
+        <div className="container-page services-audiences__list">
+          <article className="services-audience services-audience--services">
+            <div className="services-audience__heading">
+              <span>01</span>
+              <h3>Firmy so službami</h3>
+            </div>
+            <div className="services-audience__body">
+              <p>
+                Keď cenu alebo zadanie nemožno vyriešiť jedným statickým formulárom. Typicky pomôže
+                kalkulačka, krátky krokový konfigurátor alebo chatbot, ktorý zozbiera presné podklady.
+              </p>
+              <ul>
+                <li>orientačný výpočet</li>
+                <li>presné zadanie dopytu</li>
+                <li>výber variantu služby</li>
+                <li>vysvetlenie možností</li>
+              </ul>
+            </div>
+            <button
+              type="button"
+              className="site-cta site-cta--secondary services-audience__action"
+              onClick={() =>
+                openSiteAssistant({ source: "services-audience-services", preset: "calculator" })
+              }
+            >
+              Riešenie pre služby <ArrowRight size={15} />
+            </button>
+          </article>
+
+          <article className="services-audience services-audience--shop">
+            <div className="services-audience__heading">
+              <span>02</span>
+              <h3>E-shopy</h3>
+            </div>
+            <div className="services-audience__body">
+              <p>
+                Keď má zákazník veľa produktov, parametrov alebo variantov a nevie, ktorý zvoliť.
+                Najčastejšie pomôže produktový poradca alebo riadený výber podľa konkrétnych potrieb.
+              </p>
+              <ul>
+                <li>produktový poradca</li>
+                <li>výber kompatibilného variantu</li>
+                <li>produktové otázky</li>
+                <li>prechod na konkrétny produkt</li>
+              </ul>
+            </div>
+            <button
+              type="button"
+              className="site-cta site-cta--secondary services-audience__action"
+              onClick={() =>
+                openSiteAssistant({ source: "services-audience-shop", preset: "advisor" })
+              }
+            >
+              Riešenie pre e-shop <ArrowRight size={15} />
+            </button>
+          </article>
         </div>
       </section>
 
