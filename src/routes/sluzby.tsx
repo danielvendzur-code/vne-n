@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import type { AssistantPreset } from "@/types/assistant";
 import "./subpage-hero-refresh.css";
 import "./sales-pages-refinement.css";
+import "./services-hero-restore.css";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
@@ -69,7 +70,7 @@ const tools: Array<{
 
 function ServicesPage() {
   return (
-    <div className="sp-page services-page">
+    <div className="sp-page services-page services-page--image-hero">
       <header className="sp-hero">
         <div className="container-page">
           <div className="subpage-hero-copy">
@@ -81,42 +82,19 @@ function ServicesPage() {
               Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť,
               vypočítať, vybrať alebo odoslať.
             </p>
-            <div className="services-hero__actions">
-              <button
-                type="button"
-                className="site-cta site-cta--primary"
-                onClick={() => openSiteAssistant({ source: "services-hero" })}
-              >
-                Vyskladať riešenie <ArrowRight size={15} />
-              </button>
-              <Link to="/projekty" className="site-cta site-cta--secondary">
-                Pozrieť realizácie <ArrowUpRight size={15} />
-              </Link>
-            </div>
           </div>
-
-          <div className="services-hero__summary" aria-label="Typy riešení">
-            <div className="services-hero__summary-row">
-              <span>01</span>
-              <strong>Chatbot / poradca</strong>
-              <small>odpovede a výber</small>
-            </div>
-            <div className="services-hero__summary-row">
-              <span>02</span>
-              <strong>Kalkulačka</strong>
-              <small>výpočet podľa pravidiel</small>
-            </div>
-            <div className="services-hero__summary-row">
-              <span>03</span>
-              <strong>Krokový konfigurátor</strong>
-              <small>varianty a zadanie</small>
-            </div>
-            <div className="services-hero__summary-row">
-              <span>04</span>
-              <strong>3D konfigurátor</strong>
-              <small>individuálny rozsah</small>
-            </div>
-          </div>
+          <figure className="subpage-hero-visual">
+            <img
+              src={`${import.meta.env.BASE_URL}work/portfolio/koverta.webp`}
+              alt="Ukážka webu Koverta s interaktívnym konfigurátorom prístrešku"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              width={1440}
+              height={1000}
+            />
+            <figcaption>Ukážka riešenia / Koverta</figcaption>
+          </figure>
         </div>
       </header>
 
