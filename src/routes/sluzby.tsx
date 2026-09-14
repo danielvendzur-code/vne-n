@@ -5,6 +5,7 @@ import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import type { AssistantPreset } from "@/types/assistant";
 import "./subpage-hero-refresh.css";
 import "./sales-pages-refinement.css";
+import "./services-hero-restore.css";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
