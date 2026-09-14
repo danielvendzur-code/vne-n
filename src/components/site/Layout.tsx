@@ -6,7 +6,6 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
-import { userRequestedSep14Css } from "./UserRequestedSep14";
 import "./SiteVisualAuthority.css";
 
 const navRefinement = `
@@ -79,7 +78,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       <div className="site-theme-white-green min-h-screen flex flex-col">
         <style data-nav-refinement>{navRefinement}</style>
-        <style data-sep14-refinement>{userRequestedSep14Css}</style>
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>
