@@ -29,25 +29,22 @@ jobs:
           npm install --no-save --ignore-scripts playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Wait until revised sales pages are live
+      - name: Wait until this exact SHA is live
         shell: bash
+        env:
+          SOURCE_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           for attempt in {1..90}; do
-            stamp="${{ github.sha }}-${attempt}-$(date +%s)"
-            pricing="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' \
-              "https://mojchatbot.sk/cennik/?visual=${stamp}" || true)"
-            services="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' \
-              "https://mojchatbot.sk/sluzby/?visual=${stamp}" || true)"
-            if printf '%s' "$pricing" | grep -Fq "3D konfigurátor" \
-              && printf '%s' "$pricing" | grep -Fq "podľa rozsahu" \
-              && printf '%s' "$services" | grep -Fq "Iný problém pri službách"; then
-              echo "Verified revised pricing and services content on mojchatbot.sk"
+            body="$(curl --location --fail --silent --show-error --header 'Cache-Control: no-cache' \
+              "https://mojchatbot.sk/build-meta.json?visual=${SOURCE_SHA}-${attempt}" || true)"
+            if printf '%s' "$body" | grep -Fq "$SOURCE_SHA"; then
+              echo "Verified live SHA: $SOURCE_SHA"
               exit 0
             fi
             sleep 5
           done
-          echo "Timed out waiting for revised sales pages on mojchatbot.sk"
+          echo "Timed out waiting for $SOURCE_SHA on mojchatbot.sk"
           exit 1
 
       - name: Inspect current visual and functional rules
@@ -320,31 +317,35 @@ jobs:
             try {
               await noOverflow(page, `${label} services`);
               const heading = page.locator('.sp-hero h1');
-              const summary = page.locator('.services-hero__summary');
-              const rows = page.locator('.services-hero__summary-row');
-              const actions = page.locator('.services-hero__actions .site-cta');
+              const visual = page.locator('.subpage-hero-visual');
               if (!(await heading.count()) || !(await heading.isVisible())) throw new Error('services heading missing');
-              if ((await summary.count()) !== 1 || !(await summary.isVisible())) throw new Error('services summary missing');
-              if ((await rows.count()) !== 4) throw new Error(`services summary row count ${await rows.count()}`);
-              if ((await actions.count()) !== 2) throw new Error(`services hero CTA count ${await actions.count()}`);
-              for (let index = 0; index < 2; index += 1) {
-                if (!(await actions.nth(index).isVisible())) throw new Error(`services CTA ${index + 1} not visible`);
-              }
-              const legacyVisual = page.locator('.subpage-hero-visual');
-              if ((await legacyVisual.count()) > 0 && (await legacyVisual.first().isVisible())) {
-                throw new Error('services legacy hero photo is still visible');
-              }
+              if ((await visual.count()) !== 1 || !(await visual.isVisible())) throw new Error('services hero image missing');
+
+              const image = visual.locator('img');
+              const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
+              if (!loaded) throw new Error('services hero image did not load');
+
+              const summary = page.locator('.services-hero__summary');
+              const actions = page.locator('.services-hero__actions');
+              if ((await summary.count()) !== 0) throw new Error('rejected services summary returned');
+              if ((await actions.count()) !== 0) throw new Error('rejected services hero actions returned');
+
+              const fontSize = Number.parseFloat(await heading.evaluate((el) => getComputedStyle(el).fontSize));
+              if (fontSize > 80) throw new Error(`services heading unexpectedly large: ${fontSize}px`);
+
               const audiences = page.locator('.services-audience');
               if ((await audiences.count()) !== 2) throw new Error(`services audience count ${await audiences.count()}`);
               const audienceText = cleanText(await audiences.allTextContents().then((items) => items.join(' ')));
               if (!audienceText.includes('Firmy so službami') || !audienceText.includes('E-shopy')) {
                 throw new Error('services audience labels missing');
               }
+
               if (viewport.width >= 900) {
                 const headingBox = await heading.boundingBox();
-                const summaryBox = await summary.boundingBox();
-                if (!headingBox || !summaryBox) throw new Error('services hero geometry missing');
-                if (overlapArea(headingBox, summaryBox) > 2) throw new Error('services heading overlaps summary');
+                const visualBox = await visual.boundingBox();
+                if (!headingBox || !visualBox) throw new Error('services hero geometry missing');
+                if (visualBox.width < 300 || visualBox.height < 190) throw new Error('services hero image is too small');
+                if (overlapArea(headingBox, visualBox) > 2) throw new Error('services heading overlaps hero image');
               }
               await shot(page, `${label}-sluzby`);
             } finally {
