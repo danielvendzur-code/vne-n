@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import type { CSSProperties } from "react";
+import { Eyebrow } from "@/components/site/StudioHome";
+import { ShClosing, ShPage, ShPageHero, ShSectionHead } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
-import "./sales-pages-refinement.css";
-import "./pricing-hero-fix.css";
 
 export const Route = createFileRoute("/cennik")({
   head: () => ({
@@ -63,93 +64,82 @@ const combinations = [
     title: "Poradca + konfigurátor",
     copy: "Poradca odporučí vhodný smer a zákazník si potom vyskladá konkrétny variant produktu.",
   },
+  {
+    title: "Všetko spolu",
+    copy: "Chatbot, kalkulačka, konfigurátor aj poradca v jednom nástroji. Cenu povieme podľa rozsahu vopred.",
+  },
 ] as const;
 
 function PricingPage() {
   return (
-    <div className="sp-page pricing-page--rebrand">
-      <header className="sp-hero pricing-hero" data-nav-tone="light">
-        <div className="container-page pricing-hero__layout">
-          <div className="pricing-hero__copy">
-            <span className="pricing-hero__eyebrow">CENNÍK / MÔJ CHATBOT</span>
-            <h1>
-              Jasná cena. <em>Jasný rozsah.</em>
-            </h1>
-            <p className="sp-hero-lead">
-              Každý nástroj môže fungovať samostatne. Ak dáva zmysel kombinácia, spojíme chatbot,
-              kalkulačku, konfigurátor alebo produktového poradcu do jedného riešenia.
-            </p>
-            <div className="pricing-hero__actions">
-              <a href="#baliky" className="site-cta site-cta--primary">
-                Pozrieť ceny <ArrowRight size={16} />
-              </a>
-              <Link to="/kontakt" className="site-cta site-cta--secondary">
-                Chcem presnú cenu <ArrowUpRight size={16} />
-              </Link>
-            </div>
-          </div>
+    <ShPage className="shp-pricing">
+      <ShPageHero
+        eyebrow="Cenník / Môj Chatbot"
+        title="Jasná cena."
+        accent="Jasný rozsah."
+        lead="Každý nástroj môže fungovať samostatne. Ak dáva zmysel kombinácia, spojíme chatbot, kalkulačku, konfigurátor alebo produktového poradcu do jedného riešenia."
+      >
+        <a href="#baliky" className="sh-btn sh-btn--lime">
+          Pozrieť ceny <ArrowRight size={18} aria-hidden="true" />
+        </a>
+        <Link to="/kontakt" className="sh-btn sh-btn--ghost">
+          Chcem presnú cenu <ArrowUpRight size={16} aria-hidden="true" />
+        </Link>
+      </ShPageHero>
 
-          <div className="pricing-hero__facts" aria-label="Základný prehľad cien">
-            <div className="pricing-hero__fact">
-              <span>CHATBOT / PORADCA</span>
+      <section className="shp-price-band" aria-label="Základný prehľad cien">
+        <div className="sh-wrap">
+          <div className="shp-price-facts">
+            <div className="shp-price-fact" data-reveal style={{ "--d": 0 } as CSSProperties}>
+              <span>Chatbot / poradca</span>
               <strong>od 347 €</strong>
               <small>vytvorenie</small>
             </div>
-            <div className="pricing-hero__fact">
-              <span>KALKULAČKA / KROKOVÝ VÝBER</span>
+            <div className="shp-price-fact" data-reveal style={{ "--d": 1 } as CSSProperties}>
+              <span>Kalkulačka / krokový výber</span>
               <strong>od 447 €</strong>
               <small>vytvorenie</small>
             </div>
-            <div className="pricing-hero__fact">
-              <span>TECHNICKÁ PREVÁDZKA</span>
+            <div className="shp-price-fact" data-reveal style={{ "--d": 2 } as CSSProperties}>
+              <span>Technická prevádzka</span>
               <strong>10 €</strong>
               <small>mesačne pri štandardných riešeniach</small>
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      <section className="sp-section pricing-catalog" id="baliky" data-nav-tone="light">
-        <div className="container-page pricing-catalog__intro">
-          <span className="section-kicker">CELÝ CENNÍK</span>
-          <h2>Najprv typ riešenia. Potom presný rozsah.</h2>
-          <p>
-            Chatbot, kalkulačka a jednoduchší krokový konfigurátor majú orientačnú cenu od. Pri 3D
-            konfigurátore cenu neurčujeme jedným číslom — závisí od modelu, možností, pravidiel a
-            napojení, ktoré má riešenie obsahovať.
-          </p>
-        </div>
-
-        <div className="container-page pricing-table">
-          <div className="pricing-table__head" aria-hidden="true">
-            <span>RIEŠENIE</span>
-            <span>VYTVORENIE</span>
-            <span>PREVÁDZKA</span>
-            <span>ČO OBSAHUJE</span>
-            <span />
-          </div>
-
-          <div className="pricing-card-grid">
-            {pricing.map((item) => (
-              <article className="pricing-row" key={item.name}>
-                <div className="pricing-row__top">
-                  <span>{item.index}</span>
-                  <h2>{item.name}</h2>
-                </div>
+      <section className="sh-section" id="baliky">
+        <div className="sh-wrap">
+          <ShSectionHead
+            eyebrow="Celý cenník"
+            title="Najprv typ riešenia. Potom presný rozsah."
+            lead="Chatbot, kalkulačka a jednoduchší krokový konfigurátor majú orientačnú cenu od. Pri 3D konfigurátore cenu neurčujeme jedným číslom — závisí od modelu, možností, pravidiel a napojení."
+          />
+          <div className="shp-plans">
+            {pricing.map((item, index) => (
+              <article
+                className="shp-plan"
+                key={item.name}
+                data-reveal
+                style={{ "--d": index } as CSSProperties}
+              >
+                <span className="shp-num">{item.index}</span>
+                <h3>{item.name}</h3>
                 <p>{item.copy}</p>
-                <div className="pricing-row__prices">
+                <dl>
                   <div>
-                    <span>Vytvorenie</span>
-                    <strong>{item.setup}</strong>
+                    <dt>Vytvorenie</dt>
+                    <dd>{item.setup}</dd>
                   </div>
                   <div>
-                    <span>Prevádzka</span>
-                    <strong>{item.monthly}</strong>
+                    <dt>Prevádzka</dt>
+                    <dd>{item.monthly}</dd>
                   </div>
-                </div>
+                </dl>
                 <button
                   type="button"
-                  className="site-cta site-cta--secondary pricing-row__action"
+                  className="sh-btn sh-btn--dark sh-btn--sm"
                   onClick={() =>
                     openSiteAssistant({
                       source: `pricing-${item.name.toLowerCase()}`,
@@ -157,108 +147,111 @@ function PricingPage() {
                     })
                   }
                 >
-                  Vyskúšať tento typ <ArrowRight size={15} />
+                  Vyskúšať tento typ <ArrowRight size={16} aria-hidden="true" />
                 </button>
               </article>
             ))}
 
-            <article className="pricing-row pricing-row--3d">
-              <div className="pricing-row__top">
-                <span>04</span>
-                <h2>3D konfigurátor</h2>
-              </div>
+            <article
+              className="shp-plan shp-plan--3d"
+              data-reveal
+              style={{ "--d": 3 } as CSSProperties}
+            >
+              <span className="shp-num">04</span>
+              <h3>3D konfigurátor</h3>
               <p>
                 Interaktívny 3D model s rozmermi, farbami, variantmi, doplnkami a produktovou
-                logikou. Rozsah sa môže výrazne líšiť, preto ho nenaceňujeme ako jednoduchý krokový
+                logikou. Rozsah sa môže výrazne líšiť, preto ho nenaceňujeme ako krokový
                 konfigurátor.
               </p>
-              <div className="pricing-row__prices">
+              <dl>
                 <div>
-                  <span>Vytvorenie</span>
-                  <strong>podľa rozsahu</strong>
+                  <dt>Vytvorenie</dt>
+                  <dd>podľa rozsahu</dd>
                 </div>
                 <div>
-                  <span>Prevádzka</span>
-                  <strong>podľa riešenia</strong>
+                  <dt>Prevádzka</dt>
+                  <dd>podľa riešenia</dd>
                 </div>
-              </div>
-              <Link to="/kontakt" className="site-cta pricing-row__action">
-                Prebrať 3D konfigurátor <ArrowUpRight size={15} />
+              </dl>
+              <Link to="/3d-konfigurator" className="sh-btn sh-btn--lime sh-btn--sm">
+                Pozrieť 3D konfigurátor <ArrowUpRight size={16} aria-hidden="true" />
               </Link>
             </article>
           </div>
         </div>
       </section>
 
-      <section className="pricing-combine" data-nav-tone="light">
-        <div className="container-page pricing-combine__head">
-          <span className="section-kicker">SAMOSTATNE AJ SPOLU</span>
-          <h2>Nemusíte si vybrať medzi chatbotom a konfigurátorom.</h2>
-          <p>
-            Každá funkcia vie fungovať sama. Pri zložitejšom predaji ich vieme spojiť tak, aby
-            zákazník necítil prechod medzi rozhovorom, výpočtom a výberom produktu.
-          </p>
-        </div>
-        <div className="container-page pricing-combine__grid">
-          {combinations.map((item, index) => (
-            <article key={item.title}>
-              <span>0{index + 1}</span>
-              <h3>{item.title}</h3>
-              <p>{item.copy}</p>
-            </article>
-          ))}
+      <section className="sh-section shp-section--pure">
+        <div className="sh-wrap">
+          <div className="sh-combo" data-reveal>
+            <div className="sh-combo__intro">
+              <Eyebrow tone="dark">SAMOSTATNE AJ SPOLU</Eyebrow>
+              <h3>Nemusíte si vybrať iba jedno riešenie.</h3>
+              <p>
+                Každá funkcia vie fungovať sama. Pri zložitejšom predaji ich spojíme tak, aby
+                zákazník necítil prechod medzi rozhovorom, výpočtom a výberom produktu.
+              </p>
+            </div>
+            <ul className="sh-combo__list">
+              {combinations.map((item, index) => (
+                <li
+                  key={item.title}
+                  data-all={index === combinations.length - 1 ? "true" : undefined}
+                >
+                  <button
+                    type="button"
+                    onClick={() => openSiteAssistant({ source: `pricing-combo-${index + 1}` })}
+                  >
+                    <strong>{item.title}</strong>
+                    <span>{item.copy}</span>
+                    <ArrowUpRight size={18} aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
-      <section className="sp-section pricing-notes-section" data-nav-tone="light">
-        <div className="container-page pricing-notes">
-          <div>
-            <p className="section-kicker">V CENE VYTVORENIA</p>
+      <section className="sh-section">
+        <div className="sh-wrap shp-grid-3">
+          <article className="shp-card" data-reveal style={{ "--d": 0 } as CSSProperties}>
+            <p className="shp-contact__label">V CENE VYTVORENIA</p>
             <p>
               Návrh otázok a krokov, vizuálne prispôsobenie, implementácia do dohodnutého rozsahu a
               nasadenie na web.
             </p>
-          </div>
-          <div>
-            <p className="section-kicker">MESAČNE</p>
+          </article>
+          <article className="shp-card" data-reveal style={{ "--d": 1 } as CSSProperties}>
+            <p className="shp-contact__label">MESAČNE</p>
             <p>Prevádzka riešenia a bežná technická údržba podľa aktuálne dohodnutých podmienok.</p>
-          </div>
-          <div>
-            <p className="section-kicker">AK TREBA NIEČO NAVYŠE</p>
+          </article>
+          <article className="shp-card" data-reveal style={{ "--d": 2 } as CSSProperties}>
+            <p className="shp-contact__label">AK TREBA NIEČO NAVYŠE</p>
             <p>
               3D modely, väčšie integrácie, nové vetvy alebo rozsiahlejšie rozšírenia naceníme
               samostatne ešte pred tým, ako na nich začneme pracovať.
             </p>
-          </div>
+          </article>
         </div>
       </section>
 
-      <section className="pricing-bridge" data-nav-tone="light">
-        <div className="container-page pricing-bridge__grid">
-          <div>
-            <p className="section-kicker">PRESNÁ CENA</p>
-            <h2 className="section-title">
-              Stačí nám povedať, <em>čo má web robiť.</em>
-            </h2>
-          </div>
-          <div>
-            <p>
-              Krátko popíšte, čo má zákazník na webe zvládnuť. Povieme vám, či stačí jeden nástroj
-              alebo dáva zmysel kombinácia a koľko bude stáť.
-            </p>
-            <button
-              type="button"
-              className="site-cta site-cta--primary"
-              onClick={() => openSiteAssistant({ source: "pricing-final" })}
-            >
-              Chcem návrh riešenia <ArrowRight size={15} />
-            </button>
-            <Link to="/kontakt" className="text-link pricing-inline-link">
-              Kontakt <ArrowRight size={15} />
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+      <ShClosing
+        title="Stačí nám povedať, čo má web robiť."
+        copy="Krátko popíšte, čo má zákazník na webe zvládnuť. Povieme vám, či stačí jeden nástroj alebo dáva zmysel kombinácia a koľko bude stáť."
+      >
+        <button
+          type="button"
+          className="sh-btn sh-btn--lime"
+          onClick={() => openSiteAssistant({ source: "pricing-final" })}
+        >
+          Chcem návrh riešenia <ArrowRight size={18} aria-hidden="true" />
+        </button>
+        <Link to="/kontakt" className="sh-link">
+          Kontakt
+        </Link>
+      </ShClosing>
+    </ShPage>
   );
 }

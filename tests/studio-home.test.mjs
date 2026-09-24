@@ -11,10 +11,25 @@ test("homepage is the Koverta-inspired studio page with real work and a keyword 
   assert.match(route, /import \{ StudioHome \}/);
   assert.match(route, /3D konfigurátor na web/);
   assert.equal((landing.match(/<h1\b/g) ?? []).length, 1);
-  assert.match(landing, /Predajné nástroje na web,/);
+  // The approved original hero stays: typed headline with a readable aria-label.
+  assert.match(landing, /aria-label="Web, ktorý mení návštevy na výsledky\."/);
+  assert.match(landing, /className="hybrid-home kage-home sh"/);
+  assert.match(landing, /<FlowStory \/>/);
+  assert.match(landing, /title: "Všetko spolu"/);
+  for (const shot of ["kalkulacka-derat", "chatbot-aplan", "poradca-kava"]) {
+    assert.match(landing, new RegExp(`work/solutions/${shot}\\.webp`));
+  }
   assert.match(landing, /realizations\.map/);
   assert.match(landing, /faqs\.map/);
-  for (const id of ["riesenia", "konfigurator", "realizacie", "proces", "cena", "otazky"]) {
+  for (const id of [
+    "riesenia",
+    "ako-to-funguje",
+    "konfigurator",
+    "realizacie",
+    "proces",
+    "cena",
+    "otazky",
+  ]) {
     assert.match(landing, new RegExp(`id="${id}"`));
   }
 });
@@ -59,4 +74,30 @@ test("3D configurator case study is indexable with its own structured data and s
   assert.doesNotMatch(route, /noindex/);
   assert.match(sitemap, /https:\/\/mojchatbot\.sk\/3d-konfigurator/);
   assert.match(nav, /href: "\/3d-konfigurator"/);
+});
+
+test("subpages share the unified SubPage system instead of legacy page CSS", async () => {
+  for (const route of [
+    "sluzby",
+    "projekty.index",
+    "projekty.derat",
+    "postup",
+    "cennik",
+    "kontakt",
+    "preco-chatbot",
+    "dakujeme",
+    "pravne-informacie",
+    "cookies",
+    "ochrana-udajov",
+  ]) {
+    const source = await read(`src/routes/${route}.tsx`);
+    assert.match(source, /@\/components\/site\/SubPage/, `${route} must use SubPage`);
+    assert.doesNotMatch(source, /subpage-hero-refresh|sales-pages-refinement|pricing-hero-fix/);
+  }
+});
+
+test("FAQ and process headings stay pinned while the list scrolls", async () => {
+  const css = await read("src/components/site/StudioHome.css");
+  assert.match(css, /\.sh-faq__grid \.sh-head \{\s*position: sticky;/);
+  assert.match(css, /\.sh-process__grid \.sh-head \{[\s\S]*?position: sticky;/);
 });

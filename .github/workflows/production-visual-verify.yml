@@ -158,23 +158,28 @@ jobs:
             try {
               await noOverflow(page, `${label} homepage`);
               await checkNavigation(page, mobile);
-              const hero = page.locator('.sh-hero');
+              const hero = page.locator('.kage-hero');
               const h1 = hero.locator('h1');
               if (!(await hero.count()) || !(await h1.isVisible())) throw new Error('homepage hero missing');
-              const headline = cleanText(await h1.textContent());
-              if (!headline.startsWith('Predajné nástroje na web,')) {
-                throw new Error(`unexpected homepage headline: ${headline}`);
+              const aria = cleanText(await h1.getAttribute('aria-label'));
+              if (aria !== 'Web, ktorý mení návštevy na výsledky.') {
+                throw new Error(`unexpected homepage headline: ${aria}`);
               }
               const h1Box = await h1.boundingBox();
               if (!h1Box || h1Box.x < -2 || h1Box.x + h1Box.width > viewport.width + 2) {
                 throw new Error('homepage headline escapes viewport');
               }
-              const stage = page.locator('.sh-browser__view img[data-active="true"]').first();
-              const stageBox = await stage.boundingBox();
-              if (!stageBox || stageBox.width < 200 || stageBox.height < 100) throw new Error('hero configurator preview invalid geometry');
-              const loaded = await stage.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
-              if (!loaded) throw new Error('hero configurator preview image not loaded');
-              const cta = page.locator('.sh-hero__actions .sh-btn--lime');
+              const cases = page.locator('.hybrid-hero__case');
+              if ((await cases.count()) !== 3) throw new Error(`hero realization count ${await cases.count()}`);
+              for (let index = 0; index < 3; index += 1) {
+                const item = cases.nth(index);
+                const box = await item.boundingBox();
+                if (!box || box.width < 90 || box.height < 65) throw new Error(`hero realization ${index + 1} invalid geometry`);
+                const image = item.locator('img').first();
+                const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
+                if (!loaded) throw new Error(`hero realization ${index + 1} image not loaded`);
+              }
+              const cta = page.locator('.hybrid-hero__primary');
               if (!(await cta.count()) || !(await cta.isVisible())) throw new Error('homepage primary CTA missing');
               await shot(page, `${label}-homepage`, false);
             } finally {
@@ -189,21 +194,12 @@ jobs:
               for (const width of widths) {
                 await page.setViewportSize({ width, height: 844 });
                 await page.waitForTimeout(120);
-                const state = await page.locator('.sh-hero h1').evaluate((heading) => {
+                const state = await page.locator('.kage-hero h1').evaluate((heading) => {
                   const viewportWidth = document.documentElement.clientWidth;
-                  const glyphs = [];
-                  const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
-                  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-                    const text = node.textContent || '';
-                    for (let index = 0; index < text.length; index += 1) {
-                      if (!text[index].trim()) continue;
-                      const range = document.createRange();
-                      range.setStart(node, index);
-                      range.setEnd(node, index + 1);
-                      const rect = range.getBoundingClientRect();
-                      glyphs.push({ text: text[index], left: rect.left, right: rect.right });
-                    }
-                  }
+                  const glyphs = Array.from(heading.querySelectorAll('.typed-character')).map((glyph) => {
+                    const rect = glyph.getBoundingClientRect();
+                    return { text: glyph.textContent || '', left: rect.left, right: rect.right };
+                  });
                   const rect = heading.getBoundingClientRect();
                   return { viewportWidth, left: rect.left, right: rect.right, glyphs };
                 });
@@ -228,8 +224,8 @@ jobs:
               await noOverflow(page, `${label} pricing`);
               await shot(page, `${label}-cennik`);
 
-              const heading = page.locator('.pricing-hero__copy h1');
-              const facts = page.locator('.pricing-hero__fact');
+              const heading = page.locator('.shp-hero h1');
+              const facts = page.locator('.shp-price-fact');
               if (!(await heading.count()) || !(await heading.isVisible())) throw new Error('pricing heading missing');
               if ((await facts.count()) !== 3) throw new Error(`pricing fact count ${await facts.count()}`);
               const headingText = cleanText(await heading.textContent());
@@ -262,15 +258,15 @@ jobs:
               }
               if (viewport.width >= 900) {
                 const headingBox = await heading.boundingBox();
-                const factsBox = await page.locator('.pricing-hero__facts').boundingBox();
+                const factsBox = await page.locator('.shp-price-facts').boundingBox();
                 if (overlapArea(headingBox, factsBox) > 2) throw new Error('pricing heading overlaps pricing facts');
               }
 
-              const catalog = page.locator('.pricing-card-grid .pricing-row');
+              const catalog = page.locator('.shp-plans .shp-plan');
               if ((await catalog.count()) !== 4) throw new Error(`pricing solution card count ${await catalog.count()}`);
               const catalogText = cleanText(await catalog.allTextContents().then((items) => items.join(' ')));
               if (!catalogText.includes('Krokový konfigurátor')) throw new Error('step configurator label missing');
-              const custom3d = page.locator('.pricing-row--3d');
+              const custom3d = page.locator('.shp-plan--3d');
               const custom3dText = cleanText(await custom3d.textContent());
               if (!custom3dText.includes('3D konfigurátor') || !custom3dText.includes('podľa rozsahu')) {
                 throw new Error(`3D pricing scope missing: ${custom3dText}`);
@@ -294,13 +290,13 @@ jobs:
             const page = await openPage('/projekty/', viewport, label);
             try {
               await noOverflow(page, `${label} projects`);
-              const cards = page.locator('.work-project');
+              const cards = page.locator('.shp-project');
               if ((await cards.count()) !== 4) throw new Error(`realization count ${await cards.count()}`);
               for (let index = 0; index < 4; index += 1) {
                 const card = cards.nth(index);
                 await card.scrollIntoViewIfNeeded();
-                const visual = card.locator('.work-project__visual');
-                const meta = card.locator('.work-project__meta');
+                const visual = card.locator('.shp-project__visual');
+                const meta = card.locator('.shp-project__meta');
                 const image = visual.locator('img');
                 const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
                 if (!loaded) throw new Error(`realization ${index + 1} image not loaded`);
@@ -320,8 +316,8 @@ jobs:
             const page = await openPage('/sluzby/', viewport, label);
             try {
               await noOverflow(page, `${label} services`);
-              const heading = page.locator('.sp-hero h1');
-              const visual = page.locator('.subpage-hero-visual');
+              const heading = page.locator('.shp-hero h1');
+              const visual = page.locator('.shp-hero__visual');
               if (!(await heading.count()) || !(await heading.isVisible())) throw new Error('services heading missing');
               if ((await visual.count()) !== 1 || !(await visual.isVisible())) throw new Error('services hero image missing');
 
@@ -337,7 +333,7 @@ jobs:
               const fontSize = Number.parseFloat(await heading.evaluate((el) => getComputedStyle(el).fontSize));
               if (fontSize > 80) throw new Error(`services heading unexpectedly large: ${fontSize}px`);
 
-              const audiences = page.locator('.services-audience');
+              const audiences = page.locator('.shp-audience');
               if ((await audiences.count()) !== 2) throw new Error(`services audience count ${await audiences.count()}`);
               const audienceText = cleanText(await audiences.allTextContents().then((items) => items.join(' ')));
               if (!audienceText.includes('Firmy so službami') || !audienceText.includes('E-shopy')) {
@@ -361,8 +357,8 @@ jobs:
             const page = await openPage(path, { width: 1440, height: 1000 }, label);
             try {
               await noOverflow(page, label);
-              const heading = page.locator('.sp-hero h1');
-              const visual = page.locator('.subpage-hero-visual');
+              const heading = page.locator('.shp-hero h1');
+              const visual = page.locator('.shp-hero__visual');
               if (!(await heading.count()) || !(await heading.isVisible())) throw new Error(`${label} heading missing`);
               if ((await visual.count()) !== 1 || !(await visual.isVisible())) throw new Error(`${label} hero visual missing`);
               const image = visual.locator('img');
@@ -393,7 +389,7 @@ jobs:
               if (!formWrapBox || formWrapBox.y >= viewport.height) {
                 throw new Error(`contact form starts below first viewport: ${formWrapBox?.y}/${viewport.height}`);
               }
-              const lead = page.locator('.contact-page--rebrand > .sp-hero .sp-hero-lead');
+              const lead = page.locator('.shp-contact-page .shp-hero__lead');
               if ((await lead.count()) && (await lead.isVisible())) throw new Error('unnecessary contact lead still visible');
               const submit = page.locator('form button[type="submit"]');
               if (!(await submit.count()) || !(await submit.isVisible())) throw new Error('contact submit missing');

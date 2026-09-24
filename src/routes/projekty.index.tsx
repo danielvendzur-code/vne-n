@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ShClosing, ShPage, ShPageHero } from "@/components/site/SubPage";
 import { realizations } from "@/data/realizations";
 import { breadcrumbJsonLd, seo, SITE_URL } from "@/lib/seo";
 
@@ -41,29 +43,30 @@ export const Route = createFileRoute("/projekty/")({
 
 function ProjectsPage() {
   return (
-    <div className="sp-page">
-      <header className="sp-hero">
-        <div className="container-page">
-          <p className="section-kicker">VYBRANÉ REALIZÁCIE</p>
-          <h1>
-            Weby a nástroje, <em>ktoré naozaj bežia.</em>
-          </h1>
-          <p className="sp-hero-lead">
-            Každý projekt nižšie beží na živej doméne. Otvorte si ho a pozrite sa, ako funguje v
-            reálnom webe.
-          </p>
-        </div>
-      </header>
+    <ShPage>
+      <ShPageHero
+        eyebrow="Vybrané realizácie"
+        title="Weby a nástroje,"
+        accent="ktoré naozaj bežia."
+        lead="Každý projekt nižšie beží na živej doméne. Otvorte si ho a pozrite sa, ako funguje v reálnom webe."
+        compact
+      />
 
-      <section className="selected-work">
-        <div className="container-page work-list">
+      <section className="sh-section">
+        <div className="sh-wrap shp-projects">
           {realizations.map((project, index) => (
-            <article className={`work-project work-project--${index % 3}`} key={project.name}>
+            <article
+              className="shp-project"
+              key={project.name}
+              data-reveal
+              style={{ "--d": 0 } as CSSProperties}
+            >
               <a
-                className="work-project__visual"
+                className="shp-project__visual"
                 href={project.href}
                 target="_blank"
                 rel="noreferrer"
+                aria-label={`${project.name} — otvoriť ${project.domain}`}
               >
                 <img
                   src={project.image}
@@ -71,24 +74,31 @@ function ProjectsPage() {
                   loading={index === 0 ? "eager" : "lazy"}
                   fetchPriority={index === 0 ? "high" : "low"}
                   decoding="async"
-                  width={1440}
+                  width={1600}
                   height={1000}
                 />
+                <span className="sh-project__domain">
+                  {project.domain} <ArrowUpRight size={14} aria-hidden="true" />
+                </span>
               </a>
-              <div className="work-project__meta">
-                <span>0{index + 1}</span>
-                <div>
-                  <p>{project.type}</p>
-                  <h2>{project.name}</h2>
-                  <p>{project.detail}</p>
-                </div>
-                <div className="work-project__links">
-                  <a href={project.href} target="_blank" rel="noreferrer" className="text-link">
-                    Živý web <ExternalLink size={14} />
+              <div className="shp-project__meta">
+                <span>
+                  0{index + 1} · {project.type}
+                </span>
+                <h2>{project.name}</h2>
+                <p>{project.detail}</p>
+                <div className="shp-project__links">
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="sh-btn sh-btn--dark sh-btn--sm"
+                  >
+                    Živý web <ArrowUpRight size={16} aria-hidden="true" />
                   </a>
-                  {project.name === "DERAT" ? (
-                    <Link to="/projekty/derat" className="text-link">
-                      Prípadová štúdia <ArrowRight size={14} />
+                  {project.caseStudyPath ? (
+                    <Link to={project.caseStudyPath} className="sh-link sh-link--dark">
+                      Prípadová štúdia <ArrowRight size={15} aria-hidden="true" />
                     </Link>
                   ) : null}
                 </div>
@@ -98,25 +108,14 @@ function ProjectsPage() {
         </div>
       </section>
 
-      <section className="pricing-bridge">
-        <div className="container-page pricing-bridge__grid">
-          <div>
-            <p className="section-kicker">VÁŠ PROJEKT</p>
-            <h2 className="section-title">
-              Máte podobný <em>proces?</em>
-            </h2>
-          </div>
-          <div>
-            <p>
-              Napíšte, čo má zákazník na vašom webe zistiť, vypočítať alebo vybrať. Navrhneme
-              funkčný smer bez zbytočnej technickej omáčky.
-            </p>
-            <Link to="/kontakt" className="button-primary">
-              Prebrať môj web <ArrowRight size={15} />
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+      <ShClosing
+        title="Máte podobný proces?"
+        copy="Napíšte, čo má zákazník na vašom webe zistiť, vypočítať alebo vybrať. Navrhneme funkčný smer bez zbytočnej technickej omáčky."
+      >
+        <Link to="/kontakt" className="sh-btn sh-btn--lime">
+          Prebrať môj web <ArrowRight size={18} aria-hidden="true" />
+        </Link>
+      </ShClosing>
+    </ShPage>
   );
 }

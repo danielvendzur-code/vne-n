@@ -102,33 +102,24 @@ test("navigation uses the real subpages and keeps the project CTA", async () => 
   assert.match(homeCss, /\.site-header__cta[\s\S]*border:/);
 });
 
-test("pricing stays light, readable and explicit about standalone and combined tools", async () => {
+test("pricing stays readable and explicit about standalone, combined and all-in-one tools", async () => {
   const pricing = await read("src/routes/cennik.tsx");
   const landing = await read("src/components/site/StudioHome.tsx");
-  const pricingCss = await read("src/components/site/SiteVisualAuthority.css");
-  const readabilityCss = pricingCss;
-  const homeCss = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.equal((pricing.match(/setup: "od 347 €"/g) ?? []).length, 1);
   assert.equal((pricing.match(/setup: "od 447 €"/g) ?? []).length, 2);
   assert.equal((pricing.match(/monthly: "10 € \/ mesiac"/g) ?? []).length, 3);
   assert.match(landing, /to="\/cennik"/);
   assert.match(pricing, /id="baliky"/);
-  assert.match(pricing, /pricing-hero__eyebrow/);
-  assert.match(pricing, /data-nav-tone="light"/);
+  assert.match(pricing, /ShPageHero/);
   assert.match(pricing, /Samostatný výpočet/);
   assert.match(pricing, /Samostatný krokový výber/);
   assert.match(pricing, /SAMOSTATNE AJ SPOLU/);
   assert.match(pricing, /Chatbot \+ kalkulačka/);
   assert.match(pricing, /Chatbot \+ konfigurátor/);
-  const pricingStart = pricingCss.indexOf("consolidated from PricingReworkSep07.css");
-  const pricingEnd = pricingCss.indexOf("consolidated homepage authority", pricingStart);
-  const finalPricingCss = pricingCss.slice(pricingStart, pricingEnd);
-  assert.match(finalPricingCss, /background:[\s\S]*#f7f6ef/);
-  assert.match(finalPricingCss, /\.pricing-card-grid/);
-  assert.doesNotMatch(finalPricingCss, /\.pricing-row:hover[\s\S]*?transform:/);
-  assert.match(readabilityCss, /replace faint hairline-heavy homepage rows|hairlines/i);
-  assert.match(homeCss, /\.site-header/);
+  assert.match(pricing, /Všetko spolu/);
+  assert.match(pricing, /className="shp-plan shp-plan--3d"/);
+  assert.match(pricing, /podľa rozsahu/);
   assert.match(pricing, /V CENE VYTVORENIA/);
   assert.match(pricing, /MESAČNE/);
   assert.match(pricing, /AK TREBA NIEČO NAVYŠE/);
@@ -193,7 +184,7 @@ test("DERAT case-study route and thank-you route exist as real source routes", a
   const derat = await read("src/routes/projekty.derat.tsx");
   const thanks = await read("src/routes/dakujeme.tsx");
 
-  assert.match(projects, /projekty\/derat/);
+  assert.match(projects, /project\.caseStudyPath/);
   assert.match(derat, /createFileRoute\("\/projekty\/derat"\)/);
   assert.match(derat, /derat\.sk/);
   assert.match(thanks, /createFileRoute\("\/dakujeme"\)/);

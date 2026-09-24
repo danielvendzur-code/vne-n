@@ -139,143 +139,117 @@ function CountUp({
 
 /* ------------------------------------------------------------------- hero */
 
-function HeroStage() {
-  const [active, setActive] = useState(0);
-  const stageRef = useRef<HTMLDivElement>(null);
+/* Pôvodný hero: vypisovaný nadpis a tri prekrývajúce sa náhľady živých webov.
+   Triedy `hybrid-hero` a `kage-hero` nesú jeho schválený vzhľad aj tmavé
+   prispôsobenie hlavičky. */
+const heroProjects = [
+  {
+    slug: "koverta",
+    name: "Koverta",
+    href: "https://koverta.sk/",
+    image: `${BASE}work/live/koverta.webp`,
+    alt: "Domovská stránka Koverta s bioklimatickou pergolou nad terasou",
+  },
+  {
+    slug: "derat",
+    name: "DERAT",
+    href: "https://derat.sk/",
+    image: `${BASE}work/live/derat.webp`,
+    alt: "Domovská stránka DERAT s nadpisom Bez škodcov",
+  },
+  {
+    slug: "mojplot",
+    name: "Môj Plot",
+    href: "https://mojplot.sk/",
+    image: `${BASE}work/live/mojplot.webp`,
+    alt: "Domovská stránka Môj Plot s kategóriami plotov",
+  },
+] as const;
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const timer = window.setInterval(
-      () => setActive((current) => (current + 1) % configuratorShots.length),
-      4200,
-    );
-    return () => window.clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return undefined;
-    if (!window.matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
-      return undefined;
-    }
-    let frame = 0;
-    const onMove = (event: PointerEvent) => {
-      const rect = stage.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        stage.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`);
-        stage.style.setProperty("--tilt-y", `${(x * 7).toFixed(2)}deg`);
-      });
-    };
-    const onLeave = () => {
-      stage.style.setProperty("--tilt-x", "0deg");
-      stage.style.setProperty("--tilt-y", "0deg");
-    };
-    stage.addEventListener("pointermove", onMove);
-    stage.addEventListener("pointerleave", onLeave);
-    return () => {
-      cancelAnimationFrame(frame);
-      stage.removeEventListener("pointermove", onMove);
-      stage.removeEventListener("pointerleave", onLeave);
-    };
-  }, []);
-
-  const shot = configuratorShots[active];
+function TypedLine({ text, startAt }: { text: string; startAt: number }) {
+  const words = text.split(" ");
 
   return (
-    <div className="sh-hero__stage" ref={stageRef}>
-      <div className="sh-browser">
-        <div className="sh-browser__bar" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <b>koverta.sk/pages/konfigurator</b>
-        </div>
-        <div className="sh-browser__view">
-          {configuratorShots.map((item, index) => (
-            <img
-              key={item.id}
-              src={item.image}
-              alt={item.alt}
-              width={1600}
-              height={841}
-              data-active={index === active}
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "high" : "low"}
-              decoding="async"
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="sh-float sh-float--a" aria-hidden="true">
-        <Box size={16} />
-        <span>
-          <b>{shot.label}</b>
-          <small>3D model sa mení s každou voľbou</small>
-        </span>
-      </div>
-      <div className="sh-float sh-float--b" aria-hidden="true">
-        <span className="sh-float__dot" />
-        <span>
-          <b>Nový dopyt so zostavou</b>
-          <small>rozmer · farba · strecha · výplne</small>
-        </span>
-      </div>
-
-      <ol className="sh-hero__dots" aria-label="Ukážky konfigurátora">
-        {configuratorShots.map((item, index) => (
-          <li key={item.id}>
-            <button
-              type="button"
-              aria-label={`Zobraziť: ${item.label}`}
-              aria-pressed={index === active}
-              data-active={index === active}
-              onClick={() => setActive(index)}
-            />
-          </li>
-        ))}
-      </ol>
-    </div>
+    <span className="typed-line" aria-hidden="true">
+      {words.map((word, wordIndex) => {
+        const wordOffset =
+          startAt +
+          words.slice(0, wordIndex).reduce((total, item) => total + item.length, 0) +
+          wordIndex;
+        return (
+          <span className="typed-word" key={`${word}-${wordIndex}`}>
+            {Array.from(word).map((character, characterIndex) => (
+              <span
+                className="typed-character"
+                key={`${character}-${characterIndex}`}
+                style={{ "--character-index": wordOffset + characterIndex } as CSSProperties}
+              >
+                {character}
+              </span>
+            ))}
+            {wordIndex < words.length - 1 ? (
+              <span className="typed-space" aria-hidden="true">
+                {" "}
+              </span>
+            ) : null}
+          </span>
+        );
+      })}
+    </span>
   );
 }
 
 function Hero() {
   return (
-    <section className="sh-hero" aria-labelledby="sh-hero-title">
-      <div className="sh-hero__glow" aria-hidden="true" />
-      <div className="sh-wrap sh-hero__grid">
-        <div className="sh-hero__copy">
-          <Eyebrow tone="dark">Chatboty · kalkulačky · 3D konfigurátory</Eyebrow>
-          <h1 id="sh-hero-title" className="sh-hero__title">
-            <span className="sh-line" style={{ "--i": 0 } as CSSProperties}>
-              Predajné nástroje na web,
-            </span>{" "}
-            <em className="sh-line" style={{ "--i": 1 } as CSSProperties}>
-              ktoré privedú dopyt.
-            </em>
-          </h1>
-          <p className="sh-hero__lead sh-line" style={{ "--i": 2 } as CSSProperties}>
-            Navrhneme a nasadíme chatbota, cenovú kalkulačku alebo 3D konfigurátor na mieru.
-            Zákazník dostane odpoveď, cenu alebo hotovú zostavu. Vy pripravený dopyt.
-          </p>
-          <div className="sh-hero__actions sh-line" style={{ "--i": 3 } as CSSProperties}>
-            <Link to="/kontakt" className="sh-btn sh-btn--lime">
-              Chcem návrh zadarmo <ArrowRight size={18} aria-hidden="true" />
-            </Link>
-            <a href="#konfigurator" className="sh-btn sh-btn--ghost">
-              Vyskúšať 3D konfigurátor
+    <section
+      className="hybrid-hero kage-hero"
+      aria-labelledby="hybrid-hero-title"
+      data-signal-chapter="0"
+      data-nav-tone="dark"
+    >
+      <div className="container-page hybrid-hero__stage">
+        <h1 id="hybrid-hero-title" aria-label="Web, ktorý mení návštevy na výsledky.">
+          <TypedLine text="Web, ktorý" startAt={0} />
+          <em>
+            <TypedLine text="mení návštevy" startAt={10} />
+          </em>
+          <em>
+            <TypedLine text="na výsledky." startAt={24} />
+          </em>
+        </h1>
+        <div className="hybrid-hero__collage" aria-label="Vybrané živé realizácie">
+          {heroProjects.map((project, index) => (
+            <a
+              key={project.slug}
+              className={`hybrid-hero__case hybrid-hero__case--${index + 1}`}
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className={`project-composite project-composite--${project.slug}`}>
+                <img
+                  className="project-composite__site"
+                  src={project.image}
+                  alt={project.alt}
+                  width={1600}
+                  height={1000}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                />
+              </span>
+              <span>
+                0{index + 1} / {project.name}
+              </span>
             </a>
-          </div>
-          <ul className="sh-hero__proof sh-line" style={{ "--i": 4 } as CSSProperties}>
-            {realizations.map((project) => (
-              <li key={project.name}>{project.domain}</li>
-            ))}
-          </ul>
+          ))}
         </div>
-        <HeroStage />
+      </div>
+      <div className="container-page hybrid-hero__bottom kage-hero__bottom">
+        <p>Chatboty, kalkulačky, 3D konfigurátory a produktoví poradcovia na mieru.</p>
+        <a href="#riesenia" className="hybrid-hero__primary site-cta site-cta--primary">
+          Vybrať riešenie <ArrowUpRight size={17} />
+        </a>
       </div>
     </section>
   );
@@ -285,7 +259,7 @@ function Hero() {
 
 function Facts() {
   return (
-    <section className="sh-facts" aria-label="Základné fakty">
+    <section className="sh-facts" aria-label="Základné fakty" data-nav-tone="light">
       <div className="sh-wrap">
         <ul className="sh-facts__card">
           {facts.map((fact, index) => (
@@ -303,38 +277,79 @@ function Facts() {
 
 /* -------------------------------------------------------------- solutions */
 
-function ChatMock() {
-  return (
-    <div className="sh-mock sh-mock--chat" aria-hidden="true">
-      <p data-from="user">Ktorý plot je vhodný k psovi?</p>
-      <p data-from="bot">Odporúčam 3D panel 1,53 m s podhrabovou doskou. Pošlem cenu na 40 m?</p>
-      <p data-from="user">Áno, prosím.</p>
-    </div>
-  );
-}
+/* Skutočné zábery nástrojov, ktoré bežia na weboch klientov. Kávový poradca
+   je zámerne bez loga a názvu značky. */
+const solutionShots = {
+  calculator: {
+    src: `${BASE}work/solutions/kalkulacka-derat.webp`,
+    width: 640,
+    height: 1361,
+  },
+  chatbot: {
+    src: `${BASE}work/solutions/chatbot-aplan.webp`,
+    width: 640,
+    height: 1101,
+  },
+  advisor: {
+    src: `${BASE}work/solutions/poradca-kava.webp`,
+    width: 640,
+    height: 1116,
+  },
+} as const;
 
-function AdvisorMock() {
+const combinations = [
+  {
+    title: "Chatbot + kalkulačka",
+    copy: "Odpovie na otázky a rovno spočíta cenu.",
+    preset: "calculator" as const,
+  },
+  {
+    title: "Chatbot + konfigurátor",
+    copy: "Vysvetlí možnosti a prevedie celým výberom.",
+    preset: "product" as const,
+  },
+  {
+    title: "Chatbot + poradca",
+    copy: "Zistí potreby a odporučí konkrétny produkt.",
+    preset: "advisor" as const,
+  },
+  {
+    title: "Všetko spolu",
+    copy: "Chatbot, kalkulačka, konfigurátor aj poradca v jednom nástroji.",
+    preset: undefined,
+  },
+];
+
+function ToolShot({ shot, label }: { shot: keyof typeof solutionShots; label: string }) {
+  const data = solutionShots[shot];
   return (
-    <div className="sh-mock sh-mock--advisor" aria-hidden="true">
-      <span data-on="true">Na terasu</span>
-      <span>Pre auto</span>
-      <span data-on="true">Do 5 000 €</span>
-      <span>Antracit</span>
-      <b>2 vhodné produkty</b>
+    <div className="sh-shot" data-kind={shot}>
+      <img
+        src={data.src}
+        alt={label}
+        width={data.width}
+        height={data.height}
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   );
 }
 
 function Solutions() {
   return (
-    <section className="sh-section sh-solutions" id="riesenia" aria-labelledby="sh-solutions-title">
+    <section
+      className="sh-section sh-solutions"
+      id="riesenia"
+      aria-labelledby="sh-solutions-title"
+      data-nav-tone="light"
+    >
       <div className="sh-wrap">
         <header className="sh-head" data-reveal>
           <Eyebrow>Riešenia</Eyebrow>
           <h2 id="sh-solutions-title">Aké riešenie potrebujete?</h2>
           <p>
-            Každý nástroj funguje samostatne. Keď to dáva zmysel, spojíme ich — napríklad chatbot,
-            ktorý zároveň počíta cenu.
+            Každý nástroj funguje samostatne, v kombinácii s ostatnými aj všetky spolu v jednom.
           </p>
         </header>
 
@@ -371,20 +386,14 @@ function Solutions() {
           </article>
 
           <article
-            className="sh-card sh-card--media"
+            className="sh-card sh-card--tool"
             data-reveal
             style={{ "--d": 1 } as CSSProperties}
           >
-            <div className="sh-card__media sh-card__media--top">
-              <img
-                src={`${BASE}work/live/derat.webp`}
-                alt=""
-                width={1600}
-                height={1000}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
+            <ToolShot
+              shot="calculator"
+              label="Kalkulačka DERAT: výber priestoru s fotografiami a orientačnou cenou"
+            />
             <div className="sh-card__body">
               <span className="sh-card__icon" aria-hidden="true">
                 <Calculator size={18} />
@@ -403,14 +412,21 @@ function Solutions() {
             </div>
           </article>
 
-          <article className="sh-card" data-reveal style={{ "--d": 2 } as CSSProperties}>
-            <ChatMock />
+          <article
+            className="sh-card sh-card--tool"
+            data-reveal
+            style={{ "--d": 2 } as CSSProperties}
+          >
+            <ToolShot
+              shot="chatbot"
+              label="Chatbot pre architektonickú kanceláriu: postup ohlásenia drobnej stavby"
+            />
             <div className="sh-card__body">
               <span className="sh-card__icon" aria-hidden="true">
                 <MessageSquare size={18} />
               </span>
               <h3>Chatbot</h3>
-              <p>Odpovedá z vašich podkladov a pošle vám kontakt aj so zhrnutím.</p>
+              <p>Odpovedá z vašich podkladov, prevedie postupom a pošle vám kontakt so zhrnutím.</p>
               <button
                 type="button"
                 className="sh-btn sh-btn--dark sh-btn--sm"
@@ -421,14 +437,21 @@ function Solutions() {
             </div>
           </article>
 
-          <article className="sh-card" data-reveal style={{ "--d": 3 } as CSSProperties}>
-            <AdvisorMock />
+          <article
+            className="sh-card sh-card--tool"
+            data-reveal
+            style={{ "--d": 3 } as CSSProperties}
+          >
+            <ToolShot
+              shot="advisor"
+              label="Produktový poradca pre e-shop s kávou: výber chuti cez štyri otázky"
+            />
             <div className="sh-card__body">
               <span className="sh-card__icon" aria-hidden="true">
                 <Sparkles size={18} />
               </span>
               <h3>Produktový poradca</h3>
-              <p>Zúži veľkú ponuku podľa potrieb zákazníka na pár vhodných produktov.</p>
+              <p>Štyri krátke otázky a zákazník dostane jeden konkrétny produkt z vašej ponuky.</p>
               <button
                 type="button"
                 className="sh-btn sh-btn--dark sh-btn--sm"
@@ -438,7 +461,6 @@ function Solutions() {
               </button>
             </div>
           </article>
-
           <article
             className="sh-card sh-card--lime"
             data-reveal
@@ -461,6 +483,372 @@ function Solutions() {
             </button>
           </article>
         </div>
+
+        <div className="sh-combo" data-reveal>
+          <div className="sh-combo__intro">
+            <h3>Nemusí to byť iba jedno riešenie.</h3>
+            <p>
+              Chatbot sa dá spojiť s kalkulačkou, konfigurátorom aj poradcom — alebo so všetkým
+              naraz. Zákazník to vníma ako jeden nástroj.
+            </p>
+          </div>
+          <ul className="sh-combo__list">
+            {combinations.map((item, index) => (
+              <li key={item.title} data-all={item.preset ? undefined : "true"}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    openSiteAssistant({ source: `home-combo-${index + 1}`, preset: item.preset })
+                  }
+                >
+                  <strong>{item.title}</strong>
+                  <span>{item.copy}</span>
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------ flow story */
+
+type FlowMode = "chatbot" | "calculator" | "configurator" | "combined";
+
+type FlowStage = {
+  index: string;
+  label: string;
+  title: string;
+  copy: string;
+  artifact: string;
+};
+
+const flowModes: Record<FlowMode, { label: string; stages: FlowStage[] }> = {
+  chatbot: {
+    label: "Chatbot",
+    stages: [
+      {
+        index: "01",
+        label: "OTÁZKA",
+        title: "Zákazník sa pýta na produkt alebo nákup.",
+        copy: "Namiesto hľadania medzi desiatkami stránok sa opýta priamo na webe.",
+        artifact: "Ktorý produkt je pre mňa vhodný?",
+      },
+      {
+        index: "02",
+        label: "POTREBY",
+        title: "Chatbot zistí, čo zákazník skutočne hľadá.",
+        copy: "Doplní použitie, preferencie, rozpočet alebo parametre potrebné na dobrú odpoveď.",
+        artifact: "Použitie / preferencie / rozpočet",
+      },
+      {
+        index: "03",
+        label: "ODPORÚČANIE",
+        title: "Zúži ponuku na relevantné produkty.",
+        copy: "Ukáže vhodné možnosti, vysvetlí rozdiely a odpovie na otázky k nákupu.",
+        artifact: "2–3 vhodné produkty + rozdiely",
+      },
+      {
+        index: "04",
+        label: "NÁKUP",
+        title: "Zákazník pokračuje k produktu alebo do košíka.",
+        copy: "Rozhodnutie sa nestratí v ďalšom formulári. Pokračuje priamo tam, kde môže nakúpiť.",
+        artifact: "Produkt / košík / nákup",
+      },
+    ],
+  },
+  calculator: {
+    label: "Kalkulačka",
+    stages: [
+      {
+        index: "01",
+        label: "ZAČIATOK",
+        title: "Návštevník chce poznať cenu.",
+        copy: "Výpočet začne hneď, bez telefonátu alebo čakania.",
+        artifact: "Koľko to bude približne stáť?",
+      },
+      {
+        index: "02",
+        label: "ÚDAJE",
+        title: "Zadá niekoľko jednoduchých údajov.",
+        copy: "Vyberie rozmer, množstvo, variant alebo potrebné doplnky.",
+        artifact: "Rozmer / množstvo / variant",
+      },
+      {
+        index: "03",
+        label: "VÝPOČET",
+        title: "Web cenu prepočíta.",
+        copy: "Použije váš cenník a pravidlá, ktoré už vo firme máte.",
+        artifact: "Vaše pravidlá + váš cenník",
+      },
+      {
+        index: "04",
+        label: "VÝSLEDOK",
+        title: "Ukáže výsledok a ďalší krok.",
+        copy: "Návštevník vie, s čím počítať, a môže rovno odoslať dopyt.",
+        artifact: "Odhad ceny + pripravený dopyt",
+      },
+    ],
+  },
+  configurator: {
+    label: "Konfigurátor",
+    stages: [
+      {
+        index: "01",
+        label: "VÝBER",
+        title: "Návštevník si vyberie, čo hľadá.",
+        copy: "Začne jednoduchou voľbou namiesto preklikávania celej ponuky.",
+        artifact: "Čo potrebujem?",
+      },
+      {
+        index: "02",
+        label: "MOŽNOSTI",
+        title: "Web ukáže vhodné možnosti.",
+        copy: "Rozmery, modely, farby a doplnky zobrazí v správnom poradí.",
+        artifact: "Len možnosti, ktoré viete dodať",
+      },
+      {
+        index: "03",
+        label: "KONTROLA",
+        title: "Skontroluje celý výber.",
+        copy: "Nedovolí zvoliť kombináciu, ktorú neviete dodať alebo vyrobiť.",
+        artifact: "Kontrola kombinácií",
+      },
+      {
+        index: "04",
+        label: "ZOSTAVA",
+        title: "Hotovú zostavu odošle vám.",
+        copy: "Spolu s kontaktom dostanete presný výber návštevníka.",
+        artifact: "Zostava + kontakt",
+      },
+    ],
+  },
+  combined: {
+    label: "Všetko spolu",
+    stages: [
+      {
+        index: "01",
+        label: "OTÁZKA",
+        title: "Chatbot odpovie a zistí, čo zákazník hľadá.",
+        copy: "Poradí z vašich podkladov a hneď pozná rozmer, použitie aj rozpočet.",
+        artifact: "Chatbot + vaše podklady",
+      },
+      {
+        index: "02",
+        label: "VÝBER",
+        title: "Poradca alebo konfigurátor zúži ponuku.",
+        copy: "Zákazník si vyberie produkt alebo poskladá zostavu — aj v 3D.",
+        artifact: "Poradca / 3D konfigurátor",
+      },
+      {
+        index: "03",
+        label: "CENA",
+        title: "Kalkulačka spočíta cenu celej zostavy.",
+        copy: "S montážou, dopravou aj doplnkami podľa vášho cenníka.",
+        artifact: "Kalkulačka + váš cenník",
+      },
+      {
+        index: "04",
+        label: "DOPYT",
+        title: "Všetko príde naraz v jednom dopyte.",
+        copy: "Otázky, výber, zostava, cena aj kontakt. Nič sa nedopisuje telefonicky.",
+        artifact: "Jeden kompletný dopyt",
+      },
+    ],
+  },
+};
+
+function presetForMode(mode: FlowMode): "advisor" | "calculator" | "product" | undefined {
+  if (mode === "calculator") return "calculator";
+  if (mode === "configurator") return "product";
+  if (mode === "combined") return undefined;
+  return "advisor";
+}
+
+/**
+ * 03 / Ako to funguje.
+ *
+ * The section is a real vertical chapter. Normal page scroll drives the
+ * horizontal story while a full-viewport stage stays sticky. There is no
+ * wheel interception and no separate sideways scrolling gesture.
+ */
+function FlowStory() {
+  const [mode, setMode] = useState<FlowMode>("chatbot");
+  const stages = flowModes[mode].stages;
+  const storyRef = useRef<HTMLElement | null>(null);
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const stepsRef = useRef<HTMLOListElement | null>(null);
+  const frameRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const section = storyRef.current;
+    const rail = railRef.current;
+    const track = stepsRef.current;
+    if (!section || !rail || !track) return undefined;
+
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const update = () => {
+      frameRef.current = null;
+
+      const viewportHeight = Math.max(1, window.innerHeight);
+      const sectionRect = section.getBoundingClientRect();
+      const scrollRange = Math.max(1, section.offsetHeight - viewportHeight);
+      const rawProgress = -sectionRect.top / scrollRange;
+      const progress = Math.min(1, Math.max(0, rawProgress));
+      const maxTravel = Math.max(0, track.scrollWidth - rail.clientWidth);
+
+      const visualProgress =
+        reducedMotionQuery.matches && stages.length > 1
+          ? Math.round(progress * (stages.length - 1)) / (stages.length - 1)
+          : progress;
+
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const offset = Math.round(-maxTravel * visualProgress * dpr) / dpr;
+
+      const footerReveal = Math.min(1, Math.max(0, (progress - 0.7) / 0.14));
+
+      track.style.transform = `translate3d(${offset}px, 0, 0)`;
+      section.style.setProperty("--flow-progress", String(progress));
+      section.style.setProperty("--flow-footer-reveal", String(footerReveal));
+      section.style.setProperty("--flow-footer-shift", `${Math.round((1 - footerReveal) * 18)}px`);
+      section.dataset.footerReady = footerReveal >= 0.85 ? "true" : "false";
+    };
+
+    const scheduleUpdate = () => {
+      if (frameRef.current !== null) return;
+      frameRef.current = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(scheduleUpdate) : null;
+    resizeObserver?.observe(section);
+    resizeObserver?.observe(rail);
+    resizeObserver?.observe(track);
+
+    const onReducedMotionChange = () => scheduleUpdate();
+    if (typeof reducedMotionQuery.addEventListener === "function") {
+      reducedMotionQuery.addEventListener("change", onReducedMotionChange);
+    }
+
+    return () => {
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      resizeObserver?.disconnect();
+      if (typeof reducedMotionQuery.removeEventListener === "function") {
+        reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
+      }
+      track.style.removeProperty("transform");
+      section.style.removeProperty("--flow-progress");
+      section.style.removeProperty("--flow-footer-reveal");
+      section.style.removeProperty("--flow-footer-shift");
+      delete section.dataset.footerReady;
+    };
+  }, [mode, stages.length]);
+
+  const moveFlow = (direction: -1 | 1) => {
+    const section = storyRef.current;
+    if (!section) return;
+
+    const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
+    const stageDistance = scrollRange / Math.max(1, stages.length - 1);
+
+    window.scrollBy({
+      top: direction * stageDistance,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  };
+
+  return (
+    <section
+      ref={storyRef}
+      className="kage-flow-story"
+      id="ako-to-funguje"
+      aria-labelledby="kage-flow-story-title"
+      data-signal-chapter="3"
+      data-nav-tone="dark"
+    >
+      <div className="kage-flow-story__sticky">
+        <div className="container-page kage-flow-story__toolbar">
+          <h2 id="kage-flow-story-title" className="kage-flow-story__sr-title">
+            Ako sa návštevník dostane k výsledku.
+          </h2>
+          <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
+            {(Object.keys(flowModes) as FlowMode[]).map((item) => (
+              <button
+                type="button"
+                key={item}
+                data-active={mode === item}
+                aria-pressed={mode === item}
+                onClick={() => setMode(item)}
+              >
+                {flowModes[item].label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div ref={railRef} className="kage-flow-story__rail-wrap">
+          <ol
+            ref={stepsRef}
+            className="kage-flow-story__steps"
+            tabIndex={0}
+            aria-label="Štyri kroky. Vertikálnym scrollom prejdete celý príbeh; šípky posunú o jeden krok."
+            onKeyDown={(event) => {
+              if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                event.preventDefault();
+                moveFlow(-1);
+              } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                event.preventDefault();
+                moveFlow(1);
+              }
+            }}
+          >
+            {stages.map((stage) => (
+              <li className="kage-flow__step" key={`${mode}-${stage.index}`}>
+                <span className="kage-flow__number" aria-hidden="true">
+                  {stage.index}
+                </span>
+                <div className="kage-flow__copy">
+                  <span>{stage.label}</span>
+                  <h3>{stage.title}</h3>
+                  <p>{stage.copy}</p>
+                </div>
+                <div className="kage-flow__artifact">
+                  <span>
+                    {flowModes[mode].label.toUpperCase()} / {stage.index}
+                  </span>
+                  <strong>{stage.artifact}</strong>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="container-page kage-flow-story__footer">
+          <p>
+            Posúvaním stránky prejdete celý postup. Nástroje fungujú samostatne, v kombinácii aj
+            všetky spolu.
+          </p>
+          <button
+            type="button"
+            className="kage-flow-story__cta site-cta site-cta--primary"
+            onClick={() => openSiteAssistant({ source: "flow-story", preset: presetForMode(mode) })}
+          >
+            Vyskladať toto riešenie <ArrowUpRight size={17} />
+          </button>
+        </div>
       </div>
     </section>
   );
@@ -479,6 +867,7 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
       id="konfigurator"
       aria-labelledby="sh-config-title"
       data-live={live || undefined}
+      data-nav-tone="dark"
     >
       <div className="sh-wrap sh-config__grid">
         <div className="sh-config__copy" data-reveal>
@@ -610,7 +999,12 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
 
 function Work() {
   return (
-    <section className="sh-section sh-work" id="realizacie" aria-labelledby="sh-work-title">
+    <section
+      className="sh-section sh-work"
+      data-nav-tone="light"
+      id="realizacie"
+      aria-labelledby="sh-work-title"
+    >
       <div className="sh-wrap">
         <header className="sh-head sh-head--row" data-reveal>
           <div>
@@ -696,7 +1090,12 @@ function Process() {
   }, []);
 
   return (
-    <section className="sh-section sh-process" id="proces" aria-labelledby="sh-process-title">
+    <section
+      className="sh-section sh-process"
+      data-nav-tone="light"
+      id="proces"
+      aria-labelledby="sh-process-title"
+    >
       <div className="sh-wrap sh-process__grid">
         <header className="sh-head" data-reveal>
           <Eyebrow>Ako to prebieha</Eyebrow>
@@ -726,7 +1125,12 @@ function Process() {
 
 function Pricing() {
   return (
-    <section className="sh-section sh-price" id="cena" aria-labelledby="sh-price-title">
+    <section
+      className="sh-section sh-price"
+      data-nav-tone="dark"
+      id="cena"
+      aria-labelledby="sh-price-title"
+    >
       <div className="sh-wrap">
         <header className="sh-head sh-head--row" data-reveal>
           <div>
@@ -767,7 +1171,12 @@ function Pricing() {
 
 function Faq() {
   return (
-    <section className="sh-section sh-faq" id="otazky" aria-labelledby="sh-faq-title">
+    <section
+      className="sh-section sh-faq"
+      data-nav-tone="light"
+      id="otazky"
+      aria-labelledby="sh-faq-title"
+    >
       <div className="sh-wrap sh-faq__grid">
         <header className="sh-head" data-reveal>
           <Eyebrow>Časté otázky</Eyebrow>
@@ -800,7 +1209,7 @@ function Faq() {
 
 function Closing() {
   return (
-    <section className="sh-closing" aria-labelledby="sh-closing-title">
+    <section className="sh-closing" data-nav-tone="light" aria-labelledby="sh-closing-title">
       <div className="sh-wrap">
         <div className="sh-closing__card" data-reveal>
           <div>
@@ -829,10 +1238,11 @@ export function StudioHome() {
   useReveal(rootRef);
 
   return (
-    <div className="sh" ref={rootRef}>
+    <div className="hybrid-home kage-home sh" ref={rootRef}>
       <Hero />
       <Facts />
       <Solutions />
+      <FlowStory />
       <ConfiguratorShowcase />
       <Work />
       <Process />

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ExternalLink, MessageCircle } from "lucide-react";
-import { CtaBand, PageIntro, Reveal } from "@/components/site/motion-primitives";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ShClosing, ShPage, ShPageHero, ShSectionHead } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
@@ -25,97 +26,143 @@ export const Route = createFileRoute("/projekty/derat")({
   component: DeratCaseStudyPage,
 });
 
+const shot = (name: string) => `${import.meta.env.BASE_URL}work/derat-kalkulacka/${name}.webp`;
+
+/* Skutočné zábery kalkulačky, ktorá beží na derat.sk. */
 const steps = [
   {
     index: "01",
-    title: "Jasný vstup do služby",
-    copy: "Návštevník nezačína prázdnym formulárom. Hneď vidí, že môže svoj problém opísať cez krátky výber a dostať konkrétnejší ďalší krok.",
-    image: `${import.meta.env.BASE_URL}work/derat-v2/01-entry.webp`,
-    alt: "Mobilná ukážka domovskej stránky DERAT s jasným vstupom do služby",
+    title: "Výber služby",
+    copy: "Návštevník nezačína prázdnym formulárom. Hneď vyberie, či rieši hlodavce, hmyz alebo dezinfekciu.",
+    image: shot("01-sluzba"),
+    alt: "Kalkulačka DERAT: výber medzi deratizáciou, dezinsekciou a dezinfekciou",
   },
   {
     index: "02",
-    title: "Rozsah sa zisťuje postupne",
-    copy: "Rozhranie sa pýta iba na údaje, ktoré sú potrebné pre daný problém. Zákazník tak nemusí vypĺňať dlhý univerzálny formulár.",
-    image: `${import.meta.env.BASE_URL}work/derat-v2/03-scope.webp`,
-    alt: "Mobilná ukážka kalkulačky DERAT s nastavením rozsahu zásahu",
+    title: "Konkrétny problém",
+    copy: "Potkany, myši, kuna alebo „neviem“. Otázky sú krátke a každá voľba má obrázok.",
+    image: shot("02-skodca"),
+    alt: "Kalkulačka DERAT: výber škodcu s ikonami a orientačnou cenou dole",
   },
   {
     index: "03",
-    title: "Výsledok a dopyt v jednom toku",
-    copy: "Na konci zákazník vidí orientačný výsledok a firma dostane kontakt spolu s kontextom, ktorý už počas výberu zadal.",
-    image: `${import.meta.env.BASE_URL}work/derat-v2/04-result.webp`,
-    alt: "Mobilná ukážka výsledku kalkulačky DERAT s orientačnou cenou a dopytom",
+    title: "Priestor a rozloha",
+    copy: "Byt, dom, firma alebo sklad a odhad plochy. Orientačná cena sa prepočítava pri každej zmene.",
+    image: shot("04-rozloha"),
+    alt: "Kalkulačka DERAT: posuvník rozlohy v metroch štvorcových a cena bez DPH",
   },
+  {
+    index: "04",
+    title: "Doplnky a dopyt",
+    copy: "Protokol, kontrolná návšteva alebo expres. Firma dostane dopyt so všetkým, čo zákazník zadal.",
+    image: shot("05-doplnky"),
+    alt: "Kalkulačka DERAT: voliteľné doplnky s cenou a poznámkou pred odoslaním dopytu",
+  },
+];
+
+const facts = [
+  { value: "8 krokov", label: "Každý krok jedna krátka otázka" },
+  { value: "Cena hneď", label: "Orientačná suma sa mení s každou voľbou" },
+  { value: "2 v 1", label: "Kalkulačka a AI asistent v jednom okne" },
+  { value: "1 dopyt", label: "Firma dostane všetky údaje naraz" },
 ];
 
 function DeratCaseStudyPage() {
   return (
-    <div className="sp-page">
-      <PageIntro
+    <ShPage>
+      <ShPageHero
         eyebrow="Prípadová štúdia · DERAT"
-        title={
-          <>
-            Z otázky zákazníka k <em>pripravenému dopytu.</em>
-          </>
-        }
-        lead="DERAT je reálne nasadený projekt na vlastnej doméne. Namiesto prázdneho kontaktu vedie návštevníka cez konkrétny problém, rozsah zásahu a výsledok."
+        title="Z otázky zákazníka"
+        accent="k pripravenému dopytu."
+        lead="DERAT je reálne nasadený projekt na vlastnej doméne. Kalkulačka vedie návštevníka cez konkrétny problém a rozsah zásahu k orientačnej cene a dopytu."
+        visual={{
+          src: shot("03-priestor"),
+          alt: "Kalkulačka DERAT: výber priestoru s fotografiami a orientačnou cenou",
+          width: 600,
+          height: 1276,
+          portrait: true,
+        }}
       >
-        <div className="sp-hero-chips">
-          <span className="chip">Reálny web</span>
-          <span className="chip">Kalkulačka</span>
-          <span className="chip">Dopytový asistent</span>
-        </div>
-      </PageIntro>
+        <ul className="shp-chips" aria-label="Čo projekt obsahuje">
+          <li>Reálny web</li>
+          <li>Kalkulačka</li>
+          <li>AI asistent</li>
+          <li>Dopyt</li>
+        </ul>
+      </ShPageHero>
 
-      <section className="sp-section">
-        <div className="container-page case-study-grid">
-          {steps.map((step, index) => (
-            <Reveal className="case-study-card" key={step.index} delay={index * 0.06}>
-              <span>{step.index}</span>
-              <h2>{step.title}</h2>
-              <p>{step.copy}</p>
-              <figure className="case-study-shot">
-                <img
-                  src={step.image}
-                  alt={step.alt}
-                  width={1086}
-                  height={1448}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                />
-              </figure>
-            </Reveal>
-          ))}
+      <section className="sh-facts" aria-label="Fakty o riešení">
+        <div className="sh-wrap">
+          <ul className="sh-facts__card">
+            {facts.map((fact, index) => (
+              <li key={fact.value} data-reveal style={{ "--d": index } as CSSProperties}>
+                <strong>{fact.value}</strong>
+                <span>{fact.label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section className="sp-section">
-        <CtaBand
-          kicker="Pozrieť bez makety"
-          title="Projekt je dostupný priamo na derat.sk."
-          lead="Otvorte si ostrý web alebo mi napíšte, ak chcete podobný postup navrhnúť pre vlastnú službu."
+      <section className="sh-section">
+        <div className="sh-wrap">
+          <ShSectionHead
+            eyebrow="Ako to prebieha"
+            title="Štyri zastávky od problému k dopytu"
+            lead="Zábery sú priamo z kalkulačky na derat.sk, nie makety."
+          />
+          <ol className="shp-case-steps shp-case-steps--4">
+            {steps.map((step, index) => (
+              <li
+                className="shp-case-step"
+                key={step.index}
+                data-reveal
+                style={{ "--d": index } as CSSProperties}
+              >
+                <div className="shp-case-step__media">
+                  <img
+                    src={step.image}
+                    alt={step.alt}
+                    width={600}
+                    height={1276}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className="shp-case-step__body">
+                  <span className="shp-num">{step.index}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <ShClosing
+        title="Projekt je dostupný priamo na derat.sk."
+        copy="Otvorte si ostrý web alebo napíšte, ak chcete podobný postup navrhnúť pre vlastnú službu."
+      >
+        <a
+          href="https://derat.sk/"
+          target="_blank"
+          rel="noreferrer"
+          className="sh-btn sh-btn--lime"
         >
-          <a
-            href="https://derat.sk/"
-            target="_blank"
-            rel="noreferrer"
-            className="sp-button sp-button--primary"
-          >
-            Otvoriť derat.sk <ExternalLink aria-hidden="true" />
-          </a>
-          <button
-            type="button"
-            className="sp-button sp-button--ghost"
-            onClick={() => openSiteAssistant({ source: "derat-case-study" })}
-          >
-            <MessageCircle aria-hidden="true" /> Navrhnúť podobné riešenie
-          </button>
-          <Link to="/projekty" className="sp-button sp-button--ghost">
-            Ďalšie realizácie <ArrowRight aria-hidden="true" />
-          </Link>
-        </CtaBand>
-      </section>
-    </div>
+          Otvoriť derat.sk <ArrowUpRight size={18} aria-hidden="true" />
+        </a>
+        <button
+          type="button"
+          className="sh-btn sh-btn--ghost"
+          onClick={() => openSiteAssistant({ source: "derat-case-study" })}
+        >
+          Navrhnúť podobné riešenie
+        </button>
+        <Link to="/projekty" className="sh-link">
+          Ďalšie realizácie <ArrowRight size={15} aria-hidden="true" />
+        </Link>
+      </ShClosing>
+    </ShPage>
   );
 }

@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ShClosing, ShPage, ShPageHero, ShSectionHead } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
-import "./subpage-hero-refresh.css";
 
 const steps = [
   {
@@ -65,52 +66,37 @@ export const Route = createFileRoute("/postup")({
 
 function ProcessPage() {
   return (
-    <div className="sp-page process-page--rebrand">
-      <header className="sp-hero">
-        <div className="container-page">
-          <div className="subpage-hero-copy">
-            <p className="section-kicker">POSTUP</p>
-            <h1>
-              Od prvého zadania <em>po živý web.</em>
-            </h1>
-            <p className="sp-hero-lead">
-              Každý krok má konkrétny výstup. Klient vie, čo sa práve rozhoduje, čo dostane a kedy
-              má zmysel pokračovať ďalej.
-            </p>
-          </div>
-          <figure className="subpage-hero-visual">
-            <img
-              src={`${import.meta.env.BASE_URL}work/live/derat.webp`}
-              alt="Ukážka živého projektu DERAT s interaktívnym predajným nástrojom"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              width={1440}
-              height={1000}
-            />
-            <figcaption>Živá realizácia / DERAT</figcaption>
-          </figure>
-        </div>
-      </header>
+    <ShPage>
+      <ShPageHero
+        eyebrow="Postup"
+        title="Od prvého zadania"
+        accent="po živý web."
+        lead="Každý krok má konkrétny výstup. Viete, čo sa práve rozhoduje, čo dostanete a kedy má zmysel pokračovať ďalej."
+        visual={{
+          src: `${import.meta.env.BASE_URL}work/live/derat.webp`,
+          alt: "Ukážka živého projektu DERAT s interaktívnym predajným nástrojom",
+          width: 1600,
+          height: 1000,
+          caption: "Živá realizácia / DERAT",
+        }}
+      />
 
-      <section className="sp-section">
-        <div className="container-page process-page-grid">
-          <aside className="process-page-intro">
-            <p className="section-kicker">OTÁZKA → VÝSLEDOK</p>
-            <p>
-              Technológia je až druhá. Najprv musí byť jasné, čo má byť výsledkom pre zákazníka a
-              pre firmu.
-            </p>
-          </aside>
-          <ol className="process-list">
-            {steps.map((step) => (
-              <li key={step.index}>
-                <span>{step.index}</span>
+      <section className="sh-section">
+        <div className="sh-wrap shp-split">
+          <ShSectionHead
+            eyebrow="Otázka → výsledok"
+            title="Technológia je až druhá."
+            lead="Najprv musí byť jasné, čo má byť výsledkom pre zákazníka a pre firmu. Až potom staviame."
+          />
+          <ol className="sh-timeline shp-timeline">
+            {steps.map((step, order) => (
+              <li key={step.index} data-reveal style={{ "--d": order } as CSSProperties}>
+                <b>{step.index}</b>
                 <div>
                   <h2>{step.title}</h2>
                   <p>{step.copy}</p>
-                  <p className="process-output">
-                    <b>Výstup:</b> {step.output}
+                  <p className="shp-output">
+                    <strong>Výstup:</strong> {step.output}
                   </p>
                 </div>
               </li>
@@ -119,32 +105,21 @@ function ProcessPage() {
         </div>
       </section>
 
-      <section className="pricing-bridge">
-        <div className="container-page pricing-bridge__grid">
-          <div>
-            <p className="section-kicker">ZAČIATOK</p>
-            <h2 className="section-title">
-              Začnime tým, čo dnes <em>riešite ručne.</em>
-            </h2>
-          </div>
-          <div>
-            <p>
-              Nemusíte vedieť, či potrebujete chatbot, kalkulačku, konfigurátor alebo produktového
-              poradcu. Stačí popísať proces a výsledok, ktorý chcete.
-            </p>
-            <button
-              type="button"
-              className="button-primary"
-              onClick={() => openSiteAssistant({ source: "process-final" })}
-            >
-              Vyskladať riešenie <ArrowRight size={15} />
-            </button>
-            <Link to="/kontakt" className="text-link pricing-inline-link">
-              Kontakt <ArrowRight size={15} />
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+      <ShClosing
+        title="Začnime tým, čo dnes riešite ručne."
+        copy="Nemusíte vedieť, či potrebujete chatbot, kalkulačku, konfigurátor alebo produktového poradcu. Stačí popísať proces a výsledok, ktorý chcete."
+      >
+        <button
+          type="button"
+          className="sh-btn sh-btn--lime"
+          onClick={() => openSiteAssistant({ source: "process-final" })}
+        >
+          Vyskladať riešenie <ArrowRight size={18} aria-hidden="true" />
+        </button>
+        <Link to="/kontakt" className="sh-link">
+          Kontakt
+        </Link>
+      </ShClosing>
+    </ShPage>
   );
 }

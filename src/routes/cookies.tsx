@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, Cookie, Fingerprint, ShieldCheck } from "lucide-react";
-import { PageIntro, Reveal } from "@/components/site/motion-primitives";
+import { Reveal } from "@/components/site/motion-primitives";
+import { ShPage, ShPageHero } from "@/components/site/SubPage";
 import { siteConfig } from "@/config/site";
 import { openAnalyticsPreferences } from "@/lib/analytics-consent";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
@@ -30,15 +31,13 @@ export const Route = createFileRoute("/cookies")({
 
 function CookiesPage() {
   return (
-    <div className="cookies-page">
-      <PageIntro
+    <ShPage className="shp-legal cookies-page">
+      <ShPageHero
         eyebrow="Súkromie a analytika"
-        title={
-          <>
-            Meranie návštevnosti <em>pod vašou kontrolou.</em>
-          </>
-        }
+        title="Meranie návštevnosti"
+        accent="pod vašou kontrolou."
         lead="Vercel Web Analytics používame bez analytických súborov cookie. Google Analytics sa spustí iba vtedy, keď je na webe nakonfigurovaný a návštevník ho výslovne povolí."
+        compact
       />
 
       <section className="cookies-section">
@@ -131,6 +130,6 @@ function CookiesPage() {
           <small>Posledná aktualizácia: 6. septembra 2026</small>
         </div>
       </section>
-    </div>
+    </ShPage>
   );
 }

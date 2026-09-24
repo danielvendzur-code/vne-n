@@ -87,9 +87,10 @@ jobs:
           test -f pages-dist/sitemap.xml
           test -f pages-dist/brand/logo.svg
 
-          grep -Fq "Z otázky" pages-dist/index.html
-          grep -Fq "k výsledku" pages-dist/index.html
-          grep -Fq "CHATBOT · PRODUKTOVÝ PORADCA" pages-dist/index.html
+          grep -Fq "mení návštevy na výsledky" pages-dist/index.html
+          grep -Fq "Všetko spolu" pages-dist/index.html
+          grep -Fq "Chatbot · produktový poradca" pages-dist/index.html
+          grep -Fq "3D konfigurátor" pages-dist/3d-konfigurator/index.html
           grep -Fq "347 €" pages-dist/cennik/index.html
           grep -Fq "447 €" pages-dist/cennik/index.html
           grep -Fq "10 € / mesiac" pages-dist/cennik/index.html
@@ -99,9 +100,9 @@ jobs:
           grep -Fq "buildKey" pages-dist/widget-loader.js
           grep -Fq "round-one-stroke-launcher-20260831-v15" pages-dist/widget-loader.js
           grep -Fq 'import "./SiteVisualAuthority.css";' src/components/site/Layout.tsx
-          grep -Fq 'import "./subpage-hero-refresh.css";' src/routes/sluzby.tsx
-          grep -Fq 'import "./subpage-hero-refresh.css";' src/routes/postup.tsx
-          grep -Fq 'import "./subpage-hero-refresh.css";' src/routes/preco-chatbot.tsx
+          grep -Fq '@/components/site/SubPage' src/routes/sluzby.tsx
+          grep -Fq '@/components/site/SubPage' src/routes/postup.tsx
+          grep -Fq '@/components/site/SubPage' src/routes/preco-chatbot.tsx
           ! grep -Fq "SubpageHeroUnified.css" src/routes/__root.tsx
           ! grep -Fq "subpage-refinement.css" src/components/site/Layout.tsx
           ! grep -Fq "Rebrand.css" src/components/site/Layout.tsx
@@ -121,7 +122,7 @@ jobs:
           ! grep -Fq "Váš web odpovie" pages-dist/index.html
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
 
-          for route in navrh sluzby projekty postup preco-chatbot cennik kontakt dakujeme cookies pravne-informacie ochrana-udajov farby; do
+          for route in navrh 3d-konfigurator sluzby projekty postup preco-chatbot cennik kontakt dakujeme cookies pravne-informacie ochrana-udajov farby; do
             test -f "pages-dist/${route}/index.html"
             test -f "pages-dist/${route}.html"
           done

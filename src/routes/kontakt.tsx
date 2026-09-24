@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
+import { ShPage, ShPageHero } from "@/components/site/SubPage";
 import { siteConfig } from "@/config/site";
 import { submitWebsiteLead } from "@/lib/lead-submission";
 import { openSiteAssistant } from "@/lib/site-assistant";
@@ -180,55 +181,44 @@ function ContactPage() {
   };
 
   return (
-    <div className="contact-page contact-page--rebrand">
-      <header className="sp-hero">
-        <div className="container-page">
-          <p className="section-kicker">KONTAKT</p>
-          <h1>
-            Preberme, čo má váš web <em>robiť ďalej.</em>
-          </h1>
-          <p className="sp-hero-lead">
-            Stačí pár viet o tom, čo predávate a kde sa zákazník dnes zasekne. Navrhneme
-            najjednoduchší funkčný smer a cenu povieme vopred.
-          </p>
-        </div>
-      </header>
+    <ShPage className="shp-contact-page">
+      <ShPageHero eyebrow="Kontakt" title="Preberme, čo má váš web" accent="robiť ďalej." compact />
 
-      <section className="contact-section">
-        <div className="container-page contact-editorial-grid">
-          <aside className="contact-editorial-aside">
-            <div>
-              <p className="section-kicker">PRIAMY KONTAKT</p>
+      <section className="shp-contact">
+        <div className="sh-wrap shp-contact__grid">
+          <aside className="shp-contact__aside">
+            <div className="shp-card shp-card--dark shp-contact__direct">
+              <p className="shp-contact__label">Priamy kontakt</p>
               <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
               <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
             </div>
-            <div>
-              <p className="section-kicker">ČO STAČÍ POSLAŤ</p>
-              <ol>
+            <div className="shp-card">
+              <p className="shp-contact__label">Čo stačí poslať</p>
+              <ol className="shp-contact__steps">
                 <li>Čo predávate.</li>
                 <li>Čo zákazníci stále riešia ručne.</li>
                 <li>Čo má byť výsledkom na webe.</li>
               </ol>
+              <button
+                type="button"
+                className="sh-link sh-link--dark"
+                onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
+              >
+                Radšej vyskladať riešenie <ArrowRight size={15} aria-hidden="true" />
+              </button>
             </div>
-            <div>
-              <p className="section-kicker">PREVÁDZKOVATEĽ</p>
+            <div className="shp-card">
+              <p className="shp-contact__label">Prevádzkovateľ</p>
               <p>{siteConfig.legal.operator}</p>
-              <Link to="/pravne-informacie" className="text-link">
-                IČO, DIČ a registrácia <ArrowRight size={14} />
+              <Link to="/pravne-informacie" className="sh-link sh-link--dark">
+                IČO, DIČ a registrácia <ArrowRight size={14} aria-hidden="true" />
               </Link>
             </div>
-            <button
-              type="button"
-              className="text-link"
-              onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
-            >
-              Radšej vyskladať riešenie <ArrowRight size={15} />
-            </button>
           </aside>
 
-          <div className="contact-form-wrap">
-            <p className="section-kicker">
-              {fromCoffeeDemo ? "PREDVYPLNENÉ Z VAŠEJ UKÁŽKY" : "KRÁTKE ZADANIE"}
+          <div className="shp-form-card contact-form-wrap">
+            <p className="shp-contact__label">
+              {fromCoffeeDemo ? "Predvyplnené z vašej ukážky" : "Krátke zadanie"}
             </p>
 
             {fromCoffeeDemo ? (
@@ -261,8 +251,12 @@ function ContactPage() {
               </div>
             ) : null}
 
-            <form className="contact-form" onSubmit={(event) => void submit(event)} noValidate>
-              <div className="contact-fields-two">
+            <form
+              className="shp-form contact-form"
+              onSubmit={(event) => void submit(event)}
+              noValidate
+            >
+              <div className="shp-form__two">
                 <label>
                   <span>Meno *</span>
                   <input
@@ -289,7 +283,7 @@ function ContactPage() {
                 </label>
               </div>
 
-              <div className="contact-fields-two">
+              <div className="shp-form__two">
                 <label>
                   <span>Telefón</span>
                   <input
@@ -378,18 +372,18 @@ function ContactPage() {
               </div>
 
               {error ? (
-                <p className="contact-error" role="alert">
+                <p className="shp-form__error" role="alert">
                   {error}
                 </p>
               ) : null}
 
               {fallbackHref ? (
-                <div className="contact-fallback" role="status">
+                <div className="shp-form__fallback" role="status">
                   <p>
                     Nič ste nestratili. Ak chcete dopyt dokončiť hneď, otvoríme pripravený e-mail s
                     vyplneným zadaním; odoslanie zostáva pod vašou kontrolou.
                   </p>
-                  <a className="contact-fallback__action" href={fallbackHref}>
+                  <a href={fallbackHref}>
                     Otvoriť pripravený e-mail <ArrowRight size={15} aria-hidden="true" />
                   </a>
                 </div>
@@ -397,7 +391,7 @@ function ContactPage() {
 
               <button
                 type="submit"
-                className="contact-submit site-cta site-cta--primary"
+                className="sh-btn sh-btn--dark"
                 data-state={submitState}
                 disabled={submitState === "sending"}
               >
@@ -412,6 +406,6 @@ function ContactPage() {
           </div>
         </div>
       </section>
-    </div>
+    </ShPage>
   );
 }
