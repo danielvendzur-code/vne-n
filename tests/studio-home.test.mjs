@@ -11,8 +11,10 @@ test("homepage is the Koverta-inspired studio page with real work and a keyword 
   assert.match(route, /import \{ StudioHome \}/);
   assert.match(route, /3D konfigurátor na web/);
   assert.equal((landing.match(/<h1\b/g) ?? []).length, 1);
-  // The approved original hero stays: typed headline with a readable aria-label.
-  assert.match(landing, /aria-label="Web, ktorý mení návštevy na výsledky\."/);
+  // Koverta-style hero: plain heading with the approved message and a live preview.
+  assert.match(landing, /Web, ktorý mení návštevy <em>na výsledky\.<\/em>/);
+  assert.match(landing, /className="sh-top"/);
+  assert.match(landing, /heroProjects\.map/);
   assert.match(landing, /className="hybrid-home kage-home sh"/);
   assert.match(landing, /<FlowStory \/>/);
   assert.match(landing, /title: "Všetko spolu"/);
@@ -96,8 +98,26 @@ test("subpages share the unified SubPage system instead of legacy page CSS", asy
   }
 });
 
-test("FAQ and process headings stay pinned while the list scrolls", async () => {
+test("FAQ heading stays pinned while the list scrolls", async () => {
   const css = await read("src/components/site/StudioHome.css");
   assert.match(css, /\.sh-faq__grid \.sh-head \{\s*position: sticky;/);
-  assert.match(css, /\.sh-process__grid \.sh-head \{[\s\S]*?position: sticky;/);
+});
+
+test("process steps switch on click without scroll-driven animation", async () => {
+  const landing = await read("src/components/site/StudioHome.tsx");
+  const start = landing.indexOf("function Process()");
+  const process = landing.slice(start, landing.indexOf("/* ----", start));
+  assert.match(process, /onClick=\{\(\) => setActive\(order\)\}/);
+  assert.doesNotMatch(process, /addEventListener\("scroll"/);
+});
+
+test("monthly operation is a starting price and fonts use full-weight Archivo", async () => {
+  const pricing = await read("src/routes/cennik.tsx");
+  const landing = await read("src/components/site/StudioHome.tsx");
+  const chrome = await read("src/components/site/SiteChrome.css");
+  assert.match(pricing, /od 10 €/);
+  assert.doesNotMatch(pricing, /monthly: "10 €/);
+  assert.match(landing, /value: 10,\s*lead: "od "/);
+  assert.match(chrome, /font-family: "Archivo MC"/);
+  assert.match(chrome, /archivo-latin-wght-normal\.woff2/);
 });

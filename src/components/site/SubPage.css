@@ -11,9 +11,7 @@
   position: relative;
   overflow: hidden;
   padding: clamp(3rem, 6vw, 5rem) 0 clamp(3.5rem, 7vw, 5.5rem);
-  background:
-    radial-gradient(120% 90% at 85% 10%, rgba(200, 240, 106, 0.1), transparent 55%),
-    linear-gradient(160deg, #143f33 0%, var(--sh-deep) 70%);
+  background: var(--sh-deep);
   color: #f5f4ed;
 }
 
@@ -359,8 +357,7 @@
   position: relative;
   height: 24rem;
   overflow: hidden;
-  background:
-    radial-gradient(90% 90% at 50% 0%, rgba(200, 240, 106, 0.28), transparent 70%), #e8ece4;
+  background: #e8ece4;
 }
 
 .shp-case-step__media img {

@@ -1,64 +1,94 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { realizations } from "@/data/realizations";
+import "./SiteChrome.css";
 
+/** Tmavá pätička podľa Koverty: veľká výzva hore, stĺpce odkazov pod ňou. */
 export function Footer() {
   return (
-    <footer className="premium-footer">
-      <div className="container-page premium-footer-main">
-        <div className="premium-footer-brand">
-          <BrandMark size={42} />
-          <p>Digitálne predajné nástroje na mieru pre e-shopy aj firmy so službami.</p>
-          <p className="premium-footer-note">
-            Chatboty, kalkulačky, konfigurátory a produktoví poradcovia — navrhnuté podľa toho, čo
-            má zákazník na vašom webe dosiahnuť.
-          </p>
+    <footer className="mc-footer">
+      <div className="mc-footer__wrap">
+        <div className="mc-footer__cta">
+          <div>
+            <p className="mc-footer__label">Od nápadu po nasadenie</p>
+            <h2>Web, ktorý odpovie, spočíta aj poradí.</h2>
+          </div>
+          <Link to="/kontakt" className="mc-footer__btn">
+            Nezáväzný návrh <ArrowRight size={18} aria-hidden="true" />
+          </Link>
         </div>
 
-        <div>
-          <p className="premium-footer-label">Navigácia</p>
-          <nav className="premium-footer-links" aria-label="Navigácia v pätičke">
-            <Link to="/sluzby">Riešenia</Link>
-            <Link to="/3d-konfigurator">3D konfigurátor</Link>
-            <Link to="/projekty">Realizácie</Link>
-            <Link to="/postup">Ako to funguje</Link>
-            <Link to="/cennik">Cena</Link>
-            <Link to="/kontakt">Kontakt</Link>
+        <div className="mc-footer__grid">
+          <div className="mc-footer__brand">
+            <Link to="/" className="mc-footer__logo">
+              <BrandMark size={34} />
+              Môj Chatbot
+            </Link>
+            <p>
+              Chatboty, cenové kalkulačky, 3D konfigurátory a produktoví poradcovia na mieru pre
+              e-shopy aj firmy so službami.
+            </p>
+          </div>
+
+          <div className="mc-footer__col">
+            <h3>Riešenia</h3>
+            <ul>
+              <li>
+                <Link to="/sluzby">Všetky riešenia</Link>
+              </li>
+              <li>
+                <Link to="/3d-konfigurator">3D konfigurátor</Link>
+              </li>
+              <li>
+                <Link to="/cennik">Cenník</Link>
+              </li>
+              <li>
+                <Link to="/postup">Ako to funguje</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="mc-footer__col">
+            <h3>Realizácie</h3>
+            <ul>
+              {realizations.map((project) => (
+                <li key={project.name}>
+                  <a href={project.href} target="_blank" rel="noreferrer">
+                    {project.domain}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mc-footer__col">
+            <h3>Kontakt</h3>
+            <ul>
+              <li>
+                <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
+              </li>
+              <li>
+                <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+              </li>
+            </ul>
+            <div className="mc-footer__pills">
+              <Link to="/kontakt">Kontaktný formulár</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="mc-footer__bottom">
+          <span>
+            © {new Date().getFullYear()} Môj Chatbot · {siteConfig.legal.operator}
+          </span>
+          <nav aria-label="Právne odkazy">
+            <Link to="/pravne-informacie">Právne informácie</Link>
+            <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
+            <Link to="/cookies">Súbory cookie</Link>
           </nav>
         </div>
-
-        <div>
-          <p className="premium-footer-label">Živá práca</p>
-          <div className="premium-footer-links">
-            {realizations.map((project) => (
-              <a key={project.name} href={project.href} target="_blank" rel="noreferrer">
-                {project.domain} <ArrowUpRight size={12} aria-hidden="true" />
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <p className="premium-footer-label">Kontakt</p>
-          <div className="premium-footer-links">
-            <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
-            <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
-            <Link to="/kontakt">
-              Začať projekt <ArrowUpRight size={12} aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="container-page premium-footer-bottom">
-        <span>© {new Date().getFullYear()} Môj Chatbot</span>
-        <span className="premium-footer-privacy">
-          <Link to="/pravne-informacie">Právne informácie</Link>
-          <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
-          <Link to="/cookies">Súbory cookie</Link>
-        </span>
       </div>
     </footer>
   );

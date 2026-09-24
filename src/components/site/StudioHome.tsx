@@ -62,7 +62,7 @@ const prices = [
   {
     tag: "Technická prevádzka",
     value: 10,
-    lead: "",
+    lead: "od ",
     unit: "/ mesiac",
     copy: "Hosting riešenia a základná technická starostlivosť.",
   },
@@ -139,13 +139,14 @@ function CountUp({
 
 /* ------------------------------------------------------------------- hero */
 
-/* Pôvodný hero: vypisovaný nadpis a tri prekrývajúce sa náhľady živých webov.
-   Triedy `hybrid-hero` a `kage-hero` nesú jeho schválený vzhľad aj tmavé
-   prispôsobenie hlavičky. */
+/* Hero podľa Koverty: tmavá plocha, jasný nadpis vľavo a vpravo jeden veľký,
+   rovný náhľad živého webu. Náhľady sa prepínajú záložkami pod ním. */
 const heroProjects = [
   {
     slug: "koverta",
     name: "Koverta",
+    note: "3D konfigurátor",
+    domain: "koverta.sk",
     href: "https://koverta.sk/",
     image: `${BASE}work/live/koverta.webp`,
     alt: "Domovská stránka Koverta s bioklimatickou pergolou nad terasou",
@@ -153,6 +154,8 @@ const heroProjects = [
   {
     slug: "derat",
     name: "DERAT",
+    note: "Kalkulačka",
+    domain: "derat.sk",
     href: "https://derat.sk/",
     image: `${BASE}work/live/derat.webp`,
     alt: "Domovská stránka DERAT s nadpisom Bez škodcov",
@@ -160,96 +163,113 @@ const heroProjects = [
   {
     slug: "mojplot",
     name: "Môj Plot",
+    note: "Produktový web",
+    domain: "mojplot.sk",
     href: "https://mojplot.sk/",
     image: `${BASE}work/live/mojplot.webp`,
     alt: "Domovská stránka Môj Plot s kategóriami plotov",
   },
 ] as const;
 
-function TypedLine({ text, startAt }: { text: string; startAt: number }) {
-  const words = text.split(" ");
+function HeroPreview() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const timer = window.setInterval(
+      () => setActive((current) => (current + 1) % heroProjects.length),
+      5000,
+    );
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
+  const project = heroProjects[active];
 
   return (
-    <span className="typed-line" aria-hidden="true">
-      {words.map((word, wordIndex) => {
-        const wordOffset =
-          startAt +
-          words.slice(0, wordIndex).reduce((total, item) => total + item.length, 0) +
-          wordIndex;
-        return (
-          <span className="typed-word" key={`${word}-${wordIndex}`}>
-            {Array.from(word).map((character, characterIndex) => (
-              <span
-                className="typed-character"
-                key={`${character}-${characterIndex}`}
-                style={{ "--character-index": wordOffset + characterIndex } as CSSProperties}
-              >
-                {character}
-              </span>
-            ))}
-            {wordIndex < words.length - 1 ? (
-              <span className="typed-space" aria-hidden="true">
-                {" "}
-              </span>
-            ) : null}
-          </span>
-        );
-      })}
-    </span>
+    <div
+      className="sh-top__preview"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <a
+        className="sh-top__frame"
+        href={project.href}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Otvoriť ${project.domain}`}
+      >
+        <span className="sh-top__bar" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <b>{project.domain}</b>
+        </span>
+        <span className="sh-top__screen">
+          {heroProjects.map((item, index) => (
+            <img
+              key={item.slug}
+              src={item.image}
+              alt={item.alt}
+              width={1600}
+              height={1000}
+              data-active={index === active}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "low"}
+              decoding="async"
+            />
+          ))}
+        </span>
+      </a>
+      <div className="sh-top__tabs" role="tablist" aria-label="Živé realizácie">
+        {heroProjects.map((item, index) => (
+          <button
+            key={item.slug}
+            type="button"
+            role="tab"
+            aria-selected={index === active}
+            data-active={index === active}
+            onClick={() => setActive(index)}
+          >
+            <b>{item.name}</b>
+            <span>{item.note}</span>
+            <i aria-hidden="true" />
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
 function Hero() {
   return (
-    <section
-      className="hybrid-hero kage-hero"
-      aria-labelledby="hybrid-hero-title"
-      data-signal-chapter="0"
-      data-nav-tone="dark"
-    >
-      <div className="container-page hybrid-hero__stage">
-        <h1 id="hybrid-hero-title" aria-label="Web, ktorý mení návštevy na výsledky.">
-          <TypedLine text="Web, ktorý" startAt={0} />
-          <em>
-            <TypedLine text="mení návštevy" startAt={10} />
-          </em>
-          <em>
-            <TypedLine text="na výsledky." startAt={24} />
-          </em>
-        </h1>
-        <div className="hybrid-hero__collage" aria-label="Vybrané živé realizácie">
-          {heroProjects.map((project, index) => (
-            <a
-              key={project.slug}
-              className={`hybrid-hero__case hybrid-hero__case--${index + 1}`}
-              href={project.href}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span className={`project-composite project-composite--${project.slug}`}>
-                <img
-                  className="project-composite__site"
-                  src={project.image}
-                  alt={project.alt}
-                  width={1600}
-                  height={1000}
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                />
-              </span>
-              <span>
-                0{index + 1} / {project.name}
-              </span>
+    <section className="sh-top" aria-labelledby="sh-top-title" data-nav-tone="dark">
+      <div className="sh-wrap sh-top__grid">
+        <div className="sh-top__copy">
+          <h1 id="sh-top-title">
+            Web, ktorý mení návštevy <em>na výsledky.</em>
+          </h1>
+          <p>
+            Navrhneme a nasadíme chatbota, cenovú kalkulačku, 3D konfigurátor alebo produktového
+            poradcu. Zákazník dostane odpoveď, cenu alebo hotovú zostavu, vy pripravený dopyt.
+          </p>
+          <div className="sh-top__actions">
+            <Link to="/kontakt" className="sh-btn sh-btn--lime">
+              Nezáväzný návrh <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+            <a href="#riesenia" className="sh-btn sh-btn--ghost">
+              Vybrať riešenie
             </a>
-          ))}
+          </div>
+          <p className="sh-top__proof">
+            <b>4</b>
+            <span>
+              živé realizácie
+              <small>derat.sk · koverta.sk · mojplot.sk · webko.sk</small>
+            </span>
+          </p>
         </div>
-      </div>
-      <div className="container-page hybrid-hero__bottom kage-hero__bottom">
-        <p>Chatboty, kalkulačky, 3D konfigurátory a produktoví poradcovia na mieru.</p>
-        <a href="#riesenia" className="hybrid-hero__primary site-cta site-cta--primary">
-          Vybrať riešenie <ArrowUpRight size={17} />
-        </a>
+        <HeroPreview />
       </div>
     </section>
   );
@@ -361,14 +381,13 @@ function Solutions() {
           >
             <Link to="/3d-konfigurator" className="sh-card__media" tabIndex={-1} aria-hidden="true">
               <img
-                src={`${BASE}work/koverta/konfigurator-pristresok.webp`}
+                src={`${BASE}work/koverta/model-pristresok.webp`}
                 alt=""
-                width={1600}
-                height={841}
+                width={1200}
+                height={824}
                 loading="lazy"
                 decoding="async"
               />
-              <span className="sh-badge">Novinka · 3D</span>
             </Link>
             <div className="sh-card__body">
               <span className="sh-card__icon" aria-hidden="true">
@@ -1062,32 +1081,18 @@ function Work() {
 
 /* ---------------------------------------------------------------- process */
 
-function Process() {
-  const listRef = useRef<HTMLOListElement>(null);
+const processImages = [
+  `${BASE}work/live/mojplot.webp`,
+  `${BASE}work/koverta/model-pergola.webp`,
+  `${BASE}work/solutions/kalkulacka-derat.webp`,
+  `${BASE}work/live/koverta.webp`,
+];
 
-  useEffect(() => {
-    const list = listRef.current;
-    if (!list) return undefined;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const rect = list.getBoundingClientRect();
-      const start = window.innerHeight * 0.85;
-      const progress = Math.min(1, Math.max(0, (start - rect.top) / (rect.height + start * 0.35)));
-      list.style.setProperty("--progress", progress.toFixed(3));
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
-  }, []);
+/* Ako na Koverte: zoznam krokov vľavo, vybraný krok vo veľkej karte vpravo.
+   Žiadna animácia viazaná na scroll — prepína sa kliknutím. */
+function Process() {
+  const [active, setActive] = useState(0);
+  const [index, title, copy] = process[active];
 
   return (
     <section
@@ -1097,25 +1102,42 @@ function Process() {
       aria-labelledby="sh-process-title"
     >
       <div className="sh-wrap sh-process__grid">
-        <header className="sh-head" data-reveal>
-          <Eyebrow>Ako to prebieha</Eyebrow>
-          <h2 id="sh-process-title">Od prvej správy po nástroj na vašom webe</h2>
-          <p>Najprv dostanete návrh a ukážku. Na web ide až to, čo si vyskúšate a schválite.</p>
+        <div className="sh-process__side">
+          <header className="sh-head" data-reveal>
+            <Eyebrow>Ako to prebieha</Eyebrow>
+            <h2 id="sh-process-title">Od prvej správy po nástroj na vašom webe</h2>
+            <p>Najprv dostanete návrh a ukážku. Na web ide až to, čo si vyskúšate a schválite.</p>
+          </header>
+          <ol className="sh-steps-tabs" role="tablist" aria-label="Kroky spolupráce">
+            {process.map(([stepIndex, stepTitle], order) => (
+              <li key={stepIndex}>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={order === active}
+                  data-active={order === active}
+                  onClick={() => setActive(order)}
+                >
+                  <small>{stepIndex}</small>
+                  {stepTitle}
+                </button>
+              </li>
+            ))}
+          </ol>
           <Link to="/postup" className="sh-link sh-link--dark">
             Celý postup <ArrowRight size={16} aria-hidden="true" />
           </Link>
-        </header>
-        <ol className="sh-timeline" ref={listRef}>
-          {process.map(([index, title, copy], order) => (
-            <li key={index} data-reveal style={{ "--d": order } as CSSProperties}>
-              <b>{index}</b>
-              <div>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        </div>
+        <article className="sh-step-card" key={index} role="tabpanel" aria-live="polite">
+          <div className="sh-step-card__media">
+            <img src={processImages[active]} alt="" loading="lazy" decoding="async" />
+          </div>
+          <div className="sh-step-card__body">
+            <b>{index}</b>
+            <h3>{title}</h3>
+            <p>{copy}</p>
+          </div>
+        </article>
       </div>
     </section>
   );
@@ -1205,34 +1227,6 @@ function Faq() {
   );
 }
 
-/* ---------------------------------------------------------------- closing */
-
-function Closing() {
-  return (
-    <section className="sh-closing" data-nav-tone="light" aria-labelledby="sh-closing-title">
-      <div className="sh-wrap">
-        <div className="sh-closing__card" data-reveal>
-          <div>
-            <h2 id="sh-closing-title">Chcete to aj na svoj web?</h2>
-            <p>
-              Pošlite odkaz na web a stručne napíšte, čo chcete zákazníkom zjednodušiť. Ozveme sa do
-              jedného pracovného dňa s konkrétnym návrhom.
-            </p>
-          </div>
-          <div className="sh-closing__actions">
-            <Link to="/kontakt" className="sh-btn sh-btn--lime">
-              Chcem návrh <ArrowRight size={18} aria-hidden="true" />
-            </Link>
-            <a href="tel:+421948699433" className="sh-link">
-              +421 948 699 433
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function StudioHome() {
   const rootRef = useRef<HTMLDivElement>(null);
   useReveal(rootRef);
@@ -1248,7 +1242,6 @@ export function StudioHome() {
       <Process />
       <Pricing />
       <Faq />
-      <Closing />
     </div>
   );
 }

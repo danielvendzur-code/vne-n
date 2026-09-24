@@ -9,7 +9,7 @@ test("homepage prices are authoritative in the markup, not patched into the DOM"
 
   assert.match(landing, /value: 347/);
   assert.match(landing, /value: 447/);
-  assert.match(landing, /value: 10,\s*lead: ""/);
+  assert.match(landing, /value: 10,\s*lead: "od "/);
   assert.match(landing, /const \[shown, setShown\] = useState\(value\)/);
 });
 

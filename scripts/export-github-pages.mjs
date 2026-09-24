@@ -47,7 +47,7 @@ for (const route of routes) {
 
   if (route === "/") {
     homeHtml = html;
-    if (!homeHtml.includes("mení návštevy na výsledky") || !homeHtml.includes("Všetko spolu")) {
+    if (!homeHtml.includes("mení návštevy") || !homeHtml.includes("Všetko spolu")) {
       throw new Error("Homepage export does not contain the current rebrand hero copy");
     }
     if (

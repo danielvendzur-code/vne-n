@@ -87,7 +87,7 @@ jobs:
           test -f pages-dist/sitemap.xml
           test -f pages-dist/brand/logo.svg
 
-          grep -Fq "mení návštevy na výsledky" pages-dist/index.html
+          grep -Fq "mení návštevy" pages-dist/index.html
           grep -Fq "Všetko spolu" pages-dist/index.html
           grep -Fq "Chatbot · produktový poradca" pages-dist/index.html
           grep -Fq "3D konfigurátor" pages-dist/3d-konfigurator/index.html

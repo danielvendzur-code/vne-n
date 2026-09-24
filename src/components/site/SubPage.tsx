@@ -52,7 +52,6 @@ export function ShPageHero({
       data-compact={compact || undefined}
       data-has-visual={visual ? "true" : undefined}
     >
-      <div className="sh-hero__glow" aria-hidden="true" />
       <div className="sh-wrap shp-hero__grid">
         <div className="shp-hero__copy">
           <Eyebrow tone="dark">{eyebrow}</Eyebrow>

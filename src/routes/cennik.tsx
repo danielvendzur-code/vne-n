@@ -29,7 +29,7 @@ const pricing = [
     index: "01",
     name: "Chatbot / produktový poradca",
     setup: "od 347 €",
-    monthly: "10 € / mesiac",
+    monthly: "od 10 € / mesiac",
     copy: "Odpovedá na otázky, pomáha s výberom a môže zákazníka posunúť priamo na vhodný produkt alebo ďalší krok.",
     preset: "advisor" as const,
   },
@@ -37,7 +37,7 @@ const pricing = [
     index: "02",
     name: "Kalkulačka",
     setup: "od 447 €",
-    monthly: "10 € / mesiac",
+    monthly: "od 10 € / mesiac",
     copy: "Samostatný výpočet ceny, spotreby alebo rozsahu podľa vašich pravidiel. Chatbot nie je podmienkou.",
     preset: "calculator" as const,
   },
@@ -45,7 +45,7 @@ const pricing = [
     index: "03",
     name: "Krokový konfigurátor",
     setup: "od 447 €",
-    monthly: "10 € / mesiac",
+    monthly: "od 10 € / mesiac",
     copy: "Samostatný krokový výber produktu alebo služby s variantmi, rozmermi, farbami a doplnkami — bez 3D modelu.",
     preset: "product" as const,
   },
@@ -102,7 +102,7 @@ function PricingPage() {
             </div>
             <div className="shp-price-fact" data-reveal style={{ "--d": 2 } as CSSProperties}>
               <span>Technická prevádzka</span>
-              <strong>10 €</strong>
+              <strong>od 10 €</strong>
               <small>mesačne pri štandardných riešeniach</small>
             </div>
           </div>
