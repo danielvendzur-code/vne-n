@@ -28,8 +28,8 @@ body .site-header .site-nav a:focus-visible {
   color: #071b15 !important;
   transform: translateY(-1px);
 }
-body:has(.hybrid-home) .site-header .site-nav a:hover,
-body:has(.hybrid-home) .site-header .site-nav a:focus-visible {
+html:root body .site-theme-white-green .site-header .site-nav.site-nav a:hover,
+html:root body .site-theme-white-green .site-header .site-nav.site-nav a:focus-visible {
   background: #c8f06a !important;
   color: #071b15 !important;
 }

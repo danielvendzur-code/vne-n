@@ -13,6 +13,18 @@ function normalizePath(pathname: string): string {
 export function Breadcrumbs() {
   const pathname = normalizePath(useRouterState({ select: (state) => state.location.pathname }));
 
+  if (pathname === "/3d-konfigurator") {
+    return (
+      <nav className="site-breadcrumbs" aria-label="Drobečková navigácia">
+        <div className="container-page site-breadcrumbs__inner">
+          <Link to="/">Domov</Link>
+          <ChevronRight aria-hidden="true" size={13} />
+          <span aria-current="page">3D konfigurátor</span>
+        </div>
+      </nav>
+    );
+  }
+
   if (pathname !== "/projekty/derat") return null;
 
   return (

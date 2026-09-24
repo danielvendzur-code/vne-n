@@ -158,28 +158,23 @@ jobs:
             try {
               await noOverflow(page, `${label} homepage`);
               await checkNavigation(page, mobile);
-              const hero = page.locator('.kage-hero');
+              const hero = page.locator('.sh-hero');
               const h1 = hero.locator('h1');
               if (!(await hero.count()) || !(await h1.isVisible())) throw new Error('homepage hero missing');
-              const aria = cleanText(await h1.getAttribute('aria-label'));
-              if (aria !== 'Web, ktorý mení návštevy na výsledky.') {
-                throw new Error(`unexpected homepage headline: ${aria}`);
+              const headline = cleanText(await h1.textContent());
+              if (!headline.startsWith('Predajné nástroje na web,')) {
+                throw new Error(`unexpected homepage headline: ${headline}`);
               }
               const h1Box = await h1.boundingBox();
               if (!h1Box || h1Box.x < -2 || h1Box.x + h1Box.width > viewport.width + 2) {
                 throw new Error('homepage headline escapes viewport');
               }
-              const cases = page.locator('.hybrid-hero__case');
-              if ((await cases.count()) !== 3) throw new Error(`hero realization count ${await cases.count()}`);
-              for (let index = 0; index < 3; index += 1) {
-                const item = cases.nth(index);
-                const box = await item.boundingBox();
-                if (!box || box.width < 90 || box.height < 65) throw new Error(`hero realization ${index + 1} invalid geometry`);
-                const image = item.locator('img').first();
-                const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
-                if (!loaded) throw new Error(`hero realization ${index + 1} image not loaded`);
-              }
-              const cta = page.locator('.hybrid-hero__primary');
+              const stage = page.locator('.sh-browser__view img[data-active="true"]').first();
+              const stageBox = await stage.boundingBox();
+              if (!stageBox || stageBox.width < 200 || stageBox.height < 100) throw new Error('hero configurator preview invalid geometry');
+              const loaded = await stage.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
+              if (!loaded) throw new Error('hero configurator preview image not loaded');
+              const cta = page.locator('.sh-hero__actions .sh-btn--lime');
               if (!(await cta.count()) || !(await cta.isVisible())) throw new Error('homepage primary CTA missing');
               await shot(page, `${label}-homepage`, false);
             } finally {
@@ -194,12 +189,21 @@ jobs:
               for (const width of widths) {
                 await page.setViewportSize({ width, height: 844 });
                 await page.waitForTimeout(120);
-                const state = await page.locator('.kage-hero h1').evaluate((heading) => {
+                const state = await page.locator('.sh-hero h1').evaluate((heading) => {
                   const viewportWidth = document.documentElement.clientWidth;
-                  const glyphs = Array.from(heading.querySelectorAll('.typed-character')).map((glyph) => {
-                    const rect = glyph.getBoundingClientRect();
-                    return { text: glyph.textContent || '', left: rect.left, right: rect.right };
-                  });
+                  const glyphs = [];
+                  const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+                  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+                    const text = node.textContent || '';
+                    for (let index = 0; index < text.length; index += 1) {
+                      if (!text[index].trim()) continue;
+                      const range = document.createRange();
+                      range.setStart(node, index);
+                      range.setEnd(node, index + 1);
+                      const rect = range.getBoundingClientRect();
+                      glyphs.push({ text: text[index], left: rect.left, right: rect.right });
+                    }
+                  }
                   const rect = heading.getBoundingClientRect();
                   return { viewportWidth, left: rect.left, right: rect.right, glyphs };
                 });

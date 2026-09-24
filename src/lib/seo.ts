@@ -9,6 +9,9 @@ interface SeoOptions {
   /** Route path starting with "/", e.g. "/sluzby". */
   path: string;
   noindex?: boolean;
+  /** Absolútna alebo koreňová cesta k obrázku 1200 × 630 pre zdieľanie. */
+  image?: string;
+  imageAlt?: string;
 }
 
 /**
@@ -26,9 +29,21 @@ function withBrand(title: string): string {
  * Builds the per-route head payload: title, description, canonical and
  * social cards with absolute URLs.
  */
-export function seo({ title, description, path, noindex }: SeoOptions) {
+export function seo({
+  title,
+  description,
+  path,
+  noindex,
+  image: customImage,
+  imageAlt,
+}: SeoOptions) {
   const canonical = path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`;
-  const image = `${SITE_URL}/og/og-home.png`;
+  const image = customImage
+    ? customImage.startsWith("http")
+      ? customImage
+      : `${SITE_URL}${customImage}`
+    : `${SITE_URL}/og/og-home.png`;
+  const alt = imageAlt ?? "Môj Chatbot — chatboty, kalkulačky a 3D konfigurátory na mieru";
   const fullTitle = withBrand(title);
 
   return {
@@ -38,6 +53,8 @@ export function seo({ title, description, path, noindex }: SeoOptions) {
       ...(noindex
         ? [{ name: "robots", content: "noindex, nofollow" }]
         : [{ name: "robots", content: "index, follow, max-image-preview:large" }]),
+      { property: "og:site_name", content: siteConfig.brand },
+      { property: "og:locale", content: "sk_SK" },
       { property: "og:title", content: fullTitle },
       { property: "og:description", content: description },
       { property: "og:url", content: canonical },
@@ -45,12 +62,12 @@ export function seo({ title, description, path, noindex }: SeoOptions) {
       { property: "og:image", content: image },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Môj Chatbot — chatboty na mieru pre firemné weby" },
+      { property: "og:image:alt", content: alt },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: fullTitle },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: image },
-      { name: "twitter:image:alt", content: "Môj Chatbot — chatboty na mieru pre firemné weby" },
+      { name: "twitter:image:alt", content: alt },
     ],
     links: [{ rel: "canonical", href: canonical }],
   };

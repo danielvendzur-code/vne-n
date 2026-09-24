@@ -17,7 +17,7 @@ export interface Realization {
   image: string;
   alt: string;
   /** Voliteľná interná prípadová štúdia. */
-  caseStudyPath?: "/projekty/derat";
+  caseStudyPath?: "/projekty/derat" | "/3d-konfigurator";
 }
 
 export const realizations: Realization[] = [
@@ -30,7 +30,7 @@ export const realizations: Realization[] = [
     detail:
       "Reálne nasadená deratizačná služba. Návštevník vyberie typ problému a rozsah zásahu, dostane orientačný výsledok a firma prijme kontakt spolu s kontextom potrebným na ďalší krok.",
     image: `${import.meta.env.BASE_URL}work/live/derat.webp`,
-    alt: "Domovská stránka reálne nasadeného webu DERAT",
+    alt: "Domovská stránka DERAT s nadpisom Bez škodcov a kalkulačkou zásahu",
     caseStudyPath: "/projekty/derat",
   },
   {
@@ -42,18 +42,20 @@ export const realizations: Realization[] = [
     detail:
       "Produktový web s ponukou plotov, kde sa zákazník dostane od typu oplotenia k dopytu bez toho, aby musel telefonovať. Štruktúra ponuky, texty aj cesta ku kontaktu sú postavené tak, aby bolo jasné, čo si vybrať.",
     image: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
-    alt: "Domovská stránka Môj Plot s ponukou kvalitných plotov",
+    alt: "Domovská stránka Môj Plot s kategóriami plotov a hlavným bannerom",
   },
   {
     name: "Koverta",
-    type: "E-commerce · dopytový asistent",
+    type: "Výroba na mieru · 3D konfigurátor",
     domain: "koverta.sk",
     href: "https://koverta.sk/",
-    result: "Produktový web pre dom a záhradu doplnený o rýchly kontakt a asistenta.",
+    result:
+      "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
     detail:
-      "Web pre produkty do domu a záhrady. Popri katalógu tu beží asistent, ktorý sa zákazníka opýta na rozmery a použitie, takže dopyt príde s údajmi potrebnými na ponuku.",
-    image: `${import.meta.env.BASE_URL}work/portfolio/koverta.webp`,
-    alt: "Domovská stránka Koverta s modernou pergolou",
+      "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi potrebnými na ponuku.",
+    image: `${import.meta.env.BASE_URL}work/live/koverta.webp`,
+    alt: "Domovská stránka Koverta s bioklimatickou pergolou nad terasou",
+    caseStudyPath: "/3d-konfigurator",
   },
   {
     name: "WEBKO",

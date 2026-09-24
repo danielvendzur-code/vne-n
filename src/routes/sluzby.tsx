@@ -85,15 +85,15 @@ function ServicesPage() {
           </div>
           <figure className="subpage-hero-visual">
             <img
-              src={`${import.meta.env.BASE_URL}work/portfolio/koverta.webp`}
-              alt="Ukážka webu Koverta s interaktívnym konfigurátorom prístrešku"
+              src={`${import.meta.env.BASE_URL}work/koverta/konfigurator-pergola.webp`}
+              alt="3D konfigurátor Koverta: bioklimatická pergola s posedením a výberom umiestnenia"
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              width={1440}
-              height={1000}
+              width={1600}
+              height={841}
             />
-            <figcaption>Ukážka riešenia / Koverta</figcaption>
+            <figcaption>3D konfigurátor / Koverta</figcaption>
           </figure>
         </div>
       </header>

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { KageLanding } from "@/components/site/KageLanding";
+import { StudioHome } from "@/components/site/StudioHome";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -22,7 +22,21 @@ const serviceJsonLd = JSON.stringify({
   url: `${SITE_URL}/`,
   image: `${SITE_URL}/og/og-home.png`,
   serviceType:
-    "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami",
+    "Chatboty, cenové kalkulačky, 3D konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami",
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Chatbot alebo produktový poradca",
+      price: "347",
+      priceCurrency: "EUR",
+    },
+    {
+      "@type": "Offer",
+      name: "Cenová kalkulačka alebo konfigurátor",
+      price: "447",
+      priceCurrency: "EUR",
+    },
+  ],
   provider: {
     "@type": "Organization",
     name: siteConfig.legal.operator,
@@ -41,6 +55,7 @@ const serviceJsonLd = JSON.stringify({
     "chatbot pre služby",
     "výpočet ceny na webe",
     "produktový konfigurátor",
+    "3D konfigurátor",
     "produktový poradca",
     "kvalifikácia dopytov",
     "asistovaný výber produktov",
@@ -63,9 +78,9 @@ const portfolioJsonLd = JSON.stringify({
 export const Route = createFileRoute("/")({
   head: () => ({
     ...seo({
-      title: "Digitálne predajné nástroje na mieru — Môj Chatbot",
+      title: "Chatbot, cenová kalkulačka a 3D konfigurátor na web | Môj Chatbot",
       description:
-        "Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru pre e-shopy aj firmy so službami. Od otázky k výsledku.",
+        "Navrhneme a nasadíme chatbota, cenovú kalkulačku, 3D konfigurátor alebo produktového poradcu na váš web. Od 347 €, ukážka pred nasadením, ozveme sa do 1 dňa.",
       path: "/",
     }),
     scripts: [
@@ -78,5 +93,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return <KageLanding />;
+  return <StudioHome />;
 }

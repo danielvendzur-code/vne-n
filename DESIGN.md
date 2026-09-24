@@ -42,4 +42,4 @@ Use the existing Inter Tight stack. Display type is tightly tracked, balanced an
 
 ## Guardrails
 
-No purple AI gradients, fake testimonials, fake statistics, stock photography, 3D configurator claims, repeated equal cards, decorative marquees or generic contact forms. All visible copy is natural Slovak and describes concrete inputs, decisions or outputs.
+No purple AI gradients, fake testimonials, fake statistics, stock photography, 3D configurator claims beyond the real Koverta configurator shown with genuine screenshots, repeated equal cards, decorative marquees or generic contact forms. All visible copy is natural Slovak and describes concrete inputs, decisions or outputs.

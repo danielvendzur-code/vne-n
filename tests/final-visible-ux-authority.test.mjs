@@ -7,7 +7,7 @@ const css = readFileSync(
   "utf8",
 );
 const landing = readFileSync(
-  new URL("../src/components/site/KageLanding.tsx", import.meta.url),
+  new URL("../src/components/site/StudioHome.tsx", import.meta.url),
   "utf8",
 );
 const layout = readFileSync(new URL("../src/components/site/Layout.tsx", import.meta.url), "utf8");
@@ -23,23 +23,6 @@ test("desktop solutions keep independent readable columns and strong CTAs", () =
     css,
     /\.site-nav[\s\S]*border: 0 !important[\s\S]*background: transparent !important/,
   );
-});
-
-test("flow chapter uses normal page scroll without wheel takeover", () => {
-  const rework = readFileSync(
-    new URL("../src/components/site/HomepageReworkSep07.css", import.meta.url),
-    "utf8",
-  );
-
-  assert.doesNotMatch(layout, /FlowScrollTuner|FlowSnapFinal/);
-  assert.doesNotMatch(
-    landing,
-    /window\.scrollTo\(|stopImmediatePropagation|addEventListener\("wheel"/,
-  );
-  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
-  assert.match(landing, /className="kage-flow-story__sticky"/);
-  assert.match(rework, /\.kage-home \.kage-flow-story__sticky \{[\s\S]*position:\s*sticky/);
-  assert.match(rework, /touch-action:\s*pan-y/);
 });
 
 test("contact and mobile header have explicit alignment authority", () => {

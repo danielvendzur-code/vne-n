@@ -9,6 +9,7 @@ type NavTone = "dark" | "light";
 
 const desktopLinks = [
   { label: "Riešenia", href: "/sluzby" },
+  { label: "3D konfigurátor", href: "/3d-konfigurator" },
   { label: "Realizácie", href: "/projekty" },
   { label: "Ako to funguje", href: "/postup" },
   { label: "Cenník", href: "/cennik" },
@@ -17,10 +18,11 @@ const desktopLinks = [
 
 const mobileLinks = [
   { index: "01", label: "Riešenia", href: "/sluzby" },
-  { index: "02", label: "Realizácie", href: "/projekty" },
-  { index: "03", label: "Ako to funguje", href: "/postup" },
-  { index: "04", label: "Cenník", href: "/cennik" },
-  { index: "05", label: "Kontakt", to: "/kontakt" as const },
+  { index: "02", label: "3D konfigurátor", href: "/3d-konfigurator" },
+  { index: "03", label: "Realizácie", href: "/projekty" },
+  { index: "04", label: "Ako to funguje", href: "/postup" },
+  { index: "05", label: "Cenník", href: "/cennik" },
+  { index: "06", label: "Kontakt", to: "/kontakt" as const },
 ];
 
 function sectionTone(section: HTMLElement | undefined): NavTone | null {
