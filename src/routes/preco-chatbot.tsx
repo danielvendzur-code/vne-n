@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ShClosing, ShPage, ShPageHero, ShSectionHead } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
-import "./subpage-hero-refresh.css";
 
 export const Route = createFileRoute("/preco-chatbot")({
   head: () => ({
@@ -47,74 +48,56 @@ const outcomes = [
 
 function WhyPage() {
   return (
-    <div className="sp-page why-page">
-      <header className="sp-hero">
-        <div className="container-page">
-          <div className="subpage-hero-copy">
-            <p className="section-kicker">PREČO TO FUNGUJE</p>
-            <h1>
-              Menej slepých miest medzi otázkou a <em>ďalším krokom.</em>
-            </h1>
-            <p className="sp-hero-lead">
-              Hodnota nie je v tom, že na webe „je AI“. Hodnota je v tom, že človek vie rýchlejšie
-              zistiť, vybrať alebo vypočítať to, čo potrebuje.
-            </p>
-          </div>
-          <figure className="subpage-hero-visual">
-            <img
-              src={`${import.meta.env.BASE_URL}work/live/webko.webp`}
-              alt="Ukážka živého projektu WEBKO s predajným webovým rozhraním"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              width={1440}
-              height={1000}
-            />
-            <figcaption>Živá realizácia / WEBKO</figcaption>
-          </figure>
-        </div>
-      </header>
+    <ShPage>
+      <ShPageHero
+        eyebrow="Prečo to funguje"
+        title="Menej slepých miest medzi otázkou"
+        accent="a ďalším krokom."
+        lead="Hodnota nie je v tom, že na webe „je AI“. Hodnota je v tom, že človek vie rýchlejšie zistiť, vybrať alebo vypočítať to, čo potrebuje."
+        visual={{
+          src: `${import.meta.env.BASE_URL}work/solutions/poradca-kava.webp`,
+          alt: "Produktový poradca pre e-shop s kávou: výber chuti cez štyri otázky",
+          width: 640,
+          height: 1116,
+          portrait: true,
+        }}
+      />
 
-      <section className="sp-section">
-        <div className="container-page process-list">
-          {outcomes.map((item) => (
-            <article className="benefit-row" key={item.index}>
-              <span>{item.index}</span>
-              <div>
-                <h2>{item.title}</h2>
+      <section className="sh-section">
+        <div className="sh-wrap">
+          <ShSectionHead eyebrow="Čo sa zmení" title="Štyri veci, ktoré web začne robiť za vás" />
+          <div className="shp-grid-4">
+            {outcomes.map((item, index) => (
+              <article
+                className={`shp-card${index === 3 ? " shp-card--dark" : ""}`}
+                key={item.index}
+                data-reveal
+                style={{ "--d": index } as CSSProperties}
+              >
+                <span className="shp-num">{item.index}</span>
+                <h2 className="shp-card__title">{item.title}</h2>
                 <p>{item.copy}</p>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="pricing-bridge">
-        <div className="container-page pricing-bridge__grid">
-          <div>
-            <p className="section-kicker">PRE KOHO TO JE</p>
-            <h2 className="section-title">
-              Má to zmysel <em>u vás?</em>
-            </h2>
-          </div>
-          <div>
-            <p>
-              Najrýchlejšie to zistíme z vášho konkrétneho procesu. Popíšte, čo zákazník potrebuje a
-              čo dnes vybavujete ručne.
-            </p>
-            <button
-              type="button"
-              className="button-primary"
-              onClick={() => openSiteAssistant({ source: "why-page" })}
-            >
-              Vyskladať riešenie <ArrowRight size={15} />
-            </button>
-            <Link to="/projekty" className="text-link pricing-inline-link">
-              Realizácie <ArrowRight size={15} />
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+      <ShClosing
+        title="Má to zmysel u vás?"
+        copy="Najrýchlejšie to zistíme z vášho konkrétneho procesu. Popíšte, čo zákazník potrebuje a čo dnes vybavujete ručne."
+      >
+        <button
+          type="button"
+          className="sh-btn sh-btn--lime"
+          onClick={() => openSiteAssistant({ source: "why-page" })}
+        >
+          Vyskladať riešenie <ArrowRight size={18} aria-hidden="true" />
+        </button>
+        <Link to="/projekty" className="sh-link">
+          Realizácie
+        </Link>
+      </ShClosing>
+    </ShPage>
   );
 }

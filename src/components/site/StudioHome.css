@@ -33,7 +33,7 @@
   box-sizing: border-box;
 }
 
-.sh img {
+.sh img:not(.kage-hero *, .kage-flow-story *) {
   display: block;
   max-width: 100%;
 }
@@ -44,9 +44,10 @@
   padding-inline: var(--sh-gutter);
 }
 
-.sh h1,
-.sh h2,
-.sh h3 {
+/* Pôvodný hero a horizontálny príbeh majú vlastnú typografiu. */
+.sh h1:not(.kage-hero *, .kage-flow-story *),
+.sh h2:not(.kage-hero *, .kage-flow-story *),
+.sh h3:not(.kage-hero *, .kage-flow-story *) {
   margin: 0;
   color: inherit;
   font-family: var(--font-display);
@@ -54,23 +55,23 @@
   text-wrap: balance;
 }
 
-.sh h2 {
+.sh h2:not(.kage-hero *, .kage-flow-story *) {
   font-size: clamp(1.9rem, 3.1vw, 2.85rem);
   line-height: 1.06;
   letter-spacing: -0.035em;
 }
 
-.sh h3 {
+.sh h3:not(.kage-hero *, .kage-flow-story *) {
   font-size: clamp(1.2rem, 1.45vw, 1.4rem);
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
-.sh p {
+.sh p:not(.kage-hero *, .kage-flow-story *) {
   margin: 0;
 }
 
-.sh em {
+.sh em:not(.kage-hero *, .kage-flow-story *) {
   font-style: normal;
 }
 
@@ -1703,5 +1704,200 @@
   .sh .sh-mock--chat p {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ---------------------------------------------------- restored hero glue */
+
+/* Pôvodný hero nemá prekrývajúcu kartu, lišta faktov preto začína pod ním. */
+.kage-home .sh-facts {
+  margin-top: 0;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* --------------------------------------------------- tool screenshots */
+
+.sh-card--tool {
+  display: flex;
+  flex-direction: column;
+}
+
+.sh-shot {
+  position: relative;
+  overflow: hidden;
+  height: clamp(15rem, 22vw, 19rem);
+  margin: 0.6rem 0.6rem 0;
+  border-radius: calc(var(--sh-radius) - 8px);
+  background:
+    radial-gradient(90% 90% at 50% 0%, rgba(200, 240, 106, 0.28), transparent 70%), #e8ece4;
+}
+
+.sh-shot img {
+  position: absolute;
+  left: 50%;
+  top: 1.1rem;
+  width: min(78%, 17rem);
+  height: auto;
+  border-radius: 18px;
+  box-shadow:
+    0 24px 50px -24px rgba(11, 35, 28, 0.55),
+    0 0 0 1px rgba(11, 35, 28, 0.08);
+  transform: translateX(-50%);
+  transition: transform 1100ms var(--sh-ease);
+}
+
+.sh-card:hover .sh-shot img {
+  transform: translateX(-50%) translateY(-6%);
+}
+
+/* Karta kalkulačky stojí vedľa 3D konfigurátora a je vyššia. */
+.sh-bento > .sh-card--tool:nth-child(2) .sh-shot {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 16rem;
+}
+
+/* ------------------------------------------------------- combinations */
+
+.sh-combo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+  align-items: center;
+  gap: 1.5rem clamp(1.5rem, 4vw, 3.5rem);
+  margin-top: 1rem;
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  border-radius: var(--sh-radius);
+  background: var(--sh-forest);
+  color: #f5f4ed;
+}
+
+.sh .sh-combo h3 {
+  color: #f5f4ed;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+}
+
+.sh-combo__intro p {
+  margin-top: 0.6rem;
+  color: rgba(245, 244, 237, 0.74);
+  font-size: 1rem;
+}
+
+.sh-combo__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sh-combo__list button {
+  position: relative;
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  min-height: 84px;
+  padding: 1rem 3rem 1rem 1.1rem;
+  border: 1px solid rgba(245, 244, 237, 0.16);
+  border-radius: 16px;
+  background: rgba(245, 244, 237, 0.06);
+  color: #f5f4ed;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    transform 400ms var(--sh-ease);
+}
+
+.sh-combo__list button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(200, 240, 106, 0.55);
+  background: rgba(245, 244, 237, 0.1);
+}
+
+.sh-combo__list strong {
+  font-size: 1.0625rem;
+  font-weight: 650;
+}
+
+.sh-combo__list span {
+  color: rgba(245, 244, 237, 0.7);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.sh-combo__list svg {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--sh-lime);
+  transition: transform 400ms var(--sh-ease);
+}
+
+.sh-combo__list button:hover svg {
+  transform: rotate(45deg);
+}
+
+.sh-combo__list li[data-all="true"] button {
+  border-color: transparent;
+  background: var(--sh-lime);
+  color: #0a1f18;
+}
+
+.sh-combo__list li[data-all="true"] span {
+  color: rgba(10, 31, 24, 0.75);
+}
+
+.sh-combo__list li[data-all="true"] svg {
+  color: #0a1f18;
+}
+
+/* ------------------------------------------------- sticky FAQ heading */
+
+/* Ako na Koverte: ľavý text ostáva na mieste, otázky sa posúvajú vedľa. */
+.sh-faq__grid .sh-head {
+  position: sticky;
+  top: calc(var(--header-h, 76px) + 2rem);
+  align-self: start;
+}
+
+@media (max-width: 1080px) {
+  .sh-faq__grid .sh-head {
+    position: static;
+  }
+
+  .sh-combo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .sh-combo__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sh-shot {
+    height: 17rem;
+  }
+}
+
+/* Štyri režimy príbehu sa na mobile posúvajú v jednom riadku. */
+@media (max-width: 720px) {
+  html body .kage-home .kage-flow-story__modes {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    scrollbar-width: none;
+  }
+
+  html body .kage-home .kage-flow-story__modes button {
+    flex: none !important;
+    width: auto !important;
+    padding-inline: 0.65rem !important;
+    white-space: nowrap !important;
   }
 }

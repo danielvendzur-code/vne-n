@@ -11,6 +11,7 @@ const sourceSha = process.env.GITHUB_SHA || "local";
 const routes = [
   "/",
   "/navrh",
+  "/3d-konfigurator",
   "/sluzby",
   "/projekty",
   "/projekty/derat",
@@ -46,7 +47,7 @@ for (const route of routes) {
 
   if (route === "/") {
     homeHtml = html;
-    if (!homeHtml.includes("Z otázky") || !homeHtml.includes("k výsledku")) {
+    if (!homeHtml.includes("mení návštevy na výsledky") || !homeHtml.includes("Všetko spolu")) {
       throw new Error("Homepage export does not contain the current rebrand hero copy");
     }
     if (

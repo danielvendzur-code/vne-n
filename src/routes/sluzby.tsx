@@ -1,11 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ShClosing, ShPage, ShPageHero, ShSectionHead } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import type { AssistantPreset } from "@/types/assistant";
-import "./subpage-hero-refresh.css";
-import "./sales-pages-refinement.css";
-import "./services-hero-restore.css";
 
 export const Route = createFileRoute("/sluzby")({
   head: () => ({
@@ -68,47 +67,83 @@ const tools: Array<{
   },
 ];
 
+const audiences = [
+  {
+    index: "01",
+    title: "Firmy so službami",
+    copy: "Keď cenu alebo zadanie nemožno vyriešiť jedným statickým formulárom. Typicky pomôže kalkulačka, krátky krokový konfigurátor alebo chatbot, ktorý zozbiera presné podklady.",
+    tags: [
+      "orientačný výpočet",
+      "presné zadanie dopytu",
+      "výber variantu služby",
+      "vysvetlenie možností",
+    ],
+    cta: "Riešenie pre služby",
+    preset: "calculator" as const,
+  },
+  {
+    index: "02",
+    title: "E-shopy",
+    copy: "Keď má zákazník veľa produktov, parametrov alebo variantov a nevie, ktorý zvoliť. Najčastejšie pomôže produktový poradca alebo riadený výber podľa konkrétnych potrieb.",
+    tags: [
+      "produktový poradca",
+      "výber kompatibilného variantu",
+      "produktové otázky",
+      "prechod na konkrétny produkt",
+    ],
+    cta: "Riešenie pre e-shop",
+    preset: "advisor" as const,
+  },
+];
+
 function ServicesPage() {
   return (
-    <div className="sp-page services-page services-page--image-hero">
-      <header className="sp-hero">
-        <div className="container-page">
-          <div className="subpage-hero-copy">
-            <p className="section-kicker">ČO TVORÍME</p>
-            <h1>
-              Nástroje, ktoré posunú zákazníka <em>k výsledku.</em>
-            </h1>
-            <p className="sp-hero-lead">
-              Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť,
-              vypočítať, vybrať alebo odoslať.
-            </p>
-          </div>
-          <figure className="subpage-hero-visual">
-            <img
-              src={`${import.meta.env.BASE_URL}work/koverta/konfigurator-pergola.webp`}
-              alt="3D konfigurátor Koverta: bioklimatická pergola s posedením a výberom umiestnenia"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              width={1600}
-              height={841}
-            />
-            <figcaption>3D konfigurátor / Koverta</figcaption>
-          </figure>
-        </div>
-      </header>
+    <ShPage>
+      <ShPageHero
+        eyebrow="Čo tvoríme"
+        title="Nástroje, ktoré posunú zákazníka"
+        accent="k výsledku."
+        lead="Nezačíname technológiou. Najprv určujeme, čo má človek na vašom webe zistiť, vypočítať, vybrať alebo odoslať."
+        visual={{
+          src: `${import.meta.env.BASE_URL}work/koverta/konfigurator-pergola.webp`,
+          alt: "3D konfigurátor Koverta: bioklimatická pergola s posedením a výberom umiestnenia",
+          width: 1600,
+          height: 841,
+          caption: "3D konfigurátor / Koverta",
+        }}
+      />
 
-      <section className="sp-section">
-        <div className="container-page tool-rows">
-          {tools.map((tool) => (
-            <article className="sp-service" key={tool.name}>
-              <div className="sp-service-head">
-                <span className="sp-service-index">{tool.index}</span>
-                <h2>{tool.name}</h2>
+      <section className="sh-section">
+        <div className="sh-wrap">
+          <ShSectionHead
+            eyebrow="Nástroje"
+            title="Štyri nástroje. Samostatne, v kombinácii aj všetky spolu."
+            lead="Každý rieši iné rozhodnutie zákazníka. Keď to dáva zmysel, spojíme ich do jedného rozhrania."
+          />
+          <div className="shp-grid-2">
+            {tools.map((tool, index) => (
+              <article
+                className="shp-card"
+                key={tool.name}
+                data-reveal
+                style={{ "--d": index % 2 } as CSSProperties}
+              >
+                <span className="shp-num">{tool.index}</span>
+                <h2 className="shp-card__title">{tool.name}</h2>
                 <p>{tool.copy}</p>
+                <ul className="shp-rows">
+                  <li>
+                    <b>Zákazník</b>
+                    <span>{tool.customer}</span>
+                  </li>
+                  <li>
+                    <b>Firma</b>
+                    <span>{tool.business}</span>
+                  </li>
+                </ul>
                 <button
                   type="button"
-                  className="text-link"
+                  className="sh-btn sh-btn--dark sh-btn--sm"
                   onClick={() =>
                     openSiteAssistant({
                       source: `services-${tool.name.toLowerCase()}`,
@@ -117,132 +152,70 @@ function ServicesPage() {
                     })
                   }
                 >
-                  Vyskladať tento smer <ArrowRight size={15} />
+                  Vyskladať tento smer <ArrowUpRight size={16} aria-hidden="true" />
                 </button>
-              </div>
-              <div className="sp-service-rows">
-                <div className="sp-service-row">
-                  <span>Zákazník</span>
-                  <p>{tool.customer}</p>
-                </div>
-                <div className="sp-service-row">
-                  <span>Firma</span>
-                  <p>{tool.business}</p>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="sp-section services-audiences">
-        <div className="container-page services-audiences__intro">
-          <div>
-            <p className="section-kicker">PRE KOHO</p>
-            <h2>Iný problém pri službách. Iný pri e-shope.</h2>
-          </div>
-          <div>
-            <p>
-              Nástroj nevyberáme podľa názvu firmy, ale podľa rozhodnutia, ktoré má zákazník na webe
-              zvládnuť. Pri službách ide častejšie o cenu a presné zadanie; pri e-shope o výber
-              správneho produktu alebo variantu.
-            </p>
-          </div>
-        </div>
-
-        <div className="container-page services-audiences__list">
-          <article className="services-audience services-audience--services">
-            <div className="services-audience__heading">
-              <span>01</span>
-              <h3>Firmy so službami</h3>
-            </div>
-            <div className="services-audience__body">
-              <p>
-                Keď cenu alebo zadanie nemožno vyriešiť jedným statickým formulárom. Typicky pomôže
-                kalkulačka, krátky krokový konfigurátor alebo chatbot, ktorý zozbiera presné
-                podklady.
-              </p>
-              <ul>
-                <li>orientačný výpočet</li>
-                <li>presné zadanie dopytu</li>
-                <li>výber variantu služby</li>
-                <li>vysvetlenie možností</li>
-              </ul>
-            </div>
-            <button
-              type="button"
-              className="site-cta site-cta--secondary services-audience__action"
-              onClick={() =>
-                openSiteAssistant({
-                  source: "services-audience-services",
-                  preset: "calculator",
-                })
-              }
-            >
-              Riešenie pre služby <ArrowRight size={15} />
-            </button>
-          </article>
-
-          <article className="services-audience services-audience--shop">
-            <div className="services-audience__heading">
-              <span>02</span>
-              <h3>E-shopy</h3>
-            </div>
-            <div className="services-audience__body">
-              <p>
-                Keď má zákazník veľa produktov, parametrov alebo variantov a nevie, ktorý zvoliť.
-                Najčastejšie pomôže produktový poradca alebo riadený výber podľa konkrétnych
-                potrieb.
-              </p>
-              <ul>
-                <li>produktový poradca</li>
-                <li>výber kompatibilného variantu</li>
-                <li>produktové otázky</li>
-                <li>prechod na konkrétny produkt</li>
-              </ul>
-            </div>
-            <button
-              type="button"
-              className="site-cta site-cta--secondary services-audience__action"
-              onClick={() =>
-                openSiteAssistant({
-                  source: "services-audience-shop",
-                  preset: "advisor",
-                })
-              }
-            >
-              Riešenie pre e-shop <ArrowRight size={15} />
-            </button>
-          </article>
-        </div>
-      </section>
-
-      <section className="pricing-bridge">
-        <div className="container-page pricing-bridge__grid">
-          <div>
-            <p className="section-kicker">ĎALŠÍ KROK</p>
-            <h2 className="section-title">
-              Neviete, čo sa hodí <em>práve vám?</em>
-            </h2>
-          </div>
-          <div>
-            <p>
-              Stručne opíšte, čo dnes zákazníkom vysvetľujete, počítate alebo vyberáte. Navrhneme
-              najjednoduchší funkčný smer.
-            </p>
-            <button
-              type="button"
-              className="button-primary"
-              onClick={() => openSiteAssistant({ source: "services-final" })}
-            >
-              Vyskladať riešenie <ArrowRight size={15} />
-            </button>
-            <Link to="/kontakt" className="text-link" style={{ marginLeft: "1rem" }}>
-              Kontakt <ArrowRight size={15} />
-            </Link>
+              </article>
+            ))}
           </div>
         </div>
       </section>
-    </div>
+
+      <section className="sh-section shp-section--pure">
+        <div className="sh-wrap shp-split">
+          <ShSectionHead
+            eyebrow="Pre koho"
+            title="Iný problém pri službách. Iný pri e-shope."
+            lead="Nástroj nevyberáme podľa názvu firmy, ale podľa rozhodnutia, ktoré má zákazník na webe zvládnuť. Pri službách ide častejšie o cenu a presné zadanie; pri e-shope o výber správneho produktu alebo variantu."
+          />
+          <div className="shp-audiences">
+            {audiences.map((audience, index) => (
+              <article
+                className={`shp-card shp-audience${index === 0 ? " shp-card--dark" : ""}`}
+                key={audience.title}
+                data-reveal
+                style={{ "--d": index } as CSSProperties}
+              >
+                <span className="shp-num">{audience.index}</span>
+                <h3>{audience.title}</h3>
+                <p>{audience.copy}</p>
+                <ul className="shp-tags">
+                  {audience.tags.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  className={`sh-btn sh-btn--sm ${index === 0 ? "sh-btn--lime" : "sh-btn--dark"}`}
+                  onClick={() =>
+                    openSiteAssistant({
+                      source: `services-audience-${index === 0 ? "services" : "shop"}`,
+                      preset: audience.preset,
+                    })
+                  }
+                >
+                  {audience.cta} <ArrowRight size={16} aria-hidden="true" />
+                </button>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <ShClosing
+        title="Neviete, čo sa hodí práve vám?"
+        copy="Stručne opíšte, čo dnes zákazníkom vysvetľujete, počítate alebo vyberáte. Navrhneme najjednoduchší funkčný smer."
+      >
+        <button
+          type="button"
+          className="sh-btn sh-btn--lime"
+          onClick={() => openSiteAssistant({ source: "services-final" })}
+        >
+          Vyskladať riešenie <ArrowRight size={18} aria-hidden="true" />
+        </button>
+        <Link to="/kontakt" className="sh-link">
+          Kontakt
+        </Link>
+      </ShClosing>
+    </ShPage>
   );
 }

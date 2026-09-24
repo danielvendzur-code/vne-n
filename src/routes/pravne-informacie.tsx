@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Building2, Mail, ReceiptText, Scale, ShieldCheck } from "lucide-react";
-import { PageIntro, Reveal } from "@/components/site/motion-primitives";
+import { Reveal } from "@/components/site/motion-primitives";
+import { ShPage, ShPageHero } from "@/components/site/SubPage";
 import { siteConfig } from "@/config/site";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./cookies.css";
@@ -27,15 +28,13 @@ function LegalInformationPage() {
   const { legal, contact } = siteConfig;
 
   return (
-    <div className="cookies-page legal-information-page">
-      <PageIntro
+    <ShPage className="shp-legal cookies-page legal-information-page">
+      <ShPageHero
         eyebrow="Právne informácie"
-        title={
-          <>
-            Kto službu prevádzkuje <em>a kto je váš zmluvný partner.</em>
-          </>
-        }
+        title="Kto službu prevádzkuje"
+        accent="a kto je váš zmluvný partner."
         lead="Môj Chatbot je obchodná značka. Službu poskytuje a fakturuje Venaco s.r.o.; nižšie sú identifikačné údaje dostupné pred odoslaním dopytu aj pred uzatvorením spolupráce."
+        compact
       />
 
       <section className="cookies-section" id="prevadzkovatel">
@@ -160,6 +159,6 @@ function LegalInformationPage() {
           <small>Posledná aktualizácia: 6. septembra 2026</small>
         </div>
       </section>
-    </div>
+    </ShPage>
   );
 }

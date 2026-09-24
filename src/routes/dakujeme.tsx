@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ShPage, ShPageHero } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 
@@ -21,50 +23,52 @@ export const Route = createFileRoute("/dakujeme")({
   component: ThankYouPage,
 });
 
+const nextSteps = [
+  "Prejdeme zadanie a váš web.",
+  "Navrhneme najjednoduchší funkčný smer.",
+  "Dohodneme rozsah, cenu a ďalší krok.",
+];
+
 function ThankYouPage() {
   return (
-    <div className="thank-you-page">
-      <div className="container-page thank-you-page__inner">
-        <p className="section-kicker">ZADANIE PRIJATÉ</p>
-        <h1>
-          Máme <em>to.</em>
-        </h1>
-        <p className="thank-you-page__copy">
-          Zadanie je odoslané. Ozveme sa do jedného pracovného dňa s ďalším krokom a podľa rozsahu
-          aj s konkrétnou cenou.
-        </p>
+    <ShPage>
+      <ShPageHero
+        eyebrow="Zadanie prijaté"
+        title="Máme"
+        accent="to."
+        lead="Zadanie je odoslané. Ozveme sa do jedného pracovného dňa s ďalším krokom a podľa rozsahu aj s konkrétnou cenou."
+        compact
+      >
+        <Link to="/projekty" className="sh-btn sh-btn--lime">
+          Pozrieť realizácie <ArrowRight size={18} aria-hidden="true" />
+        </Link>
+        <button
+          type="button"
+          className="sh-btn sh-btn--ghost"
+          onClick={() => openSiteAssistant({ source: "thank-you" })}
+        >
+          Doplniť detail
+        </button>
+        <Link to="/" className="sh-link">
+          Späť na úvod
+        </Link>
+      </ShPageHero>
 
-        <div className="thank-you-page__next" aria-label="Čo bude nasledovať">
-          <div>
-            <span>01</span>
-            <p>Prejdeme zadanie a váš web.</p>
-          </div>
-          <div>
-            <span>02</span>
-            <p>Navrhneme najjednoduchší funkčný smer.</p>
-          </div>
-          <div>
-            <span>03</span>
-            <p>Dohodneme rozsah, cenu a ďalší krok.</p>
-          </div>
+      <section className="sh-section" aria-label="Čo bude nasledovať">
+        <div className="sh-wrap shp-grid-3">
+          {nextSteps.map((step, index) => (
+            <article
+              className="shp-card"
+              key={step}
+              data-reveal
+              style={{ "--d": index } as CSSProperties}
+            >
+              <span className="shp-num">0{index + 1}</span>
+              <h2 className="shp-card__title">{step}</h2>
+            </article>
+          ))}
         </div>
-
-        <div className="thank-you-page__actions">
-          <Link to="/projekty" className="button-primary">
-            Pozrieť realizácie <ArrowRight size={15} />
-          </Link>
-          <button
-            type="button"
-            className="text-link"
-            onClick={() => openSiteAssistant({ source: "thank-you" })}
-          >
-            Doplniť detail <ArrowRight size={15} />
-          </button>
-          <Link to="/" className="text-link">
-            Späť na úvod
-          </Link>
-        </div>
-      </div>
-    </div>
+      </section>
+    </ShPage>
   );
 }

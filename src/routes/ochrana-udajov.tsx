@@ -9,7 +9,8 @@ import {
   ShieldCheck,
   UserCheck,
 } from "lucide-react";
-import { PageIntro, Reveal } from "@/components/site/motion-primitives";
+import { Reveal } from "@/components/site/motion-primitives";
+import { ShPage, ShPageHero } from "@/components/site/SubPage";
 import { siteConfig } from "@/config/site";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
 import "./cookies.css";
@@ -108,15 +109,13 @@ function PrivacyPage() {
   ].filter((row) => row.value);
 
   return (
-    <div className="cookies-page">
-      <PageIntro
+    <ShPage className="shp-legal cookies-page">
+      <ShPageHero
         eyebrow="Súkromie"
-        title={
-          <>
-            Údaje používame iba na jasný účel. <em>Nie na predaj ani reklamnú databázu.</em>
-          </>
-        }
+        title="Údaje používame iba na jasný účel."
+        accent="Nie na predaj ani reklamnú databázu."
         lead="Táto stránka vysvetľuje, aké údaje spracúvame pri používaní webu, formulára, AI asistenta, analytiky a e-mailovej komunikácie."
+        compact
       />
 
       <section className="cookies-section">
@@ -288,6 +287,6 @@ function PrivacyPage() {
           <small>Posledná aktualizácia: 6. septembra 2026</small>
         </div>
       </section>
-    </div>
+    </ShPage>
   );
 }
