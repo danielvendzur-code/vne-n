@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SluzbyRouteImport } from './routes/sluzby'
 import { Route as PrecoChatbotRouteImport } from './routes/preco-chatbot'
+import { Route as PravneInformacieRouteImport } from './routes/pravne-informacie'
 import { Route as PostupRouteImport } from './routes/postup'
 import { Route as OchranaUdajovRouteImport } from './routes/ochrana-udajov'
 import { Route as NavrhRouteImport } from './routes/navrh'
@@ -19,8 +20,10 @@ import { Route as FarbyRouteImport } from './routes/farby'
 import { Route as DakujemeRouteImport } from './routes/dakujeme'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as CennikRouteImport } from './routes/cennik'
+import { Route as R3dKonfiguratorRouteImport } from './routes/3d-konfigurator'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
+import { Route as UkazkaSlugRouteImport } from './routes/ukazka/$slug'
 import { Route as ProjektyDeratRouteImport } from './routes/projekty.derat'
 import { Route as ApiLeadRouteImport } from './routes/api.lead'
 
@@ -32,6 +35,11 @@ const SluzbyRoute = SluzbyRouteImport.update({
 const PrecoChatbotRoute = PrecoChatbotRouteImport.update({
   id: '/preco-chatbot',
   path: '/preco-chatbot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PravneInformacieRoute = PravneInformacieRouteImport.update({
+  id: '/pravne-informacie',
+  path: '/pravne-informacie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PostupRoute = PostupRouteImport.update({
@@ -74,6 +82,11 @@ const CennikRoute = CennikRouteImport.update({
   path: '/cennik',
   getParentRoute: () => rootRouteImport,
 } as any)
+const R3dKonfiguratorRoute = R3dKonfiguratorRouteImport.update({
+  id: '/3d-konfigurator',
+  path: '/3d-konfigurator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -82,6 +95,11 @@ const IndexRoute = IndexRouteImport.update({
 const ProjektyIndexRoute = ProjektyIndexRouteImport.update({
   id: '/projekty/',
   path: '/projekty/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UkazkaSlugRoute = UkazkaSlugRouteImport.update({
+  id: '/ukazka/$slug',
+  path: '/ukazka/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjektyDeratRoute = ProjektyDeratRouteImport.update({
@@ -97,6 +115,7 @@ const ApiLeadRoute = ApiLeadRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/3d-konfigurator': typeof R3dKonfiguratorRoute
   '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
   '/dakujeme': typeof DakujemeRoute
@@ -105,14 +124,17 @@ export interface FileRoutesByFullPath {
   '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
+  '/pravne-informacie': typeof PravneInformacieRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
   '/projekty/derat': typeof ProjektyDeratRoute
+  '/ukazka/$slug': typeof UkazkaSlugRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/3d-konfigurator': typeof R3dKonfiguratorRoute
   '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
   '/dakujeme': typeof DakujemeRoute
@@ -121,15 +143,18 @@ export interface FileRoutesByTo {
   '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
+  '/pravne-informacie': typeof PravneInformacieRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
   '/projekty/derat': typeof ProjektyDeratRoute
+  '/ukazka/$slug': typeof UkazkaSlugRoute
   '/projekty': typeof ProjektyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/3d-konfigurator': typeof R3dKonfiguratorRoute
   '/cennik': typeof CennikRoute
   '/cookies': typeof CookiesRoute
   '/dakujeme': typeof DakujemeRoute
@@ -138,16 +163,19 @@ export interface FileRoutesById {
   '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
+  '/pravne-informacie': typeof PravneInformacieRoute
   '/preco-chatbot': typeof PrecoChatbotRoute
   '/sluzby': typeof SluzbyRoute
   '/api/lead': typeof ApiLeadRoute
   '/projekty/derat': typeof ProjektyDeratRoute
+  '/ukazka/$slug': typeof UkazkaSlugRoute
   '/projekty/': typeof ProjektyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/3d-konfigurator'
     | '/cennik'
     | '/cookies'
     | '/dakujeme'
@@ -156,14 +184,17 @@ export interface FileRouteTypes {
     | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
+    | '/pravne-informacie'
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
     | '/projekty/derat'
+    | '/ukazka/$slug'
     | '/projekty/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/3d-konfigurator'
     | '/cennik'
     | '/cookies'
     | '/dakujeme'
@@ -172,14 +203,17 @@ export interface FileRouteTypes {
     | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
+    | '/pravne-informacie'
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
     | '/projekty/derat'
+    | '/ukazka/$slug'
     | '/projekty'
   id:
     | '__root__'
     | '/'
+    | '/3d-konfigurator'
     | '/cennik'
     | '/cookies'
     | '/dakujeme'
@@ -188,15 +222,18 @@ export interface FileRouteTypes {
     | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
+    | '/pravne-informacie'
     | '/preco-chatbot'
     | '/sluzby'
     | '/api/lead'
     | '/projekty/derat'
+    | '/ukazka/$slug'
     | '/projekty/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R3dKonfiguratorRoute: typeof R3dKonfiguratorRoute
   CennikRoute: typeof CennikRoute
   CookiesRoute: typeof CookiesRoute
   DakujemeRoute: typeof DakujemeRoute
@@ -205,10 +242,12 @@ export interface RootRouteChildren {
   NavrhRoute: typeof NavrhRoute
   OchranaUdajovRoute: typeof OchranaUdajovRoute
   PostupRoute: typeof PostupRoute
+  PravneInformacieRoute: typeof PravneInformacieRoute
   PrecoChatbotRoute: typeof PrecoChatbotRoute
   SluzbyRoute: typeof SluzbyRoute
   ApiLeadRoute: typeof ApiLeadRoute
   ProjektyDeratRoute: typeof ProjektyDeratRoute
+  UkazkaSlugRoute: typeof UkazkaSlugRoute
   ProjektyIndexRoute: typeof ProjektyIndexRoute
 }
 
@@ -226,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/preco-chatbot'
       fullPath: '/preco-chatbot'
       preLoaderRoute: typeof PrecoChatbotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pravne-informacie': {
+      id: '/pravne-informacie'
+      path: '/pravne-informacie'
+      fullPath: '/pravne-informacie'
+      preLoaderRoute: typeof PravneInformacieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/postup': {
@@ -284,6 +330,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CennikRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/3d-konfigurator': {
+      id: '/3d-konfigurator'
+      path: '/3d-konfigurator'
+      fullPath: '/3d-konfigurator'
+      preLoaderRoute: typeof R3dKonfiguratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -296,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/projekty'
       fullPath: '/projekty/'
       preLoaderRoute: typeof ProjektyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ukazka/$slug': {
+      id: '/ukazka/$slug'
+      path: '/ukazka/$slug'
+      fullPath: '/ukazka/$slug'
+      preLoaderRoute: typeof UkazkaSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projekty/derat': {
@@ -317,6 +377,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R3dKonfiguratorRoute: R3dKonfiguratorRoute,
   CennikRoute: CennikRoute,
   CookiesRoute: CookiesRoute,
   DakujemeRoute: DakujemeRoute,
@@ -325,10 +386,12 @@ const rootRouteChildren: RootRouteChildren = {
   NavrhRoute: NavrhRoute,
   OchranaUdajovRoute: OchranaUdajovRoute,
   PostupRoute: PostupRoute,
+  PravneInformacieRoute: PravneInformacieRoute,
   PrecoChatbotRoute: PrecoChatbotRoute,
   SluzbyRoute: SluzbyRoute,
   ApiLeadRoute: ApiLeadRoute,
   ProjektyDeratRoute: ProjektyDeratRoute,
+  UkazkaSlugRoute: UkazkaSlugRoute,
   ProjektyIndexRoute: ProjektyIndexRoute,
 }
 export const routeTree = rootRouteImport

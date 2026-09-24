@@ -1772,7 +1772,26 @@ button {
   margin: 0 auto;
   padding: 1rem var(--gutter) 0;
   color: var(--muted);
-  font: 400 0.68rem/1 var(--font-mono);
+  font: 500 0.8125rem/1.4 var(--font-sans);
+}
+
+.site-breadcrumbs__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding-block: 0.35rem;
+}
+
+.site-breadcrumbs__inner a {
+  color: var(--forest);
+  text-decoration: underline;
+  text-decoration-color: rgba(18, 55, 45, 0.3);
+  text-underline-offset: 0.25em;
+}
+
+.site-breadcrumbs__inner [aria-current="page"] {
+  color: var(--ink);
 }
 
 /* Keep embedded widget isolated from marketing styles. */
@@ -13822,4 +13841,27 @@ shorter travel {
   .kage-home .page-section-nav__progress > i {
     transition: none !important;
   }
+}
+
+/* ===== Vyvážené veľkosti pätičky (september 2026) =====
+   Citát v pätičke nesmie prekričať obsah stránky a popisky nesmú byť
+   menšie, než sa dá pohodlne prečítať. */
+html body .premium-footer .premium-footer-brand > p:first-of-type {
+  max-width: 21rem !important;
+  font-size: clamp(1.35rem, 1.9vw, 1.75rem) !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.025em !important;
+}
+
+html body .premium-footer .premium-footer-label,
+html body .premium-footer .premium-footer-bottom,
+html body .premium-footer .premium-footer-bottom a {
+  font-size: 0.8125rem !important;
+}
+
+html body .premium-footer .premium-footer-brand .brand-mark {
+  flex: 0 0 36px !important;
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
 }

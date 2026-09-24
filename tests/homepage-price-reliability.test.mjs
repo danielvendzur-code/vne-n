@@ -5,39 +5,33 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("homepage prices are authoritative in the markup, not patched into the DOM", async () => {
-  const landing = await read("src/components/site/KageLanding.tsx");
+  const landing = await read("src/components/site/StudioHome.tsx");
 
-  assert.match(landing, /AnimatedPrice value=\{347\}/);
-  assert.match(landing, /AnimatedPrice value=\{447\}/);
-  assert.match(landing, /AnimatedPrice value=\{10\} lead=""/);
-  assert.match(landing, /const \[displayValue, setDisplayValue\] = useState\(value\)/);
+  assert.match(landing, /value: 347/);
+  assert.match(landing, /value: 447/);
+  assert.match(landing, /value: 10,\s*lead: ""/);
+  assert.match(landing, /const \[shown, setShown\] = useState\(value\)/);
 });
 
 test("the price counter can never get stuck at zero", async () => {
-  const landing = await read("src/components/site/KageLanding.tsx");
-  const counter = landing.slice(
-    landing.indexOf("function AnimatedPrice("),
-    landing.indexOf("function Price()"),
-  );
+  const landing = await read("src/components/site/StudioHome.tsx");
+  const start = landing.indexOf("function CountUp(");
+  const counter = landing.slice(start, landing.indexOf("/* ----", start));
 
-  // Without an observer, or with reduced motion, the real price renders at once.
-  assert.match(
-    counter,
-    /if \(!element \|\| reducedMotion \|\| typeof IntersectionObserver === "undefined"\) \{\s*setDisplayValue\(value\);/,
-  );
-  // Zero is introduced only when the price is actually entering the viewport.
-  // Until then the authoritative price remains in the DOM for screenshots,
-  // crawlers and assistive technology.
-  assert.equal((counter.match(/setDisplayValue\(0\)/g) ?? []).length, 1);
-  assert.match(counter, /if \(!entry\.isIntersecting\) \{[\s\S]*?return;/);
-  assert.doesNotMatch(counter, /if \(!entry\.isIntersecting\) \{[^}]*setDisplayValue\(0\)/);
-  assert.match(counter, /new IntersectionObserver\(/);
+  // Without an observer, or with reduced motion, the real price stays rendered.
+  assert.match(counter, /typeof IntersectionObserver === "undefined"\) return undefined;/);
+  assert.match(counter, /prefers-reduced-motion: reduce\)"\)\.matches\) return undefined;/);
+  // The count only starts once the price is actually in view and always lands on the value.
+  assert.match(counter, /if \(!entry\?\.isIntersecting\) return;/);
+  assert.doesNotMatch(counter, /setShown\(0\)/);
   assert.match(counter, /progress >= 1 \? value : Math\.round\(value \* eased\)/);
 });
 
 test("no homepage component rewrites rendered text through a MutationObserver", async () => {
   const route = await read("src/routes/index.tsx");
+  const landing = await read("src/components/site/StudioHome.tsx");
 
   assert.doesNotMatch(route, /HomepagePriceReliabilityGuard|HomepageFinishingPass/);
-  assert.match(route, /return <KageLanding \/>/);
+  assert.match(route, /return <StudioHome \/>/);
+  assert.doesNotMatch(landing, /MutationObserver/);
 });

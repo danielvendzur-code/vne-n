@@ -21,7 +21,7 @@ export function Footer() {
           <p className="premium-footer-label">Navigácia</p>
           <nav className="premium-footer-links" aria-label="Navigácia v pätičke">
             <Link to="/sluzby">Riešenia</Link>
-            <a href="/#pre-eshopy">Pre e-shopy</a>
+            <Link to="/3d-konfigurator">3D konfigurátor</Link>
             <Link to="/projekty">Realizácie</Link>
             <Link to="/postup">Ako to funguje</Link>
             <Link to="/cennik">Cena</Link>

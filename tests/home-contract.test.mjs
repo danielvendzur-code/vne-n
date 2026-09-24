@@ -27,48 +27,6 @@ test("layout loads one coherent brand system instead of historical override stac
   );
 });
 
-test("active homepage keeps three clean hero previews and four realizations", async () => {
-  const route = await read("src/routes/index.tsx");
-  const landing = await read("src/components/site/KageLanding.tsx");
-  const css = await read("src/components/site/SiteVisualAuthority.css");
-
-  assert.match(route, /KageLanding/);
-  assert.match(landing, /Web, ktorý mení návštevy na výsledky\./);
-  assert.match(landing, /work\/portfolio\/koverta\.webp/);
-  assert.match(landing, /work\/live\/derat\.webp/);
-  assert.match(landing, /work\/live\/mojplot\.webp/);
-  assert.match(landing, /work\/live\/webko\.webp/);
-  assert.equal((landing.match(/siteImage:/g) ?? []).length, 4);
-  assert.match(landing, /const heroProjects = featuredProjects\.slice\(0, 3\)/);
-  assert.match(landing, /heroProjects\.map/);
-  assert.match(landing, /featuredProjects\.map/);
-  assert.doesNotMatch(landing, /work\/product\/|assistantImage|project-composite__assistant/);
-  for (const slug of ["koverta", "derat", "mojplot", "webko"]) {
-    assert.match(landing, new RegExp(`slug: "${slug}"`));
-    assert.match(css, new RegExp(`project-composite--${slug}`));
-  }
-  assert.match(landing, /AnimatedPrice value=\{347\}/);
-  assert.match(landing, /AnimatedPrice value=\{447\}/);
-  assert.match(landing, /data-nav-tone="dark"/);
-  // 03 / Ako to funguje is a real vertical chapter: normal page scroll drives
-  // a sticky horizontal story. There is no wheel interception or separate
-  // sideways-scroll gesture.
-  const reworkCss = css;
-  assert.match(landing, /ref=\{storyRef\}[\s\S]*className="kage-flow-story"/);
-  assert.match(landing, /className="kage-flow-story__sticky"/);
-  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
-  assert.match(landing, /translate3d\(\$\{offset\}px, 0, 0\)/);
-  assert.doesNotMatch(landing, /onWheel|addEventListener\("wheel"/);
-  assert.doesNotMatch(landing, /scrollLeft\s*[+\-]?=/);
-  assert.match(reworkCss, /\.kage-home \.kage-flow-story \{[\s\S]*height:\s*390svh/);
-  assert.match(reworkCss, /\.kage-home \.kage-flow-story__sticky \{[\s\S]*position:\s*sticky/);
-  assert.match(reworkCss, /touch-action:\s*pan-y/);
-  assert.match(css, /\.kage-flow__step[\s\S]*display:\s*grid/);
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.doesNotMatch(landing, /SignalLens|signal-rail|back-to-top/i);
-  assert.doesNotMatch(landing, /LiveDemos|Nie iba screenshot/i);
-});
-
 test("homepage is a clear work-led question-to-outcome experience", async () => {
   const landing = await read("src/components/site/PremiumLanding.tsx");
   const css = await read("src/components/site/AwardHome.css");
@@ -146,7 +104,7 @@ test("navigation uses the real subpages and keeps the project CTA", async () => 
 
 test("pricing stays light, readable and explicit about standalone and combined tools", async () => {
   const pricing = await read("src/routes/cennik.tsx");
-  const landing = await read("src/components/site/KageLanding.tsx");
+  const landing = await read("src/components/site/StudioHome.tsx");
   const pricingCss = await read("src/components/site/SiteVisualAuthority.css");
   const readabilityCss = pricingCss;
   const homeCss = await read("src/components/site/SiteVisualAuthority.css");
@@ -170,7 +128,7 @@ test("pricing stays light, readable and explicit about standalone and combined t
   assert.match(finalPricingCss, /\.pricing-card-grid/);
   assert.doesNotMatch(finalPricingCss, /\.pricing-row:hover[\s\S]*?transform:/);
   assert.match(readabilityCss, /replace faint hairline-heavy homepage rows|hairlines/i);
-  assert.match(homeCss, /\.kage-home \.kage-price-hero/);
+  assert.match(homeCss, /\.site-header/);
   assert.match(pricing, /V CENE VYTVORENIA/);
   assert.match(pricing, /MESAČNE/);
   assert.match(pricing, /AK TREBA NIEČO NAVYŠE/);
@@ -221,8 +179,9 @@ test("public SEO positions Môj Chatbot as digital sales tools without unsupport
   const home = await read("src/routes/index.tsx");
   const root = await read("src/routes/__root.tsx");
 
-  assert.match(home, /Digitálne predajné nástroje na mieru/);
-  assert.match(home, /produktoví poradcovia/);
+  assert.match(home, /predajné nástroje na mieru/i);
+  assert.match(home, /3D konfigurátor/);
+  assert.match(home, /produktov(?:ý|ého|í) porad/);
   assert.doesNotMatch(home, /sledovanie objednávky|zrušenie objednávky|reklamácie/);
   assert.match(root, /produktový poradca/);
   assert.match(root, /asistovaný výber produktov/);
@@ -256,7 +215,7 @@ test("launch legal identity is complete, permanent and absent from homepage copy
   const footer = await read("src/components/site/Footer.tsx");
   const legal = await read("src/routes/pravne-informacie.tsx");
   const privacy = await read("src/routes/ochrana-udajov.tsx");
-  const home = await read("src/components/site/KageLanding.tsx");
+  const home = await read("src/components/site/StudioHome.tsx");
 
   for (const required of [
     "Venaco s.r.o.",

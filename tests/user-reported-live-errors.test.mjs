@@ -15,10 +15,6 @@ const oldAudit = readFileSync(
   new URL("../src/components/site/FinalHomepageAudit.css", import.meta.url),
   "utf8",
 );
-const landing = readFileSync(
-  new URL("../src/components/site/KageLanding.tsx", import.meta.url),
-  "utf8",
-);
 const loader = readFileSync(new URL("../public/widget-loader.js", import.meta.url), "utf8");
 
 test("reported-error rules retain their order inside the consolidated homepage authority", () => {
@@ -34,21 +30,6 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
   assert.match(finalFix, /font-size: clamp\(2\.5rem, 2\.78vw, 3\.18rem\) !important/);
   assert.match(finalFix, /min-height: 50px !important/);
   assert.match(oldAudit, /minmax\(13\.5rem, 0\.86fr\)/);
-});
-
-test("the flow section intentionally consumes page height without scroll hijacking", () => {
-  const rework = readFileSync(
-    new URL("../src/components/site/SiteVisualAuthority.css", import.meta.url),
-    "utf8",
-  );
-
-  assert.doesNotMatch(finalFix, /kage-scroll-settle/);
-  assert.doesNotMatch(oldAudit, /kage-flow|hybrid-flow/);
-  assert.match(landing, /className="kage-flow-story"/);
-  assert.match(landing, /window\.addEventListener\("scroll", scheduleUpdate/);
-  assert.doesNotMatch(landing, /window\.scrollTo\(|addEventListener\("wheel"/);
-  assert.match(rework, /height:\s*390svh/);
-  assert.match(rework, /\.kage-home \.kage-flow-story__sticky \{[\s\S]*position:\s*sticky/);
 });
 
 test("website requests the round one-stroke launcher release and never the text pill fallback", () => {

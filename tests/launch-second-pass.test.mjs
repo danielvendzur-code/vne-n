@@ -29,30 +29,6 @@ test("analytics consent is propagated to the embedded assistant", async () => {
   );
 });
 
-test("homepage chapter 03 is represented by the side navigator without a duplicate visible heading", async () => {
-  const landing = await read("src/components/site/KageLanding.tsx");
-
-  assert.match(landing, /<span className="section-index">ČO TO ZMENÍ<\/span>/);
-  assert.match(landing, /\{ id: "ako-to-funguje", index: "03", label: "Ako to funguje" \}/);
-  assert.match(landing, /className="kage-flow-story__sr-title"/);
-  assert.doesNotMatch(landing, /<b>03<\/b> AKO TO FUNGUJE/);
-});
-
-test("hero previews stay full-bleed without legacy clipping hacks", async () => {
-  const landingCss = await read("src/components/site/KageLanding.css");
-  const launchCss = await read("src/components/site/LaunchReadinessFinal.css");
-
-  assert.match(
-    landingCss,
-    /\.hybrid-hero__case \.project-composite__site,[\s\S]*?object-fit:\s*cover/,
-  );
-  assert.match(
-    launchCss,
-    /body:has\(\.hybrid-home\) \.kage-hero \.hybrid-hero__case \.project-composite__site \{[\s\S]*?object-fit:\s*cover\s*!important/,
-  );
-  assert.doesNotMatch(landingCss, /clip-path:\s*[^;]+!important/);
-  assert.doesNotMatch(launchCss, /clip-path:\s*[^;]+!important/);
-});
 test("privacy copy matches actual browser and server chat retention", async () => {
   const cookies = await read("src/routes/cookies.tsx");
   const privacy = await read("src/routes/ochrana-udajov.tsx");
@@ -82,17 +58,4 @@ test("mobile hero typography is viewport-bounded and swept across phone widths",
   assert.match(workflow, /const widths = \[280, 320, 360, 375, 390, 414, 430, 480, 600, 720\]/);
   assert.match(workflow, /hero headline glyph/);
   assert.match(workflow, /mobile headline overflow at/);
-});
-test("desktop hero keeps the approved layered Kage composition and animation", async () => {
-  const landingCss = await read("src/components/site/KageLanding.css");
-  const launchCss = await read("src/components/site/LaunchReadinessFinal.css");
-
-  assert.match(landingCss, /\.kage-hero \.hybrid-hero__collage \{\s*inset: 3% 0 3% 52\.5%/);
-  assert.match(landingCss, /\.hybrid-hero__case--1 \{[\s\S]*?transform: rotate\(1\.35deg\)/);
-  assert.match(landingCss, /animation: kage-character-write 820ms/);
-  assert.match(
-    launchCss,
-    /Desktop hero intentionally inherits the original KageLanding composition/,
-  );
-  assert.doesNotMatch(launchCss, /@media \(min-width: 721px\)[\s\S]*?\.hybrid-hero__collage/);
 });
