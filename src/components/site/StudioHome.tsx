@@ -139,23 +139,20 @@ function CountUp({
 
 /* ------------------------------------------------------------------- hero */
 
-/* Hero podľa Koverty: tmavá plocha, jasný nadpis vľavo a vpravo jeden veľký,
-   rovný náhľad živého webu. Náhľady sa prepínajú záložkami pod ním. */
+/* Pôvodný hero: vypisovaný nadpis a tri prekrývajúce sa náhľady živých webov.
+   Triedy `hybrid-hero` a `kage-hero` nesú jeho schválený vzhľad aj tmavé
+   prispôsobenie hlavičky. */
 const heroProjects = [
   {
     slug: "koverta",
     name: "Koverta",
-    note: "3D konfigurátor",
-    domain: "koverta.sk",
     href: "https://koverta.sk/",
-    image: `${BASE}work/live/koverta.webp`,
-    alt: "Domovská stránka Koverta s bioklimatickou pergolou nad terasou",
+    image: `${BASE}work/live/koverta-konfigurator.webp`,
+    alt: "3D konfigurátor Koverta: prístrešok s drevenými lamelami a autom, cena od 5 497 €",
   },
   {
     slug: "derat",
     name: "DERAT",
-    note: "Kalkulačka",
-    domain: "derat.sk",
     href: "https://derat.sk/",
     image: `${BASE}work/live/derat.webp`,
     alt: "Domovská stránka DERAT s nadpisom Bez škodcov",
@@ -163,113 +160,96 @@ const heroProjects = [
   {
     slug: "mojplot",
     name: "Môj Plot",
-    note: "Produktový web",
-    domain: "mojplot.sk",
     href: "https://mojplot.sk/",
     image: `${BASE}work/live/mojplot.webp`,
     alt: "Domovská stránka Môj Plot s kategóriami plotov",
   },
 ] as const;
 
-function HeroPreview() {
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const timer = window.setInterval(
-      () => setActive((current) => (current + 1) % heroProjects.length),
-      5000,
-    );
-    return () => window.clearInterval(timer);
-  }, [paused]);
-
-  const project = heroProjects[active];
+function TypedLine({ text, startAt }: { text: string; startAt: number }) {
+  const words = text.split(" ");
 
   return (
-    <div
-      className="sh-top__preview"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <a
-        className="sh-top__frame"
-        href={project.href}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`Otvoriť ${project.domain}`}
-      >
-        <span className="sh-top__bar" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-          <b>{project.domain}</b>
-        </span>
-        <span className="sh-top__screen">
-          {heroProjects.map((item, index) => (
-            <img
-              key={item.slug}
-              src={item.image}
-              alt={item.alt}
-              width={1600}
-              height={1000}
-              data-active={index === active}
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "high" : "low"}
-              decoding="async"
-            />
-          ))}
-        </span>
-      </a>
-      <div className="sh-top__tabs" role="tablist" aria-label="Živé realizácie">
-        {heroProjects.map((item, index) => (
-          <button
-            key={item.slug}
-            type="button"
-            role="tab"
-            aria-selected={index === active}
-            data-active={index === active}
-            onClick={() => setActive(index)}
-          >
-            <b>{item.name}</b>
-            <span>{item.note}</span>
-            <i aria-hidden="true" />
-          </button>
-        ))}
-      </div>
-    </div>
+    <span className="typed-line" aria-hidden="true">
+      {words.map((word, wordIndex) => {
+        const wordOffset =
+          startAt +
+          words.slice(0, wordIndex).reduce((total, item) => total + item.length, 0) +
+          wordIndex;
+        return (
+          <span className="typed-word" key={`${word}-${wordIndex}`}>
+            {Array.from(word).map((character, characterIndex) => (
+              <span
+                className="typed-character"
+                key={`${character}-${characterIndex}`}
+                style={{ "--character-index": wordOffset + characterIndex } as CSSProperties}
+              >
+                {character}
+              </span>
+            ))}
+            {wordIndex < words.length - 1 ? (
+              <span className="typed-space" aria-hidden="true">
+                {" "}
+              </span>
+            ) : null}
+          </span>
+        );
+      })}
+    </span>
   );
 }
 
 function Hero() {
   return (
-    <section className="sh-top" aria-labelledby="sh-top-title" data-nav-tone="dark">
-      <div className="sh-wrap sh-top__grid">
-        <div className="sh-top__copy">
-          <h1 id="sh-top-title">
-            Web, ktorý mení návštevy <em>na výsledky.</em>
-          </h1>
-          <p>
-            Navrhneme a nasadíme chatbota, cenovú kalkulačku, 3D konfigurátor alebo produktového
-            poradcu. Zákazník dostane odpoveď, cenu alebo hotovú zostavu, vy pripravený dopyt.
-          </p>
-          <div className="sh-top__actions">
-            <Link to="/kontakt" className="sh-btn sh-btn--lime">
-              Nezáväzný návrh <ArrowRight size={18} aria-hidden="true" />
-            </Link>
-            <a href="#riesenia" className="sh-btn sh-btn--ghost">
-              Vybrať riešenie
+    <section
+      className="hybrid-hero kage-hero"
+      aria-labelledby="hybrid-hero-title"
+      data-signal-chapter="0"
+      data-nav-tone="dark"
+    >
+      <div className="container-page hybrid-hero__stage">
+        <h1 id="hybrid-hero-title" aria-label="Web, ktorý mení návštevy na výsledky.">
+          <TypedLine text="Web, ktorý" startAt={0} />
+          <em>
+            <TypedLine text="mení návštevy" startAt={10} />
+          </em>
+          <em>
+            <TypedLine text="na výsledky." startAt={24} />
+          </em>
+        </h1>
+        <div className="hybrid-hero__collage" aria-label="Vybrané živé realizácie">
+          {heroProjects.map((project, index) => (
+            <a
+              key={project.slug}
+              className={`hybrid-hero__case hybrid-hero__case--${index + 1}`}
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className={`project-composite project-composite--${project.slug}`}>
+                <img
+                  className="project-composite__site"
+                  src={project.image}
+                  alt={project.alt}
+                  width={1600}
+                  height={1000}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                />
+              </span>
+              <span>
+                0{index + 1} / {project.name}
+              </span>
             </a>
-          </div>
-          <p className="sh-top__proof">
-            <b>4</b>
-            <span>
-              živé realizácie
-              <small>derat.sk · koverta.sk · mojplot.sk · webko.sk</small>
-            </span>
-          </p>
+          ))}
         </div>
-        <HeroPreview />
+      </div>
+      <div className="container-page hybrid-hero__bottom kage-hero__bottom">
+        <p>Chatboty, kalkulačky, 3D konfigurátory a produktoví poradcovia na mieru.</p>
+        <a href="#riesenia" className="hybrid-hero__primary site-cta site-cta--primary">
+          Vybrať riešenie <ArrowUpRight size={17} />
+        </a>
       </div>
     </section>
   );
@@ -302,8 +282,8 @@ function Facts() {
 const solutionShots = {
   calculator: {
     src: `${BASE}work/solutions/kalkulacka-derat.webp`,
-    width: 640,
-    height: 1361,
+    width: 600,
+    height: 749,
   },
   chatbot: {
     src: `${BASE}work/solutions/chatbot-aplan.webp`,
@@ -340,21 +320,56 @@ const combinations = [
   },
 ];
 
-function ToolShot({ shot, label }: { shot: keyof typeof solutionShots; label: string }) {
-  const data = solutionShots[shot];
-  return (
-    <div className="sh-shot" data-kind={shot}>
-      <img
-        src={data.src}
-        alt={label}
-        width={data.width}
-        height={data.height}
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-  );
-}
+const tools = [
+  {
+    key: "configurator",
+    title: "3D konfigurátor",
+    copy: "Produkt si zákazník poskladá v 3D, cena sa prepočíta hneď.",
+    icon: Box,
+    image: `${BASE}work/koverta/model-porsche.webp`,
+    alt: "3D model prístrešku s drevenými lamelami a športovým autom z konfigurátora Koverta",
+    wide: true,
+    cta: "Pozrieť 3D konfigurátor",
+    to: "/3d-konfigurator" as const,
+    preset: undefined,
+  },
+  {
+    key: "calculator",
+    title: "Cenová kalkulačka",
+    copy: "Z rozmeru, množstva či doplnkov spočíta orientačnú cenu.",
+    icon: Calculator,
+    image: solutionShots.calculator.src,
+    alt: "Kalkulačka DERAT: výber priestoru a orientačná cena 60 € bez DPH",
+    wide: false,
+    cta: "Vyskladať kalkulačku",
+    to: undefined,
+    preset: "calculator" as const,
+  },
+  {
+    key: "chatbot",
+    title: "Chatbot",
+    copy: "Odpovedá z vašich podkladov a pošle vám kontakt so zhrnutím.",
+    icon: MessageSquare,
+    image: solutionShots.chatbot.src,
+    alt: "Chatbot pre architektonickú kanceláriu: postup ohlásenia drobnej stavby",
+    wide: false,
+    cta: "Vyskladať chatbota",
+    to: undefined,
+    preset: "advisor" as const,
+  },
+  {
+    key: "advisor",
+    title: "Produktový poradca",
+    copy: "Pár otázok a zákazník dostane konkrétny produkt z ponuky.",
+    icon: Sparkles,
+    image: solutionShots.advisor.src,
+    alt: "Produktový poradca pre e-shop s kávou: výber chuti cez štyri otázky",
+    wide: false,
+    cta: "Vyskladať poradcu",
+    to: undefined,
+    preset: "product" as const,
+  },
+];
 
 function Solutions() {
   return (
@@ -365,151 +380,56 @@ function Solutions() {
       data-nav-tone="light"
     >
       <div className="sh-wrap">
-        <header className="sh-head" data-reveal>
-          <Eyebrow>Riešenia</Eyebrow>
-          <h2 id="sh-solutions-title">Aké riešenie potrebujete?</h2>
-          <p>
-            Každý nástroj funguje samostatne, v kombinácii s ostatnými aj všetky spolu v jednom.
-          </p>
+        <header className="sh-head sh-head--row" data-reveal>
+          <div>
+            <Eyebrow>Riešenia</Eyebrow>
+            <h2 id="sh-solutions-title">Aké riešenie potrebujete?</h2>
+          </div>
+          <p>Každý nástroj funguje samostatne, v kombinácii aj všetky spolu v jednom.</p>
         </header>
 
-        <div className="sh-bento">
-          <article
-            className="sh-card sh-card--feature"
-            data-reveal
-            style={{ "--d": 0 } as CSSProperties}
-          >
-            <Link to="/3d-konfigurator" className="sh-card__media" tabIndex={-1} aria-hidden="true">
-              <img
-                src={`${BASE}work/koverta/model-pristresok.webp`}
-                alt=""
-                width={1200}
-                height={824}
-                loading="lazy"
-                decoding="async"
-              />
-            </Link>
-            <div className="sh-card__body">
-              <span className="sh-card__icon" aria-hidden="true">
-                <Box size={18} />
-              </span>
-              <h3>3D konfigurátor</h3>
-              <p>
-                Zákazník si produkt poskladá v 3D — rozmer, farbu, strechu aj doplnky. Cena sa
-                prepočíta okamžite a dopyt príde aj so zostavou.
-              </p>
-              <Link to="/3d-konfigurator" className="sh-btn sh-btn--dark">
-                Pozrieť 3D konfigurátor <ArrowRight size={17} aria-hidden="true" />
-              </Link>
-            </div>
-          </article>
-
-          <article
-            className="sh-card sh-card--tool"
-            data-reveal
-            style={{ "--d": 1 } as CSSProperties}
-          >
-            <ToolShot
-              shot="calculator"
-              label="Kalkulačka DERAT: výber priestoru s fotografiami a orientačnou cenou"
-            />
-            <div className="sh-card__body">
-              <span className="sh-card__icon" aria-hidden="true">
-                <Calculator size={18} />
-              </span>
-              <h3>Cenová kalkulačka</h3>
-              <p>Keď cenu mení rozmer, množstvo, model, montáž alebo doprava.</p>
-              <button
-                type="button"
-                className="sh-btn sh-btn--dark sh-btn--sm"
-                onClick={() =>
-                  openSiteAssistant({ source: "home-calculator", preset: "calculator" })
-                }
-              >
-                Vyskladať kalkulačku <ArrowUpRight size={16} aria-hidden="true" />
-              </button>
-            </div>
-          </article>
-
-          <article
-            className="sh-card sh-card--tool"
-            data-reveal
-            style={{ "--d": 2 } as CSSProperties}
-          >
-            <ToolShot
-              shot="chatbot"
-              label="Chatbot pre architektonickú kanceláriu: postup ohlásenia drobnej stavby"
-            />
-            <div className="sh-card__body">
-              <span className="sh-card__icon" aria-hidden="true">
-                <MessageSquare size={18} />
-              </span>
-              <h3>Chatbot</h3>
-              <p>Odpovedá z vašich podkladov, prevedie postupom a pošle vám kontakt so zhrnutím.</p>
-              <button
-                type="button"
-                className="sh-btn sh-btn--dark sh-btn--sm"
-                onClick={() => openSiteAssistant({ source: "home-chatbot", preset: "advisor" })}
-              >
-                Vyskladať chatbota <ArrowUpRight size={16} aria-hidden="true" />
-              </button>
-            </div>
-          </article>
-
-          <article
-            className="sh-card sh-card--tool"
-            data-reveal
-            style={{ "--d": 3 } as CSSProperties}
-          >
-            <ToolShot
-              shot="advisor"
-              label="Produktový poradca pre e-shop s kávou: výber chuti cez štyri otázky"
-            />
-            <div className="sh-card__body">
-              <span className="sh-card__icon" aria-hidden="true">
-                <Sparkles size={18} />
-              </span>
-              <h3>Produktový poradca</h3>
-              <p>Štyri krátke otázky a zákazník dostane jeden konkrétny produkt z vašej ponuky.</p>
-              <button
-                type="button"
-                className="sh-btn sh-btn--dark sh-btn--sm"
-                onClick={() => openSiteAssistant({ source: "home-advisor", preset: "product" })}
-              >
-                Vyskladať poradcu <ArrowUpRight size={16} aria-hidden="true" />
-              </button>
-            </div>
-          </article>
-          <article
-            className="sh-card sh-card--lime"
-            data-reveal
-            style={{ "--d": 4 } as CSSProperties}
-          >
-            <h3>Neviete, čo z toho?</h3>
-            <ul aria-label="Príklady">
-              <li>E-shop</li>
-              <li>Služby</li>
-              <li>Výroba</li>
-              <li>Dom a záhrada</li>
-            </ul>
-            <p>Odpovedzte na pár krátkych otázok a hneď uvidíte, čo by dávalo zmysel vám.</p>
-            <button
-              type="button"
-              className="sh-btn sh-btn--ink"
-              onClick={() => openSiteAssistant({ source: "home-unsure" })}
+        <div className="sh-tools">
+          {tools.map((tool, index) => (
+            <article
+              className="sh-tool"
+              data-kind={tool.key}
+              key={tool.key}
+              data-reveal
+              style={{ "--d": index } as CSSProperties}
             >
-              Spustiť výber <ArrowRight size={17} aria-hidden="true" />
-            </button>
-          </article>
+              <div className="sh-tool__media" data-wide={tool.wide || undefined}>
+                <img src={tool.image} alt={tool.alt} loading="lazy" decoding="async" />
+              </div>
+              <div className="sh-tool__body">
+                <h3>
+                  <tool.icon size={18} aria-hidden="true" />
+                  {tool.title}
+                </h3>
+                <p>{tool.copy}</p>
+                {tool.to ? (
+                  <Link to={tool.to} className="sh-btn sh-btn--dark sh-btn--sm">
+                    {tool.cta} <ArrowUpRight size={16} aria-hidden="true" />
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    className="sh-btn sh-btn--dark sh-btn--sm"
+                    onClick={() =>
+                      openSiteAssistant({ source: `home-${tool.key}`, preset: tool.preset })
+                    }
+                  >
+                    {tool.cta} <ArrowUpRight size={16} aria-hidden="true" />
+                  </button>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
 
         <div className="sh-combo" data-reveal>
           <div className="sh-combo__intro">
             <h3>Nemusí to byť iba jedno riešenie.</h3>
-            <p>
-              Chatbot sa dá spojiť s kalkulačkou, konfigurátorom aj poradcom — alebo so všetkým
-              naraz. Zákazník to vníma ako jeden nástroj.
-            </p>
+            <p>Nástroje spojíme po dvoch aj všetky naraz.</p>
           </div>
           <ul className="sh-combo__list">
             {combinations.map((item, index) => (
@@ -521,12 +441,18 @@ function Solutions() {
                   }
                 >
                   <strong>{item.title}</strong>
-                  <span>{item.copy}</span>
-                  <ArrowUpRight size={18} aria-hidden="true" />
+                  <ArrowUpRight size={16} aria-hidden="true" />
                 </button>
               </li>
             ))}
           </ul>
+          <button
+            type="button"
+            className="sh-combo__unsure"
+            onClick={() => openSiteAssistant({ source: "home-unsure" })}
+          >
+            Neviete, čo z toho? <span>Spustiť výber</span>
+          </button>
         </div>
       </div>
     </section>
@@ -1081,19 +1007,62 @@ function Work() {
 
 /* ---------------------------------------------------------------- process */
 
-const processImages = [
-  `${BASE}work/live/mojplot.webp`,
-  `${BASE}work/koverta/model-pergola.webp`,
-  `${BASE}work/solutions/kalkulacka-derat.webp`,
-  `${BASE}work/live/koverta.webp`,
-];
+/* Štyri kroky vedľa seba. Každý ukazuje, čo po ňom reálne dostanete —
+   malý náhľad výstupu namiesto ilustračnej fotky. */
+function ProcessOutput({ step }: { step: number }) {
+  if (step === 0) {
+    return (
+      <div className="sh-out sh-out--brief" aria-hidden="true">
+        <span>Zadanie</span>
+        <ul>
+          <li>Zákazníci sa pýtajú na cenu</li>
+          <li>Cena podľa rozmeru a montáže</li>
+          <li>Dopyty chodia na e-mail</li>
+        </ul>
+      </div>
+    );
+  }
+  if (step === 1) {
+    return (
+      <div className="sh-out sh-out--flow" aria-hidden="true">
+        <span>Návrh krokov</span>
+        <ol>
+          <li>Typ</li>
+          <li>Rozmer</li>
+          <li>Doplnky</li>
+          <li>Cena</li>
+        </ol>
+      </div>
+    );
+  }
+  if (step === 2) {
+    return (
+      <div className="sh-out sh-out--demo" aria-hidden="true">
+        <span>Ukážka na odskúšanie</span>
+        <div>
+          <i />
+          <b>od 4 497 €</b>
+          <em>Pokračovať</em>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="sh-out sh-out--lead" aria-hidden="true">
+      <span>Nový dopyt</span>
+      <p>
+        <b>Prístrešok 3,5 × 6 m</b>
+        antracit · drevené lamely
+      </p>
+      <p>
+        <b>od 5 497 €</b>
+        Ján, Nitra
+      </p>
+    </div>
+  );
+}
 
-/* Ako na Koverte: zoznam krokov vľavo, vybraný krok vo veľkej karte vpravo.
-   Žiadna animácia viazaná na scroll — prepína sa kliknutím. */
 function Process() {
-  const [active, setActive] = useState(0);
-  const [index, title, copy] = process[active];
-
   return (
     <section
       className="sh-section sh-process"
@@ -1101,43 +1070,28 @@ function Process() {
       id="proces"
       aria-labelledby="sh-process-title"
     >
-      <div className="sh-wrap sh-process__grid">
-        <div className="sh-process__side">
-          <header className="sh-head" data-reveal>
+      <div className="sh-wrap">
+        <header className="sh-head sh-head--row" data-reveal>
+          <div>
             <Eyebrow>Ako to prebieha</Eyebrow>
             <h2 id="sh-process-title">Od prvej správy po nástroj na vašom webe</h2>
-            <p>Najprv dostanete návrh a ukážku. Na web ide až to, čo si vyskúšate a schválite.</p>
-          </header>
-          <ol className="sh-steps-tabs" role="tablist" aria-label="Kroky spolupráce">
-            {process.map(([stepIndex, stepTitle], order) => (
-              <li key={stepIndex}>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={order === active}
-                  data-active={order === active}
-                  onClick={() => setActive(order)}
-                >
-                  <small>{stepIndex}</small>
-                  {stepTitle}
-                </button>
-              </li>
-            ))}
-          </ol>
+          </div>
           <Link to="/postup" className="sh-link sh-link--dark">
             Celý postup <ArrowRight size={16} aria-hidden="true" />
           </Link>
-        </div>
-        <article className="sh-step-card" key={index} role="tabpanel" aria-live="polite">
-          <div className="sh-step-card__media">
-            <img src={processImages[active]} alt="" loading="lazy" decoding="async" />
-          </div>
-          <div className="sh-step-card__body">
-            <b>{index}</b>
-            <h3>{title}</h3>
-            <p>{copy}</p>
-          </div>
-        </article>
+        </header>
+        <ol className="sh-proc">
+          {process.map(([index, title, copy], order) => (
+            <li key={index} data-reveal style={{ "--d": order } as CSSProperties}>
+              <ProcessOutput step={order} />
+              <div className="sh-proc__text">
+                <b>{index}</b>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

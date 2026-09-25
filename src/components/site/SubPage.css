@@ -1050,3 +1050,65 @@
     padding-block: 1.8rem 2rem;
   }
 }
+
+/* Kolo 5: rovnaké tvary ako na úvode — menej oválne, ploché plochy. */
+.shp .shp-card,
+.shp .shp-plan,
+.shp .shp-case-step,
+.shp .shp-project__visual,
+.shp .shp-hero__visual,
+.shp .shp-form-card,
+.shp .sh-closing__card,
+.shp-legal .cookies-card {
+  border-radius: 12px !important;
+}
+
+.shp .shp-form input,
+.shp .shp-form textarea,
+.shp .shp-form select,
+.shp .shp-form .contact-privacy-note,
+.shp .shp-price-fact,
+.shp .shp-output {
+  border-radius: 8px !important;
+}
+
+.shp .shp-num {
+  border-radius: 8px;
+}
+
+.shp .shp-hero__visual[data-portrait="true"] {
+  border-radius: 14px !important;
+}
+
+.shp .shp-card:hover,
+.shp .shp-plan:hover {
+  transform: none;
+}
+
+.shp .shp-form {
+  gap: 0.85rem;
+}
+
+.shp .shp-form textarea {
+  min-height: 110px;
+}
+
+html:root body .sh .shp-contact__label,
+html:root body .sh .shp-card .shp-contact__label {
+  font-family: var(--font-sans) !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+}
+
+html:root body .sh .shp-contact__direct a {
+  font-weight: 650 !important;
+}
+
+html:root body .shp-contact-page .shp-hero {
+  padding-block: clamp(1.8rem, 3.5vw, 2.6rem) !important;
+}
+
+html:root body .shp-contact-page .shp-contact {
+  padding-top: clamp(1.4rem, 2.5vw, 2rem);
+}

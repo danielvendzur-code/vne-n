@@ -38,13 +38,6 @@ const FIELD_LIMITS = {
 
 type SubmitState = "idle" | "sending";
 
-const TIMING_OPTIONS = [
-  "Bez pevného termínu",
-  "Do 1 mesiaca",
-  "Do 2–3 mesiacov",
-  "Čo najskôr",
-] as const;
-
 function isBlockedControlCharacter(character: string): boolean {
   const code = character.charCodeAt(0);
   return code <= 8 || (code >= 11 && code <= 12) || (code >= 14 && code <= 31) || code === 127;
@@ -87,7 +80,6 @@ function ContactPage() {
   const [demoUrl, setDemoUrl] = useState("");
   const [project, setProject] = useState("");
   const [leadSource, setLeadSource] = useState("website-contact");
-  const [timing, setTiming] = useState("Bez pevného termínu");
   const [botTrap, setBotTrap] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
@@ -159,7 +151,6 @@ function ContactPage() {
         interest: isCoffeeLead
           ? "Kávový poradca pre e-shop"
           : "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
-        timeline: timing,
         consent: true,
         website: botTrap,
       });
@@ -285,6 +276,18 @@ function ContactPage() {
 
               <div className="shp-form__two">
                 <label>
+                  <span>Web</span>
+                  <input
+                    value={web}
+                    onChange={(event) => setWeb(event.target.value)}
+                    maxLength={FIELD_LIMITS.web}
+                    type="url"
+                    inputMode="url"
+                    autoComplete="url"
+                    placeholder="https://firma.sk"
+                  />
+                </label>
+                <label>
                   <span>Telefón</span>
                   <input
                     value={phone}
@@ -296,30 +299,7 @@ function ContactPage() {
                     placeholder="+421 ..."
                   />
                 </label>
-                <label>
-                  <span>Firma</span>
-                  <input
-                    value={company}
-                    onChange={(event) => setCompany(event.target.value)}
-                    maxLength={FIELD_LIMITS.company}
-                    autoComplete="organization"
-                    placeholder="Názov firmy"
-                  />
-                </label>
               </div>
-
-              <label>
-                <span>Web</span>
-                <input
-                  value={web}
-                  onChange={(event) => setWeb(event.target.value)}
-                  maxLength={FIELD_LIMITS.web}
-                  type="url"
-                  inputMode="url"
-                  autoComplete="url"
-                  placeholder="https://firma.sk"
-                />
-              </label>
 
               <label>
                 <span>{fromCoffeeDemo ? "Doplňujúca poznámka" : "Čo má web zjednodušiť? *"}</span>
@@ -328,22 +308,13 @@ function ContactPage() {
                   onChange={(event) => setProject(event.target.value)}
                   required={!fromCoffeeDemo}
                   maxLength={FIELD_LIMITS.project}
-                  rows={fromCoffeeDemo ? 4 : 6}
+                  rows={fromCoffeeDemo ? 3 : 4}
                   placeholder={
                     fromCoffeeDemo
                       ? "Voliteľné — napríklad telefónny čas, otázka alebo čo chcete na ukážke upraviť."
                       : "Napríklad: zákazníci sa pýtajú na cenu. Počítame ju podľa rozmerov, variantu a montáže."
                   }
                 />
-              </label>
-
-              <label>
-                <span>Ideálny termín</span>
-                <select value={timing} onChange={(event) => setTiming(event.target.value)}>
-                  {TIMING_OPTIONS.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
               </label>
 
               <div className="contact-trap" aria-hidden="true">
