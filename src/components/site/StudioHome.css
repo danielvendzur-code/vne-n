@@ -1909,7 +1909,10 @@
 }
 
 /* Nadpisy: plnšie a menej stiahnuté, aby nepôsobili tenko. */
-html body :is(.sh, .site-header, .premium-footer, .mc-footer) :is(h1, h2, h3, h4) {
+html
+  body
+  :is(.sh, .site-header, .premium-footer, .mc-footer)
+  :is(h1, h2, h3, h4):not(.kage-hero h1) {
   font-family: var(--font-display) !important;
   font-weight: 600 !important;
   letter-spacing: -0.022em !important;
@@ -2377,4 +2380,648 @@ html body .sh b {
 .mc-footer .mc-footer__col a:hover,
 .mc-footer .mc-footer__bottom a:hover {
   color: var(--mc-lime) !important;
+}
+
+/* Pôvodný hero ostáva v schválenom písme Inter Tight, len v plnšom reze. */
+html:root body .kage-hero h1,
+html:root body .kage-hero h1 * {
+  font-family: "Inter Tight", Inter, Arial, sans-serif !important;
+}
+
+html:root body .kage-hero h1 {
+  font-weight: 560 !important;
+}
+
+@media (max-width: 720px) {
+  html:root body .hybrid-home .kage-hero h1 {
+    font-size: min(13.4vw, 4.4rem) !important;
+  }
+}
+
+/* ==========================================================================
+   Kolo 5: pôvodný štýl tlačidiel, menej oválne tvary, kompaktné riešenia
+   ========================================================================== */
+
+.sh {
+  --sh-radius: 12px;
+  --sh-radius-lg: 14px;
+}
+
+/* Tlačidlá ako pôvodné CTA webu: limetka, tučný text, šípka — ale hranatejšie. */
+html:root body .sh .sh-btn,
+html:root body .site-cta {
+  min-height: 46px;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px !important;
+  font-size: 0.9375rem;
+  font-weight: 680;
+  letter-spacing: -0.005em;
+  box-shadow: none;
+}
+
+html:root body .sh .sh-btn--sm {
+  min-height: 42px;
+  padding: 0.6rem 0.95rem;
+  font-size: 0.875rem;
+}
+
+html:root body .sh .sh-btn:hover {
+  transform: none;
+}
+
+html:root body .sh .sh-btn--lime {
+  border: 1px solid var(--sh-lime);
+  background: var(--sh-lime);
+  color: #071b15;
+}
+
+html:root body .sh .sh-btn--lime:hover {
+  border-color: #071b15;
+  background: #071b15;
+  color: #f6f5ee;
+}
+
+html:root body .sh .sh-btn--dark {
+  border: 1px solid var(--sh-forest);
+}
+
+html:root body .sh .sh-btn--dark:hover {
+  border-color: var(--sh-lime);
+  background: var(--sh-lime);
+  color: #071b15;
+}
+
+html:root body .sh .sh-btn--ghost {
+  border-color: rgba(245, 244, 237, 0.35);
+  background: transparent;
+  backdrop-filter: none;
+}
+
+html:root body .sh .sh-btn--ghost:hover {
+  border-color: var(--sh-lime);
+  color: var(--sh-lime);
+  background: transparent;
+}
+
+/* Menej oválne prvky. */
+.sh :is(.sh-tabs, .sh-tabs button, .sh-project__domain, .sh-play, .sh-badge),
+.sh :is(.sh-card--lime li, .shp-tags li, .shp-chips li, .mc-footer__pills a) {
+  border-radius: 8px !important;
+}
+
+.sh :is(.sh-faq__list details, .sh-combo__list button, .sh-steps-tabs button) {
+  border-radius: 10px !important;
+}
+
+html:root body .kage-home .kage-flow-story__modes,
+html:root body .kage-home .kage-flow-story__modes button {
+  border-radius: 10px !important;
+}
+
+/* ------------------------------------------------------ compact tools */
+
+.sh-solutions.sh-section {
+  padding-block: clamp(3rem, 5vw, 4rem);
+}
+
+.sh-solutions .sh-head {
+  margin-bottom: 1.4rem;
+}
+
+.sh-tools {
+  display: grid;
+  grid-template-columns: 1.35fr repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.sh-tool {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radius);
+  background: var(--sh-pure);
+  transition:
+    border-color 250ms ease,
+    box-shadow 300ms ease;
+}
+
+.sh-tool:hover {
+  border-color: rgba(18, 55, 45, 0.3);
+  box-shadow: 0 18px 40px -30px rgba(11, 35, 28, 0.55);
+}
+
+.sh-tool__media {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  height: 210px;
+  overflow: hidden;
+  padding: 0.9rem 0.9rem 0;
+  background: #eef0e8;
+}
+
+.sh-tool__media img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 10px 30px -18px rgba(11, 35, 28, 0.5);
+  object-fit: contain;
+  object-position: bottom;
+  transition: transform 700ms var(--sh-ease);
+}
+
+.sh-tool:hover .sh-tool__media img {
+  transform: translateY(-4px);
+}
+
+.sh-tool__media[data-wide="true"] {
+  padding: 0;
+  background: #f1f1ef;
+}
+
+.sh-tool__media[data-wide="true"] img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  object-fit: cover;
+  object-position: center 55%;
+}
+
+.sh-tool__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.sh .sh-tool__body h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+}
+
+.sh-tool__body h3 svg {
+  flex: none;
+  color: var(--sh-forest);
+}
+
+.sh-tool__body p {
+  color: var(--sh-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.sh-tool__body .sh-btn {
+  margin-top: auto;
+}
+
+/* Kombinácie v jednom riadku. */
+.sh .sh-combo {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 1rem 1.5rem;
+  margin-top: 0.75rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: var(--sh-radius);
+}
+
+.sh .sh-combo h3 {
+  font-size: 1.125rem;
+}
+
+.sh .sh-combo__intro p {
+  margin-top: 0.2rem;
+  font-size: 0.9375rem;
+}
+
+.sh .sh-combo__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sh .sh-combo__list button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 42px;
+  padding: 0.5rem 0.8rem;
+}
+
+.sh .sh-combo__list strong {
+  font-size: 0.9375rem;
+}
+
+.sh .sh-combo__list svg {
+  position: static;
+}
+
+.sh-combo__unsure {
+  display: inline-grid;
+  gap: 0.1rem;
+  min-height: 46px;
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-left: 1px solid rgba(245, 244, 237, 0.2);
+  background: transparent;
+  color: rgba(245, 244, 237, 0.75);
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sh-combo__unsure span {
+  color: var(--sh-lime);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+@media (max-width: 1180px) {
+  .sh-tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sh .sh-combo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sh-combo__unsure {
+    justify-self: start;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .sh-tools {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sh-tool__media {
+    height: 200px;
+  }
+}
+
+.sh-tool__media {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sh .sh-tool__media img {
+  height: 196px;
+  width: auto;
+  max-width: none;
+}
+
+.sh .sh-tool__media[data-wide="true"] img {
+  height: 100%;
+  width: 100%;
+}
+
+.sh .sh-combo {
+  grid-template-columns: minmax(18rem, 1fr) auto auto;
+}
+
+.sh .sh-tool:is([data-kind="chatbot"], [data-kind="advisor"]) .sh-tool__media {
+  align-items: flex-start;
+  padding-top: 1rem;
+}
+
+.sh .sh-tool:is([data-kind="chatbot"], [data-kind="advisor"]) .sh-tool__media img {
+  width: 82%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.sh .sh-combo {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.sh .sh-combo__list {
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 1180px) {
+  .sh .sh-combo__list {
+    flex-wrap: wrap;
+  }
+}
+
+/* ------------------------------------------- cleaner horizontal story */
+/* Bez mriežky čiar a žiary: plochá tmavá plocha, jedna karta na krok,
+   výstup kroku ako malá ukážka rozhrania namiesto prázdneho bloku. */
+
+html:root body .kage-home .kage-flow-story,
+html:root body .kage-home .kage-flow-story__sticky {
+  background: var(--sh-deep) !important;
+  background-image: none !important;
+}
+
+html:root body .kage-home .kage-flow-story::before,
+html:root body .kage-home .kage-flow-story::after,
+html:root body .kage-home .kage-flow-story__sticky::before,
+html:root body .kage-home .kage-flow-story__sticky::after {
+  display: none !important;
+}
+
+html:root body .kage-home .kage-flow__step {
+  align-items: center !important;
+  height: min(560px, 68vh) !important;
+  min-height: 0 !important;
+  align-self: center !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: #143a2f !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html:root body .kage-home .kage-flow-story__steps {
+  align-items: center !important;
+}
+
+html:root body .kage-home .kage-flow__number {
+  color: var(--sh-lime) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+}
+
+html:root body .kage-home .kage-flow__copy h3 {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+}
+
+html:root body .kage-home .kage-flow__artifact {
+  position: relative !important;
+  display: grid !important;
+  align-content: start !important;
+  gap: 0.9rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: center !important;
+  padding: 3.2rem 1.4rem 1.5rem !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: #f6f5ee !important;
+  box-shadow: 0 30px 60px -35px rgba(0, 0, 0, 0.7) !important;
+}
+
+html:root body .kage-home .kage-flow__artifact::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 1.1rem !important;
+  left: 1.4rem !important;
+  width: 42px !important;
+  height: 10px !important;
+  background: radial-gradient(circle, #c9c7bd 4px, transparent 5px) 0 0 / 14px 10px repeat-x !important;
+}
+
+html:root body .kage-home .kage-flow__artifact span {
+  color: #5a625c !important;
+  font-size: 0.75rem !important;
+  font-weight: 650 !important;
+  letter-spacing: 0.06em !important;
+}
+
+html:root body .kage-home .kage-flow__artifact strong {
+  display: block !important;
+  padding: 0.9rem 1rem !important;
+  border-radius: 12px 12px 12px 4px !important;
+  background: #fff !important;
+  color: #111310 !important;
+  font-family: var(--font-display) !important;
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.015em !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+html:root body .kage-home .kage-flow__artifact::after {
+  content: "" !important;
+  display: block !important;
+  justify-self: end !important;
+  width: 46% !important;
+  height: 38px !important;
+  border-radius: 12px 12px 4px 12px !important;
+  background: var(--sh-lime) !important;
+}
+
+html:root body .kage-home .kage-flow__artifact {
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: none !important;
+  justify-items: stretch !important;
+  text-align: left !important;
+}
+
+html:root body .kage-home .kage-flow__artifact > * {
+  grid-column: 1 / -1 !important;
+  grid-row: auto !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: auto !important;
+  position: static !important;
+  transform: none !important;
+}
+
+/* ------------------------------------------------------------ process */
+
+.sh-proc {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sh-proc > li {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radius);
+  background: var(--sh-pure);
+}
+
+.sh-proc__text {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem 1.3rem;
+}
+
+.sh-proc__text b {
+  color: var(--sh-forest);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.sh .sh-proc__text h3 {
+  font-size: 1.125rem;
+}
+
+.sh-proc__text p {
+  color: var(--sh-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.sh-out {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  height: 168px;
+  padding: 1rem;
+  border-bottom: 1px solid var(--sh-line);
+  background: #eef0e8;
+  font-size: 0.8125rem;
+}
+
+.sh-out > span {
+  color: var(--sh-forest);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sh-out ul,
+.sh-out ol {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sh-out--brief li {
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--sh-ink);
+}
+
+.sh-out--brief li::before {
+  content: "— ";
+  color: var(--sh-lime-2);
+  font-weight: 700;
+}
+
+.sh-out--flow ol {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  counter-reset: flow;
+}
+
+.sh-out--flow li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid rgba(18, 55, 45, 0.18);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--sh-ink);
+  font-weight: 600;
+  counter-increment: flow;
+}
+
+.sh-out--flow li::before {
+  content: counter(flow);
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--sh-forest);
+  color: var(--sh-lime);
+  font-size: 0.6875rem;
+}
+
+.sh-out--demo > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.sh-out--demo i {
+  grid-column: 1 / -1;
+  height: 52px;
+  border-radius: 6px;
+  background:
+    linear-gradient(90deg, var(--sh-forest) 0 38%, transparent 38%) 0 100% / 100% 4px no-repeat,
+    #e3e6dc;
+}
+
+.sh-out--demo b {
+  color: var(--sh-ink);
+  font-size: 0.9375rem;
+}
+
+.sh-out--demo em {
+  padding: 0.35rem 0.6rem;
+  border-radius: 7px;
+  background: var(--sh-forest);
+  color: #fff;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.sh-out--lead p {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0.5rem 0.6rem;
+  border-left: 3px solid var(--sh-lime-2);
+  border-radius: 0 8px 8px 0;
+  background: #fff;
+  color: var(--sh-muted);
+}
+
+.sh-out--lead b {
+  color: var(--sh-ink);
+}
+
+@media (max-width: 1080px) {
+  .sh-proc {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .sh-proc {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1180px) {
+  html body .sh .sh-combo {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 620px) {
+  html body .sh .sh-combo__list {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  html body .sh .sh-combo__list button {
+    justify-content: space-between;
+  }
 }

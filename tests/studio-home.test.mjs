@@ -11,10 +11,11 @@ test("homepage is the Koverta-inspired studio page with real work and a keyword 
   assert.match(route, /import \{ StudioHome \}/);
   assert.match(route, /3D konfigurátor na web/);
   assert.equal((landing.match(/<h1\b/g) ?? []).length, 1);
-  // Koverta-style hero: plain heading with the approved message and a live preview.
-  assert.match(landing, /Web, ktorý mení návštevy <em>na výsledky\.<\/em>/);
-  assert.match(landing, /className="sh-top"/);
+  // The approved original hero: typed headline with three live previews.
+  assert.match(landing, /aria-label="Web, ktorý mení návštevy na výsledky\."/);
+  assert.match(landing, /className="hybrid-hero kage-hero"/);
   assert.match(landing, /heroProjects\.map/);
+  assert.match(landing, /work\/live\/koverta-konfigurator\.webp/);
   assert.match(landing, /className="hybrid-home kage-home sh"/);
   assert.match(landing, /<FlowStory \/>/);
   assert.match(landing, /title: "Všetko spolu"/);
@@ -103,11 +104,11 @@ test("FAQ heading stays pinned while the list scrolls", async () => {
   assert.match(css, /\.sh-faq__grid \.sh-head \{\s*position: sticky;/);
 });
 
-test("process steps switch on click without scroll-driven animation", async () => {
+test("process shows four steps with concrete outputs and no scroll-driven animation", async () => {
   const landing = await read("src/components/site/StudioHome.tsx");
   const start = landing.indexOf("function Process()");
   const process = landing.slice(start, landing.indexOf("/* ----", start));
-  assert.match(process, /onClick=\{\(\) => setActive\(order\)\}/);
+  assert.match(process, /<ProcessOutput step=\{order\} \/>/);
   assert.doesNotMatch(process, /addEventListener\("scroll"/);
 });
 

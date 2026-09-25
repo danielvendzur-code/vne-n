@@ -107,24 +107,18 @@ export function ConfiguratorPage() {
 
   return (
     <div className="sh cfp" ref={rootRef}>
-      <section className="sh-hero cfp-hero" aria-labelledby="cfp-title">
-        <div className="sh-wrap sh-hero__grid">
-          <div className="sh-hero__copy">
+      <section className="cfp-top" aria-labelledby="cfp-title">
+        <div className="sh-wrap cfp-top__grid">
+          <div className="cfp-top__copy">
             <Eyebrow tone="dark">Prípadová štúdia · Koverta</Eyebrow>
-            <h1 id="cfp-title" className="sh-hero__title">
-              <span className="sh-line" style={{ "--i": 0 } as CSSProperties}>
-                3D konfigurátor na web,
-              </span>{" "}
-              <em className="sh-line" style={{ "--i": 1 } as CSSProperties}>
-                v ktorom si zákazník poskladá produkt.
-              </em>
+            <h1 id="cfp-title">
+              3D konfigurátor <em>na váš web</em>
             </h1>
-            <p className="sh-hero__lead sh-line" style={{ "--i": 2 } as CSSProperties}>
-              Pre výrobcu prístreškov a pergol Koverta sme postavili konfigurátor, v ktorom zákazník
-              nastaví rozmer, farbu, strechu aj výbavu, vidí výsledok v 3D a hneď aj orientačnú
-              cenu.
+            <p>
+              Zákazník nastaví rozmer, farbu, strechu aj výbavu, vidí výsledok v 3D a hneď aj
+              orientačnú cenu. Vy dostanete dopyt s hotovou zostavou.
             </p>
-            <div className="sh-hero__actions sh-line" style={{ "--i": 3 } as CSSProperties}>
+            <div className="cfp-top__actions">
               <a href="#konfigurator" className="sh-btn sh-btn--lime">
                 Vyskúšať naživo <ArrowRight size={18} aria-hidden="true" />
               </a>
@@ -133,25 +127,19 @@ export function ConfiguratorPage() {
               </Link>
             </div>
           </div>
-          <div className="cfp-hero__media sh-line" style={{ "--i": 2 } as CSSProperties}>
+          <figure className="cfp-top__media">
             <img
-              className="cfp-hero__desk"
-              src={`${BASE}work/koverta/konfigurator-carport.webp`}
-              alt="3D konfigurátor Koverta: carport s autom v scéne, výber umiestnenia a orientačná cena"
-              width={1600}
-              height={841}
+              src={`${BASE}work/koverta/model-porsche.webp`}
+              alt="3D model prístrešku Koverta s drevenými lamelami a športovým autom"
+              width={1200}
+              height={843}
               fetchPriority="high"
             />
-            <img
-              className="cfp-hero__phone"
-              src={`${BASE}work/koverta/konfigurator-mobil.webp`}
-              alt="Rovnaký 3D konfigurátor na mobile"
-              width={600}
-              height={1000}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+            <figcaption>
+              <b>od 5 497 €</b>
+              <span>3 500 × 6 000 mm · antracit · drevené lamely</span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
