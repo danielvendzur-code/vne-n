@@ -15,7 +15,7 @@ test("homepage is the Koverta-inspired studio page with real work and a keyword 
   assert.match(landing, /aria-label="Web, ktorý mení návštevy na výsledky\."/);
   assert.match(landing, /className="hybrid-hero kage-hero"/);
   assert.match(landing, /heroProjects\.map/);
-  assert.match(landing, /work\/live\/koverta-konfigurator\.webp/);
+  assert.match(landing, /work\/live\/koverta\.webp/);
   assert.match(landing, /className="hybrid-home kage-home sh"/);
   assert.match(landing, /<FlowStory \/>/);
   assert.match(landing, /title: "Všetko spolu"/);
@@ -108,7 +108,8 @@ test("process shows four steps with concrete outputs and no scroll-driven animat
   const landing = await read("src/components/site/StudioHome.tsx");
   const start = landing.indexOf("function Process()");
   const process = landing.slice(start, landing.indexOf("/* ----", start));
-  assert.match(process, /<ProcessOutput step=\{order\} \/>/);
+  assert.match(process, /processScenes\[active\]/);
+  assert.match(process, /onClick=\{\(\) => setActive\(order\)\}/);
   assert.doesNotMatch(process, /addEventListener\("scroll"/);
 });
 
@@ -121,4 +122,11 @@ test("monthly operation is a starting price and fonts use full-weight Archivo", 
   assert.match(landing, /value: 10,\s*lead: "od "/);
   assert.match(chrome, /font-family: "Archivo MC"/);
   assert.match(chrome, /archivo-latin-wght-normal\.woff2/);
+});
+
+test("no meta copy explaining how the page itself works", async () => {
+  const landing = await read("src/components/site/StudioHome.tsx");
+  const derat = await read("src/routes/projekty.derat.tsx");
+  assert.doesNotMatch(landing, /Načíta sa až po kliknutí|Posúvaním stránky|vpravo dole/);
+  assert.doesNotMatch(derat, /nie makety/);
 });

@@ -147,8 +147,8 @@ const heroProjects = [
     slug: "koverta",
     name: "Koverta",
     href: "https://koverta.sk/",
-    image: `${BASE}work/live/koverta-konfigurator.webp`,
-    alt: "3D konfigurátor Koverta: prístrešok s drevenými lamelami a autom, cena od 5 497 €",
+    image: `${BASE}work/live/koverta.webp`,
+    alt: "Domovská stránka Koverta s pergolou nad terasou",
   },
   {
     slug: "derat",
@@ -782,10 +782,7 @@ function FlowStory() {
         </div>
 
         <div className="container-page kage-flow-story__footer">
-          <p>
-            Posúvaním stránky prejdete celý postup. Nástroje fungujú samostatne, v kombinácii aj
-            všetky spolu.
-          </p>
+          <p>Nástroje fungujú samostatne, v kombinácii aj všetky spolu.</p>
           <button
             type="button"
             className="kage-flow-story__cta site-cta site-cta--primary"
@@ -917,23 +914,16 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
               </>
             )}
           </div>
-          <p className="sh-config__note">
-            {live ? (
-              <>
-                Konfigurátor beží naživo. Pohodlnejšie ho ovládate{" "}
-                <a
-                  href={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  na celej obrazovke
-                </a>
-                .
-              </>
-            ) : (
-              "Živá ukážka beží priamo tu. Načíta sa až po kliknutí, aby stránka ostala rýchla."
-            )}
-          </p>
+          {live ? (
+            <a
+              className="sh-config__note sh-link"
+              href={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Otvoriť na celej obrazovke <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          ) : null}
         </div>
       </div>
     </section>
@@ -1007,64 +997,76 @@ function Work() {
 
 /* ---------------------------------------------------------------- process */
 
-/* Štyri kroky vedľa seba. Každý ukazuje, čo po ňom reálne dostanete —
-   malý náhľad výstupu namiesto ilustračnej fotky. */
-function ProcessOutput({ step }: { step: number }) {
-  if (step === 0) {
-    return (
-      <div className="sh-out sh-out--brief" aria-hidden="true">
-        <span>Zadanie</span>
-        <ul>
-          <li>Zákazníci sa pýtajú na cenu</li>
-          <li>Cena podľa rozmeru a montáže</li>
-          <li>Dopyty chodia na e-mail</li>
-        </ul>
-      </div>
-    );
-  }
-  if (step === 1) {
-    return (
-      <div className="sh-out sh-out--flow" aria-hidden="true">
-        <span>Návrh krokov</span>
-        <ol>
-          <li>Typ</li>
-          <li>Rozmer</li>
-          <li>Doplnky</li>
-          <li>Cena</li>
-        </ol>
-      </div>
-    );
-  }
-  if (step === 2) {
-    return (
-      <div className="sh-out sh-out--demo" aria-hidden="true">
-        <span>Ukážka na odskúšanie</span>
-        <div>
-          <i />
-          <b>od 4 497 €</b>
-          <em>Pokračovať</em>
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div className="sh-out sh-out--lead" aria-hidden="true">
-      <span>Nový dopyt</span>
-      <p>
-        <b>Prístrešok 3,5 × 6 m</b>
-        antracit · drevené lamely
-      </p>
-      <p>
-        <b>od 5 497 €</b>
-        Ján, Nitra
-      </p>
-    </div>
-  );
-}
+/* Interaktívny postup: kroky vľavo sa samy posúvajú (dá sa na ne kliknúť),
+   vpravo je skutočný záber toho, čo v danom kroku vzniká. */
+const processScenes = [
+  {
+    image: `${BASE}work/live/mojplot.webp`,
+    alt: "Web klienta Môj Plot, z ktorého vychádza zadanie",
+    kind: "site",
+    output: ["Čo zákazníci hľadajú", "Na čo sa najčastejšie pýtajú", "Kam majú chodiť dopyty"],
+    outputTitle: "Zadanie",
+  },
+  {
+    image: `${BASE}work/process/kroky-kalkulacky.webp`,
+    alt: "Navrhnutý krok kalkulačky DERAT: výber škodcu s orientačnou cenou",
+    kind: "phone",
+    output: ["Typ", "Priestor", "Rozloha", "Doplnky", "Cena"],
+    outputTitle: "Návrh krokov",
+  },
+  {
+    image: `${BASE}work/koverta/konfigurator-mobil.webp`,
+    alt: "Ukážka 3D konfigurátora Koverta na mobile na odskúšanie",
+    kind: "phone",
+    output: ["Desktop ✓", "Mobil ✓", "Ceny ✓", "Odoslanie ✓"],
+    outputTitle: "Otestované",
+  },
+  {
+    image: `${BASE}work/live/derat.webp`,
+    alt: "Nasadený web DERAT s kalkulačkou a asistentom",
+    kind: "site",
+    output: ["Deratizácia · byt 60 m²", "od 60 € bez DPH", "Ján, Nitra · 0905 …"],
+    outputTitle: "Nový dopyt",
+  },
+] as const;
+
+const PROCESS_STEP_MS = 5200;
 
 function Process() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(Boolean(entry?.isIntersecting)),
+      {
+        threshold: 0.35,
+      },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!inView || paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return undefined;
+    }
+    const timer = window.setTimeout(
+      () => setActive((current) => (current + 1) % process.length),
+      PROCESS_STEP_MS,
+    );
+    return () => window.clearTimeout(timer);
+  }, [active, inView, paused]);
+
+  const scene = processScenes[active];
+
   return (
     <section
+      ref={sectionRef}
       className="sh-section sh-process"
       data-nav-tone="light"
       id="proces"
@@ -1080,18 +1082,53 @@ function Process() {
             Celý postup <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </header>
-        <ol className="sh-proc">
-          {process.map(([index, title, copy], order) => (
-            <li key={index} data-reveal style={{ "--d": order } as CSSProperties}>
-              <ProcessOutput step={order} />
-              <div className="sh-proc__text">
-                <b>{index}</b>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+
+        <div
+          className="sh-journey"
+          data-running={inView && !paused ? "true" : "false"}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+        >
+          <ol className="sh-journey__steps" role="tablist" aria-label="Kroky spolupráce">
+            {process.map(([index, title, copy], order) => (
+              <li key={index}>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={order === active}
+                  data-active={order === active}
+                  data-done={order < active || undefined}
+                  onClick={() => setActive(order)}
+                >
+                  <b>{index}</b>
+                  <span>
+                    <strong>{title}</strong>
+                    <small>{copy}</small>
+                  </span>
+                  <i aria-hidden="true" key={order === active ? `run-${active}` : "idle"} />
+                </button>
+              </li>
+            ))}
+          </ol>
+
+          <div className="sh-journey__stage" role="tabpanel" aria-live="polite">
+            <figure className="sh-journey__shot" data-kind={scene.kind} key={active}>
+              <img src={scene.image} alt={scene.alt} loading="lazy" decoding="async" />
+            </figure>
+            <div className="sh-journey__out" key={`out-${active}`} aria-hidden="true">
+              <span>{scene.outputTitle}</span>
+              <ul>
+                {scene.output.map((item, index) => (
+                  <li key={item} style={{ "--o": index } as CSSProperties}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1159,8 +1196,7 @@ function Faq() {
           <h2 id="sh-faq-title">Čo sa nás pýtate najčastejšie</h2>
           <p>
             Nenašli ste odpoveď? Napíšte na{" "}
-            <a href="mailto:info@mojchatbot.sk">info@mojchatbot.sk</a> alebo sa opýtajte chatbota
-            vpravo dole.
+            <a href="mailto:info@mojchatbot.sk">info@mojchatbot.sk</a>.
           </p>
         </header>
         <div className="sh-faq__list">
