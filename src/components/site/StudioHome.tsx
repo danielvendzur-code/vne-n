@@ -932,7 +932,45 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
 
 /* ------------------------------------------------------------------- work */
 
+/* Realizácie ako zoznam s náhľadom, ktorý sleduje kurzor — typický vzor
+   ocenených štúdií. Na dotykových zariadeniach je obrázok priamo v riadku. */
 function Work() {
+  const [hovered, setHovered] = useState<number | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const list = listRef.current;
+    const preview = previewRef.current;
+    if (!list || !preview) return undefined;
+    let x = 0;
+    let y = 0;
+    let cx = 0;
+    let cy = 0;
+    let frame = 0;
+    const loop = () => {
+      cx += (x - cx) * 0.16;
+      cy += (y - cy) * 0.16;
+      preview.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      frame = requestAnimationFrame(loop);
+    };
+    const onMove = (event: PointerEvent) => {
+      const r = list.getBoundingClientRect();
+      x = event.clientX - r.left;
+      y = event.clientY - r.top;
+      if (!frame) {
+        cx = x;
+        cy = y;
+        frame = requestAnimationFrame(loop);
+      }
+    };
+    list.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      list.removeEventListener("pointermove", onMove);
+    };
+  }, []);
+
   return (
     <section
       className="sh-section sh-work"
@@ -950,45 +988,141 @@ function Work() {
             Všetky realizácie <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </header>
-        <div className="sh-work__grid">
-          {realizations.map((project, index) => (
-            <article
-              className="sh-project"
-              key={project.name}
-              data-reveal
-              style={{ "--d": index % 2 } as CSSProperties}
-            >
-              <a
-                href={project.href}
-                target="_blank"
-                rel="noreferrer"
-                className="sh-project__media"
-                aria-label={`${project.name} — otvoriť ${project.domain}`}
+        <div
+          className="sh-rows"
+          ref={listRef}
+          data-hover={hovered !== null ? "true" : undefined}
+          onPointerLeave={() => setHovered(null)}
+        >
+          <ol>
+            {realizations.map((project, index) => (
+              <li
+                key={project.name}
+                data-reveal
+                data-active={hovered === index || undefined}
+                style={{ "--d": index } as CSSProperties}
               >
-                <img
-                  src={project.image}
-                  alt={project.alt}
-                  width={1600}
-                  height={1000}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span className="sh-project__domain">
-                  {project.domain} <ArrowUpRight size={14} aria-hidden="true" />
-                </span>
-              </a>
-              <div className="sh-project__meta">
-                <span>{project.type}</span>
-                <h3>{project.name}</h3>
-                <p>{project.result}</p>
-                {project.caseStudyPath ? (
-                  <Link to={project.caseStudyPath} className="sh-link sh-link--dark">
-                    Prípadová štúdia <ArrowRight size={15} aria-hidden="true" />
-                  </Link>
-                ) : null}
-              </div>
-            </article>
-          ))}
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="sh-row"
+                  data-cursor="Otvoriť web"
+                  onPointerEnter={() => setHovered(index)}
+                  onFocus={() => setHovered(index)}
+                >
+                  <span className="sh-row__index">0{index + 1}</span>
+                  <strong className="sh-row__name">{project.name}</strong>
+                  <span className="sh-row__type">{project.type}</span>
+                  <span className="sh-row__domain">
+                    {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
+                  </span>
+                  <img
+                    className="sh-row__thumb"
+                    src={project.image}
+                    alt={project.alt}
+                    width={1600}
+                    height={1000}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+            ))}
+          </ol>
+          <div className="sh-rows__preview" ref={previewRef} aria-hidden="true">
+            {realizations.map((project, index) => (
+              <img
+                key={project.name}
+                src={project.image}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                data-active={hovered === index || undefined}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------------------------------------- before/after */
+
+function BeforeAfter() {
+  const [position, setPosition] = useState(50);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+
+  const update = (clientX: number) => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const r = frame.getBoundingClientRect();
+    setPosition(Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100)));
+  };
+
+  return (
+    <section className="sh-section sh-ba" data-nav-tone="light" aria-labelledby="sh-ba-title">
+      <div className="sh-wrap">
+        <header className="sh-head sh-head--row" data-reveal>
+          <div>
+            <Eyebrow>Pred a po</Eyebrow>
+            <h2 id="sh-ba-title">Ten istý web. S nástrojom predáva.</h2>
+          </div>
+          <p>
+            Potiahnite posuvník. Vľavo derat.sk bez nástroja, vpravo s kalkulačkou a asistentom.
+          </p>
+        </header>
+        <div
+          className="sh-ba__frame"
+          ref={frameRef}
+          style={{ "--pos": `${position}%` } as CSSProperties}
+          data-reveal
+          onPointerDown={(event) => {
+            dragging.current = true;
+            event.currentTarget.setPointerCapture(event.pointerId);
+            update(event.clientX);
+          }}
+          onPointerMove={(event) => {
+            if (dragging.current) update(event.clientX);
+          }}
+          onPointerUp={() => {
+            dragging.current = false;
+          }}
+        >
+          <img
+            src={`${BASE}work/process/derat-after.webp`}
+            alt="Web DERAT s otvorenou kalkulačkou a orientačnou cenou"
+            width={1600}
+            height={1000}
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="sh-ba__before">
+            <img
+              src={`${BASE}work/process/derat-before.webp`}
+              alt="Web DERAT bez kalkulačky"
+              width={1600}
+              height={1000}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <span className="sh-ba__tag sh-ba__tag--before">Bez nástroja</span>
+          <span className="sh-ba__tag sh-ba__tag--after">S kalkulačkou</span>
+          <input
+            className="sh-ba__range"
+            type="range"
+            min={0}
+            max={100}
+            value={Math.round(position)}
+            onChange={(event) => setPosition(Number(event.target.value))}
+            aria-label="Porovnanie webu bez nástroja a s nástrojom"
+          />
+          <span className="sh-ba__handle" aria-hidden="true">
+            <ArrowRight size={16} />
+          </span>
         </div>
       </div>
     </section>
@@ -1226,6 +1360,7 @@ export function StudioHome() {
       <Hero />
       <Facts />
       <Solutions />
+      <BeforeAfter />
       <FlowStory />
       <ConfiguratorShowcase />
       <Work />

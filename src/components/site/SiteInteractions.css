@@ -1,0 +1,85 @@
+/* Magnetické tlačidlá: posun cez premenné, aby sa nebil s inými transformáciami. */
+[data-magnet="true"] {
+  translate: var(--mag-x, 0) var(--mag-y, 0);
+  transition: translate 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sh-btn--lime,
+.hybrid-hero__primary,
+.site-header__cta,
+.kage-flow-story__cta,
+[data-magnetic] {
+  transition-property: translate, background-color, color, border-color;
+  transition-duration: 450ms, 200ms, 200ms, 200ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Vlastný kurzor: bodka, nad klikateľným prvkom kruh, nad realizáciou popis. */
+.mc-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: #c8f06a;
+  mix-blend-mode: normal;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    width 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    margin 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 250ms ease,
+    opacity 200ms ease,
+    border-color 250ms ease;
+  will-change: transform;
+}
+
+.mc-cursor[data-visible="true"] {
+  opacity: 1;
+}
+
+.mc-cursor[data-state="hover"] {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border: 1.5px solid #c8f06a;
+  background: rgba(200, 240, 106, 0.14);
+}
+
+.mc-cursor[data-state="label"] {
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+  background: #c8f06a;
+}
+
+.mc-cursor[data-down="true"] {
+  scale: 0.85;
+}
+
+.mc-cursor span {
+  color: #071b15;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.mc-cursor[data-state="label"] span {
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .mc-cursor {
+    display: none;
+  }
+}
