@@ -108,7 +108,6 @@ export function ConfiguratorPage() {
   return (
     <div className="sh cfp" ref={rootRef}>
       <section className="sh-hero cfp-hero" aria-labelledby="cfp-title">
-        <div className="sh-hero__glow" aria-hidden="true" />
         <div className="sh-wrap sh-hero__grid">
           <div className="sh-hero__copy">
             <Eyebrow tone="dark">Prípadová štúdia · Koverta</Eyebrow>

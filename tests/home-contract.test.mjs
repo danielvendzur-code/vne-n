@@ -108,7 +108,7 @@ test("pricing stays readable and explicit about standalone, combined and all-in-
 
   assert.equal((pricing.match(/setup: "od 347 €"/g) ?? []).length, 1);
   assert.equal((pricing.match(/setup: "od 447 €"/g) ?? []).length, 2);
-  assert.equal((pricing.match(/monthly: "10 € \/ mesiac"/g) ?? []).length, 3);
+  assert.equal((pricing.match(/monthly: "od 10 € \/ mesiac"/g) ?? []).length, 3);
   assert.match(landing, /to="\/cennik"/);
   assert.match(pricing, /id="baliky"/);
   assert.match(pricing, /ShPageHero/);

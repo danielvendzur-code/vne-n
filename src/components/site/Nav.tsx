@@ -1,9 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Menu, Phone } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import "./SiteChrome.css";
 
 type NavTone = "dark" | "light";
 
@@ -116,9 +117,20 @@ export function Nav() {
         ref={headerRef}
         className="site-header"
         data-scrolled={scrolled}
-        data-tone={tone}
-        data-adaptive={adaptiveTone ? "true" : "false"}
+        data-tone="light"
+        data-adaptive="false"
+        data-section-tone={adaptiveTone ? tone : undefined}
       >
+        <div className="mc-topbar">
+          <div className="mc-topbar__in">
+            <ul className="mc-topbar__usps">
+              <li>Návrh a ukážka zadarmo</li>
+              <li>Ozveme sa do 1 pracovného dňa</li>
+              <li>Na váš existujúci web</li>
+            </ul>
+            <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+          </div>
+        </div>
         <div className="site-header__inner container-page">
           <a href={brandHref} className="site-brand-lockup" aria-label="Môj Chatbot — naspäť hore">
             <BrandMark size={34} />
@@ -134,6 +146,10 @@ export function Nav() {
           </nav>
 
           <div className="site-header__actions">
+            <a className="mc-header-phone" href={`tel:${siteConfig.contact.phoneHref}`}>
+              <Phone size={16} aria-hidden="true" />
+              <span>{siteConfig.contact.phoneLabel}</span>
+            </a>
             <Link
               to="/kontakt"
               className="site-header__cta site-cta site-cta--primary site-cta--compact"
@@ -149,7 +165,8 @@ export function Nav() {
               aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
               onClick={() => setOpen((value) => !value)}
             >
-              PONUKA
+              <Menu size={20} aria-hidden="true" />
+              <span>Menu</span>
             </button>
           </div>
         </div>
