@@ -71,6 +71,24 @@ function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(value);
 }
 
+/* Demo pages link here with source=coffee-demo-<slug> or
+   source=skincare-demo-<slug>, plus the company, its web and the demo URL.
+   Both kinds get the short, prefilled form. */
+const DEMO_LEADS = {
+  "coffee-demo-": { product: "kávového poradcu", interest: "Kávový poradca pre e-shop" },
+  "skincare-demo-": {
+    product: "poradcu starostlivosti",
+    interest: "Poradca starostlivosti pre kozmetický e-shop",
+  },
+} as const;
+
+function demoLeadOf(source: string) {
+  const prefix = (Object.keys(DEMO_LEADS) as Array<keyof typeof DEMO_LEADS>).find((key) =>
+    source.startsWith(key),
+  );
+  return prefix ? DEMO_LEADS[prefix] : null;
+}
+
 function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -98,7 +116,7 @@ function ContactPage() {
     if (demoParam) setDemoUrl((current) => current || demoParam);
   }, []);
 
-  const fromCoffeeDemo = leadSource.startsWith("coffee-demo-");
+  const fromDemo = demoLeadOf(leadSource) !== null;
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -113,9 +131,9 @@ function ContactPage() {
     const safeDemo = normalizeHttpUrl(cleanField(demoUrl, FIELD_LIMITS.demo));
     const safeProject = cleanField(project, FIELD_LIMITS.project);
     const safeSource = cleanField(leadSource, FIELD_LIMITS.source) || "website-contact";
-    const isCoffeeLead = safeSource.startsWith("coffee-demo-");
+    const demoLead = demoLeadOf(safeSource);
 
-    if (!safeName || !isEmail(safeEmail) || (!isCoffeeLead && !safeProject)) {
+    if (!safeName || !isEmail(safeEmail) || (!demoLead && !safeProject)) {
       setError("Vyplňte meno, platný e-mail a povinný obsah zadania.");
       return;
     }
@@ -125,8 +143,8 @@ function ContactPage() {
       return;
     }
 
-    const coffeeNote = [
-      `Mám záujem o kávového poradcu${safeCompany ? ` pre ${safeCompany}` : ""}.`,
+    const demoNote = [
+      `Mám záujem o ${demoLead?.product ?? "poradcu"}${safeCompany ? ` pre ${safeCompany}` : ""}.`,
       safeDemo ? `Ukážka: ${safeDemo}` : "",
       "Doplňujúca poznámka:",
       safeProject,
@@ -147,9 +165,9 @@ function ContactPage() {
         phone: safePhone,
         company: safeCompany,
         web: safeWeb,
-        note: isCoffeeLead ? coffeeNote : safeProject,
-        interest: isCoffeeLead
-          ? "Kávový poradca pre e-shop"
+        note: demoLead ? demoNote : safeProject,
+        interest: demoLead
+          ? demoLead.interest
           : "Návrh chatbota, kalkulačky, konfigurátora alebo produktového poradcu",
         consent: true,
         website: botTrap,
@@ -209,10 +227,10 @@ function ContactPage() {
 
           <div className="shp-form-card contact-form-wrap">
             <p className="shp-contact__label">
-              {fromCoffeeDemo ? "Predvyplnené z vašej ukážky" : "Krátke zadanie"}
+              {fromDemo ? "Predvyplnené z vašej ukážky" : "Krátke zadanie"}
             </p>
 
-            {fromCoffeeDemo ? (
+            {fromDemo ? (
               <div className="contact-demo-summary">
                 <strong>Firmu, web aj konkrétnu ukážku už máme.</strong>
                 <p>Doplňte iba kontakt na seba. Telefón a poznámka sú voliteľné.</p>
@@ -302,15 +320,15 @@ function ContactPage() {
               </div>
 
               <label>
-                <span>{fromCoffeeDemo ? "Doplňujúca poznámka" : "Čo má web zjednodušiť? *"}</span>
+                <span>{fromDemo ? "Doplňujúca poznámka" : "Čo má web zjednodušiť? *"}</span>
                 <textarea
                   value={project}
                   onChange={(event) => setProject(event.target.value)}
-                  required={!fromCoffeeDemo}
+                  required={!fromDemo}
                   maxLength={FIELD_LIMITS.project}
-                  rows={fromCoffeeDemo ? 3 : 4}
+                  rows={fromDemo ? 3 : 4}
                   placeholder={
-                    fromCoffeeDemo
+                    fromDemo
                       ? "Voliteľné — napríklad telefónny čas, otázka alebo čo chcete na ukážke upraviť."
                       : "Napríklad: zákazníci sa pýtajú na cenu. Počítame ju podľa rozmerov, variantu a montáže."
                   }
@@ -368,7 +386,7 @@ function ContactPage() {
               >
                 {submitState === "sending"
                   ? "Odosielam…"
-                  : fromCoffeeDemo
+                  : fromDemo
                     ? "Mám záujem — ozvite sa mi"
                     : "Odoslať zadanie"}
                 <ArrowRight size={16} aria-hidden="true" />
