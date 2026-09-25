@@ -35,12 +35,12 @@ export const realizations: Realization[] = [
   },
   {
     name: "Môj Plot",
-    type: "E-commerce · produktový web",
+    type: "E-shop · chatbot a kalkulačka",
     domain: "mojplot.sk",
     href: "https://mojplot.sk/",
-    result: "Prehľadný výber oplotenia, služieb a ďalšieho kroku pre zákazníka.",
+    result: "Chatbot poradí s výberom plotu a kalkulačka spočíta cenu podľa dĺžky a výšky.",
     detail:
-      "Produktový web s ponukou plotov, kde sa zákazník dostane od typu oplotenia k dopytu bez toho, aby musel telefonovať. Štruktúra ponuky, texty aj cesta ku kontaktu sú postavené tak, aby bolo jasné, čo si vybrať.",
+      "E-shop s plotmi, kde chatbot odpovedá na otázky k typom oplotenia a kalkulačka z dĺžky, výšky a doplnkov spočíta orientačnú cenu. Zákazník sa dostane k objednávke alebo dopytu bez telefonovania.",
     image: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
     alt: "Domovská stránka Môj Plot s kategóriami plotov a hlavným bannerom",
   },

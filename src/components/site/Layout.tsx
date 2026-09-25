@@ -6,6 +6,7 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { PageRevealController } from "./PageRevealController";
+import { SiteInteractions } from "./SiteInteractions";
 import "./SiteVisualAuthority.css";
 
 const navRefinement = `
@@ -89,6 +90,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           </div>
           <PageRevealController pathname={pathname} />
         </main>
+        <SiteInteractions />
         <AnalyticsConsent />
         <Footer />
       </div>

@@ -106,11 +106,7 @@ function DeratCaseStudyPage() {
 
       <section className="sh-section">
         <div className="sh-wrap">
-          <ShSectionHead
-            eyebrow="Ako to prebieha"
-            title="Štyri zastávky od problému k dopytu"
-            lead="Zábery sú priamo z kalkulačky na derat.sk, nie makety."
-          />
+          <ShSectionHead eyebrow="Ako to prebieha" title="Štyri zastávky od problému k dopytu" />
           <ol className="shp-case-steps shp-case-steps--4">
             {steps.map((step, index) => (
               <li
