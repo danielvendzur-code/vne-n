@@ -2818,14 +2818,15 @@ html:root body .kage-home .kage-flow__artifact strong {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) !important;
 }
 
+/* Bez prázdnej „bubliny“: výstup kroku je jeden jasný riadok. */
 html:root body .kage-home .kage-flow__artifact::after {
-  content: "" !important;
-  display: block !important;
-  justify-self: end !important;
-  width: 46% !important;
-  height: 38px !important;
-  border-radius: 12px 12px 4px 12px !important;
-  background: var(--sh-lime) !important;
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .kage-home .kage-flow__artifact strong {
+  border-left: 4px solid var(--sh-lime) !important;
+  border-radius: 8px !important;
 }
 
 html:root body .kage-home .kage-flow__artifact {
@@ -3835,5 +3836,36 @@ html body .sh .sh-combo--wide .sh-combo__list svg {
   html body .sh .sh-combo.sh-combo--wide,
   html body .sh .sh-combo--wide .sh-combo__list {
     grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Horizontálny príbeh: viditeľný nadpis vľavo, prepínač vpravo. */
+@media (min-width: 1200px) {
+  html:root body .kage-home .kage-flow-story__toolbar {
+    left: calc((100vw - min(1280px, 100vw)) / 2 + 3rem);
+    right: calc((100vw - min(1280px, 100vw)) / 2 + 3rem);
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  html:root body .kage-home .kage-flow-story__sr-title {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    color: #f5f4ed;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    white-space: normal !important;
+  }
+
+  html:root body .kage-home .kage-flow-story__modes {
+    pointer-events: auto;
   }
 }

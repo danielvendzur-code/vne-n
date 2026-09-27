@@ -1318,3 +1318,25 @@ html:root body .shp-contact-page .shp-contact {
 .shp .shp-timeline::after {
   transition: none;
 }
+
+/* DERAT: štyri kroky kalkulačky na mobile vedľa seba s posúvaním do boku. */
+@media (max-width: 720px) {
+  .shp .shp-case-steps {
+    display: flex;
+    gap: 0.75rem;
+    margin-inline: calc(var(--sh-gutter) * -1);
+    padding-inline: var(--sh-gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .shp .shp-case-steps::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shp .shp-case-steps > * {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+}
