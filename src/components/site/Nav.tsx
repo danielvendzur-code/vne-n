@@ -10,7 +10,6 @@ type NavTone = "dark" | "light";
 
 const desktopLinks = [
   { label: "Riešenia", href: "/sluzby" },
-  { label: "3D konfigurátor", href: "/3d-konfigurator" },
   { label: "Realizácie", href: "/projekty" },
   { label: "Ako to funguje", href: "/postup" },
   { label: "Cenník", href: "/cennik" },
