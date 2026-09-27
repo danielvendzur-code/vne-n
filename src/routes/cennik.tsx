@@ -184,7 +184,7 @@ function PricingPage() {
 
       <section className="sh-section shp-section--pure">
         <div className="sh-wrap">
-          <div className="sh-combo" data-reveal>
+          <div className="sh-combo sh-combo--wide" data-reveal>
             <div className="sh-combo__intro">
               <Eyebrow tone="dark">SAMOSTATNE AJ SPOLU</Eyebrow>
               <h3>Nemusíte si vybrať iba jedno riešenie.</h3>

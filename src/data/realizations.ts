@@ -16,6 +16,8 @@ export interface Realization {
   detail: string;
   image: string;
   alt: string;
+  /** Čo sme na webe dodali — krátke štítky. */
+  tools: string[];
   /** Voliteľná interná prípadová štúdia. */
   caseStudyPath?: "/projekty/derat" | "/3d-konfigurator";
 }
@@ -31,6 +33,7 @@ export const realizations: Realization[] = [
       "Reálne nasadená deratizačná služba. Návštevník vyberie typ problému a rozsah zásahu, dostane orientačný výsledok a firma prijme kontakt spolu s kontextom potrebným na ďalší krok.",
     image: `${import.meta.env.BASE_URL}work/live/derat.webp`,
     alt: "Domovská stránka DERAT s nadpisom Bez škodcov a kalkulačkou zásahu",
+    tools: ["Kalkulačka ceny", "Dopytový asistent"],
     caseStudyPath: "/projekty/derat",
   },
   {
@@ -43,6 +46,7 @@ export const realizations: Realization[] = [
       "E-shop s plotmi, kde chatbot odpovedá na otázky k typom oplotenia a kalkulačka z dĺžky, výšky a doplnkov spočíta orientačnú cenu. Zákazník sa dostane k objednávke alebo dopytu bez telefonovania.",
     image: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
     alt: "Domovská stránka Môj Plot s kategóriami plotov a hlavným bannerom",
+    tools: ["Chatbot", "Kalkulačka plotu"],
   },
   {
     name: "Koverta",
@@ -55,6 +59,7 @@ export const realizations: Realization[] = [
       "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi potrebnými na ponuku.",
     image: `${import.meta.env.BASE_URL}work/live/koverta.webp`,
     alt: "Domovská stránka Koverta s bioklimatickou pergolou nad terasou",
+    tools: ["3D konfigurátor", "Dopyt so zostavou"],
     caseStudyPath: "/3d-konfigurator",
   },
   {
@@ -67,6 +72,7 @@ export const realizations: Realization[] = [
       "Tmavý prezentačný web, ktorý stavia na ukážkach práce. Každá sekcia končí jasným ďalším krokom, takže návštevník nemusí hľadať, kde sa ozvať.",
     image: `${import.meta.env.BASE_URL}work/live/webko.webp`,
     alt: "Tmavá domovská stránka WEBKO s ukážkou webových realizácií",
+    tools: ["Prezentačný web", "Cesta ku kontaktu"],
   },
 ];
 

@@ -1,5 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, Box, Calculator, MessageSquare, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Box,
+  Calculator,
+  Check,
+  MessageSquare,
+  Sparkles,
+} from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -246,7 +254,7 @@ function Hero() {
         </div>
       </div>
       <div className="container-page hybrid-hero__bottom kage-hero__bottom">
-        <p>Chatboty, kalkulačky, 3D konfigurátory a produktoví poradcovia na mieru.</p>
+        <p>Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru.</p>
         <a href="#riesenia" className="hybrid-hero__primary site-cta site-cta--primary">
           Vybrať riešenie <ArrowUpRight size={17} />
         </a>
@@ -934,43 +942,8 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
 
 /* Realizácie ako zoznam s náhľadom, ktorý sleduje kurzor — typický vzor
    ocenených štúdií. Na dotykových zariadeniach je obrázok priamo v riadku. */
+/* Realizácie ako karty, ktoré sa pri scrollovaní ukladajú na seba. */
 function Work() {
-  const [hovered, setHovered] = useState<number | null>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const list = listRef.current;
-    const preview = previewRef.current;
-    if (!list || !preview) return undefined;
-    let x = 0;
-    let y = 0;
-    let cx = 0;
-    let cy = 0;
-    let frame = 0;
-    const loop = () => {
-      cx += (x - cx) * 0.16;
-      cy += (y - cy) * 0.16;
-      preview.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-      frame = requestAnimationFrame(loop);
-    };
-    const onMove = (event: PointerEvent) => {
-      const r = list.getBoundingClientRect();
-      x = event.clientX - r.left;
-      y = event.clientY - r.top;
-      if (!frame) {
-        cx = x;
-        cy = y;
-        frame = requestAnimationFrame(loop);
-      }
-    };
-    list.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      list.removeEventListener("pointermove", onMove);
-    };
-  }, []);
-
   return (
     <section
       className="sh-section sh-work"
@@ -988,61 +961,71 @@ function Work() {
             Všetky realizácie <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </header>
-        <div
-          className="sh-rows"
-          ref={listRef}
-          data-hover={hovered !== null ? "true" : undefined}
-          onPointerLeave={() => setHovered(null)}
-        >
-          <ol>
-            {realizations.map((project, index) => (
-              <li
-                key={project.name}
-                data-reveal
-                data-active={hovered === index || undefined}
-                style={{ "--d": index } as CSSProperties}
-              >
+        <ol className="sh-cases">
+          {realizations.map((project, index) => (
+            <li
+              key={project.name}
+              className="sh-case"
+              style={{ "--i": index } as CSSProperties}
+              data-tone={index % 2 ? "light" : "dark"}
+            >
+              <article className="sh-case__card">
+                <div className="sh-case__copy">
+                  <span className="sh-case__index">
+                    {String(index + 1).padStart(2, "0")} /{" "}
+                    {String(realizations.length).padStart(2, "0")}
+                  </span>
+                  <h3>{project.name}</h3>
+                  <p>{project.result}</p>
+                  <ul className="sh-case__tags" aria-label="Čo sme dodali">
+                    {project.tools.map((tool) => (
+                      <li key={tool}>{tool}</li>
+                    ))}
+                  </ul>
+                  <div className="sh-case__links">
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="sh-btn sh-btn--lime"
+                    >
+                      {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
+                    </a>
+                    {project.caseStudyPath ? (
+                      <Link to={project.caseStudyPath} className="sh-link">
+                        Ako to funguje <ArrowRight size={16} aria-hidden="true" />
+                      </Link>
+                    ) : null}
+                  </div>
+                </div>
                 <a
+                  className="sh-case__shot"
                   href={project.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="sh-row"
                   data-cursor="Otvoriť web"
-                  onPointerEnter={() => setHovered(index)}
-                  onFocus={() => setHovered(index)}
+                  tabIndex={-1}
+                  aria-hidden="true"
                 >
-                  <span className="sh-row__index">0{index + 1}</span>
-                  <strong className="sh-row__name">{project.name}</strong>
-                  <span className="sh-row__type">{project.type}</span>
-                  <span className="sh-row__domain">
-                    {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
+                  <span className="sh-case__bar">
+                    <i />
+                    <i />
+                    <i />
+                    <em>{project.domain}</em>
                   </span>
                   <img
-                    className="sh-row__thumb"
                     src={project.image}
-                    alt={project.alt}
+                    alt=""
                     width={1600}
                     height={1000}
                     loading="lazy"
                     decoding="async"
                   />
                 </a>
-              </li>
-            ))}
-          </ol>
-          <div className="sh-rows__preview" ref={previewRef} aria-hidden="true">
-            {realizations.map((project, index) => (
-              <img
-                key={project.name}
-                src={project.image}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                data-active={hovered === index || undefined}
-              />
-            ))}
-          </div>
-        </div>
+              </article>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -1050,79 +1033,80 @@ function Work() {
 
 /* ----------------------------------------------------------- before/after */
 
+/* Porovnanie toho, čo firme reálne príde: bez nástroja všeobecná otázka,
+   s kalkulačkou hotový dopyt, na ktorý sa dá hneď odpovedať ponukou. */
+const vagueQuestions = ["Aký priestor?", "Koľko metrov?", "Aký škodca?", "Kedy a kde?"];
+
+const inquiryRows = [
+  ["Služba", "Deratizácia"],
+  ["Priestor", "Byt v bytovom dome"],
+  ["Rozloha", "60 m²"],
+  ["Lokalita", "Nitra"],
+  ["Orientačná cena", "od 60 € bez DPH"],
+  ["Kontakt", "Ján · 0905 …"],
+] as const;
+
 function BeforeAfter() {
-  const [position, setPosition] = useState(50);
-  const frameRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
-
-  const update = (clientX: number) => {
-    const frame = frameRef.current;
-    if (!frame) return;
-    const r = frame.getBoundingClientRect();
-    setPosition(Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100)));
-  };
-
   return (
-    <section className="sh-section sh-ba" data-nav-tone="light" aria-labelledby="sh-ba-title">
+    <section className="sh-section sh-compare" data-nav-tone="light" aria-labelledby="sh-ba-title">
       <div className="sh-wrap">
         <header className="sh-head sh-head--row" data-reveal>
           <div>
             <Eyebrow>Pred a po</Eyebrow>
-            <h2 id="sh-ba-title">Ten istý web. S nástrojom predáva.</h2>
+            <h2 id="sh-ba-title">Rovnaký zákazník. Úplne iný dopyt.</h2>
           </div>
-          <p>
-            Potiahnite posuvník. Vľavo derat.sk bez nástroja, vpravo s kalkulačkou a asistentom.
-          </p>
+          <p>Takto vyzerá správa, ktorá firme príde bez nástroja a s kalkulačkou na webe.</p>
         </header>
-        <div
-          className="sh-ba__frame"
-          ref={frameRef}
-          style={{ "--pos": `${position}%` } as CSSProperties}
-          data-reveal
-          onPointerDown={(event) => {
-            dragging.current = true;
-            event.currentTarget.setPointerCapture(event.pointerId);
-            update(event.clientX);
-          }}
-          onPointerMove={(event) => {
-            if (dragging.current) update(event.clientX);
-          }}
-          onPointerUp={() => {
-            dragging.current = false;
-          }}
-        >
-          <img
-            src={`${BASE}work/process/derat-after.webp`}
-            alt="Web DERAT s otvorenou kalkulačkou a orientačnou cenou"
-            width={1600}
-            height={1000}
-            loading="lazy"
-            decoding="async"
-          />
-          <div className="sh-ba__before">
-            <img
-              src={`${BASE}work/process/derat-before.webp`}
-              alt="Web DERAT bez kalkulačky"
-              width={1600}
-              height={1000}
-              loading="lazy"
-              decoding="async"
-            />
+
+        <div className="sh-compare__grid">
+          <article className="sh-compare__card sh-compare__card--before" data-reveal>
+            <header>
+              <span className="sh-compare__label">Bez nástroja</span>
+              <small>E-mail z kontaktného formulára</small>
+            </header>
+            <div className="sh-compare__mail">
+              <span>Od: jan.k…@gmail.com</span>
+              <span>Predmet: Otázka</span>
+              <p>Dobrý deň, koľko by stála deratizácia? Ďakujem.</p>
+            </div>
+            <div className="sh-compare__missing">
+              <small>Než pošlete cenu, musíte sa spýtať:</small>
+              <ul>
+                {vagueQuestions.map((question, index) => (
+                  <li key={question} style={{ "--o": index } as CSSProperties}>
+                    {question}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <footer>
+              <strong>Ďalšie e-maily a telefonáty</strong>
+              <span>Zákazník medzitým často píše aj konkurencii.</span>
+            </footer>
+          </article>
+
+          <div className="sh-compare__arrow" aria-hidden="true">
+            <ArrowRight size={22} />
           </div>
-          <span className="sh-ba__tag sh-ba__tag--before">Bez nástroja</span>
-          <span className="sh-ba__tag sh-ba__tag--after">S kalkulačkou</span>
-          <input
-            className="sh-ba__range"
-            type="range"
-            min={0}
-            max={100}
-            value={Math.round(position)}
-            onChange={(event) => setPosition(Number(event.target.value))}
-            aria-label="Porovnanie webu bez nástroja a s nástrojom"
-          />
-          <span className="sh-ba__handle" aria-hidden="true">
-            <ArrowRight size={16} />
-          </span>
+
+          <article className="sh-compare__card sh-compare__card--after" data-reveal>
+            <header>
+              <span className="sh-compare__label">S kalkulačkou</span>
+              <small>Dopyt z kalkulačky na derat.sk</small>
+            </header>
+            <dl className="sh-compare__rows">
+              {inquiryRows.map(([label, value], index) => (
+                <div key={label} style={{ "--o": index } as CSSProperties}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <footer>
+              <strong>Môžete rovno poslať ponuku</strong>
+              <span>Zákazník už pozná orientačnú cenu, vy poznáte rozsah práce.</span>
+            </footer>
+          </article>
         </div>
       </div>
     </section>
@@ -1131,36 +1115,40 @@ function BeforeAfter() {
 
 /* ---------------------------------------------------------------- process */
 
-/* Interaktívny postup: kroky vľavo sa samy posúvajú (dá sa na ne kliknúť),
-   vpravo je skutočný záber toho, čo v danom kroku vzniká. */
+/* Interaktívny postup: horná os krokov sa sama posúva (dá sa na ňu kliknúť),
+   pod ňou je popis kroku, jeho výstup a skutočný záber. Nič sa neprekrýva. */
 const processScenes = [
   {
     image: `${BASE}work/live/mojplot.webp`,
     alt: "Web klienta Môj Plot, z ktorého vychádza zadanie",
     kind: "site",
     output: ["Čo zákazníci hľadajú", "Na čo sa najčastejšie pýtajú", "Kam majú chodiť dopyty"],
-    outputTitle: "Zadanie",
+    outputTitle: "Výstup: zadanie",
+    time: "1 hovor alebo e-mail",
   },
   {
     image: `${BASE}work/process/kroky-kalkulacky.webp`,
     alt: "Navrhnutý krok kalkulačky DERAT: výber škodcu s orientačnou cenou",
     kind: "phone",
-    output: ["Typ", "Priestor", "Rozloha", "Doplnky", "Cena"],
-    outputTitle: "Návrh krokov",
+    output: ["Kroky: typ, priestor, rozloha", "Pravidlá výpočtu ceny", "Čo príde v dopyte"],
+    outputTitle: "Výstup: návrh krokov",
+    time: "Návrh na schválenie",
   },
   {
     image: `${BASE}work/koverta/konfigurator-mobil.webp`,
     alt: "Ukážka 3D konfigurátora Koverta na mobile na odskúšanie",
     kind: "phone",
-    output: ["Desktop ✓", "Mobil ✓", "Ceny ✓", "Odoslanie ✓"],
-    outputTitle: "Otestované",
+    output: ["Počítač aj mobil", "Ceny a výpočty", "Odoslanie dopytu"],
+    outputTitle: "Výstup: otestovaná ukážka",
+    time: "Vyskúšate si ju vopred",
   },
   {
     image: `${BASE}work/live/derat.webp`,
     alt: "Nasadený web DERAT s kalkulačkou a asistentom",
     kind: "site",
-    output: ["Deratizácia · byt 60 m²", "od 60 € bez DPH", "Ján, Nitra · 0905 …"],
-    outputTitle: "Nový dopyt",
+    output: ["Nástroj na vašom webe", "Dopyty do e-mailu", "Úpravy po spustení"],
+    outputTitle: "Výstup: spustenie",
+    time: "Bez prerábania webu",
   },
 ] as const;
 
@@ -1177,9 +1165,7 @@ function Process() {
     if (!section || typeof IntersectionObserver === "undefined") return undefined;
     const observer = new IntersectionObserver(
       ([entry]) => setInView(Boolean(entry?.isIntersecting)),
-      {
-        threshold: 0.35,
-      },
+      { threshold: 0.35 },
     );
     observer.observe(section);
     return () => observer.disconnect();
@@ -1197,6 +1183,7 @@ function Process() {
   }, [active, inView, paused]);
 
   const scene = processScenes[active];
+  const [number, title, copy] = process[active];
 
   return (
     <section
@@ -1218,49 +1205,63 @@ function Process() {
         </header>
 
         <div
-          className="sh-journey"
+          className="sh-howto"
           data-running={inView && !paused ? "true" : "false"}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
           onBlur={() => setPaused(false)}
+          data-reveal
         >
-          <ol className="sh-journey__steps" role="tablist" aria-label="Kroky spolupráce">
-            {process.map(([index, title, copy], order) => (
+          <ol className="sh-howto__rail" role="tablist" aria-label="Kroky spolupráce">
+            {process.map(([index, stepTitle], order) => (
               <li key={index}>
                 <button
                   type="button"
                   role="tab"
+                  id={`sh-howto-${index}`}
                   aria-selected={order === active}
+                  aria-controls="sh-howto-panel"
                   data-active={order === active}
                   data-done={order < active || undefined}
                   onClick={() => setActive(order)}
                 >
                   <b>{index}</b>
-                  <span>
-                    <strong>{title}</strong>
-                    <small>{copy}</small>
-                  </span>
+                  <strong>{stepTitle}</strong>
                   <i aria-hidden="true" key={order === active ? `run-${active}` : "idle"} />
                 </button>
               </li>
             ))}
           </ol>
 
-          <div className="sh-journey__stage" role="tabpanel" aria-live="polite">
-            <figure className="sh-journey__shot" data-kind={scene.kind} key={active}>
+          <div
+            className="sh-howto__stage"
+            role="tabpanel"
+            id="sh-howto-panel"
+            aria-labelledby={`sh-howto-${number}`}
+          >
+            <div className="sh-howto__copy" key={`copy-${active}`}>
+              <span className="sh-howto__num" aria-hidden="true">
+                {number}
+              </span>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+              <div className="sh-howto__out">
+                <span>{scene.outputTitle}</span>
+                <ul>
+                  {scene.output.map((item, index) => (
+                    <li key={item} style={{ "--o": index } as CSSProperties}>
+                      <Check size={15} aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <small className="sh-howto__time">{scene.time}</small>
+            </div>
+            <figure className="sh-howto__shot" data-kind={scene.kind} key={`shot-${active}`}>
               <img src={scene.image} alt={scene.alt} loading="lazy" decoding="async" />
             </figure>
-            <div className="sh-journey__out" key={`out-${active}`} aria-hidden="true">
-              <span>{scene.outputTitle}</span>
-              <ul>
-                {scene.output.map((item, index) => (
-                  <li key={item} style={{ "--o": index } as CSSProperties}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </div>

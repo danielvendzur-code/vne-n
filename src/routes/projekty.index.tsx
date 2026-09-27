@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import type { CSSProperties } from "react";
 import { ShClosing, ShPage, ShPageHero } from "@/components/site/SubPage";
 import { realizations } from "@/data/realizations";
 import { breadcrumbJsonLd, seo, SITE_URL } from "@/lib/seo";
@@ -52,22 +51,29 @@ function ProjectsPage() {
         compact
       />
 
-      <section className="sh-section">
-        <div className="sh-wrap shp-projects">
+      <section className="sh-section" aria-label="Zoznam realizácií">
+        <div className="sh-wrap shp-cases">
           {realizations.map((project, index) => (
-            <article
-              className="shp-project"
-              key={project.name}
-              data-reveal
-              style={{ "--d": 0 } as CSSProperties}
-            >
+            <article className="shp-case" key={project.name} data-reveal>
+              <header className="shp-case__head">
+                <span className="shp-case__index">{String(index + 1).padStart(2, "0")}</span>
+                <h2>{project.name}</h2>
+                <span className="shp-case__type">{project.type}</span>
+              </header>
               <a
-                className="shp-project__visual"
+                className="shp-case__shot"
                 href={project.href}
                 target="_blank"
                 rel="noreferrer"
+                data-cursor="Otvoriť web"
                 aria-label={`${project.name} — otvoriť ${project.domain}`}
               >
+                <span className="shp-case__bar" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <em>{project.domain}</em>
+                </span>
                 <img
                   src={project.image}
                   alt={project.alt}
@@ -77,31 +83,39 @@ function ProjectsPage() {
                   width={1600}
                   height={1000}
                 />
-                <span className="sh-project__domain">
-                  {project.domain} <ArrowUpRight size={14} aria-hidden="true" />
-                </span>
               </a>
-              <div className="shp-project__meta">
-                <span>
-                  0{index + 1} · {project.type}
-                </span>
-                <h2>{project.name}</h2>
-                <p>{project.detail}</p>
-                <div className="shp-project__links">
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="sh-btn sh-btn--dark sh-btn--sm"
-                  >
-                    Živý web <ArrowUpRight size={16} aria-hidden="true" />
-                  </a>
-                  {project.caseStudyPath ? (
-                    <Link to={project.caseStudyPath} className="sh-link sh-link--dark">
-                      Prípadová štúdia <ArrowRight size={15} aria-hidden="true" />
-                    </Link>
-                  ) : null}
+              <div className="shp-case__info">
+                <div>
+                  <small>Čo rieši</small>
+                  <p className="shp-case__result">{project.result}</p>
                 </div>
+                <div>
+                  <small>Čo sme dodali</small>
+                  <ul>
+                    {project.tools.map((tool) => (
+                      <li key={tool}>{tool}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <small>Ako to funguje</small>
+                  <p>{project.detail}</p>
+                </div>
+              </div>
+              <div className="shp-case__links">
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="sh-btn sh-btn--dark sh-btn--sm"
+                >
+                  {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+                {project.caseStudyPath ? (
+                  <Link to={project.caseStudyPath} className="sh-link sh-link--dark">
+                    Prípadová štúdia <ArrowRight size={15} aria-hidden="true" />
+                  </Link>
+                ) : null}
               </div>
             </article>
           ))}

@@ -1112,3 +1112,209 @@ html:root body .shp-contact-page .shp-hero {
 html:root body .shp-contact-page .shp-contact {
   padding-top: clamp(1.4rem, 2.5vw, 2rem);
 }
+
+/* Kolo 8: realizácie ako jednotné prípadové bloky — rovnako veľké zábery,
+   pod nimi čo projekt rieši, čo sme dodali a ako funguje. */
+.shp .shp-cases {
+  display: grid;
+  gap: clamp(3.5rem, 7vw, 6rem);
+}
+
+.shp .shp-case {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.shp .shp-case__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--sh-line);
+}
+
+.shp .shp-case__index {
+  color: var(--sh-muted);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.sh .shp-case__head h2 {
+  margin: 0;
+  font-size: clamp(2.4rem, 6vw, 5rem) !important;
+  line-height: 0.95;
+  letter-spacing: -0.045em !important;
+}
+
+.shp .shp-case__type {
+  color: var(--sh-muted);
+  font-size: 0.9375rem;
+  text-align: right;
+}
+
+.shp .shp-case__shot {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--sh-line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.shp .shp-case__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--sh-line);
+  background: #f3f2ee;
+}
+
+.shp .shp-case__bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(17, 19, 16, 0.16);
+}
+
+.shp .shp-case__bar em {
+  margin-inline: auto;
+  padding: 0.15rem 1rem;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--sh-muted);
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.shp .shp-case__shot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 1100ms var(--sh-ease);
+}
+
+.shp .shp-case__shot:hover img {
+  transform: scale(1.025);
+}
+
+.shp .shp-case[data-shown="true"] .shp-case__shot img {
+  animation: shp-case-in 1100ms var(--sh-ease) both;
+}
+
+@keyframes shp-case-in {
+  from {
+    clip-path: inset(10% 0 0 0);
+    transform: scale(1.06);
+  }
+  to {
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+
+.shp .shp-case__info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.shp .shp-case__info small {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--sh-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.shp .shp-case__info p {
+  margin: 0;
+  color: var(--sh-muted);
+}
+
+.shp .shp-case__info .shp-case__result {
+  color: var(--sh-ink);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.shp .shp-case__info ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shp .shp-case__info li {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--sh-line);
+  border-radius: 6px;
+  background: var(--sh-pure);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.shp .shp-case__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.4rem;
+}
+
+@media (max-width: 860px) {
+  .shp .shp-case__head {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .shp .shp-case__type {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+
+  .shp .shp-case__shot img {
+    aspect-ratio: 16 / 10;
+  }
+
+  .shp .shp-case__info {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shp .shp-case__shot img {
+    animation: none !important;
+  }
+}
+
+/* Postup: kroky, ku ktorým čitateľ doscrolloval, sa vyplnia. */
+.shp .shp-timeline li b {
+  transition:
+    background-color 400ms var(--sh-ease),
+    color 400ms var(--sh-ease),
+    transform 500ms var(--sh-ease);
+}
+
+.shp .shp-timeline li[data-reached="true"] b {
+  background: var(--sh-forest);
+  color: var(--sh-lime);
+  transform: scale(1.06);
+}
+
+.shp .shp-timeline li .shp-output {
+  transition: opacity 500ms ease;
+}
+
+.shp .shp-timeline li[data-reached="false"] .shp-output {
+  opacity: 0.55;
+}
+
+.shp .shp-timeline::after {
+  transition: none;
+}

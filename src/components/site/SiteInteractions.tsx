@@ -5,13 +5,9 @@ import "./SiteInteractions.css";
  * Jemné interakcie známe z ocenených webov, bez externých knižníc:
  *  - plynulé scrollovanie kolieskom myši (ako Lenis) — natívny scroll ostáva,
  *    iba sa interpoluje k cieľu, takže sticky sekcie aj kotvy fungujú,
- *  - magnetické tlačidlá, ktoré sa jemne pritiahnu ku kurzoru,
- *  - vlastný kurzor, ktorý nad odkazmi s `data-cursor` ukáže popis.
+ *  - pri realizáciách s `data-cursor` sa pri kurzore ukáže krátky popis.
  * Na dotykových zariadeniach a pri obmedzenom pohybe sa nič z toho nespustí.
  */
-const MAGNETIC =
-  ".sh-btn--lime, .hybrid-hero__primary, .site-header__cta, .kage-flow-story__cta, [data-magnetic]";
-
 function canEnhance() {
   return (
     typeof window !== "undefined" &&
@@ -48,7 +44,7 @@ function useSmoothScroll() {
     const maxScroll = () => document.documentElement.scrollHeight - window.innerHeight;
 
     const step = () => {
-      current += (target - current) * 0.11;
+      current += (target - current) * 0.16;
       if (Math.abs(target - current) < 0.5) {
         current = target;
         active = false;
@@ -104,130 +100,44 @@ function useSmoothScroll() {
   }, []);
 }
 
-function useMagnetic() {
-  useEffect(() => {
-    if (!canEnhance()) return undefined;
-    let frame = 0;
-    let last: HTMLElement | null = null;
-
-    const reset = (el: HTMLElement | null) => {
-      if (!el) return;
-      el.style.removeProperty("--mag-x");
-      el.style.removeProperty("--mag-y");
-      el.removeAttribute("data-magnet");
-    };
-
-    const onMove = (event: PointerEvent) => {
-      const el = (event.target as Element | null)?.closest<HTMLElement>(MAGNETIC) ?? null;
-      if (el !== last) {
-        reset(last);
-        last = el;
-      }
-      if (!el) return;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const r = el.getBoundingClientRect();
-        const x = (event.clientX - (r.left + r.width / 2)) * 0.28;
-        const y = (event.clientY - (r.top + r.height / 2)) * 0.38;
-        el.setAttribute("data-magnet", "true");
-        el.style.setProperty("--mag-x", `${x.toFixed(1)}px`);
-        el.style.setProperty("--mag-y", `${y.toFixed(1)}px`);
-      });
-    };
-    const onLeave = () => {
-      reset(last);
-      last = null;
-    };
-
-    document.addEventListener("pointermove", onMove, { passive: true });
-    document.addEventListener("pointerleave", onLeave);
-    return () => {
-      cancelAnimationFrame(frame);
-      reset(last);
-      document.removeEventListener("pointermove", onMove);
-      document.removeEventListener("pointerleave", onLeave);
-    };
-  }, []);
-}
-
-function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
+/** Popis „Otvoriť web" pri realizáciách. Systémový kurzor ostáva, popis
+ *  sa posúva presne s ním (bez oneskorenia), takže klik sedí tam, kam ukazuje. */
+function CursorLabel() {
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const dot = dotRef.current;
-    const label = labelRef.current;
-    if (!dot || !label || !canEnhance()) return undefined;
-
-    document.documentElement.classList.add("has-cursor");
-    let x = window.innerWidth / 2;
-    let y = window.innerHeight / 2;
-    let cx = x;
-    let cy = y;
-    let frame = 0;
-
-    const loop = () => {
-      cx += (x - cx) * 0.22;
-      cy += (y - cy) * 0.22;
-      dot.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-      frame = requestAnimationFrame(loop);
-    };
-    frame = requestAnimationFrame(loop);
+    const el = ref.current;
+    if (!el || !canEnhance()) return undefined;
 
     const onMove = (event: PointerEvent) => {
-      x = event.clientX;
-      y = event.clientY;
-      dot.dataset.visible = "true";
       const target = event.target instanceof Element ? event.target : null;
       const labelled = target?.closest<HTMLElement>("[data-cursor]");
-      const interactive = target?.closest("a, button, [role='tab'], summary, input, label");
-      if (labelled) {
-        dot.dataset.state = "label";
-        label.textContent = labelled.dataset.cursor ?? "";
-      } else if (interactive) {
-        dot.dataset.state = "hover";
-        label.textContent = "";
-      } else {
-        dot.dataset.state = "idle";
-        label.textContent = "";
+      if (!labelled) {
+        el.dataset.visible = "false";
+        return;
       }
+      el.textContent = labelled.dataset.cursor ?? "";
+      el.style.transform = `translate3d(${event.clientX + 18}px, ${event.clientY + 18}px, 0)`;
+      el.dataset.visible = "true";
     };
-    const onLeave = () => {
-      dot.dataset.visible = "false";
+    const hide = () => {
+      el.dataset.visible = "false";
     };
-    const onDown = () => dot.setAttribute("data-down", "true");
-    const onUp = () => dot.removeAttribute("data-down");
 
     document.addEventListener("pointermove", onMove, { passive: true });
-    document.documentElement.addEventListener("pointerleave", onLeave);
-    document.addEventListener("pointerdown", onDown);
-    document.addEventListener("pointerup", onUp);
-
+    document.documentElement.addEventListener("pointerleave", hide);
+    window.addEventListener("scroll", hide, { passive: true });
     return () => {
-      cancelAnimationFrame(frame);
-      document.documentElement.classList.remove("has-cursor");
       document.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
-      document.removeEventListener("pointerdown", onDown);
-      document.removeEventListener("pointerup", onUp);
+      document.documentElement.removeEventListener("pointerleave", hide);
+      window.removeEventListener("scroll", hide);
     };
   }, []);
 
-  return (
-    <div
-      ref={dotRef}
-      className="mc-cursor"
-      data-state="idle"
-      data-visible="false"
-      aria-hidden="true"
-    >
-      <span ref={labelRef} />
-    </div>
-  );
+  return <div ref={ref} className="mc-cursor-label" data-visible="false" aria-hidden="true" />;
 }
 
 export function SiteInteractions() {
   useSmoothScroll();
-  useMagnetic();
-  return <Cursor />;
+  return <CursorLabel />;
 }

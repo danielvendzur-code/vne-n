@@ -221,3 +221,22 @@ html:root body .mc-footer h2 {
     justify-content: center;
   }
 }
+
+/* Hlavička a hero ostávajú presne v pôvodnom písme webu (Inter Tight),
+   Archivo platí až pre obsah pod nimi. */
+html:root body .site-header,
+html:root body .site-mobile-menu,
+html:root body .kage-hero {
+  --font-sans: "Inter Tight", Inter, Arial, sans-serif;
+  --font-display: "Inter Tight", Inter, Arial, sans-serif;
+  --font-mono: SFMono-Regular, "Roboto Mono", Consolas, monospace;
+}
+
+html:root body .site-header :is(a, button, span, strong, small),
+html:root body .kage-hero :is(a, button, p, span, small, strong) {
+  font-family: var(--font-sans);
+}
+
+html:root body .kage-hero .hybrid-hero__case span {
+  font-family: var(--font-mono);
+}
