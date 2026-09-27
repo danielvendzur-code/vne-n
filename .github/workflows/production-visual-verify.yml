@@ -299,13 +299,13 @@ jobs:
             const page = await openPage('/projekty/', viewport, label);
             try {
               await noOverflow(page, `${label} projects`);
-              const cards = page.locator('.shp-project');
+              const cards = page.locator('.shp-case');
               if ((await cards.count()) !== 4) throw new Error(`realization count ${await cards.count()}`);
               for (let index = 0; index < 4; index += 1) {
                 const card = cards.nth(index);
                 await card.scrollIntoViewIfNeeded();
-                const visual = card.locator('.shp-project__visual');
-                const meta = card.locator('.shp-project__meta');
+                const visual = card.locator('.shp-case__shot');
+                const meta = card.locator('.shp-case__info');
                 const image = visual.locator('img');
                 const loaded = await image.evaluate((img) => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0);
                 if (!loaded) throw new Error(`realization ${index + 1} image not loaded`);

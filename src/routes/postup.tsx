@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import type { CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { ShClosing, ShPage, ShPageHero, ShSectionHead } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
@@ -64,7 +64,43 @@ export const Route = createFileRoute("/postup")({
   component: ProcessPage,
 });
 
+/** Časová os sa pri scrolle vypĺňa a kroky, ku ktorým čitateľ došiel,
+ *  sa zvýraznia. Pri obmedzenom pohybe ostáva os statická. */
+function useTimelineProgress() {
+  const ref = useRef<HTMLOListElement>(null);
+
+  useEffect(() => {
+    const list = ref.current;
+    if (!list || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const rect = list.getBoundingClientRect();
+      const line = window.innerHeight * 0.6;
+      const progress = Math.min(1, Math.max(0, (line - rect.top) / rect.height));
+      list.style.setProperty("--progress", progress.toFixed(3));
+      list.querySelectorAll<HTMLElement>(":scope > li").forEach((item) => {
+        item.dataset.reached = String(item.getBoundingClientRect().top + 28 < line);
+      });
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
+
+  return ref;
+}
+
 function ProcessPage() {
+  const timelineRef = useTimelineProgress();
   return (
     <ShPage>
       <ShPageHero
@@ -88,7 +124,7 @@ function ProcessPage() {
             title="Technológia je až druhá."
             lead="Najprv musí byť jasné, čo má byť výsledkom pre zákazníka a pre firmu. Až potom staviame."
           />
-          <ol className="sh-timeline shp-timeline">
+          <ol className="sh-timeline shp-timeline" ref={timelineRef}>
             {steps.map((step, order) => (
               <li key={step.index} data-reveal style={{ "--d": order } as CSSProperties}>
                 <b>{step.index}</b>
