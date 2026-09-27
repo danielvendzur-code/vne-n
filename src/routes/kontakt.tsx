@@ -71,14 +71,18 @@ function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(value);
 }
 
-/* Demo pages link here with source=coffee-demo-<slug> or
-   source=skincare-demo-<slug>, plus the company, its web and the demo URL.
-   Both kinds get the short, prefilled form. */
+/* Demo pages link here with source=coffee-demo-<slug>,
+   source=skincare-demo-<slug> or source=vino-demo-<slug>, plus the company,
+   its web and the demo URL. All of them get the short, prefilled form. */
 const DEMO_LEADS = {
   "coffee-demo-": { product: "kávového poradcu", interest: "Kávový poradca pre e-shop" },
   "skincare-demo-": {
     product: "poradcu starostlivosti",
     interest: "Poradca starostlivosti pre kozmetický e-shop",
+  },
+  "vino-demo-": {
+    product: "poradcu výberu vína",
+    interest: "Poradca výberu vína pre e-shop vinárstva",
   },
 } as const;
 
