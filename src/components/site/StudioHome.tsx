@@ -216,13 +216,16 @@ function Hero() {
       data-nav-tone="dark"
     >
       <div className="container-page hybrid-hero__stage">
-        <h1 id="hybrid-hero-title" aria-label="Web, ktorý mení návštevy na výsledky.">
-          <TypedLine text="Web, ktorý" startAt={0} />
+        <h1
+          id="hybrid-hero-title"
+          aria-label="Chatboty a konfigurátory na mieru pre váš web."
+        >
+          <TypedLine text="Chatboty a" startAt={0} />
           <em>
-            <TypedLine text="mení návštevy" startAt={10} />
+            <TypedLine text="konfigurátory" startAt={10} />
           </em>
           <em>
-            <TypedLine text="na výsledky." startAt={24} />
+            <TypedLine text="na mieru." startAt={23} />
           </em>
         </h1>
         <div className="hybrid-hero__collage" aria-label="Vybrané živé realizácie">
@@ -254,7 +257,10 @@ function Hero() {
         </div>
       </div>
       <div className="container-page hybrid-hero__bottom kage-hero__bottom">
-        <p>Chatboty, kalkulačky, konfigurátory a produktoví poradcovia na mieru.</p>
+        <p>
+          Chatbot odpovie, kalkulačka spočíta cenu, konfigurátor vyskladá produkt a produktový
+          poradca pomôže s výberom.
+        </p>
         <a href="#riesenia" className="hybrid-hero__primary site-cta site-cta--primary">
           Vybrať riešenie <ArrowUpRight size={17} />
         </a>
@@ -1120,35 +1126,51 @@ function BeforeAfter() {
 const processScenes = [
   {
     image: `${BASE}work/live/mojplot.webp`,
-    alt: "Web klienta Môj Plot, z ktorého vychádza zadanie",
-    kind: "site",
-    output: ["Čo zákazníci hľadajú", "Na čo sa najčastejšie pýtajú", "Kam majú chodiť dopyty"],
-    outputTitle: "Výstup: zadanie",
+    alt: "Web Môj Plot ako východisko pre chatbota a kalkulačku",
+    kind: "project",
+    focus: "overview",
+    visualKicker: "Príklad: Môj Plot",
+    visualTitle: "Jeden web, chatbot aj kalkulačka",
+    visualCopy: "Na jednom projekte ukazujeme celý postup od zadania po spustenie.",
+    output: ["Sortiment a časté otázky", "Výpočet ceny plotu", "Kam má smerovať dopyt"],
+    outputTitle: "Výstup: jasné zadanie",
     time: "1 hovor alebo e-mail",
   },
   {
-    image: `${BASE}work/process/kroky-kalkulacky.webp`,
-    alt: "Navrhnutý krok kalkulačky DERAT: výber škodcu s orientačnou cenou",
-    kind: "phone",
-    output: ["Kroky: typ, priestor, rozloha", "Pravidlá výpočtu ceny", "Čo príde v dopyte"],
-    outputTitle: "Výstup: návrh krokov",
+    image: `${BASE}work/live/mojplot.webp`,
+    alt: "Web Môj Plot pri návrhu logiky chatbota a kalkulačky",
+    kind: "project",
+    focus: "chatbot",
+    visualKicker: "Môj Plot / návrh",
+    visualTitle: "Chatbot odpovedá, kalkulačka počíta",
+    visualCopy: "Navrhneme otázky, pravidlá a ďalší krok tak, aby spolu tvorili jeden tok.",
+    output: ["Chatbot: otázky a odpovede", "Kalkulačka: dĺžka, výška, doplnky", "Kontakt a ďalší krok"],
+    outputTitle: "Výstup: návrh logiky",
     time: "Návrh na schválenie",
   },
   {
-    image: `${BASE}work/koverta/konfigurator-mobil.webp`,
-    alt: "Ukážka 3D konfigurátora Koverta na mobile na odskúšanie",
-    kind: "phone",
-    output: ["Počítač aj mobil", "Ceny a výpočty", "Odoslanie dopytu"],
+    image: `${BASE}work/live/mojplot.webp`,
+    alt: "Web Môj Plot počas testovania nástroja na počítači a mobile",
+    kind: "project",
+    focus: "calculator",
+    visualKicker: "Môj Plot / test",
+    visualTitle: "Celé riešenie sa skúša ako jeden produkt",
+    visualCopy: "Kontrolujeme odpovede, výpočet, formulár aj správanie na mobile.",
+    output: ["Počítač aj mobil", "Výpočet a formulár", "Jasný ďalší krok"],
     outputTitle: "Výstup: otestovaná ukážka",
     time: "Vyskúšate si ju vopred",
   },
   {
-    image: `${BASE}work/live/derat.webp`,
-    alt: "Nasadený web DERAT s kalkulačkou a asistentom",
-    kind: "site",
-    output: ["Nástroj na vašom webe", "Dopyty do e-mailu", "Úpravy po spustení"],
-    outputTitle: "Výstup: spustenie",
-    time: "Bez prerábania webu",
+    image: `${BASE}work/live/mojplot.webp`,
+    alt: "Nasadený web Môj Plot s chatbotom a kalkulačkou",
+    kind: "project",
+    focus: "live",
+    visualKicker: "Môj Plot / nasadené",
+    visualTitle: "Chatbot aj kalkulačka fungujú na jednom webe",
+    visualCopy: "Zákazník dostane pomoc priamo na stránke a firma dostane pripravený dopyt.",
+    output: ["Chatbot na webe", "Kalkulačka na webe", "Dopyty smerujú firme"],
+    outputTitle: "Výstup: spustené riešenie",
+    time: "Bez prerábania celého webu",
   },
 ] as const;
 
@@ -1156,7 +1178,6 @@ const PROCESS_STEP_MS = 5200;
 
 function Process() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -1172,7 +1193,7 @@ function Process() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return undefined;
     }
     const timer = window.setTimeout(
@@ -1180,7 +1201,7 @@ function Process() {
       PROCESS_STEP_MS,
     );
     return () => window.clearTimeout(timer);
-  }, [active, inView, paused]);
+  }, [active, inView]);
 
   const scene = processScenes[active];
   const [number, title, copy] = process[active];
@@ -1197,7 +1218,7 @@ function Process() {
         <header className="sh-head sh-head--row" data-reveal>
           <div>
             <Eyebrow>Ako to prebieha</Eyebrow>
-            <h2 id="sh-process-title">Od prvej správy po nástroj na vašom webe</h2>
+            <h2 id="sh-process-title">Ako vzniká chatbot, kalkulačka alebo konfigurátor</h2>
           </div>
           <Link to="/postup" className="sh-link sh-link--dark">
             Celý postup <ArrowRight size={16} aria-hidden="true" />
@@ -1206,11 +1227,8 @@ function Process() {
 
         <div
           className="sh-howto"
-          data-running={inView && !paused ? "true" : "false"}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocus={() => setPaused(true)}
-          onBlur={() => setPaused(false)}
+          data-running={inView ? "true" : "false"}
+          style={{ "--process-step-ms": `${PROCESS_STEP_MS}ms` } as CSSProperties}
           data-reveal
         >
           <ol className="sh-howto__rail" role="tablist" aria-label="Kroky spolupráce">
@@ -1259,8 +1277,22 @@ function Process() {
               </div>
               <small className="sh-howto__time">{scene.time}</small>
             </div>
-            <figure className="sh-howto__shot" data-kind={scene.kind} key={`shot-${active}`}>
+            <figure
+              className="sh-howto__shot"
+              data-kind={scene.kind}
+              data-focus={scene.focus}
+              key={`shot-${active}`}
+            >
               <img src={scene.image} alt={scene.alt} loading="lazy" decoding="async" />
+              <figcaption className="sh-howto__visual-note">
+                <span>{scene.visualKicker}</span>
+                <strong>{scene.visualTitle}</strong>
+                <small>{scene.visualCopy}</small>
+                <div aria-label="Riešenia v projekte">
+                  <b>Chatbot</b>
+                  <b>Kalkulačka</b>
+                </div>
+              </figcaption>
             </figure>
           </div>
         </div>
