@@ -11,8 +11,9 @@ test("homepage is the Koverta-inspired studio page with real work and a keyword 
   assert.match(route, /import \{ StudioHome \}/);
   assert.match(route, /3D konfigurátor na web/);
   assert.equal((landing.match(/<h1\b/g) ?? []).length, 1);
-  // The approved original hero: typed headline with three live previews.
-  assert.match(landing, /aria-label="Web, ktorý mení návštevy na výsledky\."/);
+  // Hero musí okamžite pomenovať hlavnú ponuku a ponechať tri živé náhľady.
+  assert.match(landing, /aria-label="Chatboty a konfigurátory na mieru pre váš web\."/);
+  assert.match(landing, /Chatbot odpovie, kalkulačka spočíta cenu, konfigurátor vyskladá produkt/);
   assert.match(landing, /className="hybrid-hero kage-hero"/);
   assert.match(landing, /heroProjects\.map/);
   assert.match(landing, /work\/live\/koverta\.webp/);
@@ -104,13 +105,17 @@ test("FAQ heading stays pinned while the list scrolls", async () => {
   assert.match(css, /\.sh-faq__grid \.sh-head \{\s*position: sticky;/);
 });
 
-test("process shows four steps with concrete outputs and no scroll-driven animation", async () => {
+test("process autoplays four Môj Plot steps and still allows direct selection", async () => {
   const landing = await read("src/components/site/StudioHome.tsx");
   const start = landing.indexOf("function Process()");
   const process = landing.slice(start, landing.indexOf("/* ----", start));
   assert.match(process, /processScenes\[active\]/);
+  assert.match(process, /setActive\(\(current\) => \(current \+ 1\) % process\.length\)/);
   assert.match(process, /onClick=\{\(\) => setActive\(order\)\}/);
+  assert.doesNotMatch(process, /setPaused|onMouseEnter|onMouseLeave/);
   assert.doesNotMatch(process, /addEventListener\("scroll"/);
+  assert.match(landing, /Môj Plot \/ návrh/);
+  assert.match(landing, /Môj Plot \/ nasadené/);
 });
 
 test("monthly operation is a starting price and fonts use full-weight Archivo", async () => {
