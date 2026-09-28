@@ -216,10 +216,7 @@ function Hero() {
       data-nav-tone="dark"
     >
       <div className="container-page hybrid-hero__stage">
-        <h1
-          id="hybrid-hero-title"
-          aria-label="Chatboty a konfigurátory na mieru pre váš web."
-        >
+        <h1 id="hybrid-hero-title" aria-label="Chatboty a konfigurátory na mieru pre váš web.">
           <TypedLine text="Chatboty a" startAt={0} />
           <em>
             <TypedLine text="konfigurátory" startAt={10} />
@@ -1144,7 +1141,11 @@ const processScenes = [
     visualKicker: "Môj Plot / návrh",
     visualTitle: "Chatbot odpovedá, kalkulačka počíta",
     visualCopy: "Navrhneme otázky, pravidlá a ďalší krok tak, aby spolu tvorili jeden tok.",
-    output: ["Chatbot: otázky a odpovede", "Kalkulačka: dĺžka, výška, doplnky", "Kontakt a ďalší krok"],
+    output: [
+      "Chatbot: otázky a odpovede",
+      "Kalkulačka: dĺžka, výška, doplnky",
+      "Kontakt a ďalší krok",
+    ],
     outputTitle: "Výstup: návrh logiky",
     time: "Návrh na schválenie",
   },
