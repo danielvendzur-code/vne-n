@@ -163,10 +163,10 @@ export function AnalyticsConsent() {
         </p>
       </div>
       <div className="analytics-consent__actions">
-        <button type="button" onClick={() => choose("denied")}>
+        <button type="button" className="sh-btn sh-btn--dark" onClick={() => choose("denied")}>
           Odmietnuť analytiku
         </button>
-        <button type="button" onClick={() => choose("granted")}>
+        <button type="button" className="sh-btn sh-btn--dark" onClick={() => choose("granted")}>
           Povoliť analytiku
         </button>
       </div>

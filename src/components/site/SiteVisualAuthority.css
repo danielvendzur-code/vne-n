@@ -4146,9 +4146,9 @@ body:has(.analytics-consent) #dv-assistant-fallback {
    arrow motion and focus treatment. Context only changes colour. */
 
 :root {
-  --site-action-height: 50px;
-  --site-action-height-compact: 42px;
-  --site-action-radius: 999px;
+  --site-action-height: 48px;
+  --site-action-height-compact: 48px;
+  --site-action-radius: 6px;
   --site-action-pad-x: 1.15rem;
   --site-action-gap: 0.62rem;
   --site-action-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -4290,7 +4290,7 @@ body:has(.analytics-consent) #dv-assistant-fallback {
 @media (max-width: 760px) {
   :root {
     --site-action-height: 48px;
-    --site-action-height-compact: 42px;
+    --site-action-height-compact: 48px;
   }
 
   .site-cta {
@@ -13876,86 +13876,178 @@ html body .premium-footer .premium-footer-brand .brand-mark {
   --site-action-pad-x: 1.2rem;
 }
 
-html:root body .site-theme-white-green :is(.sh-btn, .site-cta, .button-primary, .button-inverse) {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  min-height: 48px !important;
-  padding: 0.75rem 1.2rem !important;
-  border-radius: 6px !important;
-  box-shadow: none !important;
-  font-size: 0.9375rem !important;
-  font-weight: 600 !important;
-  line-height: 1.25 !important;
-  letter-spacing: -0.01em;
-  text-decoration: none !important;
-  backdrop-filter: none;
-  transform: none !important;
-  transition:
-    background-color 200ms ease,
-    color 200ms ease,
-    border-color 200ms ease !important;
-}
+/* Layered important geometry beats historical component overrides consistently. */
+@layer site-controls {
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sh-btn, .site-cta, .button-primary, .button-inverse) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 48px !important;
+    padding: 0.75rem 1.2rem !important;
+    border-radius: var(--site-action-radius) !important;
+    box-shadow: none !important;
+    font-size: 0.9375rem !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.01em;
+    text-decoration: none !important;
+    backdrop-filter: none;
+    transform: none !important;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease !important;
+  }
 
-html:root body .site-theme-white-green :is(.sh-btn--lime, .site-cta--primary) {
-  background: #c8f06a !important;
-  border: 1px solid #c8f06a !important;
-  color: #071b15 !important;
-}
+  html:root
+    body
+    .site-theme-white-green
+    :is(
+      button,
+      input:not([type="radio"]):not([type="checkbox"]):not([type="range"]):not(
+          [type="color"]
+        ),
+      textarea,
+      select,
+      .skip-link
+    ) {
+    border-radius: var(--site-action-radius) !important;
+  }
 
-html:root
-  body
-  .site-theme-white-green
-  :is(.sh-btn--lime, .site-cta--primary):is(:hover, :focus-visible) {
-  background: #b9e354 !important;
-  border-color: #b9e354 !important;
-  color: #071b15 !important;
-}
+  html:root
+    body
+    .site-theme-white-green
+    :is(.kage-flow-story__modes, .sr-models, .ppr-preview__tabs)
+    button {
+    min-height: var(--site-action-height) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+  }
 
-html:root body .site-theme-white-green :is(.sh-btn--dark, .sh-btn--ink, .button-primary) {
-  background: #12372d !important;
-  border: 1px solid #12372d !important;
-  color: #f5f4ed !important;
-}
+  html:root body .site-theme-white-green .kage-flow-story__modes {
+    gap: 0.5rem !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+  html:root body .site-theme-white-green .kage-flow-story__modes button {
+    background: #244437 !important;
+    color: #f5f4ed !important;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease !important;
+  }
+  html:root
+    body
+    .site-theme-white-green
+    .kage-flow-story__modes
+    button:not([data-active="true"]):hover {
+    background: #325743 !important;
+  }
+  html:root
+    body
+    .site-theme-white-green
+    .kage-flow-story__modes
+    button[data-active="true"] {
+    background: #c8f06a !important;
+    color: #071b15 !important;
+  }
 
-html:root
-  body
-  .site-theme-white-green
-  :is(.sh-btn--dark, .sh-btn--ink, .button-primary):is(:hover, :focus-visible) {
-  background: #214b3f !important;
-  border-color: #214b3f !important;
-  color: #f5f4ed !important;
-}
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sh-btn--lime, .site-cta--primary) {
+    background: #c8f06a !important;
+    border: 1px solid #c8f06a !important;
+    color: #071b15 !important;
+  }
 
-/* Every action has an opaque surface; plain navigation/prose links are separate. */
-html:root body .site-theme-white-green :is(.sh-btn--light, .sh-btn--ghost, .button-inverse) {
-  background: #f5f4ed !important;
-  border: 1px solid #f5f4ed !important;
-  color: #12372d !important;
-}
-html:root body .site-theme-white-green :is(.sh-btn--light, .sh-btn--ghost, .button-inverse):is(:hover, :focus-visible) {
-  background: #e2e6d9 !important;
-  border-color: #e2e6d9 !important;
-  color: #12372d !important;
-}
-html:root body .site-theme-white-green .site-cta--secondary {
-  background: #12372d !important;
-  border: 1px solid #12372d !important;
-  color: #f5f4ed !important;
-}
-html:root body .site-theme-white-green .site-cta--secondary:is(:hover, :focus-visible) {
-  background: #214b3f !important;
-  border-color: #214b3f !important;
-}
-html:root body .site-theme-white-green [data-nav-tone="dark"] .site-cta--secondary {
-  background: #f5f4ed !important;
-  border-color: #f5f4ed !important;
-  color: #12372d !important;
-}
-html:root body .site-theme-white-green [data-nav-tone="dark"] .site-cta--secondary:is(:hover, :focus-visible) {
-  background: #e2e6d9 !important;
-  border-color: #e2e6d9 !important;
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sh-btn--lime, .site-cta--primary):is(:hover, :focus-visible) {
+    background: #b9e354 !important;
+    border-color: #b9e354 !important;
+    color: #071b15 !important;
+  }
+
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sh-btn--dark, .sh-btn--ink, .button-primary) {
+    background: #12372d !important;
+    border: 1px solid #12372d !important;
+    color: #f5f4ed !important;
+  }
+
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sh-btn--dark, .sh-btn--ink, .button-primary):is(
+      :hover,
+      :focus-visible
+    ) {
+    background: #214b3f !important;
+    border-color: #214b3f !important;
+    color: #f5f4ed !important;
+  }
+
+  /* Every action has an opaque surface; plain navigation/prose links are separate. */
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sh-btn--light, .sh-btn--ghost, .button-inverse) {
+    background: #f5f4ed !important;
+    border: 1px solid #f5f4ed !important;
+    color: #12372d !important;
+  }
+  html:root
+    body
+    .site-theme-white-green
+    :is(.sh-btn--light, .sh-btn--ghost, .button-inverse):is(
+      :hover,
+      :focus-visible
+    ) {
+    background: #e2e6d9 !important;
+    border-color: #e2e6d9 !important;
+    color: #12372d !important;
+  }
+  html:root body .site-theme-white-green .site-cta--secondary {
+    background: #12372d !important;
+    border: 1px solid #12372d !important;
+    color: #f5f4ed !important;
+  }
+  html:root
+    body
+    .site-theme-white-green
+    .site-cta--secondary:is(:hover, :focus-visible) {
+    background: #214b3f !important;
+    border-color: #214b3f !important;
+  }
+  html:root
+    body
+    .site-theme-white-green
+    [data-nav-tone="dark"]
+    .site-cta--secondary {
+    background: #f5f4ed !important;
+    border-color: #f5f4ed !important;
+    color: #12372d !important;
+  }
+  html:root
+    body
+    .site-theme-white-green
+    [data-nav-tone="dark"]
+    .site-cta--secondary:is(:hover, :focus-visible) {
+    background: #e2e6d9 !important;
+    border-color: #e2e6d9 !important;
+  }
 }
 
 html:root body .site-theme-white-green :is(.sh-link, .text-link) {

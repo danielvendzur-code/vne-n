@@ -397,7 +397,7 @@ function SelectedWork() {
       </div>
 
       <div className="container-page hybrid-work__footer">
-        <Link to="/projekty">
+        <Link to="/projekty" className="sh-btn sh-btn--dark">
           Pozrieť všetky projekty <ArrowRight size={18} />
         </Link>
       </div>
@@ -429,7 +429,7 @@ function CoreTools() {
               <strong>{tool.name}</strong>
               <b>{tool.statement}</b>
               <p>{tool.copy}</p>
-              <span className="hybrid-tool__cta">
+              <span className="hybrid-tool__cta site-cta site-cta--secondary">
                 {tool.cta} <ArrowUpRight size={18} />
               </span>
             </div>
@@ -453,6 +453,7 @@ function Audience() {
           </p>
           <button
             type="button"
+            className="site-cta site-cta--primary"
             onClick={() => openSiteAssistant({ source: "audience-services", preset: "inquiry" })}
           >
             Ukážte mi riešenie pre služby <ArrowRight size={17} />
@@ -473,6 +474,7 @@ function Audience() {
           </p>
           <button
             type="button"
+            className="sh-btn sh-btn--dark"
             onClick={() => openSiteAssistant({ source: "audience-commerce", preset: "product" })}
           >
             Ukážte mi riešenie pre e-shop <ArrowRight size={17} />
@@ -492,7 +494,7 @@ function Process() {
       <div className="container-page hybrid-process__intro">
         <span>AKO PREBIEHA SPOLUPRÁCA</span>
         <h2 id="hybrid-process-title">Od prvého rozhovoru po nasadenie.</h2>
-        <Link to="/postup">
+        <Link to="/postup" className="sh-btn sh-btn--dark">
           Pozrieť celý postup <ArrowRight size={17} />
         </Link>
       </div>
@@ -530,7 +532,7 @@ function ProofAndPrice() {
           <strong>10 €</strong>
           <b>/ mesiac</b>
         </div>
-        <Link to="/cennik" className="hybrid-price__link">
+        <Link to="/cennik" className="hybrid-price__link site-cta site-cta--primary">
           Pozrieť cenník <ArrowUpRight size={18} />
         </Link>
       </div>
@@ -557,11 +559,12 @@ export function PremiumLanding({ variant = "public" }: { variant?: LandingVarian
         <div className="container-page hybrid-hero__bottom">
           <p>{copy.lead}</p>
           <div className="hybrid-hero__actions">
-            <a href="#realizacie" className="hybrid-hero__primary">
+            <a href="#realizacie" className="hybrid-hero__primary site-cta site-cta--primary">
               Pozrieť realizácie <ArrowUpRight size={17} />
             </a>
             <button
               type="button"
+              className="sh-btn sh-btn--light"
               onClick={() =>
                 openSiteAssistant({
                   source: variant === "client" ? "hero-client" : "hero-public",
@@ -610,7 +613,7 @@ export function PremiumLanding({ variant = "public" }: { variant?: LandingVarian
             Navrhneme jednoduché riešenie a vopred vám povieme, čo bude obsahovať a koľko bude stáť.
           </p>
           <div>
-            <Link to="/kontakt" className="hybrid-final__button">
+            <Link to="/kontakt" className="hybrid-final__button site-cta site-cta--primary">
               Chcem návrh riešenia <ArrowUpRight size={19} />
             </Link>
             <a href="mailto:info@mojchatbot.sk">info@mojchatbot.sk</a>

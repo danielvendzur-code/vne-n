@@ -32,10 +32,11 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
   assert.match(oldAudit, /minmax\(13\.5rem, 0\.86fr\)/);
 });
 
-test("website requests the round one-stroke launcher release and never the text pill fallback", () => {
+test("website keeps the pinned widget release and uses its shared rounded-rectangle launcher", () => {
   assert.match(loader, /WIDGET_RELEASE = "round-one-stroke-launcher-20260831-v15"/);
-  assert.match(loader, /borderRadius: "50%"/);
-  assert.match(loader, /requestAnimationFrame/);
+  assert.match(loader, /borderRadius: "6px"/);
+  assert.match(loader, /@layer site-assistant-controls/);
+  assert.match(loader, /animation:\s*none !important/);
   assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);
   assert.doesNotMatch(loader, /<small>Otvoriť krátke zadanie<\/small>/);
 });

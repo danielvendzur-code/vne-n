@@ -65,7 +65,7 @@ test("marketing surfaces stay low-radius and shadow-light", async () => {
   assert.doesNotMatch(css, /border-radius:\s*(?:2[0-9]|3[0-9]|4[0-9])px/);
 });
 
-test("chatbot fallback is the approved round animated one-stroke launcher", async () => {
+test("chatbot fallback keeps the approved logo with the shared six-pixel control shape", async () => {
   const loader = await read("public/widget-loader.js");
 
   assert.match(loader, new RegExp(approvedStart.replaceAll(".", "\\.")));
@@ -74,11 +74,11 @@ test("chatbot fallback is the approved round animated one-stroke launcher", asyn
   assert.equal((loader.match(/<path\b/g) ?? []).length, 1);
   assert.match(loader, /width:\s*"72px"/);
   assert.match(loader, /height:\s*"72px"/);
-  assert.match(loader, /borderRadius:\s*"50%"/);
-  assert.match(loader, /background:\s*"#ffffff"/);
-  assert.match(loader, /requestAnimationFrame/);
-  assert.match(loader, /DARK_LOGO\s*=\s*\[11, 47, 32\]/);
-  assert.match(loader, /PALE_LOGO\s*=\s*\[185, 237, 77\]/);
+  assert.match(loader, /borderRadius:\s*"6px"/);
+  assert.match(loader, /background:\s*"#12372d"/);
+  assert.match(loader, /stroke:\s*#c8f06a/);
+  assert.match(loader, /@layer site-assistant-controls/);
+  assert.match(loader, /animation:\s*none !important/);
   assert.match(loader, /WIDGET_RELEASE\s*=\s*"round-one-stroke-launcher-20260831-v15"/);
   assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);
   assert.doesNotMatch(loader, /<small>Otvoriť krátke zadanie<\/small>/);

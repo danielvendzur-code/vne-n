@@ -397,3 +397,32 @@
     padding-inline: 0.65rem;
   }
 }
+
+@media (max-width: 360px) {
+  .sh.cp-contact .cp-contact__section {
+    padding-top: 1.25rem;
+  }
+  .sh.cp-contact .cp-kicker {
+    margin-bottom: 0.5rem;
+  }
+  .sh.cp-contact .cp-contact__intro h1 {
+    font-size: 2rem;
+  }
+  .sh.cp-contact .cp-contact__lead {
+    margin-block: 0.75rem 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .sh.cp-contact .cp-contact__form {
+    padding-block: 1rem;
+  }
+  .sh.cp-contact .cp-contact__form-title {
+    margin-bottom: 0.75rem;
+  }
+  .sh.cp-contact .contact-form {
+    gap: 0.75rem;
+  }
+  .sh.cp-contact .contact-form textarea {
+    min-height: 96px;
+  }
+}

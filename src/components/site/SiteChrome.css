@@ -86,24 +86,6 @@ html:root body .mc-footer h2 {
   letter-spacing: -0.025em;
 }
 
-.mc-footer__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 50px;
-  padding: 0.8rem 1.4rem;
-  border-radius: 999px;
-  background: var(--mc-lime);
-  color: #0a1f18 !important;
-  font-weight: 650;
-  text-decoration: none;
-  transition: transform 250ms ease;
-}
-
-.mc-footer__btn:hover {
-  transform: translateY(-2px);
-}
-
 .mc-footer__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
@@ -165,20 +147,8 @@ html:root body .mc-footer h2 {
   color: var(--mc-lime);
 }
 
-.mc-footer__pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.4rem;
-}
-
-.mc-footer__pills a {
-  padding: 0.4rem 0.85rem;
-  border: 1px solid rgba(245, 244, 237, 0.24);
-  border-radius: 999px;
-  color: #f5f4ed;
-  font-size: 0.875rem;
-  font-weight: 600;
+.mc-footer__contact-form {
+  margin-top: 1rem;
 }
 
 .mc-footer__bottom {
@@ -216,9 +186,8 @@ html:root body .mc-footer h2 {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .mc-footer__btn {
+  .mc-footer__cta > .site-cta {
     width: 100%;
-    justify-content: center;
   }
 }
 

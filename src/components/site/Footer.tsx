@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { realizations } from "@/data/realizations";
@@ -15,8 +15,8 @@ export function Footer() {
             <p className="mc-footer__label">Od nápadu po nasadenie</p>
             <h2>Web, ktorý odpovie, spočíta aj poradí.</h2>
           </div>
-          <Link to="/kontakt" className="mc-footer__btn">
-            Nezáväzný návrh <ArrowRight size={18} aria-hidden="true" />
+          <Link to="/kontakt" className="mc-footer__btn site-cta site-cta--primary">
+            Nezáväzný návrh <ArrowUpRight size={18} aria-hidden="true" />
           </Link>
         </div>
 
@@ -73,8 +73,10 @@ export function Footer() {
                 <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
               </li>
             </ul>
-            <div className="mc-footer__pills">
-              <Link to="/kontakt">Kontaktný formulár</Link>
+            <div className="mc-footer__contact-form">
+              <Link to="/kontakt" className="sh-btn sh-btn--light">
+                Kontaktný formulár <ArrowUpRight size={18} aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </div>
