@@ -113,12 +113,22 @@ function ServicesPage() {
           </div>
           <Link to="/3d-konfigurator" className="spr-service-hero__visual">
             <img
+              className="spr-service-hero__photo"
+              src={`${import.meta.env.BASE_URL}work/koverta/realizacia-pristresok-vecer.webp`}
+              alt="Skutočný prístrešok Koverta večer so zapnutým osvetlením"
+              width={1400}
+              height={1050}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+            <img
+              className="spr-service-hero__model"
               src={`${import.meta.env.BASE_URL}work/koverta/model-pergola.webp`}
-              alt="Pergola Koverta, ktorú si zákazník môže zostaviť v 3D konfigurátore"
+              alt="Digitálny 3D model v konfigurátore Koverta"
               width={1200}
               height={824}
               loading="eager"
-              fetchPriority="high"
               decoding="async"
             />
             <span className="spr-service-hero__caption">
@@ -146,7 +156,7 @@ function ServicesPage() {
                 <p className="spr-tool__result">{tool.result}</p>
                 <button
                   type="button"
-                  className="sh-link sh-link--dark"
+                  className="sh-btn sh-btn--dark"
                   onClick={() =>
                     openSiteAssistant({
                       source: `services-${tool.name.toLowerCase()}`,
@@ -162,7 +172,7 @@ function ServicesPage() {
           </div>
           <div className="spr-tools__note">
             <p>Nástroje môžu fungovať samostatne aj spolu v jednom rozhraní.</p>
-            <Link to="/kontakt" className="sh-link sh-link--dark">
+            <Link to="/kontakt" className="sh-btn sh-btn--dark">
               Prebrať váš web <ArrowUpRight size={18} aria-hidden="true" />
             </Link>
           </div>
@@ -200,7 +210,7 @@ function ServicesPage() {
                 {audience.preset ? (
                   <button
                     type="button"
-                    className="sh-link sh-link--dark"
+                    className="sh-btn sh-btn--dark"
                     onClick={() =>
                       openSiteAssistant({ source: "services-coffee", preset: audience.preset })
                     }
@@ -208,7 +218,7 @@ function ServicesPage() {
                     {audience.cta} <ArrowUpRight size={18} aria-hidden="true" />
                   </button>
                 ) : (
-                  <Link to={audience.to} className="sh-link sh-link--dark">
+                  <Link to={audience.to} className="sh-btn sh-btn--dark">
                     {audience.cta} <ArrowUpRight size={18} aria-hidden="true" />
                   </Link>
                 )}

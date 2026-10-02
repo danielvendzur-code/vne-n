@@ -150,12 +150,12 @@ function DeratCaseStudyPage() {
         </a>
         <button
           type="button"
-          className="sh-btn sh-btn--ghost"
+          className="sh-btn sh-btn--light"
           onClick={() => openSiteAssistant({ source: "derat-case-study" })}
         >
           Navrhnúť podobné riešenie
         </button>
-        <Link to="/projekty" className="sh-link">
+        <Link to="/projekty" className="sh-btn sh-btn--light">
           Ďalšie realizácie <ArrowRight size={15} aria-hidden="true" />
         </Link>
       </ShClosing>

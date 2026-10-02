@@ -112,7 +112,7 @@ function ProjectsPage() {
                   {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
                 </a>
                 {project.caseStudyPath ? (
-                  <Link to={project.caseStudyPath} className="sh-link sh-link--dark">
+                  <Link to={project.caseStudyPath} className="sh-btn sh-btn--dark">
                     Prípadová štúdia <ArrowRight size={15} aria-hidden="true" />
                   </Link>
                 ) : null}

@@ -111,7 +111,7 @@ function PricingPage() {
                 </div>
                 <button
                   type="button"
-                  className="sh-link sh-link--dark cp-price-row__action"
+                  className="sh-btn sh-btn--dark cp-price-row__action"
                   onClick={() =>
                     openSiteAssistant({
                       source: `pricing-${item.name.toLowerCase()}`,
@@ -141,7 +141,7 @@ function PricingPage() {
                 <span className="cp-price-row__mobile-label">Prevádzka</span>
                 <span>podľa riešenia</span>
               </div>
-              <Link to="/3d-konfigurator" className="sh-link sh-link--dark cp-price-row__action">
+              <Link to="/3d-konfigurator" className="sh-btn sh-btn--dark cp-price-row__action">
                 Pozrieť konfigurátor <ArrowUpRight size={18} aria-hidden="true" />
               </Link>
             </article>
@@ -188,17 +188,19 @@ function PricingPage() {
           </div>
           <div className="cp-pricing__combination-list">
             {combinations.map((item, index) => (
-              <button
-                key={item.title}
-                type="button"
-                onClick={() => openSiteAssistant({ source: `pricing-combo-${index + 1}` })}
-              >
-                <span>
-                  <strong>{item.title}</strong>
-                  <span>{item.copy}</span>
-                </span>
-                <ArrowUpRight size={20} aria-hidden="true" />
-              </button>
+              <article className="cp-pricing__combination" key={item.title}>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                </div>
+                <button
+                  type="button"
+                  className="sh-btn sh-btn--dark"
+                  onClick={() => openSiteAssistant({ source: `pricing-combo-${index + 1}` })}
+                >
+                  Vyskúšať <ArrowUpRight size={18} aria-hidden="true" />
+                </button>
+              </article>
             ))}
           </div>
         </div>
@@ -214,7 +216,7 @@ function PricingPage() {
             </Link>
             <button
               type="button"
-              className="sh-link sh-link--dark"
+              className="sh-btn sh-btn--dark"
               onClick={() => openSiteAssistant({ source: "pricing-final" })}
             >
               Pomôcť s výberom <ArrowUpRight size={18} aria-hidden="true" />

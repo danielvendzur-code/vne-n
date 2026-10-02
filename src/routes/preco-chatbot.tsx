@@ -94,7 +94,7 @@ function WhyPage() {
         >
           Vyskladať riešenie <ArrowRight size={18} aria-hidden="true" />
         </button>
-        <Link to="/projekty" className="sh-link">
+        <Link to="/projekty" className="sh-btn sh-btn--light">
           Realizácie
         </Link>
       </ShClosing>

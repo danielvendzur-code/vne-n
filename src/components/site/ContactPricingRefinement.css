@@ -168,7 +168,7 @@
 .sh.cp-pricing .cp-pricing__column-head,
 .sh.cp-pricing .cp-price-row {
   display: grid;
-  grid-template-columns: minmax(0, 2.2fr) minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 0.8fr) minmax(0, 0.9fr) minmax(0, 1.4fr);
   gap: 1.5rem;
   align-items: center;
 }
@@ -225,6 +225,8 @@
   line-height: 1.4;
 }
 .sh.cp-pricing .cp-price-row__action {
+  max-width: 100%;
+  white-space: normal;
   justify-self: end;
   text-align: left;
   font-size: 0.875rem;
@@ -272,42 +274,23 @@
   display: grid;
   gap: 1.5rem;
 }
-.sh.cp-pricing .cp-pricing__combination-list button {
+.sh.cp-pricing .cp-pricing__combination {
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--sh-forest);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
+  gap: 1rem;
 }
-.sh.cp-pricing .cp-pricing__combination-list button > span {
-  display: grid;
-  gap: 0.35rem;
-}
-.sh.cp-pricing .cp-pricing__combination-list strong {
+.sh.cp-pricing .cp-pricing__combination h3 {
   font-size: 1.125rem;
   font-weight: 600;
 }
-.sh.cp-pricing .cp-pricing__combination-list button > span > span {
+.sh.cp-pricing .cp-pricing__combination p {
+  margin-top: 0.35rem;
   color: var(--sh-muted);
   font-size: 0.875rem;
 }
-.sh.cp-pricing .cp-pricing__combination-list svg {
+.sh.cp-pricing .cp-pricing__combination .sh-btn {
   flex: none;
-  transition: transform 200ms ease;
-}
-.sh.cp-pricing .cp-pricing__combination-list button:hover svg {
-  transform: translate(2px, -2px);
-}
-.sh.cp-pricing .cp-pricing__combination-list button:focus-visible {
-  outline: 2px solid var(--sh-forest);
-  outline-offset: 5px;
 }
 .sh.cp-pricing .cp-pricing__closing p {
   margin-top: 1rem;
@@ -401,6 +384,9 @@
   .sh.cp-pricing .cp-price-row__setup strong {
     font-size: 1.45rem;
   }
+  .sh.cp-pricing .cp-pricing__combination {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 420px) {
@@ -409,11 +395,5 @@
   }
   .sh.cp-contact .contact-form :is(input, textarea) {
     padding-inline: 0.65rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sh.cp-pricing .cp-pricing__combination-list svg {
-    transition: none;
   }
 }

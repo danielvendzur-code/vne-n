@@ -122,7 +122,7 @@ export function ConfiguratorPage() {
               <a href="#konfigurator" className="sh-btn sh-btn--lime">
                 Vyskúšať naživo <ArrowRight size={18} aria-hidden="true" />
               </a>
-              <Link to="/kontakt" className="sh-btn sh-btn--ghost">
+              <Link to="/kontakt" className="sh-btn sh-btn--light">
                 Chcem konfigurátor
               </Link>
             </div>
@@ -282,7 +282,7 @@ export function ConfiguratorPage() {
               <Link to="/kontakt" className="sh-btn sh-btn--lime">
                 Chcem návrh <ArrowRight size={18} aria-hidden="true" />
               </Link>
-              <Link to="/projekty" className="sh-link">
+              <Link to="/projekty" className="sh-btn sh-btn--light">
                 Ďalšie realizácie
               </Link>
             </div>

@@ -13928,6 +13928,36 @@ html:root
   color: #f5f4ed !important;
 }
 
+/* Every action has an opaque surface; plain navigation/prose links are separate. */
+html:root body .site-theme-white-green :is(.sh-btn--light, .sh-btn--ghost, .button-inverse) {
+  background: #f5f4ed !important;
+  border: 1px solid #f5f4ed !important;
+  color: #12372d !important;
+}
+html:root body .site-theme-white-green :is(.sh-btn--light, .sh-btn--ghost, .button-inverse):is(:hover, :focus-visible) {
+  background: #e2e6d9 !important;
+  border-color: #e2e6d9 !important;
+  color: #12372d !important;
+}
+html:root body .site-theme-white-green .site-cta--secondary {
+  background: #12372d !important;
+  border: 1px solid #12372d !important;
+  color: #f5f4ed !important;
+}
+html:root body .site-theme-white-green .site-cta--secondary:is(:hover, :focus-visible) {
+  background: #214b3f !important;
+  border-color: #214b3f !important;
+}
+html:root body .site-theme-white-green [data-nav-tone="dark"] .site-cta--secondary {
+  background: #f5f4ed !important;
+  border-color: #f5f4ed !important;
+  color: #12372d !important;
+}
+html:root body .site-theme-white-green [data-nav-tone="dark"] .site-cta--secondary:is(:hover, :focus-visible) {
+  background: #e2e6d9 !important;
+  border-color: #e2e6d9 !important;
+}
+
 html:root body .site-theme-white-green :is(.sh-link, .text-link) {
   gap: 0.6rem;
   padding-inline: 0 !important;

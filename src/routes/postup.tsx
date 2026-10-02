@@ -1,35 +1,106 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
-import { useEffect, useRef } from "react";
-import { ShPage, ShPageHero } from "@/components/site/SubPage";
+import { useRef, useState, type KeyboardEvent } from "react";
+import { ShPage } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
-import "@/components/site/ServicesProcessRefinement.css";
+import "@/components/site/ProcessReview.css";
 
 const steps = [
   {
     index: "01",
+    label: "Zadanie",
     title: "Pozrieme sa na váš web",
     output: "Dohodnuté zadanie a cieľ.",
     copy: "Prejdeme ponuku a otázky zákazníkov. Vyberieme, čo má nový nástroj vyriešiť.",
   },
   {
     index: "02",
+    label: "Návrh",
     title: "Ukážeme vám návrh",
     output: "Návrh rozhrania a zoznam funkcií.",
     copy: "Uvidíte obrazovky aj celý výber zákazníka. Spolu doladíme otázky a výsledok.",
   },
   {
     index: "03",
+    label: "Vývoj",
     title: "Postavíme pracovnú verziu",
     output: "Odkaz na verziu, ktorú si môžete vyskúšať.",
     copy: "Napojíme podklady a výpočty. Otestujeme výber aj odoslanie dopytu na počítači a mobile.",
   },
   {
     index: "04",
+    label: "Spustenie",
     title: "Spustíme ho na vašom webe",
     output: "Funkčný nástroj na vašom webe.",
     copy: "Vložíme nástroj na web a overíme, že vám prichádzajú dopyty. Po spustení pomôžeme s úpravami.",
+  },
+] as const;
+
+const previews = [
+  {
+    title: "Web, z ktorého vychádzame",
+    copy: "Príklad DERAT: zákazník si má vedieť vypočítať cenu služby.",
+    layout: "web",
+    images: [
+      {
+        src: "work/process/derat-before.webp",
+        alt: "Pôvodný web DERAT pred pridaním kalkulačky",
+        width: 1600,
+        height: 1000,
+      },
+    ],
+  },
+  {
+    title: "Otázky a výber zákazníka",
+    copy: "Ukážka rozhrania: výber služby a priestoru pred výpočtom ceny.",
+    layout: "flow",
+    images: [
+      {
+        src: "work/derat-kalkulacka/01-sluzba.webp",
+        alt: "Kalkulačka DERAT: zákazník si vyberá službu",
+        width: 600,
+        height: 1276,
+      },
+      {
+        src: "work/derat-kalkulacka/03-priestor.webp",
+        alt: "Kalkulačka DERAT: zákazník vyberá typ priestoru",
+        width: 600,
+        height: 1276,
+      },
+    ],
+  },
+  {
+    title: "Rozmery, doplnky a výpočet ceny",
+    copy: "Ukážka pracovného rozhrania, ktoré si pred spustením prejdeme spolu.",
+    layout: "flow",
+    images: [
+      {
+        src: "work/derat-kalkulacka/04-rozloha.webp",
+        alt: "Kalkulačka DERAT: zadanie rozlohy a prepočítaná cena",
+        width: 600,
+        height: 1276,
+      },
+      {
+        src: "work/derat-kalkulacka/05-doplnky.webp",
+        alt: "Kalkulačka DERAT: výber doplnkov k službe",
+        width: 600,
+        height: 1276,
+      },
+    ],
+  },
+  {
+    title: "Hotový nástroj na webe",
+    copy: "Zákazník vybaví výber aj dopyt priamo na webe DERAT.",
+    layout: "web",
+    images: [
+      {
+        src: "work/process/derat-after.webp",
+        alt: "Web DERAT s otvorenou kalkulačkou služieb",
+        width: 1600,
+        height: 1000,
+      },
+    ],
   },
 ] as const;
 
@@ -65,103 +136,128 @@ export const Route = createFileRoute("/postup")({
   component: ProcessPage,
 });
 
-/** Časová os sa pri scrolle vypĺňa a kroky, ku ktorým čitateľ došiel,
- *  sa zvýraznia. Pri obmedzenom pohybe ostáva os statická. */
-function useTimelineProgress() {
-  const ref = useRef<HTMLOListElement>(null);
+function PhasePreview() {
+  const [activePhase, setActivePhase] = useState(1);
+  const tabsRef = useRef<Array<HTMLButtonElement | null>>([]);
+  const preview = previews[activePhase];
 
-  useEffect(() => {
-    const list = ref.current;
-    if (!list || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const rect = list.getBoundingClientRect();
-      const line = window.innerHeight * 0.6;
-      const progress = Math.min(1, Math.max(0, (line - rect.top) / rect.height));
-      list.style.setProperty("--progress", progress.toFixed(3));
-      list.querySelectorAll<HTMLElement>(":scope > li").forEach((item) => {
-        item.dataset.reached = String(item.getBoundingClientRect().top + 28 < line);
-      });
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
-  }, []);
+  const onTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let next = index;
+    if (event.key === "ArrowRight") next = (index + 1) % steps.length;
+    else if (event.key === "ArrowLeft") next = (index + steps.length - 1) % steps.length;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = steps.length - 1;
+    else return;
+    event.preventDefault();
+    setActivePhase(next);
+    tabsRef.current[next]?.focus();
+  };
 
-  return ref;
+  return (
+    <div className="ppr-preview">
+      <p className="ppr-preview__label">Pozrite si postup na príklade DERAT</p>
+      <div className="ppr-preview__tabs" role="tablist" aria-label="Fázy tvorby nástroja">
+        {steps.map((step, index) => (
+          <button
+            key={step.index}
+            type="button"
+            role="tab"
+            id={`process-phase-${index}`}
+            aria-controls="process-phase-preview"
+            aria-selected={activePhase === index}
+            tabIndex={activePhase === index ? 0 : -1}
+            ref={(element) => {
+              tabsRef.current[index] = element;
+            }}
+            onClick={() => setActivePhase(index)}
+            onKeyDown={(event) => onTabKeyDown(event, index)}
+          >
+            <span>{step.index}</span> {step.label}
+          </button>
+        ))}
+      </div>
+      <div
+        id="process-phase-preview"
+        className="ppr-preview__panel"
+        role="tabpanel"
+        aria-labelledby={`process-phase-${activePhase}`}
+        tabIndex={0}
+      >
+        <figure className="ppr-preview__visual" data-layout={preview.layout} key={activePhase}>
+          {preview.images.map((image) => (
+            <img
+              key={image.src}
+              src={`${import.meta.env.BASE_URL}${image.src}`}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              loading="eager"
+              decoding="async"
+            />
+          ))}
+        </figure>
+        <div className="ppr-preview__caption" aria-live="polite">
+          <h2>{preview.title}</h2>
+          <p>{preview.copy}</p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function ProcessPage() {
-  const timelineRef = useTimelineProgress();
   return (
-    <ShPage className="spr-process">
-      <ShPageHero
-        eyebrow="Postup"
-        title="Od prvého zadania"
-        accent="po živý web."
-        lead="Najprv návrh, potom verzia na vyskúšanie. Pred spustením si všetko prejdeme spolu."
-        visual={{
-          src: `${import.meta.env.BASE_URL}work/live/derat.webp`,
-          alt: "Ukážka živého projektu DERAT s interaktívnym predajným nástrojom",
-          width: 1600,
-          height: 1000,
-          caption: "Živá realizácia / DERAT",
-        }}
-      />
-
-      <section className="sh-section spr-process-detail" aria-labelledby="spr-process-title">
-        <div className="sh-wrap spr-process-detail__layout">
-          <header className="spr-process-detail__head" data-reveal>
-            <p className="spr-kicker">Ako spolupracujeme</p>
-            <h2 id="spr-process-title">Pri každom kroku viete, čo dostanete.</h2>
-            <p>
-              Od prvého rozhovoru po spustenie na vašom webe. Návrh aj pracovnú verziu vám ukážeme v
-              prehliadači.
+    <ShPage className="ppr-process">
+      <header className="ppr-opening">
+        <div className="sh-wrap ppr-opening__layout">
+          <div className="ppr-opening__copy">
+            <p className="ppr-kicker">Ako spolupracujeme</p>
+            <h1>Takto vznikne váš nástroj.</h1>
+            <p className="ppr-opening__lead">
+              Pošlete nám web a poviete, čo potrebujete. My pripravíme návrh, postavíme verziu na
+              vyskúšanie a spustíme ju u vás.
             </p>
-            <Link to="/kontakt" className="sh-link sh-link--dark">
+            <Link to="/kontakt" className="sh-btn sh-btn--dark">
               Prebrať projekt <ArrowUpRight size={18} aria-hidden="true" />
             </Link>
+          </div>
+          <PhasePreview />
+        </div>
+      </header>
+
+      <section className="ppr-details" aria-labelledby="ppr-details-title">
+        <div className="sh-wrap ppr-details__layout">
+          <header className="ppr-details__head" data-reveal>
+            <p className="ppr-kicker">Od zadania po spustenie</p>
+            <h2 id="ppr-details-title">Štyri kroky, ktoré si prejdeme spolu.</h2>
+            <p>Pred vývojom uvidíte návrh. Pred spustením si nástroj vyskúšate.</p>
           </header>
-          <ol className="spr-timeline" ref={timelineRef}>
+          <ol className="ppr-steps">
             {steps.map((step) => (
               <li key={step.index} data-reveal>
-                <span className="spr-timeline__index">{step.index}</span>
-                <div>
-                  <h3>{step.title}</h3>
-                  <p>{step.copy}</p>
-                  <p className="spr-timeline__output">
-                    <span>Dostanete</span>
-                    {step.output}
-                  </p>
-                </div>
+                <span className="ppr-steps__index">{step.index}</span>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+                <p className="ppr-steps__output">{step.output}</p>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="sh-section spr-closing" aria-labelledby="spr-process-closing-title">
-        <div className="sh-wrap spr-closing__layout">
+      <section className="ppr-closing" aria-labelledby="ppr-closing-title">
+        <div className="sh-wrap ppr-closing__layout">
           <div>
-            <h2 id="spr-process-closing-title">Poďme sa pozrieť na váš web.</h2>
+            <h2 id="ppr-closing-title">Začnime vaším webom.</h2>
             <p>Napíšte, čo by mal zákazník vybaviť. Navrhneme ďalší krok.</p>
           </div>
-          <div className="spr-closing__actions">
+          <div className="ppr-closing__actions">
             <Link to="/kontakt" className="sh-btn sh-btn--dark">
               Napísať nám <ArrowUpRight size={18} aria-hidden="true" />
             </Link>
             <button
               type="button"
-              className="sh-link sh-link--dark"
+              className="sh-btn sh-btn--lime"
               onClick={() => openSiteAssistant({ source: "process-final" })}
             >
               Otvoriť chat <ArrowUpRight size={18} aria-hidden="true" />

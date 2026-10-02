@@ -44,12 +44,12 @@ function ThankYouPage() {
         </Link>
         <button
           type="button"
-          className="sh-btn sh-btn--ghost"
+          className="sh-btn sh-btn--light"
           onClick={() => openSiteAssistant({ source: "thank-you" })}
         >
           Doplniť detail
         </button>
-        <Link to="/" className="sh-link">
+        <Link to="/" className="sh-btn sh-btn--light">
           Späť na úvod
         </Link>
       </ShPageHero>

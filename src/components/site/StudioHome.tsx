@@ -368,13 +368,13 @@ function Solutions() {
                 <h3>{tool.title}</h3>
                 <p>{tool.copy}</p>
                 {tool.to ? (
-                  <Link to={tool.to} className="sh-link sh-link--dark">
+                  <Link to={tool.to} className="sh-btn sh-btn--dark">
                     {tool.cta} <ArrowUpRight size={16} aria-hidden="true" />
                   </Link>
                 ) : (
                   <button
                     type="button"
-                    className="sh-link sh-link--dark"
+                    className="sh-btn sh-btn--dark"
                     onClick={() =>
                       openSiteAssistant({ source: `home-${tool.key}`, preset: tool.preset })
                     }
@@ -394,7 +394,7 @@ function Solutions() {
           </div>
           <button
             type="button"
-            className="sh-link sh-link--dark"
+            className="sh-btn sh-btn--dark"
             onClick={() => openSiteAssistant({ source: "home-combo-all" })}
           >
             Prebrať možnosti <ArrowUpRight size={16} aria-hidden="true" />
@@ -765,13 +765,35 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
     >
       <div className="sh-wrap sh-config__grid">
         <header className="sr-config__header" data-reveal>
-          <div>
-            <Eyebrow tone="dark">Koverta / 3D konfigurátor</Eyebrow>
-            <h2 id="sh-config-title">
-              {onCaseStudy ? "Vyskúšajte si vlastnú zostavu" : "Produkt si zákazník poskladá sám"}
-            </h2>
+          <Eyebrow tone="dark">Koverta / 3D konfigurátor</Eyebrow>
+          <h2 id="sh-config-title">
+            {onCaseStudy ? "Vyskúšajte si vlastnú zostavu" : "Takto si zákazník vyberie prístrešok"}
+          </h2>
+          <p>Zmení rozmery, farbu aj strechu. Hneď vidí výsledok v 3D a orientačnú cenu.</p>
+          <p>Vám pošle konkrétnu zostavu, z ktorej pripravíte ponuku.</p>
+          <div className="sr-config__actions">
+            {!live ? (
+              <button type="button" className="sh-btn sh-btn--lime" onClick={() => setLive(true)}>
+                Vyskúšať konfigurátor <ArrowUpRight size={17} aria-hidden="true" />
+              </button>
+            ) : (
+              <a
+                className="sh-btn sh-btn--lime"
+                href={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Otvoriť na celú obrazovku <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+            )}
+            <Link
+              to={onCaseStudy ? "/kontakt" : "/3d-konfigurator"}
+              className="sh-btn sh-btn--light"
+            >
+              {onCaseStudy ? "Chcem podobný nástroj" : "Pozrieť projekt"}
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </Link>
           </div>
-          <p>Typ, rozmery, farba aj cena. Všetko vidí priamo v 3D modeli.</p>
         </header>
 
         <div className="sh-config__stage" data-reveal>
@@ -800,25 +822,10 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
                     document.getElementById(`config-tab-${configuratorShots[next].id}`)?.focus();
                   }}
                 >
-                  <span>0{index + 1}</span>
                   {modelNames[index]}
                 </button>
               ))}
             </div>
-            {!live ? (
-              <button type="button" className="sh-btn sh-btn--lime" onClick={() => setLive(true)}>
-                Vyskúšať naživo <ArrowUpRight size={17} aria-hidden="true" />
-              </button>
-            ) : (
-              <a
-                className="sh-link"
-                href={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Celá obrazovka <ArrowUpRight size={17} aria-hidden="true" />
-              </a>
-            )}
           </div>
           <div
             className="sh-config__frame"
@@ -852,18 +859,6 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
             )}
           </div>
         </div>
-        <div className="sr-config__footer">
-          <p>Firma dostane presnú zostavu spolu s kontaktom zákazníka.</p>
-          {onCaseStudy ? (
-            <Link to="/kontakt" className="sh-link">
-              Chcem podobný nástroj <ArrowUpRight size={16} aria-hidden="true" />
-            </Link>
-          ) : (
-            <Link to="/3d-konfigurator" className="sh-link">
-              Pozrieť projekt Koverta <ArrowUpRight size={16} aria-hidden="true" />
-            </Link>
-          )}
-        </div>
       </div>
     </section>
   );
@@ -888,7 +883,7 @@ function Work() {
             <Eyebrow>Realizácie</Eyebrow>
             <h2 id="sh-work-title">Hotové projekty, ktoré bežia naživo</h2>
           </div>
-          <Link to="/projekty" className="sh-link sh-link--dark">
+          <Link to="/projekty" className="sh-btn sh-btn--dark">
             Všetky realizácie <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </header>
@@ -923,7 +918,10 @@ function Work() {
                       {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
                     </a>
                     {project.caseStudyPath ? (
-                      <Link to={project.caseStudyPath} className="sh-link">
+                      <Link
+                        to={project.caseStudyPath}
+                        className={`sh-btn sh-btn--${index % 2 ? "dark" : "light"}`}
+                      >
                         Ako to funguje <ArrowRight size={16} aria-hidden="true" />
                       </Link>
                     ) : null}
@@ -985,7 +983,7 @@ function BeforeAfter() {
               <p>Rozsah práce, odhad ceny a kontakt. V jednom dopyte.</p>
             </div>
           </div>
-          <Link to="/projekty/derat" className="sh-link sh-link--dark">
+          <Link to="/projekty/derat" className="sh-btn sh-btn--dark">
             Pozrieť projekt DERAT <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </div>
@@ -1086,7 +1084,7 @@ function Process() {
             <Eyebrow>Ako spolupracujeme</Eyebrow>
             <h2 id="sh-process-title">Od prvého rozhovoru po spustenie</h2>
           </div>
-          <Link to="/postup" className="sh-link sh-link--dark">
+          <Link to="/postup" className="sh-btn sh-btn--dark">
             Celý postup <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </header>

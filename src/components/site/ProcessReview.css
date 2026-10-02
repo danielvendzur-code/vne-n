@@ -1,0 +1,415 @@
+/* A compact process page built around a real, selectable work preview. */
+.sh.ppr-process {
+  background: #f2f0e8;
+  color: #111310;
+}
+
+.sh.ppr-process .ppr-kicker {
+  margin: 0 0 1.25rem;
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.sh.ppr-process .ppr-opening {
+  padding-block: clamp(2.5rem, 4vw, 3.75rem);
+}
+
+.sh.ppr-process .ppr-opening__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.sh.ppr-process .ppr-opening__copy {
+  max-width: 29rem;
+}
+
+.sh.ppr-process .ppr-opening h1 {
+  margin: 0;
+  color: #111310;
+  font-size: clamp(2.75rem, 4.3vw, 4.5rem);
+  font-weight: 550;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  text-wrap: initial;
+}
+
+.sh.ppr-process .ppr-opening__lead {
+  margin: 1.5rem 0 1.75rem;
+  color: var(--sh-muted);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.sh.ppr-process .ppr-preview {
+  min-width: 0;
+}
+
+.sh.ppr-process .ppr-preview__label {
+  margin: 0 0 1rem;
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+}
+
+.sh.ppr-process .ppr-preview__tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.sh.ppr-process .ppr-preview__tabs button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0.65rem 0.4rem;
+  border: 0;
+  border-radius: 6px;
+  background: #e4e5dc;
+  color: var(--sh-forest);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.sh.ppr-process .ppr-preview__tabs button span {
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.sh.ppr-process .ppr-preview__tabs button[aria-selected="true"] {
+  background: var(--sh-forest);
+  color: #f5f4ed;
+}
+
+.sh.ppr-process .ppr-preview__tabs button:not([aria-selected="true"]):hover {
+  background: #d8ddcf;
+}
+
+.sh.ppr-process .ppr-preview__panel {
+  outline-offset: 6px;
+}
+
+.sh.ppr-process .ppr-preview__visual {
+  display: grid;
+  width: 100%;
+  height: 300px;
+  margin: 0;
+  overflow: hidden;
+  background: #12372d;
+  animation: ppr-preview-enter 280ms ease both;
+}
+
+.sh.ppr-process .ppr-preview__visual[data-layout="web"] img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.sh.ppr-process .ppr-preview__visual[data-layout="flow"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem 0;
+}
+
+.sh.ppr-process .ppr-preview__visual[data-layout="flow"] img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 16px 30px rgb(0 0 0 / 24%);
+}
+
+.sh.ppr-process .ppr-preview__caption {
+  min-height: 86px;
+  padding-top: 1rem;
+}
+
+.sh.ppr-process .ppr-preview__caption h2 {
+  margin: 0 0 0.35rem;
+  color: var(--sh-ink);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.sh.ppr-process .ppr-preview__caption p {
+  margin: 0;
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.sh.ppr-process .ppr-details {
+  padding-block: clamp(3.5rem, 6vw, 5.5rem);
+  background: #fdfcf8;
+}
+
+.sh.ppr-process .ppr-details__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  align-items: start;
+  gap: clamp(3rem, 6vw, 6rem);
+}
+
+.sh.ppr-process .ppr-details__head {
+  position: sticky;
+  top: calc(var(--header-h, 76px) + 2rem);
+}
+
+.sh.ppr-process .ppr-details h2 {
+  margin: 0;
+  color: var(--sh-ink);
+  font-size: clamp(1.9rem, 2.7vw, 2.85rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.sh.ppr-process .ppr-details__head > p:last-child {
+  margin: 1.25rem 0 0;
+  color: var(--sh-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.sh.ppr-process .ppr-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3rem 2.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sh.ppr-process .ppr-steps__index {
+  display: block;
+  margin-bottom: 1.25rem;
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sh.ppr-process .ppr-steps h3 {
+  margin: 0 0 1rem;
+  color: var(--sh-ink);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.sh.ppr-process .ppr-steps p {
+  margin: 0;
+  color: var(--sh-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.sh.ppr-process .ppr-steps .ppr-steps__output {
+  margin-top: 1rem;
+  color: var(--sh-forest);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.sh.ppr-process .ppr-closing {
+  padding-block: clamp(3rem, 5vw, 4.5rem);
+}
+
+.sh.ppr-process .ppr-closing__layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.sh.ppr-process .ppr-closing h2 {
+  margin: 0;
+  color: var(--sh-ink);
+  font-size: clamp(1.9rem, 3vw, 3rem);
+  letter-spacing: -0.045em;
+}
+
+.sh.ppr-process .ppr-closing p {
+  margin: 0.85rem 0 0;
+  max-width: 34rem;
+  color: var(--sh-muted);
+  font-size: 1rem;
+}
+
+.sh.ppr-process .ppr-closing__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+@keyframes ppr-preview-enter {
+  from {
+    opacity: 0.5;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .sh.ppr-process .ppr-opening__layout {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    gap: 2rem;
+  }
+
+  .sh.ppr-process .ppr-preview__tabs button {
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.8125rem;
+  }
+
+  .sh.ppr-process .ppr-preview__visual[data-layout="flow"] {
+    gap: 1rem;
+    padding-inline: 1.25rem;
+  }
+
+  .sh.ppr-process .ppr-details__layout {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 2rem;
+  }
+
+  .sh.ppr-process .ppr-steps {
+    gap: 2rem;
+  }
+
+  .sh.ppr-process .ppr-closing__layout {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 850px) {
+  .sh.ppr-process .ppr-opening__layout,
+  .sh.ppr-process .ppr-details__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sh.ppr-process .ppr-opening__copy {
+    max-width: 37rem;
+  }
+
+  .sh.ppr-process .ppr-opening h1 {
+    max-width: 30rem;
+    font-size: clamp(2.7rem, 7vw, 4.25rem);
+  }
+
+  .sh.ppr-process .ppr-opening__lead {
+    max-width: 33rem;
+  }
+
+  .sh.ppr-process .ppr-preview__visual {
+    height: 340px;
+  }
+
+  .sh.ppr-process .ppr-preview__tabs button {
+    flex-direction: row;
+    gap: 0.45rem;
+    font-size: 0.9375rem;
+  }
+
+  .sh.ppr-process .ppr-details__head {
+    position: static;
+    max-width: 32rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .sh.ppr-process .ppr-opening {
+    padding-block: 2rem;
+  }
+
+  .sh.ppr-process .ppr-opening__layout {
+    gap: 2.25rem;
+  }
+
+  .sh.ppr-process .ppr-opening h1 {
+    max-width: 20rem;
+    font-size: 2.8rem;
+  }
+
+  .sh.ppr-process .ppr-preview__label {
+    font-size: 0.8125rem;
+  }
+
+  .sh.ppr-process .ppr-preview__tabs {
+    gap: 0.15rem;
+  }
+
+  .sh.ppr-process .ppr-preview__tabs button {
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.8125rem;
+  }
+
+  .sh.ppr-process .ppr-preview__visual {
+    height: 250px;
+  }
+
+  .sh.ppr-process .ppr-preview__visual[data-layout="flow"] {
+    gap: 0.75rem;
+    padding: 1rem 0.75rem 0;
+  }
+
+  .sh.ppr-process .ppr-preview__caption {
+    min-height: 95px;
+  }
+
+  .sh.ppr-process .ppr-steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .sh.ppr-process .ppr-steps li {
+    display: grid;
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+    gap: 0.7rem 1rem;
+  }
+
+  .sh.ppr-process .ppr-steps__index {
+    grid-row: 1 / 4;
+    margin: 0;
+    padding-top: 0.3rem;
+  }
+
+  .sh.ppr-process .ppr-steps li > :not(.ppr-steps__index) {
+    grid-column: 2;
+  }
+
+  .sh.ppr-process .ppr-steps h3,
+  .sh.ppr-process .ppr-steps .ppr-steps__output {
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sh.ppr-process .ppr-preview__visual {
+    animation: none;
+  }
+
+  .sh.ppr-process .ppr-preview__tabs button {
+    transition: none;
+  }
+}

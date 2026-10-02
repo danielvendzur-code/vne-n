@@ -190,7 +190,7 @@ function ContactPage() {
             </address>
             <button
               type="button"
-              className="sh-link sh-link--dark"
+              className="sh-btn sh-btn--dark"
               onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
             >
               Pomôcť s výberom <ArrowUpRight size={17} aria-hidden="true" />
@@ -350,7 +350,7 @@ function ContactPage() {
                     Nič ste nestratili. Ak chcete dopyt dokončiť hneď, otvoríme pripravený e-mail s
                     vyplneným zadaním; odoslanie zostáva pod vašou kontrolou.
                   </p>
-                  <a href={fallbackHref}>
+                  <a href={fallbackHref} className="sh-btn sh-btn--dark">
                     Otvoriť pripravený e-mail <ArrowUpRight size={15} aria-hidden="true" />
                   </a>
                 </div>
