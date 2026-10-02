@@ -1,0 +1,23 @@
+{
+  "sourceSha": "2a76945d4f64ef56306dc864e3c08efa98b1d00e",
+  "generatedAt": "2026-10-02T20:28:35.384Z",
+  "purpose": "Public design review preview",
+  "base": "/danielvendzur-code/vne-n/browser-preview-20261002/",
+  "routes": [
+    "",
+    "navrh",
+    "3d-konfigurator",
+    "sluzby",
+    "projekty",
+    "projekty/derat",
+    "postup",
+    "preco-chatbot",
+    "cennik",
+    "kontakt",
+    "dakujeme",
+    "cookies",
+    "pravne-informacie",
+    "ochrana-udajov",
+    "farby"
+  ]
+}
