@@ -1,1 +1,0 @@
-import{n as e}from"./rolldown-runtime-Cyuzqnbw.js";import{t}from"./react-core-CWFrONgv.js";import{i as n,r}from"./StudioHome-BymjwcpE.js";function i(){return(0,a.jsx)(r,{})}var a;e((()=>{n(),a=t()}))();export{i as component};
