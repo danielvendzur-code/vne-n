@@ -11,8 +11,8 @@ test("reported heading has safe Slovak-diacritic leading", async () => {
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*line-height: 1\.1 !important/);
 });
 
-test("Začať projekt CTA is green and changes to black on hover or keyboard focus", async () => {
-  const css = await read("src/components/site/UserReportedVisualFinal.css");
+test("Začať projekt CTA is lime with a consistent darker lime hover", async () => {
+  const css = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(
     css,
@@ -20,6 +20,6 @@ test("Začať projekt CTA is green and changes to black on hover or keyboard foc
   );
   assert.match(
     css,
-    /\.site-header \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background: #0b0e0c !important[\s\S]*color: #f6f5ee !important/,
+    /\.site-header \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background: #b9e354 !important[\s\S]*color: #071b15 !important/,
   );
 });

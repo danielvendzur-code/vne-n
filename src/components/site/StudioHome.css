@@ -2419,61 +2419,7 @@ html:root body .kage-hero h1 {
   --sh-radius-lg: 14px;
 }
 
-/* Tlačidlá ako pôvodné CTA webu: limetka, tučný text, šípka — ale hranatejšie. */
-html:root body .sh .sh-btn,
-html:root body .site-cta:not(.site-header *, .kage-hero *) {
-  min-height: 46px;
-  padding: 0.7rem 1.1rem;
-  border-radius: 10px !important;
-  font-size: 0.9375rem;
-  font-weight: 680;
-  letter-spacing: -0.005em;
-  box-shadow: none;
-}
-
-html:root body .sh .sh-btn--sm {
-  min-height: 42px;
-  padding: 0.6rem 0.95rem;
-  font-size: 0.875rem;
-}
-
-html:root body .sh .sh-btn:hover {
-  transform: none;
-}
-
-html:root body .sh .sh-btn--lime {
-  border: 1px solid var(--sh-lime);
-  background: var(--sh-lime);
-  color: #071b15;
-}
-
-html:root body .sh .sh-btn--lime:hover {
-  border-color: #071b15;
-  background: #071b15;
-  color: #f6f5ee;
-}
-
-html:root body .sh .sh-btn--dark {
-  border: 1px solid var(--sh-forest);
-}
-
-html:root body .sh .sh-btn--dark:hover {
-  border-color: var(--sh-lime);
-  background: var(--sh-lime);
-  color: #071b15;
-}
-
-html:root body .sh .sh-btn--ghost {
-  border-color: rgba(245, 244, 237, 0.35);
-  background: transparent;
-  backdrop-filter: none;
-}
-
-html:root body .sh .sh-btn--ghost:hover {
-  border-color: var(--sh-lime);
-  color: var(--sh-lime);
-  background: transparent;
-}
+/* Shared CTA rules live in SiteDesignSystem.css. */
 
 /* Menej oválne prvky. */
 .sh :is(.sh-tabs, .sh-tabs button, .sh-project__domain, .sh-play, .sh-badge),
@@ -3047,52 +2993,8 @@ html:root body .kage-home .kage-flow__artifact > * {
    - animované podčiarknutie odkazov.
    ========================================================================== */
 
-.sh {
-  counter-reset: chapter;
-}
-
 .sh .sh-head {
-  position: relative;
-  padding-top: 1.1rem;
-  border-top: 1px solid rgba(17, 19, 16, 0.18);
   max-width: none;
-}
-
-.sh :is(.sh-config, .sh-price) .sh-head,
-.sh .sh-config__copy {
-  border-color: rgba(245, 244, 237, 0.2);
-}
-
-.sh .sh-eyebrow,
-.sh .sh-eyebrow[data-tone="dark"] {
-  display: inline-flex;
-  gap: 0.6rem;
-  padding: 0;
-  border: 0;
-  color: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
-}
-
-.sh .sh-eyebrow::before {
-  counter-increment: chapter;
-  content: "(" counter(chapter, decimal-leading-zero) ")";
-  color: var(--sh-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.sh :is(.sh-config, .sh-price) .sh-eyebrow::before,
-.sh .shp-hero .sh-eyebrow::before,
-.sh .cfp-top .sh-eyebrow::before {
-  color: var(--sh-lime);
-}
-
-.sh .shp-hero .sh-eyebrow::before,
-.sh .cfp-top .sh-eyebrow::before {
-  counter-increment: none;
-  content: "↘";
 }
 
 .sh h2 {

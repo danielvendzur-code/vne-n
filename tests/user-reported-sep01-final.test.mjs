@@ -15,13 +15,13 @@ test("Sep 1 homepage repair keeps hero type stable and restores safe leading", a
 });
 
 test("Sep 1 header and launcher polish remove hover boxes and keep requested CTA colors", async () => {
-  const css = await read("src/components/site/UserReportedVisualFinal.css");
+  const css = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(css, /\.site-nav a::before[\s\S]*content: none !important/);
   assert.match(css, /\.site-header \.site-header__cta[\s\S]*background: #c8f06a !important/);
   assert.match(
     css,
-    /\.site-header \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background: #0b0e0c !important/,
+    /\.site-header \.site-header__cta:is\(:hover, :focus-visible\)[\s\S]*background: #b9e354 !important/,
   );
   assert.match(css, /#dv-assistant-fallback[\s\S]*0 0 0 6px/);
 });

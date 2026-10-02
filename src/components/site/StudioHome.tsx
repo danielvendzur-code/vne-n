@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, Box, Calculator, MessageSquare, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -27,22 +27,10 @@ const facts = [
 ] as const;
 
 const process = [
-  [
-    "01",
-    "Ukážete nám web a ponuku",
-    "Zistíme, čo zákazníci najčastejšie hľadajú, riešia a pýtajú sa.",
-  ],
-  [
-    "02",
-    "Navrhneme postup",
-    "Určíme, čo má zákazník vidieť, vybrať alebo vyplniť — a čo dostanete vy.",
-  ],
-  ["03", "Postavíme a otestujeme", "Dizajn, logika, ceny aj napojenia. Na počítači aj na mobile."],
-  [
-    "04",
-    "Nasadíme na váš web",
-    "Bez prerábania celého webu. Overíme dopyty, formuláre aj bežné používanie.",
-  ],
+  ["01", "Web a ponuka", "Pozrieme sa na váš web a na otázky zákazníkov."],
+  ["02", "Návrh", "Dohodneme kroky, obsah a cenu."],
+  ["03", "Vývoj", "Postavíme nástroj. Vy si ho vyskúšate."],
+  ["04", "Nasadenie", "Nástroj zapojíme do webu a overíme prvé dopyty."],
 ] as const;
 
 const prices = [
@@ -80,7 +68,6 @@ export function Eyebrow({
 }) {
   return (
     <p className="sh-eyebrow" data-tone={tone}>
-      <i aria-hidden="true" />
       {children}
     </p>
   );
@@ -301,39 +288,15 @@ const solutionShots = {
   },
 } as const;
 
-const combinations = [
-  {
-    title: "Chatbot + kalkulačka",
-    copy: "Odpovie na otázky a rovno spočíta cenu.",
-    preset: "calculator" as const,
-  },
-  {
-    title: "Chatbot + konfigurátor",
-    copy: "Vysvetlí možnosti a prevedie celým výberom.",
-    preset: "product" as const,
-  },
-  {
-    title: "Chatbot + poradca",
-    copy: "Zistí potreby a odporučí konkrétny produkt.",
-    preset: "advisor" as const,
-  },
-  {
-    title: "Všetko spolu",
-    copy: "Chatbot, kalkulačka, konfigurátor aj poradca v jednom nástroji.",
-    preset: undefined,
-  },
-];
-
 const tools = [
   {
     key: "configurator",
     title: "3D konfigurátor",
     copy: "Produkt si zákazník poskladá v 3D, cena sa prepočíta hneď.",
-    icon: Box,
     image: `${BASE}work/koverta/model-porsche.webp`,
     alt: "3D model prístrešku s drevenými lamelami a športovým autom z konfigurátora Koverta",
     wide: true,
-    cta: "Pozrieť 3D konfigurátor",
+    cta: "Pozrieť ukážku",
     to: "/3d-konfigurator" as const,
     preset: undefined,
   },
@@ -341,11 +304,10 @@ const tools = [
     key: "calculator",
     title: "Cenová kalkulačka",
     copy: "Z rozmeru, množstva či doplnkov spočíta orientačnú cenu.",
-    icon: Calculator,
     image: solutionShots.calculator.src,
     alt: "Kalkulačka DERAT: výber priestoru a orientačná cena 60 € bez DPH",
     wide: false,
-    cta: "Vyskladať kalkulačku",
+    cta: "Chcem kalkulačku",
     to: undefined,
     preset: "calculator" as const,
   },
@@ -353,11 +315,10 @@ const tools = [
     key: "chatbot",
     title: "Chatbot",
     copy: "Odpovedá z vašich podkladov a pošle vám kontakt so zhrnutím.",
-    icon: MessageSquare,
     image: solutionShots.chatbot.src,
     alt: "Chatbot pre architektonickú kanceláriu: postup ohlásenia drobnej stavby",
     wide: false,
-    cta: "Vyskladať chatbota",
+    cta: "Chcem chatbota",
     to: undefined,
     preset: "advisor" as const,
   },
@@ -365,11 +326,10 @@ const tools = [
     key: "advisor",
     title: "Produktový poradca",
     copy: "Pár otázok a zákazník dostane konkrétny produkt z ponuky.",
-    icon: Sparkles,
     image: solutionShots.advisor.src,
     alt: "Produktový poradca pre e-shop s kávou: výber chuti cez štyri otázky",
     wide: false,
-    cta: "Vyskladať poradcu",
+    cta: "Chcem poradcu",
     to: undefined,
     preset: "product" as const,
   },
@@ -387,9 +347,9 @@ function Solutions() {
         <header className="sh-head sh-head--row" data-reveal>
           <div>
             <Eyebrow>Riešenia</Eyebrow>
-            <h2 id="sh-solutions-title">Aké riešenie potrebujete?</h2>
+            <h2 id="sh-solutions-title">Čo má váš web vedieť?</h2>
           </div>
-          <p>Každý nástroj funguje samostatne, v kombinácii aj všetky spolu v jednom.</p>
+          <p>Odpovedať, počítať cenu alebo pomôcť s výberom. Vyberte si ukážku.</p>
         </header>
 
         <div className="sh-tools">
@@ -405,19 +365,16 @@ function Solutions() {
                 <img src={tool.image} alt={tool.alt} loading="lazy" decoding="async" />
               </div>
               <div className="sh-tool__body">
-                <h3>
-                  <tool.icon size={18} aria-hidden="true" />
-                  {tool.title}
-                </h3>
+                <h3>{tool.title}</h3>
                 <p>{tool.copy}</p>
                 {tool.to ? (
-                  <Link to={tool.to} className="sh-btn sh-btn--dark sh-btn--sm">
+                  <Link to={tool.to} className="sh-link sh-link--dark">
                     {tool.cta} <ArrowUpRight size={16} aria-hidden="true" />
                   </Link>
                 ) : (
                   <button
                     type="button"
-                    className="sh-btn sh-btn--dark sh-btn--sm"
+                    className="sh-link sh-link--dark"
                     onClick={() =>
                       openSiteAssistant({ source: `home-${tool.key}`, preset: tool.preset })
                     }
@@ -430,32 +387,17 @@ function Solutions() {
           ))}
         </div>
 
-        <div className="sh-combo" data-reveal>
-          <div className="sh-combo__intro">
-            <h3>Nemusí to byť iba jedno riešenie.</h3>
-            <p>Nástroje spojíme po dvoch aj všetky naraz.</p>
+        <div className="sr-combination" data-reveal>
+          <div>
+            <h3>Potrebujete viac než jeden nástroj?</h3>
+            <p>Chatbot, výpočet aj výber produktu môžu fungovať spolu.</p>
           </div>
-          <ul className="sh-combo__list">
-            {combinations.map((item, index) => (
-              <li key={item.title} data-all={item.preset ? undefined : "true"}>
-                <button
-                  type="button"
-                  onClick={() =>
-                    openSiteAssistant({ source: `home-combo-${index + 1}`, preset: item.preset })
-                  }
-                >
-                  <strong>{item.title}</strong>
-                  <ArrowUpRight size={16} aria-hidden="true" />
-                </button>
-              </li>
-            ))}
-          </ul>
           <button
             type="button"
-            className="sh-combo__unsure"
-            onClick={() => openSiteAssistant({ source: "home-unsure" })}
+            className="sh-link sh-link--dark"
+            onClick={() => openSiteAssistant({ source: "home-combo-all" })}
           >
-            Neviete, čo z toho? <span>Spustiť výber</span>
+            Prebrať možnosti <ArrowUpRight size={16} aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -792,7 +734,7 @@ function FlowStory() {
             className="kage-flow-story__cta site-cta site-cta--primary"
             onClick={() => openSiteAssistant({ source: "flow-story", preset: presetForMode(mode) })}
           >
-            Vyskladať toto riešenie <ArrowUpRight size={17} />
+            Chcem toto riešenie <ArrowUpRight size={17} />
           </button>
         </div>
       </div>
@@ -806,90 +748,84 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
   const [active, setActive] = useState(0);
   const [live, setLive] = useState(false);
   const shot = configuratorShots[active];
+  const modelNames = ["Pergola", "Prístrešok", "Carport"];
+
+  const selectModel = (index: number) => {
+    setActive(index);
+    setLive(false);
+  };
 
   return (
     <section
-      className="sh-section sh-config"
+      className="sh-section sh-config sr-config"
       id="konfigurator"
       aria-labelledby="sh-config-title"
       data-live={live || undefined}
       data-nav-tone="dark"
     >
       <div className="sh-wrap sh-config__grid">
-        <div className="sh-config__copy" data-reveal>
-          <Eyebrow tone="dark">{onCaseStudy ? "Živá ukážka" : "Realizácia · Koverta"}</Eyebrow>
-          <h2 id="sh-config-title">
-            {onCaseStudy ? "Vyskúšajte si ho " : "Prístrešok si zákazník "}
-            <em>{onCaseStudy ? "priamo tu." : "poskladá v 3D."}</em>
-          </h2>
-          <p>
-            Pre Kovertu sme postavili konfigurátor prístreškov a pergol. Každá voľba sa hneď prepíše
-            do 3D modelu aj do orientačnej ceny. Firma dostane dopyt, v ktorom už je všetko
-            podstatné.
-          </p>
-          <ol className="sh-steps">
-            <li>
-              <b>01</b>
-              <span>
-                <strong>Vyberie typ a umiestnenie</strong>
-                Samostatne, pri stene alebo v rohu.
-              </span>
-            </li>
-            <li>
-              <b>02</b>
-              <span>
-                <strong>Nastaví rozmer, farbu a strechu</strong>
-                Model aj cena sa menia okamžite.
-              </span>
-            </li>
-            <li>
-              <b>03</b>
-              <span>
-                <strong>Pošle dopyt so zostavou</strong>
-                Bez prepisovania rozmerov do e-mailu.
-              </span>
-            </li>
-          </ol>
-          <div className="sh-config__actions">
-            {onCaseStudy ? (
-              <Link to="/kontakt" className="sh-btn sh-btn--lime">
-                Chcem podobný konfigurátor <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            ) : (
-              <Link to="/3d-konfigurator" className="sh-btn sh-btn--lime">
-                Celá prípadová štúdia <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            )}
-            <a
-              href="https://koverta.sk/pages/konfigurator"
-              target="_blank"
-              rel="noreferrer"
-              className="sh-link"
-            >
-              Otvoriť na koverta.sk <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
+        <header className="sr-config__header" data-reveal>
+          <div>
+            <Eyebrow tone="dark">Koverta / 3D konfigurátor</Eyebrow>
+            <h2 id="sh-config-title">
+              {onCaseStudy ? "Vyskúšajte si vlastnú zostavu" : "Produkt si zákazník poskladá sám"}
+            </h2>
           </div>
-        </div>
+          <p>Typ, rozmery, farba aj cena. Všetko vidí priamo v 3D modeli.</p>
+        </header>
 
-        <div className="sh-config__stage" data-reveal style={{ "--d": 1 } as CSSProperties}>
-          <div className="sh-tabs" role="tablist" aria-label="Typ konštrukcie">
-            {configuratorShots.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                role="tab"
-                aria-selected={index === active}
-                data-active={index === active}
-                onClick={() => {
-                  setActive(index);
-                  setLive(false);
-                }}
-              >
-                {item.label}
+        <div className="sh-config__stage" data-reveal>
+          <div className="sr-config__toolbar">
+            <div className="sr-models" role="tablist" aria-label="Typ konštrukcie">
+              {configuratorShots.map((item, index) => (
+                <button
+                  key={item.id}
+                  id={`config-tab-${item.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === active}
+                  aria-controls="config-model-panel"
+                  tabIndex={index === active ? 0 : -1}
+                  onClick={() => selectModel(index)}
+                  onKeyDown={(event) => {
+                    let next = index;
+                    if (event.key === "ArrowRight") next = (index + 1) % configuratorShots.length;
+                    else if (event.key === "ArrowLeft")
+                      next = (index + configuratorShots.length - 1) % configuratorShots.length;
+                    else if (event.key === "Home") next = 0;
+                    else if (event.key === "End") next = configuratorShots.length - 1;
+                    else return;
+                    event.preventDefault();
+                    selectModel(next);
+                    document.getElementById(`config-tab-${configuratorShots[next].id}`)?.focus();
+                  }}
+                >
+                  <span>0{index + 1}</span>
+                  {modelNames[index]}
+                </button>
+              ))}
+            </div>
+            {!live ? (
+              <button type="button" className="sh-btn sh-btn--lime" onClick={() => setLive(true)}>
+                Vyskúšať naživo <ArrowUpRight size={17} aria-hidden="true" />
               </button>
-            ))}
+            ) : (
+              <a
+                className="sh-link"
+                href={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Celá obrazovka <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+            )}
           </div>
-          <div className="sh-config__frame">
+          <div
+            className="sh-config__frame"
+            id="config-model-panel"
+            role="tabpanel"
+            aria-labelledby={`config-tab-${shot.id}`}
+          >
             {live ? (
               <iframe
                 src={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
@@ -909,25 +845,24 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
                     loading="lazy"
                     decoding="async"
                     data-active={index === active}
+                    aria-hidden={index !== active}
                   />
                 ))}
-                <button type="button" className="sh-play" onClick={() => setLive(true)}>
-                  <span aria-hidden="true" />
-                  Spustiť živý konfigurátor
-                </button>
               </>
             )}
           </div>
-          {live ? (
-            <a
-              className="sh-config__note sh-link"
-              href={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Otvoriť na celej obrazovke <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
-          ) : null}
+        </div>
+        <div className="sr-config__footer">
+          <p>Firma dostane presnú zostavu spolu s kontaktom zákazníka.</p>
+          {onCaseStudy ? (
+            <Link to="/kontakt" className="sh-link">
+              Chcem podobný nástroj <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
+          ) : (
+            <Link to="/3d-konfigurator" className="sh-link">
+              Pozrieť projekt Koverta <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
+          )}
         </div>
       </div>
     </section>
@@ -1035,36 +970,44 @@ function BeforeAfter() {
   return (
     <section className="sh-section sr-inquiry" data-nav-tone="light" aria-labelledby="sh-ba-title">
       <div className="sh-wrap sr-inquiry__layout">
-        <div className="sr-inquiry__copy">
-          <Eyebrow>Príklad z praxe</Eyebrow>
-          <h2 id="sh-ba-title">Zákazník zistí cenu. Vy dostanete zadanie.</h2>
-          <p>
-            Na webe DERAT si zákazník vyberie službu, zadá priestor a jeho rozlohu. Kalkulačka mu
-            ukáže orientačnú cenu.
-          </p>
-          <div className="sr-inquiry__example">
-            <span>Samotná otázka</span>
-            <blockquote>„Koľko stojí deratizácia?“</blockquote>
-            <span>Zadanie z kalkulačky</span>
-            <p>Deratizácia bytu · 60 m² · Nitra</p>
+        <div className="sr-inquiry__copy" data-reveal>
+          <Eyebrow>DERAT / cenová kalkulačka</Eyebrow>
+          <h2 id="sh-ba-title">Dopyt, na ktorý viete odpovedať</h2>
+          <p>Zákazník si vypočíta cenu. Vám príde kontakt a údaje o zásahu.</p>
+          <div className="sr-inquiry__comparison">
+            <div className="sr-inquiry__before">
+              <span>Bežná otázka</span>
+              <blockquote>„Koľko stojí deratizácia?“</blockquote>
+            </div>
+            <div className="sr-inquiry__after">
+              <span>S kalkulačkou</span>
+              <strong>Byt v Nitre, 60 m²</strong>
+              <p>Rozsah práce, odhad ceny a kontakt. V jednom dopyte.</p>
+            </div>
           </div>
-          <p className="sr-inquiry__note">
-            V dopyte máte podklady, na ktoré môžete nadviazať ponukou.
-          </p>
           <Link to="/projekty/derat" className="sh-link sh-link--dark">
-            Pozrieť kalkulačku DERAT <ArrowUpRight size={16} aria-hidden="true" />
+            Pozrieť projekt DERAT <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </div>
-        <figure className="sr-inquiry__visual">
+        <figure className="sr-inquiry__visual" data-reveal>
           <img
+            className="sr-inquiry__website"
             src={`${BASE}work/live/derat.webp`}
-            alt="Skutočný web DERAT s kalkulačkou ceny zásahu"
+            alt="Web DERAT s kalkulačkou ceny zásahu"
             width={1600}
             height={1000}
             loading="lazy"
             decoding="async"
           />
-          <figcaption>DERAT / kalkulačka ceny a odoslanie dopytu</figcaption>
+          <img
+            className="sr-inquiry__calculator"
+            src={solutionShots.calculator.src}
+            alt="Skutočná kalkulačka DERAT s výberom priestoru a cenou od 60 €"
+            width={600}
+            height={749}
+            loading="lazy"
+            decoding="async"
+          />
         </figure>
       </div>
     </section>
@@ -1073,7 +1016,63 @@ function BeforeAfter() {
 
 /* ---------------------------------------------------------------- process */
 
+const processViews = [
+  { image: "work/live/mojplot.webp", title: "Váš web", caption: "Začíname tým, čo už máte." },
+  {
+    image: "work/koverta/model-porsche.webp",
+    title: "Návrh riešenia",
+    caption: "Dohodneme podobu aj funkcie.",
+  },
+  {
+    image: "work/koverta/konfigurator-carport.webp",
+    title: "Funkčná ukážka",
+    caption: "Vyskúšate si celý výber aj výpočet.",
+  },
+  {
+    image: "work/live/derat.webp",
+    title: "Na vašom webe",
+    caption: "Nástroj je pripravený pre zákazníkov.",
+  },
+] as const;
+
 function Process() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const stepsRef = useRef<HTMLOListElement>(null);
+
+  useEffect(() => {
+    const list = stepsRef.current;
+    if (!list || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const rows = Array.from(list.children) as HTMLElement[];
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const focus = window.innerHeight * 0.52;
+      let nearest = 0;
+      let distance = Number.POSITIVE_INFINITY;
+      rows.forEach((row, index) => {
+        const rect = row.getBoundingClientRect();
+        const nextDistance = Math.abs(rect.top + rect.height / 2 - focus);
+        if (nextDistance < distance) {
+          distance = nextDistance;
+          nearest = index;
+        }
+      });
+      setCurrentStep(nearest);
+    };
+    const requestUpdate = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    update();
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  const view = processViews[currentStep];
   return (
     <section
       className="sh-section sr-process"
@@ -1084,37 +1083,49 @@ function Process() {
       <div className="sh-wrap">
         <header className="sh-head sh-head--row">
           <div>
-            <Eyebrow>Ako to prebieha</Eyebrow>
-            <h2 id="sh-process-title">Od vášho webu k hotovému nástroju.</h2>
+            <Eyebrow>Ako spolupracujeme</Eyebrow>
+            <h2 id="sh-process-title">Od prvého rozhovoru po spustenie</h2>
           </div>
           <Link to="/postup" className="sh-link sh-link--dark">
-            Celý postup <ArrowRight size={16} aria-hidden="true" />
+            Celý postup <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </header>
         <div className="sr-process__layout">
-          <ol className="sr-process__steps">
-            {process.map(([number, title, copy]) => (
-              <li key={number}>
-                <span>{number}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                </div>
+          <ol className="sr-process__steps" ref={stepsRef}>
+            {process.map(([number, title, copy], index) => (
+              <li key={number} data-current={index === currentStep}>
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(index)}
+                  aria-pressed={index === currentStep}
+                >
+                  <span>{number}</span>
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{copy}</p>
+                  </div>
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </button>
               </li>
             ))}
           </ol>
           <figure className="sr-process__visual">
-            <img
-              src={`${BASE}work/live/mojplot.webp`}
-              alt="Web Môj Plot — ukážka realizácie s chatbotom a kalkulačkou"
-              width={1600}
-              height={1000}
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>
-              <strong>Môj Plot</strong>
-              <span>Chatbot a kalkulačka na jednom webe.</span>
+            <div className="sr-process__screen" key={currentStep}>
+              <img
+                src={`${BASE}${view.image}`}
+                alt={view.title}
+                width={1600}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption aria-live="polite">
+              <span>0{currentStep + 1} / 04</span>
+              <div>
+                <strong>{view.title}</strong>
+                <span>{view.caption}</span>
+              </div>
             </figcaption>
           </figure>
         </div>

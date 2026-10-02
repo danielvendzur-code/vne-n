@@ -4,25 +4,25 @@ import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("all homepage solution CTAs use builder wording", async () => {
+test("homepage solution CTAs describe the example or requested tool", async () => {
   const landing = await read("src/components/site/StudioHome.tsx");
 
-  assert.match(landing, /Vyskladať chatbota/);
-  assert.match(landing, /Vyskladať kalkulačku/);
-  assert.match(landing, /Pozrieť 3D konfigurátor/);
-  assert.match(landing, /Vyskladať poradcu/);
+  assert.match(landing, /Chcem chatbota/);
+  assert.match(landing, /Chcem kalkulačku/);
+  assert.match(landing, /Pozrieť ukážku/);
+  assert.match(landing, /Chcem poradcu/);
   // The wording is data on the button, not text patched in after render.
   assert.doesNotMatch(landing, /MutationObserver/);
 });
 
-test("header CTA is lime at rest and black on hover", async () => {
+test("header CTA is lime at rest with a consistent darker lime hover", async () => {
   const layout = await read("src/components/site/Layout.tsx");
   const css = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(layout, /SiteVisualAuthority\.css/);
   assert.doesNotMatch(layout, /UserFollowupSep01\.css/);
   assert.match(css, /background:\s*#c8f06a !important/);
-  assert.match(css, /background:\s*#0b0e0c !important/);
+  assert.match(css, /background:\s*#b9e354 !important/);
 });
 
 test("contact uses the unified card form without hairline separators", async () => {

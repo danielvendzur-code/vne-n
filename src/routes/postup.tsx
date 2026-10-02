@@ -1,34 +1,35 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, type CSSProperties } from "react";
-import { ShClosing, ShPage, ShPageHero, ShSectionHead } from "@/components/site/SubPage";
+import { ArrowUpRight } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { ShPage, ShPageHero } from "@/components/site/SubPage";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
+import "@/components/site/ServicesProcessRefinement.css";
 
 const steps = [
   {
     index: "01",
-    title: "Pochopenie",
-    output: "Jasne pomenovaný problém a cieľ nástroja.",
-    copy: "Prejdeme web, ponuku a situácie, ktoré dnes riešite ručne. Určíme, čo má zákazník zistiť, vypočítať, vybrať alebo odoslať.",
+    title: "Pozrieme sa na váš web",
+    output: "Dohodnuté zadanie a cieľ.",
+    copy: "Prejdeme ponuku a otázky zákazníkov. Vyberieme, čo má nový nástroj vyriešiť.",
   },
   {
     index: "02",
-    title: "Návrh",
-    output: "Schválená cesta zákazníka a rozsah prvej verzie.",
-    copy: "Navrhneme otázky, rozhodovaciu logiku, výstupy a podobu rozhrania. Pred vývojom viete, čo presne sa bude diať po jednotlivých krokoch.",
+    title: "Ukážeme vám návrh",
+    output: "Návrh rozhrania a zoznam funkcií.",
+    copy: "Uvidíte obrazovky aj celý výber zákazníka. Spolu doladíme otázky a výsledok.",
   },
   {
     index: "03",
-    title: "Vývoj",
-    output: "Funkčná verzia na otestovanie.",
-    copy: "Postavíme rozhranie a dohodnutú logiku. Otestujeme výpočty, formuláre, konfiguráciu a správanie na desktopoch aj mobiloch.",
+    title: "Postavíme pracovnú verziu",
+    output: "Odkaz na verziu, ktorú si môžete vyskúšať.",
+    copy: "Napojíme podklady a výpočty. Otestujeme výber aj odoslanie dopytu na počítači a mobile.",
   },
   {
     index: "04",
-    title: "Nasadenie",
-    output: "Nástroj na reálnom webe a overený ďalší krok.",
-    copy: "Nasadíme riešenie, preveríme odosielanie dopytov alebo výsledkov a doladíme detaily podľa reálneho použitia.",
+    title: "Spustíme ho na vašom webe",
+    output: "Funkčný nástroj na vašom webe.",
+    copy: "Vložíme nástroj na web a overíme, že vám prichádzajú dopyty. Po spustení pomôžeme s úpravami.",
   },
 ] as const;
 
@@ -102,12 +103,12 @@ function useTimelineProgress() {
 function ProcessPage() {
   const timelineRef = useTimelineProgress();
   return (
-    <ShPage>
+    <ShPage className="spr-process">
       <ShPageHero
         eyebrow="Postup"
         title="Od prvého zadania"
         accent="po živý web."
-        lead="Každý krok má konkrétny výstup. Viete, čo sa práve rozhoduje, čo dostanete a kedy má zmysel pokračovať ďalej."
+        lead="Najprv návrh, potom verzia na vyskúšanie. Pred spustením si všetko prejdeme spolu."
         visual={{
           src: `${import.meta.env.BASE_URL}work/live/derat.webp`,
           alt: "Ukážka živého projektu DERAT s interaktívnym predajným nástrojom",
@@ -117,22 +118,29 @@ function ProcessPage() {
         }}
       />
 
-      <section className="sh-section">
-        <div className="sh-wrap shp-split">
-          <ShSectionHead
-            eyebrow="Otázka → výsledok"
-            title="Technológia je až druhá."
-            lead="Najprv musí byť jasné, čo má byť výsledkom pre zákazníka a pre firmu. Až potom staviame."
-          />
-          <ol className="sh-timeline shp-timeline" ref={timelineRef}>
-            {steps.map((step, order) => (
-              <li key={step.index} data-reveal style={{ "--d": order } as CSSProperties}>
-                <b>{step.index}</b>
+      <section className="sh-section spr-process-detail" aria-labelledby="spr-process-title">
+        <div className="sh-wrap spr-process-detail__layout">
+          <header className="spr-process-detail__head" data-reveal>
+            <p className="spr-kicker">Ako spolupracujeme</p>
+            <h2 id="spr-process-title">Pri každom kroku viete, čo dostanete.</h2>
+            <p>
+              Od prvého rozhovoru po spustenie na vašom webe. Návrh aj pracovnú verziu vám ukážeme v
+              prehliadači.
+            </p>
+            <Link to="/kontakt" className="sh-link sh-link--dark">
+              Prebrať projekt <ArrowUpRight size={18} aria-hidden="true" />
+            </Link>
+          </header>
+          <ol className="spr-timeline" ref={timelineRef}>
+            {steps.map((step) => (
+              <li key={step.index} data-reveal>
+                <span className="spr-timeline__index">{step.index}</span>
                 <div>
-                  <h2>{step.title}</h2>
+                  <h3>{step.title}</h3>
                   <p>{step.copy}</p>
-                  <p className="shp-output">
-                    <strong>Výstup:</strong> {step.output}
+                  <p className="spr-timeline__output">
+                    <span>Dostanete</span>
+                    {step.output}
                   </p>
                 </div>
               </li>
@@ -141,21 +149,26 @@ function ProcessPage() {
         </div>
       </section>
 
-      <ShClosing
-        title="Začnime tým, čo dnes riešite ručne."
-        copy="Nemusíte vedieť, či potrebujete chatbot, kalkulačku, konfigurátor alebo produktového poradcu. Stačí popísať proces a výsledok, ktorý chcete."
-      >
-        <button
-          type="button"
-          className="sh-btn sh-btn--lime"
-          onClick={() => openSiteAssistant({ source: "process-final" })}
-        >
-          Vyskladať riešenie <ArrowRight size={18} aria-hidden="true" />
-        </button>
-        <Link to="/kontakt" className="sh-link">
-          Kontakt
-        </Link>
-      </ShClosing>
+      <section className="sh-section spr-closing" aria-labelledby="spr-process-closing-title">
+        <div className="sh-wrap spr-closing__layout">
+          <div>
+            <h2 id="spr-process-closing-title">Poďme sa pozrieť na váš web.</h2>
+            <p>Napíšte, čo by mal zákazník vybaviť. Navrhneme ďalší krok.</p>
+          </div>
+          <div className="spr-closing__actions">
+            <Link to="/kontakt" className="sh-btn sh-btn--dark">
+              Napísať nám <ArrowUpRight size={18} aria-hidden="true" />
+            </Link>
+            <button
+              type="button"
+              className="sh-link sh-link--dark"
+              onClick={() => openSiteAssistant({ source: "process-final" })}
+            >
+              Otvoriť chat <ArrowUpRight size={18} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </section>
     </ShPage>
   );
 }

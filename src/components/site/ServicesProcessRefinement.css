@@ -1,0 +1,503 @@
+/* Services and process share the same typography and open layouts. */
+.sh .spr-kicker {
+  margin: 0 0 1.25rem;
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.sh .spr-service-hero {
+  overflow: hidden;
+  background: var(--sh-deep);
+  color: var(--sh-paper);
+}
+
+.sh .spr-service-hero__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: stretch;
+  padding-block: clamp(2.5rem, 5vw, 5rem);
+}
+
+.sh .spr-service-hero__copy {
+  align-self: center;
+  padding-block: 1rem;
+}
+
+.sh .spr-service-hero .spr-kicker {
+  color: var(--sh-paper);
+}
+
+.sh .spr-service-hero h1 {
+  margin: 0;
+  color: var(--sh-paper);
+  font-size: clamp(2.8rem, 4.8vw, 5rem);
+  line-height: 0.99;
+  letter-spacing: -0.05em;
+}
+
+.sh .spr-service-hero h1 em {
+  display: block;
+  color: var(--sh-lime);
+  font-style: normal;
+}
+
+.sh .spr-service-hero__lead {
+  max-width: 28rem;
+  margin-top: 1.8rem;
+  color: rgba(245, 244, 237, 0.8);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.sh .spr-service-hero__copy .sh-btn {
+  margin-top: 1.75rem;
+}
+
+.sh .spr-service-hero__visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 28rem;
+  margin-right: calc(var(--sh-gutter) * -1);
+  background: #e4e3df;
+  color: var(--sh-ink);
+  text-decoration: none;
+}
+
+.sh .spr-service-hero__visual img {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 1200 / 824;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 650ms var(--sh-ease);
+}
+
+.sh .spr-service-hero__visual:hover img {
+  transform: scale(1.025);
+}
+
+.sh .spr-service-hero__caption {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #e4e3df;
+  font-weight: 650;
+}
+
+.sh .spr-service-hero__caption small {
+  display: inline-block;
+  margin-left: 1rem;
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.sh .spr-section-head {
+  max-width: 53rem;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.sh .spr-section-head h2,
+.sh .spr-process-detail__head h2 {
+  margin: 0;
+  font-size: clamp(2rem, 3.3vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.sh .spr-tools {
+  scroll-margin-top: calc(var(--header-h, 76px) + 2rem);
+}
+
+.sh .spr-tools__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.sh .spr-tool {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.sh .spr-tool__index {
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sh .spr-tool h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.sh .spr-tool p {
+  margin: 0;
+  color: var(--sh-muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.sh .spr-tool .spr-tool__result {
+  margin-top: auto;
+  color: var(--sh-ink);
+  font-size: 0.9375rem;
+}
+
+.sh .spr-tool .sh-link {
+  margin-top: 0.5rem;
+}
+
+.sh .spr-tools__note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.sh .spr-tools__note p {
+  margin: 0;
+  color: var(--sh-muted);
+  font-size: 1rem;
+}
+
+.sh .spr-examples {
+  background: var(--sh-pure);
+}
+
+.sh .spr-examples__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.sh .spr-example__visual {
+  overflow: hidden;
+  margin: 0 0 1.25rem;
+  aspect-ratio: 16 / 11;
+  background: #e4e3df;
+}
+
+.sh .spr-example__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 650ms var(--sh-ease);
+}
+
+.sh .spr-example__visual[data-portrait] {
+  background: #eeece6;
+}
+
+.sh .spr-example__visual[data-portrait] img {
+  width: 65%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.sh .spr-example:hover .spr-example__visual img {
+  transform: scale(1.025);
+}
+
+.sh .spr-example__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.25rem;
+  color: var(--sh-muted);
+  font-size: 0.875rem;
+}
+
+.sh .spr-example h3 {
+  max-width: 24rem;
+  margin: 0;
+  font-size: clamp(1.5rem, 2.1vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.sh .spr-example > p {
+  max-width: 33rem;
+  margin: 1rem 0 1.5rem;
+  color: var(--sh-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.sh .spr-closing__layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.sh .spr-closing h2 {
+  margin: 0;
+  font-size: clamp(2rem, 3.3vw, 3.5rem);
+  letter-spacing: -0.045em;
+}
+
+.sh .spr-closing p {
+  max-width: 36rem;
+  margin: 1rem 0 0;
+  color: var(--sh-muted);
+  font-size: 1.0625rem;
+}
+
+.sh .spr-closing__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.sh.spr-process .shp-hero__visual {
+  border: 0;
+  border-radius: 6px !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+.sh.spr-process .shp-hero__visual figcaption {
+  position: static;
+  padding: 0.8rem 0 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(245, 244, 237, 0.72);
+  font-size: 0.875rem;
+  font-weight: 400;
+  backdrop-filter: none;
+}
+
+.sh .spr-process-detail__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: clamp(3rem, 7vw, 7rem);
+}
+
+.sh .spr-process-detail__head {
+  position: sticky;
+  top: calc(var(--header-h, 76px) + 2rem);
+}
+
+.sh .spr-process-detail__head > p:not(.spr-kicker) {
+  max-width: 27rem;
+  margin: 1.5rem 0;
+  color: var(--sh-muted);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.sh .spr-timeline {
+  position: relative;
+  display: grid;
+  gap: 3.5rem;
+  margin: 0;
+  padding: 0 0 0 2rem;
+  list-style: none;
+}
+
+.sh .spr-timeline::before,
+.sh .spr-timeline::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  content: "";
+}
+
+.sh .spr-timeline::before {
+  height: 100%;
+  background: var(--sh-line);
+}
+
+.sh .spr-timeline::after {
+  height: calc(var(--progress, 0) * 100%);
+  background: var(--sh-forest);
+}
+
+.sh .spr-timeline li {
+  display: grid;
+  grid-template-columns: 3.75rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.sh .spr-timeline__index {
+  color: var(--sh-forest);
+  font-size: 2.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  font-variant-numeric: tabular-nums;
+  transition: color 400ms ease;
+}
+
+.sh .spr-timeline li[data-reached="false"] .spr-timeline__index {
+  color: var(--sh-muted);
+}
+
+.sh .spr-timeline h3 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.35rem, 1.8vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.sh .spr-timeline p {
+  margin: 0;
+  color: var(--sh-muted);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.sh .spr-timeline .spr-timeline__output {
+  margin-top: 1.15rem;
+  color: var(--sh-ink);
+  font-size: 0.9375rem;
+}
+
+.sh .spr-timeline__output span {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--sh-muted);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 1080px) {
+  .sh .spr-tools__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+  }
+
+  .sh .spr-service-hero__layout {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 1.5rem;
+  }
+
+  .sh .spr-service-hero__visual {
+    min-height: 25rem;
+  }
+
+  .sh .spr-service-hero__caption small {
+    display: block;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 850px) {
+  .sh .spr-service-hero__layout,
+  .sh .spr-process-detail__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sh .spr-service-hero__copy {
+    max-width: 37rem;
+  }
+
+  .sh .spr-service-hero__visual {
+    min-height: 0;
+    margin-inline: 0;
+  }
+
+  .sh .spr-service-hero__visual img {
+    flex: none;
+  }
+
+  .sh .spr-process-detail__head {
+    position: static;
+  }
+
+  .sh .spr-closing__layout {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .sh .spr-service-hero__layout {
+    padding-block: 2rem 0;
+    gap: 2rem;
+  }
+
+  .sh .spr-service-hero__visual {
+    margin-inline: calc(var(--sh-gutter) * -1);
+  }
+
+  .sh .spr-service-hero h1 {
+    font-size: clamp(2.6rem, 10vw, 3.6rem);
+  }
+
+  .sh .spr-tools__grid,
+  .sh .spr-examples__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sh .spr-tools__grid {
+    gap: 2.5rem;
+  }
+
+  .sh .spr-tool {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+  }
+
+  .sh .spr-tool__index {
+    grid-row: 1 / 5;
+    padding-top: 0.2rem;
+  }
+
+  .sh .spr-tool > :not(.spr-tool__index) {
+    grid-column: 2;
+  }
+
+  .sh .spr-tool .sh-link {
+    justify-self: start;
+  }
+
+  .sh .spr-timeline {
+    gap: 2.5rem;
+    padding-left: 1rem;
+  }
+
+  .sh .spr-timeline li {
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 0.85rem;
+  }
+
+  .sh .spr-timeline__index {
+    font-size: 2.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sh .spr-service-hero__visual img,
+  .sh .spr-example__visual img,
+  .sh .spr-timeline__index {
+    transition: none;
+    transform: none !important;
+  }
+}

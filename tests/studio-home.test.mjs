@@ -19,7 +19,7 @@ test("homepage is the Koverta-inspired studio page with real work and a keyword 
   assert.match(landing, /work\/live\/koverta\.webp/);
   assert.match(landing, /className="hybrid-home kage-home sh"/);
   assert.match(landing, /<FlowStory \/>/);
-  assert.match(landing, /title: "Všetko spolu"/);
+  assert.match(landing, /combined: \{\s*label: "Všetko spolu"/);
   for (const shot of ["kalkulacka-derat", "chatbot-aplan", "poradca-kava"]) {
     assert.match(landing, new RegExp(`work/solutions/${shot}\\.webp`));
   }
@@ -105,16 +105,19 @@ test("FAQ heading stays pinned while the list scrolls", async () => {
   assert.match(css, /\.sh-faq__grid \.sh-head \{\s*position: sticky;/);
 });
 
-test("process keeps all four steps readable without autoplay or hidden panels", async () => {
+test("process keeps four readable steps with scroll-driven previews and reduced-motion support", async () => {
   const landing = await read("src/components/site/StudioHome.tsx");
   const start = landing.indexOf("function Process()");
   const process = landing.slice(start, landing.indexOf("/* ----", start));
-  assert.match(process, /<ol className="sr-process__steps">/);
-  assert.match(process, /process\.map\(\(\[number, title, copy\]\)/);
-  assert.doesNotMatch(process, /setTimeout|setActive|role="tabpanel"|aria-selected/);
-  assert.doesNotMatch(process, /addEventListener\("scroll"/);
-  assert.match(process, /work\/live\/mojplot\.webp/);
-  assert.match(process, /Chatbot a kalkulačka na jednom webe/);
+  assert.match(process, /<ol className="sr-process__steps" ref=\{stepsRef\}>/);
+  assert.match(process, /process\.map\(\(\[number, title, copy\], index\)/);
+  assert.doesNotMatch(process, /setTimeout|setInterval|role="tabpanel"|(?:^|\s)hidden[=>]/);
+  assert.match(process, /prefers-reduced-motion: reduce/);
+  assert.match(process, /passive: true/);
+  assert.match(process, /cancelAnimationFrame/);
+  assert.match(process, /aria-pressed=\{index === currentStep\}/);
+  assert.match(landing, /work\/live\/mojplot\.webp/);
+  assert.match(process, /view\.image/);
 });
 
 test("monthly operation is a starting price and fonts use full-weight Archivo", async () => {

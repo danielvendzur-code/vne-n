@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowRight } from "lucide-react";
-import { ShPage, ShPageHero } from "@/components/site/SubPage";
+import { ArrowUpRight } from "lucide-react";
+import { ShPage } from "@/components/site/SubPage";
 import { siteConfig } from "@/config/site";
 import { submitWebsiteLead } from "@/lib/lead-submission";
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { breadcrumbJsonLd, seo } from "@/lib/seo";
+import "@/components/site/ContactPricingRefinement.css";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
@@ -172,45 +173,41 @@ function ContactPage() {
   };
 
   return (
-    <ShPage className="shp-contact-page">
-      <ShPageHero eyebrow="Kontakt" title="Preberme, čo má váš web" accent="robiť ďalej." compact />
-
-      <section className="shp-contact">
-        <div className="sh-wrap shp-contact__grid">
-          <aside className="shp-contact__aside">
-            <div className="shp-card shp-card--dark shp-contact__direct">
-              <p className="shp-contact__label">Priamy kontakt</p>
-              <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
-              <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
-            </div>
-            <div className="shp-card">
-              <p className="shp-contact__label">Čo stačí poslať</p>
-              <ol className="shp-contact__steps">
-                <li>Čo predávate.</li>
-                <li>Čo zákazníci stále riešia ručne.</li>
-                <li>Čo má byť výsledkom na webe.</li>
-              </ol>
-              <button
-                type="button"
-                className="sh-link sh-link--dark"
-                onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
-              >
-                Radšej vyskladať riešenie <ArrowRight size={15} aria-hidden="true" />
-              </button>
-            </div>
-            <div className="shp-card">
-              <p className="shp-contact__label">Prevádzkovateľ</p>
-              <p>{siteConfig.legal.operator}</p>
-              <Link to="/pravne-informacie" className="sh-link sh-link--dark">
-                IČO, DIČ a registrácia <ArrowRight size={14} aria-hidden="true" />
-              </Link>
-            </div>
-          </aside>
-
-          <div className="shp-form-card contact-form-wrap">
-            <p className="shp-contact__label">
-              {fromCoffeeDemo ? "Predvyplnené z vašej ukážky" : "Krátke zadanie"}
+    <ShPage className="shp-contact-page cp-contact">
+      <section className="cp-contact__section" aria-labelledby="contact-title">
+        <div className="sh-wrap cp-contact__grid">
+          <div className="cp-contact__intro">
+            <p className="cp-kicker">Kontakt</p>
+            <h1 id="contact-title">Poďme sa pozrieť na váš web.</h1>
+            <p className="cp-contact__lead">
+              Pošlite nám web a krátko napíšte, čo potrebujete. Ozveme sa s návrhom a cenou.
             </p>
+            <address className="cp-contact__direct">
+              <a href={`mailto:${siteConfig.contact.email}`}>
+                {siteConfig.contact.email} <ArrowUpRight size={20} aria-hidden="true" />
+              </a>
+              <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
+            </address>
+            <button
+              type="button"
+              className="sh-link sh-link--dark"
+              onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
+            >
+              Pomôcť s výberom <ArrowUpRight size={17} aria-hidden="true" />
+            </button>
+            <div className="cp-contact__operator">
+              <p>{siteConfig.legal.operator}</p>
+              <Link to="/pravne-informacie">Údaje spoločnosti</Link>
+            </div>
+          </div>
+
+          <div
+            className="cp-contact__form contact-form-wrap"
+            data-coffee={fromCoffeeDemo || undefined}
+          >
+            <h2 className="cp-contact__form-title">
+              {fromCoffeeDemo ? "Záujem o kávového poradcu" : "Napíšte nám"}
+            </h2>
 
             {fromCoffeeDemo ? (
               <div className="contact-demo-summary">
@@ -308,7 +305,7 @@ function ContactPage() {
                   onChange={(event) => setProject(event.target.value)}
                   required={!fromCoffeeDemo}
                   maxLength={FIELD_LIMITS.project}
-                  rows={fromCoffeeDemo ? 3 : 4}
+                  rows={3}
                   placeholder={
                     fromCoffeeDemo
                       ? "Voliteľné — napríklad telefónny čas, otázka alebo čo chcete na ukážke upraviť."
@@ -332,9 +329,8 @@ function ContactPage() {
 
               <div className="contact-privacy-note">
                 <p>
-                  Odoslaním zadania požiadate prevádzkovateľa Venaco s.r.o. o kontakt a prípravu
-                  návrhu. Údaje použijeme na vybavenie dopytu a prípadné kroky pred uzatvorením
-                  spolupráce, nie na posielanie marketingových správ.
+                  Odoslaním požiadate Venaco s.r.o. o kontakt a návrh. Údaje použijeme na vybavenie
+                  dopytu a prípravu spolupráce, nie na marketing.
                 </p>
                 <p>
                   Podrobnosti: <Link to="/ochrana-udajov">Ochrana osobných údajov</Link> ·{" "}
@@ -355,7 +351,7 @@ function ContactPage() {
                     vyplneným zadaním; odoslanie zostáva pod vašou kontrolou.
                   </p>
                   <a href={fallbackHref}>
-                    Otvoriť pripravený e-mail <ArrowRight size={15} aria-hidden="true" />
+                    Otvoriť pripravený e-mail <ArrowUpRight size={15} aria-hidden="true" />
                   </a>
                 </div>
               ) : null}
@@ -369,9 +365,9 @@ function ContactPage() {
                 {submitState === "sending"
                   ? "Odosielam…"
                   : fromCoffeeDemo
-                    ? "Mám záujem — ozvite sa mi"
+                    ? "Mám záujem"
                     : "Odoslať zadanie"}
-                <ArrowRight size={16} aria-hidden="true" />
+                <ArrowUpRight size={16} aria-hidden="true" />
               </button>
             </form>
           </div>
