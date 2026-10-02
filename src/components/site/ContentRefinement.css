@@ -1,0 +1,224 @@
+/* Real project imagery and open layouts below the existing hero.
+   These selectors deliberately do not target the hero or the sticky work gallery. */
+.sh .sr-inquiry__layout,
+.sh .sr-process__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.sh .sr-inquiry__copy h2 {
+  max-width: 15ch;
+}
+.sh .sr-inquiry__copy > p {
+  margin-top: 1.5rem;
+  max-width: 36rem;
+  color: var(--sh-muted);
+}
+.sh .sr-inquiry__example {
+  border-block: 1px solid var(--sh-line);
+  padding-block: 1.5rem;
+  margin-block: 2rem;
+}
+.sh .sr-inquiry__example > span {
+  display: block;
+  color: var(--sh-muted);
+  font-size: 0.75rem;
+}
+.sh .sr-inquiry__example blockquote {
+  margin: 0.4rem 0 1.4rem;
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+.sh .sr-inquiry__example p {
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+.sh .sr-inquiry__copy .sh-link {
+  margin-top: 1.4rem;
+}
+.sh .sr-inquiry__visual,
+.sh .sr-process__visual {
+  margin: 0;
+  min-width: 0;
+}
+.sh .sr-inquiry__visual img {
+  width: 100%;
+  border-radius: 12px;
+}
+.sh .sr-inquiry__visual figcaption {
+  margin-top: 0.85rem;
+  font-size: 0.75rem;
+  color: var(--sh-muted);
+}
+.sh .sr-process__layout {
+  margin-top: 2rem;
+}
+.sh .sr-process__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sh .sr-process__steps li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 1rem;
+  border-top: 1px solid var(--sh-line);
+  padding-block: 1.35rem;
+}
+.sh .sr-process__steps li:last-child {
+  border-bottom: 1px solid var(--sh-line);
+}
+.sh .sr-process__steps li > span {
+  font-size: 0.75rem;
+  color: var(--sh-muted);
+  padding-top: 0.3rem;
+}
+.sh .sr-process__steps h3 {
+  font-size: 1.2rem;
+}
+.sh .sr-process__steps p {
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--sh-muted);
+  max-width: 31rem;
+}
+.sh .sr-process__visual {
+  background: var(--sh-deep);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: 16px;
+}
+.sh .sr-process__visual img {
+  width: 100%;
+  border-radius: 8px;
+}
+.sh .sr-process__visual figcaption {
+  display: grid;
+  gap: 0.3rem;
+  padding-top: 1.4rem;
+  color: #f5f4ed;
+}
+.sh .sr-process__visual figcaption strong {
+  font-size: 1.4rem;
+}
+.sh .sr-process__visual figcaption span {
+  font-size: 0.875rem;
+  color: #c4cec7;
+}
+.sh .sr-audiences__list {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.sh .sr-audience {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: clamp(1.5rem, 4vw, 3.25rem);
+  background: var(--sh-deep);
+  color: #f5f4ed;
+  border-radius: 16px;
+}
+.sh .sr-audience:nth-child(even) {
+  background: var(--sh-paper);
+  color: var(--sh-ink);
+}
+.sh .sr-audience__index {
+  font-size: 0.75rem;
+  color: #c4cec7;
+}
+.sh .sr-audience:nth-child(even) .sr-audience__index {
+  color: var(--sh-muted);
+}
+.sh .sr-audience__copy h3 {
+  font-size: clamp(1.8rem, 3.1vw, 2.8rem);
+  line-height: 1.12;
+  margin-top: 1.5rem;
+  max-width: 14ch;
+}
+.sh .sr-audience__copy p {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  color: #c4cec7;
+  max-width: 32rem;
+}
+.sh .sr-audience:nth-child(even) .sr-audience__copy p {
+  color: var(--sh-muted);
+}
+.sh .sr-audience__copy .sh-link {
+  margin-top: 1.6rem;
+  color: inherit;
+}
+.sh .sr-audience__visual {
+  margin: 0;
+  min-width: 0;
+}
+.sh .sr-audience__visual img {
+  width: 100%;
+  border-radius: 8px;
+}
+.sh .sr-audience__visual[data-portrait] {
+  background: #e4e6dd;
+  padding: 1.25rem;
+  border-radius: 8px;
+}
+.sh .sr-audience__visual[data-portrait] img {
+  width: auto;
+  max-height: 430px;
+  margin-inline: auto;
+}
+.sh .sr-closing__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3rem;
+  align-items: center;
+  border-top: 1px solid var(--sh-line);
+  padding-top: 3rem;
+}
+.sh .sr-closing h2 {
+  font-size: clamp(2rem, 4vw, 4rem);
+}
+.sh .sr-closing p {
+  max-width: 37rem;
+  color: var(--sh-muted);
+  margin-top: 1.2rem;
+}
+.sh .sr-closing__actions {
+  display: grid;
+  gap: 1.3rem;
+  justify-items: start;
+}
+.sh .sr-closing__actions button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.sh .sr-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 850px) {
+  .sh .sr-inquiry__layout,
+  .sh .sr-process__layout,
+  .sh .sr-audience,
+  .sh .sr-closing__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .sh .sr-inquiry__copy h2 {
+    max-width: 22ch;
+  }
+  .sh .sr-audience__copy h3 {
+    max-width: 22ch;
+  }
+}

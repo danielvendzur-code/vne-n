@@ -105,17 +105,16 @@ test("FAQ heading stays pinned while the list scrolls", async () => {
   assert.match(css, /\.sh-faq__grid \.sh-head \{\s*position: sticky;/);
 });
 
-test("process autoplays four Môj Plot steps and still allows direct selection", async () => {
+test("process keeps all four steps readable without autoplay or hidden panels", async () => {
   const landing = await read("src/components/site/StudioHome.tsx");
   const start = landing.indexOf("function Process()");
   const process = landing.slice(start, landing.indexOf("/* ----", start));
-  assert.match(process, /processScenes\[active\]/);
-  assert.match(process, /setActive\(\(current\) => \(current \+ 1\) % process\.length\)/);
-  assert.match(process, /onClick=\{\(\) => setActive\(order\)\}/);
-  assert.doesNotMatch(process, /setPaused|onMouseEnter|onMouseLeave/);
+  assert.match(process, /<ol className="sr-process__steps">/);
+  assert.match(process, /process\.map\(\(\[number, title, copy\]\)/);
+  assert.doesNotMatch(process, /setTimeout|setActive|role="tabpanel"|aria-selected/);
   assert.doesNotMatch(process, /addEventListener\("scroll"/);
-  assert.match(landing, /Môj Plot \/ návrh/);
-  assert.match(landing, /Môj Plot \/ nasadené/);
+  assert.match(process, /work\/live\/mojplot\.webp/);
+  assert.match(process, /Chatbot a kalkulačka na jednom webe/);
 });
 
 test("monthly operation is a starting price and fonts use full-weight Archivo", async () => {

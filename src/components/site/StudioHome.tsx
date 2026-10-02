@@ -1,13 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Box,
-  Calculator,
-  Check,
-  MessageSquare,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Box, Calculator, MessageSquare, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -15,6 +7,7 @@ import { configuratorShots, KOVERTA_LIVE_CONFIGURATOR } from "@/data/configurato
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { useReveal } from "@/hooks/useReveal";
 import "./StudioHome.css";
+import "./ContentRefinement.css";
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -1038,79 +1031,41 @@ function Work() {
 
 /* Porovnanie toho, čo firme reálne príde: bez nástroja všeobecná otázka,
    s kalkulačkou hotový dopyt, na ktorý sa dá hneď odpovedať ponukou. */
-const vagueQuestions = ["Aký priestor?", "Koľko metrov?", "Aký škodca?", "Kedy a kde?"];
-
-const inquiryRows = [
-  ["Služba", "Deratizácia"],
-  ["Priestor", "Byt v bytovom dome"],
-  ["Rozloha", "60 m²"],
-  ["Lokalita", "Nitra"],
-  ["Orientačná cena", "od 60 € bez DPH"],
-  ["Kontakt", "Ján · 0905 …"],
-] as const;
-
 function BeforeAfter() {
   return (
-    <section className="sh-section sh-compare" data-nav-tone="light" aria-labelledby="sh-ba-title">
-      <div className="sh-wrap">
-        <header className="sh-head sh-head--row" data-reveal>
-          <div>
-            <Eyebrow>Pred a po</Eyebrow>
-            <h2 id="sh-ba-title">Rovnaký zákazník. Úplne iný dopyt.</h2>
+    <section className="sh-section sr-inquiry" data-nav-tone="light" aria-labelledby="sh-ba-title">
+      <div className="sh-wrap sr-inquiry__layout">
+        <div className="sr-inquiry__copy">
+          <Eyebrow>Príklad z praxe</Eyebrow>
+          <h2 id="sh-ba-title">Zákazník zistí cenu. Vy dostanete zadanie.</h2>
+          <p>
+            Na webe DERAT si zákazník vyberie službu, zadá priestor a jeho rozlohu. Kalkulačka mu
+            ukáže orientačnú cenu.
+          </p>
+          <div className="sr-inquiry__example">
+            <span>Samotná otázka</span>
+            <blockquote>„Koľko stojí deratizácia?“</blockquote>
+            <span>Zadanie z kalkulačky</span>
+            <p>Deratizácia bytu · 60 m² · Nitra</p>
           </div>
-          <p>Takto vyzerá správa, ktorá firme príde bez nástroja a s kalkulačkou na webe.</p>
-        </header>
-
-        <div className="sh-compare__grid">
-          <article className="sh-compare__card sh-compare__card--before" data-reveal>
-            <header>
-              <span className="sh-compare__label">Bez nástroja</span>
-              <small>E-mail z kontaktného formulára</small>
-            </header>
-            <div className="sh-compare__mail">
-              <span>Od: jan.k…@gmail.com</span>
-              <span>Predmet: Otázka</span>
-              <p>Dobrý deň, koľko by stála deratizácia? Ďakujem.</p>
-            </div>
-            <div className="sh-compare__missing">
-              <small>Než pošlete cenu, musíte sa spýtať:</small>
-              <ul>
-                {vagueQuestions.map((question, index) => (
-                  <li key={question} style={{ "--o": index } as CSSProperties}>
-                    {question}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <footer>
-              <strong>Ďalšie e-maily a telefonáty</strong>
-              <span>Zákazník medzitým často píše aj konkurencii.</span>
-            </footer>
-          </article>
-
-          <div className="sh-compare__arrow" aria-hidden="true">
-            <ArrowRight size={22} />
-          </div>
-
-          <article className="sh-compare__card sh-compare__card--after" data-reveal>
-            <header>
-              <span className="sh-compare__label">S kalkulačkou</span>
-              <small>Dopyt z kalkulačky na derat.sk</small>
-            </header>
-            <dl className="sh-compare__rows">
-              {inquiryRows.map(([label, value], index) => (
-                <div key={label} style={{ "--o": index } as CSSProperties}>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
-                </div>
-              ))}
-            </dl>
-            <footer>
-              <strong>Môžete rovno poslať ponuku</strong>
-              <span>Zákazník už pozná orientačnú cenu, vy poznáte rozsah práce.</span>
-            </footer>
-          </article>
+          <p className="sr-inquiry__note">
+            V dopyte máte podklady, na ktoré môžete nadviazať ponukou.
+          </p>
+          <Link to="/projekty/derat" className="sh-link sh-link--dark">
+            Pozrieť kalkulačku DERAT <ArrowUpRight size={16} aria-hidden="true" />
+          </Link>
         </div>
+        <figure className="sr-inquiry__visual">
+          <img
+            src={`${BASE}work/live/derat.webp`}
+            alt="Skutočný web DERAT s kalkulačkou ceny zásahu"
+            width={1600}
+            height={1000}
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>DERAT / kalkulačka ceny a odoslanie dopytu</figcaption>
+        </figure>
       </div>
     </section>
   );
@@ -1118,184 +1073,50 @@ function BeforeAfter() {
 
 /* ---------------------------------------------------------------- process */
 
-/* Interaktívny postup: horná os krokov sa sama posúva (dá sa na ňu kliknúť),
-   pod ňou je popis kroku, jeho výstup a skutočný záber. Nič sa neprekrýva. */
-const processScenes = [
-  {
-    image: `${BASE}work/live/mojplot.webp`,
-    alt: "Web Môj Plot ako východisko pre chatbota a kalkulačku",
-    kind: "project",
-    focus: "overview",
-    visualKicker: "Príklad: Môj Plot",
-    visualTitle: "Jeden web, chatbot aj kalkulačka",
-    visualCopy: "Na jednom projekte ukazujeme celý postup od zadania po spustenie.",
-    output: ["Sortiment a časté otázky", "Výpočet ceny plotu", "Kam má smerovať dopyt"],
-    outputTitle: "Výstup: jasné zadanie",
-    time: "1 hovor alebo e-mail",
-  },
-  {
-    image: `${BASE}work/live/mojplot.webp`,
-    alt: "Web Môj Plot pri návrhu logiky chatbota a kalkulačky",
-    kind: "project",
-    focus: "chatbot",
-    visualKicker: "Môj Plot / návrh",
-    visualTitle: "Chatbot odpovedá, kalkulačka počíta",
-    visualCopy: "Navrhneme otázky, pravidlá a ďalší krok tak, aby spolu tvorili jeden tok.",
-    output: [
-      "Chatbot: otázky a odpovede",
-      "Kalkulačka: dĺžka, výška, doplnky",
-      "Kontakt a ďalší krok",
-    ],
-    outputTitle: "Výstup: návrh logiky",
-    time: "Návrh na schválenie",
-  },
-  {
-    image: `${BASE}work/live/mojplot.webp`,
-    alt: "Web Môj Plot počas testovania nástroja na počítači a mobile",
-    kind: "project",
-    focus: "calculator",
-    visualKicker: "Môj Plot / test",
-    visualTitle: "Celé riešenie sa skúša ako jeden produkt",
-    visualCopy: "Kontrolujeme odpovede, výpočet, formulár aj správanie na mobile.",
-    output: ["Počítač aj mobil", "Výpočet a formulár", "Jasný ďalší krok"],
-    outputTitle: "Výstup: otestovaná ukážka",
-    time: "Vyskúšate si ju vopred",
-  },
-  {
-    image: `${BASE}work/live/mojplot.webp`,
-    alt: "Nasadený web Môj Plot s chatbotom a kalkulačkou",
-    kind: "project",
-    focus: "live",
-    visualKicker: "Môj Plot / nasadené",
-    visualTitle: "Chatbot aj kalkulačka fungujú na jednom webe",
-    visualCopy: "Zákazník dostane pomoc priamo na stránke a firma dostane pripravený dopyt.",
-    output: ["Chatbot na webe", "Kalkulačka na webe", "Dopyty smerujú firme"],
-    outputTitle: "Výstup: spustené riešenie",
-    time: "Bez prerábania celého webu",
-  },
-] as const;
-
-const PROCESS_STEP_MS = 5200;
-
 function Process() {
-  const [active, setActive] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section || typeof IntersectionObserver === "undefined") return undefined;
-    const observer = new IntersectionObserver(
-      ([entry]) => setInView(Boolean(entry?.isIntersecting)),
-      { threshold: 0.35 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return undefined;
-    }
-    const timer = window.setTimeout(
-      () => setActive((current) => (current + 1) % process.length),
-      PROCESS_STEP_MS,
-    );
-    return () => window.clearTimeout(timer);
-  }, [active, inView]);
-
-  const scene = processScenes[active];
-  const [number, title, copy] = process[active];
-
   return (
     <section
-      ref={sectionRef}
-      className="sh-section sh-process"
+      className="sh-section sr-process"
       data-nav-tone="light"
       id="proces"
       aria-labelledby="sh-process-title"
     >
       <div className="sh-wrap">
-        <header className="sh-head sh-head--row" data-reveal>
+        <header className="sh-head sh-head--row">
           <div>
             <Eyebrow>Ako to prebieha</Eyebrow>
-            <h2 id="sh-process-title">Ako vzniká chatbot, kalkulačka alebo konfigurátor</h2>
+            <h2 id="sh-process-title">Od vášho webu k hotovému nástroju.</h2>
           </div>
           <Link to="/postup" className="sh-link sh-link--dark">
             Celý postup <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </header>
-
-        <div
-          className="sh-howto"
-          data-running={inView ? "true" : "false"}
-          style={{ "--process-step-ms": `${PROCESS_STEP_MS}ms` } as CSSProperties}
-          data-reveal
-        >
-          <ol className="sh-howto__rail" role="tablist" aria-label="Kroky spolupráce">
-            {process.map(([index, stepTitle], order) => (
-              <li key={index}>
-                <button
-                  type="button"
-                  role="tab"
-                  id={`sh-howto-${index}`}
-                  aria-selected={order === active}
-                  aria-controls="sh-howto-panel"
-                  data-active={order === active}
-                  data-done={order < active || undefined}
-                  onClick={() => setActive(order)}
-                >
-                  <b>{index}</b>
-                  <strong>{stepTitle}</strong>
-                  <i aria-hidden="true" key={order === active ? `run-${active}` : "idle"} />
-                </button>
+        <div className="sr-process__layout">
+          <ol className="sr-process__steps">
+            {process.map(([number, title, copy]) => (
+              <li key={number}>
+                <span>{number}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </div>
               </li>
             ))}
           </ol>
-
-          <div
-            className="sh-howto__stage"
-            role="tabpanel"
-            id="sh-howto-panel"
-            aria-labelledby={`sh-howto-${number}`}
-          >
-            <div className="sh-howto__copy" key={`copy-${active}`}>
-              <span className="sh-howto__num" aria-hidden="true">
-                {number}
-              </span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-              <div className="sh-howto__out">
-                <span>{scene.outputTitle}</span>
-                <ul>
-                  {scene.output.map((item, index) => (
-                    <li key={item} style={{ "--o": index } as CSSProperties}>
-                      <Check size={15} aria-hidden="true" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <small className="sh-howto__time">{scene.time}</small>
-            </div>
-            <figure
-              className="sh-howto__shot"
-              data-kind={scene.kind}
-              data-focus={scene.focus}
-              key={`shot-${active}`}
-            >
-              <img src={scene.image} alt={scene.alt} loading="lazy" decoding="async" />
-              <figcaption className="sh-howto__visual-note">
-                <span>{scene.visualKicker}</span>
-                <strong>{scene.visualTitle}</strong>
-                <small>{scene.visualCopy}</small>
-                <div aria-label="Riešenia v projekte">
-                  <b>Chatbot</b>
-                  <b>Kalkulačka</b>
-                </div>
-              </figcaption>
-            </figure>
-          </div>
+          <figure className="sr-process__visual">
+            <img
+              src={`${BASE}work/live/mojplot.webp`}
+              alt="Web Môj Plot — ukážka realizácie s chatbotom a kalkulačkou"
+              width={1600}
+              height={1000}
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>
+              <strong>Môj Plot</strong>
+              <span>Chatbot a kalkulačka na jednom webe.</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
