@@ -1,8 +1,8 @@
 {
-  "sourceSha": "2f435b52b887aa319f7bc1c557c5aa493728cd69",
-  "generatedAt": "2026-10-02T21:20:51.344Z",
+  "sourceSha": "a999a9b2d5887467cf04fe36a1dfb6c59fe9c89c",
+  "generatedAt": "2026-10-02T21:46:28.099Z",
   "purpose": "Public design review preview",
-  "base": "/danielvendzur-code/vne-n/browser-preview-20261002/",
+  "base": "/danielvendzur-code/vne-n/browser-preview-20261002-r3/",
   "routes": [
     "",
     "navrh",
