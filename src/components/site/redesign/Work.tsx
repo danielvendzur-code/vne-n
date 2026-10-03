@@ -13,6 +13,17 @@ export class Work extends Component<{
     return {
       work: [
         {
+          name: "Koverta",
+          domain: "koverta.sk",
+          href: "https://koverta.sk/",
+          type: "Výroba na mieru · 3D konfigurátor",
+          detail:
+            "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi.",
+          img: "/work/koverta/realizacia-pergola-sibenik.webp",
+          tools: ["3D konfigurátor", "Dopyt so zostavou"],
+          caseHref: "/3d-konfigurator",
+        },
+        {
           name: "DERAT",
           domain: "derat.sk",
           href: "https://derat.sk/",
@@ -33,17 +44,6 @@ export class Work extends Component<{
           img: P + "mojplot.webp",
           tools: ["Chatbot", "Kalkulačka plotu"],
           caseHref: "",
-        },
-        {
-          name: "Koverta",
-          domain: "koverta.sk",
-          href: "https://koverta.sk/",
-          type: "Výroba na mieru · 3D konfigurátor",
-          detail:
-            "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi.",
-          img: P + "koverta.webp",
-          tools: ["3D konfigurátor", "Dopyt so zostavou"],
-          caseHref: "/3d-konfigurator",
         },
         {
           name: "WEBKO",

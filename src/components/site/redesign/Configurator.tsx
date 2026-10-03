@@ -44,7 +44,7 @@ export class Configurator extends Component<{
       faqs: [
         [
           "Koľko stojí 3D konfigurátor?",
-          "Konfigurátor začína na 447 €. Pri 3D verzii cenu ovplyvní počet produktov a modelov, množstvo variantov a pravidlá výpočtu ceny. Presnú sumu vrátane DPH dostanete pred začiatkom práce.",
+          "Cena 3D konfigurátora sa určuje podľa rozsahu. Ovplyvní ju počet produktov a modelov, množstvo variantov a pravidlá výpočtu ceny. Presnú sumu vrátane DPH dostanete pred začiatkom práce.",
         ],
         [
           "Potrebujeme vlastné 3D modely?",
@@ -120,8 +120,7 @@ export class Configurator extends Component<{
                     {"Chcem podobný konfigurátor →"}
                   </a>
                   <span style={cssStyle(`font-size:15px;color:#5C645F`)}>
-                    {"od "}
-                    <strong style={cssStyle(`color:#0E1512`)}>{"447 €"}</strong>
+                    <strong style={cssStyle(`color:#0E1512`)}>{"podľa rozsahu"}</strong>
                   </span>
                 </div>
               </div>

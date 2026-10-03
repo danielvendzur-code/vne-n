@@ -154,8 +154,8 @@ export class Solutions extends Component<{
         },
         {
           verb: "Poskladať produkt",
-          name: "Konfigurátor (aj 3D)",
-          price: "od 447 €",
+          name: "3D konfigurátor",
+          price: "podľa rozsahu",
           customer: "Poskladá si variant, rozmery, materiál alebo doplnky.",
           business: "Dostane hotovú špecifikáciu namiesto neúplného formulára.",
           img: P + "koverta/konfigurator-pergola.webp",
