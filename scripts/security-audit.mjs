@@ -228,7 +228,7 @@ for (const token of [
   "cleanField",
   "normalizeHttpUrl",
   "contact-website",
-  "contact-privacy-note",
+  "styles.privacy",
   "submitWebsiteLead",
   "result.fallback",
   "dakujeme",

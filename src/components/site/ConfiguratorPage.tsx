@@ -1,3 +1,4 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -119,10 +120,10 @@ export function ConfiguratorPage() {
               orientačnú cenu. Vy dostanete dopyt s hotovou zostavou.
             </p>
             <div className="cfp-top__actions">
-              <a href="#konfigurator" className="sh-btn sh-btn--lime">
+              <a href="#konfigurator" className={actions.action}>
                 Vyskúšať naživo <ArrowRight size={18} aria-hidden="true" />
               </a>
-              <Link to="/kontakt" className="sh-btn sh-btn--ghost">
+              <Link to="/kontakt" className={actions.action}>
                 Chcem konfigurátor
               </Link>
             </div>
@@ -279,7 +280,7 @@ export function ConfiguratorPage() {
               </p>
             </div>
             <div className="sh-closing__actions">
-              <Link to="/kontakt" className="sh-btn sh-btn--lime">
+              <Link to="/kontakt" className={actions.action}>
                 Chcem návrh <ArrowRight size={18} aria-hidden="true" />
               </Link>
               <Link to="/projekty" className="sh-link">

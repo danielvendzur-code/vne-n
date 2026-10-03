@@ -15,6 +15,8 @@ import { configuratorShots, KOVERTA_LIVE_CONFIGURATOR } from "@/data/configurato
 import { openSiteAssistant } from "@/lib/site-assistant";
 import { useReveal } from "@/hooks/useReveal";
 import "./StudioHome.css";
+import styles from "./StudioHome.module.css";
+import actions from "./WebsiteAction.module.css";
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -93,58 +95,6 @@ export function Eyebrow({
   );
 }
 
-/**
- * Counts up once when the number enters the viewport. The real value is
- * rendered on the server and stays in place for crawlers, screenshots and
- * visitors with reduced motion.
- */
-function CountUp({
-  value,
-  lead = "",
-  suffix = " €",
-}: {
-  value: number;
-  lead?: string;
-  suffix?: string;
-}) {
-  const [shown, setShown] = useState(value);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element || typeof IntersectionObserver === "undefined") return undefined;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-
-    let frame = 0;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        observer.disconnect();
-        const start = performance.now();
-        const tick = (now: number) => {
-          const progress = Math.min(1, (now - start) / 1100);
-          const eased = 1 - Math.pow(1 - progress, 4);
-          setShown(progress >= 1 ? value : Math.round(value * eased));
-          if (progress < 1) frame = requestAnimationFrame(tick);
-        };
-        frame = requestAnimationFrame(tick);
-      },
-      { threshold: 0.6 },
-    );
-    observer.observe(element);
-    return () => {
-      observer.disconnect();
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [value]);
-
-  return (
-    <span ref={ref} className="sh-count">
-      {`${lead}${shown}${suffix}`}
-    </span>
-  );
-}
-
 /* ------------------------------------------------------------------- hero */
 
 /* Pôvodný hero: vypisovaný nadpis a tri prekrývajúce sa náhľady živých webov.
@@ -174,92 +124,49 @@ const heroProjects = [
   },
 ] as const;
 
-function TypedLine({ text, startAt }: { text: string; startAt: number }) {
-  const words = text.split(" ");
-
-  return (
-    <span className="typed-line" aria-hidden="true">
-      {words.map((word, wordIndex) => {
-        const wordOffset =
-          startAt +
-          words.slice(0, wordIndex).reduce((total, item) => total + item.length, 0) +
-          wordIndex;
-        return (
-          <span className="typed-word" key={`${word}-${wordIndex}`}>
-            {Array.from(word).map((character, characterIndex) => (
-              <span
-                className="typed-character"
-                key={`${character}-${characterIndex}`}
-                style={{ "--character-index": wordOffset + characterIndex } as CSSProperties}
-              >
-                {character}
-              </span>
-            ))}
-            {wordIndex < words.length - 1 ? (
-              <span className="typed-space" aria-hidden="true">
-                {" "}
-              </span>
-            ) : null}
-          </span>
-        );
-      })}
-    </span>
-  );
-}
-
 function Hero() {
   return (
-    <section
-      className="hybrid-hero kage-hero"
-      aria-labelledby="hybrid-hero-title"
-      data-signal-chapter="0"
-      data-nav-tone="dark"
-    >
-      <div className="container-page hybrid-hero__stage">
+    <section className={styles.hero} aria-labelledby="hybrid-hero-title" data-nav-tone="dark">
+      <div className={styles.heroStage}>
         <h1 id="hybrid-hero-title" aria-label="Chatboty a konfigurátory na mieru pre váš web.">
-          <TypedLine text="Chatboty a" startAt={0} />
-          <em>
-            <TypedLine text="konfigurátory" startAt={10} />
-          </em>
-          <em>
-            <TypedLine text="na mieru." startAt={23} />
-          </em>
+          <span>Chatboty a</span>
+          <em>konfigurátory</em>
+          <em>na mieru.</em>
         </h1>
-        <div className="hybrid-hero__collage" aria-label="Vybrané živé realizácie">
+        <div className={styles.collage} aria-label="Vybrané živé realizácie">
           {heroProjects.map((project, index) => (
             <a
               key={project.slug}
-              className={`hybrid-hero__case hybrid-hero__case--${index + 1}`}
+              className={styles.heroCase}
               href={project.href}
               target="_blank"
               rel="noreferrer"
+              data-cursor="Otvoriť web"
+              style={{ "--case": index } as CSSProperties}
             >
-              <span className={`project-composite project-composite--${project.slug}`}>
-                <img
-                  className="project-composite__site"
-                  src={project.image}
-                  alt={project.alt}
-                  width={1600}
-                  height={1000}
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                />
-              </span>
+              <img
+                src={project.image}
+                alt={project.alt}
+                width={1600}
+                height={1000}
+                loading="eager"
+                decoding="async"
+                fetchPriority={index === 0 ? "high" : "auto"}
+              />
               <span>
-                0{index + 1} / {project.name}
+                0{index + 1} / {project.name} <ArrowUpRight size={14} aria-hidden="true" />
               </span>
             </a>
           ))}
         </div>
       </div>
-      <div className="container-page hybrid-hero__bottom kage-hero__bottom">
+      <div className={styles.heroBottom}>
         <p>
           Chatbot odpovie, kalkulačka spočíta cenu, konfigurátor vyskladá produkt a produktový
           poradca pomôže s výberom.
         </p>
-        <a href="#riesenia" className="hybrid-hero__primary site-cta site-cta--primary">
-          Vybrať riešenie <ArrowUpRight size={17} />
+        <a href="#riesenia" className={`${actions.action} ${actions.lime}`}>
+          Vybrať riešenie <ArrowUpRight size={17} aria-hidden="true" />
         </a>
       </div>
     </section>
@@ -270,18 +177,16 @@ function Hero() {
 
 function Facts() {
   return (
-    <section className="sh-facts" aria-label="Základné fakty" data-nav-tone="light">
-      <div className="sh-wrap">
-        <ul className="sh-facts__card">
-          {facts.map((fact, index) => (
-            <li key={fact.label} data-reveal style={{ "--d": index } as CSSProperties}>
-              <strong>{fact.value}</strong>
-              <span>{fact.label}</span>
-              <small>{fact.note}</small>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <section className={styles.facts} aria-label="Základné fakty" data-nav-tone="light">
+      <ul className={styles.wrap}>
+        {facts.map((fact) => (
+          <li key={fact.label}>
+            <strong>{fact.value}</strong>
+            <span>{fact.label}</span>
+            <small>{fact.note}</small>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -385,86 +290,80 @@ const tools = [
 function Solutions() {
   return (
     <section
-      className="sh-section sh-solutions"
+      className={styles.section}
       id="riesenia"
       aria-labelledby="sh-solutions-title"
       data-nav-tone="light"
     >
-      <div className="sh-wrap">
-        <header className="sh-head sh-head--row" data-reveal>
+      <div className={styles.wrap}>
+        <header className={styles.sectionHead}>
           <div>
-            <Eyebrow>Riešenia</Eyebrow>
+            <p className={styles.label}>01 / Riešenia</p>
             <h2 id="sh-solutions-title">Aké riešenie potrebujete?</h2>
           </div>
           <p>Každý nástroj funguje samostatne, v kombinácii aj všetky spolu v jednom.</p>
         </header>
-
-        <div className="sh-tools">
+        <div className={styles.tools}>
           {tools.map((tool, index) => (
-            <article
-              className="sh-tool"
-              data-kind={tool.key}
-              key={tool.key}
-              data-reveal
-              style={{ "--d": index } as CSSProperties}
-            >
-              <div className="sh-tool__media" data-wide={tool.wide || undefined}>
+            <article className={styles.tool} data-kind={tool.key} key={tool.key}>
+              <div className={styles.toolMedia} data-wide={tool.wide || undefined}>
+                <span className={styles.mediaLabel}>0{index + 1} / Živá ukážka</span>
                 <img src={tool.image} alt={tool.alt} loading="lazy" decoding="async" />
               </div>
-              <div className="sh-tool__body">
+              <div className={styles.toolBody}>
                 <h3>
-                  <tool.icon size={18} aria-hidden="true" />
+                  <tool.icon size={19} aria-hidden="true" />
                   {tool.title}
                 </h3>
                 <p>{tool.copy}</p>
                 {tool.to ? (
-                  <Link to={tool.to} className="sh-btn sh-btn--dark sh-btn--sm">
-                    {tool.cta} <ArrowUpRight size={16} aria-hidden="true" />
+                  <Link to={tool.to} className={actions.action}>
+                    {tool.cta}
+                    <ArrowUpRight size={16} aria-hidden="true" />
                   </Link>
                 ) : (
                   <button
                     type="button"
-                    className="sh-btn sh-btn--dark sh-btn--sm"
+                    className={actions.action}
                     onClick={() =>
                       openSiteAssistant({ source: `home-${tool.key}`, preset: tool.preset })
                     }
                   >
-                    {tool.cta} <ArrowUpRight size={16} aria-hidden="true" />
+                    {tool.cta}
+                    <ArrowUpRight size={16} aria-hidden="true" />
                   </button>
                 )}
               </div>
             </article>
           ))}
         </div>
-
-        <div className="sh-combo" data-reveal>
-          <div className="sh-combo__intro">
+        <div className={styles.combinations}>
+          <div>
             <h3>Nemusí to byť iba jedno riešenie.</h3>
             <p>Nástroje spojíme po dvoch aj všetky naraz.</p>
           </div>
-          <ul className="sh-combo__list">
+          <div>
             {combinations.map((item, index) => (
-              <li key={item.title} data-all={item.preset ? undefined : "true"}>
-                <button
-                  type="button"
-                  onClick={() =>
-                    openSiteAssistant({ source: `home-combo-${index + 1}`, preset: item.preset })
-                  }
-                >
-                  <strong>{item.title}</strong>
-                  <ArrowUpRight size={16} aria-hidden="true" />
-                </button>
-              </li>
+              <button
+                key={item.title}
+                type="button"
+                onClick={() =>
+                  openSiteAssistant({ source: `home-combo-${index + 1}`, preset: item.preset })
+                }
+              >
+                {item.title}
+                <ArrowUpRight size={15} aria-hidden="true" />
+              </button>
             ))}
-          </ul>
-          <button
-            type="button"
-            className="sh-combo__unsure"
-            onClick={() => openSiteAssistant({ source: "home-unsure" })}
-          >
-            Neviete, čo z toho? <span>Spustiť výber</span>
-          </button>
+          </div>
         </div>
+        <button
+          type="button"
+          className={styles.textLink}
+          onClick={() => openSiteAssistant({ source: "home-unsure" })}
+        >
+          Neviete, čo z toho? Pomôžeme s výberom <ArrowRight size={16} aria-hidden="true" />
+        </button>
       </div>
     </section>
   );
@@ -633,173 +532,53 @@ function presetForMode(mode: FlowMode): "advisor" | "calculator" | "product" | u
  */
 function FlowStory() {
   const [mode, setMode] = useState<FlowMode>("chatbot");
-  const stages = flowModes[mode].stages;
-  const storyRef = useRef<HTMLElement | null>(null);
-  const railRef = useRef<HTMLDivElement | null>(null);
-  const stepsRef = useRef<HTMLOListElement | null>(null);
-  const frameRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const section = storyRef.current;
-    const rail = railRef.current;
-    const track = stepsRef.current;
-    if (!section || !rail || !track) return undefined;
-
-    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const update = () => {
-      frameRef.current = null;
-
-      const viewportHeight = Math.max(1, window.innerHeight);
-      const sectionRect = section.getBoundingClientRect();
-      const scrollRange = Math.max(1, section.offsetHeight - viewportHeight);
-      const rawProgress = -sectionRect.top / scrollRange;
-      const progress = Math.min(1, Math.max(0, rawProgress));
-      const maxTravel = Math.max(0, track.scrollWidth - rail.clientWidth);
-
-      const visualProgress =
-        reducedMotionQuery.matches && stages.length > 1
-          ? Math.round(progress * (stages.length - 1)) / (stages.length - 1)
-          : progress;
-
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
-      const offset = Math.round(-maxTravel * visualProgress * dpr) / dpr;
-
-      const footerReveal = Math.min(1, Math.max(0, (progress - 0.7) / 0.14));
-
-      track.style.transform = `translate3d(${offset}px, 0, 0)`;
-      section.style.setProperty("--flow-progress", String(progress));
-      section.style.setProperty("--flow-footer-reveal", String(footerReveal));
-      section.style.setProperty("--flow-footer-shift", `${Math.round((1 - footerReveal) * 18)}px`);
-      section.dataset.footerReady = footerReveal >= 0.85 ? "true" : "false";
-    };
-
-    const scheduleUpdate = () => {
-      if (frameRef.current !== null) return;
-      frameRef.current = window.requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate, { passive: true });
-
-    const resizeObserver =
-      typeof ResizeObserver !== "undefined" ? new ResizeObserver(scheduleUpdate) : null;
-    resizeObserver?.observe(section);
-    resizeObserver?.observe(rail);
-    resizeObserver?.observe(track);
-
-    const onReducedMotionChange = () => scheduleUpdate();
-    if (typeof reducedMotionQuery.addEventListener === "function") {
-      reducedMotionQuery.addEventListener("change", onReducedMotionChange);
-    }
-
-    return () => {
-      if (frameRef.current !== null) {
-        window.cancelAnimationFrame(frameRef.current);
-        frameRef.current = null;
-      }
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-      resizeObserver?.disconnect();
-      if (typeof reducedMotionQuery.removeEventListener === "function") {
-        reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
-      }
-      track.style.removeProperty("transform");
-      section.style.removeProperty("--flow-progress");
-      section.style.removeProperty("--flow-footer-reveal");
-      section.style.removeProperty("--flow-footer-shift");
-      delete section.dataset.footerReady;
-    };
-  }, [mode, stages.length]);
-
-  const moveFlow = (direction: -1 | 1) => {
-    const section = storyRef.current;
-    if (!section) return;
-
-    const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
-    const stageDistance = scrollRange / Math.max(1, stages.length - 1);
-
-    window.scrollBy({
-      top: direction * stageDistance,
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    });
-  };
-
   return (
     <section
-      ref={storyRef}
-      className="kage-flow-story"
+      className={`${styles.section} ${styles.dark}`}
       id="ako-to-funguje"
-      aria-labelledby="kage-flow-story-title"
-      data-signal-chapter="3"
+      aria-labelledby="flow-title"
       data-nav-tone="dark"
     >
-      <div className="kage-flow-story__sticky">
-        <div className="container-page kage-flow-story__toolbar">
-          <h2 id="kage-flow-story-title" className="kage-flow-story__sr-title">
-            Ako sa návštevník dostane k výsledku.
-          </h2>
-          <div className="kage-flow-story__modes" aria-label="Vyberte typ riešenia">
-            {(Object.keys(flowModes) as FlowMode[]).map((item) => (
-              <button
-                type="button"
-                key={item}
-                data-active={mode === item}
-                aria-pressed={mode === item}
-                onClick={() => setMode(item)}
-              >
-                {flowModes[item].label}
-              </button>
-            ))}
+      <div className={styles.wrap}>
+        <header className={styles.sectionHead}>
+          <div>
+            <p className={styles.label}>Cesta zákazníka</p>
+            <h2 id="flow-title">Od otázky k výsledku.</h2>
           </div>
+          <p>Štyri jednoduché kroky. Bez hľadania, čakania a zbytočných telefonátov.</p>
+        </header>
+        <div className={styles.modeButtons} aria-label="Vyberte typ riešenia">
+          {(Object.keys(flowModes) as FlowMode[]).map((item) => (
+            <button
+              type="button"
+              key={item}
+              aria-pressed={mode === item}
+              onClick={() => setMode(item)}
+            >
+              {flowModes[item].label}
+            </button>
+          ))}
         </div>
-
-        <div ref={railRef} className="kage-flow-story__rail-wrap">
-          <ol
-            ref={stepsRef}
-            className="kage-flow-story__steps"
-            tabIndex={0}
-            aria-label="Štyri kroky. Vertikálnym scrollom prejdete celý príbeh; šípky posunú o jeden krok."
-            onKeyDown={(event) => {
-              if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-                event.preventDefault();
-                moveFlow(-1);
-              } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-                event.preventDefault();
-                moveFlow(1);
-              }
-            }}
-          >
-            {stages.map((stage) => (
-              <li className="kage-flow__step" key={`${mode}-${stage.index}`}>
-                <span className="kage-flow__number" aria-hidden="true">
-                  {stage.index}
-                </span>
-                <div className="kage-flow__copy">
-                  <span>{stage.label}</span>
-                  <h3>{stage.title}</h3>
-                  <p>{stage.copy}</p>
-                </div>
-                <div className="kage-flow__artifact">
-                  <span>
-                    {flowModes[mode].label.toUpperCase()} / {stage.index}
-                  </span>
-                  <strong>{stage.artifact}</strong>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <div className="container-page kage-flow-story__footer">
+        <ol className={styles.flowSteps}>
+          {flowModes[mode].stages.map((stage) => (
+            <li key={stage.index}>
+              <span>
+                {stage.index} / {stage.label}
+              </span>
+              <h3>{stage.title}</h3>
+              <p>{stage.copy}</p>
+              <strong>{stage.artifact}</strong>
+            </li>
+          ))}
+        </ol>
+        <div className={styles.sectionBottom}>
           <p>Nástroje fungujú samostatne, v kombinácii aj všetky spolu.</p>
           <button
             type="button"
-            className="kage-flow-story__cta site-cta site-cta--primary"
+            className={`${actions.action} ${actions.lime}`}
             onClick={() => openSiteAssistant({ source: "flow-story", preset: presetForMode(mode) })}
           >
-            Vyskladať toto riešenie <ArrowUpRight size={17} />
+            Vyskladať toto riešenie <ArrowUpRight size={17} aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -813,121 +592,133 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
   const [active, setActive] = useState(0);
   const [live, setLive] = useState(false);
   const shot = configuratorShots[active];
-
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   return (
     <section
-      className="sh-section sh-config"
+      className={`${styles.section} ${styles.dark}`}
       id="konfigurator"
       aria-labelledby="sh-config-title"
-      data-live={live || undefined}
       data-nav-tone="dark"
     >
-      <div className="sh-wrap sh-config__grid">
-        <div className="sh-config__copy" data-reveal>
-          <Eyebrow tone="dark">{onCaseStudy ? "Živá ukážka" : "Realizácia · Koverta"}</Eyebrow>
+      <div className={`${styles.wrap} ${styles.configGrid}`}>
+        <div>
+          <p className={styles.label}>{onCaseStudy ? "Živá ukážka" : "Realizácia / Koverta"}</p>
           <h2 id="sh-config-title">
-            {onCaseStudy ? "Vyskúšajte si ho " : "Prístrešok si zákazník "}
-            <em>{onCaseStudy ? "priamo tu." : "poskladá v 3D."}</em>
+            {onCaseStudy ? "Vyskúšajte si ho priamo tu." : "Prístrešok si zákazník poskladá v 3D."}
           </h2>
-          <p>
+          <p className={styles.configLead}>
             Pre Kovertu sme postavili konfigurátor prístreškov a pergol. Každá voľba sa hneď prepíše
             do 3D modelu aj do orientačnej ceny. Firma dostane dopyt, v ktorom už je všetko
             podstatné.
           </p>
-          <ol className="sh-steps">
+          <ol className={styles.configSteps}>
             <li>
-              <b>01</b>
-              <span>
-                <strong>Vyberie typ a umiestnenie</strong>
-                Samostatne, pri stene alebo v rohu.
-              </span>
+              <span>01</span>
+              <p>
+                <strong>Vyberie typ a umiestnenie</strong>Samostatne, pri stene alebo v rohu.
+              </p>
             </li>
             <li>
-              <b>02</b>
-              <span>
-                <strong>Nastaví rozmer, farbu a strechu</strong>
-                Model aj cena sa menia okamžite.
-              </span>
+              <span>02</span>
+              <p>
+                <strong>Nastaví rozmer, farbu a strechu</strong>Model aj cena sa menia okamžite.
+              </p>
             </li>
             <li>
-              <b>03</b>
-              <span>
-                <strong>Pošle dopyt so zostavou</strong>
-                Bez prepisovania rozmerov do e-mailu.
-              </span>
+              <span>03</span>
+              <p>
+                <strong>Pošle dopyt so zostavou</strong>Bez prepisovania rozmerov do e-mailu.
+              </p>
             </li>
           </ol>
-          <div className="sh-config__actions">
-            {onCaseStudy ? (
-              <Link to="/kontakt" className="sh-btn sh-btn--lime">
-                Chcem podobný konfigurátor <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            ) : (
-              <Link to="/3d-konfigurator" className="sh-btn sh-btn--lime">
-                Celá prípadová štúdia <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            )}
+          <div className={styles.configActions}>
+            <Link
+              to={onCaseStudy ? "/kontakt" : "/3d-konfigurator"}
+              className={`${actions.action} ${actions.lime}`}
+            >
+              {onCaseStudy ? "Chcem podobný konfigurátor" : "Celá prípadová štúdia"}
+              <ArrowRight size={18} aria-hidden="true" />
+            </Link>
             <a
               href="https://koverta.sk/pages/konfigurator"
               target="_blank"
               rel="noreferrer"
-              className="sh-link"
+              className={styles.textLink}
             >
               Otvoriť na koverta.sk <ArrowUpRight size={15} aria-hidden="true" />
             </a>
           </div>
         </div>
-
-        <div className="sh-config__stage" data-reveal style={{ "--d": 1 } as CSSProperties}>
-          <div className="sh-tabs" role="tablist" aria-label="Typ konštrukcie">
+        <div>
+          <div className={styles.configTabs} role="tablist" aria-label="Typ konštrukcie">
             {configuratorShots.map((item, index) => (
               <button
                 key={item.id}
+                ref={(el) => {
+                  tabs.current[index] = el;
+                }}
                 type="button"
                 role="tab"
+                id={`config-tab-${item.id}`}
+                aria-controls="config-panel"
                 aria-selected={index === active}
-                data-active={index === active}
+                tabIndex={index === active ? 0 : -1}
                 onClick={() => {
                   setActive(index);
                   setLive(false);
+                }}
+                onKeyDown={(event) => {
+                  let next = index;
+                  if (event.key === "ArrowRight") next = (index + 1) % configuratorShots.length;
+                  else if (event.key === "ArrowLeft")
+                    next = (index + configuratorShots.length - 1) % configuratorShots.length;
+                  else return;
+                  event.preventDefault();
+                  setActive(next);
+                  setLive(false);
+                  tabs.current[next]?.focus();
                 }}
               >
                 {item.label}
               </button>
             ))}
           </div>
-          <div className="sh-config__frame">
+          <div
+            className={styles.configScreen}
+            id="config-panel"
+            role="tabpanel"
+            aria-labelledby={`config-tab-${shot.id}`}
+          >
             {live ? (
               <iframe
+                title="Živý 3D konfigurátor Koverta"
                 src={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
-                title={`Živý 3D konfigurátor Koverta — ${shot.label}`}
-                loading="lazy"
+                loading="eager"
                 allow="fullscreen"
               />
             ) : (
               <>
-                {configuratorShots.map((item, index) => (
-                  <img
-                    key={item.id}
-                    src={item.image}
-                    alt={item.alt}
-                    width={1600}
-                    height={841}
-                    loading="lazy"
-                    decoding="async"
-                    data-active={index === active}
-                  />
-                ))}
-                <button type="button" className="sh-play" onClick={() => setLive(true)}>
-                  <span aria-hidden="true" />
-                  Spustiť živý konfigurátor
+                <img
+                  src={shot.image}
+                  alt={shot.alt}
+                  width={1600}
+                  height={841}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <button
+                  type="button"
+                  className={`${actions.action} ${actions.lime}`}
+                  onClick={() => setLive(true)}
+                >
+                  Spustiť živý konfigurátor <ArrowUpRight size={16} aria-hidden="true" />
                 </button>
               </>
             )}
           </div>
           {live ? (
             <a
-              className="sh-config__note sh-link"
+              className={styles.textLink}
               href={`${KOVERTA_LIVE_CONFIGURATOR}?page=${shot.page}`}
               target="_blank"
               rel="noreferrer"
@@ -949,82 +740,83 @@ export function ConfiguratorShowcase({ onCaseStudy = false }: { onCaseStudy?: bo
 function Work() {
   return (
     <section
-      className="sh-section sh-work"
-      data-nav-tone="light"
+      className={styles.section}
       id="realizacie"
       aria-labelledby="sh-work-title"
+      data-nav-tone="light"
     >
-      <div className="sh-wrap">
-        <header className="sh-head sh-head--row" data-reveal>
+      <div className={styles.wrap}>
+        <header className={styles.sectionHead}>
           <div>
-            <Eyebrow>Realizácie</Eyebrow>
-            <h2 id="sh-work-title">Hotové projekty, ktoré bežia naživo</h2>
+            <p className={styles.label}>02 / Realizácie</p>
+            <h2 id="sh-work-title">
+              Hotové projekty.
+              <br />
+              Skutočné výsledky.
+            </h2>
           </div>
-          <Link to="/projekty" className="sh-link sh-link--dark">
+          <Link to="/projekty" className={actions.action}>
             Všetky realizácie <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </header>
-        <ol className="sh-cases">
+        <ol className={styles.projects}>
           {realizations.map((project, index) => (
-            <li
-              key={project.name}
-              className="sh-case"
-              style={{ "--i": index } as CSSProperties}
-              data-tone={index % 2 ? "light" : "dark"}
-            >
-              <article className="sh-case__card">
-                <div className="sh-case__copy">
-                  <span className="sh-case__index">
-                    {String(index + 1).padStart(2, "0")} /{" "}
-                    {String(realizations.length).padStart(2, "0")}
-                  </span>
-                  <h3>{project.name}</h3>
-                  <p>{project.result}</p>
-                  <ul className="sh-case__tags" aria-label="Čo sme dodali">
-                    {project.tools.map((tool) => (
-                      <li key={tool}>{tool}</li>
-                    ))}
-                  </ul>
-                  <div className="sh-case__links">
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="sh-btn sh-btn--lime"
-                    >
-                      {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
-                    </a>
-                    {project.caseStudyPath ? (
-                      <Link to={project.caseStudyPath} className="sh-link">
-                        Ako to funguje <ArrowRight size={16} aria-hidden="true" />
-                      </Link>
-                    ) : null}
-                  </div>
-                </div>
+            <li key={project.name}>
+              <article className={styles.project}>
                 <a
-                  className="sh-case__shot"
+                  className={styles.projectImage}
                   href={project.href}
                   target="_blank"
                   rel="noreferrer"
                   data-cursor="Otvoriť web"
-                  tabIndex={-1}
-                  aria-hidden="true"
+                  aria-label={`Otvoriť ${project.name}`}
                 >
-                  <span className="sh-case__bar">
-                    <i />
-                    <i />
-                    <i />
-                    <em>{project.domain}</em>
-                  </span>
+                  <div className={styles.browserBar}>
+                    <span>
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                    <span>{project.domain}</span>
+                    <ArrowUpRight size={15} aria-hidden="true" />
+                  </div>
                   <img
                     src={project.image}
-                    alt=""
+                    alt={project.alt}
                     width={1600}
                     height={1000}
                     loading="lazy"
                     decoding="async"
                   />
                 </a>
+                <div className={styles.projectCopy}>
+                  <span className={styles.label}>
+                    0{index + 1} / {project.type}
+                  </span>
+                  <h3>{project.name}</h3>
+                  <p>{project.result}</p>
+                  <ul>
+                    {project.tools.map((tool) => (
+                      <li key={tool}>{tool}</li>
+                    ))}
+                  </ul>
+                  <div className={styles.projectActions}>
+                    <a
+                      className={actions.action}
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {project.domain}
+                      <ArrowUpRight size={16} aria-hidden="true" />
+                    </a>
+                    {project.caseStudyPath ? (
+                      <Link to={project.caseStudyPath} className={styles.textLink}>
+                        Ako to funguje <ArrowRight size={16} aria-hidden="true" />
+                      </Link>
+                    ) : null}
+                  </div>
+                </div>
               </article>
             </li>
           ))}
@@ -1051,63 +843,56 @@ const inquiryRows = [
 
 function BeforeAfter() {
   return (
-    <section className="sh-section sh-compare" data-nav-tone="light" aria-labelledby="sh-ba-title">
-      <div className="sh-wrap">
-        <header className="sh-head sh-head--row" data-reveal>
+    <section
+      className={`${styles.section} ${styles.comparison}`}
+      aria-labelledby="sh-ba-title"
+      data-nav-tone="light"
+    >
+      <div className={styles.wrap}>
+        <header className={styles.sectionHead}>
           <div>
-            <Eyebrow>Pred a po</Eyebrow>
-            <h2 id="sh-ba-title">Rovnaký zákazník. Úplne iný dopyt.</h2>
+            <p className={styles.label}>Pred a po</p>
+            <h2 id="sh-ba-title">
+              Rovnaký zákazník.
+              <br />
+              Úplne iný dopyt.
+            </h2>
           </div>
           <p>Takto vyzerá správa, ktorá firme príde bez nástroja a s kalkulačkou na webe.</p>
         </header>
-
-        <div className="sh-compare__grid">
-          <article className="sh-compare__card sh-compare__card--before" data-reveal>
-            <header>
-              <span className="sh-compare__label">Bez nástroja</span>
-              <small>E-mail z kontaktného formulára</small>
-            </header>
-            <div className="sh-compare__mail">
+        <div className={styles.compareGrid}>
+          <article>
+            <span className={styles.label}>Bez nástroja</span>
+            <h3>„Koľko by to stálo?“</h3>
+            <div className={styles.mail}>
               <span>Od: jan.k…@gmail.com</span>
-              <span>Predmet: Otázka</span>
               <p>Dobrý deň, koľko by stála deratizácia? Ďakujem.</p>
             </div>
-            <div className="sh-compare__missing">
-              <small>Než pošlete cenu, musíte sa spýtať:</small>
-              <ul>
-                {vagueQuestions.map((question, index) => (
-                  <li key={question} style={{ "--o": index } as CSSProperties}>
-                    {question}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <p>Než pošlete cenu, musíte sa spýtať:</p>
+            <ul>
+              {vagueQuestions.map((question) => (
+                <li key={question}>{question}</li>
+              ))}
+            </ul>
             <footer>
               <strong>Ďalšie e-maily a telefonáty</strong>
-              <span>Zákazník medzitým často píše aj konkurencii.</span>
+              <p>Zákazník medzitým často píše aj konkurencii.</p>
             </footer>
           </article>
-
-          <div className="sh-compare__arrow" aria-hidden="true">
-            <ArrowRight size={22} />
-          </div>
-
-          <article className="sh-compare__card sh-compare__card--after" data-reveal>
-            <header>
-              <span className="sh-compare__label">S kalkulačkou</span>
-              <small>Dopyt z kalkulačky na derat.sk</small>
-            </header>
-            <dl className="sh-compare__rows">
-              {inquiryRows.map(([label, value], index) => (
-                <div key={label} style={{ "--o": index } as CSSProperties}>
+          <article>
+            <span className={styles.label}>S kalkulačkou na derat.sk</span>
+            <h3>Viete rovno poslať ponuku.</h3>
+            <dl>
+              {inquiryRows.map(([label, value]) => (
+                <div key={label}>
                   <dt>{label}</dt>
                   <dd>{value}</dd>
                 </div>
               ))}
             </dl>
             <footer>
-              <strong>Môžete rovno poslať ponuku</strong>
-              <span>Zákazník už pozná orientačnú cenu, vy poznáte rozsah práce.</span>
+              <strong>Kompletné zadanie aj kontakt</strong>
+              <p>Zákazník pozná orientačnú cenu, vy poznáte rozsah práce.</p>
             </footer>
           </article>
         </div>
@@ -1175,127 +960,108 @@ const processScenes = [
   },
 ] as const;
 
-const PROCESS_STEP_MS = 5200;
-
 function Process() {
   const [active, setActive] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section || typeof IntersectionObserver === "undefined") return undefined;
-    const observer = new IntersectionObserver(
-      ([entry]) => setInView(Boolean(entry?.isIntersecting)),
-      { threshold: 0.35 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return undefined;
-    }
-    const timer = window.setTimeout(
-      () => setActive((current) => (current + 1) % process.length),
-      PROCESS_STEP_MS,
-    );
-    return () => window.clearTimeout(timer);
-  }, [active, inView]);
-
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const scene = processScenes[active];
-  const [number, title, copy] = process[active];
-
+  useEffect(() => {
+    processScenes.forEach((item) => {
+      const image = new Image();
+      image.src = item.image;
+    });
+  }, []);
   return (
     <section
-      ref={sectionRef}
-      className="sh-section sh-process"
-      data-nav-tone="light"
+      className={`${styles.section} ${styles.process}`}
       id="proces"
       aria-labelledby="sh-process-title"
+      data-nav-tone="light"
     >
-      <div className="sh-wrap">
-        <header className="sh-head sh-head--row" data-reveal>
+      <div className={styles.wrap}>
+        <header className={styles.sectionHead}>
           <div>
-            <Eyebrow>Ako to prebieha</Eyebrow>
-            <h2 id="sh-process-title">Ako vzniká chatbot, kalkulačka alebo konfigurátor</h2>
+            <p className={styles.label}>03 / Ako to prebieha</p>
+            <h2 id="sh-process-title">
+              Od prvého rozhovoru
+              <br />
+              po spustenie na webe.
+            </h2>
           </div>
-          <Link to="/postup" className="sh-link sh-link--dark">
-            Celý postup <ArrowRight size={16} aria-hidden="true" />
-          </Link>
+          <p>Viete, čo sa deje v každom kroku. Ukážku si vyskúšate ešte pred nasadením.</p>
         </header>
-
-        <div
-          className="sh-howto"
-          data-running={inView ? "true" : "false"}
-          style={{ "--process-step-ms": `${PROCESS_STEP_MS}ms` } as CSSProperties}
-          data-reveal
-        >
-          <ol className="sh-howto__rail" role="tablist" aria-label="Kroky spolupráce">
-            {process.map(([index, stepTitle], order) => (
-              <li key={index}>
-                <button
-                  type="button"
-                  role="tab"
-                  id={`sh-howto-${index}`}
-                  aria-selected={order === active}
-                  aria-controls="sh-howto-panel"
-                  data-active={order === active}
-                  data-done={order < active || undefined}
-                  onClick={() => setActive(order)}
-                >
-                  <b>{index}</b>
-                  <strong>{stepTitle}</strong>
-                  <i aria-hidden="true" key={order === active ? `run-${active}` : "idle"} />
-                </button>
-              </li>
-            ))}
-          </ol>
-
-          <div
-            className="sh-howto__stage"
-            role="tabpanel"
-            id="sh-howto-panel"
-            aria-labelledby={`sh-howto-${number}`}
-          >
-            <div className="sh-howto__copy" key={`copy-${active}`}>
-              <span className="sh-howto__num" aria-hidden="true">
-                {number}
-              </span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-              <div className="sh-howto__out">
-                <span>{scene.outputTitle}</span>
-                <ul>
-                  {scene.output.map((item, index) => (
-                    <li key={item} style={{ "--o": index } as CSSProperties}>
-                      <Check size={15} aria-hidden="true" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <small className="sh-howto__time">{scene.time}</small>
-            </div>
-            <figure
-              className="sh-howto__shot"
-              data-kind={scene.kind}
-              data-focus={scene.focus}
-              key={`shot-${active}`}
+        <div className={styles.processTabs} role="tablist" aria-label="Štyri kroky spolupráce">
+          {process.map(([number, title], index) => (
+            <button
+              type="button"
+              key={number}
+              ref={(el) => {
+                tabs.current[index] = el;
+              }}
+              id={`process-tab-${index}`}
+              role="tab"
+              aria-selected={active === index}
+              aria-controls="process-panel"
+              tabIndex={active === index ? 0 : -1}
+              onClick={() => setActive(index)}
+              onKeyDown={(event) => {
+                let next = active;
+                if (event.key === "ArrowRight") next = (active + 1) % 4;
+                else if (event.key === "ArrowLeft") next = (active + 3) % 4;
+                else if (event.key === "Home") next = 0;
+                else if (event.key === "End") next = 3;
+                else return;
+                event.preventDefault();
+                setActive(next);
+                tabs.current[next]?.focus();
+              }}
             >
-              <img src={scene.image} alt={scene.alt} loading="lazy" decoding="async" />
-              <figcaption className="sh-howto__visual-note">
-                <span>{scene.visualKicker}</span>
-                <strong>{scene.visualTitle}</strong>
-                <small>{scene.visualCopy}</small>
-                <div aria-label="Riešenia v projekte">
-                  <b>Chatbot</b>
-                  <b>Kalkulačka</b>
-                </div>
-              </figcaption>
-            </figure>
+              <span>{number}</span>
+              <strong>{title}</strong>
+              <ArrowRight size={17} aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+        <div
+          id="process-panel"
+          className={styles.processPanel}
+          role="tabpanel"
+          aria-labelledby={`process-tab-${active}`}
+          tabIndex={0}
+        >
+          <div className={styles.processCopy}>
+            <span className={styles.label}>
+              {process[active][0]} / {scene.time}
+            </span>
+            <h3>{process[active][1]}</h3>
+            <p>{process[active][2]}</p>
+            <h4>{scene.outputTitle}</h4>
+            <ul>
+              {scene.output.map((item) => (
+                <li key={item}>
+                  <Check size={17} aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link to="/postup" className={styles.textLink}>
+              Celý postup spolupráce <ArrowRight size={16} aria-hidden="true" />
+            </Link>
           </div>
+          <figure>
+            <img
+              src={scene.image}
+              alt={scene.alt}
+              width={1600}
+              height={1000}
+              loading="eager"
+              decoding="async"
+            />
+            <figcaption>
+              <span>{scene.visualKicker}</span>
+              <strong>{scene.visualTitle}</strong>
+              <p>{scene.visualCopy}</p>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -1307,40 +1073,36 @@ function Process() {
 function Pricing() {
   return (
     <section
-      className="sh-section sh-price"
-      data-nav-tone="dark"
+      className={`${styles.section} ${styles.dark}`}
       id="cena"
       aria-labelledby="sh-price-title"
+      data-nav-tone="dark"
     >
-      <div className="sh-wrap">
-        <header className="sh-head sh-head--row" data-reveal>
+      <div className={styles.wrap}>
+        <header className={styles.sectionHead}>
           <div>
-            <Eyebrow tone="dark">Cenník</Eyebrow>
+            <p className={styles.label}>04 / Cenník</p>
             <h2 id="sh-price-title">
-              Jasná cena <em>ešte pred začiatkom.</em>
+              Jasná cena.
+              <br />
+              Ešte pred začiatkom.
             </h2>
           </div>
           <p>Presný rozsah si odsúhlasíme vopred. Ponuka uvedie základ, DPH aj celkovú sumu.</p>
         </header>
-        <div className="sh-price__grid">
+        <div className={styles.prices}>
           {prices.map((price, index) => (
-            <Link
-              to="/cennik"
-              key={price.tag}
-              className="sh-price__card"
-              data-reveal
-              style={{ "--d": index } as CSSProperties}
-            >
-              <span>{price.tag}</span>
-              <strong>
-                <CountUp value={price.value} lead={price.lead} />
-                {price.unit ? <small>{price.unit}</small> : null}
-              </strong>
+            <article key={price.tag}>
+              <span className={styles.label}>
+                0{index + 1} / {price.tag}
+              </span>
+              <h3>od {price.value} €</h3>
+              <small>{price.unit || "Jednorazovo za riešenie"}</small>
               <p>{price.copy}</p>
-              <i aria-hidden="true">
-                <ArrowUpRight size={18} />
-              </i>
-            </Link>
+              <Link to="/cennik" className={`${actions.action} ${actions.lime}`}>
+                Čo zahŕňa cena <ArrowUpRight size={16} aria-hidden="true" />
+              </Link>
+            </article>
           ))}
         </div>
       </div>
@@ -1353,30 +1115,32 @@ function Pricing() {
 function Faq() {
   return (
     <section
-      className="sh-section sh-faq"
-      data-nav-tone="light"
+      className={styles.section}
       id="otazky"
       aria-labelledby="sh-faq-title"
+      data-nav-tone="light"
     >
-      <div className="sh-wrap sh-faq__grid">
-        <header className="sh-head" data-reveal>
-          <Eyebrow>Časté otázky</Eyebrow>
-          <h2 id="sh-faq-title">Čo sa nás pýtate najčastejšie</h2>
-          <p>
-            Nenašli ste odpoveď? Napíšte na{" "}
-            <a href="mailto:info@mojchatbot.sk">info@mojchatbot.sk</a>.
-          </p>
+      <div className={`${styles.wrap} ${styles.faq}`}>
+        <header>
+          <p className={styles.label}>05 / Časté otázky</p>
+          <h2 id="sh-faq-title">
+            Dobré vedieť
+            <br />
+            pred začiatkom.
+          </h2>
+          <p>Nenašli ste odpoveď? Napíšte nám.</p>
+          <a className={styles.textLink} href="mailto:info@mojchatbot.sk">
+            info@mojchatbot.sk <ArrowUpRight size={16} aria-hidden="true" />
+          </a>
         </header>
-        <div className="sh-faq__list">
-          {faqs.map((faq, index) => (
-            <details key={faq.q} data-reveal style={{ "--d": index % 3 } as CSSProperties}>
+        <div className={styles.faqList}>
+          {faqs.map((faq) => (
+            <details key={faq.q}>
               <summary>
                 {faq.q}
-                <i aria-hidden="true" />
+                <span aria-hidden="true">+</span>
               </summary>
-              <div>
-                <p>{faq.a}</p>
-              </div>
+              <p>{faq.a}</p>
             </details>
           ))}
         </div>
@@ -1390,7 +1154,7 @@ export function StudioHome() {
   useReveal(rootRef);
 
   return (
-    <div className="hybrid-home kage-home sh" ref={rootRef}>
+    <div className={styles.home} ref={rootRef}>
       <Hero />
       <Facts />
       <Solutions />

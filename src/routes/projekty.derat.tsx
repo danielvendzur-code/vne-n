@@ -1,3 +1,4 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { CSSProperties } from "react";
@@ -140,17 +141,12 @@ function DeratCaseStudyPage() {
         title="Projekt je dostupný priamo na derat.sk."
         copy="Otvorte si ostrý web alebo napíšte, ak chcete podobný postup navrhnúť pre vlastnú službu."
       >
-        <a
-          href="https://derat.sk/"
-          target="_blank"
-          rel="noreferrer"
-          className="sh-btn sh-btn--lime"
-        >
+        <a href="https://derat.sk/" target="_blank" rel="noreferrer" className={actions.action}>
           Otvoriť derat.sk <ArrowUpRight size={18} aria-hidden="true" />
         </a>
         <button
           type="button"
-          className="sh-btn sh-btn--ghost"
+          className={actions.action}
           onClick={() => openSiteAssistant({ source: "derat-case-study" })}
         >
           Navrhnúť podobné riešenie

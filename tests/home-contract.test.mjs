@@ -156,7 +156,7 @@ test("contact form retains sanitization, privacy notice, honeypot and resilient 
   assert.match(contact, /normalizeHttpUrl/);
   assert.match(contact, /isEmail/);
   assert.match(contact, /contact-website/);
-  assert.match(contact, /contact-privacy-note/);
+  assert.match(contact, /className=\{styles\.privacy\}/);
   assert.match(contact, /Ochrana osobných údajov/);
   assert.doesNotMatch(contact, /type="checkbox"/);
   assert.match(contact, /submitWebsiteLead/);

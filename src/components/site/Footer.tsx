@@ -3,26 +3,27 @@ import { ArrowRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { realizations } from "@/data/realizations";
-import "./SiteChrome.css";
+import styles from "./SiteChrome.module.css";
+import actions from "./WebsiteAction.module.css";
 
 /** Tmavá pätička podľa Koverty: veľká výzva hore, stĺpce odkazov pod ňou. */
 export function Footer() {
   return (
-    <footer className="mc-footer">
-      <div className="mc-footer__wrap">
-        <div className="mc-footer__cta">
+    <footer className={styles.footer}>
+      <div className={styles.footerWrap}>
+        <div className={styles.footerCta}>
           <div>
-            <p className="mc-footer__label">Od nápadu po nasadenie</p>
+            <p className={styles.label}>Od nápadu po nasadenie</p>
             <h2>Web, ktorý odpovie, spočíta aj poradí.</h2>
           </div>
-          <Link to="/kontakt" className="mc-footer__btn">
+          <Link to="/kontakt" className={`${actions.action} ${actions.lime}`}>
             Nezáväzný návrh <ArrowRight size={18} aria-hidden="true" />
           </Link>
         </div>
 
-        <div className="mc-footer__grid">
-          <div className="mc-footer__brand">
-            <Link to="/" className="mc-footer__logo">
+        <div className={styles.footerGrid}>
+          <div className={styles.footerBrand}>
+            <Link to="/" className={styles.brand}>
               <BrandMark size={34} />
               Môj Chatbot
             </Link>
@@ -32,7 +33,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="mc-footer__col">
+          <div className={styles.footerCol}>
             <h3>Riešenia</h3>
             <ul>
               <li>
@@ -50,7 +51,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="mc-footer__col">
+          <div className={styles.footerCol}>
             <h3>Realizácie</h3>
             <ul>
               {realizations.map((project) => (
@@ -63,7 +64,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="mc-footer__col">
+          <div className={styles.footerCol}>
             <h3>Kontakt</h3>
             <ul>
               <li>
@@ -73,13 +74,13 @@ export function Footer() {
                 <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
               </li>
             </ul>
-            <div className="mc-footer__pills">
+            <div className={styles.footerContact}>
               <Link to="/kontakt">Kontaktný formulár</Link>
             </div>
           </div>
         </div>
 
-        <div className="mc-footer__bottom">
+        <div className={styles.footerBottom}>
           <span>
             © {new Date().getFullYear()} Môj Chatbot · {siteConfig.legal.operator}
           </span>

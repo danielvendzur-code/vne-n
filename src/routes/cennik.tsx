@@ -1,3 +1,4 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { CSSProperties } from "react";
@@ -79,10 +80,10 @@ function PricingPage() {
         accent="Jasný rozsah."
         lead="Každý nástroj môže fungovať samostatne. Ak dáva zmysel kombinácia, spojíme chatbot, kalkulačku, konfigurátor alebo produktového poradcu do jedného riešenia."
       >
-        <a href="#baliky" className="sh-btn sh-btn--lime">
+        <a href="#baliky" className={actions.action}>
           Pozrieť ceny <ArrowRight size={18} aria-hidden="true" />
         </a>
-        <Link to="/kontakt" className="sh-btn sh-btn--ghost">
+        <Link to="/kontakt" className={actions.action}>
           Chcem presnú cenu <ArrowUpRight size={16} aria-hidden="true" />
         </Link>
       </ShPageHero>
@@ -139,7 +140,7 @@ function PricingPage() {
                 </dl>
                 <button
                   type="button"
-                  className="sh-btn sh-btn--dark sh-btn--sm"
+                  className={actions.action}
                   onClick={() =>
                     openSiteAssistant({
                       source: `pricing-${item.name.toLowerCase()}`,
@@ -174,7 +175,7 @@ function PricingPage() {
                   <dd>podľa riešenia</dd>
                 </div>
               </dl>
-              <Link to="/3d-konfigurator" className="sh-btn sh-btn--lime sh-btn--sm">
+              <Link to="/3d-konfigurator" className={actions.action}>
                 Pozrieť 3D konfigurátor <ArrowUpRight size={16} aria-hidden="true" />
               </Link>
             </article>
@@ -243,7 +244,7 @@ function PricingPage() {
       >
         <button
           type="button"
-          className="sh-btn sh-btn--lime"
+          className={actions.action}
           onClick={() => openSiteAssistant({ source: "pricing-final" })}
         >
           Chcem návrh riešenia <ArrowRight size={18} aria-hidden="true" />

@@ -1,0 +1,259 @@
+.page {
+  background: #f5f8f1;
+  color: #12372d;
+}
+.section {
+  padding: 40px 0 64px;
+}
+.grid {
+  width: min(1200px, calc(100% - 96px));
+  margin: auto;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  column-gap: 88px;
+  align-items: start;
+}
+.aside {
+  grid-column: 1;
+  grid-row: 1;
+}
+.formCard {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 32px;
+  background: #fff;
+  border: 1px solid #d6e1cf;
+  border-radius: 12px;
+  box-shadow: 0 16px 48px #12372d06;
+}
+.label {
+  margin: 0 0 20px;
+  color: #54705d;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.intro h1 {
+  color: #12372d;
+  font-size: clamp(38px, 4.1vw, 58px);
+  font-weight: 550;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  margin: 0 0 24px;
+}
+.intro h1 em {
+  font-style: normal;
+  color: #4a742c;
+}
+.intro > p:last-child {
+  font-size: 17px;
+  line-height: 1.65;
+  color: #526b5b;
+  max-width: 380px;
+  margin: 0 0 28px;
+}
+.direct {
+  display: grid;
+  gap: 10px;
+  padding: 24px 0;
+  border-top: 1px solid #d6e1cf;
+  border-bottom: 1px solid #d6e1cf;
+}
+.direct .label {
+  margin-bottom: 6px;
+}
+.direct a {
+  color: #12372d;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+}
+.direct a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.info {
+  padding-top: 24px;
+}
+.info .label {
+  margin-bottom: 12px;
+}
+.info > p:not(.label) {
+  margin: 0;
+  font-size: 14px;
+  color: #526b5b;
+}
+.steps {
+  margin: 0;
+  padding: 0 0 12px 18px;
+  color: #526b5b;
+  font-size: 15px;
+  line-height: 1.9;
+}
+.textLink {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 650;
+  font-size: 14px;
+  color: #12372d;
+  text-decoration: none;
+  cursor: pointer;
+}
+.textLink:hover {
+  text-decoration: underline;
+}
+.form {
+  display: grid;
+  gap: 18px;
+}
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form label {
+  display: grid;
+  gap: 8px;
+}
+.form label > span {
+  color: #12372d;
+  font-size: 14px;
+  font-weight: 650;
+}
+.form input,
+.form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #cbd8c5;
+  border-radius: 6px;
+  background: #fbfcfa;
+  color: #12372d;
+  font: 400 15px/1.5 var(--font-sans);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+.form input {
+  height: 48px;
+}
+.form textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+.form :is(input, textarea):focus {
+  outline: none;
+  border-color: #507b36;
+  box-shadow: 0 0 0 3px #87af4226;
+}
+.form :is(input, textarea)::placeholder {
+  color: #788b7d;
+  font-size: 14px;
+}
+.form > button {
+  justify-self: start;
+}
+.privacy p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #617567;
+  margin: 0;
+}
+.privacy p + p {
+  margin-top: 6px;
+}
+.privacy a {
+  color: #12372d;
+  text-decoration: underline;
+}
+.error {
+  color: #942e21;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+.fallback {
+  padding: 16px;
+  border: 1px solid #ccd9c6;
+  border-radius: 6px;
+  background: #f5f8f1;
+  font-size: 14px;
+}
+.fallback a {
+  color: #12372d;
+  font-weight: 650;
+}
+.trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  pointer-events: none;
+}
+.demoSummary {
+  padding: 16px;
+  background: #f5f8f1;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.demoSummary p {
+  line-height: 1.5;
+}
+.demoMeta {
+  display: grid;
+  gap: 6px;
+  overflow-wrap: anywhere;
+}
+.page :is(a, button):focus-visible {
+  outline: 3px solid #86af46;
+  outline-offset: 4px;
+}
+@media (max-width: 1100px) {
+  .grid {
+    column-gap: 40px;
+    width: calc(100% - 64px);
+  }
+  .formCard {
+    padding: 24px;
+  }
+}
+@media (max-width: 720px) {
+  .section {
+    padding: 28px 0 48px;
+  }
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: calc(100% - 40px);
+  }
+  .formCard {
+    width: 100%;
+    padding: 24px 20px;
+  }
+  .aside {
+    width: 100%;
+  }
+  .intro h1 {
+    font-size: 40px;
+  }
+  .two {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .form > button {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .form input,
+  .form textarea {
+    transition: none;
+  }
+}

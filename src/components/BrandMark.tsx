@@ -1,3 +1,4 @@
+import styles from "./BrandMark.module.css";
 interface BrandMarkProps {
   size?: number;
   className?: string;
@@ -20,7 +21,7 @@ export function BrandMark({ size = 34, className }: BrandMarkProps) {
       fill="none"
     >
       <path
-        className="brand-mark__stroke"
+        className={styles.stroke}
         d={PATH}
         pathLength={1}
         stroke="currentColor"
