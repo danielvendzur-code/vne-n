@@ -11,7 +11,7 @@ export class Solutions extends Component<{
   state = { mode: "chatbot" };
   renderVals() {
     const P = "/work/";
-    const F: Record<string, any> = {
+    const F: Record<string, { label: string; s: string[][] }> = {
       chatbot: {
         label: "Chatbot",
         s: [
