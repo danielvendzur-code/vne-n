@@ -11,7 +11,7 @@ export class Tool extends Component<{
   state = { t: this.props.tool ?? "kalkulacka" };
   renderVals() {
     const P = "/work/";
-    const F: Record<string, any> = {
+    const F: Record<string, [string, string]> = {
       answers: [
         "Odpovedať na otázky",
         "Ponuka, dostupnosť, doprava a bežné otázky priamo na webe.",
@@ -61,7 +61,7 @@ export class Tool extends Component<{
         copy,
         artifact,
       }));
-    const T: Record<string, any> = {
+    const T = {
       chatbot: {
         label: "Chatbot",
         crumb: "CHATBOT",
@@ -235,7 +235,7 @@ export class Tool extends Component<{
           "Vyskúšajte si, ako vyzerá riadený výber v praxi. Poradca sa dá napojiť na váš e-shop a produkty.",
       },
     };
-    const key = T[this.state.t] ? this.state.t : "kalkulacka";
+    const key = this.state.t in T ? (this.state.t as keyof typeof T) : "kalkulacka";
     const t = T[key];
     const switcher = [
       ["chatbot", "Chatbot"],
