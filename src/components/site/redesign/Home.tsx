@@ -1,3 +1,4 @@
+import { StudioHero } from "../StudioHero";
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
@@ -58,6 +59,18 @@ export class Home extends Component<{
     ];
     const work = [
       {
+        name: "Koverta",
+        domain: "koverta.sk",
+        href: "https://koverta.sk/",
+        type: "Výroba na mieru · 3D konfigurátor",
+        result:
+          "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
+        img: P + "koverta/realizacia-pergola-sibenik.webp",
+        tools: ["3D konfigurátor", "Dopyt so zostavou"],
+        case: true,
+        caseHref: "/3d-konfigurator",
+      },
+      {
         name: "DERAT",
         domain: "derat.sk",
         href: "https://derat.sk/",
@@ -80,18 +93,6 @@ export class Home extends Component<{
         case: false,
       },
       {
-        name: "Koverta",
-        domain: "koverta.sk",
-        href: "https://koverta.sk/",
-        type: "Výroba na mieru · 3D konfigurátor",
-        result:
-          "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
-        img: P + "live/koverta.webp",
-        tools: ["3D konfigurátor", "Dopyt so zostavou"],
-        case: true,
-        caseHref: "/3d-konfigurator",
-      },
-      {
         name: "WEBKO",
         domain: "webko.sk",
         href: "https://www.webko.sk/",
@@ -101,14 +102,12 @@ export class Home extends Component<{
         tools: ["Prezentačný web", "Cesta ku kontaktu"],
         case: false,
       },
-    ]
-      .filter((w) => w.name !== "Koverta")
-      .map((w, i) => ({
-        ...w,
-        ...themes[[0, 1, 3][i]],
-        num: "0" + (i + 1),
-        top: 100 + i * 22 + "px",
-      }));
+    ].map((w, i) => ({
+      ...w,
+      ...themes[i],
+      num: "0" + (i + 1),
+      top: 100 + i * 22 + "px",
+    }));
 
     return {
       heroCards: [
@@ -317,7 +316,6 @@ export class Home extends Component<{
       bBg,
       bColor,
       faqs,
-      heroCards,
       inquiry,
       isAfter,
       isBefore,
@@ -338,127 +336,7 @@ export class Home extends Component<{
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
-          <section
-            id={"top"}
-            style={cssStyle(
-              `max-width:1280px;margin:0 auto;padding:56px 32px 64px;box-sizing:border-box`,
-            )}
-          >
-            <div
-              style={cssStyle(
-                `display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F;padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
-              )}
-            >
-              <span>{"CHATBOT · KALKULAČKA · 3D KONFIGURÁTOR · PORADCA"}</span>
-              <span>{"MÔJ CHATBOT · SLOVENSKO"}</span>
-            </div>
-            <div
-              style={cssStyle(
-                `display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:48px;align-items:center;padding-top:56px`,
-              )}
-            >
-              <div style={cssStyle(`display:flex;flex-direction:column;gap:32px`)}>
-                <h1
-                  style={cssStyle(
-                    `margin:0;font-size:clamp(56px,7.1vw,96px);line-height:.9;letter-spacing:-.055em;font-weight:600`,
-                  )}
-                >
-                  {"Chatboty a"}
-                  <br />
-                  {"konfigurátory"}
-                  <br />
-                  <span style={cssStyle(`color:#1F5B47`)}>{"na mieru."}</span>
-                </h1>
-                <p
-                  style={cssStyle(
-                    `margin:0;font-size:20px;line-height:1.5;color:#5C645F;max-width:470px;text-wrap:pretty`,
-                  )}
-                >
-                  {
-                    "Chatbot odpovie, kalkulačka spočíta cenu, konfigurátor vyskladá produkt a poradca pomôže s výberom."
-                  }
-                </p>
-                <div style={cssStyle(`display:flex;gap:10px;flex-wrap:wrap`)}>
-                  <a
-                    href={sitePath("/sluzby")}
-                    style={cssStyle(
-                      `background:#0C1A15;color:#fff;font-weight:500;font-size:16px;padding:16px 26px;border-radius:999px`,
-                    )}
-                    className="ref-hover-0"
-                  >
-                    {"Vybrať riešenie →"}
-                  </a>
-                  <a
-                    href={sitePath("/cennik")}
-                    style={cssStyle(
-                      `font-size:16px;padding:16px 26px;border-radius:999px;border:1px solid rgba(14,21,18,.2)`,
-                    )}
-                    className="ref-hover-1"
-                  >
-                    {"Pozrieť cenník"}
-                  </a>
-                </div>
-              </div>
-              <div style={cssStyle(`position:relative;height:clamp(340px,52vh,440px)`)}>
-                {heroCards.map((h, index) => (
-                  <Fragment key={index}>
-                    <a
-                      href={sitePath(h.href)}
-                      target={"_blank"}
-                      rel={"noreferrer"}
-                      data-cursor={"Otvoriť"}
-                      style={cssStyle(
-                        `position:absolute;left:${h.left};top:${h.top};width:64%;z-index:${h.z};background:#fff;border-radius:18px;overflow:hidden;border:1px solid rgba(14,21,18,.12);box-shadow:0 30px 60px -30px rgba(12,26,21,.35);transform:rotate(${h.rot});transition:transform .35s ease`,
-                      )}
-                      className="ref-hover-2"
-                    >
-                      <div
-                        style={cssStyle(
-                          `display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(14,21,18,.08)`,
-                        )}
-                      >
-                        <span style={cssStyle(`display:flex;gap:5px`)}>
-                          <span
-                            style={cssStyle(
-                              `width:8px;height:8px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                            )}
-                          ></span>
-                          <span
-                            style={cssStyle(
-                              `width:8px;height:8px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                            )}
-                          ></span>
-                          <span
-                            style={cssStyle(
-                              `width:8px;height:8px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                            )}
-                          ></span>
-                        </span>
-                        <span
-                          style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:11px;color:#5C645F`,
-                          )}
-                        >
-                          {h.num}
-                          {" / "}
-                          {h.domain}
-                          {" ↗"}
-                        </span>
-                      </div>
-                      <img
-                        src={sitePath(h.img)}
-                        alt={h.name}
-                        style={cssStyle(
-                          `width:100%;aspect-ratio:16/10;object-fit:cover;display:block`,
-                        )}
-                        loading="eager"
-                      />
-                    </a>
-                  </Fragment>
-                ))}
-              </div>
-            </div>
-          </section>
+          <StudioHero />
           <section
             style={cssStyle(
               `max-width:1280px;margin:0 auto;padding:0 32px 88px;box-sizing:border-box`,
@@ -643,8 +521,8 @@ export class Home extends Component<{
                     {"ŽIVÝ KONFIGURÁTOR · SOLTEC"}
                   </span>
                   <img
-                    src={sitePath("/work/koverta/konfigurator-carport.webp")}
-                    alt={"3D konfigurátor Koverta: hliníkový carport Soltec s autom"}
+                    src={sitePath("/work/koverta/realizacia-pergola-sibenik.webp")}
+                    alt={"Realizácia Koverta: bioklimatická pergola nad terasou"}
                     style={cssStyle(
                       `width:100%;height:100%;object-fit:cover;object-position:30% center;display:block;background:#fff`,
                     )}
@@ -661,7 +539,7 @@ export class Home extends Component<{
                       `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
                     )}
                   >
-                    {"01 / 3D KONFIGURÁTOR · OD 447 €"}
+                    {"01 / 3D KONFIGURÁTOR · PODĽA ROZSAHU"}
                   </div>
                   <div>
                     <div
@@ -892,7 +770,7 @@ export class Home extends Component<{
                     )}
                   >
                     <img
-                      src={sitePath("/work/koverta/konfigurator-carport.webp")}
+                      src={sitePath("/work/koverta/realizacia-pergola-sibenik.webp")}
                       alt={""}
                       style={cssStyle(`width:100%;height:100%;object-fit:cover;display:block`)}
                       loading="lazy"
