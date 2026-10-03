@@ -19,6 +19,13 @@ bun run build
 
 The installer warms Bun's cache from public npm using committed versions and SHA-512 checksums, then installs the original frozen lockfile. Five Lovable mirror URLs are unavailable outside its sandbox. Neither manifest nor lockfile is rewritten. Vercel and PR CI use the same installer.
 
+For a local production server, use the Node target directly (the Vercel target does not produce the `dist/server/server.js` expected by `vite preview`):
+
+```sh
+NITRO_PRESET=node-server bunx vite build
+PORT=4175 HOST=127.0.0.1 node .output/server/index.mjs
+```
+
 ## Browser checks
 
 With Playwright and Chromium available:

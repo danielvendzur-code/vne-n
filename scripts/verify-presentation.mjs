@@ -31,6 +31,7 @@ try {
     assert.equal(await page.locator("h1").count(), 1);
     assert.equal(await page.locator("#riesenia article[data-kind]").count(), 4);
     assert.equal(await page.locator('a[aria-label="Otvoriť Koverta"]').count(), 1);
+    await page.screenshot({ path: `${output}/hero-${viewport.width}.png` });
     const hero = page.locator('[aria-label="Vybrané živé realizácie"] a').first();
     await hero.focus();
     await page.waitForTimeout(350);
