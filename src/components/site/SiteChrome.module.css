@@ -1,0 +1,352 @@
+.spacer {
+  height: 80px;
+}
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  background: #fff;
+  color: #12372d;
+  border-bottom: 1px solid #dfe6db;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+.header[data-tone="dark"] {
+  background: #071b15;
+  color: #fff;
+  border-color: #ffffff1a;
+}
+.headerInner {
+  width: min(1344px, calc(100% - 96px));
+  height: 80px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  flex-shrink: 0;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+.header[data-tone="dark"] .brand svg {
+  color: #c8f06a;
+}
+.brandName {
+  white-space: nowrap;
+}
+.nav {
+  display: flex;
+  gap: 26px;
+  align-items: center;
+  margin-left: auto;
+}
+.nav a {
+  color: inherit;
+  font-size: 14px;
+  font-weight: 550;
+  text-decoration: none;
+  white-space: nowrap;
+  padding-block: 14px;
+  position: relative;
+}
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 7px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.nav a:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header[data-tone="dark"] .headerActions > a {
+  background: #c8f06a;
+  color: #071b15;
+  border-color: #c8f06a;
+}
+.menuToggle {
+  display: none;
+  min-height: 44px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 650;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.menuLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: #071b1580;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 180ms ease,
+    visibility 180ms ease;
+}
+.menuLayer[data-open="true"] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.menuPanel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: min(520px, 100%);
+  padding: 28px;
+  overflow-y: auto;
+  background: #f5f8f1;
+  color: #12372d;
+}
+.menuHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 32px;
+}
+.menuClose {
+  min-height: 44px;
+  border: 1px solid #c9d7c3;
+  border-radius: 6px;
+  padding: 10px;
+  font-weight: 650;
+  font-size: 12px;
+  cursor: pointer;
+  background: #fff;
+  color: #12372d;
+}
+.menuNav {
+  display: grid;
+}
+.menuNav a {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 20px 0;
+  font-size: 30px;
+  font-weight: 550;
+  letter-spacing: -0.025em;
+  color: #12372d;
+  text-decoration: none;
+  border-top: 1px solid #cedbc9;
+}
+.menuNav span {
+  font-size: 12px;
+}
+.menuFoot {
+  display: grid;
+  gap: 18px;
+  padding-top: 32px;
+}
+.menuFoot a {
+  color: inherit;
+}
+.footer {
+  background: #071b15;
+  color: #fff;
+  padding: 80px 0 24px;
+}
+.footerWrap {
+  width: min(1280px, calc(100% - 96px));
+  margin: auto;
+}
+.footerCta {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px;
+  border-bottom: 1px solid #ffffff26;
+  padding-bottom: 64px;
+}
+.label {
+  color: #c8f06a;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+}
+.footer h2 {
+  color: #fff;
+  max-width: 750px;
+  font-size: clamp(32px, 4vw, 58px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  margin: 0;
+}
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 50px;
+  padding-block: 56px;
+}
+.footerBrand svg {
+  color: #c8f06a;
+}
+.footerBrand p {
+  max-width: 270px;
+  color: #baccc1;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+.footerCol h3 {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+  margin: 0 0 20px;
+}
+.footerCol ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+.footerCol a {
+  color: #baccc1;
+  font-size: 14px;
+  text-decoration: none;
+}
+.footerCol a:hover {
+  color: #c8f06a;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.footerContact {
+  margin-top: 24px;
+}
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  border-top: 1px solid #ffffff26;
+  padding-top: 24px;
+  color: #91a99a;
+  font-size: 12px;
+}
+.footerBottom nav {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footerBottom a {
+  color: #baccc1;
+  text-decoration: none;
+}
+:is(.header, .footer, .menuPanel) :is(a, button):focus-visible {
+  outline: 3px solid #87b342;
+  outline-offset: 5px;
+}
+@media (max-width: 1120px) {
+  .headerInner {
+    width: calc(100% - 48px);
+    gap: 24px;
+  }
+  .nav {
+    gap: 18px;
+  }
+  .nav a {
+    font-size: 13px;
+  }
+  .brand {
+    font-size: 18px;
+  }
+  .headerActions > a {
+    padding-inline: 14px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 960px) {
+  .nav {
+    display: none;
+  }
+  .headerActions {
+    margin-left: auto;
+  }
+  .menuToggle {
+    display: block;
+  }
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+}
+@media (max-width: 720px) {
+  .spacer {
+    height: 72px;
+  }
+  .headerInner {
+    height: 72px;
+    width: calc(100% - 40px);
+    gap: 12px;
+  }
+  .headerActions > a {
+    display: none;
+  }
+  .brand {
+    font-size: 18px;
+  }
+  .footer {
+    padding-top: 56px;
+  }
+  .footerWrap {
+    width: calc(100% - 40px);
+  }
+  .footerCta {
+    align-items: start;
+    flex-direction: column;
+    padding-bottom: 40px;
+    gap: 28px;
+  }
+  .footerGrid {
+    gap: 36px 24px;
+    padding-block: 40px;
+  }
+  .footerBrand {
+    grid-column: 1 / -1;
+  }
+  .footerBottom {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .footerBottom nav {
+    gap: 14px;
+  }
+  .menuPanel {
+    padding: 24px;
+  }
+  .menuNav a {
+    font-size: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .nav a::after,
+  .menuLayer {
+    transition: none;
+  }
+}

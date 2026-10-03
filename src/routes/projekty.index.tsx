@@ -1,3 +1,4 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ShClosing, ShPage, ShPageHero } from "@/components/site/SubPage";
@@ -103,12 +104,7 @@ function ProjectsPage() {
                 </div>
               </div>
               <div className="shp-case__links">
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="sh-btn sh-btn--dark sh-btn--sm"
-                >
+                <a href={project.href} target="_blank" rel="noreferrer" className={actions.action}>
                   {project.domain} <ArrowUpRight size={16} aria-hidden="true" />
                 </a>
                 {project.caseStudyPath ? (
@@ -126,7 +122,7 @@ function ProjectsPage() {
         title="Máte podobný proces?"
         copy="Napíšte, čo má zákazník na vašom webe zistiť, vypočítať alebo vybrať. Navrhneme funkčný smer bez zbytočnej technickej omáčky."
       >
-        <Link to="/kontakt" className="sh-btn sh-btn--lime">
+        <Link to="/kontakt" className={actions.action}>
           Prebrať môj web <ArrowRight size={18} aria-hidden="true" />
         </Link>
       </ShClosing>

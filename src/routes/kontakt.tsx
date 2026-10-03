@@ -1,7 +1,8 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
-import { ShPage, ShPageHero } from "@/components/site/SubPage";
+import styles from "@/components/site/Contact.module.css";
 import { siteConfig } from "@/config/site";
 import { submitWebsiteLead } from "@/lib/lead-submission";
 import { openSiteAssistant } from "@/lib/site-assistant";
@@ -172,51 +173,19 @@ function ContactPage() {
   };
 
   return (
-    <ShPage className="shp-contact-page">
-      <ShPageHero eyebrow="Kontakt" title="Preberme, čo má váš web" accent="robiť ďalej." compact />
-
-      <section className="shp-contact">
-        <div className="sh-wrap shp-contact__grid">
-          <aside className="shp-contact__aside">
-            <div className="shp-card shp-card--dark shp-contact__direct">
-              <p className="shp-contact__label">Priamy kontakt</p>
-              <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
-              <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
-            </div>
-            <div className="shp-card">
-              <p className="shp-contact__label">Čo stačí poslať</p>
-              <ol className="shp-contact__steps">
-                <li>Čo predávate.</li>
-                <li>Čo zákazníci stále riešia ručne.</li>
-                <li>Čo má byť výsledkom na webe.</li>
-              </ol>
-              <button
-                type="button"
-                className="sh-link sh-link--dark"
-                onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
-              >
-                Radšej vyskladať riešenie <ArrowRight size={15} aria-hidden="true" />
-              </button>
-            </div>
-            <div className="shp-card">
-              <p className="shp-contact__label">Prevádzkovateľ</p>
-              <p>{siteConfig.legal.operator}</p>
-              <Link to="/pravne-informacie" className="sh-link sh-link--dark">
-                IČO, DIČ a registrácia <ArrowRight size={14} aria-hidden="true" />
-              </Link>
-            </div>
-          </aside>
-
-          <div className="shp-form-card contact-form-wrap">
-            <p className="shp-contact__label">
+    <div className={styles.page}>
+      <section className={styles.section}>
+        <div className={styles.grid}>
+          <div className={styles.formCard}>
+            <p className={styles.label}>
               {fromCoffeeDemo ? "Predvyplnené z vašej ukážky" : "Krátke zadanie"}
             </p>
 
             {fromCoffeeDemo ? (
-              <div className="contact-demo-summary">
+              <div className={styles.demoSummary}>
                 <strong>Firmu, web aj konkrétnu ukážku už máme.</strong>
                 <p>Doplňte iba kontakt na seba. Telefón a poznámka sú voliteľné.</p>
-                <div className="contact-demo-summary__meta">
+                <div className={styles.demoMeta}>
                   {company ? (
                     <span>
                       <b>Firma:</b> {company}
@@ -242,12 +211,8 @@ function ContactPage() {
               </div>
             ) : null}
 
-            <form
-              className="shp-form contact-form"
-              onSubmit={(event) => void submit(event)}
-              noValidate
-            >
-              <div className="shp-form__two">
+            <form className={styles.form} onSubmit={(event) => void submit(event)} noValidate>
+              <div className={styles.two}>
                 <label>
                   <span>Meno *</span>
                   <input
@@ -274,7 +239,7 @@ function ContactPage() {
                 </label>
               </div>
 
-              <div className="shp-form__two">
+              <div className={styles.two}>
                 <label>
                   <span>Web</span>
                   <input
@@ -308,7 +273,7 @@ function ContactPage() {
                   onChange={(event) => setProject(event.target.value)}
                   required={!fromCoffeeDemo}
                   maxLength={FIELD_LIMITS.project}
-                  rows={fromCoffeeDemo ? 3 : 4}
+                  rows={3}
                   placeholder={
                     fromCoffeeDemo
                       ? "Voliteľné — napríklad telefónny čas, otázka alebo čo chcete na ukážke upraviť."
@@ -317,7 +282,7 @@ function ContactPage() {
                 />
               </label>
 
-              <div className="contact-trap" aria-hidden="true">
+              <div className={styles.trap} aria-hidden="true">
                 <label htmlFor="contact-website">Web (nevypĺňať)</label>
                 <input
                   id="contact-website"
@@ -330,11 +295,10 @@ function ContactPage() {
                 />
               </div>
 
-              <div className="contact-privacy-note">
+              <div className={styles.privacy}>
                 <p>
-                  Odoslaním zadania požiadate prevádzkovateľa Venaco s.r.o. o kontakt a prípravu
-                  návrhu. Údaje použijeme na vybavenie dopytu a prípadné kroky pred uzatvorením
-                  spolupráce, nie na posielanie marketingových správ.
+                  Údaje použije Venaco s.r.o. na vybavenie vášho dopytu a prípravu návrhu.
+                  Marketingové správy vám posielať nebudeme.
                 </p>
                 <p>
                   Podrobnosti: <Link to="/ochrana-udajov">Ochrana osobných údajov</Link> ·{" "}
@@ -343,13 +307,13 @@ function ContactPage() {
               </div>
 
               {error ? (
-                <p className="shp-form__error" role="alert">
+                <p className={styles.error} role="alert">
                   {error}
                 </p>
               ) : null}
 
               {fallbackHref ? (
-                <div className="shp-form__fallback" role="status">
+                <div className={styles.fallback} role="status">
                   <p>
                     Nič ste nestratili. Ak chcete dopyt dokončiť hneď, otvoríme pripravený e-mail s
                     vyplneným zadaním; odoslanie zostáva pod vašou kontrolou.
@@ -362,7 +326,7 @@ function ContactPage() {
 
               <button
                 type="submit"
-                className="sh-btn sh-btn--dark"
+                className={actions.action}
                 data-state={submitState}
                 disabled={submitState === "sending"}
               >
@@ -375,8 +339,46 @@ function ContactPage() {
               </button>
             </form>
           </div>
+          <aside className={styles.aside}>
+            <header className={styles.intro}>
+              <p className={styles.label}>Kontakt</p>
+              <h1>
+                Preberme, čo má váš web <em>robiť ďalej.</em>
+              </h1>
+              <p>
+                Napíšte nám pár viet. Ozveme sa do jedného pracovného dňa a navrhneme ďalší krok.
+              </p>
+            </header>
+            <div className={styles.direct}>
+              <p className={styles.label}>Priamy kontakt</p>
+              <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+              <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
+            </div>
+            <div className={styles.info}>
+              <p className={styles.label}>Čo stačí poslať</p>
+              <ol className={styles.steps}>
+                <li>Čo predávate.</li>
+                <li>Čo zákazníci stále riešia ručne.</li>
+                <li>Čo má byť výsledkom na webe.</li>
+              </ol>
+              <button
+                type="button"
+                className={styles.textLink}
+                onClick={() => openSiteAssistant({ source: "contact-page", entry: "builder" })}
+              >
+                Radšej vyskladať riešenie <ArrowRight size={15} aria-hidden="true" />
+              </button>
+            </div>
+            <div className={styles.info}>
+              <p className={styles.label}>Prevádzkovateľ</p>
+              <p>{siteConfig.legal.operator}</p>
+              <Link to="/pravne-informacie" className={styles.textLink}>
+                IČO, DIČ a registrácia <ArrowRight size={14} aria-hidden="true" />
+              </Link>
+            </div>
+          </aside>
         </div>
       </section>
-    </ShPage>
+    </div>
   );
 }

@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("homepage is the Koverta-inspired studio page with real work and a keyword H1", async () => {
+test("homepage preserves its hero, four solutions, real work and keyword H1", async () => {
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/StudioHome.tsx");
 
@@ -14,10 +14,10 @@ test("homepage is the Koverta-inspired studio page with real work and a keyword 
   // Hero musí okamžite pomenovať hlavnú ponuku a ponechať tri živé náhľady.
   assert.match(landing, /aria-label="Chatboty a konfigurátory na mieru pre váš web\."/);
   assert.match(landing, /Chatbot odpovie, kalkulačka spočíta cenu, konfigurátor vyskladá produkt/);
-  assert.match(landing, /className="hybrid-hero kage-hero"/);
+  assert.match(landing, /className=\{styles\.hero\}/);
   assert.match(landing, /heroProjects\.map/);
   assert.match(landing, /work\/live\/koverta\.webp/);
-  assert.match(landing, /className="hybrid-home kage-home sh"/);
+  assert.match(landing, /className=\{styles\.home\}/);
   assert.match(landing, /<FlowStory \/>/);
   assert.match(landing, /title: "Všetko spolu"/);
   for (const shot of ["kalkulacka-derat", "chatbot-aplan", "poradca-kava"]) {
@@ -87,7 +87,6 @@ test("subpages share the unified SubPage system instead of legacy page CSS", asy
     "projekty.derat",
     "postup",
     "cennik",
-    "kontakt",
     "preco-chatbot",
     "dakujeme",
     "pravne-informacie",
@@ -105,15 +104,18 @@ test("FAQ heading stays pinned while the list scrolls", async () => {
   assert.match(css, /\.sh-faq__grid \.sh-head \{\s*position: sticky;/);
 });
 
-test("process autoplays four Môj Plot steps and still allows direct selection", async () => {
+test("all four process steps are immediately selectable with a keyboard", async () => {
   const landing = await read("src/components/site/StudioHome.tsx");
   const start = landing.indexOf("function Process()");
   const process = landing.slice(start, landing.indexOf("/* ----", start));
   assert.match(process, /processScenes\[active\]/);
-  assert.match(process, /setActive\(\(current\) => \(current \+ 1\) % process\.length\)/);
-  assert.match(process, /onClick=\{\(\) => setActive\(order\)\}/);
-  assert.doesNotMatch(process, /setPaused|onMouseEnter|onMouseLeave/);
-  assert.doesNotMatch(process, /addEventListener\("scroll"/);
+  assert.match(process, /role="tablist"/);
+  assert.match(process, /role="tabpanel"/);
+  assert.match(process, /aria-controls="process-panel"/);
+  assert.match(process, /onClick=\{\(\) => setActive\(index\)\}/);
+  for (const key of ["ArrowRight", "ArrowLeft", "Home", "End"]) assert.ok(process.includes(key));
+  assert.match(process, /loading="eager"/);
+  assert.doesNotMatch(process, /setTimeout|setInterval|addEventListener\("scroll"/);
   assert.match(landing, /Môj Plot \/ návrh/);
   assert.match(landing, /Môj Plot \/ nasadené/);
 });

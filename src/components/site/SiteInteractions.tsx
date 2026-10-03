@@ -16,90 +16,6 @@ function canEnhance() {
   );
 }
 
-function scrollableParent(node: EventTarget | null): boolean {
-  let el = node instanceof Element ? node : null;
-  while (el && el !== document.body && el !== document.documentElement) {
-    const style = getComputedStyle(el);
-    if (
-      /(auto|scroll)/.test(style.overflowY) &&
-      el.scrollHeight > el.clientHeight + 1 &&
-      !el.matches("html, body")
-    ) {
-      return true;
-    }
-    el = el.parentElement;
-  }
-  return false;
-}
-
-function useSmoothScroll() {
-  useEffect(() => {
-    if (!canEnhance()) return undefined;
-
-    let target = window.scrollY;
-    let current = window.scrollY;
-    let frame = 0;
-    let active = false;
-
-    const maxScroll = () => document.documentElement.scrollHeight - window.innerHeight;
-
-    const step = () => {
-      current += (target - current) * 0.16;
-      if (Math.abs(target - current) < 0.5) {
-        current = target;
-        active = false;
-      }
-      window.scrollTo({ top: current, behavior: "instant" });
-      frame = active ? requestAnimationFrame(step) : 0;
-    };
-
-    const onWheel = (event: WheelEvent) => {
-      if (event.ctrlKey || event.defaultPrevented || document.body.style.overflow === "hidden") {
-        return;
-      }
-      if (scrollableParent(event.target)) return;
-      event.preventDefault();
-      if (!active) {
-        current = window.scrollY;
-        target = window.scrollY;
-      }
-      const delta = event.deltaMode === 1 ? event.deltaY * 32 : event.deltaY;
-      target = Math.max(0, Math.min(maxScroll(), target + delta));
-      if (!active) {
-        active = true;
-        frame = requestAnimationFrame(step);
-      }
-    };
-
-    // Keyboard, scrollbar or anchor jumps take over immediately.
-    const sync = () => {
-      if (!active) {
-        current = window.scrollY;
-        target = window.scrollY;
-      }
-    };
-    const stop = () => {
-      active = false;
-      if (frame) cancelAnimationFrame(frame);
-      frame = 0;
-      sync();
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("keydown", stop);
-    window.addEventListener("pointerdown", stop);
-
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("scroll", sync);
-      window.removeEventListener("keydown", stop);
-      window.removeEventListener("pointerdown", stop);
-    };
-  }, []);
-}
-
 /** Popis „Otvoriť web" pri realizáciách. Systémový kurzor ostáva, popis
  *  sa posúva presne s ním (bez oneskorenia), takže klik sedí tam, kam ukazuje. */
 function CursorLabel() {
@@ -117,7 +33,9 @@ function CursorLabel() {
         return;
       }
       el.textContent = labelled.dataset.cursor ?? "";
-      el.style.transform = `translate3d(${event.clientX + 18}px, ${event.clientY + 18}px, 0)`;
+      const x = Math.min(event.clientX + 18, window.innerWidth - el.offsetWidth - 12);
+      const y = Math.min(event.clientY + 18, window.innerHeight - el.offsetHeight - 12);
+      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       el.dataset.visible = "true";
     };
     const hide = () => {
@@ -138,6 +56,5 @@ function CursorLabel() {
 }
 
 export function SiteInteractions() {
-  useSmoothScroll();
   return <CursorLabel />;
 }

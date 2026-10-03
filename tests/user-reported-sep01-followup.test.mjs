@@ -40,6 +40,6 @@ test("contact uses the unified card form without hairline separators", async () 
     css,
     /\.contact-page--rebrand \.contact-editorial-aside li[\s\S]*border:\s*0 !important/,
   );
-  assert.match(contact, /className="contact-demo-summary"/);
+  assert.match(contact, /className=\{styles\.demoSummary\}/);
   assert.doesNotMatch(contact, /<p className="section-kicker">CONTACT<\/p>/);
 });

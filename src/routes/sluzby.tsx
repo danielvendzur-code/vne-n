@@ -1,3 +1,4 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { CSSProperties } from "react";
@@ -143,7 +144,7 @@ function ServicesPage() {
                 </ul>
                 <button
                   type="button"
-                  className="sh-btn sh-btn--dark sh-btn--sm"
+                  className={actions.action}
                   onClick={() =>
                     openSiteAssistant({
                       source: `services-${tool.name.toLowerCase()}`,
@@ -185,7 +186,7 @@ function ServicesPage() {
                 </ul>
                 <button
                   type="button"
-                  className={`sh-btn sh-btn--sm ${index === 0 ? "sh-btn--lime" : "sh-btn--dark"}`}
+                  className={actions.action}
                   onClick={() =>
                     openSiteAssistant({
                       source: `services-audience-${index === 0 ? "services" : "shop"}`,
@@ -207,7 +208,7 @@ function ServicesPage() {
       >
         <button
           type="button"
-          className="sh-btn sh-btn--lime"
+          className={actions.action}
           onClick={() => openSiteAssistant({ source: "services-final" })}
         >
           Vyskladať riešenie <ArrowRight size={18} aria-hidden="true" />

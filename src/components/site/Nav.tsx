@@ -4,7 +4,8 @@ import { ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import "./SiteChrome.css";
+import styles from "./SiteChrome.module.css";
+import actions from "./WebsiteAction.module.css";
 
 type NavTone = "dark" | "light";
 
@@ -111,21 +112,21 @@ export function Nav() {
 
   return (
     <>
-      <div id="page-top" className="site-header-spacer" aria-hidden="true" />
+      <div id="page-top" className={styles.spacer} aria-hidden="true" />
       <header
         ref={headerRef}
-        className="site-header"
+        className={styles.header}
         data-scrolled={scrolled}
         data-tone={tone}
         data-adaptive={adaptiveTone ? "true" : "false"}
       >
-        <div className="site-header__inner container-page">
-          <a href={brandHref} className="site-brand-lockup" aria-label="Môj Chatbot — naspäť hore">
+        <div className={styles.headerInner}>
+          <a href={brandHref} className={styles.brand} aria-label="Môj Chatbot — naspäť hore">
             <BrandMark size={34} />
-            <span className="site-brand-name">Môj Chatbot</span>
+            <span className={styles.brandName}>Môj Chatbot</span>
           </a>
 
-          <nav className="site-nav" aria-label="Hlavná navigácia">
+          <nav className={styles.nav} aria-label="Hlavná navigácia">
             {desktopLinks.map((item) => (
               <a key={item.label} href={item.href}>
                 {item.label}
@@ -133,17 +134,14 @@ export function Nav() {
             ))}
           </nav>
 
-          <div className="site-header__actions">
-            <Link
-              to="/kontakt"
-              className="site-header__cta site-cta site-cta--primary site-cta--compact"
-            >
+          <div className={styles.headerActions}>
+            <Link to="/kontakt" className={actions.action}>
               Začať projekt <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
             <button
               ref={menuButtonRef}
               type="button"
-              className="site-menu-toggle"
+              className={styles.menuToggle}
               aria-expanded={open}
               aria-controls="site-mobile-menu"
               aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
@@ -155,32 +153,32 @@ export function Nav() {
         </div>
       </header>
 
-      <div className="site-menu-layer" data-open={open} aria-hidden={!open}>
+      <div className={styles.menuLayer} data-open={open} aria-hidden={!open}>
         <div
           id="site-mobile-menu"
           ref={panelRef}
-          className="site-menu-panel"
+          className={styles.menuPanel}
           role="dialog"
           aria-modal="true"
           aria-label="Navigácia"
           tabIndex={-1}
         >
-          <div className="site-menu-head">
+          <div className={styles.menuHead}>
             <a
               href={brandHref}
-              className="site-brand-lockup"
+              className={styles.brand}
               onClick={closeMenu}
               aria-label="Môj Chatbot — naspäť hore"
             >
               <BrandMark size={34} />
-              <span className="site-brand-name">Môj Chatbot</span>
+              <span className={styles.brandName}>Môj Chatbot</span>
             </a>
-            <button type="button" className="site-menu-close" onClick={closeMenu}>
+            <button type="button" className={styles.menuClose} onClick={closeMenu}>
               ZAVRIEŤ
             </button>
           </div>
 
-          <nav className="site-menu-nav" aria-label="Mobilná navigácia">
+          <nav className={styles.menuNav} aria-label="Mobilná navigácia">
             {mobileLinks.map((item) =>
               "to" in item ? (
                 <Link key={item.label} to={item.to} onClick={closeMenu}>
@@ -196,7 +194,7 @@ export function Nav() {
             )}
           </nav>
 
-          <div className="site-menu-foot">
+          <div className={styles.menuFoot}>
             <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
             <a href={`tel:${siteConfig.contact.phoneHref}`}>{siteConfig.contact.phoneLabel}</a>
           </div>

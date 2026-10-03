@@ -10,21 +10,17 @@ test("homepage prices are authoritative in the markup, not patched into the DOM"
   assert.match(landing, /value: 347/);
   assert.match(landing, /value: 447/);
   assert.match(landing, /value: 10,\s*lead: "od "/);
-  assert.match(landing, /const \[shown, setShown\] = useState\(value\)/);
+  assert.match(landing, /od \{price\.value\} €/);
 });
 
-test("the price counter can never get stuck at zero", async () => {
+test("prices remain visible without timers, observers or JavaScript", async () => {
   const landing = await read("src/components/site/StudioHome.tsx");
-  const start = landing.indexOf("function CountUp(");
-  const counter = landing.slice(start, landing.indexOf("/* ----", start));
-
-  // Without an observer, or with reduced motion, the real price stays rendered.
-  assert.match(counter, /typeof IntersectionObserver === "undefined"\) return undefined;/);
-  assert.match(counter, /prefers-reduced-motion: reduce\)"\)\.matches\) return undefined;/);
-  // The count only starts once the price is actually in view and always lands on the value.
-  assert.match(counter, /if \(!entry\?\.isIntersecting\) return;/);
-  assert.doesNotMatch(counter, /setShown\(0\)/);
-  assert.match(counter, /progress >= 1 \? value : Math\.round\(value \* eased\)/);
+  const start = landing.indexOf("function Pricing()");
+  const pricing = landing.slice(start, landing.indexOf("/* ----", start));
+  assert.match(pricing, /prices\.map/);
+  assert.match(pricing, /od \{price\.value\} €/);
+  assert.doesNotMatch(pricing, /IntersectionObserver|setTimeout|setInterval|CountUp|setShown/);
+  assert.match(pricing, /price\.unit \|\| "Jednorazovo za riešenie"/);
 });
 
 test("no homepage component rewrites rendered text through a MutationObserver", async () => {

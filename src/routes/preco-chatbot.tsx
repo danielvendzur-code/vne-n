@@ -1,3 +1,4 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import type { CSSProperties } from "react";
@@ -89,7 +90,7 @@ function WhyPage() {
       >
         <button
           type="button"
-          className="sh-btn sh-btn--lime"
+          className={actions.action}
           onClick={() => openSiteAssistant({ source: "why-page" })}
         >
           Vyskladať riešenie <ArrowRight size={18} aria-hidden="true" />

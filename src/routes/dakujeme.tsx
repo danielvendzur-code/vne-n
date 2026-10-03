@@ -1,3 +1,4 @@
+import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import type { CSSProperties } from "react";
@@ -39,12 +40,12 @@ function ThankYouPage() {
         lead="Zadanie je odoslané. Ozveme sa do jedného pracovného dňa s ďalším krokom a podľa rozsahu aj s konkrétnou cenou."
         compact
       >
-        <Link to="/projekty" className="sh-btn sh-btn--lime">
+        <Link to="/projekty" className={actions.action}>
           Pozrieť realizácie <ArrowRight size={18} aria-hidden="true" />
         </Link>
         <button
           type="button"
-          className="sh-btn sh-btn--ghost"
+          className={actions.action}
           onClick={() => openSiteAssistant({ source: "thank-you" })}
         >
           Doplniť detail
