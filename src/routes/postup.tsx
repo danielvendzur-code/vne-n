@@ -1,3 +1,4 @@
+import { Process } from "@/components/site/redesign/Process";
 import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -62,7 +63,7 @@ export const Route = createFileRoute("/postup")({
       },
     ],
   }),
-  component: ProcessPage,
+  component: () => <Process />,
 });
 
 /** Časová os sa pri scrolle vypĺňa a kroky, ku ktorým čitateľ došiel,

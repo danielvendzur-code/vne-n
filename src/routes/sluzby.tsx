@@ -1,3 +1,4 @@
+import { Solutions } from "@/components/site/redesign/Solutions";
 import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/sluzby")({
       },
     ],
   }),
-  component: ServicesPage,
+  component: () => <Solutions />,
 });
 
 const tools: Array<{
