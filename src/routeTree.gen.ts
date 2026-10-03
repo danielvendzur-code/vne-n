@@ -9,77 +9,28 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SluzbyRouteImport } from './routes/sluzby'
-import { Route as PrecoChatbotRouteImport } from './routes/preco-chatbot'
-import { Route as PravneInformacieRouteImport } from './routes/pravne-informacie'
-import { Route as PostupRouteImport } from './routes/postup'
-import { Route as OchranaUdajovRouteImport } from './routes/ochrana-udajov'
-import { Route as NavrhRouteImport } from './routes/navrh'
-import { Route as KontaktRouteImport } from './routes/kontakt'
-import { Route as FarbyRouteImport } from './routes/farby'
-import { Route as DakujemeRouteImport } from './routes/dakujeme'
-import { Route as CookiesRouteImport } from './routes/cookies'
-import { Route as CennikRouteImport } from './routes/cennik'
-import { Route as R3dKonfiguratorRouteImport } from './routes/3d-konfigurator'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
-import { Route as UkazkaSlugRouteImport } from './routes/ukazka/$slug'
-import { Route as ProjektyDeratRouteImport } from './routes/projekty.derat'
+import { Route as R3dKonfiguratorRouteImport } from './routes/3d-konfigurator'
+import { Route as CennikRouteImport } from './routes/cennik'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as DakujemeRouteImport } from './routes/dakujeme'
+import { Route as FarbyRouteImport } from './routes/farby'
+import { Route as KontaktRouteImport } from './routes/kontakt'
+import { Route as NastrojRouteImport } from './routes/nastroj'
+import { Route as NavrhRouteImport } from './routes/navrh'
+import { Route as OchranaUdajovRouteImport } from './routes/ochrana-udajov'
+import { Route as PostupRouteImport } from './routes/postup'
+import { Route as PravneInformacieRouteImport } from './routes/pravne-informacie'
+import { Route as PrecoChatbotRouteImport } from './routes/preco-chatbot'
+import { Route as SluzbyRouteImport } from './routes/sluzby'
 import { Route as ApiLeadRouteImport } from './routes/api.lead'
+import { Route as ProjektyIndexRouteImport } from './routes/projekty.index'
+import { Route as ProjektyDeratRouteImport } from './routes/projekty.derat'
+import { Route as UkazkaSlugRouteImport } from './routes/ukazka/$slug'
 
-const SluzbyRoute = SluzbyRouteImport.update({
-  id: '/sluzby',
-  path: '/sluzby',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrecoChatbotRoute = PrecoChatbotRouteImport.update({
-  id: '/preco-chatbot',
-  path: '/preco-chatbot',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PravneInformacieRoute = PravneInformacieRouteImport.update({
-  id: '/pravne-informacie',
-  path: '/pravne-informacie',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PostupRoute = PostupRouteImport.update({
-  id: '/postup',
-  path: '/postup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OchranaUdajovRoute = OchranaUdajovRouteImport.update({
-  id: '/ochrana-udajov',
-  path: '/ochrana-udajov',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NavrhRoute = NavrhRouteImport.update({
-  id: '/navrh',
-  path: '/navrh',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KontaktRoute = KontaktRouteImport.update({
-  id: '/kontakt',
-  path: '/kontakt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FarbyRoute = FarbyRouteImport.update({
-  id: '/farby',
-  path: '/farby',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DakujemeRoute = DakujemeRouteImport.update({
-  id: '/dakujeme',
-  path: '/dakujeme',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CookiesRoute = CookiesRouteImport.update({
-  id: '/cookies',
-  path: '/cookies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CennikRoute = CennikRouteImport.update({
-  id: '/cennik',
-  path: '/cennik',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const R3dKonfiguratorRoute = R3dKonfiguratorRouteImport.update({
@@ -87,9 +38,69 @@ const R3dKonfiguratorRoute = R3dKonfiguratorRouteImport.update({
   path: '/3d-konfigurator',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CennikRoute = CennikRouteImport.update({
+  id: '/cennik',
+  path: '/cennik',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DakujemeRoute = DakujemeRouteImport.update({
+  id: '/dakujeme',
+  path: '/dakujeme',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FarbyRoute = FarbyRouteImport.update({
+  id: '/farby',
+  path: '/farby',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NastrojRoute = NastrojRouteImport.update({
+  id: '/nastroj',
+  path: '/nastroj',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NavrhRoute = NavrhRouteImport.update({
+  id: '/navrh',
+  path: '/navrh',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OchranaUdajovRoute = OchranaUdajovRouteImport.update({
+  id: '/ochrana-udajov',
+  path: '/ochrana-udajov',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostupRoute = PostupRouteImport.update({
+  id: '/postup',
+  path: '/postup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PravneInformacieRoute = PravneInformacieRouteImport.update({
+  id: '/pravne-informacie',
+  path: '/pravne-informacie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrecoChatbotRoute = PrecoChatbotRouteImport.update({
+  id: '/preco-chatbot',
+  path: '/preco-chatbot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SluzbyRoute = SluzbyRouteImport.update({
+  id: '/sluzby',
+  path: '/sluzby',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLeadRoute = ApiLeadRouteImport.update({
+  id: '/api/lead',
+  path: '/api/lead',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjektyIndexRoute = ProjektyIndexRouteImport.update({
@@ -97,19 +108,14 @@ const ProjektyIndexRoute = ProjektyIndexRouteImport.update({
   path: '/projekty/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UkazkaSlugRoute = UkazkaSlugRouteImport.update({
-  id: '/ukazka/$slug',
-  path: '/ukazka/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProjektyDeratRoute = ProjektyDeratRouteImport.update({
   id: '/projekty/derat',
   path: '/projekty/derat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiLeadRoute = ApiLeadRouteImport.update({
-  id: '/api/lead',
-  path: '/api/lead',
+const UkazkaSlugRoute = UkazkaSlugRouteImport.update({
+  id: '/ukazka/$slug',
+  path: '/ukazka/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/dakujeme': typeof DakujemeRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
+  '/nastroj': typeof NastrojRoute
   '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/dakujeme': typeof DakujemeRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
+  '/nastroj': typeof NastrojRoute
   '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/dakujeme': typeof DakujemeRoute
   '/farby': typeof FarbyRoute
   '/kontakt': typeof KontaktRoute
+  '/nastroj': typeof NastrojRoute
   '/navrh': typeof NavrhRoute
   '/ochrana-udajov': typeof OchranaUdajovRoute
   '/postup': typeof PostupRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/dakujeme'
     | '/farby'
     | '/kontakt'
+    | '/nastroj'
     | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/dakujeme'
     | '/farby'
     | '/kontakt'
+    | '/nastroj'
     | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/dakujeme'
     | '/farby'
     | '/kontakt'
+    | '/nastroj'
     | '/navrh'
     | '/ochrana-udajov'
     | '/postup'
@@ -239,6 +251,7 @@ export interface RootRouteChildren {
   DakujemeRoute: typeof DakujemeRoute
   FarbyRoute: typeof FarbyRoute
   KontaktRoute: typeof KontaktRoute
+  NastrojRoute: typeof NastrojRoute
   NavrhRoute: typeof NavrhRoute
   OchranaUdajovRoute: typeof OchranaUdajovRoute
   PostupRoute: typeof PostupRoute
@@ -253,81 +266,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sluzby': {
-      id: '/sluzby'
-      path: '/sluzby'
-      fullPath: '/sluzby'
-      preLoaderRoute: typeof SluzbyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/preco-chatbot': {
-      id: '/preco-chatbot'
-      path: '/preco-chatbot'
-      fullPath: '/preco-chatbot'
-      preLoaderRoute: typeof PrecoChatbotRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pravne-informacie': {
-      id: '/pravne-informacie'
-      path: '/pravne-informacie'
-      fullPath: '/pravne-informacie'
-      preLoaderRoute: typeof PravneInformacieRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/postup': {
-      id: '/postup'
-      path: '/postup'
-      fullPath: '/postup'
-      preLoaderRoute: typeof PostupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ochrana-udajov': {
-      id: '/ochrana-udajov'
-      path: '/ochrana-udajov'
-      fullPath: '/ochrana-udajov'
-      preLoaderRoute: typeof OchranaUdajovRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/navrh': {
-      id: '/navrh'
-      path: '/navrh'
-      fullPath: '/navrh'
-      preLoaderRoute: typeof NavrhRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kontakt': {
-      id: '/kontakt'
-      path: '/kontakt'
-      fullPath: '/kontakt'
-      preLoaderRoute: typeof KontaktRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/farby': {
-      id: '/farby'
-      path: '/farby'
-      fullPath: '/farby'
-      preLoaderRoute: typeof FarbyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dakujeme': {
-      id: '/dakujeme'
-      path: '/dakujeme'
-      fullPath: '/dakujeme'
-      preLoaderRoute: typeof DakujemeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cookies': {
-      id: '/cookies'
-      path: '/cookies'
-      fullPath: '/cookies'
-      preLoaderRoute: typeof CookiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cennik': {
-      id: '/cennik'
-      path: '/cennik'
-      fullPath: '/cennik'
-      preLoaderRoute: typeof CennikRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/3d-konfigurator': {
@@ -337,11 +280,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof R3dKonfiguratorRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/cennik': {
+      id: '/cennik'
+      path: '/cennik'
+      fullPath: '/cennik'
+      preLoaderRoute: typeof CennikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dakujeme': {
+      id: '/dakujeme'
+      path: '/dakujeme'
+      fullPath: '/dakujeme'
+      preLoaderRoute: typeof DakujemeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/farby': {
+      id: '/farby'
+      path: '/farby'
+      fullPath: '/farby'
+      preLoaderRoute: typeof FarbyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nastroj': {
+      id: '/nastroj'
+      path: '/nastroj'
+      fullPath: '/nastroj'
+      preLoaderRoute: typeof NastrojRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/navrh': {
+      id: '/navrh'
+      path: '/navrh'
+      fullPath: '/navrh'
+      preLoaderRoute: typeof NavrhRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ochrana-udajov': {
+      id: '/ochrana-udajov'
+      path: '/ochrana-udajov'
+      fullPath: '/ochrana-udajov'
+      preLoaderRoute: typeof OchranaUdajovRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/postup': {
+      id: '/postup'
+      path: '/postup'
+      fullPath: '/postup'
+      preLoaderRoute: typeof PostupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pravne-informacie': {
+      id: '/pravne-informacie'
+      path: '/pravne-informacie'
+      fullPath: '/pravne-informacie'
+      preLoaderRoute: typeof PravneInformacieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preco-chatbot': {
+      id: '/preco-chatbot'
+      path: '/preco-chatbot'
+      fullPath: '/preco-chatbot'
+      preLoaderRoute: typeof PrecoChatbotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sluzby': {
+      id: '/sluzby'
+      path: '/sluzby'
+      fullPath: '/sluzby'
+      preLoaderRoute: typeof SluzbyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lead': {
+      id: '/api/lead'
+      path: '/api/lead'
+      fullPath: '/api/lead'
+      preLoaderRoute: typeof ApiLeadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projekty/': {
@@ -351,13 +378,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjektyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ukazka/$slug': {
-      id: '/ukazka/$slug'
-      path: '/ukazka/$slug'
-      fullPath: '/ukazka/$slug'
-      preLoaderRoute: typeof UkazkaSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/projekty/derat': {
       id: '/projekty/derat'
       path: '/projekty/derat'
@@ -365,11 +385,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjektyDeratRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/lead': {
-      id: '/api/lead'
-      path: '/api/lead'
-      fullPath: '/api/lead'
-      preLoaderRoute: typeof ApiLeadRouteImport
+    '/ukazka/$slug': {
+      id: '/ukazka/$slug'
+      path: '/ukazka/$slug'
+      fullPath: '/ukazka/$slug'
+      preLoaderRoute: typeof UkazkaSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -383,6 +403,7 @@ const rootRouteChildren: RootRouteChildren = {
   DakujemeRoute: DakujemeRoute,
   FarbyRoute: FarbyRoute,
   KontaktRoute: KontaktRoute,
+  NastrojRoute: NastrojRoute,
   NavrhRoute: NavrhRoute,
   OchranaUdajovRoute: OchranaUdajovRoute,
   PostupRoute: PostupRoute,

@@ -1,3 +1,4 @@
+import { Configurator } from "@/components/site/redesign/Configurator";
 import { createFileRoute } from "@tanstack/react-router";
 import { ConfiguratorPage } from "@/components/site/ConfiguratorPage";
 import { siteConfig } from "@/config/site";
@@ -74,5 +75,5 @@ export const Route = createFileRoute("/3d-konfigurator")({
       { type: "application/ld+json", children: faqJsonLd },
     ],
   }),
-  component: ConfiguratorPage,
+  component: () => <Configurator />,
 });

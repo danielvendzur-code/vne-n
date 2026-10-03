@@ -1,3 +1,4 @@
+import { Work } from "@/components/site/redesign/Work";
 import actions from "@/components/site/WebsiteAction.module.css";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/projekty/")({
       { type: "application/ld+json", children: realizationsJsonLd },
     ],
   }),
-  component: ProjectsPage,
+  component: () => <Work />,
 });
 
 function ProjectsPage() {

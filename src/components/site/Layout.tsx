@@ -1,3 +1,4 @@
+import { RedesignLayout } from "./redesign/RedesignLayout";
 import type { ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
@@ -11,6 +12,20 @@ import "./SiteVisualAuthority.css";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  if (
+    [
+      "/",
+      "/sluzby",
+      "/3d-konfigurator",
+      "/projekty",
+      "/projekty/",
+      "/postup",
+      "/cennik",
+      "/nastroj",
+    ].includes(pathname)
+  )
+    return <RedesignLayout>{children}</RedesignLayout>;
 
   return (
     <MotionConfig reducedMotion="user">

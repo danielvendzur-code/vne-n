@@ -1,3 +1,4 @@
+import { Home } from "@/components/site/redesign/Home";
 import { createFileRoute } from "@tanstack/react-router";
 import { StudioHome } from "@/components/site/StudioHome";
 import { siteConfig } from "@/config/site";
@@ -89,7 +90,7 @@ export const Route = createFileRoute("/")({
       { type: "application/ld+json", children: portfolioJsonLd },
     ],
   }),
-  component: HomePage,
+  component: () => <Home />,
 });
 
 function HomePage() {

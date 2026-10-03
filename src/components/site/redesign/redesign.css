@@ -1,0 +1,224 @@
+.redesign {
+  background: #f5f4ef;
+  color: #0e1512;
+  font-family: "Geist", system-ui, sans-serif;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+.redesign *,
+.redesign *::before,
+.redesign *::after {
+  box-sizing: border-box;
+}
+.redesign h1,
+.redesign h2,
+.redesign h3,
+.redesign p,
+.redesign button,
+.redesign a {
+  font-family: inherit;
+}
+.redesign a {
+  text-decoration: none;
+}
+.redesign button {
+  cursor: pointer;
+}
+.redesign img {
+  max-width: 100%;
+}
+.redesign details > summary::-webkit-details-marker {
+  display: none;
+}
+.redesign summary {
+  list-style: none;
+}
+.redesign a:focus-visible,
+.redesign button:focus-visible,
+.redesign summary:focus-visible {
+  outline: 2px solid #1f5b47;
+  outline-offset: 4px;
+}
+.redesign-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.redesign-skip {
+  position: fixed;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 12px;
+  background: #c9f26b;
+}
+.redesign-skip:focus {
+  top: 16px;
+}
+.redesign-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 22px;
+  margin: -11px 0 0 -14px;
+  pointer-events: none;
+  z-index: 10002;
+  mix-blend-mode: difference;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 22'%3E%3Cpath d='M4 3.5 Q3 2.6 4.3 2.9 L25 10.2 Q26.4 11 25 11.8 L4.3 19.1 Q3 19.4 4 18.5 L8.6 11.6 Q9 11 8.6 10.4 Z' fill='white' stroke='white' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center/contain no-repeat;
+}
+.redesign-cursor-label {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 10003;
+  background: #c9f26b;
+  color: #0c1a15;
+  font:
+    600 15px "Geist",
+    sans-serif;
+  letter-spacing: -0.01em;
+  padding: 8px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+@media (pointer: fine) {
+  body.redesign-cursor-active,
+  body.redesign-cursor-active a,
+  body.redesign-cursor-active button,
+  body.redesign-cursor-active summary {
+    cursor: none;
+  }
+}
+@media (max-width: 1100px) {
+  .redesign [data-hide-narrow] {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .redesign-header > div {
+    padding: 10px 12px 0 !important;
+  }
+  .redesign-header nav {
+    border-radius: 24px !important;
+    flex-wrap: wrap;
+    gap: 8px !important;
+    padding: 12px !important;
+  }
+  .redesign-header nav > div:first-of-type {
+    order: 3;
+    width: 100%;
+    overflow: auto;
+    justify-content: center;
+  }
+  .redesign-header nav > div:last-child {
+    margin-left: auto;
+  }
+  .redesign-header button {
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+  }
+  .redesign-header nav > a span {
+    font-size: 15px !important;
+  }
+  .redesign main > div > section,
+  .redesign main > section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  .redesign h1 {
+    font-size: clamp(42px, 11vw, 64px) !important;
+    overflow-wrap: normal;
+  }
+  .redesign h2 {
+    font-size: clamp(34px, 8vw, 48px) !important;
+  }
+  .redesign [style*="grid-template-columns:1fr 1fr"],
+  .redesign [style*="grid-template-columns: 1fr 1fr"],
+  .redesign [style*="grid-template-columns:340px"],
+  .redesign [style*="grid-template-columns: 340px"],
+  .redesign [style*="grid-template-columns:360px"],
+  .redesign [style*="grid-template-columns: 360px"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .redesign main [style*="position: sticky"] {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+  }
+  .redesign main [style*="grid-template-columns: repeat(auto-fit, minmax(240px"] {
+    grid-template-columns: 1fr !important;
+  }
+  .redesign main [style*="grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px)"] {
+    grid-template-columns: 1fr !important;
+  }
+  .redesign main [style*="height: min(470px"] {
+    height: auto !important;
+    min-height: 360px;
+  }
+  .redesign main [style*="grid-template-columns: 44px"] {
+    grid-template-columns: 24px minmax(0, 1fr) 32px !important;
+    padding: 18px !important;
+  }
+  .redesign main details > p {
+    padding: 0 18px 20px !important;
+  }
+  .redesign main [style*="min-width"] {
+    min-width: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .redesign * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Nadpisy na tmavých plochách preberajú farbu sekcie z návrhu. */
+.redesign h1,
+.redesign h2,
+.redesign h3 {
+  color: inherit;
+}
+@media (max-width: 760px) {
+  .redesign [style*="display:flex;align-items:center;gap:16px"] {
+    flex-wrap: wrap;
+  }
+  .redesign [style*="grid-template-columns:48px minmax(0,1.15fr)"] {
+    grid-template-columns: 28px minmax(0, 1fr) 32px !important;
+    gap: 10px !important;
+  }
+  .redesign [style*="grid-template-columns:48px minmax(0,1.15fr)"] > :nth-child(3),
+  .redesign [style*="grid-template-columns:48px minmax(0,1.15fr)"] > :nth-child(4) {
+    grid-column: 2;
+  }
+  .redesign [style*="grid-template-columns:48px minmax(0,1.15fr)"] > :last-child {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .redesign [style*="grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+  .redesign [style*="grid-template-columns:52px minmax"] {
+    grid-template-columns: 28px minmax(0, 1fr) 32px !important;
+  }
+  .redesign [style*="grid-template-columns:52px minmax"] > :nth-child(3),
+  .redesign [style*="grid-template-columns:52px minmax"] > :nth-child(4) {
+    grid-column: 2;
+  }
+  .redesign [style*="grid-template-columns:52px minmax"] > :last-child {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .redesign #kontakt > div {
+    padding: 32px 24px !important;
+  }
+  .redesign footer {
+    padding: 40px 4px 20px !important;
+  }
+}
