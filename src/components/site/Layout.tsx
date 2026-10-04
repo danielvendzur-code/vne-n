@@ -5,7 +5,8 @@ import { RedesignLayout } from "./redesign/RedesignLayout";
 const LegacySiteLayout = lazy(() => import("./LegacySiteLayout"));
 
 export function SiteLayout({ children }: { children: ReactNode }) {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const rawPathname = useRouterState({ select: (state) => state.location.pathname });
+  const pathname = rawPathname.replace(/\/+$/, "") || "/";
   if (
     [
       "/",

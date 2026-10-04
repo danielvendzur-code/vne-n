@@ -343,6 +343,14 @@ export class Pricing extends Component<{
               </Fragment>
             ))}
           </section>
+          <p
+            style={cssStyle(
+              `max-width:1216px;margin:0 auto 40px;padding:0 32px;color:#56605a;font-size:14px;line-height:1.5`,
+            )}
+          >
+            Prevádzkovateľ Venaco s.r.o. je platiteľ DPH. Konečnú cenu vrátane DPH uvedieme v
+            cenovej ponuke.
+          </p>
           <Footer
             title={"Stačí nám povedať, čo má web robiť."}
             copy={

@@ -86,20 +86,21 @@ jobs:
           test -f pages-dist/robots.txt
           test -f pages-dist/sitemap.xml
           test -f pages-dist/brand/logo.svg
+          test -f pages-dist/cursor/clean-arrow.svg
 
-          grep -Fq "mení návštevy" pages-dist/index.html
-          grep -Fq "Všetko spolu" pages-dist/index.html
-          grep -Fq "Chatbot · produktový poradca" pages-dist/index.html
+          grep -Fq "Chatboty a konfigurátory na mieru pre váš web." pages-dist/index.html
+          grep -Fq "Rovnaký záujem." pages-dist/index.html
+          grep -Fq "Nastavenia cookies" pages-dist/index.html
           grep -Fq "3D konfigurátor" pages-dist/3d-konfigurator/index.html
           grep -Fq "347 €" pages-dist/cennik/index.html
           grep -Fq "447 €" pages-dist/cennik/index.html
-          grep -Fq "10 € / mesiac" pages-dist/cennik/index.html
+          grep -Fq "10 € / mes." pages-dist/cennik/index.html
           grep -Fq "Otvoriť aktuálnu stránku" pages-dist/preview.html
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
           grep -Fq "buildKey" pages-dist/widget-loader.js
-          grep -Fq "round-one-stroke-launcher-20260831-v15" pages-dist/widget-loader.js
-          grep -Fq 'import "./SiteVisualAuthority.css";' src/components/site/Layout.tsx
+          grep -Fq "premium-redesign-20261004-v16" pages-dist/widget-loader.js
+          grep -Fq 'import "./SiteVisualAuthority.css";' src/components/site/LegacySiteLayout.tsx
           grep -Fq '@/components/site/SubPage' src/routes/sluzby.tsx
           grep -Fq '@/components/site/SubPage' src/routes/postup.tsx
           grep -Fq '@/components/site/SubPage' src/routes/preco-chatbot.tsx
@@ -179,7 +180,7 @@ jobs:
             return 1
           }
 
-          fetch_with_retry "/" "Z otázky"
+          fetch_with_retry "/" "Chatboty a konfigurátory na mieru pre váš web."
           fetch_with_retry "/navrh/" "Návrh už máte"
           fetch_with_retry "/cennik/" "347 €"
           fetch_with_retry "/cennik/" "447 €"
@@ -196,7 +197,7 @@ jobs:
           fetch_with_retry "/robots.txt" "Sitemap: https://mojchatbot.sk/sitemap.xml"
           fetch_with_retry "/sitemap.xml" "https://mojchatbot.sk/sluzby"
           fetch_with_retry "/brand/logo.svg" "stroke=\"#12372D\""
-          fetch_with_retry "/widget-loader.js" "round-one-stroke-launcher-20260831-v15"
+          fetch_with_retry "/widget-loader.js" "premium-redesign-20261004-v16"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
 

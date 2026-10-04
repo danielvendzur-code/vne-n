@@ -60,9 +60,11 @@ jobs:
             return 1
           }
 
-          verify_text "/" "Z otázky"
-          verify_text "/" "Vyskladať kalkulačku"
-          verify_text "/widget-loader.js" "round-one-stroke-launcher-20260831-v15"
+          verify_text "/" "Chatboty a konfigurátory na mieru pre váš web."
+          verify_text "/" "Nastavenia cookies"
+          verify_text "/widget-loader.js" "premium-redesign-20261004-v16"
+          verify_text "/cursor/clean-arrow.svg" 'M3 2v23'
+          verify_text "/build-meta.json" "$SOURCE_SHA"
           verify_text "/kontakt" "Ochrana osobných údajov"
           verify_text "/cookies" "Google Analytics"
           verify_text "/ochrana-udajov" "Venaco s.r.o."

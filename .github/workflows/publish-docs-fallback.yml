@@ -68,7 +68,7 @@ jobs:
             mkdir -p docs
             cp -R pages-dist/. docs/
             touch docs/.nojekyll
-            if grep -Fq "Chatboty, ktoré" docs/index.html && \
+            if grep -Fq "Chatboty a konfigurátory na mieru pre váš web." docs/index.html && \
                ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" docs/index.html && \
                test -f docs/build-meta.json; then
               VERIFY=0

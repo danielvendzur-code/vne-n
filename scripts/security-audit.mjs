@@ -108,7 +108,14 @@ if (
   fail("Assistant fallback is missing its accessible contact destination");
 }
 
-const layout = await read("src/components/site/Layout.tsx");
+const siteRouter = await read("src/components/site/Layout.tsx");
+const layout = await read("src/components/site/LegacySiteLayout.tsx");
+if (
+  !siteRouter.includes('lazy(() => import("./LegacySiteLayout"))') ||
+  !siteRouter.includes("<RedesignLayout>{children}</RedesignLayout>")
+) {
+  fail("Site routing must keep legacy visual imports lazy and mount the redesign layout");
+}
 if (!layout.includes('import "./SiteVisualAuthority.css"')) {
   fail('Layout is missing import "./SiteVisualAuthority.css"');
 }

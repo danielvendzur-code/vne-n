@@ -7,7 +7,8 @@ import "./redesign.css";
 import "./tokens.css";
 
 export function RedesignLayout({ children }: { children: ReactNode }) {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const rawPathname = useRouterState({ select: (state) => state.location.pathname });
+  const pathname = rawPathname.replace(/\/+$/, "") || "/";
   const active =
     pathname === "/"
       ? "home"
