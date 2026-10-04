@@ -141,7 +141,7 @@ export function useTimelineProgress(
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target,
-    offset: offset as unknown as Parameters<typeof useScroll>[0]["offset"],
+    offset: offset as unknown as NonNullable<Parameters<typeof useScroll>[0]>["offset"],
   });
   const spring = useSpring(scrollYProgress, { stiffness: 108, damping: 28, mass: 0.3 });
   const progress = useMotionValue(reducedMotion ? 1 : 0);

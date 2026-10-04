@@ -42,7 +42,7 @@ export function Nav() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeMenu = useCallback(() => setOpen(false), []);
 
-  useFocusTrap(panelRef, open, closeMenu, menuButtonRef);
+  useFocusTrap(panelRef, open, closeMenu);
 
   useEffect(() => {
     let frame = 0;
@@ -180,7 +180,7 @@ export function Nav() {
 
           <nav className={styles.menuNav} aria-label="Mobilná navigácia">
             {mobileLinks.map((item) =>
-              "to" in item ? (
+              item.to ? (
                 <Link key={item.label} to={item.to} onClick={closeMenu}>
                   <span>{item.index}</span>
                   {item.label}

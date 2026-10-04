@@ -33,7 +33,7 @@ test("solution geometry cannot regress to the overlapping audit columns", () => 
 });
 
 test("website requests the round one-stroke launcher release and never the text pill fallback", () => {
-  assert.match(loader, /WIDGET_RELEASE = "round-one-stroke-launcher-20260831-v15"/);
+  assert.match(loader, /WIDGET_RELEASE = "premium-redesign-20261004-v16"/);
   assert.match(loader, /borderRadius: "50%"/);
   assert.match(loader, /requestAnimationFrame/);
   assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);

@@ -79,7 +79,7 @@ test("chatbot fallback is the approved round animated one-stroke launcher", asyn
   assert.match(loader, /requestAnimationFrame/);
   assert.match(loader, /DARK_LOGO\s*=\s*\[11, 47, 32\]/);
   assert.match(loader, /PALE_LOGO\s*=\s*\[185, 237, 77\]/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"round-one-stroke-launcher-20260831-v15"/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"premium-redesign-20261004-v16"/);
   assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);
   assert.doesNotMatch(loader, /<small>Otvoriť krátke zadanie<\/small>/);
 });

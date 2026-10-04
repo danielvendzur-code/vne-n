@@ -18,7 +18,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "round-one-stroke-launcher-20260831-v15";
+  const WIDGET_RELEASE = "premium-redesign-20261004-v16";
   const LOGO_CYCLE_MS = 5400;
   const DARK_LOGO = [11, 47, 32];
   const PALE_LOGO = [185, 237, 77];

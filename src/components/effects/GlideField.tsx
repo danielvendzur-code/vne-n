@@ -274,11 +274,13 @@ export function GlideField({
 
   useEffect(() => {
     const root = rootRef.current;
-    const canvas = canvasRef.current;
-    if (!root || !canvas) return;
+    const canvasNode = canvasRef.current;
+    if (!root || !canvasNode) return;
+    const canvas = canvasNode;
 
-    const context = canvas.getContext("2d", { alpha: true });
-    if (!context) return;
+    const contextValue = canvas.getContext("2d", { alpha: true });
+    if (!contextValue) return;
+    const context = contextValue;
 
     const nav = navigator as Navigator & {
       connection?: { saveData?: boolean };

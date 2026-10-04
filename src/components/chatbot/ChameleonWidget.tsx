@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   type PointerEvent as ReactPointerEvent,
   useCallback,

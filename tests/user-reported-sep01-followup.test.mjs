@@ -16,7 +16,7 @@ test("all homepage solution CTAs use builder wording", async () => {
 });
 
 test("header CTA is lime at rest and black on hover", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
+  const layout = await read("src/components/site/LegacySiteLayout.tsx");
   const css = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(layout, /SiteVisualAuthority\.css/);

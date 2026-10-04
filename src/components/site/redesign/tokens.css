@@ -1,0 +1,183 @@
+/* One brand palette. Layers: content 0, sticky navigation 50, dialogs above navigation. */
+:root {
+  color-scheme: light;
+  --mc-paper: #ffffff;
+  --mc-soft: #f5f6f2;
+  --mc-ink: #101713;
+  --mc-muted: #56605a;
+  --mc-green: #1f5b47;
+  --mc-accent: #c8f06a;
+  --mc-line: #d8dcd5;
+  --mc-on-dark-muted: #c5cec7;
+  --mc-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.redesign {
+  background: var(--mc-paper);
+  color: var(--mc-ink);
+}
+.redesign button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.redesign a:focus-visible,
+.redesign button:focus-visible {
+  outline: 3px solid var(--mc-green);
+  outline-offset: 4px;
+}
+.redesign [id] {
+  scroll-margin-top: 110px;
+}
+.redesign-header {
+  background: var(--mc-ink) !important;
+  border-bottom: 1px solid #ffffff26;
+}
+.redesign-nav-wrap {
+  padding: 0 32px;
+}
+.redesign-nav {
+  max-width: 1280px;
+  border-radius: 0;
+  padding: 14px 0;
+  background: transparent;
+  backdrop-filter: none;
+  min-height: 76px;
+  gap: 24px;
+}
+.redesign-nav-links {
+  gap: 8px;
+}
+.redesign-nav-links a {
+  color: #e2e7e1;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 4px;
+}
+.redesign-nav-links a:is(:hover, [aria-current="page"]) {
+  background: #ffffff12;
+  color: var(--mc-accent);
+}
+.redesign-nav-phone {
+  color: #c5cec7;
+}
+.redesign-nav-cta {
+  background: var(--mc-accent);
+  color: var(--mc-ink);
+  border: 1px solid var(--mc-accent);
+  border-radius: 6px;
+  padding: 13px 20px;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.redesign-nav-cta:hover {
+  background: var(--mc-ink);
+  color: var(--mc-accent);
+}
+.redesign-menu-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 4px;
+}
+.redesign-menu-toggle:hover {
+  background: #ffffff15;
+}
+.redesign-nav a:focus-visible,
+.redesign-nav button:focus-visible {
+  outline-color: var(--mc-accent);
+}
+@media (max-width: 900px) {
+  .redesign-nav-wrap {
+    padding: 0 20px;
+  }
+  .redesign-nav {
+    min-height: 72px;
+    padding-block: 12px;
+    gap: 12px;
+  }
+  .redesign-nav-actions {
+    gap: 8px;
+  }
+  .redesign-nav-cta {
+    padding: 11px 14px;
+  }
+  .redesign-nav .redesign-nav-links {
+    top: 100%;
+    left: -20px;
+    right: -20px;
+    border-radius: 0;
+    background: var(--mc-ink);
+    padding: 12px 20px 20px;
+    border-top: 1px solid #ffffff26;
+    box-shadow: 0 20px 30px #10171325;
+  }
+  .redesign-nav-links a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  body:has(.redesign),
+  body:has(.redesign) * {
+    cursor:
+      url("/cursor/pixel-arrow.svg") 2 2,
+      auto !important;
+  }
+  body:has(.redesign)
+    :is(input:not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"]) {
+    cursor: text !important;
+  }
+  body:has(.redesign) :disabled {
+    cursor: not-allowed !important;
+  }
+}
+@media (forced-colors: active) {
+  body:has(.redesign),
+  body:has(.redesign) * {
+    cursor: auto !important;
+  }
+}
+
+.redesign .redesign-action {
+  border-radius: 6px !important;
+  border: 1px solid var(--mc-ink) !important;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s !important;
+  background: var(--mc-ink) !important;
+  color: var(--mc-paper) !important;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.redesign .redesign-action:hover {
+  background: var(--mc-accent) !important;
+  color: var(--mc-ink) !important;
+}
+.redesign .redesign-action--lime {
+  background: var(--mc-accent) !important;
+  color: var(--mc-ink) !important;
+  border-color: var(--mc-accent) !important;
+}
+.redesign .redesign-action--white {
+  background: var(--mc-paper) !important;
+  color: var(--mc-ink) !important;
+  border-color: var(--mc-paper) !important;
+}
+.redesign :is(.redesign-action--lime, .redesign-action--white):hover {
+  background: var(--mc-ink) !important;
+  color: var(--mc-accent) !important;
+  border-color: var(--mc-accent) !important;
+}
+
+.redesign-skip {
+  clip-path: inset(50%);
+}
+.redesign-skip:focus {
+  clip-path: none;
+}

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useRef, useState } from "react";
 import { animateChipsIn, animateSentMessage } from "../../lib/motion";
 import { BubbleLogo } from "./BubbleLogo";

@@ -31,7 +31,7 @@ export class Footer extends Component<{
         >
           <div
             style={cssStyle(
-              `max-width:1232px;margin:0 auto;background:#C9F26B;color:#0C1A15;border-radius:32px;padding:56px 48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:end`,
+              `max-width:1232px;margin:0 auto;background:#C9F26B;color:#0C1A15;border-radius:14px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:end`,
             )}
           >
             <div>
@@ -54,6 +54,7 @@ export class Footer extends Component<{
               <p style={cssStyle(`margin:0;font-size:18px;line-height:1.5`)}>{copy}</p>
               <div style={cssStyle(`display:flex;gap:10px;flex-wrap:wrap`)}>
                 <button
+                  className="redesign-action"
                   onClick={openWidget}
                   style={cssStyle(
                     `all:unset;cursor:pointer;background:#0C1A15;color:#fff;font-weight:600;font-size:16px;padding:16px 26px;border-radius:999px`,

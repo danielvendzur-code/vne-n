@@ -19,10 +19,9 @@
     box-shadow 180ms ease;
 }
 .action:hover {
-  background: #205443;
-  border-color: #205443;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 14px #12372d18;
+  background: #c8f06a;
+  color: #101713;
+  border-color: #101713;
 }
 .action:focus-visible {
   outline: 3px solid #79a73d;
@@ -39,8 +38,9 @@
   border-color: #c8f06a;
 }
 .lime:hover {
-  background: #ddff98;
-  border-color: #ddff98;
+  background: #101713;
+  color: #c8f06a;
+  border-color: #c8f06a;
 }
 @media (prefers-reduced-motion: reduce) {
   .action {
