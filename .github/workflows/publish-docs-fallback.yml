@@ -34,7 +34,7 @@ jobs:
           LINT=$?
           bun run test > /tmp/test.log 2>&1
           TEST=$?
-          NITRO_PRESET=node-server VITE_BASE_PATH=/vne-n/ bun run build > /tmp/build.log 2>&1
+          bun run build:pages > /tmp/build.log 2>&1
           BUILD=$?
 
           EXPORT=99
@@ -64,7 +64,6 @@ jobs:
           fi
 
           if [ "$EXPORT" -eq 0 ]; then
-            rm -rf docs
             mkdir -p docs
             cp -R pages-dist/. docs/
             touch docs/.nojekyll
