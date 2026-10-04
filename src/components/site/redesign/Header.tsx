@@ -72,6 +72,7 @@ export function Header({ active = "home" }: HeaderProps) {
             aria-controls="redesign-nav-links"
             onClick={() => setOpen((value) => !value)}
           >
+            <span>{open ? "Zavrieť" : "Menu"}</span>
             {open ? (
               <X size={22} strokeWidth={1.6} aria-hidden="true" />
             ) : (

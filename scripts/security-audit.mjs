@@ -177,8 +177,8 @@ const brandCss = siteVisualCss.slice(baseBrandStart, baseBrandEnd);
 for (const token of [
   "--paper: #f2f0e8",
   "--pure: #fcfbf7",
-  "--ink: #111310",
-  "--forest: #12372d",
+  "--ink: var(--mc-ink)",
+  "--forest: var(--mc-ink)",
   "prefers-reduced-motion",
   "@media (max-width: 720px)",
 ]) {
