@@ -8,7 +8,7 @@ test("homepage preserves its hero, four solutions, real work and keyword H1", as
   const route = await read("src/routes/index.tsx");
   const landing = await read("src/components/site/StudioHome.tsx");
 
-  assert.match(route, /import \{ StudioHome \}/);
+  assert.match(route, /import \{ Home \}/);
   assert.match(route, /3D konfigurátor na web/);
   assert.equal((landing.match(/<h1\b/g) ?? []).length, 1);
   // Hero musí okamžite pomenovať hlavnú ponuku a ponechať tri živé náhľady.

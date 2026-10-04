@@ -217,6 +217,7 @@ export const TIMELINES: TimelineOption[] = [
 ];
 
 export const PRESET_TO_INTEREST: Record<AssistantPreset, InterestId> = {
+  product: "product",
   calculator: "calcbot",
   inquiry: "chatbot",
   advisor: "chatbot",

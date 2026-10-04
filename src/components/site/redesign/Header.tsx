@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { sitePath } from "./utils";
 
 type HeaderProps = { active?: string; title?: string; copy?: string; tool?: string };
 
 export function Header({ active = "home" }: HeaderProps) {
   const [open, setOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (event.target instanceof Node && !navRef.current?.contains(event.target)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOutside);
+    return () => document.removeEventListener("pointerdown", closeOutside);
+  }, [open]);
   const links = [
     ["riesenia", "Riešenia", "/sluzby"],
     ["realizacie", "Realizácie", "/projekty"],
@@ -18,10 +29,14 @@ export function Header({ active = "home" }: HeaderProps) {
   return (
     <div className="redesign-nav-wrap">
       <nav
+        ref={navRef}
         className="redesign-nav"
         aria-label="Hlavná navigácia"
         onKeyDown={(event) => {
-          if (event.key === "Escape") setOpen(false);
+          if (event.key === "Escape") {
+            setOpen(false);
+            toggleRef.current?.focus();
+          }
         }}
       >
         <a className="redesign-brand" href={sitePath("/")}>
@@ -49,6 +64,7 @@ export function Header({ active = "home" }: HeaderProps) {
             <span className="redesign-nav-cta-short">Vyskladať →</span>
           </button>
           <button
+            ref={toggleRef}
             className="redesign-menu-toggle"
             type="button"
             aria-label={open ? "Zavrieť menu" : "Otvoriť menu"}
@@ -56,17 +72,11 @@ export function Header({ active = "home" }: HeaderProps) {
             aria-controls="redesign-nav-links"
             onClick={() => setOpen((value) => !value)}
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="22"
-              height="22"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              aria-hidden="true"
-            >
-              {open ? <path d="m6 6 12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-            </svg>
+            {open ? (
+              <X size={22} strokeWidth={1.6} aria-hidden="true" />
+            ) : (
+              <Menu size={22} strokeWidth={1.6} aria-hidden="true" />
+            )}
           </button>
         </div>
       </nav>

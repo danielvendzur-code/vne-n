@@ -28,6 +28,6 @@ test("no homepage component rewrites rendered text through a MutationObserver", 
   const landing = await read("src/components/site/StudioHome.tsx");
 
   assert.doesNotMatch(route, /HomepagePriceReliabilityGuard|HomepageFinishingPass/);
-  assert.match(route, /return <StudioHome \/>/);
+  assert.match(route, /component: \(\) => <Home \/>/);
   assert.doesNotMatch(landing, /MutationObserver/);
 });

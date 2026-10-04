@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("layout loads one coherent brand system instead of historical override stack", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
+  const layout = await read("src/components/site/LegacySiteLayout.tsx");
 
   assert.match(layout, /SiteVisualAuthority\.css/);
   const cssImports = layout.match(/import "\.\/[^"]+\.css";/g) ?? [];
@@ -128,7 +128,7 @@ test("pricing stays readable and explicit about standalone, combined and all-in-
 });
 
 test("homepage, form and subpages share the smooth one-way reveal controller", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
+  const layout = await read("src/components/site/LegacySiteLayout.tsx");
   const controller = await read("src/components/site/PageRevealController.tsx");
   const pagesCss = await read("src/components/site/SiteVisualAuthority.css");
   const motion = await read("src/components/site/motion-primitives.tsx");
@@ -229,7 +229,7 @@ test("launch legal identity is complete, permanent and absent from homepage copy
 test("analytics consent is optional, reversible and cannot cover the chatbot", async () => {
   const consent = await read("src/components/site/AnalyticsConsent.tsx");
   const css = await read("src/components/site/SiteVisualAuthority.css");
-  const layout = await read("src/components/site/Layout.tsx");
+  const layout = await read("src/components/site/LegacySiteLayout.tsx");
 
   assert.match(consent, /Odmietnuť analytiku/);
   assert.match(consent, /Povoliť analytiku/);

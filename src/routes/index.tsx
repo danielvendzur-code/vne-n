@@ -1,6 +1,5 @@
 import { Home } from "@/components/site/redesign/Home";
 import { createFileRoute } from "@tanstack/react-router";
-import { StudioHome } from "@/components/site/StudioHome";
 import { siteConfig } from "@/config/site";
 import { faqs } from "@/data/faq";
 import { realizations } from "@/data/realizations";
@@ -92,7 +91,3 @@ export const Route = createFileRoute("/")({
   }),
   component: () => <Home />,
 });
-
-function HomePage() {
-  return <StudioHome />;
-}

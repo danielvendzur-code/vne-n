@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Analytics } from "@vercel/analytics/react";
+import { AnalyticsConsent } from "../components/site/AnalyticsConsent";
 import "@fontsource-variable/inter-tight";
 import {
   HeadContent,
@@ -90,7 +90,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
 
@@ -261,7 +261,7 @@ const contentSecurityPolicy = [
   `frame-src 'self' https://danielvendzur-code.github.io https://*.vercel.app ${assistantOrigin}`,
   "form-action 'self' mailto:",
   "img-src 'self' data: blob: https: https://www.google-analytics.com",
-  "font-src 'self' data: https://fonts.gstatic.com",
+  `font-src 'self' data: https://fonts.gstatic.com ${assistantOrigin}`,
   `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://danielvendzur-code.github.io https://*.vercel.app ${assistantOrigin}`,
   `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://danielvendzur-code.github.io https://*.vercel.app ${assistantOrigin}`,
   `connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.google-analytics.com https://moj-chatbot-backend.vercel.app https://*.vercel.app ${assistantOrigin}`,
@@ -342,7 +342,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <Analytics />
+        <AnalyticsConsent />
         <Scripts />
       </body>
     </html>

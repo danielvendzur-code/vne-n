@@ -73,6 +73,8 @@ export function StudioHero() {
               >
                 <img
                   src={project.image}
+                  srcSet={`${BASE}work/live/${project.slug}-640.webp 640w, ${BASE}work/live/${project.slug}-1000.webp 1000w, ${project.image} 1600w`}
+                  sizes="(max-width: 767px) 74vw, (max-width: 1100px) 40vw, 38vw"
                   alt={project.alt}
                   width={1600}
                   height={1000}
@@ -89,8 +91,8 @@ export function StudioHero() {
         </div>
         <div className={`${styles.heroBottom} ${fit.bottom}`}>
           <p>
-            Chatbot odpovie, kalkulačka spočíta cenu, konfigurátor vyskladá produkt a produktový
-            poradca pomôže s výberom.
+            Chatbot odpovie. Kalkulačka spočíta cenu. Konfigurátor vyskladá produkt. Váš web pomôže
+            zákazníkovi urobiť ďalší krok.
           </p>
           <a href="#riesenia" className={`${actions.action} ${actions.lime}`}>
             Vybrať riešenie <ArrowUpRight size={17} aria-hidden="true" />

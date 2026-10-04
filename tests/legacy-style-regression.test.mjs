@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("historical visual authority layers stay out of the active layout", async () => {
-  const layout = await read("src/components/site/Layout.tsx");
+  const layout = await read("src/components/site/LegacySiteLayout.tsx");
 
   for (const retired of [
     "GreenInteractionVisualCorrection.css",

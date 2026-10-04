@@ -1,0 +1,84 @@
+.prompt.prompt {
+  position: fixed;
+  z-index: 2147483000;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: min(580px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 24px;
+  display: block;
+  border: 1px solid #d8dcd5;
+  border-radius: 12px;
+  background: #fff;
+  color: #101713;
+  box-shadow: 0 12px 40px #10171322;
+  font-family: "Geist", system-ui, sans-serif;
+  backdrop-filter: none;
+}
+.prompt h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.prompt p {
+  margin: 0;
+  color: #56605a;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 14px 0 20px;
+}
+.prompt a {
+  color: #101713;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.actions button {
+  min-height: 46px;
+  padding: 12px;
+  border: 1px solid #101713;
+  border-radius: 6px;
+  color: #101713;
+  background: #fff;
+  font:
+    600 14px/1.2 "Geist",
+    system-ui,
+    sans-serif;
+  cursor: pointer;
+}
+.actions button:hover {
+  background: #101713;
+  color: #fff;
+}
+.actions button:focus-visible,
+.prompt a:focus-visible {
+  outline: 3px solid #1f5b47;
+  outline-offset: 3px;
+}
+@media (max-width: 420px) {
+  .prompt.prompt {
+    padding: 20px;
+  }
+  .actions {
+    grid-template-columns: 1fr;
+  }
+}
+/* A visitor can decline in one click and then use the full assistant. */
+:global(body:has(.analytics-consent) #dv-assistant-root),
+:global(body:has(.analytics-consent) #dv-assistant-fallback) {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

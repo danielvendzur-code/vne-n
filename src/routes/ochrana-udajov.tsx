@@ -57,10 +57,10 @@ const purposes = [
   },
   {
     icon: Clock3,
-    title: "Meranie návštevnosti bez súborov cookie",
+    title: "Vercel Analytics po súhlase",
     what: "Súhrnné údaje o otvorenej stránke, zdroji návštevy, krajine, zariadení a prehliadači.",
     why: "Aby sme rozumeli používaniu webu, opravovali problémy a zlepšovali obsah.",
-    basis: "Oprávnený záujem na meraní a zlepšovaní webu — čl. 6 ods. 1 písm. f) GDPR.",
+    basis: "Súhlas návštevníka — čl. 6 ods. 1 písm. a) GDPR. Bez súhlasu sa meranie nenačíta.",
     keep: "Vercel Analytics nepoužíva analytické súbory cookie. Súhrnné reporty môžu byť uchované podľa nastavenia služby.",
   },
   ...(googleAnalyticsEnabled
@@ -91,7 +91,7 @@ const rights = [
   "Požiadať o opravu nepresných alebo neúplných údajov.",
   "Požiadať o vymazanie alebo obmedzenie spracúvania, ak sú splnené podmienky.",
   "Namietať proti spracúvaniu založenému na oprávnenom záujme.",
-  "Odvolať súhlas s Google Analytics bez vplyvu na zákonnosť spracúvania pred odvolaním.",
+  "Odvolať súhlas s analytikou bez vplyvu na zákonnosť spracúvania pred odvolaním.",
   "Získať údaje v prenosnom formáte, ak sa uplatní právo na prenosnosť.",
   "Podať sťažnosť na Úrad na ochranu osobných údajov Slovenskej republiky.",
 ];
@@ -160,7 +160,8 @@ function PrivacyPage() {
               <li>Údaje nepredávame a nepoužívame na reklamu tretích strán.</li>
               <li>Obsah formulára ani chatbota neposielame do analytiky.</li>
               <li>
-                Google Analytics sa načíta iba po výslovnom súhlase, ak je na webe aktivovaný.
+                Vercel Analytics aj nakonfigurovaný Google Analytics sa načítajú iba po výslovnom
+                súhlase. Voľbu zmeníte cez Nastavenia cookies v pätičke.
               </li>
               <li>
                 Nepoužívame automatizované rozhodovanie s právnymi alebo obdobne významnými
@@ -233,6 +234,14 @@ function PrivacyPage() {
                 Do AI chatu neposielajte osobitné kategórie osobných údajov ani iné citlivé údaje,
                 ktoré nie sú potrebné na vybavenie dopytu.
               </li>
+              <li>
+                <b>Upstash Redis</b> — serverová história AI rozhovorov, ak je úložisko
+                nakonfigurované; najviac 90 dní.
+              </li>
+              <li>
+                <b>GitHub Pages</b> — distribúcia súborov asistenta a jeho fontov; pri načítaní
+                spracúva technické údaje požiadavky.
+              </li>
               {googleAnalyticsEnabled ? (
                 <li>
                   <b>Google</b> — Google Analytics 4, iba po výslovnom súhlase návštevníka.
@@ -284,7 +293,7 @@ function PrivacyPage() {
             Identifikačné a daňové údaje poskytovateľa nájdete aj na stránke{" "}
             <Link to="/pravne-informacie">Právne informácie</Link>.
           </p>
-          <small>Posledná aktualizácia: 6. septembra 2026</small>
+          <small>Posledná aktualizácia: 4. októbra 2026</small>
         </div>
       </section>
     </ShPage>
