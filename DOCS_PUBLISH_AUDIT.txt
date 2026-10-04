@@ -1,0 +1,569 @@
+install=0
+audit=0
+security=0
+lint=0
+test=0
+build=0
+export=98
+verify=99
+
+===== install =====
+bun install v1.4.2 (744846f84)
+
++ @eslint/js@9.39.4
++ @lovable.dev/vite-tanstack-config@2.7.1
++ @types/node@22.19.17
++ @types/react@19.2.14
++ @types/react-dom@19.2.3
++ @vitejs/plugin-react@5.2.0
++ eslint@9.39.4
++ eslint-config-prettier@10.1.8
++ eslint-plugin-prettier@5.5.5
++ eslint-plugin-react-hooks@5.2.0
++ eslint-plugin-react-refresh@0.4.26
++ globals@15.15.0
++ nitro@3.0.260603-beta
++ prettier@3.8.3
++ typescript@5.9.3
++ typescript-eslint@8.59.0
++ vite@8.0.16
++ @fontsource-variable/inter-tight@5.3.0
++ @hookform/resolvers@5.2.2
++ @radix-ui/react-accordion@1.2.12
++ @radix-ui/react-alert-dialog@1.1.15
++ @radix-ui/react-aspect-ratio@1.1.8
++ @radix-ui/react-avatar@1.1.11
++ @radix-ui/react-checkbox@1.3.3
++ @radix-ui/react-collapsible@1.1.12
++ @radix-ui/react-context-menu@2.2.16
++ @radix-ui/react-dialog@1.1.15
++ @radix-ui/react-dropdown-menu@2.1.16
++ @radix-ui/react-hover-card@1.1.15
++ @radix-ui/react-label@2.1.8
++ @radix-ui/react-menubar@1.1.16
++ @radix-ui/react-navigation-menu@1.2.14
++ @radix-ui/react-popover@1.1.15
++ @radix-ui/react-progress@1.1.8
++ @radix-ui/react-radio-group@1.3.8
++ @radix-ui/react-scroll-area@1.2.10
++ @radix-ui/react-select@2.2.6
++ @radix-ui/react-separator@1.1.8
++ @radix-ui/react-slider@1.3.6
++ @radix-ui/react-slot@1.2.4
++ @radix-ui/react-switch@1.2.6
++ @radix-ui/react-tabs@1.1.13
++ @radix-ui/react-toggle@1.1.10
++ @radix-ui/react-toggle-group@1.1.11
++ @radix-ui/react-tooltip@1.2.8
++ @tailwindcss/vite@4.2.4
++ @tanstack/react-query@5.101.1
++ @tanstack/react-router@1.170.41
++ @tanstack/react-start@1.168.60
++ @tanstack/router-plugin@1.168.42
++ @vercel/analytics@2.0.1
++ animejs@4.5.0
++ class-variance-authority@0.7.1
++ clsx@2.1.1
++ cmdk@1.1.1
++ date-fns@4.1.0
++ embla-carousel-react@8.6.0
++ gsap@3.15.0
++ input-otp@1.4.2
++ lucide-react@0.575.0
++ motion@12.42.2
++ react@19.2.5
++ react-day-picker@9.14.0
++ react-dom@19.2.5
++ react-hook-form@7.73.1
++ react-resizable-panels@4.10.0
++ recharts@2.15.4
++ sonner@2.0.7
++ tailwind-merge@3.5.0
++ tailwindcss@4.2.4
++ tw-animate-css@1.4.0
++ vaul@1.1.2
++ vite-tsconfig-paths@6.1.1
++ zod@3.25.76
+
+504 packages installed [2.78s]
+
+===== audit =====
+bun audit v1.4.2 (744846f84)
+
+No vulnerabilities found (checked 294 packages) [94.00ms]
+
+===== security =====
+Security audit passed (154 files scanned).
+
+===== lint =====
+$ eslint .
+
+===== test =====
+$ node --test tests/*.test.mjs
+TAP version 13
+# Subtest: desktop solutions keep independent readable columns and strong CTAs
+ok 1 - desktop solutions keep independent readable columns and strong CTAs
+  ---
+  duration_ms: 1.342458
+  type: 'test'
+  ...
+# Subtest: contact and mobile header have explicit alignment authority
+ok 2 - contact and mobile header have explicit alignment authority
+  ---
+  duration_ms: 1.713968
+  type: 'test'
+  ...
+# Subtest: layout loads one coherent brand system instead of historical override stack
+ok 3 - layout loads one coherent brand system instead of historical override stack
+  ---
+  duration_ms: 7.799769
+  type: 'test'
+  ...
+# Subtest: homepage is a clear work-led question-to-outcome experience
+ok 4 - homepage is a clear work-led question-to-outcome experience
+  ---
+  duration_ms: 2.799851
+  type: 'test'
+  ...
+# Subtest: homepage uses four real projects with one consistent realization frame
+ok 5 - homepage uses four real projects with one consistent realization frame
+  ---
+  duration_ms: 2.070182
+  type: 'test'
+  ...
+# Subtest: navigation uses the real subpages and keeps the project CTA
+ok 6 - navigation uses the real subpages and keeps the project CTA
+  ---
+  duration_ms: 5.198288
+  type: 'test'
+  ...
+# Subtest: pricing stays readable and explicit about standalone, combined and all-in-one tools
+ok 7 - pricing stays readable and explicit about standalone, combined and all-in-one tools
+  ---
+  duration_ms: 1.887976
+  type: 'test'
+  ...
+# Subtest: homepage, form and subpages share the smooth one-way reveal controller
+ok 8 - homepage, form and subpages share the smooth one-way reveal controller
+  ---
+  duration_ms: 3.376251
+  type: 'test'
+  ...
+# Subtest: contact form retains sanitization, privacy notice, honeypot and resilient lead submission
+ok 9 - contact form retains sanitization, privacy notice, honeypot and resilient lead submission
+  ---
+  duration_ms: 1.079797
+  type: 'test'
+  ...
+# Subtest: public SEO positions Môj Chatbot as digital sales tools without unsupported post-purchase claims
+ok 10 - public SEO positions Môj Chatbot as digital sales tools without unsupported post-purchase claims
+  ---
+  duration_ms: 0.97411
+  type: 'test'
+  ...
+# Subtest: DERAT case-study route and thank-you route exist as real source routes
+ok 11 - DERAT case-study route and thank-you route exist as real source routes
+  ---
+  duration_ms: 1.32555
+  type: 'test'
+  ...
+# Subtest: client landing remains a noindex continuation of the same brand
+ok 12 - client landing remains a noindex continuation of the same brand
+  ---
+  duration_ms: 1.913012
+  type: 'test'
+  ...
+# Subtest: launch legal identity is complete, permanent and absent from homepage copy
+ok 13 - launch legal identity is complete, permanent and absent from homepage copy
+  ---
+  duration_ms: 5.511416
+  type: 'test'
+  ...
+# Subtest: analytics consent is optional, reversible and cannot cover the chatbot
+ok 14 - analytics consent is optional, reversible and cannot cover the chatbot
+  ---
+  duration_ms: 5.458722
+  type: 'test'
+  ...
+# Subtest: homepage prices are authoritative in the markup, not patched into the DOM
+ok 15 - homepage prices are authoritative in the markup, not patched into the DOM
+  ---
+  duration_ms: 8.27804
+  type: 'test'
+  ...
+# Subtest: prices remain visible without timers, observers or JavaScript
+ok 16 - prices remain visible without timers, observers or JavaScript
+  ---
+  duration_ms: 1.858657
+  type: 'test'
+  ...
+# Subtest: no homepage component rewrites rendered text through a MutationObserver
+ok 17 - no homepage component rewrites rendered text through a MutationObserver
+  ---
+  duration_ms: 3.365938
+  type: 'test'
+  ...
+# Subtest: contact fallback never forces a mail client
+ok 18 - contact fallback never forces a mail client
+  ---
+  duration_ms: 5.524883
+  type: 'test'
+  ...
+# Subtest: analytics consent is propagated to the embedded assistant
+ok 19 - analytics consent is propagated to the embedded assistant
+  ---
+  duration_ms: 1.781527
+  type: 'test'
+  ...
+# Subtest: privacy copy matches actual browser and server chat retention
+ok 20 - privacy copy matches actual browser and server chat retention
+  ---
+  duration_ms: 2.317487
+  type: 'test'
+  ...
+# Subtest: legal page does not pretend a contact form creates a consumer contract
+ok 21 - legal page does not pretend a contact form creates a consumer contract
+  ---
+  duration_ms: 1.131861
+  type: 'test'
+  ...
+# Subtest: mobile hero typography is viewport-bounded and swept across phone widths
+ok 22 - mobile hero typography is viewport-bounded and swept across phone widths
+  ---
+  duration_ms: 1.458883
+  type: 'test'
+  ...
+# Subtest: historical visual authority layers stay out of the active layout
+ok 23 - historical visual authority layers stay out of the active layout
+  ---
+  duration_ms: 7.933716
+  type: 'test'
+  ...
+# Subtest: homepage preserves its hero, four solutions, real work and keyword H1
+ok 24 - homepage preserves its hero, four solutions, real work and keyword H1
+  ---
+  duration_ms: 8.472037
+  type: 'test'
+  ...
+# Subtest: the live Koverta configurator loads only after an explicit click
+ok 25 - the live Koverta configurator loads only after an explicit click
+  ---
+  duration_ms: 2.862363
+  type: 'test'
+  ...
+# Subtest: scroll reveal keeps content visible without JavaScript and respects reduced motion
+ok 26 - scroll reveal keeps content visible without JavaScript and respects reduced motion
+  ---
+  duration_ms: 2.031639
+  type: 'test'
+  ...
+# Subtest: 3D configurator case study is indexable with its own structured data and sitemap entry
+ok 27 - 3D configurator case study is indexable with its own structured data and sitemap entry
+  ---
+  duration_ms: 1.582415
+  type: 'test'
+  ...
+# Subtest: subpages share the unified SubPage system instead of legacy page CSS
+ok 28 - subpages share the unified SubPage system instead of legacy page CSS
+  ---
+  duration_ms: 5.273302
+  type: 'test'
+  ...
+# Subtest: FAQ heading stays pinned while the list scrolls
+ok 29 - FAQ heading stays pinned while the list scrolls
+  ---
+  duration_ms: 1.325676
+  type: 'test'
+  ...
+# Subtest: all four process steps are immediately selectable with a keyboard
+ok 30 - all four process steps are immediately selectable with a keyboard
+  ---
+  duration_ms: 1.222852
+  type: 'test'
+  ...
+# Subtest: monthly operation is a starting price and fonts use full-weight Archivo
+ok 31 - monthly operation is a starting price and fonts use full-weight Archivo
+  ---
+  duration_ms: 1.684466
+  type: 'test'
+  ...
+# Subtest: no meta copy explaining how the page itself works
+ok 32 - no meta copy explaining how the page itself works
+  ---
+  duration_ms: 1.672526
+  type: 'test'
+  ...
+# Subtest: reported heading has safe Slovak-diacritic leading
+ok 33 - reported heading has safe Slovak-diacritic leading
+  ---
+  duration_ms: 9.345994
+  type: 'test'
+  ...
+# Subtest: Začať projekt CTA is green and changes to black on hover or keyboard focus
+ok 34 - Začať projekt CTA is green and changes to black on hover or keyboard focus
+  ---
+  duration_ms: 2.600326
+  type: 'test'
+  ...
+# Subtest: reported-error rules retain their order inside the consolidated homepage authority
+ok 35 - reported-error rules retain their order inside the consolidated homepage authority
+  ---
+  duration_ms: 1.062239
+  type: 'test'
+  ...
+# Subtest: solution geometry cannot regress to the overlapping audit columns
+ok 36 - solution geometry cannot regress to the overlapping audit columns
+  ---
+  duration_ms: 0.277836
+  type: 'test'
+  ...
+# Subtest: website requests the round one-stroke launcher release and never the text pill fallback
+ok 37 - website requests the round one-stroke launcher release and never the text pill fallback
+  ---
+  duration_ms: 0.163859
+  type: 'test'
+  ...
+# Subtest: Sep 1 homepage repair keeps hero type stable and restores safe leading
+ok 38 - Sep 1 homepage repair keeps hero type stable and restores safe leading
+  ---
+  duration_ms: 7.108412
+  type: 'test'
+  ...
+# Subtest: Sep 1 header and launcher polish remove hover boxes and keep requested CTA colors
+ok 39 - Sep 1 header and launcher polish remove hover boxes and keep requested CTA colors
+  ---
+  duration_ms: 1.970256
+  type: 'test'
+  ...
+# Subtest: all homepage solution CTAs use builder wording
+ok 40 - all homepage solution CTAs use builder wording
+  ---
+  duration_ms: 5.59474
+  type: 'test'
+  ...
+# Subtest: header CTA is lime at rest and black on hover
+ok 41 - header CTA is lime at rest and black on hover
+  ---
+  duration_ms: 3.07513
+  type: 'test'
+  ...
+# Subtest: contact uses the unified card form without hairline separators
+ok 42 - contact uses the unified card form without hairline separators
+  ---
+  duration_ms: 4.920999
+  type: 'test'
+  ...
+# Subtest: brand mark uses the approved one-stroke chatbot geometry across site assets
+ok 43 - brand mark uses the approved one-stroke chatbot geometry across site assets
+  ---
+  duration_ms: 6.851622
+  type: 'test'
+  ...
+# Subtest: design tokens use restrained paper, ink and one forest brand colour
+ok 44 - design tokens use restrained paper, ink and one forest brand colour
+  ---
+  duration_ms: 1.526007
+  type: 'test'
+  ...
+# Subtest: marketing surfaces stay low-radius and shadow-light
+ok 45 - marketing surfaces stay low-radius and shadow-light
+  ---
+  duration_ms: 2.013774
+  type: 'test'
+  ...
+# Subtest: chatbot fallback is the approved round animated one-stroke launcher
+ok 46 - chatbot fallback is the approved round animated one-stroke launcher
+  ---
+  duration_ms: 1.037611
+  type: 'test'
+  ...
+# Subtest: homepage art direction explicitly handles reduced motion and mobile composition
+ok 47 - homepage art direction explicitly handles reduced motion and mobile composition
+  ---
+  duration_ms: 1.078179
+  type: 'test'
+  ...
+# Subtest: homepage repair keeps scroll-driven stages sequential and hero lines geometrically even
+ok 48 - homepage repair keeps scroll-driven stages sequential and hero lines geometrically even
+  ---
+  duration_ms: 3.931971
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 293.199648
+
+===== build =====
+$ NITRO_PRESET=vercel vite build
+[info] [nitro:vercel] Using `nodejs22.x` runtime.
+[info] [nitro:vercel] Using `web` entry format.
+[33mThe plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the [1mresolve.tsconfigPaths[22m option. You can remove the plugin and set [1mresolve.tsconfigPaths: true[22m in your Vite config instead.[39m
+[36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming...✓ 2390 modules transformed.
+rendering chunks...
+computing gzip size...
+.vercel/output/static/assets/inter-tight-vietnamese-wght-normal-TKKdAiBA.woff2     10.48 kB
+.vercel/output/static/assets/inter-tight-greek-ext-wght-normal-DQgQPNk4.woff2      11.70 kB
+.vercel/output/static/assets/inter-tight-cyrillic-wght-normal-BS41q_Tv.woff2       16.99 kB
+.vercel/output/static/assets/inter-tight-greek-wght-normal-sS1B39LI.woff2          22.19 kB
+.vercel/output/static/assets/inter-tight-cyrillic-ext-wght-normal-okcGN4Nq.woff2   26.66 kB
+.vercel/output/static/assets/inter-tight-latin-wght-normal-DX-nOvPD.woff2          44.87 kB
+.vercel/output/static/assets/inter-tight-latin-ext-wght-normal-B4u9PlvR.woff2      89.80 kB
+.vercel/output/static/assets/kontakt-CY03KKRx.css                                   3.65 kB │ gzip:  1.27 kB
+.vercel/output/static/assets/motion-primitives-D9fFqSY9.css                        13.51 kB │ gzip:  3.20 kB
+.vercel/output/static/assets/routes-0lpBnyt8.css                                   16.40 kB │ gzip:  3.66 kB
+.vercel/output/static/assets/styles-Bi6oUxHW.css                                   76.40 kB │ gzip: 13.48 kB
+.vercel/output/static/assets/index-DDHEHvgO.css                                   130.75 kB │ gzip: 25.66 kB
+.vercel/output/static/assets/LegacySiteLayout-CqzKbJUu.css                        241.59 kB │ gzip: 40.80 kB
+.vercel/output/static/assets/rolldown-runtime-Cyuzqnbw.js                           0.82 kB │ gzip:  0.47 kB
+.vercel/output/static/assets/dakujeme-DU939I9o.js                                   1.35 kB │ gzip:  0.77 kB
+.vercel/output/static/assets/motion-primitives-CU5mkPxX.js                          1.37 kB │ gzip:  0.75 kB
+.vercel/output/static/assets/_slug-D9uUgs_p.js                                      2.06 kB │ gzip:  1.05 kB
+.vercel/output/static/assets/preco-chatbot-CK_V8Dqj.js                              2.45 kB │ gzip:  1.37 kB
+.vercel/output/static/assets/projekty.derat-DiJfnqbY.js                             4.03 kB │ gzip:  1.82 kB
+.vercel/output/static/assets/pravne-informacie-Ci6ZgsRV.js                          5.11 kB │ gzip:  1.90 kB
+.vercel/output/static/assets/cookies-r6MYuy8W.js                                    5.68 kB │ gzip:  2.13 kB
+.vercel/output/static/assets/postup-NH2FWC2x.js                                     5.78 kB │ gzip:  2.41 kB
+.vercel/output/static/assets/Footer-B30916ho.js                                     5.94 kB │ gzip:  1.88 kB
+.vercel/output/static/assets/projekty.index-_O-nJNX_.js                             7.63 kB │ gzip:  2.78 kB
+.vercel/output/static/assets/farby-4FSUQVju.js                                      8.09 kB │ gzip:  2.95 kB
+.vercel/output/static/assets/cennik-Xr4v_jby.js                                     9.36 kB │ gzip:  2.81 kB
+.vercel/output/static/assets/kontakt-CQDya9Xy.js                                    9.54 kB │ gzip:  3.89 kB
+.vercel/output/static/assets/3d-konfigurator-COKjAOwo.js                            9.70 kB │ gzip:  3.31 kB
+.vercel/output/static/assets/ochrana-udajov-D8eDsWCS.js                            10.30 kB │ gzip:  3.72 kB
+.vercel/output/static/assets/sluzby-DAcqWK-b.js                                    13.24 kB │ gzip:  4.43 kB
+.vercel/output/static/assets/nastroj-CFKvh4Ww.js                                   16.85 kB │ gzip:  5.71 kB
+.vercel/output/static/assets/LegacySiteLayout-C1PuN8AU.js                          16.88 kB │ gzip:  5.57 kB
+.vercel/output/static/assets/navrh-D9tKuo2R.js                                     17.46 kB │ gzip:  5.50 kB
+.vercel/output/static/assets/routes-0SYQVz0J.js                                    25.91 kB │ gzip:  8.16 kB
+.vercel/output/static/assets/motion-BBMcEkh0.js                                   141.44 kB │ gzip: 47.42 kB
+.vercel/output/static/assets/react-core-CDAgdbXy.js                               189.79 kB │ gzip: 59.71 kB
+.vercel/output/static/assets/index-BtAZWKzT.js                                    211.42 kB │ gzip: 72.48 kB
+
+[32m✓ built in 1.72s[39m
+[36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
+[2Ktransforming...✓ 152 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/assets/inter-tight-vietnamese-wght-normal-TKKdAiBA.woff2     10.48 kB
+node_modules/.nitro/vite/services/ssr/assets/inter-tight-greek-ext-wght-normal-DQgQPNk4.woff2      11.70 kB
+node_modules/.nitro/vite/services/ssr/assets/inter-tight-cyrillic-wght-normal-BS41q_Tv.woff2       16.99 kB
+node_modules/.nitro/vite/services/ssr/assets/inter-tight-greek-wght-normal-sS1B39LI.woff2          22.19 kB
+node_modules/.nitro/vite/services/ssr/assets/inter-tight-cyrillic-ext-wght-normal-okcGN4Nq.woff2   26.66 kB
+node_modules/.nitro/vite/services/ssr/assets/inter-tight-latin-wght-normal-DX-nOvPD.woff2          44.87 kB
+node_modules/.nitro/vite/services/ssr/assets/inter-tight-latin-ext-wght-normal-B4u9PlvR.woff2      89.80 kB
+node_modules/.nitro/vite/services/ssr/assets/BrandMark-uu1iYb5G.css                                 0.44 kB │ gzip:  0.22 kB
+node_modules/.nitro/vite/services/ssr/assets/WebsiteAction-qpeFY4QJ.css                             0.80 kB │ gzip:  0.40 kB
+node_modules/.nitro/vite/services/ssr/assets/kontakt-CY03KKRx.css                                   3.65 kB │ gzip:  1.27 kB
+node_modules/.nitro/vite/services/ssr/assets/motion-primitives-D9fFqSY9.css                        13.51 kB │ gzip:  3.20 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-0lpBnyt8.css                                   16.40 kB │ gzip:  3.66 kB
+node_modules/.nitro/vite/services/ssr/assets/StudioHome-CkdjWPlk.css                               17.16 kB │ gzip:  3.88 kB
+node_modules/.nitro/vite/services/ssr/assets/router-Bu5ABxqw.css                                   34.47 kB │ gzip:  7.88 kB
+node_modules/.nitro/vite/services/ssr/assets/styles-Bi6oUxHW.css                                   76.40 kB │ gzip: 13.48 kB
+node_modules/.nitro/vite/services/ssr/assets/SubPage-DZn2g7ZE.css                                  77.86 kB │ gzip: 14.81 kB
+node_modules/.nitro/vite/services/ssr/assets/LegacySiteLayout-CqzKbJUu.css                        241.59 kB │ gzip: 40.80 kB
+node_modules/.nitro/vite/services/ssr/assets/WebsiteAction.module-aoqRVU1d.js                       0.41 kB │ gzip:  0.24 kB
+node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-0GVloK9P.js                           0.44 kB │ gzip:  0.29 kB
+node_modules/.nitro/vite/services/ssr/assets/analytics-consent-Br7oSYtQ.js                          0.48 kB │ gzip:  0.29 kB
+node_modules/.nitro/vite/services/ssr/assets/_slug-B0xpIyow.js                                      0.64 kB │ gzip:  0.41 kB
+node_modules/.nitro/vite/services/ssr/assets/start-DfTwN3p8.js                                      0.84 kB │ gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/site-assistant-CK5RZLig.js                             1.01 kB │ gzip:  0.47 kB
+node_modules/.nitro/vite/services/ssr/assets/utils-B59jz2Bn.js                                      1.14 kB │ gzip:  0.66 kB
+node_modules/.nitro/vite/services/ssr/assets/site-HcvAgavj.js                                       1.61 kB │ gzip:  0.94 kB
+node_modules/.nitro/vite/services/ssr/assets/dakujeme-CJrC-Dk_.js                                   2.34 kB │ gzip:  1.06 kB
+node_modules/.nitro/vite/services/ssr/assets/realizations-DRjZYvyQ.js                               2.80 kB │ gzip:  1.27 kB
+node_modules/.nitro/vite/services/ssr/assets/motion-primitives-Cu9aWSL5.js                          3.05 kB │ gzip:  1.31 kB
+node_modules/.nitro/vite/services/ssr/assets/_slug-nU-_lBaN.js                                      3.14 kB │ gzip:  1.34 kB
+node_modules/.nitro/vite/services/ssr/assets/preco-chatbot-Dv7jcqda.js                              3.69 kB │ gzip:  1.72 kB
+node_modules/.nitro/vite/services/ssr/assets/nastroj-CHdl_Ly7.js                                    3.88 kB │ gzip:  1.62 kB
+node_modules/.nitro/vite/services/ssr/assets/BrandMark-BO3OXcWS.js                                  4.24 kB │ gzip:  2.01 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-C5xWHtmc.js                 4.53 kB │ gzip:  1.00 kB
+node_modules/.nitro/vite/services/ssr/index.js                                                      4.56 kB │ gzip:  1.99 kB
+node_modules/.nitro/vite/services/ssr/assets/StudioHome.module-nRk-RMOZ.js                          5.24 kB │ gzip:  2.10 kB
+node_modules/.nitro/vite/services/ssr/assets/projekty.derat-DZKjmL6v.js                             6.04 kB │ gzip:  2.25 kB
+node_modules/.nitro/vite/services/ssr/assets/SubPage-crIFxfXJ.js                                    7.54 kB │ gzip:  2.75 kB
+node_modules/.nitro/vite/services/ssr/assets/pravne-informacie-CB6wJLWP.js                          7.65 kB │ gzip:  2.25 kB
+node_modules/.nitro/vite/services/ssr/assets/postup-Dj8oFhUT.js                                     7.97 kB │ gzip:  2.78 kB
+node_modules/.nitro/vite/services/ssr/assets/cookies-DOp1Zvqs.js                                    8.28 kB │ gzip:  2.48 kB
+node_modules/.nitro/vite/services/ssr/assets/Footer-Dzdr4pUy.js                                     8.63 kB │ gzip:  2.21 kB
+node_modules/.nitro/vite/services/ssr/assets/projekty.index-OujCaEnZ.js                            10.71 kB │ gzip:  3.22 kB
+node_modules/.nitro/vite/services/ssr/assets/farby-ChrZ1g5u.js                                     12.58 kB │ gzip:  3.63 kB
+node_modules/.nitro/vite/services/ssr/assets/cennik-_ri0WAH2.js                                    13.27 kB │ gzip:  3.23 kB
+node_modules/.nitro/vite/services/ssr/assets/3d-konfigurator-00zaUhMr.js                           13.59 kB │ gzip:  3.80 kB
+node_modules/.nitro/vite/services/ssr/assets/ochrana-udajov-Ck6f8E1o.js                            14.16 kB │ gzip:  4.28 kB
+node_modules/.nitro/vite/services/ssr/assets/kontakt-DmodabzQ.js                                   17.92 kB │ gzip:  5.09 kB
+node_modules/.nitro/vite/services/ssr/assets/sluzby-DKQdgogB.js                                    18.61 kB │ gzip:  5.03 kB
+node_modules/.nitro/vite/services/ssr/assets/nastroj-IVdaWMOI.js                                   22.92 kB │ gzip:  6.40 kB
+node_modules/.nitro/vite/services/ssr/assets/navrh-D17OS4P8.js                                     25.90 kB │ gzip:  6.65 kB
+node_modules/.nitro/vite/services/ssr/assets/LegacySiteLayout-BF6Bdpsz.js                          31.97 kB │ gzip:  8.03 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-Bqvh5i7k.js                                    40.34 kB │ gzip:  9.68 kB
+node_modules/.nitro/vite/services/ssr/assets/router-xwf4nhiz.js                                    54.25 kB │ gzip: 14.61 kB
+node_modules/.nitro/vite/services/ssr/assets/tanstack-DAQ0ha8b.js                                  74.48 kB │ gzip: 18.36 kB
+
+[32m✓ built in 947ms[39m
+[start] [nitro] Building [[35mNitro[39m] [2m(preset: `vercel`, compatibility: `2026-10-04`)[22m
+[success] [nitro] Generated public [36m.vercel/output/static[39m
+[36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
+[2Ktransforming...✓ 2362 modules transformed.
+rendering chunks...
+computing gzip size...
+.vercel/output/functions/__server.func/_runtime.mjs                 1.79 kB │ gzip:   0.81 kB
+.vercel/output/functions/__server.func/index.mjs                   14.95 kB │ gzip:   4.21 kB
+.vercel/output/functions/__server.func/_libs/lucide-react.mjs      26.11 kB │ gzip:   4.99 kB
+.vercel/output/functions/__server.func/_libs/h3+h3-v2+srvx.mjs     33.36 kB │ gzip:   6.70 kB
+.vercel/output/functions/__server.func/_chunks/vendor.mjs          84.44 kB │ gzip:  22.64 kB
+.vercel/output/functions/__server.func/_ssr/vendor.mjs            135.38 kB │ gzip:  31.86 kB
+.vercel/output/functions/__server.func/_ssr/vendor2.mjs           271.01 kB │ gzip:  60.27 kB
+.vercel/output/functions/__server.func/_chunks/motion.mjs         402.93 kB │ gzip: 101.03 kB
+.vercel/output/functions/__server.func/tanstack+[...].mjs         419.24 kB │ gzip:  96.19 kB
+.vercel/output/functions/__server.func/_libs/react+react-dom.mjs  458.97 kB │ gzip:  88.55 kB
+
+[32m✓ built in 477ms[39m
+[info] Generated [36m.vercel/output/nitro.json[39m
+[success] [nitro] You can preview this build using `npx vite preview`
+[success] [nitro] You can deploy this build using `npx nitro deploy --prebuilt`
+
+===== server =====
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module '/home/runner/work/vne-n/vne-n/.output/server/index.mjs'
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Function._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v22.23.3
+
+===== export =====
+Preview server did not become ready
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module '/home/runner/work/vne-n/vne-n/.output/server/index.mjs'
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Function._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v22.23.3
