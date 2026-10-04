@@ -158,7 +158,7 @@ export class Solutions extends Component<{
           price: "podľa rozsahu",
           customer: "Poskladá si variant, rozmery, materiál alebo doplnky.",
           business: "Dostane hotovú špecifikáciu namiesto neúplného formulára.",
-          img: P + "koverta/konfigurator-pergola.webp",
+          img: P + "koverta/model-pergola.webp",
           w: "100%",
           href: "/3d-konfigurator",
         },

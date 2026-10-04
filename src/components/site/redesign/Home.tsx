@@ -17,10 +17,10 @@ export class Home extends Component<{
     const kovShots = [
       {
         label: "Bioklimatická pergola",
-        img: P + "koverta/konfigurator-pergola.webp",
-        fit: "cover",
+        img: P + "koverta/model-pergola.webp",
+        fit: "contain",
       },
-      { label: "Hliníkový carport", img: P + "koverta/konfigurator-carport.webp", fit: "cover" },
+      { label: "Hliníkový carport", img: P + "koverta/model-carport.webp", fit: "contain" },
       { label: "Na mobile", img: P + "koverta/konfigurator-mobil.webp", fit: "contain" },
     ];
     const themes = [
@@ -65,7 +65,7 @@ export class Home extends Component<{
         type: "Výroba na mieru · 3D konfigurátor",
         result:
           "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
-        img: P + "koverta/realizacia-pergola-sibenik.webp",
+        img: P + "live/koverta.webp",
         tools: ["3D konfigurátor", "Dopyt so zostavou"],
         case: true,
         caseHref: "/3d-konfigurator",
@@ -343,6 +343,8 @@ export class Home extends Component<{
             )}
           >
             <div
+              className="redesign-facts"
+              aria-label="Základné fakty"
               style={cssStyle(
                 `display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px`,
               )}
@@ -361,6 +363,7 @@ export class Home extends Component<{
                 </div>
                 <div>
                   <div
+                    className="redesign-fact-value"
                     style={cssStyle(
                       `font-size:64px;font-weight:600;letter-spacing:-.05em;line-height:1`,
                     )}
@@ -390,6 +393,7 @@ export class Home extends Component<{
                 <div>
                   <div style={cssStyle(`font-size:15px;color:#5C645F`)}>{"od"}</div>
                   <div
+                    className="redesign-fact-value"
                     style={cssStyle(
                       `font-size:64px;font-weight:600;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums`,
                     )}
@@ -419,6 +423,7 @@ export class Home extends Component<{
                 <div>
                   <div style={cssStyle(`font-size:15px;color:#5C645F`)}>{"od"}</div>
                   <div
+                    className="redesign-fact-value"
                     style={cssStyle(
                       `font-size:64px;font-weight:600;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums`,
                     )}
@@ -521,10 +526,10 @@ export class Home extends Component<{
                     {"ŽIVÝ KONFIGURÁTOR · SOLTEC"}
                   </span>
                   <img
-                    src={sitePath("/work/koverta/realizacia-pergola-sibenik.webp")}
-                    alt={"Realizácia Koverta: bioklimatická pergola nad terasou"}
+                    src={sitePath("/work/koverta/model-carport.webp")}
+                    alt={"3D model prístreška Koverta"}
                     style={cssStyle(
-                      `width:100%;height:100%;object-fit:cover;object-position:30% center;display:block;background:#fff`,
+                      `width:100%;height:100%;object-fit:contain;display:block;background:#f4f4f2`,
                     )}
                     loading="eager"
                   />
@@ -770,7 +775,7 @@ export class Home extends Component<{
                     )}
                   >
                     <img
-                      src={sitePath("/work/koverta/realizacia-pergola-sibenik.webp")}
+                      src={sitePath("/work/koverta/model-carport.webp")}
                       alt={""}
                       style={cssStyle(`width:100%;height:100%;object-fit:cover;display:block`)}
                       loading="lazy"
@@ -1138,6 +1143,7 @@ export class Home extends Component<{
           </section>
           <section id={"koverta"} style={cssStyle(`background:#0C1A15;color:#fff`)}>
             <div
+              className="redesign-koverta-grid"
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:88px 32px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:48px;align-items:center`,
               )}
@@ -1217,7 +1223,7 @@ export class Home extends Component<{
               >
                 <div
                   style={cssStyle(
-                    `display:flex;gap:4px;background:rgba(255,255,255,.06);padding:5px;border-radius:999px;flex-wrap:wrap;align-self:flex-start`,
+                    `display:flex;gap:4px;background:rgba(255,255,255,.06);padding:5px;border-radius:999px;flex-wrap:nowrap;align-self:flex-start`,
                   )}
                 >
                   {kovTabs.map((k, index) => (
@@ -1235,8 +1241,9 @@ export class Home extends Component<{
                   ))}
                 </div>
                 <div
+                  className="redesign-koverta-preview"
                   style={cssStyle(
-                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:#13261F`,
+                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:#f4f4f2`,
                   )}
                 >
                   <img
@@ -1310,8 +1317,12 @@ export class Home extends Component<{
             >
               {work.map((w, index) => (
                 <Fragment key={index}>
-                  <li style={cssStyle(`position:sticky;top:${w.top}`)}>
+                  <li
+                    className="redesign-case-item"
+                    style={cssStyle(`position:sticky;top:${w.top}`)}
+                  >
                     <article
+                      className="redesign-case-card"
                       style={cssStyle(
                         `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:0 -24px 48px -32px rgba(12,26,21,.25);height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
                       )}
@@ -1321,44 +1332,16 @@ export class Home extends Component<{
                         target={"_blank"}
                         rel={"noreferrer"}
                         data-cursor={"Otvoriť web"}
+                        className="redesign-case-shot"
                         style={cssStyle(
                           `border-radius:18px;overflow:hidden;border:1px solid ${w.line};background:#fff;align-self:stretch;display:flex;flex-direction:column`,
                         )}
                       >
-                        <div
-                          style={cssStyle(
-                            `display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid rgba(14,21,18,.08);color:#5C645F`,
-                          )}
-                        >
-                          <span style={cssStyle(`display:flex;gap:5px`)}>
-                            <span
-                              style={cssStyle(
-                                `width:9px;height:9px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                              )}
-                            ></span>
-                            <span
-                              style={cssStyle(
-                                `width:9px;height:9px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                              )}
-                            ></span>
-                            <span
-                              style={cssStyle(
-                                `width:9px;height:9px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                              )}
-                            ></span>
-                          </span>
-                          <span
-                            style={cssStyle(`font-family:'Geist Mono',monospace;font-size:12px`)}
-                          >
-                            {w.domain}
-                            {" ↗"}
-                          </span>
-                        </div>
                         <img
                           src={sitePath(w.img)}
                           alt={w.name}
                           style={cssStyle(
-                            `width:100%;flex:1;min-height:0;object-fit:cover;object-position:top;display:block`,
+                            `width:100%;height:100%;object-fit:cover;object-position:top;display:block`,
                           )}
                           loading="lazy"
                         />

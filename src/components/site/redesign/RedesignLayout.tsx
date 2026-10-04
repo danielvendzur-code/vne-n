@@ -55,8 +55,17 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
           : pathname === "/cennik"
             ? "cennik"
             : "riesenia";
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) return;
+    const previous = meta.content;
+    meta.content = active === "home" ? "#071b15" : "#f5f4ef";
+    return () => {
+      meta.content = previous;
+    };
+  }, [active]);
   return (
-    <div className="redesign">
+    <div className="redesign" data-page={active}>
       <a className="redesign-skip" href="#main-content">
         Preskočiť na obsah
       </a>

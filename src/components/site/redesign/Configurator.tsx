@@ -12,8 +12,8 @@ export class Configurator extends Component<{
   renderVals() {
     const P = "/work/koverta/";
     const shots = [
-      { label: "Bioklimatická pergola", img: P + "konfigurator-pergola.webp", fit: "cover" },
-      { label: "Hliníkový carport", img: P + "konfigurator-carport.webp", fit: "cover" },
+      { label: "Bioklimatická pergola", img: P + "model-pergola.webp", fit: "contain" },
+      { label: "Hliníkový carport", img: P + "model-carport.webp", fit: "contain" },
       { label: "Na mobile", img: P + "konfigurator-mobil.webp", fit: "contain" },
     ];
     return {
@@ -126,8 +126,12 @@ export class Configurator extends Component<{
               </div>
             </div>
           </section>
-          <section style={cssStyle(`background:#0C1A15;color:#fff`)}>
+          <section
+            className="redesign-koverta-section"
+            style={cssStyle(`background:#0C1A15;color:#fff`)}
+          >
             <div
+              className="redesign-koverta-grid"
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:72px 32px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:48px;align-items:center`,
               )}
@@ -198,8 +202,9 @@ export class Configurator extends Component<{
                   ))}
                 </div>
                 <div
+                  className="redesign-koverta-preview"
                   style={cssStyle(
-                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:#13261F`,
+                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:#f4f4f2`,
                   )}
                 >
                   <img
