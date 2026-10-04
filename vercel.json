@@ -7,32 +7,62 @@
   "rewrites": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "praziarnicka.mojchatbot.sk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "praziarnicka.mojchatbot.sk"
+        }
+      ],
       "destination": "https://kava-chatbot-backend.vercel.app/:path*"
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "diamonds.mojchatbot.sk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "diamonds.mojchatbot.sk"
+        }
+      ],
       "destination": "https://kava-chatbot-backend.vercel.app/:path*"
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "kaffa.mojchatbot.sk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "kaffa.mojchatbot.sk"
+        }
+      ],
       "destination": "https://kava-chatbot-backend.vercel.app/:path*"
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "vitazov.mojchatbot.sk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "vitazov.mojchatbot.sk"
+        }
+      ],
       "destination": "https://kava-chatbot-backend.vercel.app/:path*"
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "concept.mojchatbot.sk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "concept.mojchatbot.sk"
+        }
+      ],
       "destination": "https://kava-chatbot-backend.vercel.app/:path*"
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "jolka.mojchatbot.sk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "jolka.mojchatbot.sk"
+        }
+      ],
       "destination": "https://kava-chatbot-backend.vercel.app/:path*"
     },
     {
@@ -56,10 +86,22 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
         {
           "key": "Strict-Transport-Security",
           "value": "max-age=63072000; includeSubDomains; preload"
@@ -69,21 +111,51 @@
     {
       "source": "/ukazka/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/ukazka-api/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/widget-loader.js",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/build-meta.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, max-age=0"
+        }
+      ]
     }
   ]
 }
