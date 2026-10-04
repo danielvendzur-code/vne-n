@@ -122,7 +122,7 @@
   body:has(.redesign),
   body:has(.redesign) * {
     cursor:
-      url("/cursor/pixel-arrow.svg") 2 2,
+      url("/cursor/clean-arrow.svg") 3 2,
       auto !important;
   }
   body:has(.redesign)
