@@ -1,0 +1,22 @@
+{
+  "sourceSha": "b4c47520a511b0ebe2a5f8bab6c1cdef5e6d4637",
+  "generatedAt": "2026-10-04T13:42:26.358Z",
+  "routes": [
+    "/",
+    "/navrh",
+    "/3d-konfigurator",
+    "/sluzby",
+    "/projekty",
+    "/projekty/derat",
+    "/postup",
+    "/preco-chatbot",
+    "/cennik",
+    "/kontakt",
+    "/dakujeme",
+    "/cookies",
+    "/pravne-informacie",
+    "/ochrana-udajov",
+    "/farby"
+  ],
+  "projectName": "vne-n"
+}
