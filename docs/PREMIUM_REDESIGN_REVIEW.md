@@ -26,7 +26,7 @@ Evidence is saved outside the source repository in `/workspace/redesign-review`:
 
 Local web preview: port 3000. Local widget: port 4173. The review web build uses `VITE_ASSISTANT_EMBED_URL=http://127.0.0.1:4173/widget.js` only as a build-time preview setting. Production defaults stay in the code and the normal Vercel build was verified separately.
 
-For a shared preview, publish both review branches and use the backend Vercel preview's `/widget.js` URL as `VITE_ASSISTANT_EMBED_URL` in the web preview. The GitHub credential in this environment currently fails authentication, so remote PR/preview creation is blocked.
+For a shared preview, publish both review branches and use the backend Vercel preview's `/widget.js` URL as `VITE_ASSISTANT_EMBED_URL` in the web preview. Both review branches were pushed successfully. GitHub API requests (GraphQL and REST) return Forbidden in this environment, so draft PR creation and retrieval of an external deployment URL are blocked. Branch: https://github.com/danielvendzur-code/vne-n/tree/codex/premium-redesign-oct4
 
 Do not merge or deploy production until the user approves. After approval, publish the widget with its `fonts/` directory and the new release marker before publishing the website. Confirm live lead delivery with the configured Resend service and live chat with the configured Anthropic service.
 
