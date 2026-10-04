@@ -19,7 +19,7 @@ export class Work extends Component<{
           type: "Výroba na mieru · 3D konfigurátor",
           detail:
             "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi.",
-          img: "/work/koverta/realizacia-pergola-sibenik.webp",
+          img: P + "koverta.webp",
           tools: ["3D konfigurátor", "Dopyt so zostavou"],
           caseHref: "/3d-konfigurator",
         },
@@ -137,38 +137,11 @@ export class Work extends Component<{
                     data-cursor={"Otvoriť web"}
                     style={cssStyle(`display:block`)}
                   >
-                    <div
-                      style={cssStyle(
-                        `display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid rgba(14,21,18,.08);color:#5C645F`,
-                      )}
-                    >
-                      <span style={cssStyle(`display:flex;gap:5px`)}>
-                        <span
-                          style={cssStyle(
-                            `width:9px;height:9px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                          )}
-                        ></span>
-                        <span
-                          style={cssStyle(
-                            `width:9px;height:9px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                          )}
-                        ></span>
-                        <span
-                          style={cssStyle(
-                            `width:9px;height:9px;border-radius:50%;background:rgba(14,21,18,.15)`,
-                          )}
-                        ></span>
-                      </span>
-                      <span style={cssStyle(`font-family:'Geist Mono',monospace;font-size:12px`)}>
-                        {w.domain}
-                        {" ↗"}
-                      </span>
-                    </div>
                     <img
                       src={sitePath(w.img)}
                       alt={w.name}
                       style={cssStyle(
-                        `width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top;display:block`,
+                        `width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block`,
                       )}
                       loading="eager"
                     />

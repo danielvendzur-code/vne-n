@@ -110,31 +110,6 @@
   }
 }
 @media (max-width: 760px) {
-  .redesign-header > div {
-    padding: 10px 12px 0 !important;
-  }
-  .redesign-header nav {
-    border-radius: 24px !important;
-    flex-wrap: wrap;
-    gap: 8px !important;
-    padding: 12px !important;
-  }
-  .redesign-header nav > div:first-of-type {
-    order: 3;
-    width: 100%;
-    overflow: auto;
-    justify-content: center;
-  }
-  .redesign-header nav > div:last-child {
-    margin-left: auto;
-  }
-  .redesign-header button {
-    padding: 10px 12px !important;
-    font-size: 12px !important;
-  }
-  .redesign-header nav > a span {
-    font-size: 15px !important;
-  }
   .redesign main > div > section,
   .redesign main > section {
     padding-left: 20px !important;
@@ -230,5 +205,232 @@
   }
   .redesign footer {
     padding: 40px 4px 20px !important;
+  }
+}
+
+/* Navigácia má vlastné rozloženie aj na mobile, bez závislosti od inline štýlov. */
+.redesign-nav-wrap {
+  padding: 16px 24px 0;
+}
+.redesign-nav {
+  position: relative;
+  max-width: 1232px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(12, 26, 21, 0.96);
+  backdrop-filter: blur(12px);
+  border-radius: 999px;
+  padding: 8px 8px 8px 20px;
+  color: white;
+}
+.redesign-brand {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 17px;
+  white-space: nowrap;
+}
+.redesign-brand img {
+  width: 30px;
+  height: 30px;
+}
+.redesign-nav-links {
+  display: flex;
+  gap: 2px;
+}
+.redesign-nav-links a {
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 15px;
+  white-space: nowrap;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+.redesign-nav-links a:is(:hover, [aria-current="page"]) {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+.redesign-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.redesign-nav-phone {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.redesign-nav-cta {
+  border: 0;
+  background: #c9f26b;
+  color: #0c1a15;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 13px 22px;
+  white-space: nowrap;
+}
+.redesign-nav-cta-short,
+.redesign-menu-toggle {
+  display: none;
+}
+.redesign[data-page="home"],
+.redesign[data-page="home"] > .redesign-header {
+  background: #071b15;
+}
+html:has(.redesign[data-page="home"]),
+body:has(.redesign[data-page="home"]) {
+  background: #071b15;
+}
+@media (max-width: 1100px) {
+  .redesign-nav-phone {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .redesign-nav-wrap {
+    padding: 10px 12px;
+  }
+  .redesign-nav {
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 999px;
+  }
+  .redesign-brand {
+    gap: 7px;
+    font-size: 14px;
+  }
+  .redesign-brand img {
+    width: 26px;
+    height: 26px;
+  }
+  .redesign-nav-actions {
+    margin-left: auto;
+    gap: 8px;
+  }
+  .redesign-nav-cta {
+    padding: 11px 12px;
+    font-size: 12px;
+  }
+  .redesign-nav-cta-full {
+    display: none;
+  }
+  .redesign-nav-cta-short {
+    display: inline;
+  }
+  .redesign-menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: white;
+  }
+  .redesign-nav .redesign-nav-links {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    border-radius: 22px;
+    background: #12372d;
+    box-shadow: 0 12px 32px #0003;
+  }
+  .redesign-nav .redesign-nav-links[data-open="true"] {
+    display: flex;
+  }
+  .redesign-nav-links a {
+    padding: 13px 16px;
+  }
+}
+@media (max-width: 900px) {
+  .redesign main .redesign-facts.redesign-facts {
+    display: flex !important;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+  .redesign-facts > * {
+    flex: 0 0 160px;
+    min-height: 190px !important;
+    padding: 18px !important;
+    gap: 20px !important;
+    scroll-snap-align: start;
+  }
+  .redesign-facts .redesign-fact-value {
+    font-size: 40px !important;
+  }
+  .redesign-facts > * > div:first-child {
+    font-size: 10px !important;
+    letter-spacing: 0.02em !important;
+  }
+  .redesign-facts > * > div:last-child > div:last-child {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+  .redesign main #koverta,
+  .redesign main .redesign-koverta-section {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .redesign main .redesign-koverta-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 32px !important;
+    padding: 48px 20px !important;
+  }
+  .redesign-koverta-grid > * {
+    min-width: 0;
+  }
+  .redesign-koverta-grid > div:last-child > div:first-child {
+    flex-wrap: wrap !important;
+    border-radius: 20px !important;
+  }
+  .redesign-koverta-preview {
+    height: auto !important;
+    aspect-ratio: 4/3;
+  }
+  .redesign-koverta-grid button {
+    font-size: 12px !important;
+    padding: 10px 12px !important;
+  }
+  .redesign main .redesign-case-item {
+    position: relative !important;
+    top: auto !important;
+  }
+  .redesign main .redesign-case-card {
+    grid-template-columns: minmax(0, 1fr) !important;
+    height: auto !important;
+    gap: 20px !important;
+    padding: 14px !important;
+    overflow: visible !important;
+  }
+  .redesign main .redesign-case-shot {
+    display: block !important;
+    aspect-ratio: 16/10;
+  }
+  .redesign main .redesign-case-shot img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  .redesign-case-card > div {
+    padding: 6px !important;
+    gap: 20px !important;
   }
 }
