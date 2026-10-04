@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
+import { openAnalyticsPreferences } from "@/lib/analytics-consent";
 
 export class Footer extends Component<{
   active?: string;
@@ -191,11 +192,38 @@ export class Footer extends Component<{
               )}
             >
               <span>{"© 2026 MÔJ CHATBOT"}</span>
-              <span style={cssStyle(`display:flex;gap:24px`)}>
-                <span>{"OCHRANA ÚDAJOV"}</span>
-                <span>{"COOKIES"}</span>
-                <span>{"PRÁVNE INFORMÁCIE"}</span>
-              </span>
+              <nav
+                aria-label="Právne odkazy"
+                style={cssStyle(`display:flex;gap:24px;flex-wrap:wrap;letter-spacing:.02em`)}
+              >
+                <a
+                  href={sitePath("/ochrana-udajov")}
+                  style={cssStyle(`color:#fff;text-decoration:underline;text-underline-offset:4px`)}
+                >
+                  Ochrana údajov
+                </a>
+                <a
+                  href={sitePath("/cookies")}
+                  style={cssStyle(`color:#fff;text-decoration:underline;text-underline-offset:4px`)}
+                >
+                  Cookies
+                </a>
+                <button
+                  type="button"
+                  onClick={openAnalyticsPreferences}
+                  style={cssStyle(
+                    `all:unset;cursor:pointer;color:#fff;text-decoration:underline;text-underline-offset:4px`,
+                  )}
+                >
+                  Nastavenia cookies
+                </button>
+                <a
+                  href={sitePath("/pravne-informacie")}
+                  style={cssStyle(`color:#fff;text-decoration:underline;text-underline-offset:4px`)}
+                >
+                  Právne informácie
+                </a>
+              </nav>
             </div>
           </footer>
         </section>

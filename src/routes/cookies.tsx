@@ -36,7 +36,7 @@ function CookiesPage() {
         eyebrow="Súkromie a analytika"
         title="Meranie návštevnosti"
         accent="pod vašou kontrolou."
-        lead="Vercel Web Analytics používame bez analytických súborov cookie. Google Analytics sa spustí iba vtedy, keď je na webe nakonfigurovaný a návštevník ho výslovne povolí."
+        lead="Voliteľné meranie cez Vercel Analytics aj nakonfigurovaný Google Analytics spúšťame iba po vašom súhlase. Odmietnutie neobmedzí web ani asistenta."
         compact
       />
 
@@ -49,12 +49,12 @@ function CookiesPage() {
             <p className="cookies-card__kicker">01 / SÚBORY COOKIE</p>
             <h2>Žiadne sledovacie súbory cookie bez vášho súhlasu.</h2>
             <p>
-              Základné meranie cez Vercel Analytics funguje bez analytických súborov cookie. Google
-              Analytics sa načíta až po voľbe „Povoliť analytiku“ a pri jeho používaní môžu byť
-              uložené analytické súbory cookie podľa nastavenia služby Google.
+              Vercel Analytics funguje bez analytických súborov cookie, ale aj toto meranie zapíname
+              až po súhlase. Google Analytics sa načíta až po voľbe „Povoliť analytiku“ a pri jeho
+              používaní môžu byť uložené analytické súbory cookie podľa nastavenia služby Google.
             </p>
             <p>
-              Funkčné lokálne úložisko používame aj na zapamätanie vašej voľby analytiky. AI
+              Funkčné lokálne úložisko používame na zapamätanie vašej voľby analytiky na 180 dní. AI
               asistent môže v prehliadači uchovať rozpracovanú konverzáciu a náhodný identifikátor
               vlákna najviac 24 hodín, aby sa chat nestratil pri prechode medzi stránkami. Tieto
               údaje neslúžia na reklamu ani profilovanie.
@@ -74,7 +74,7 @@ function CookiesPage() {
             </p>
             <div className="cookies-status">
               <span>Režim merania</span>
-              <b>Bez analytických súborov cookie</b>
+              <b>Iba po súhlase, bez analytických súborov cookie</b>
               <p>Obsah formulára ani chatbota sa do analytiky neposiela.</p>
             </div>
           </Reveal>
@@ -94,15 +94,13 @@ function CookiesPage() {
                 ? "Google Analytics 4 je nakonfigurovaný, ale kód sa načíta až po výslovnom súhlase návštevníka. Súhlas sa dá kedykoľvek zmeniť."
                 : "Integrácia je v kóde pripravená, ale bez platného Google Measurement ID sa Google Analytics vôbec nenačíta ani neodosiela žiadne dáta."}
             </p>
-            {googleAnalyticsEnabled ? (
-              <button
-                type="button"
-                className="sp-button sp-button--ghost"
-                onClick={openAnalyticsPreferences}
-              >
-                Zmeniť nastavenie analytiky
-              </button>
-            ) : null}
+            <button
+              type="button"
+              className="sp-button sp-button--ghost"
+              onClick={openAnalyticsPreferences}
+            >
+              Zmeniť nastavenie analytiky
+            </button>
           </Reveal>
 
           <Reveal className="cookies-card" direction="right" delay={0.14}>
@@ -112,12 +110,37 @@ function CookiesPage() {
             <p className="cookies-card__kicker">04 / Právny základ</p>
             <h2>Rozlišujeme meranie bez súborov cookie a meranie so súhlasom.</h2>
             <p>
-              Vercel Analytics bez súborov cookie používame bez ukladania analytických súborov
-              cookie. Google Analytics a iné voliteľné ukladanie alebo čítanie údajov zo zariadenia
-              na analytický účel používame iba po súhlase návštevníka; bez súhlasu sa jeho skript
-              nenačíta.
+              Voliteľnú analytiku používame na základe vášho súhlasu. Bez súhlasu sa skripty Vercel
+              Analytics ani Google Analytics nenačítajú. Voľbu môžete kedykoľvek zmeniť cez
+              „Nastavenia cookies“ v pätičke. Odvolaním súhlasu zastavíte ďalšie meranie; údaje už
+              odoslané poskytovateľovi tým spätne nevymažete.
             </p>
           </Reveal>
+        </div>
+      </section>
+      <section className="cookies-section">
+        <div className="container-page cookies-card">
+          <h2>Čo môže zostať v prehliadači</h2>
+          <ul className="cookies-list">
+            <li>
+              <code>mojchatbot.analytics-consent.v2</code> — voľba merania a jej čas, lokálne
+              úložisko na 180 dní.
+            </li>
+            <li>
+              <code>dv-assistant-chat-v1</code> a <code>dv-assistant-conversation-v1</code> —
+              rozpracovaný chat a náhodný identifikátor, najviac 24 hodín. Tlačidlo „Začať odznova“
+              vymaže miestnu históriu.
+            </li>
+            <li>
+              <code>_ga</code> a <code>_ga_*</code> — iba ak je Google Analytics nakonfigurovaný a
+              povolený. Životnosť závisí od nastavenia Google Analytics; pri odmietnutí odstránime
+              dostupné analytické cookies tejto domény.
+            </li>
+          </ul>
+          <p>
+            Vercel Analytics nepoužíva analytické cookies. Technické úložisko pre voľbu súkromia a
+            požadovaný chat slúži funkčnosti, nie reklame.
+          </p>
         </div>
       </section>
 
@@ -127,7 +150,7 @@ function CookiesPage() {
             Otázky k súkromiu:{" "}
             <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
           </p>
-          <small>Posledná aktualizácia: 6. septembra 2026</small>
+          <small>Posledná aktualizácia: 4. októbra 2026</small>
         </div>
       </section>
     </ShPage>

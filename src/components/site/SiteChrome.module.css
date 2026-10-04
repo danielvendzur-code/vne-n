@@ -350,3 +350,18 @@
     transition: none;
   }
 }
+
+.footerBottom nav button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.footerBottom nav button:focus-visible {
+  outline: 2px solid #c8f06a;
+  outline-offset: 4px;
+}

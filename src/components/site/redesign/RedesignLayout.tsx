@@ -1,7 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { Header } from "./Header";
-import { AnalyticsConsent } from "../AnalyticsConsent";
 import "./fonts.css";
 import "./reference.css";
 import "./redesign.css";
@@ -39,7 +38,6 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
       <main id="main-content" key={pathname}>
         {children}
       </main>
-      <AnalyticsConsent />
     </div>
   );
 }

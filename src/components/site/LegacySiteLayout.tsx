@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { MotionConfig } from "motion/react";
-import { AnalyticsConsent } from "./AnalyticsConsent";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -30,7 +29,6 @@ export default function LegacySiteLayout({
           <PageRevealController pathname={pathname} />
         </main>
         <SiteInteractions />
-        <AnalyticsConsent />
         <Footer />
       </div>
     </MotionConfig>

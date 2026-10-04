@@ -1,3 +1,4 @@
+import { openAnalyticsPreferences } from "@/lib/analytics-consent";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
@@ -88,6 +89,9 @@ export function Footer() {
             <Link to="/pravne-informacie">Právne informácie</Link>
             <Link to="/ochrana-udajov">Ochrana osobných údajov</Link>
             <Link to="/cookies">Súbory cookie</Link>
+            <button type="button" onClick={openAnalyticsPreferences}>
+              Nastavenia cookies
+            </button>
           </nav>
         </div>
       </div>

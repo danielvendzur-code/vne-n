@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Analytics } from "@vercel/analytics/react";
+import { AnalyticsConsent } from "../components/site/AnalyticsConsent";
 import "@fontsource-variable/inter-tight";
 import {
   HeadContent,
@@ -342,7 +342,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <Analytics />
+        <AnalyticsConsent />
         <Scripts />
       </body>
     </html>

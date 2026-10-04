@@ -28,8 +28,14 @@ Local web preview: port 3000. Local widget: port 4173. The review web build uses
 
 For a shared preview, publish both review branches and use the backend Vercel preview's `/widget.js` URL as `VITE_ASSISTANT_EMBED_URL` in the web preview. Both review branches were pushed successfully. GitHub API requests (GraphQL and REST) return Forbidden in this environment, so draft PR creation and retrieval of an external deployment URL are blocked. Branch: https://github.com/danielvendzur-code/vne-n/tree/codex/premium-redesign-oct4
 
-Do not merge or deploy production until the user approves. After approval, publish the widget with its `fonts/` directory and the new release marker before publishing the website. Confirm live lead delivery with the configured Resend service and live chat with the configured Anthropic service.
+The user approved merging on 4 October 2026; the final cursor choice is pending after rejection of the first design. Publish the widget with its `fonts/` directory and the new release marker before publishing the website. Confirm live lead delivery with the configured Resend service and live chat with the configured Anthropic service.
 
 ## Asset rights
 
-`public/work/koverta/model-porsche.webp` existed before this task. No licence or permission document was found in the repositories. Permission was requested from the user; until confirmed, the new use is a review-only illustration and must be cleared or replaced before public release. Existing project screenshots were retained; the new responsive files are resizes of those screenshots. Geist font licences remain with the font assets.
+`public/work/koverta/model-porsche.webp` existed before this task. No licence or permission document was found in the repositories. The user explicitly confirmed permission to publicly use this existing Porsche illustration on 4 October 2026. The caption continues to identify it as an illustrative model, not a client relationship. Existing project screenshots were retained; the new responsive files are resizes of those screenshots. Geist font licences remain with the font assets.
+
+## Follow-up: privacy and cookie controls
+
+The new footer previously displayed legal labels as plain text. They now link to the existing cookie, privacy and legal pages, with a separate button to reopen cookie settings. Consent is hosted once in the root shell, covers Vercel Analytics and configured Google Analytics, and is required before either SDK loads. Choices are equally accessible, persist for 180 days and can be withdrawn; withdrawal reloads the page to unload already loaded SDKs and clears accessible Google analytics cookies. Storage changes propagate across tabs. Analytics strips URL queries/fragments and the widget tracks events only after consent. Policy copy documents functional chat storage (24 hours), server transcripts (90 days), current providers and the new analytics behavior. Widget contact and chat views include direct privacy notices.
+
+The user rejected the initial chunky pixel cursor. Three exact SVG alternatives are available in `/workspace/redesign-review/cursor-options/navrhy.png`; the final choice is pending. Do not publish the rejected cursor.
