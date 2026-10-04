@@ -7,8 +7,8 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   // Generated bundles must never be linted as application source. This mirrors
-  // the output directories in .gitignore, including local Vercel/Pages builds.
-  { ignores: ["dist", ".output", ".vinxi", "pages-dist", ".vercel", ".wrangler"] },
+  // local output directories and published static bundles in docs.
+  { ignores: ["dist", ".output", ".vinxi", "pages-dist", ".vercel", ".wrangler", "docs"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
