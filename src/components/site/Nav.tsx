@@ -1,6 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
@@ -135,9 +134,17 @@ export function Nav() {
           </nav>
 
           <div className={styles.headerActions}>
-            <Link to="/kontakt" className={actions.action}>
-              Začať projekt <ArrowUpRight size={14} aria-hidden="true" />
-            </Link>
+            <button
+              type="button"
+              className={`${actions.action} brand-builder-cta`}
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent("site-assistant:open", { detail: { entry: "builder" } }),
+                )
+              }
+            >
+              Vyskladať riešenie <span aria-hidden="true">→</span>
+            </button>
             <button
               ref={menuButtonRef}
               type="button"

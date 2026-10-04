@@ -8,6 +8,7 @@ import {
   Mail,
   MessageSquare,
   Plus,
+  Minus,
   SlidersHorizontal,
 } from "lucide-react";
 import { faqs } from "@/data/faq";
@@ -164,8 +165,8 @@ export function HomeSolutions() {
             Podľa toho, čo váš web potrebuje. 3D konfigurátor môže fungovať sám. Chatbot môže pomôcť
             s výberom alebo nadviazať na kalkulačku.
           </p>
-          <button type="button" className={`${s.action} ${s.actionDark}`} onClick={openBuilder}>
-            Navrhnúť vhodnú kombináciu <ArrowRight size={18} />
+          <button type="button" className="mc-btn" onClick={openBuilder}>
+            Vyskladať riešenie <ArrowRight size={18} />
           </button>
         </div>
         <div
@@ -268,29 +269,41 @@ export function HomeFAQ() {
   return (
     <section id="faq" className={s.faq}>
       <div className={s.faqIntro}>
-        <span className={s.label}>Dobré vedieť</span>
-        <h2>
-          Pred prvým
-          <br />
-          „poďme na to“.
-        </h2>
-        <p>
-          Otázky, ktoré si kladiete pred začiatkom. Ak tu tú svoju nenájdete, odpovie vám priamo
-          Daniel.
-        </p>
-        <div className={s.person}>
-          <span>DV</span>
-          <div>
-            <strong>Daniel Vendžúr</strong>
-            <small>zakladateľ a produktový dizajnér</small>
-          </div>
+        <span className={s.label}>OTÁZKY A ODPOVEDE</span>
+        <h2>Často sa pýtate</h2>
+        <p>Krátke odpovede na to, čo riešia firmy pred spustením.</p>
+        <button type="button" className="mc-btn" onClick={openBuilder}>
+          Vyskladať riešenie <ArrowRight size={18} />
+        </button>
+        <div className={s.faqChat}>
+          <span>
+            <i aria-hidden="true" /> Chatbot je online
+          </span>
+          <h3>Nenašli ste svoju otázku?</h3>
+          <button
+            type="button"
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("site-assistant:open", { detail: { entry: "chat" } }),
+              )
+            }
+          >
+            Napíšte ju sem…{" "}
+            <span className={s.faqSend}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                aria-hidden="true"
+              >
+                <path d="M12 19V5m-7 7 7-7 7 7" />
+              </svg>
+            </span>
+          </button>
         </div>
-        <a className={s.faqContact} href="mailto:info@mojchatbot.sk">
-          Napísať otázku <ArrowUpRight size={18} />
-        </a>
-        <a className={s.faqPhone} href="tel:+421948699433">
-          +421 948 699 433
-        </a>
       </div>
       <div className={s.faqList}>
         {faqs.map((faq, index) => (
@@ -305,7 +318,13 @@ export function HomeFAQ() {
               >
                 <span className={s.faqNumber}>{String(index + 1).padStart(2, "0")}</span>
                 <span>{faq.q}</span>
-                <Plus size={21} strokeWidth={1.6} aria-hidden="true" />
+                <span className={s.faqToggle}>
+                  {opened === index ? (
+                    <Minus size={18} aria-hidden="true" />
+                  ) : (
+                    <Plus size={18} aria-hidden="true" />
+                  )}
+                </span>
               </button>
             </h3>
             <div

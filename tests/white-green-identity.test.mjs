@@ -13,13 +13,13 @@ test("brand mark uses the approved one-stroke chatbot geometry across site asset
   const logoLight = await read("public/brand/logo-light.svg");
   const favicon = await read("public/favicon.svg");
 
-  assert.equal((component.match(/<path\b/g) ?? []).length, 1);
+  assert.equal((component.match(/<path\b/g) ?? []).length, 2);
   assert.match(component, /viewBox="0 0 112 112"/);
   assert.match(component, new RegExp(approvedStart.replaceAll(".", "\\.")));
   assert.match(component, new RegExp(approvedEnd.replaceAll(".", "\\.")));
-  assert.match(component, /strokeWidth="7\.25"/);
-  assert.match(component, /strokeLinecap="round"/);
-  assert.match(component, /strokeLinejoin="round"/);
+  assert.match(component, /strokeWidth: ?7\.25/);
+  assert.match(component, /strokeLinecap: ?['"]round['"]/);
+  assert.match(component, /strokeLinejoin: ?['"]round['"]/);
 
   for (const asset of [logo, logoMark, logoLight, favicon]) {
     assert.match(asset, /viewBox="0 0 112 112"/);
@@ -28,11 +28,11 @@ test("brand mark uses the approved one-stroke chatbot geometry across site asset
     assert.match(asset, /stroke-width="7\.25"/);
   }
 
-  assert.match(logo, /stroke="#12372D"/);
-  assert.match(logoMark, /stroke="#12372D"/);
-  assert.match(logoLight, /stroke="#F5F4ED"/);
-  assert.match(favicon, /fill="#12372D"/);
-  assert.match(favicon, /stroke="#F5F4ED"/);
+  assert.match(logo, /stroke="#1C1612"/);
+  assert.match(logoMark, /stroke="#1C1612"/);
+  assert.match(logoLight, /stroke="#FFFCF7"/);
+  assert.match(favicon, /fill="#1C1612"/);
+  assert.match(favicon, /stroke="#FFFCF7"/);
 });
 
 test("design tokens use restrained paper, ink and one forest brand colour", async () => {
@@ -75,11 +75,11 @@ test("chatbot fallback is the approved round animated one-stroke launcher", asyn
   assert.match(loader, /width:\s*"72px"/);
   assert.match(loader, /height:\s*"72px"/);
   assert.match(loader, /borderRadius:\s*"50%"/);
-  assert.match(loader, /background:\s*"#ffffff"/);
+  assert.match(loader, /background:\s*"#FFFCF7"/);
   assert.match(loader, /requestAnimationFrame/);
-  assert.match(loader, /DARK_LOGO\s*=\s*\[11, 47, 32\]/);
-  assert.match(loader, /PALE_LOGO\s*=\s*\[185, 237, 77\]/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"premium-redesign-20261004-v16"/);
+  assert.match(loader, /DARK_LOGO\s*=\s*\[28, 22, 18\]/);
+  assert.match(loader, /PALE_LOGO\s*=\s*\[28, 22, 18\]/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"espresso-20261004-v17"/);
   assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);
   assert.doesNotMatch(loader, /<small>Otvoriť krátke zadanie<\/small>/);
 });

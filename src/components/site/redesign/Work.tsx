@@ -79,7 +79,7 @@ export class Work extends Component<{
       <Fragment>
         <div
           style={cssStyle(
-            `font-family:'Geist',system-ui,sans-serif;color:#0E1512;background:#F5F4EF`,
+            `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
@@ -90,7 +90,7 @@ export class Work extends Component<{
           >
             <div
               style={cssStyle(
-                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F;padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
+                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted);padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
               )}
             >
               <a href={sitePath("/")}>{"DOMOV"}</a>
@@ -110,7 +110,7 @@ export class Work extends Component<{
               </h1>
               <p
                 style={cssStyle(
-                  `margin:0;font-size:18px;line-height:1.5;color:#5C645F;max-width:420px`,
+                  `margin:0;font-size:18px;line-height:1.5;color:var(--mc-muted);max-width:420px`,
                 )}
               >
                 {"Len to, čo naozaj beží na vlastnej doméne. Každý web si môžete otvoriť a overiť."}
@@ -126,7 +126,7 @@ export class Work extends Component<{
               <Fragment key={index}>
                 <article
                   style={cssStyle(
-                    `background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:24px;overflow:hidden;display:flex;flex-direction:column`,
+                    `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:24px;overflow:hidden;display:flex;flex-direction:column`,
                   )}
                   className="ref-hover-15"
                 >
@@ -134,7 +134,6 @@ export class Work extends Component<{
                     href={sitePath(w.href)}
                     target={"_blank"}
                     rel={"noreferrer"}
-                    data-cursor={"Otvoriť web"}
                     style={cssStyle(`display:block`)}
                   >
                     <img
@@ -153,7 +152,7 @@ export class Work extends Component<{
                   >
                     <div
                       style={cssStyle(
-                        `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                        `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                       )}
                     >
                       {w.num}
@@ -167,7 +166,11 @@ export class Work extends Component<{
                     >
                       {w.name}
                     </h2>
-                    <p style={cssStyle(`margin:0;font-size:16px;line-height:1.55;color:#5C645F`)}>
+                    <p
+                      style={cssStyle(
+                        `margin:0;font-size:16px;line-height:1.55;color:var(--mc-muted)`,
+                      )}
+                    >
                       {w.detail}
                     </p>
                     <div style={cssStyle(`display:flex;gap:8px;flex-wrap:wrap`)}>
@@ -175,7 +178,7 @@ export class Work extends Component<{
                         <Fragment key={index}>
                           <span
                             style={cssStyle(
-                              `background:#F5F4EF;padding:7px 12px;border-radius:999px;font-size:13px`,
+                              `background:var(--mc-page);padding:7px 12px;border-radius:999px;font-size:13px`,
                             )}
                           >
                             {tg}
@@ -193,7 +196,7 @@ export class Work extends Component<{
                         target={"_blank"}
                         rel={"noreferrer"}
                         style={cssStyle(
-                          `background:#0C1A15;color:#fff;font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
+                          `background:var(--mc-ink);color:var(--mc-paper);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
                         )}
                       >
                         {w.domain}
@@ -217,7 +220,9 @@ export class Work extends Component<{
               </Fragment>
             ))}
           </section>
-          <section style={cssStyle(`background:#fff;border-top:1px solid rgba(14,21,18,.12)`)}>
+          <section
+            style={cssStyle(`background:var(--mc-paper);border-top:1px solid rgba(14,21,18,.12)`)}
+          >
             <div
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:72px 32px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:48px`,
@@ -225,12 +230,12 @@ export class Work extends Component<{
             >
               <div
                 style={cssStyle(
-                  `position:sticky;top:110px;align-self:start;background:#0C1A15;color:#fff;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px`,
+                  `position:sticky;top:110px;align-self:start;background:var(--mc-ink);color:var(--mc-paper);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px`,
                 )}
               >
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                   )}
                 >
                   {"ŽIVÉ NÁSTROJE"}
@@ -270,7 +275,7 @@ export class Work extends Component<{
                     >
                       <span
                         style={cssStyle(
-                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                         )}
                       >
                         {l.num}
@@ -281,7 +286,9 @@ export class Work extends Component<{
                         >
                           {l.name}
                         </span>
-                        <span style={cssStyle(`font-size:15px;color:#5C645F`)}>{l.note}</span>
+                        <span style={cssStyle(`font-size:15px;color:var(--mc-muted)`)}>
+                          {l.note}
+                        </span>
                       </span>
                       <span
                         style={cssStyle(

@@ -128,7 +128,7 @@ function CookiesPage() {
             </li>
             <li>
               <code>dv-assistant-chat-v1</code> a <code>dv-assistant-conversation-v1</code> —
-              rozpracovaný chat a náhodný identifikátor, najviac 24 hodín. Tlačidlo „Začať odznova“
+              rozpracovaný chat a náhodný identifikátor, najviac 24 hodín. Vymazanie údajov stránky v prehliadači
               vymaže miestnu históriu.
             </li>
             <li>

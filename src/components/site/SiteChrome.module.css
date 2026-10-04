@@ -4,17 +4,17 @@
 .header {
   position: fixed;
   inset: 0 0 auto;
-  z-index: 100;
-  background: #fff;
-  color: #12372d;
-  border-bottom: 1px solid #dfe6db;
+  z-index: 50;
+  background: var(--mc-paper);
+  color: var(--mc-ink);
+  border-bottom: 1px solid var(--mc-page);
   transition:
     background-color 200ms ease,
     color 200ms ease;
 }
 .header[data-tone="dark"] {
-  background: #071b15;
-  color: #fff;
+  background: var(--mc-ink);
+  color: var(--mc-paper);
   border-color: #ffffff1a;
 }
 .headerInner {
@@ -37,7 +37,7 @@
   letter-spacing: -0.025em;
 }
 .header[data-tone="dark"] .brand svg {
-  color: #c8f06a;
+  color: var(--mc-paper);
 }
 .brandName {
   white-space: nowrap;
@@ -77,10 +77,10 @@
   align-items: center;
   gap: 16px;
 }
-.header[data-tone="dark"] .headerActions > a {
-  background: #c8f06a;
-  color: #071b15;
-  border-color: #c8f06a;
+.header[data-tone="dark"] .headerActions > :is(a, button:global(.brand-builder-cta)) {
+  background: var(--mc-accent);
+  color: var(--mc-ink);
+  border-color: var(--mc-paper);
 }
 .menuToggle {
   display: none;
@@ -97,8 +97,8 @@
 .menuLayer {
   position: fixed;
   inset: 0;
-  z-index: 110;
-  background: #071b1580;
+  z-index: 60;
+  background: #1c161280;
   visibility: hidden;
   pointer-events: none;
   opacity: 0;
@@ -117,8 +117,8 @@
   width: min(520px, 100%);
   padding: 28px;
   overflow-y: auto;
-  background: #f5f8f1;
-  color: #12372d;
+  background: var(--mc-page);
+  color: var(--mc-ink);
 }
 .menuHead {
   display: flex;
@@ -129,14 +129,14 @@
 }
 .menuClose {
   min-height: 44px;
-  border: 1px solid #c9d7c3;
+  border: 1px solid var(--mc-page);
   border-radius: 6px;
   padding: 10px;
   font-weight: 650;
   font-size: 12px;
   cursor: pointer;
-  background: #fff;
-  color: #12372d;
+  background: var(--mc-paper);
+  color: var(--mc-ink);
 }
 .menuNav {
   display: grid;
@@ -149,9 +149,9 @@
   font-size: 30px;
   font-weight: 550;
   letter-spacing: -0.025em;
-  color: #12372d;
+  color: var(--mc-ink);
   text-decoration: none;
-  border-top: 1px solid #cedbc9;
+  border-top: 1px solid var(--mc-page);
 }
 .menuNav span {
   font-size: 12px;
@@ -165,8 +165,8 @@
   color: inherit;
 }
 .footer {
-  background: #071b15;
-  color: #fff;
+  background: var(--mc-ink);
+  color: var(--mc-paper);
   padding: 80px 0 24px;
 }
 .footerWrap {
@@ -182,14 +182,14 @@
   padding-bottom: 64px;
 }
 .label {
-  color: #c8f06a;
+  color: var(--mc-paper);
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin: 0 0 20px;
 }
 .footer h2 {
-  color: #fff;
+  color: var(--mc-paper);
   max-width: 750px;
   font-size: clamp(32px, 4vw, 58px);
   font-weight: 500;
@@ -204,17 +204,17 @@
   padding-block: 56px;
 }
 .footerBrand svg {
-  color: #c8f06a;
+  color: var(--mc-paper);
 }
 .footerBrand p {
   max-width: 270px;
-  color: #baccc1;
+  color: var(--mc-page);
   font-size: 15px;
   line-height: 1.6;
   margin-top: 20px;
 }
 .footerCol h3 {
-  color: #fff;
+  color: var(--mc-paper);
   font-size: 13px;
   font-weight: 650;
   margin: 0 0 20px;
@@ -227,12 +227,12 @@
   gap: 14px;
 }
 .footerCol a {
-  color: #baccc1;
+  color: var(--mc-page);
   font-size: 14px;
   text-decoration: none;
 }
 .footerCol a:hover {
-  color: #c8f06a;
+  color: var(--mc-paper);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -245,7 +245,7 @@
   gap: 30px;
   border-top: 1px solid #ffffff26;
   padding-top: 24px;
-  color: #91a99a;
+  color: var(--mc-line);
   font-size: 12px;
 }
 .footerBottom nav {
@@ -254,11 +254,11 @@
   flex-wrap: wrap;
 }
 .footerBottom a {
-  color: #baccc1;
+  color: var(--mc-page);
   text-decoration: none;
 }
 :is(.header, .footer, .menuPanel) :is(a, button):focus-visible {
-  outline: 3px solid #87b342;
+  outline: 3px solid var(--mc-accent);
   outline-offset: 5px;
 }
 @media (max-width: 1120px) {
@@ -275,7 +275,7 @@
   .brand {
     font-size: 18px;
   }
-  .headerActions > a {
+  .headerActions > :is(a, button:global(.brand-builder-cta)) {
     padding-inline: 14px;
     font-size: 13px;
   }
@@ -304,7 +304,7 @@
     width: calc(100% - 40px);
     gap: 12px;
   }
-  .headerActions > a {
+  .headerActions > :is(a, button:global(.brand-builder-cta)) {
     display: none;
   }
   .brand {
@@ -362,6 +362,6 @@
   cursor: pointer;
 }
 .footerBottom nav button:focus-visible {
-  outline: 2px solid #c8f06a;
+  outline: 2px solid var(--mc-accent);
   outline-offset: 4px;
 }

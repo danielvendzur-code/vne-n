@@ -44,7 +44,7 @@ export class Process extends Component<{
       <Fragment>
         <div
           style={cssStyle(
-            `font-family:'Geist',system-ui,sans-serif;color:#0E1512;background:#F5F4EF`,
+            `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
@@ -55,7 +55,7 @@ export class Process extends Component<{
           >
             <div
               style={cssStyle(
-                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F;padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
+                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted);padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
               )}
             >
               <a href={sitePath("/")}>{"DOMOV"}</a>
@@ -73,11 +73,11 @@ export class Process extends Component<{
               >
                 {"Od prvého zadania"}
                 <br />
-                <span style={cssStyle(`color:#1F5B47`)}>{"po živý web."}</span>
+                <span style={cssStyle(`color:var(--mc-brand)`)}>{"po živý web."}</span>
               </h1>
               <p
                 style={cssStyle(
-                  `margin:0;font-size:19px;line-height:1.5;color:#5C645F;text-wrap:pretty`,
+                  `margin:0;font-size:19px;line-height:1.5;color:var(--mc-muted);text-wrap:pretty`,
                 )}
               >
                 {
@@ -93,12 +93,12 @@ export class Process extends Component<{
           >
             <div
               style={cssStyle(
-                `position:sticky;top:110px;align-self:start;background:#0C1A15;color:#fff;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px`,
+                `position:sticky;top:110px;align-self:start;background:var(--mc-ink);color:var(--mc-paper);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px`,
               )}
             >
               <div
                 style={cssStyle(
-                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                 )}
               >
                 {"OTÁZKA → VÝSLEDOK"}
@@ -128,20 +128,14 @@ export class Process extends Component<{
                 />
                 <span
                   style={cssStyle(
-                    `position:absolute;left:12px;bottom:12px;background:#C9F26B;color:#0C1A15;padding:6px 10px;border-radius:999px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em`,
+                    `position:absolute;left:12px;bottom:12px;background:var(--mc-accent);color:var(--mc-ink);padding:6px 10px;border-radius:999px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em`,
                   )}
                 >
                   {"ŽIVÁ REALIZÁCIA · DERAT"}
                 </span>
               </div>
-              <button
-                onClick={openWidget}
-                style={cssStyle(
-                  `all:unset;cursor:pointer;align-self:flex-start;background:#C9F26B;color:#0C1A15;font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
-                )}
-                type="button"
-              >
-                {"Začať zadaním →"}
+              <button className="mc-btn" onClick={openWidget} type="button">
+                {"Vyskladať riešenie →"}
               </button>
             </div>
             <div style={cssStyle(`display:flex;flex-direction:column;gap:12px;grid-column:span 1`)}>
@@ -149,12 +143,12 @@ export class Process extends Component<{
                 <Fragment key={index}>
                   <div
                     style={cssStyle(
-                      `background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px 30px;display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px`,
+                      `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px 30px;display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px`,
                     )}
                   >
                     <span
                       style={cssStyle(
-                        `width:48px;height:48px;border-radius:14px;background:#0C1A15;color:#C9F26B;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:13px`,
+                        `width:48px;height:48px;border-radius:14px;background:var(--mc-ink);color:var(--mc-accent);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:13px`,
                       )}
                     >
                       {s.num}
@@ -167,17 +161,21 @@ export class Process extends Component<{
                       >
                         {s.title}
                       </h3>
-                      <p style={cssStyle(`margin:0;font-size:16px;line-height:1.55;color:#5C645F`)}>
+                      <p
+                        style={cssStyle(
+                          `margin:0;font-size:16px;line-height:1.55;color:var(--mc-muted)`,
+                        )}
+                      >
                         {s.copy}
                       </p>
                       <div
                         style={cssStyle(
-                          `display:flex;gap:12px;align-items:center;background:#F5F4EF;border-radius:12px;padding:12px 14px;font-size:15px`,
+                          `display:flex;gap:12px;align-items:center;background:var(--mc-page);border-radius:12px;padding:12px 14px;font-size:15px`,
                         )}
                       >
                         <span
                           style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#0C1A15;background:#C9F26B;padding:5px 9px;border-radius:999px`,
+                            `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mc-ink);background:var(--mc-accent);padding:5px 9px;border-radius:999px`,
                           )}
                         >
                           {"VÝSTUP"}

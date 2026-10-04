@@ -25,36 +25,36 @@ export class Home extends Component<{
     ];
     const themes = [
       {
-        bg: "#FFFFFF",
-        fg: "#0E1512",
-        muted: "#5C645F",
+        bg: "var(--mc-paper)",
+        fg: "var(--mc-ink)",
+        muted: "var(--mc-muted)",
         line: "rgba(14,21,18,.12)",
-        btnBg: "#0C1A15",
-        btnFg: "#fff",
+        btnBg: "var(--mc-ink)",
+        btnFg: "var(--mc-paper)",
       },
       {
-        bg: "#ECEAE3",
-        fg: "#0E1512",
-        muted: "#5C645F",
+        bg: "var(--mc-page)",
+        fg: "var(--mc-ink)",
+        muted: "var(--mc-muted)",
         line: "rgba(14,21,18,.14)",
-        btnBg: "#0C1A15",
-        btnFg: "#fff",
+        btnBg: "var(--mc-ink)",
+        btnFg: "var(--mc-paper)",
       },
       {
-        bg: "#0C1A15",
-        fg: "#FFFFFF",
+        bg: "var(--mc-ink)",
+        fg: "var(--mc-paper)",
         muted: "rgba(255,255,255,.7)",
         line: "rgba(255,255,255,.14)",
-        btnBg: "#C9F26B",
-        btnFg: "#0C1A15",
+        btnBg: "var(--mc-accent)",
+        btnFg: "var(--mc-ink)",
       },
       {
-        bg: "#1F5B47",
-        fg: "#FFFFFF",
+        bg: "var(--mc-brand)",
+        fg: "var(--mc-paper)",
         muted: "rgba(255,255,255,.78)",
         line: "rgba(255,255,255,.18)",
-        btnBg: "#fff",
-        btnFg: "#0C1A15",
+        btnBg: "var(--mc-paper)",
+        btnFg: "var(--mc-ink)",
       },
     ];
     const work = [
@@ -114,8 +114,8 @@ export class Home extends Component<{
         const a = i === this.state.kov;
         return {
           ...k,
-          bg: a ? "#fff" : "transparent",
-          color: a ? "#0C1A15" : "rgba(255,255,255,.75)",
+          bg: a ? "var(--mc-paper)" : "transparent",
+          color: a ? "var(--mc-ink)" : "rgba(255,255,255,.75)",
           pick: () => this.setState({ kov: i }),
         };
       }),
@@ -172,14 +172,17 @@ export class Home extends Component<{
       <Fragment>
         <div
           style={cssStyle(
-            `font-family:'Geist',system-ui,sans-serif;color:#0E1512;background:#F5F4EF`,
+            `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <StudioHero />
           <HomeFacts />
           <HomeSolutions />
           <InquiryComparison />
-          <section id={"koverta"} style={cssStyle(`background:#0C1A15;color:#fff`)}>
+          <section
+            id={"koverta"}
+            style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}
+          >
             <div
               className="redesign-koverta-grid"
               style={cssStyle(
@@ -193,7 +196,7 @@ export class Home extends Component<{
               >
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                   )}
                 >
                   {"03 / REALIZÁCIA · KOVERTA.SK"}
@@ -224,7 +227,7 @@ export class Home extends Component<{
                       >
                         <span
                           style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B;padding-top:4px`,
+                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent);padding-top:4px`,
                           )}
                         >
                           {s.num}
@@ -248,7 +251,7 @@ export class Home extends Component<{
                   target={"_blank"}
                   rel={"noreferrer"}
                   style={cssStyle(
-                    `align-self:flex-start;color:#fff;font-size:15px;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:3px`,
+                    `align-self:flex-start;color:var(--mc-paper);font-size:15px;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:3px`,
                   )}
                 >
                   {"Otvoriť na koverta.sk ↗"}
@@ -281,7 +284,7 @@ export class Home extends Component<{
                 <div
                   className="redesign-koverta-preview"
                   style={cssStyle(
-                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:#f4f4f2`,
+                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:var(--mc-page)`,
                   )}
                 >
                   <img
@@ -300,7 +303,7 @@ export class Home extends Component<{
                     rel={"noreferrer"}
                     className="redesign-action redesign-action--lime"
                     style={cssStyle(
-                      `position:absolute;right:16px;bottom:16px;background:#C9F26B;color:#0C1A15;font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
+                      `position:absolute;right:16px;bottom:16px;background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
                     )}
                   >
                     {"Spustiť živý konfigurátor ↗"}
@@ -323,7 +326,7 @@ export class Home extends Component<{
               <div>
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                   )}
                 >
                   {"04 / REALIZÁCIE"}
@@ -369,10 +372,9 @@ export class Home extends Component<{
                         href={sitePath(w.href)}
                         target={"_blank"}
                         rel={"noreferrer"}
-                        data-cursor={"Otvoriť web"}
                         className="redesign-case-shot"
                         style={cssStyle(
-                          `border-radius:18px;overflow:hidden;border:1px solid ${w.line};background:#fff;align-self:stretch;display:flex;flex-direction:column`,
+                          `border-radius:18px;overflow:hidden;border:1px solid ${w.line};background:var(--mc-paper);align-self:stretch;display:flex;flex-direction:column`,
                         )}
                       >
                         <img
@@ -434,7 +436,7 @@ export class Home extends Component<{
                             )}
                           >
                             <a
-                              className={`redesign-action ${w.btnBg === "#C9F26B" ? "redesign-action--lime" : w.btnBg === "#fff" ? "redesign-action--white" : ""}`}
+                              className={`redesign-action ${w.btnBg === "var(--mc-accent)" ? "redesign-action--lime" : w.btnBg === "var(--mc-paper)" ? "redesign-action--white" : ""}`}
                               href={sitePath(w.href)}
                               target={"_blank"}
                               rel={"noreferrer"}
@@ -466,7 +468,7 @@ export class Home extends Component<{
               ))}
             </ol>
           </section>
-          <section id={"postup"} style={cssStyle(`background:#0C1A15;color:#fff`)}>
+          <section id={"postup"} style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}>
             <div
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:88px 32px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:56px`,
@@ -479,7 +481,7 @@ export class Home extends Component<{
               >
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                   )}
                 >
                   {"05 / AKO TO PREBIEHA"}
@@ -502,7 +504,7 @@ export class Home extends Component<{
                   className="redesign-action redesign-action--lime"
                   href={sitePath("/postup")}
                   style={cssStyle(
-                    `align-self:flex-start;margin-top:12px;background:#C9F26B;color:#0C1A15;font-weight:600;font-size:15px;padding:14px 22px;border-radius:999px`,
+                    `align-self:flex-start;margin-top:12px;background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:15px;padding:14px 22px;border-radius:999px`,
                   )}
                 >
                   {"Celý postup →"}
@@ -518,7 +520,7 @@ export class Home extends Component<{
                     >
                       <span
                         style={cssStyle(
-                          `font-family:'Geist Mono',monospace;font-size:56px;font-weight:400;letter-spacing:-.04em;line-height:.9;color:#C9F26B`,
+                          `font-family:'Geist Mono',monospace;font-size:56px;font-weight:400;letter-spacing:-.04em;line-height:.9;color:var(--mc-accent)`,
                         )}
                       >
                         {s.num}
@@ -543,7 +545,7 @@ export class Home extends Component<{
                         >
                           <span
                             style={cssStyle(
-                              `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#0C1A15;background:#C9F26B;padding:5px 9px;border-radius:999px`,
+                              `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mc-ink);background:var(--mc-accent);padding:5px 9px;border-radius:999px`,
                             )}
                           >
                             {"VÝSTUP"}
