@@ -1,61 +1,61 @@
 .redesign .ref-hover-0:hover {
-  background: #1f5b47 !important;
+  background: var(--mc-brand) !important;
 }
 .redesign .ref-hover-1:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-2:hover {
   transform: rotate(0deg) translateY(-8px) scale(1.03) !important;
   z-index: 20 !important;
 }
 .redesign .ref-hover-3:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-4:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-5:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-6:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-7:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-8:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-9:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-10:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-11:hover {
-  background: #f5f4ef !important;
+  background: var(--mc-page) !important;
 }
 .redesign .ref-hover-12:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-13:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-14:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-15:hover {
-  border-color: #0e1512 !important;
+  border-color: var(--mc-ink) !important;
 }
 .redesign .ref-hover-16:hover {
-  background: #f5f4ef !important;
+  background: var(--mc-page) !important;
 }
 .redesign .ref-hover-17:hover {
-  background: #f5f4ef !important;
+  background: var(--mc-page) !important;
 }
 .redesign .ref-hover-18:hover {
   background: rgba(255, 255, 255, 0.1) !important;
-  color: #fff !important;
+  color: var(--mc-paper) !important;
 }
 .redesign .ref-hover-19:hover {
   background: #d8fa85 !important;

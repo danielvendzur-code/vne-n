@@ -27,12 +27,12 @@ export class Footer extends Component<{
         <section
           id={"kontakt"}
           style={cssStyle(
-            `background:#0C1A15;color:#fff;padding:24px;font-family:'Geist',system-ui,sans-serif`,
+            `background:var(--mc-ink);color:var(--mc-paper);padding:24px;font-family:'Geist',system-ui,sans-serif`,
           )}
         >
           <div
             style={cssStyle(
-              `max-width:1232px;margin:0 auto;background:#C9F26B;color:#0C1A15;border-radius:14px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:end`,
+              `max-width:1232px;margin:0 auto;background:var(--mc-paper);color:var(--mc-ink);border-radius:14px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:end`,
             )}
           >
             <div>
@@ -54,20 +54,13 @@ export class Footer extends Component<{
             <div style={cssStyle(`display:flex;flex-direction:column;gap:24px`)}>
               <p style={cssStyle(`margin:0;font-size:18px;line-height:1.5`)}>{copy}</p>
               <div style={cssStyle(`display:flex;gap:10px;flex-wrap:wrap`)}>
-                <button
-                  className="redesign-action"
-                  onClick={openWidget}
-                  style={cssStyle(
-                    `all:unset;cursor:pointer;background:#0C1A15;color:#fff;font-weight:600;font-size:16px;padding:16px 26px;border-radius:999px`,
-                  )}
-                  type="button"
-                >
+                <button className="mc-btn" onClick={openWidget} type="button">
                   {"Vyskladať riešenie →"}
                 </button>
                 <a
                   href={sitePath("mailto:info@mojchatbot.sk")}
                   style={cssStyle(
-                    `color:#0C1A15;font-size:16px;padding:16px 26px;border-radius:999px;border:1px solid rgba(12,26,21,.3);text-decoration:none`,
+                    `color:var(--mc-ink);font-size:16px;padding:16px 26px;border-radius:999px;border:1px solid rgba(12,26,21,.3);text-decoration:none`,
                   )}
                 >
                   {"info@mojchatbot.sk"}
@@ -198,13 +191,17 @@ export class Footer extends Component<{
               >
                 <a
                   href={sitePath("/ochrana-udajov")}
-                  style={cssStyle(`color:#fff;text-decoration:underline;text-underline-offset:4px`)}
+                  style={cssStyle(
+                    `color:var(--mc-paper);text-decoration:underline;text-underline-offset:4px`,
+                  )}
                 >
                   Ochrana údajov
                 </a>
                 <a
                   href={sitePath("/cookies")}
-                  style={cssStyle(`color:#fff;text-decoration:underline;text-underline-offset:4px`)}
+                  style={cssStyle(
+                    `color:var(--mc-paper);text-decoration:underline;text-underline-offset:4px`,
+                  )}
                 >
                   Cookies
                 </a>
@@ -212,14 +209,16 @@ export class Footer extends Component<{
                   type="button"
                   onClick={openAnalyticsPreferences}
                   style={cssStyle(
-                    `all:unset;cursor:pointer;color:#fff;text-decoration:underline;text-underline-offset:4px`,
+                    `all:unset;cursor:pointer;color:var(--mc-paper);text-decoration:underline;text-underline-offset:4px`,
                   )}
                 >
                   Nastavenia cookies
                 </button>
                 <a
                   href={sitePath("/pravne-informacie")}
-                  style={cssStyle(`color:#fff;text-decoration:underline;text-underline-offset:4px`)}
+                  style={cssStyle(
+                    `color:var(--mc-paper);text-decoration:underline;text-underline-offset:4px`,
+                  )}
                 >
                   Právne informácie
                 </a>

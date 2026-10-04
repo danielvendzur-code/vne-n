@@ -128,8 +128,8 @@ function CookiesPage() {
             </li>
             <li>
               <code>dv-assistant-chat-v1</code> a <code>dv-assistant-conversation-v1</code> —
-              rozpracovaný chat a náhodný identifikátor, najviac 24 hodín. Tlačidlo „Začať odznova“
-              vymaže miestnu históriu.
+              rozpracovaný chat a náhodný identifikátor, najviac 24 hodín. Vymazanie údajov stránky
+              v prehliadači vymaže miestnu históriu.
             </li>
             <li>
               <code>_ga</code> a <code>_ga_*</code> — iba ak je Google Analytics nakonfigurovaný a

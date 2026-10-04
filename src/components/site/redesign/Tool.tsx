@@ -244,8 +244,8 @@ export class Tool extends Component<{
       ["poradca", "Poradca"],
     ].map(([k, label]) => ({
       label,
-      bg: k === key ? "#0C1A15" : "transparent",
-      fg: k === key ? "#fff" : "#0E1512",
+      bg: k === key ? "var(--mc-ink)" : "transparent",
+      fg: k === key ? "var(--mc-paper)" : "var(--mc-ink)",
       href: k === "konfigurator" ? "/3d-konfigurator" : "/nastroj?t=" + k,
       pick: undefined,
     }));
@@ -264,7 +264,7 @@ export class Tool extends Component<{
       <Fragment>
         <div
           style={cssStyle(
-            `font-family:'Geist',system-ui,sans-serif;color:#0E1512;background:#F5F4EF`,
+            `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
@@ -280,7 +280,7 @@ export class Tool extends Component<{
             >
               <div
                 style={cssStyle(
-                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                 )}
               >
                 <a href={sitePath("/")}>{"DOMOV"}</a>
@@ -291,7 +291,7 @@ export class Tool extends Component<{
               </div>
               <div
                 style={cssStyle(
-                  `display:flex;gap:4px;background:#fff;border:1px solid rgba(14,21,18,.12);padding:4px;border-radius:999px;flex-wrap:wrap`,
+                  `display:flex;gap:4px;background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);padding:4px;border-radius:999px;flex-wrap:wrap`,
                 )}
               >
                 {switcher.map((s, index) => (
@@ -317,7 +317,7 @@ export class Tool extends Component<{
               <div style={cssStyle(`display:flex;flex-direction:column;gap:28px`)}>
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                   )}
                 >
                   {t.num}
@@ -331,33 +331,25 @@ export class Tool extends Component<{
                 >
                   {t.title}
                   <br />
-                  <span style={cssStyle(`color:#1F5B47`)}>{t.accent}</span>
+                  <span style={cssStyle(`color:var(--mc-brand)`)}>{t.accent}</span>
                 </h1>
                 <p
                   style={cssStyle(
-                    `margin:0;font-size:19px;line-height:1.5;color:#5C645F;max-width:520px;text-wrap:pretty`,
+                    `margin:0;font-size:19px;line-height:1.5;color:var(--mc-muted);max-width:520px;text-wrap:pretty`,
                   )}
                 >
                   {t.lead}
                 </p>
                 <div style={cssStyle(`display:flex;gap:12px;align-items:center;flex-wrap:wrap`)}>
-                  <button
-                    onClick={openWidget}
-                    style={cssStyle(
-                      `all:unset;cursor:pointer;background:#0C1A15;color:#fff;font-weight:600;font-size:16px;padding:16px 26px;border-radius:999px`,
-                    )}
-                    type="button"
-                  >
-                    {"Vyskladať "}
-                    {t.acc}
-                    {" →"}
+                  <button className="mc-btn" onClick={openWidget} type="button">
+                    {"Vyskladať riešenie →"}
                   </button>
                   <div
                     style={cssStyle(
-                      `display:flex;align-items:baseline;gap:8px;padding:10px 18px;border-radius:999px;background:#fff;border:1px solid rgba(14,21,18,.12)`,
+                      `display:flex;align-items:baseline;gap:8px;padding:10px 18px;border-radius:999px;background:var(--mc-paper);border:1px solid rgba(14,21,18,.12)`,
                     )}
                   >
-                    <span style={cssStyle(`font-size:14px;color:#5C645F`)}>{"od"}</span>
+                    <span style={cssStyle(`font-size:14px;color:var(--mc-muted)`)}>{"od"}</span>
                     <span
                       style={cssStyle(
                         `font-size:26px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums`,
@@ -367,7 +359,7 @@ export class Tool extends Component<{
                     </span>
                     <span
                       style={cssStyle(
-                        `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#5C645F`,
+                        `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mc-muted)`,
                       )}
                     >
                       {"JEDNORAZOVO"}
@@ -377,7 +369,7 @@ export class Tool extends Component<{
               </div>
               <div
                 style={cssStyle(
-                  `background:#0C1A15;border-radius:32px;height:clamp(380px,62vh,540px);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center`,
+                  `background:var(--mc-ink);border-radius:32px;height:clamp(380px,62vh,540px);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center`,
                 )}
               >
                 <div
@@ -387,7 +379,9 @@ export class Tool extends Component<{
                 >
                   <span style={cssStyle(`display:flex;align-items:center;gap:8px`)}>
                     <span
-                      style={cssStyle(`width:7px;height:7px;border-radius:50%;background:#C9F26B`)}
+                      style={cssStyle(
+                        `width:7px;height:7px;border-radius:50%;background:var(--mc-accent)`,
+                      )}
                     ></span>
                     {"ŽIVÁ UKÁŽKA"}
                   </span>
@@ -404,7 +398,7 @@ export class Tool extends Component<{
               </div>
             </div>
           </section>
-          <section style={cssStyle(`background:#0C1A15;color:#fff`)}>
+          <section style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}>
             <div
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:88px 32px;box-sizing:border-box;display:flex;flex-direction:column;gap:36px`,
@@ -418,7 +412,7 @@ export class Tool extends Component<{
                 <div>
                   <div
                     style={cssStyle(
-                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                     )}
                   >
                     {"01 / AKO TO FUNGUJE"}
@@ -458,12 +452,12 @@ export class Tool extends Component<{
                     <Fragment key={index}>
                       <div
                         style={cssStyle(
-                          `background:#13261F;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:12px`,
+                          `background:var(--mc-ink);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:12px`,
                         )}
                       >
                         <div
                           style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                           )}
                         >
                           {s.index}
@@ -505,7 +499,7 @@ export class Tool extends Component<{
           >
             <div
               style={cssStyle(
-                `background:#C9F26B;border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:16px`,
+                `background:var(--mc-accent);border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:16px`,
               )}
             >
               <div
@@ -525,12 +519,12 @@ export class Tool extends Component<{
             </div>
             <div
               style={cssStyle(
-                `background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:16px`,
+                `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:16px`,
               )}
             >
               <div
                 style={cssStyle(
-                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                 )}
               >
                 {"ČO DOSTANETE VY"}
@@ -557,7 +551,7 @@ export class Tool extends Component<{
               <div>
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                   )}
                 >
                   {"02 / ČO VIE"}
@@ -572,7 +566,7 @@ export class Tool extends Component<{
               </div>
               <p
                 style={cssStyle(
-                  `margin:0;font-size:17px;line-height:1.5;color:#5C645F;max-width:380px`,
+                  `margin:0;font-size:17px;line-height:1.5;color:var(--mc-muted);max-width:380px`,
                 )}
               >
                 {"Vyberieme len to, čo vaša firma naozaj potrebuje. Zvyšok sa dá doplniť neskôr."}
@@ -587,20 +581,22 @@ export class Tool extends Component<{
                 <Fragment key={index}>
                   <div
                     style={cssStyle(
-                      `background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:20px;padding:22px;display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px`,
+                      `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:20px;padding:22px;display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px`,
                     )}
                     className="ref-hover-12"
                   >
                     <span
                       style={cssStyle(
-                        `width:32px;height:32px;border-radius:10px;background:#0C1A15;color:#C9F26B;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:11px`,
+                        `width:32px;height:32px;border-radius:10px;background:var(--mc-ink);color:var(--mc-accent);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:11px`,
                       )}
                     >
                       {f.num}
                     </span>
                     <div style={cssStyle(`display:flex;flex-direction:column;gap:4px`)}>
                       <span style={cssStyle(`font-size:16px;font-weight:600`)}>{f.label}</span>
-                      <span style={cssStyle(`font-size:14px;color:#5C645F;line-height:1.45`)}>
+                      <span
+                        style={cssStyle(`font-size:14px;color:var(--mc-muted);line-height:1.45`)}
+                      >
                         {f.desc}
                       </span>
                     </div>
@@ -618,9 +614,8 @@ export class Tool extends Component<{
               href={sitePath(t.exHref)}
               target={"_blank"}
               rel={"noreferrer"}
-              data-cursor={"Otvoriť"}
               style={cssStyle(
-                `display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:28px;overflow:hidden`,
+                `display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:28px;overflow:hidden`,
               )}
               className="ref-hover-13"
             >
@@ -639,7 +634,7 @@ export class Tool extends Component<{
               >
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                   )}
                 >
                   {"03 / NASADENÉ NA WEBE"}
@@ -651,12 +646,14 @@ export class Tool extends Component<{
                 >
                   {t.exName}
                 </div>
-                <p style={cssStyle(`margin:0;font-size:16px;line-height:1.55;color:#5C645F`)}>
+                <p
+                  style={cssStyle(`margin:0;font-size:16px;line-height:1.55;color:var(--mc-muted)`)}
+                >
                   {t.exCopy}
                 </p>
                 <span
                   style={cssStyle(
-                    `align-self:flex-start;margin-top:6px;background:#0C1A15;color:#fff;font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
+                    `align-self:flex-start;margin-top:6px;background:var(--mc-ink);color:var(--mc-paper);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
                   )}
                 >
                   {t.exDomain}

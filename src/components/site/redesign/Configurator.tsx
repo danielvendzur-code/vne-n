@@ -19,8 +19,8 @@ export class Configurator extends Component<{
     return {
       tabs: shots.map((s, i) => ({
         ...s,
-        bg: i === this.state.i ? "#fff" : "transparent",
-        color: i === this.state.i ? "#0C1A15" : "rgba(255,255,255,.75)",
+        bg: i === this.state.i ? "var(--mc-paper)" : "transparent",
+        color: i === this.state.i ? "var(--mc-ink)" : "rgba(255,255,255,.75)",
         pick: () => this.setState({ i }),
       })),
       shot: shots[this.state.i],
@@ -71,7 +71,7 @@ export class Configurator extends Component<{
       <Fragment>
         <div
           style={cssStyle(
-            `font-family:'Geist',system-ui,sans-serif;color:#0E1512;background:#F5F4EF`,
+            `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
@@ -82,7 +82,7 @@ export class Configurator extends Component<{
           >
             <div
               style={cssStyle(
-                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F;padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
+                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted);padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
               )}
             >
               <a href={sitePath("/")}>{"DOMOV"}</a>
@@ -102,10 +102,12 @@ export class Configurator extends Component<{
               >
                 {"3D konfigurátor"}
                 <br />
-                <span style={cssStyle(`color:#1F5B47`)}>{"na váš web."}</span>
+                <span style={cssStyle(`color:var(--mc-brand)`)}>{"na váš web."}</span>
               </h1>
               <div style={cssStyle(`display:flex;flex-direction:column;gap:22px`)}>
-                <p style={cssStyle(`margin:0;font-size:18px;line-height:1.5;color:#5C645F`)}>
+                <p
+                  style={cssStyle(`margin:0;font-size:18px;line-height:1.5;color:var(--mc-muted)`)}
+                >
                   {
                     "Produkt si zákazník poskladá v 3D, cena sa prepočíta hneď a vy dostanete dopyt s celou zostavou."
                   }
@@ -114,13 +116,13 @@ export class Configurator extends Component<{
                   <a
                     href={sitePath("#kontakt")}
                     style={cssStyle(
-                      `background:#0C1A15;color:#fff;font-weight:600;font-size:15px;padding:15px 24px;border-radius:999px`,
+                      `background:var(--mc-ink);color:var(--mc-paper);font-weight:600;font-size:15px;padding:15px 24px;border-radius:999px`,
                     )}
                   >
                     {"Chcem podobný konfigurátor →"}
                   </a>
-                  <span style={cssStyle(`font-size:15px;color:#5C645F`)}>
-                    <strong style={cssStyle(`color:#0E1512`)}>{"podľa rozsahu"}</strong>
+                  <span style={cssStyle(`font-size:15px;color:var(--mc-muted)`)}>
+                    <strong style={cssStyle(`color:var(--mc-ink)`)}>{"podľa rozsahu"}</strong>
                   </span>
                 </div>
               </div>
@@ -128,7 +130,7 @@ export class Configurator extends Component<{
           </section>
           <section
             className="redesign-koverta-section"
-            style={cssStyle(`background:#0C1A15;color:#fff`)}
+            style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}
           >
             <div
               className="redesign-koverta-grid"
@@ -139,7 +141,7 @@ export class Configurator extends Component<{
               <div style={cssStyle(`display:flex;flex-direction:column;gap:24px`)}>
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                   )}
                 >
                   {"ŽIVÁ REALIZÁCIA · KOVERTA"}
@@ -161,7 +163,7 @@ export class Configurator extends Component<{
                       >
                         <span
                           style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B;padding-top:4px`,
+                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent);padding-top:4px`,
                           )}
                         >
                           {s.num}
@@ -204,7 +206,7 @@ export class Configurator extends Component<{
                 <div
                   className="redesign-koverta-preview"
                   style={cssStyle(
-                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:#f4f4f2`,
+                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:var(--mc-page)`,
                   )}
                 >
                   <img
@@ -219,9 +221,8 @@ export class Configurator extends Component<{
                     )}
                     target={"_blank"}
                     rel={"noreferrer"}
-                    data-cursor={"Spustiť"}
                     style={cssStyle(
-                      `position:absolute;right:16px;bottom:16px;background:#C9F26B;color:#0C1A15;font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
+                      `position:absolute;right:16px;bottom:16px;background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
                     )}
                   >
                     {"Spustiť živý konfigurátor ↗"}
@@ -237,12 +238,12 @@ export class Configurator extends Component<{
           >
             <div
               style={cssStyle(
-                `position:sticky;top:110px;align-self:start;background:#0C1A15;color:#fff;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px`,
+                `position:sticky;top:110px;align-self:start;background:var(--mc-ink);color:var(--mc-paper);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px`,
               )}
             >
               <div
                 style={cssStyle(
-                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                 )}
               >
                 {"ČASTÉ OTÁZKY"}
@@ -270,7 +271,7 @@ export class Configurator extends Component<{
               >
                 <span
                   style={cssStyle(
-                    `width:44px;height:44px;border-radius:50%;background:#C9F26B;color:#0C1A15;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px`,
+                    `width:44px;height:44px;border-radius:50%;background:var(--mc-accent);color:var(--mc-ink);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px`,
                   )}
                 >
                   {"DV"}
@@ -288,7 +289,7 @@ export class Configurator extends Component<{
                 <a
                   href={sitePath("mailto:info@mojchatbot.sk")}
                   style={cssStyle(
-                    `background:#C9F26B;color:#0C1A15;font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
+                    `background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
                   )}
                 >
                   {"Napísať otázku →"}
@@ -296,7 +297,7 @@ export class Configurator extends Component<{
                 <a
                   href={sitePath("tel:+421948699433")}
                   style={cssStyle(
-                    `color:#fff;font-size:14px;padding:12px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.25);font-family:'Geist Mono',monospace`,
+                    `color:var(--mc-paper);font-size:14px;padding:12px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.25);font-family:'Geist Mono',monospace`,
                   )}
                 >
                   {"+421 948 699 433"}
@@ -308,7 +309,7 @@ export class Configurator extends Component<{
                 <Fragment key={index}>
                   <details
                     style={cssStyle(
-                      `background:#fff;border:1px solid rgba(14,21,18,.14);border-radius:18px`,
+                      `background:var(--mc-paper);border:1px solid rgba(14,21,18,.14);border-radius:18px`,
                     )}
                     className="ref-hover-14"
                   >
@@ -319,7 +320,7 @@ export class Configurator extends Component<{
                     >
                       <span
                         style={cssStyle(
-                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F;font-weight:400`,
+                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted);font-weight:400`,
                         )}
                       >
                         {q.num}
@@ -327,7 +328,7 @@ export class Configurator extends Component<{
                       {q.q}
                       <span
                         style={cssStyle(
-                          `width:40px;height:40px;border-radius:50%;background:#0C1A15;color:#C9F26B;display:flex;align-items:center;justify-content:center;font-weight:400;font-size:20px`,
+                          `width:40px;height:40px;border-radius:50%;background:var(--mc-ink);color:var(--mc-accent);display:flex;align-items:center;justify-content:center;font-weight:400;font-size:20px`,
                         )}
                       >
                         {"+"}

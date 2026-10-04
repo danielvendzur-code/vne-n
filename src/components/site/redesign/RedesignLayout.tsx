@@ -23,7 +23,7 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
     const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
     if (!meta) return;
     const previous = meta.content;
-    meta.content = "#101713";
+    meta.content = "#1C1612";
     return () => {
       meta.content = previous;
     };

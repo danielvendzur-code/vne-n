@@ -1,6 +1,6 @@
 .redesign {
-  background: #f5f4ef;
-  color: #0e1512;
+  background: var(--mc-page);
+  color: var(--mc-ink);
   font-family: "Geist", system-ui, sans-serif;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
@@ -36,7 +36,7 @@
 .redesign a:focus-visible,
 .redesign button:focus-visible,
 .redesign summary:focus-visible {
-  outline: 2px solid #1f5b47;
+  outline: 2px solid var(--mc-brand);
   outline-offset: 4px;
 }
 .redesign-header {
@@ -50,7 +50,7 @@
   top: -100px;
   z-index: 100;
   padding: 12px;
-  background: #c9f26b;
+  background: var(--mc-accent);
 }
 .redesign-skip:focus {
   top: 16px;
@@ -221,8 +221,8 @@
 }
 .redesign-nav-cta {
   border: 0;
-  background: #c9f26b;
-  color: #0c1a15;
+  background: var(--mc-accent);
+  color: var(--mc-ink);
   font-size: 15px;
   font-weight: 600;
   border-radius: 999px;
@@ -235,11 +235,11 @@
 }
 .redesign[data-page="home"],
 .redesign[data-page="home"] > .redesign-header {
-  background: #071b15;
+  background: var(--mc-ink);
 }
 html:has(.redesign[data-page="home"]),
 body:has(.redesign[data-page="home"]) {
-  background: #071b15;
+  background: var(--mc-ink);
 }
 @media (max-width: 1100px) {
   .redesign-nav-phone {
@@ -298,7 +298,7 @@ body:has(.redesign[data-page="home"]) {
     gap: 4px;
     padding: 12px;
     border-radius: 22px;
-    background: #12372d;
+    background: var(--mc-ink);
     box-shadow: 0 12px 32px #0003;
   }
   .redesign-nav .redesign-nav-links[data-open="true"] {

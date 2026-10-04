@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { BrandMark } from "@/components/BrandMark";
 import { Menu, X } from "lucide-react";
 import { sitePath } from "./utils";
 
@@ -40,7 +41,7 @@ export function Header({ active = "home" }: HeaderProps) {
         }}
       >
         <a className="redesign-brand" href={sitePath("/")}>
-          <img src={sitePath("/brand/logo-light.svg")} alt="" width="30" height="30" />
+          <BrandMark size={34} tone="paper" />
           <span>Môj Chatbot</span>
         </a>
         <div className="redesign-nav-links" id="redesign-nav-links" data-open={open}>
@@ -61,7 +62,6 @@ export function Header({ active = "home" }: HeaderProps) {
           </a>
           <button className="redesign-nav-cta" type="button" onClick={openWidget}>
             <span className="redesign-nav-cta-full">Vyskladať riešenie →</span>
-            <span className="redesign-nav-cta-short">Vyskladať →</span>
           </button>
           <button
             ref={toggleRef}
@@ -72,6 +72,7 @@ export function Header({ active = "home" }: HeaderProps) {
             aria-controls="redesign-nav-links"
             onClick={() => setOpen((value) => !value)}
           >
+            <span>{open ? "Zavrieť" : "Menu"}</span>
             {open ? (
               <X size={22} strokeWidth={1.6} aria-hidden="true" />
             ) : (

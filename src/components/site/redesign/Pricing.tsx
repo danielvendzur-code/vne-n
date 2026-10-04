@@ -84,7 +84,7 @@ export class Pricing extends Component<{
       <Fragment>
         <div
           style={cssStyle(
-            `font-family:'Geist',system-ui,sans-serif;color:#0E1512;background:#F5F4EF`,
+            `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
@@ -95,7 +95,7 @@ export class Pricing extends Component<{
           >
             <div
               style={cssStyle(
-                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F;padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
+                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted);padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
               )}
             >
               <a href={sitePath("/")}>{"DOMOV"}</a>
@@ -113,11 +113,11 @@ export class Pricing extends Component<{
               >
                 {"Jasná cena."}
                 <br />
-                <span style={cssStyle(`color:#1F5B47`)}>{"Jasný rozsah."}</span>
+                <span style={cssStyle(`color:var(--mc-brand)`)}>{"Jasný rozsah."}</span>
               </h1>
               <p
                 style={cssStyle(
-                  `margin:0;font-size:18px;line-height:1.5;color:#5C645F;text-wrap:pretty`,
+                  `margin:0;font-size:18px;line-height:1.5;color:var(--mc-muted);text-wrap:pretty`,
                 )}
               >
                 {
@@ -133,18 +133,18 @@ export class Pricing extends Component<{
           >
             <div
               style={cssStyle(
-                `background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:20px`,
+                `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:20px`,
               )}
             >
               <div
                 style={cssStyle(
-                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                 )}
               >
                 {"01 / CHATBOT · PORADCA"}
               </div>
               <div>
-                <span style={cssStyle(`font-size:15px;color:#5C645F`)}>{"od "}</span>
+                <span style={cssStyle(`font-size:15px;color:var(--mc-muted)`)}>{"od "}</span>
                 <span
                   style={cssStyle(
                     `font-size:56px;font-weight:600;letter-spacing:-.05em;font-variant-numeric:tabular-nums`,
@@ -153,22 +153,22 @@ export class Pricing extends Component<{
                   {"347 €"}
                 </span>
               </div>
-              <div style={cssStyle(`font-size:14px;color:#5C645F`)}>{"vytvorenie"}</div>
+              <div style={cssStyle(`font-size:14px;color:var(--mc-muted)`)}>{"vytvorenie"}</div>
             </div>
             <div
               style={cssStyle(
-                `background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:20px`,
+                `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:20px`,
               )}
             >
               <div
                 style={cssStyle(
-                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                  `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                 )}
               >
                 {"02 / KALKULAČKA · KROKOVÝ VÝBER"}
               </div>
               <div>
-                <span style={cssStyle(`font-size:15px;color:#5C645F`)}>{"od "}</span>
+                <span style={cssStyle(`font-size:15px;color:var(--mc-muted)`)}>{"od "}</span>
                 <span
                   style={cssStyle(
                     `font-size:56px;font-weight:600;letter-spacing:-.05em;font-variant-numeric:tabular-nums`,
@@ -177,11 +177,11 @@ export class Pricing extends Component<{
                   {"447 €"}
                 </span>
               </div>
-              <div style={cssStyle(`font-size:14px;color:#5C645F`)}>{"vytvorenie"}</div>
+              <div style={cssStyle(`font-size:14px;color:var(--mc-muted)`)}>{"vytvorenie"}</div>
             </div>
             <div
               style={cssStyle(
-                `background:#C9F26B;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:20px`,
+                `background:var(--mc-accent);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:20px`,
               )}
             >
               <div
@@ -206,7 +206,7 @@ export class Pricing extends Component<{
           </section>
           <section
             style={cssStyle(
-              `background:#fff;border-top:1px solid rgba(14,21,18,.12);border-bottom:1px solid rgba(14,21,18,.12)`,
+              `background:var(--mc-paper);border-top:1px solid rgba(14,21,18,.12);border-bottom:1px solid rgba(14,21,18,.12)`,
             )}
           >
             <div
@@ -222,7 +222,7 @@ export class Pricing extends Component<{
                 <div>
                   <div
                     style={cssStyle(
-                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                     )}
                   >
                     {"CELÝ CENNÍK"}
@@ -239,7 +239,7 @@ export class Pricing extends Component<{
                 </div>
                 <p
                   style={cssStyle(
-                    `margin:0;font-size:17px;line-height:1.5;color:#5C645F;max-width:440px`,
+                    `margin:0;font-size:17px;line-height:1.5;color:var(--mc-muted);max-width:440px`,
                   )}
                 >
                   {
@@ -263,7 +263,7 @@ export class Pricing extends Component<{
                     >
                       <span
                         style={cssStyle(
-                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                         )}
                       >
                         {p.num}
@@ -274,14 +274,16 @@ export class Pricing extends Component<{
                         >
                           {p.name}
                         </span>
-                        <span style={cssStyle(`font-size:15px;color:#5C645F;line-height:1.5`)}>
+                        <span
+                          style={cssStyle(`font-size:15px;color:var(--mc-muted);line-height:1.5`)}
+                        >
                           {p.copy}
                         </span>
                       </span>
                       <span style={cssStyle(`display:flex;flex-direction:column;gap:4px`)}>
                         <span
                           style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#5C645F`,
+                            `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mc-muted)`,
                           )}
                         >
                           {"VYTVORENIE"}
@@ -297,7 +299,7 @@ export class Pricing extends Component<{
                       <span style={cssStyle(`display:flex;flex-direction:column;gap:4px`)}>
                         <span
                           style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#5C645F`,
+                            `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mc-muted)`,
                           )}
                         >
                           {"PREVÁDZKA"}
@@ -328,12 +330,12 @@ export class Pricing extends Component<{
               <Fragment key={index}>
                 <div
                   style={cssStyle(
-                    `background:#fff;border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:14px`,
+                    `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:14px`,
                   )}
                 >
                   <div
                     style={cssStyle(
-                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                     )}
                   >
                     {n.label}
@@ -345,7 +347,7 @@ export class Pricing extends Component<{
           </section>
           <p
             style={cssStyle(
-              `max-width:1216px;margin:0 auto 40px;padding:0 32px;color:#56605a;font-size:14px;line-height:1.5`,
+              `max-width:1216px;margin:0 auto 40px;padding:0 32px;color:var(--mc-muted);font-size:14px;line-height:1.5`,
             )}
           >
             Prevádzkovateľ Venaco s.r.o. je platiteľ DPH. Konečnú cenu vrátane DPH uvedieme v

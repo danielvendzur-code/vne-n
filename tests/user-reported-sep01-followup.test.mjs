@@ -15,14 +15,17 @@ test("all homepage solution CTAs use builder wording", async () => {
   assert.doesNotMatch(landing, /MutationObserver/);
 });
 
-test("header CTA is lime at rest and black on hover", async () => {
+test("legacy header uses the shared espresso builder action", async () => {
   const layout = await read("src/components/site/LegacySiteLayout.tsx");
   const css = await read("src/components/site/SiteVisualAuthority.css");
 
   assert.match(layout, /SiteVisualAuthority\.css/);
   assert.doesNotMatch(layout, /UserFollowupSep01\.css/);
-  assert.match(css, /background:\s*#c8f06a !important/);
-  assert.match(css, /background:\s*#0b0e0c !important/);
+  assert.match(css, /header \.brand-builder-cta[\s\S]*background:\s*var\(--mc-brand\) !important/);
+  assert.match(css, /header \.brand-builder-cta:hover[\s\S]*var\(--mc-brand-hover\)/);
+  const nav = await read("src/components/site/Nav.tsx");
+  assert.match(nav, /Vyskladať riešenie/);
+  assert.match(nav, /site-assistant:open/);
 });
 
 test("contact uses the unified card form without hairline separators", async () => {

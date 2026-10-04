@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, type CSSProperties } from "react";
 import styles from "./StudioHome.module.css";
-import actions from "./WebsiteAction.module.css";
+
 import fit from "./StudioHero.module.css";
 const BASE = import.meta.env.BASE_URL;
 
@@ -68,7 +68,6 @@ export function StudioHero() {
                 href={project.href}
                 target="_blank"
                 rel="noreferrer"
-                data-cursor="Otvoriť web"
                 style={{ "--case": index } as CSSProperties}
               >
                 <img
@@ -94,9 +93,17 @@ export function StudioHero() {
             Chatbot odpovie. Kalkulačka spočíta cenu. Konfigurátor vyskladá produkt. Váš web pomôže
             zákazníkovi urobiť ďalší krok.
           </p>
-          <a href="#riesenia" className={`${actions.action} ${actions.lime}`}>
-            Vybrať riešenie <ArrowUpRight size={17} aria-hidden="true" />
-          </a>
+          <button
+            type="button"
+            className="mc-btn mc-btn--on-dark"
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("site-assistant:open", { detail: { entry: "builder" } }),
+              )
+            }
+          >
+            Vyskladať riešenie <span aria-hidden="true">→</span>
+          </button>
         </div>
       </section>
     </div>

@@ -1,6 +1,6 @@
 .page {
-  background: #f5f8f1;
-  color: #12372d;
+  background: var(--mc-page);
+  color: var(--mc-ink);
 }
 .section {
   padding: 40px 0 64px;
@@ -21,21 +21,21 @@
   grid-column: 2;
   grid-row: 1;
   padding: 32px;
-  background: #fff;
-  border: 1px solid #d6e1cf;
+  background: var(--mc-paper);
+  border: 1px solid var(--mc-page);
   border-radius: 12px;
   box-shadow: 0 16px 48px #12372d06;
 }
 .label {
   margin: 0 0 20px;
-  color: #54705d;
+  color: var(--mc-muted);
   font-size: 12px;
   font-weight: 650;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .intro h1 {
-  color: #12372d;
+  color: var(--mc-ink);
   font-size: clamp(38px, 4.1vw, 58px);
   font-weight: 550;
   line-height: 1.05;
@@ -44,12 +44,12 @@
 }
 .intro h1 em {
   font-style: normal;
-  color: #4a742c;
+  color: var(--mc-brand);
 }
 .intro > p:last-child {
   font-size: 17px;
   line-height: 1.65;
-  color: #526b5b;
+  color: var(--mc-muted);
   max-width: 380px;
   margin: 0 0 28px;
 }
@@ -57,14 +57,14 @@
   display: grid;
   gap: 10px;
   padding: 24px 0;
-  border-top: 1px solid #d6e1cf;
-  border-bottom: 1px solid #d6e1cf;
+  border-top: 1px solid var(--mc-page);
+  border-bottom: 1px solid var(--mc-page);
 }
 .direct .label {
   margin-bottom: 6px;
 }
 .direct a {
-  color: #12372d;
+  color: var(--mc-ink);
   font-size: 20px;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -83,12 +83,12 @@
 .info > p:not(.label) {
   margin: 0;
   font-size: 14px;
-  color: #526b5b;
+  color: var(--mc-muted);
 }
 .steps {
   margin: 0;
   padding: 0 0 12px 18px;
-  color: #526b5b;
+  color: var(--mc-muted);
   font-size: 15px;
   line-height: 1.9;
 }
@@ -99,7 +99,7 @@
   min-height: 44px;
   font-weight: 650;
   font-size: 14px;
-  color: #12372d;
+  color: var(--mc-ink);
   text-decoration: none;
   cursor: pointer;
 }
@@ -120,7 +120,7 @@
   gap: 8px;
 }
 .form label > span {
-  color: #12372d;
+  color: var(--mc-ink);
   font-size: 14px;
   font-weight: 650;
 }
@@ -129,10 +129,10 @@
   width: 100%;
   min-width: 0;
   padding: 12px 14px;
-  border: 1px solid #cbd8c5;
+  border: 1px solid var(--mc-page);
   border-radius: 6px;
-  background: #fbfcfa;
-  color: #12372d;
+  background: var(--mc-page);
+  color: var(--mc-ink);
   font: 400 15px/1.5 var(--font-sans);
   transition:
     border-color 160ms ease,
@@ -147,11 +147,11 @@
 }
 .form :is(input, textarea):focus {
   outline: none;
-  border-color: #507b36;
+  border-color: var(--mc-brand);
   box-shadow: 0 0 0 3px #87af4226;
 }
 .form :is(input, textarea)::placeholder {
-  color: #788b7d;
+  color: var(--mc-muted);
   font-size: 14px;
 }
 .form > button {
@@ -160,14 +160,14 @@
 .privacy p {
   font-size: 12px;
   line-height: 1.6;
-  color: #617567;
+  color: var(--mc-muted);
   margin: 0;
 }
 .privacy p + p {
   margin-top: 6px;
 }
 .privacy a {
-  color: #12372d;
+  color: var(--mc-ink);
   text-decoration: underline;
 }
 .error {
@@ -178,13 +178,13 @@
 }
 .fallback {
   padding: 16px;
-  border: 1px solid #ccd9c6;
+  border: 1px solid var(--mc-page);
   border-radius: 6px;
-  background: #f5f8f1;
+  background: var(--mc-page);
   font-size: 14px;
 }
 .fallback a {
-  color: #12372d;
+  color: var(--mc-ink);
   font-weight: 650;
 }
 .trap {
@@ -197,7 +197,7 @@
 }
 .demoSummary {
   padding: 16px;
-  background: #f5f8f1;
+  background: var(--mc-page);
   border-radius: 6px;
   margin-bottom: 20px;
   font-size: 14px;
@@ -211,7 +211,7 @@
   overflow-wrap: anywhere;
 }
 .page :is(a, button):focus-visible {
-  outline: 3px solid #86af46;
+  outline: 3px solid var(--mc-accent);
   outline-offset: 4px;
 }
 @media (max-width: 1100px) {

@@ -78,7 +78,7 @@ test("homepage uses four real projects with one consistent realization frame", a
   assert.doesNotMatch(landing, /placeholder/i);
 });
 
-test("navigation uses the real subpages and keeps the project CTA", async () => {
+test("navigation uses the real subpages and opens the shared builder CTA", async () => {
   const nav = await read("src/components/site/Nav.tsx");
   const globalCss = await read("src/components/site/SiteVisualAuthority.css");
   const homeCss = await read("src/components/site/SiteVisualAuthority.css");
@@ -87,7 +87,8 @@ test("navigation uses the real subpages and keeps the project CTA", async () => 
   assert.match(nav, /Realizácie/);
   assert.match(nav, /Ako to funguje/);
   assert.match(nav, /Cenník/);
-  assert.match(nav, /Začať projekt/);
+  assert.match(nav, /Vyskladať riešenie/);
+  assert.match(nav, /site-assistant:open/);
   for (const href of ["/sluzby", "/projekty", "/postup", "/cennik", "/kontakt"]) {
     assert.ok(
       nav.includes(`href: "${href}"`) || nav.includes(`to: "${href}"`),

@@ -175,8 +175,8 @@ export class Solutions extends Component<{
       ].map((t, i) => ({ ...t, num: "0" + (i + 1) })),
       modes: Object.keys(F).map((k) => ({
         label: F[k].label,
-        bg: k === m ? "#fff" : "transparent",
-        color: k === m ? "#0C1A15" : "rgba(255,255,255,.75)",
+        bg: k === m ? "var(--mc-paper)" : "transparent",
+        color: k === m ? "var(--mc-ink)" : "rgba(255,255,255,.75)",
         pick: () => this.setState({ mode: k }),
       })),
       stages: F[m].s.map(([label, title, copy, artifact]: string[], i: number) => ({
@@ -197,11 +197,11 @@ export class Solutions extends Component<{
             "výber variantu služby",
             "vysvetlenie možností",
           ],
-          bg: "#0C1A15",
-          fg: "#fff",
+          bg: "var(--mc-ink)",
+          fg: "var(--mc-paper)",
           muted: "rgba(255,255,255,.72)",
           line: "rgba(255,255,255,.18)",
-          accent: "#C9F26B",
+          accent: "var(--mc-accent)",
         },
         {
           index: "02 / E-SHOPY",
@@ -213,11 +213,11 @@ export class Solutions extends Component<{
             "produktové otázky",
             "prechod na produkt",
           ],
-          bg: "#fff",
-          fg: "#0E1512",
-          muted: "#5C645F",
+          bg: "var(--mc-paper)",
+          fg: "var(--mc-ink)",
+          muted: "var(--mc-muted)",
           line: "rgba(14,21,18,.14)",
-          accent: "#5C645F",
+          accent: "var(--mc-muted)",
         },
       ],
     };
@@ -228,7 +228,7 @@ export class Solutions extends Component<{
       <Fragment>
         <div
           style={cssStyle(
-            `font-family:'Geist',system-ui,sans-serif;color:#0E1512;background:#F5F4EF`,
+            `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
@@ -239,7 +239,7 @@ export class Solutions extends Component<{
           >
             <div
               style={cssStyle(
-                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F;padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
+                `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted);padding-bottom:20px;border-bottom:1px solid rgba(14,21,18,.12)`,
               )}
             >
               <a href={sitePath("/")}>{"DOMOV"}</a>
@@ -256,11 +256,11 @@ export class Solutions extends Component<{
                 )}
               >
                 {"Nástroje, ktoré posunú zákazníka "}
-                <span style={cssStyle(`color:#1F5B47`)}>{"k výsledku."}</span>
+                <span style={cssStyle(`color:var(--mc-brand)`)}>{"k výsledku."}</span>
               </h1>
               <p
                 style={cssStyle(
-                  `margin:0;font-size:18px;line-height:1.5;color:#5C645F;text-wrap:pretty`,
+                  `margin:0;font-size:18px;line-height:1.5;color:var(--mc-muted);text-wrap:pretty`,
                 )}
               >
                 {
@@ -271,7 +271,7 @@ export class Solutions extends Component<{
           </section>
           <section
             style={cssStyle(
-              `background:#fff;border-top:1px solid rgba(14,21,18,.12);border-bottom:1px solid rgba(14,21,18,.12)`,
+              `background:var(--mc-paper);border-top:1px solid rgba(14,21,18,.12);border-bottom:1px solid rgba(14,21,18,.12)`,
             )}
           >
             <div
@@ -287,7 +287,7 @@ export class Solutions extends Component<{
                 <div>
                   <div
                     style={cssStyle(
-                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                     )}
                   >
                     {"01 / NÁSTROJE"}
@@ -304,7 +304,7 @@ export class Solutions extends Component<{
                 </div>
                 <p
                   style={cssStyle(
-                    `margin:0;font-size:17px;line-height:1.5;color:#5C645F;max-width:400px`,
+                    `margin:0;font-size:17px;line-height:1.5;color:var(--mc-muted);max-width:400px`,
                   )}
                 >
                   {
@@ -321,7 +321,6 @@ export class Solutions extends Component<{
                   <Fragment key={index}>
                     <a
                       href={sitePath(t.href)}
-                      data-cursor={"Viac"}
                       style={cssStyle(
                         `display:grid;grid-template-columns:48px minmax(0,1.15fr) minmax(0,1fr) 150px 44px;gap:24px;align-items:center;padding:24px 12px;border-bottom:1px solid rgba(14,21,18,.12);border-radius:4px`,
                       )}
@@ -329,7 +328,7 @@ export class Solutions extends Component<{
                     >
                       <span
                         style={cssStyle(
-                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                          `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                         )}
                       >
                         {t.num}
@@ -347,7 +346,7 @@ export class Solutions extends Component<{
                           {" · "}
                           <span
                             style={cssStyle(
-                              `font-family:'Geist Mono',monospace;font-size:13px;font-weight:400;color:#5C645F`,
+                              `font-family:'Geist Mono',monospace;font-size:13px;font-weight:400;color:var(--mc-muted)`,
                             )}
                           >
                             {t.price}
@@ -362,7 +361,7 @@ export class Solutions extends Component<{
                         <span>
                           <span
                             style={cssStyle(
-                              `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#1F5B47`,
+                              `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mc-brand)`,
                             )}
                           >
                             {"ZÁKAZNÍK · "}
@@ -372,7 +371,7 @@ export class Solutions extends Component<{
                         <span>
                           <span
                             style={cssStyle(
-                              `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:#1F5B47`,
+                              `font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--mc-brand)`,
                             )}
                           >
                             {"FIRMA · "}
@@ -382,7 +381,7 @@ export class Solutions extends Component<{
                       </span>
                       <span
                         style={cssStyle(
-                          `height:96px;border-radius:12px;background:#ECEAE3;overflow:hidden;display:flex;justify-content:center`,
+                          `height:96px;border-radius:12px;background:var(--mc-page);overflow:hidden;display:flex;justify-content:center`,
                         )}
                       >
                         <img
@@ -407,7 +406,7 @@ export class Solutions extends Component<{
               </div>
             </div>
           </section>
-          <section style={cssStyle(`background:#0C1A15;color:#fff`)}>
+          <section style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}>
             <div
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:88px 32px;box-sizing:border-box;display:flex;flex-direction:column;gap:36px`,
@@ -421,7 +420,7 @@ export class Solutions extends Component<{
                 <div>
                   <div
                     style={cssStyle(
-                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                      `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                     )}
                   >
                     {"02 / CESTA ZÁKAZNÍKA"}
@@ -473,12 +472,12 @@ export class Solutions extends Component<{
                     <Fragment key={index}>
                       <div
                         style={cssStyle(
-                          `background:#13261F;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:12px`,
+                          `background:var(--mc-ink);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:12px`,
                         )}
                       >
                         <div
                           style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#C9F26B`,
+                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                           )}
                         >
                           {s.index}
@@ -526,7 +525,7 @@ export class Solutions extends Component<{
               <div>
                 <div
                   style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:#5C645F`,
+                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                   )}
                 >
                   {"03 / PRE KOHO"}
