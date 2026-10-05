@@ -185,6 +185,7 @@ export class Home extends Component<{
           >
             <div
               className="redesign-koverta-grid"
+              data-reveal
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:88px 32px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:48px;align-items:center`,
               )}
@@ -262,17 +263,15 @@ export class Home extends Component<{
                   `display:flex;flex-direction:column;gap:14px;grid-column:span 1;min-width:0`,
                 )}
               >
-                <div
-                  style={cssStyle(
-                    `display:flex;gap:4px;background:rgba(255,255,255,.06);padding:5px;border-radius:999px;flex-wrap:nowrap;align-self:flex-start`,
-                  )}
-                >
+                <div style={cssStyle(`display:flex;gap:8px;flex-wrap:wrap;align-self:flex-start`)}>
                   {kovTabs.map((k, index) => (
                     <Fragment key={index}>
                       <button
+                        className="koverta-tab"
+                        aria-pressed={index === this.state.kov}
                         onClick={k.pick}
                         style={cssStyle(
-                          `all:unset;cursor:pointer;padding:10px 18px;border-radius:999px;font-size:14px;background:${k.bg};color:${k.color}`,
+                          `cursor:pointer;padding:12px 18px;border:1px solid rgba(255,252,247,.24);border-radius:12px;font-size:14px;background:${k.bg};color:${k.color}`,
                         )}
                         type="button"
                       >
@@ -284,10 +283,12 @@ export class Home extends Component<{
                 <div
                   className="redesign-koverta-preview"
                   style={cssStyle(
-                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:var(--mc-page)`,
+                    `position:relative;border-radius:12px;overflow:hidden;height:clamp(300px,56vh,520px);background:var(--mc-page)`,
                   )}
                 >
                   <img
+                    key={kovShot.img}
+                    className="koverta-model"
                     src={sitePath(kovShot.img)}
                     alt={kovShot.label}
                     style={cssStyle(
@@ -295,20 +296,18 @@ export class Home extends Component<{
                     )}
                     loading="lazy"
                   />
-                  <a
-                    href={sitePath(
-                      "https://danielvendzur-code.github.io/koverta-web/konfigurator/",
-                    )}
-                    target={"_blank"}
-                    rel={"noreferrer"}
-                    className="redesign-action redesign-action--lime"
-                    style={cssStyle(
-                      `position:absolute;right:16px;bottom:16px;background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
-                    )}
-                  >
-                    {"Spustiť živý konfigurátor ↗"}
-                  </a>
                 </div>
+                <a
+                  href={sitePath("https://danielvendzur-code.github.io/koverta-web/konfigurator/")}
+                  target={"_blank"}
+                  rel={"noreferrer"}
+                  className="redesign-action redesign-action--lime koverta-launch"
+                  style={cssStyle(
+                    `position:relative;align-self:flex-end;background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
+                  )}
+                >
+                  {"Spustiť živý konfigurátor ↗"}
+                </a>
               </div>
             </div>
           </section>
@@ -364,6 +363,7 @@ export class Home extends Component<{
                   >
                     <article
                       className="redesign-case-card"
+                      data-reveal
                       style={cssStyle(
                         `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:0 -24px 48px -32px rgba(12,26,21,.25);height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
                       )}
@@ -514,6 +514,7 @@ export class Home extends Component<{
                 {steps.map((s, index) => (
                   <Fragment key={index}>
                     <div
+                      data-reveal
                       style={cssStyle(
                         `display:grid;grid-template-columns:110px minmax(0,1fr);gap:24px;padding:32px 0;border-top:1px solid rgba(255,255,255,.12)`,
                       )}

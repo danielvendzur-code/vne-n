@@ -43,7 +43,7 @@
   color: #e2e7e1;
   font-size: 14px;
   padding: 10px 12px;
-  border-radius: 4px;
+  border-radius: 12px;
 }
 .redesign-nav-links a:is(:hover, [aria-current="page"]) {
   background: #ffffff12;
@@ -70,7 +70,7 @@
 .redesign-menu-toggle {
   min-width: 44px;
   min-height: 48px;
-  border-radius: 4px;
+  border-radius: 12px;
 }
 .redesign-menu-toggle:hover {
   background: #ffffff15;
@@ -231,7 +231,7 @@
 }
 .redesign .redesign-nav-links a {
   color: var(--mc-paper);
-  border-radius: 4px;
+  border-radius: 12px;
 }
 .redesign .redesign-menu-toggle {
   display: none;
@@ -317,5 +317,88 @@
 @media (prefers-reduced-motion: no-preference) {
   .redesign [data-revealed="true"] {
     animation: mc-content-in 650ms var(--mc-ease) both;
+  }
+}
+
+/* Každý stav navigácie drží kontrast aj po načítaní widgetu. */
+.redesign .redesign-brand:is(:link, :visited, :hover, :focus-visible) {
+  color: var(--mc-paper);
+}
+.redesign .redesign-nav-phone:is(:link, :visited, :hover, :focus-visible) {
+  color: var(--mc-on-dark-muted);
+}
+.redesign .redesign-nav-links a {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  transition:
+    background-color 350ms var(--mc-ease),
+    color 350ms var(--mc-ease);
+}
+.redesign .redesign-nav-links a:is(:hover, [aria-current="page"]) {
+  border-radius: 12px;
+}
+.redesign .redesign-koverta-preview {
+  border-radius: 12px !important;
+}
+.redesign .koverta-tab {
+  min-height: 48px;
+  font: inherit;
+  transition:
+    background-color 400ms var(--mc-ease),
+    border-color 400ms var(--mc-ease);
+}
+.redesign .koverta-tab:is(:hover, :focus-visible) {
+  border-color: var(--mc-paper);
+}
+.redesign .koverta-tab:focus-visible {
+  outline-color: var(--mc-paper);
+}
+.redesign .redesign-koverta-grid > div:last-child {
+  gap: 20px !important;
+}
+.redesign .koverta-launch {
+  position: relative !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin-top: 0;
+}
+.redesign .koverta-model {
+  border-radius: 12px;
+  background: var(--mc-page);
+}
+@keyframes mc-editorial-in {
+  from {
+    opacity: 0;
+    translate: -36px 24px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes mc-model-in {
+  from {
+    opacity: 0;
+    translate: 20px 0;
+    scale: 0.98;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .redesign [data-motion="horizontal"][data-revealed="true"] {
+    animation: mc-editorial-in 1000ms var(--mc-ease) var(--reveal-delay, 0ms) both;
+  }
+  .redesign .koverta-model {
+    animation: mc-model-in 650ms var(--mc-ease) both;
+  }
+}
+@media (max-width: 900px) {
+  .redesign .redesign-nav-links a {
+    display: flex;
   }
 }

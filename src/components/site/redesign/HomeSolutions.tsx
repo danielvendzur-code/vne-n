@@ -1,6 +1,6 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useRouter, type NavigateOptions } from "@tanstack/react-router";
-import type { MouseEvent } from "react";
+import type { CSSProperties, MouseEvent } from "react";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
 
@@ -74,13 +74,16 @@ export function HomeSolutions() {
           Od prvej otázky po pripravený dopyt. Vyberieme nástroj podľa toho, čo zákazníci potrebujú.
         </p>
       </header>
-      <div className={s.panels} data-reveal>
+      <div className={s.panels}>
         {solutions.map((solution, index) => (
           <a
             className={s.panel}
             href={sitePath(solution.href)}
             key={solution.title}
             data-solution-card={index}
+            data-reveal
+            data-motion="horizontal"
+            style={{ "--reveal-delay": `${index * 140}ms` } as CSSProperties}
             onClick={(event) => openSolution(event, solution.href)}
           >
             <div className={s.panelBody}>
