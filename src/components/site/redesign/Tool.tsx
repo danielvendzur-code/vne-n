@@ -9,6 +9,10 @@ export class Tool extends Component<{
   tool?: string;
 }> {
   state = { t: this.props.tool ?? "kalkulacka" };
+  componentDidMount() {
+    if (document.documentElement.dataset.solutionOpening === "true")
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }
   renderVals() {
     const P = "/work/";
     const F: Record<string, [string, string]> = {
@@ -263,12 +267,15 @@ export class Tool extends Component<{
     return (
       <Fragment>
         <div
+          className="solution-page"
           style={cssStyle(
             `font-family:'Geist',system-ui,sans-serif;color:var(--mc-ink);background:var(--mc-page)`,
           )}
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
           <section
+            className="solution-detail"
+            data-tool={this.state.t}
             style={cssStyle(
               `max-width:1280px;margin:0 auto;padding:56px 32px 72px;box-sizing:border-box`,
             )}
@@ -290,6 +297,7 @@ export class Tool extends Component<{
                 {t.crumb}
               </div>
               <div
+                className="solution-detail__switcher"
                 style={cssStyle(
                   `display:flex;gap:4px;background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);padding:4px;border-radius:999px;flex-wrap:wrap`,
                 )}
@@ -310,6 +318,7 @@ export class Tool extends Component<{
               </div>
             </div>
             <div
+              className="solution-detail__layout"
               style={cssStyle(
                 `display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:48px;align-items:center;padding-top:48px`,
               )}
@@ -345,6 +354,7 @@ export class Tool extends Component<{
                     {"Vyskladať riešenie →"}
                   </button>
                   <div
+                    className="solution-detail__price"
                     style={cssStyle(
                       `display:flex;align-items:baseline;gap:8px;padding:10px 18px;border-radius:999px;background:var(--mc-paper);border:1px solid rgba(14,21,18,.12)`,
                     )}
@@ -368,6 +378,7 @@ export class Tool extends Component<{
                 </div>
               </div>
               <div
+                className="solution-detail__preview"
                 style={cssStyle(
                   `background:var(--mc-ink);border-radius:32px;height:clamp(380px,62vh,540px);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center`,
                 )}
@@ -388,6 +399,7 @@ export class Tool extends Component<{
                   <span>{t.caption}</span>
                 </div>
                 <img
+                  className="solution-detail__image"
                   src={sitePath(t.img)}
                   alt={t.caption}
                   style={cssStyle(
@@ -451,6 +463,7 @@ export class Tool extends Component<{
                   ) => (
                     <Fragment key={index}>
                       <div
+                        className="solution-process"
                         style={cssStyle(
                           `background:var(--mc-ink);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:12px`,
                         )}
@@ -580,10 +593,10 @@ export class Tool extends Component<{
               {t.features.map((f: { num: string; label: string; desc: string }, index: number) => (
                 <Fragment key={index}>
                   <div
+                    className="solution-feature"
                     style={cssStyle(
                       `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:20px;padding:22px;display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px`,
                     )}
-                    className="ref-hover-12"
                   >
                     <span
                       style={cssStyle(

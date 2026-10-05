@@ -32,12 +32,13 @@
   padding-bottom: 60px;
 }
 .panel {
+  --panel-text: var(--mc-paper);
   --panel-offset: 0px;
   display: flex;
   flex-direction: column;
   min-width: 0;
   height: 580px;
-  color: var(--mc-paper);
+  color: var(--panel-text);
   background: var(--mc-ink);
   border-radius: 4px;
   transform: translateY(var(--panel-offset));
@@ -55,7 +56,10 @@
 .panel:nth-child(4) {
   --panel-offset: 60px;
   background: var(--mc-sand);
-  color: var(--mc-ink);
+  --panel-text: var(--mc-ink);
+}
+.panel.panel:is(:hover, :focus, :active, :visited) {
+  color: var(--panel-text);
 }
 .panelBody {
   position: relative;
@@ -168,16 +172,11 @@
 }
 .connection button {
   margin-left: auto;
-  min-height: 44px;
+  min-height: 48px;
   display: inline-flex;
   align-items: center;
   gap: 20px;
-  background: none;
-  border: 0;
-  border-bottom: 1px solid currentColor;
-  color: var(--mc-ink);
-  font: 550 14px/1.3 var(--mc-font);
-  padding: 0;
+  padding: 0 22px;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -185,17 +184,14 @@
   transition: transform 250ms var(--mc-ease);
 }
 @media (hover: hover) and (pointer: fine) {
-  .panels:hover .panel {
-    transform: translateY(0);
-  }
   .panels .panel:hover {
-    transform: translateY(-12px);
+    transform: translateY(calc(var(--panel-offset) - 6px));
   }
   .panel:hover .panelTop svg {
     transform: translate(3px, -3px);
   }
   .panel:hover .preview img {
-    transform: scale(1.04);
+    transform: scale(1.025);
   }
   .panel:hover .previewLink {
     opacity: 1;

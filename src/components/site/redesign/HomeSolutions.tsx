@@ -1,4 +1,6 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { useRouter, type NavigateOptions } from "@tanstack/react-router";
+import type { MouseEvent } from "react";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
 
@@ -34,6 +36,36 @@ const solutions = [
 ] as const;
 
 export function HomeSolutions() {
+  const router = useRouter();
+  const openSolution = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      return;
+    event.preventDefault();
+    const motion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const card = event.currentTarget;
+    document.documentElement.dataset.solutionOpening = "true";
+    if (motion && "startViewTransition" in document) {
+      card.style.viewTransitionName = "solution-surface";
+      const image = card.querySelector("img");
+      if (image && !href.includes("3d-konfigurator"))
+        image.style.viewTransitionName = "solution-image";
+    }
+    void router
+      .navigate({
+        href: sitePath(href),
+        viewTransition: motion,
+        resetScroll: false,
+      } as NavigateOptions)
+      .catch(() => {
+        card.style.viewTransitionName = "";
+        const image = card.querySelector("img");
+        if (image) image.style.viewTransitionName = "";
+        window.location.assign(sitePath(href));
+      })
+      .finally(() => {
+        delete document.documentElement.dataset.solutionOpening;
+      });
+  };
   return (
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading} data-reveal>
@@ -44,7 +76,13 @@ export function HomeSolutions() {
       </header>
       <div className={s.panels} data-reveal>
         {solutions.map((solution, index) => (
-          <a className={s.panel} href={sitePath(solution.href)} key={solution.title}>
+          <a
+            className={s.panel}
+            href={sitePath(solution.href)}
+            key={solution.title}
+            data-solution-card={index}
+            onClick={(event) => openSolution(event, solution.href)}
+          >
             <div className={s.panelBody}>
               <div className={s.panelTop}>
                 <span>0{index + 1}</span>
@@ -73,6 +111,7 @@ export function HomeSolutions() {
         <h3>Samostatne alebo spolu.</h3>
         <p>Jeden nástroj alebo premyslené prepojenie.</p>
         <button
+          className="mc-btn"
           type="button"
           onClick={() =>
             window.dispatchEvent(
