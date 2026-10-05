@@ -217,20 +217,21 @@
   }
 }
 
-/* Visible navigation above the darker hero. */
+/* Pôvodná tmavá navigácia s jemným oddelením od stránky. */
 .redesign .redesign-header {
-  background: var(--mc-brand) !important;
-  border-bottom: 1px solid rgba(255, 252, 247, 0.25);
+  background: var(--mc-ink) !important;
+  border-bottom: 1px solid rgba(255, 252, 247, 0.22);
+  box-shadow: 0 4px 18px rgba(28, 22, 18, 0.08);
 }
 .redesign .redesign-nav-links {
-  padding: 4px;
-  border: 1px solid rgba(255, 252, 247, 0.25);
-  border-radius: 12px;
-  background: rgba(255, 252, 247, 0.06);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 .redesign .redesign-nav-links a {
   color: var(--mc-paper);
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .redesign .redesign-menu-toggle {
   display: none;
@@ -257,13 +258,14 @@
     left: -16px;
     right: -16px;
     border-radius: 0 0 16px 16px;
-    background: var(--mc-brand);
+    background: var(--mc-ink);
+    border: 1px solid rgba(255, 252, 247, 0.22);
     padding: 12px 16px 20px;
   }
 }
 
 .redesign .redesign-nav-links a:is(:hover, [aria-current="page"]) {
-  background: rgba(255, 252, 247, 0.14);
+  background: rgba(255, 252, 247, 0.07);
   color: var(--mc-paper);
 }
 
@@ -298,5 +300,22 @@
   }
   .redesign #postup [style*="font-size:56px"] {
     font-size: 32px !important;
+  }
+}
+
+/* Vstup obsahu mení iba opacity/transform, nikdy geometriu stránky. */
+@keyframes mc-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .redesign [data-revealed="true"] {
+    animation: mc-content-in 650ms var(--mc-ease) both;
   }
 }

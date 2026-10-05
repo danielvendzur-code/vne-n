@@ -18,7 +18,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "espresso-20261004-v17";
+  const WIDGET_RELEASE = "editorial-20261005-v18";
   const LOGO_CYCLE_MS = 5400;
   const DARK_LOGO = [28, 22, 18];
   const PALE_LOGO = [28, 22, 18];

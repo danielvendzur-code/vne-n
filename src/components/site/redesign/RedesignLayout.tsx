@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { Header } from "./Header";
 import "./fonts.css";
@@ -9,6 +9,7 @@ import "./tokens.css";
 export function RedesignLayout({ children }: { children: ReactNode }) {
   const rawPathname = useRouterState({ select: (state) => state.location.pathname });
   const pathname = rawPathname.replace(/\/+$/, "") || "/";
+  const contentRef = useRef<HTMLElement>(null);
   const active =
     pathname === "/"
       ? "home"
@@ -28,6 +29,23 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
       meta.content = previous;
     };
   }, [active]);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const elements = contentRef.current?.querySelectorAll<HTMLElement>("[data-reveal]");
+    if (!elements || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.setAttribute("data-revealed", "true");
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.08 },
+    );
+    for (const element of elements) observer.observe(element);
+    return () => observer.disconnect();
+  }, [pathname]);
   return (
     <div className="redesign" data-page={active}>
       <a className="redesign-skip" href="#main-content">
@@ -36,7 +54,7 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
       <div className="redesign-header">
         <Header active={active} />
       </div>
-      <main id="main-content" key={pathname}>
+      <main ref={contentRef} id="main-content" key={pathname}>
         {children}
       </main>
     </div>
