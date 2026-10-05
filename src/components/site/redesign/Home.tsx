@@ -263,7 +263,10 @@ export class Home extends Component<{
                   `display:flex;flex-direction:column;gap:14px;grid-column:span 1;min-width:0`,
                 )}
               >
-                <div style={cssStyle(`display:flex;gap:8px;flex-wrap:wrap;align-self:flex-start`)}>
+                <div
+                  className="koverta-tabs"
+                  style={cssStyle(`display:flex;gap:8px;flex-wrap:wrap;align-self:flex-start`)}
+                >
                   {kovTabs.map((k, index) => (
                     <Fragment key={index}>
                       <button
@@ -470,11 +473,13 @@ export class Home extends Component<{
           </section>
           <section id={"postup"} style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}>
             <div
+              className="redesign-process-grid"
               style={cssStyle(
                 `max-width:1280px;margin:0 auto;padding:88px 32px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:56px`,
               )}
             >
               <div
+                className="redesign-process-intro"
                 style={cssStyle(
                   `display:flex;flex-direction:column;gap:20px;position:sticky;top:120px;align-self:start;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)`,
                 )}
@@ -510,7 +515,10 @@ export class Home extends Component<{
                   {"Celý postup →"}
                 </a>
               </div>
-              <div style={cssStyle(`display:flex;flex-direction:column`)}>
+              <div
+                className="redesign-process-steps"
+                style={cssStyle(`display:flex;flex-direction:column`)}
+              >
                 {steps.map((s, index) => (
                   <Fragment key={index}>
                     <div

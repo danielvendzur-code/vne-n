@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { Header } from "./Header";
 import "./fonts.css";
@@ -30,10 +30,18 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
       meta.content = previous;
     };
   }, [active]);
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const elements = contentRef.current?.querySelectorAll<HTMLElement>("[data-reveal]");
-    if (!elements || typeof IntersectionObserver === "undefined") return;
+  useLayoutEffect(() => {
+    const elements = Array.from(
+      contentRef.current?.querySelectorAll<HTMLElement>("[data-reveal]") ?? [],
+    );
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches || typeof IntersectionObserver === "undefined") return;
+    // Read all geometry before writing. Already visible SSR content stays visible.
+    const belowViewport = elements.filter(
+      (element) =>
+        element.dataset.revealed !== "true" &&
+        element.getBoundingClientRect().top >= window.innerHeight,
+    );
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -42,10 +50,23 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.08 },
+      { threshold: 0, rootMargin: "0px 0px 64px 0px" },
     );
-    for (const element of elements) observer.observe(element);
-    return () => observer.disconnect();
+    for (const element of belowViewport) {
+      element.dataset.revealed = "pending";
+      observer.observe(element);
+    }
+    const showAll = () => {
+      if (!media.matches) return;
+      observer.disconnect();
+      for (const element of belowViewport) element.dataset.revealed = "true";
+    };
+    media.addEventListener("change", showAll);
+    return () => {
+      observer.disconnect();
+      media.removeEventListener("change", showAll);
+      for (const element of belowViewport) element.dataset.revealed = "true";
+    };
   }, [pathname]);
   return (
     <div className="redesign" data-page={active}>

@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight, Check, Mail, Plus, Minus } from "lucide-react
 import { faqs } from "@/data/faq";
 import { sitePath } from "./utils";
 import s from "./HomepageSections.module.css";
+import facts from "./HomeFacts.module.css";
 export { HomeSolutions } from "./HomeSolutions";
 
 const openBuilder = () =>
@@ -10,39 +11,45 @@ const openBuilder = () =>
 
 export function HomeFacts() {
   return (
-    <section className={s.facts} aria-label="Čo môžete očakávať" data-reveal>
-      <div className={s.fact}>
-        <span>Prvá odpoveď</span>
-        <strong>
-          1 deň<span>v pracovný deň</span>
-        </strong>
+    <section className={facts.section} aria-label="Čo môžete očakávať">
+      <div className={facts.item} data-reveal>
+        <span className={facts.label}>Prvá odpoveď</span>
+        <div className={facts.value}>
+          <strong>1 deň</strong>
+          <span>v pracovný deň</span>
+        </div>
         <p>Ozveme sa s konkrétnym ďalším krokom.</p>
       </div>
-      <a className={s.fact} href={sitePath("/cennik")}>
-        <span>
-          Chatbot alebo poradca <ArrowUpRight size={16} />
+      <a className={facts.item} href={sitePath("/cennik")} data-reveal>
+        <span className={facts.label}>
+          Chatbot alebo poradca
+          <ArrowUpRight size={16} aria-hidden="true" />
         </span>
-        <strong>
-          <small>od </small>347 €
-        </strong>
+        <div className={facts.value}>
+          <strong>
+            <small>od </small>347 €
+          </strong>
+        </div>
         <p>Návrh, obsah, logika a nasadenie.</p>
       </a>
-      <a className={s.fact} href={sitePath("/cennik")}>
-        <span>
-          Kalkulačka alebo konfigurátor <ArrowUpRight size={16} />
+      <a className={facts.item} href={sitePath("/cennik")} data-reveal>
+        <span className={facts.label}>
+          Kalkulačka alebo konfigurátor
+          <ArrowUpRight size={16} aria-hidden="true" />
         </span>
-        <strong>
-          <small>od </small>447 €
-        </strong>
+        <div className={facts.value}>
+          <strong>
+            <small>od </small>447 €
+          </strong>
+        </div>
         <p>Presnú cenu dohodneme podľa rozsahu.</p>
       </a>
-      <div className={`${s.fact} ${s.factDark}`}>
-        <span>Najprv vlastná ukážka</span>
-        <strong>
-          Vyskúšate.
-          <br />
-          Potom schválite.
-        </strong>
+      <div className={facts.item} data-reveal>
+        <span className={facts.label}>Najprv vyskúšate</span>
+        <div className={facts.value}>
+          <strong>Ukážka</strong>
+          <span>pred nasadením</span>
+        </div>
         <p>Na váš web ide až odsúhlasené riešenie.</p>
       </div>
     </section>

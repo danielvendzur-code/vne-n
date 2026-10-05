@@ -61,8 +61,8 @@
   }
 }
 @media (max-width: 760px) {
-  .redesign main > div > section,
-  .redesign main > section {
+  .redesign main > div > section[id][style],
+  .redesign main > section[id][style] {
     padding-left: 20px !important;
     padding-right: 20px !important;
   }

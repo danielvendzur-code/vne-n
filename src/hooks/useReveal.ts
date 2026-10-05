@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from "react";
+import { useLayoutEffect, type RefObject } from "react";
 
 /**
  * Plynulé odkrývanie obsahu pri scrollovaní.
@@ -8,14 +8,15 @@ import { useEffect, type RefObject } from "react";
  * vypnutý pohyb, vidí všetko hneď.
  */
 export function useReveal(rootRef: RefObject<HTMLElement | null>) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root || typeof IntersectionObserver === "undefined") return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
     const items = Array.from(root.querySelectorAll<HTMLElement>("[data-reveal]"));
     const pending = items.filter(
-      (item) => item.getBoundingClientRect().top > window.innerHeight * 0.92,
+      (item) =>
+        item.dataset.shown !== "true" && item.getBoundingClientRect().top > window.innerHeight,
     );
     pending.forEach((item) => (item.dataset.shown = "false"));
 
@@ -27,13 +28,13 @@ export function useReveal(rootRef: RefObject<HTMLElement | null>) {
           observer.unobserve(entry.target);
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+      { rootMargin: "0px 0px 64px 0px", threshold: 0 },
     );
     pending.forEach((item) => observer.observe(item));
 
     return () => {
       observer.disconnect();
-      pending.forEach((item) => delete item.dataset.shown);
+      pending.forEach((item) => (item.dataset.shown = "true"));
     };
   }, [rootRef]);
 }
