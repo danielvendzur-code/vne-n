@@ -347,7 +347,7 @@
     width: calc(100% - 44px);
     writing-mode: horizontal-tb;
     transform-origin: top right;
-    transform: translateX(-44px) rotate(-90deg);
+    transform: translate(-44px, -24px) rotate(-90deg);
     font-size: clamp(30px, 2.8vw, 40px);
     transition: transform 750ms var(--mc-ease);
   }

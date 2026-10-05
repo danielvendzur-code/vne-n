@@ -89,7 +89,7 @@
   .item:last-child {
     border: 1px solid var(--mc-line-strong);
     padding: 18px 14px;
-    grid-template-rows: 40px 60px auto;
+    grid-template-rows: 56px 64px auto;
     gap: 12px;
   }
   .label {
