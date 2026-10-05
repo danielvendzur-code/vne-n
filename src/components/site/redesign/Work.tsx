@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
+import { realizations } from "@/data/realizations";
 
 export class Work extends Component<{
   active?: string;
@@ -9,54 +10,13 @@ export class Work extends Component<{
   tool?: string;
 }> {
   renderVals() {
-    const P = "/work/live/";
     return {
-      work: [
-        {
-          name: "Koverta",
-          domain: "koverta.sk",
-          href: "https://koverta.sk/",
-          type: "Výroba na mieru · 3D konfigurátor",
-          detail:
-            "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi.",
-          img: P + "koverta.webp",
-          tools: ["3D konfigurátor", "Dopyt so zostavou"],
-          caseHref: "/3d-konfigurator",
-        },
-        {
-          name: "DERAT",
-          domain: "derat.sk",
-          href: "https://derat.sk/",
-          type: "Služby · kalkulačka a dopytový asistent",
-          detail:
-            "Reálne nasadená deratizačná služba. Návštevník vyberie typ problému a rozsah zásahu, dostane orientačný výsledok a firma prijme kontakt spolu s kontextom potrebným na ďalší krok.",
-          img: P + "derat.webp",
-          tools: ["Kalkulačka ceny", "Dopytový asistent"],
-          caseHref: "/postup",
-        },
-        {
-          name: "Môj Plot",
-          domain: "mojplot.sk",
-          href: "https://mojplot.sk/",
-          type: "E-shop · chatbot a kalkulačka",
-          detail:
-            "E-shop s plotmi, kde chatbot odpovedá na otázky k typom oplotenia a kalkulačka z dĺžky, výšky a doplnkov spočíta orientačnú cenu. Zákazník sa dostane k objednávke bez telefonovania.",
-          img: P + "mojplot.webp",
-          tools: ["Chatbot", "Kalkulačka plotu"],
-          caseHref: "",
-        },
-        {
-          name: "WEBKO",
-          domain: "webko.sk",
-          href: "https://www.webko.sk/",
-          type: "Prezentačný web · získavanie dopytov",
-          detail:
-            "Tmavý prezentačný web, ktorý stavia na ukážkach práce. Každá sekcia končí jasným ďalším krokom, takže návštevník nemusí hľadať, kde sa ozvať.",
-          img: P + "webko.webp",
-          tools: ["Prezentačný web", "Cesta ku kontaktu"],
-          caseHref: "",
-        },
-      ].map((w, i) => ({ ...w, num: "0" + (i + 1) })),
+      work: realizations.map((project, index) => ({
+        ...project,
+        img: project.image,
+        caseHref: project.caseStudyPath ?? "",
+        num: String(index + 1).padStart(2, "0"),
+      })),
       live: [
         {
           num: "01",

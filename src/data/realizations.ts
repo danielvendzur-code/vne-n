@@ -49,18 +49,30 @@ export const realizations: Realization[] = [
     tools: ["Chatbot", "Kalkulačka plotu"],
   },
   {
-    name: "Koverta",
+    name: "Koverta · konfigurátor",
     type: "Výroba na mieru · 3D konfigurátor",
     domain: "koverta.sk",
-    href: "https://koverta.sk/",
+    href: "https://koverta.sk/pages/konfigurator",
     result:
       "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
     detail:
       "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi potrebnými na ponuku.",
-    image: `${import.meta.env.BASE_URL}work/live/koverta.webp`,
-    alt: "Domovská stránka Koverta s bioklimatickou pergolou nad terasou",
+    image: `${import.meta.env.BASE_URL}work/koverta/konfigurator-carport.webp`,
+    alt: "Rozhranie 3D konfigurátora Koverta s nastavením carportu",
     tools: ["3D konfigurátor", "Dopyt so zostavou"],
     caseStudyPath: "/3d-konfigurator",
+  },
+  {
+    name: "Koverta · chatbot",
+    type: "Výroba na mieru · chatbot",
+    domain: "koverta.sk",
+    href: "https://koverta.sk/",
+    result: "Asistent poradí s výberom prístrešku alebo pergoly a pripraví ďalší krok.",
+    detail:
+      "Chatbot na webe Koverta pomáha s otázkami k produktom, výberom riešenia a prípravou dopytu. Samostatná realizácia popri 3D konfigurátore.",
+    image: `${import.meta.env.BASE_URL}work/live/koverta.webp`,
+    alt: "Web Koverta, na ktorom beží produktový chatbot",
+    tools: ["Chatbot", "Produktové poradenstvo"],
   },
   {
     name: "WEBKO",

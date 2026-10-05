@@ -65,7 +65,7 @@ test("marketing surfaces stay low-radius and shadow-light", async () => {
   assert.doesNotMatch(css, /border-radius:\s*(?:2[0-9]|3[0-9]|4[0-9])px/);
 });
 
-test("chatbot fallback is the approved round animated one-stroke launcher", async () => {
+test("chatbot fallback is the approved round static one-stroke launcher", async () => {
   const loader = await read("public/widget-loader.js");
 
   assert.match(loader, new RegExp(approvedStart.replaceAll(".", "\\.")));
@@ -76,10 +76,8 @@ test("chatbot fallback is the approved round animated one-stroke launcher", asyn
   assert.match(loader, /height:\s*"72px"/);
   assert.match(loader, /borderRadius:\s*"50%"/);
   assert.match(loader, /background:\s*"#FFFCF7"/);
-  assert.match(loader, /requestAnimationFrame/);
-  assert.match(loader, /DARK_LOGO\s*=\s*\[28, 22, 18\]/);
-  assert.match(loader, /PALE_LOGO\s*=\s*\[28, 22, 18\]/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"coherent-motion-20261005-v22"/);
+  assert.doesNotMatch(loader, /requestAnimationFrame|stroke-dasharray|strokeDashoffset/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"expressive-interactions-20261005-v23"/);
   assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);
   assert.doesNotMatch(loader, /<small>Otvoriť krátke zadanie<\/small>/);
 });

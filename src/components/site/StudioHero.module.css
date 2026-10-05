@@ -206,21 +206,38 @@
   border-top: 1px solid rgba(255, 252, 247, 0.15);
 }
 
-/* First-paint content remains readable. Only the project stack settles gently. */
+/* Text stays opaque from SSR through hydration; motion is carried by position. */
 .hero.hero h1,
 .hero.hero h1 > * {
   animation: none;
 }
 @media (prefers-reduced-motion: no-preference) {
+  .hero.hero h1 > * {
+    animation: mc-headline-arrive 1100ms var(--mc-ease) both;
+  }
+  .hero.hero h1 > :nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .hero.hero h1 > :nth-child(3) {
+    animation-delay: 240ms;
+  }
+  @keyframes mc-headline-arrive {
+    from {
+      translate: 0 32px;
+    }
+    to {
+      translate: 0 0;
+    }
+  }
   .case.case {
-    animation: mc-case-settle 700ms var(--mc-ease) calc(var(--case) * 80ms) both;
+    animation: mc-case-settle 1400ms var(--mc-ease) calc(var(--case) * 160ms) both;
     transition:
       transform 450ms var(--mc-ease),
       box-shadow 450ms var(--mc-ease);
   }
   @keyframes mc-case-settle {
     from {
-      translate: 0 12px;
+      translate: 0 38px;
     }
     to {
       translate: 0 0;

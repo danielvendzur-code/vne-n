@@ -31,6 +31,7 @@ export class Footer extends Component<{
           )}
         >
           <div
+            data-reveal
             style={cssStyle(
               `max-width:1232px;margin:0 auto;background:var(--mc-paper);color:var(--mc-ink);border-radius:14px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:end`,
             )}
