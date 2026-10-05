@@ -5,6 +5,7 @@ import "./fonts.css";
 import "./reference.css";
 import "./redesign.css";
 import "./tokens.css";
+import "./solution-motion.css";
 
 export function RedesignLayout({ children }: { children: ReactNode }) {
   const rawPathname = useRouterState({ select: (state) => state.location.pathname });
@@ -54,7 +55,7 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
       <div className="redesign-header">
         <Header active={active} />
       </div>
-      <main ref={contentRef} id="main-content" key={pathname}>
+      <main ref={contentRef} id="main-content">
         {children}
       </main>
     </div>

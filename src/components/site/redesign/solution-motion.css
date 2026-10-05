@@ -1,0 +1,107 @@
+/* Karta a podstránka používajú ten istý povrch a rovnakú ukážku. */
+.redesign .solution-detail {
+  view-transition-name: solution-surface;
+  width: min(1280px, calc(100% - 96px));
+  max-width: none !important;
+  padding: 40px 0 80px !important;
+  background: var(--mc-page);
+}
+.solution-detail__image {
+  view-transition-name: solution-image;
+}
+.redesign .solution-detail__switcher {
+  border: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  gap: 8px !important;
+}
+.redesign .solution-detail__switcher a {
+  border-radius: 8px !important;
+}
+.redesign .solution-detail__price {
+  background: none !important;
+  border: 0 !important;
+  padding-inline: 4px !important;
+}
+.redesign .solution-process,
+.redesign .solution-feature {
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+.redesign .solution-feature {
+  transition: background-color 250ms ease;
+}
+.redesign .solution-feature:hover {
+  background: var(--mc-page) !important;
+  transform: none !important;
+}
+.redesign .solution-detail__preview {
+  border-radius: 6px !important;
+  background: var(--mc-ink);
+  height: clamp(400px, 64vh, 620px) !important;
+  padding: 70px 36px 0;
+}
+.redesign .solution-detail__preview img {
+  width: auto !important;
+  max-width: 100%;
+  max-height: 100% !important;
+  border-radius: 12px 12px 0 0 !important;
+  object-fit: contain !important;
+}
+.redesign .solution-detail [style*="background:var(--mc-paper)"][style*="border-radius:999px"] {
+  border-radius: 8px !important;
+}
+.redesign .solution-detail h1 {
+  font-weight: 550 !important;
+  line-height: 1.02 !important;
+  text-wrap: balance;
+}
+::view-transition-group(solution-surface),
+::view-transition-group(solution-image) {
+  animation-duration: 680ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+}
+::view-transition-old(solution-surface),
+::view-transition-new(solution-surface) {
+  height: 100%;
+  animation-duration: 300ms;
+}
+::view-transition-image-pair(solution-image) {
+  overflow: clip;
+}
+::view-transition-old(solution-image),
+::view-transition-new(solution-image) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+@media (max-width: 1050px) {
+  .redesign .solution-detail {
+    width: calc(100% - 64px);
+  }
+  .redesign .solution-detail__layout {
+    gap: 32px !important;
+  }
+}
+@media (max-width: 600px) {
+  .redesign .solution-detail {
+    width: calc(100% - 40px);
+    padding: 28px 0 48px !important;
+  }
+  .redesign .solution-detail__preview {
+    height: 480px !important;
+    padding-inline: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+  }
+}

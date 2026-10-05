@@ -9,6 +9,10 @@ export class Configurator extends Component<{
   tool?: string;
 }> {
   state = { i: 0 };
+  componentDidMount() {
+    if (document.documentElement.dataset.solutionOpening === "true")
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }
   renderVals() {
     const P = "/work/koverta/";
     const shots = [
@@ -76,6 +80,7 @@ export class Configurator extends Component<{
         >
           <div style={cssStyle(`position:sticky;top:0;z-index:50`)}></div>
           <section
+            className="solution-detail solution-detail--3d"
             style={cssStyle(
               `max-width:1280px;margin:0 auto;padding:64px 32px 48px;box-sizing:border-box`,
             )}
