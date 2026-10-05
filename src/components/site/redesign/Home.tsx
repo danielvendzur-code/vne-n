@@ -3,6 +3,7 @@ import { HomeFacts, HomeSolutions, InquiryComparison, HomeFAQ } from "./Homepage
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
+import { ProjectGallery } from "./ProjectGallery";
 
 export class Home extends Component<{
   active?: string;
@@ -59,16 +60,26 @@ export class Home extends Component<{
     ];
     const work = [
       {
-        name: "Koverta",
+        name: "Koverta · konfigurátor",
         domain: "koverta.sk",
-        href: "https://koverta.sk/",
+        href: "https://koverta.sk/pages/konfigurator",
         type: "Výroba na mieru · 3D konfigurátor",
         result:
           "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
-        img: P + "live/koverta.webp",
+        img: P + "koverta/konfigurator-carport.webp",
         tools: ["3D konfigurátor", "Dopyt so zostavou"],
         case: true,
         caseHref: "/3d-konfigurator",
+      },
+      {
+        name: "Koverta · chatbot",
+        domain: "koverta.sk",
+        href: "https://koverta.sk/",
+        type: "Výroba na mieru · chatbot",
+        result: "Asistent odpovie na otázky k prístreškom a pergolám a pomôže pripraviť dopyt.",
+        img: P + "live/koverta.webp",
+        tools: ["Chatbot", "Produktové poradenstvo"],
+        case: false,
       },
       {
         name: "DERAT",
@@ -104,7 +115,7 @@ export class Home extends Component<{
       },
     ].map((w, i) => ({
       ...w,
-      ...themes[i],
+      ...themes[i % themes.length],
       num: "0" + (i + 1),
       top: 100 + i * 22 + "px",
     }));
@@ -313,6 +324,7 @@ export class Home extends Component<{
                 </a>
               </div>
             </div>
+            <ProjectGallery />
           </section>
           <section
             id={"realizacie"}

@@ -307,20 +307,20 @@
 @media (prefers-reduced-motion: no-preference) {
   .redesign [data-revealed] {
     transition:
-      opacity 640ms var(--mc-ease) var(--reveal-delay, 0ms),
-      translate 640ms var(--mc-ease) var(--reveal-delay, 0ms),
+      opacity 900ms var(--mc-ease) var(--reveal-delay, 0ms),
+      translate 900ms var(--mc-ease) var(--reveal-delay, 0ms),
       transform 450ms var(--mc-ease);
   }
   .redesign [data-revealed="pending"] {
     opacity: 0;
-    translate: 0 18px;
+    translate: 0 48px;
   }
   .redesign [data-revealed="true"] {
     opacity: 1;
     translate: 0 0;
   }
   .redesign [data-motion="horizontal"][data-revealed="pending"] {
-    translate: -18px 0;
+    translate: -56px 0;
   }
 }
 
@@ -431,5 +431,77 @@
     padding: 8px !important;
     font-size: 11px !important;
     line-height: 1.35;
+  }
+}
+
+/* Consistent tactile states across calls to action, cases and preview tabs. */
+.redesign .redesign-action,
+.redesign .mc-btn {
+  border-radius: 12px !important;
+  transition:
+    background-color 350ms var(--mc-ease),
+    color 350ms var(--mc-ease),
+    border-color 350ms var(--mc-ease),
+    translate 450ms var(--mc-ease) !important;
+}
+.redesign .redesign-case-shot img {
+  transition: transform 1000ms var(--mc-ease);
+}
+.redesign #kontakt > div:first-child {
+  border-radius: 12px !important;
+}
+.redesign #kontakt > footer {
+  padding-inline: 0 !important;
+}
+.redesign[data-page="realizacie"] main article {
+  border-radius: 12px !important;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .redesign .redesign-action:hover,
+  .redesign .mc-btn:hover {
+    translate: 0 -3px;
+  }
+  .redesign .redesign-case-shot:hover img {
+    transform: scale(1.045);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .redesign .koverta-model {
+    animation: koverta-selection 850ms var(--mc-ease) both;
+  }
+  @keyframes koverta-selection {
+    from {
+      transform: translateX(28px) scale(0.97);
+    }
+    to {
+      transform: none;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .redesign .redesign-action,
+  .redesign .mc-btn,
+  .redesign .redesign-case-shot img {
+    transition: none !important;
+  }
+}
+
+.redesign main > div > section[style*="max-width:1280px"] {
+  width: min(1280px, calc(100% - 96px));
+  margin-inline: auto;
+  padding-inline: 0 !important;
+}
+.redesign #kontakt > div:first-child,
+.redesign #kontakt > footer {
+  max-width: 1280px !important;
+}
+@media (max-width: 1100px) {
+  .redesign main > div > section[style*="max-width:1280px"] {
+    width: calc(100% - 64px);
+  }
+}
+@media (max-width: 767px) {
+  .redesign main > div > section[style*="max-width:1280px"] {
+    width: calc(100% - 40px);
   }
 }

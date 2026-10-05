@@ -50,7 +50,7 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0, rootMargin: "0px 0px 64px 0px" },
+      { threshold: 0, rootMargin: "0px 0px -48px 0px" },
     );
     for (const element of belowViewport) {
       element.dataset.revealed = "pending";

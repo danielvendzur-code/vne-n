@@ -83,7 +83,7 @@ export function HomeSolutions() {
             data-solution-card={index}
             data-reveal
             data-motion="horizontal"
-            style={{ "--reveal-delay": `${index * 80}ms` } as CSSProperties}
+            style={{ "--reveal-delay": `${index * 140}ms` } as CSSProperties}
             onClick={(event) => openSolution(event, solution.href)}
           >
             <div className={s.panelBody}>

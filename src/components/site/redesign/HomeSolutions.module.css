@@ -329,3 +329,92 @@
 .preview img {
   border-radius: inherit;
 }
+
+/* A single heading rotates into place; the real preview follows underneath. */
+@media (min-width: 601px) {
+  .panel {
+    position: relative;
+    container-type: inline-size;
+    overflow: hidden;
+    border: 1px solid rgba(255, 252, 247, 0.16);
+  }
+  .panelBody {
+    flex: none;
+    height: 100%;
+    min-height: 0;
+  }
+  .panel h3 {
+    inset: auto auto 284px 22px;
+    width: max-content;
+    max-width: calc(100% - 44px);
+    writing-mode: horizontal-tb;
+    transform-origin: bottom left;
+    transform: translateX(calc(100cqw - 44px)) rotate(-90deg);
+    font-size: clamp(30px, 2.8vw, 40px);
+    transition:
+      transform 750ms var(--mc-ease),
+      bottom 750ms var(--mc-ease);
+  }
+  .panel:nth-child(4) h3 {
+    font-size: clamp(25px, 2.2vw, 31px);
+  }
+  .panelBody > p {
+    bottom: 300px;
+    transition:
+      bottom 750ms var(--mc-ease),
+      right 750ms var(--mc-ease);
+  }
+  .preview {
+    position: absolute;
+    inset: auto 12px 12px;
+    margin: 0;
+    height: 260px;
+    border: 1px solid rgba(255, 252, 247, 0.3);
+    background: transparent;
+    transition:
+      bottom 750ms var(--mc-ease),
+      height 750ms var(--mc-ease);
+  }
+  .panel:is(:hover, :focus-visible) h3 {
+    bottom: calc(100% - 102px);
+    transform: none;
+  }
+  .panel:is(:hover, :focus-visible) .preview {
+    bottom: 104px;
+    height: 354px;
+  }
+  .panel:is(:hover, :focus-visible) .panelBody > p {
+    bottom: 24px;
+    right: 22px;
+  }
+  .panel:is(:hover, :focus-visible) .previewLink {
+    opacity: 1;
+    transform: none;
+  }
+  @media (max-width: 1050px) {
+    .panel {
+      height: 580px;
+    }
+    .panel h3 {
+      font-size: 36px;
+    }
+    .panel:nth-child(4) h3 {
+      font-size: 28px;
+    }
+  }
+}
+.preview.preview {
+  background: transparent;
+  border: 1px solid rgba(255, 252, 247, 0.28);
+}
+.panel:nth-child(4) .preview img {
+  object-fit: cover;
+  object-position: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel h3,
+  .panelBody > p,
+  .preview {
+    transition: none;
+  }
+}
