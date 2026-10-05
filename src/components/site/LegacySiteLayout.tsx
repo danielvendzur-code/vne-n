@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
 import { MotionConfig } from "motion/react";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { Nav } from "./Nav";
+import { Header } from "./redesign/Header";
 import { Footer } from "./Footer";
-import { PageRevealController } from "./PageRevealController";
 import { SiteInteractions } from "./SiteInteractions";
 import "./SiteVisualAuthority.css";
 
@@ -20,13 +19,22 @@ export default function LegacySiteLayout({
         <a className="skip-link" href="#main-content">
           Preskočiť na obsah
         </a>
-        <Nav />
+        <div className="redesign-header">
+          <Header
+            active={
+              pathname.startsWith("/projekty")
+                ? "realizacie"
+                : pathname === "/kontakt"
+                  ? "kontakt"
+                  : ""
+            }
+          />
+        </div>
         <main id="main-content" className="relative flex-1">
           <Breadcrumbs />
           <div key={pathname} className="page-transition">
             {children}
           </div>
-          <PageRevealController pathname={pathname} />
         </main>
         <SiteInteractions />
         <Footer />

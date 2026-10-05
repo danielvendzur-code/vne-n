@@ -303,20 +303,24 @@
   }
 }
 
-/* Vstup obsahu mení iba opacity/transform, nikdy geometriu stránky. */
-@keyframes mc-content-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Pending is assigned only offscreen, before observing. Shown content never hides again. */
 @media (prefers-reduced-motion: no-preference) {
+  .redesign [data-revealed] {
+    transition:
+      opacity 640ms var(--mc-ease) var(--reveal-delay, 0ms),
+      translate 640ms var(--mc-ease) var(--reveal-delay, 0ms),
+      transform 450ms var(--mc-ease);
+  }
+  .redesign [data-revealed="pending"] {
+    opacity: 0;
+    translate: 0 18px;
+  }
   .redesign [data-revealed="true"] {
-    animation: mc-content-in 650ms var(--mc-ease) both;
+    opacity: 1;
+    translate: 0 0;
+  }
+  .redesign [data-motion="horizontal"][data-revealed="pending"] {
+    translate: -18px 0;
   }
 }
 
@@ -367,38 +371,65 @@
   border-radius: 12px;
   background: var(--mc-page);
 }
-@keyframes mc-editorial-in {
-  from {
-    opacity: 0;
-    translate: -36px 24px;
-  }
-  to {
-    opacity: 1;
-    translate: 0 0;
-  }
-}
-@keyframes mc-model-in {
-  from {
-    opacity: 0;
-    translate: 20px 0;
-    scale: 0.98;
-  }
-  to {
-    opacity: 1;
-    translate: 0 0;
-    scale: 1;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .redesign [data-motion="horizontal"][data-revealed="true"] {
-    animation: mc-editorial-in 1000ms var(--mc-ease) var(--reveal-delay, 0ms) both;
-  }
-  .redesign .koverta-model {
-    animation: mc-model-in 650ms var(--mc-ease) both;
-  }
-}
 @media (max-width: 900px) {
   .redesign .redesign-nav-links a {
     display: flex;
+  }
+}
+
+/* Shared content edges and surface geometry across the homepage. */
+.redesign .redesign-koverta-grid,
+.redesign #postup > div,
+.redesign #realizacie {
+  width: min(1280px, calc(100% - 96px));
+  margin-inline: auto;
+  padding: 88px 0 !important;
+}
+.redesign .redesign-case-card,
+.redesign .redesign-case-shot {
+  border-radius: 12px !important;
+}
+@media (max-width: 1100px) {
+  .redesign .redesign-koverta-grid,
+  .redesign #postup > div,
+  .redesign #realizacie {
+    width: calc(100% - 64px);
+  }
+}
+@media (max-width: 767px) {
+  .redesign main .redesign-koverta-grid,
+  .redesign #postup > div,
+  .redesign #realizacie {
+    width: calc(100% - 40px);
+    padding: 56px 0 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .redesign main #postup {
+    padding-inline: 0 !important;
+  }
+  .redesign .redesign-process-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 40px !important;
+  }
+  .redesign .redesign-process-intro {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .redesign .koverta-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    align-self: stretch !important;
+  }
+  .redesign .koverta-tabs .koverta-tab {
+    min-height: 52px;
+    padding: 8px !important;
+    font-size: 11px !important;
+    line-height: 1.35;
   }
 }

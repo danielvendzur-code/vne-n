@@ -128,25 +128,20 @@ test("pricing stays readable and explicit about standalone, combined and all-in-
   assert.doesNotMatch(pricing, /\b(?:Basic|Pro|Enterprise)\b/i);
 });
 
-test("homepage, form and subpages share the smooth one-way reveal controller", async () => {
-  const layout = await read("src/components/site/LegacySiteLayout.tsx");
-  const controller = await read("src/components/site/PageRevealController.tsx");
-  const pagesCss = await read("src/components/site/SiteVisualAuthority.css");
-  const motion = await read("src/components/site/motion-primitives.tsx");
+test("each page has one reveal owner and never re-stages visible content", async () => {
+  const legacy = await read("src/components/site/LegacySiteLayout.tsx");
+  const redesign = await read("src/components/site/redesign/RedesignLayout.tsx");
+  const hook = await read("src/hooks/useReveal.ts");
+  const css = await read("src/components/site/redesign/tokens.css");
 
-  assert.match(layout, /PageRevealController pathname=\{pathname\}/);
-  assert.match(controller, /IntersectionObserver/);
-  assert.match(controller, /contact-form/);
-  assert.match(controller, /hybrid-price/);
-  assert.match(controller, /element\.animate/);
-  assert.match(controller, /prefers-reduced-motion/);
-  assert.match(controller, /hybrid-work__grid > article/);
-  assert.match(controller, /outcome-comparison__group li/);
-  assert.match(controller, /element\.dataset\.motionReveal = "staged"/);
-  assert.match(controller, /duration:\s*state\.duration/);
-  assert.doesNotMatch(pagesCss, /data-scroll-reveal/);
-  assert.match(motion, /base:\s*0\.72/);
-  assert.match(motion, /data-motion-reveal/);
+  // Avoid two controllers writing opacity/transform on the same page.
+  assert.doesNotMatch(legacy, /PageRevealController/);
+  assert.match(redesign, /useLayoutEffect/);
+  assert.match(redesign, /element.dataset.revealed !== "true"/);
+  assert.match(hook, /item.dataset.shown !== "true"/);
+  assert.match(redesign, /observer.unobserve\(entry.target\)/);
+  assert.match(redesign, /prefers-reduced-motion: reduce/);
+  assert.doesNotMatch(css, /animation: mc-content-in|animation: mc-editorial-in/);
 });
 
 test("contact form retains sanitization, privacy notice, honeypot and resilient lead submission", async () => {

@@ -503,7 +503,7 @@
 .faq {
   background: var(--mc-paper);
   border: 1px solid var(--mc-line);
-  border-radius: 28px;
+  border-radius: 12px;
   padding: clamp(32px, 6vw, 80px) clamp(24px, 5vw, 72px);
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
   gap: clamp(40px, 6vw, 96px);
