@@ -334,6 +334,7 @@
 @media (min-width: 601px) {
   .panel {
     position: relative;
+    container-type: inline-size;
     overflow: hidden;
     border: 1px solid rgba(255, 252, 247, 0.16);
   }
@@ -343,13 +344,16 @@
     min-height: 0;
   }
   .panel h3 {
-    inset: 62px 22px auto auto;
-    width: calc(100% - 44px);
+    inset: auto auto 284px 22px;
+    width: max-content;
+    max-width: calc(100% - 44px);
     writing-mode: horizontal-tb;
-    transform-origin: top right;
-    transform: translate(-44px, -24px) rotate(-90deg);
+    transform-origin: bottom left;
+    transform: translateX(calc(100cqw - 44px)) rotate(-90deg);
     font-size: clamp(30px, 2.8vw, 40px);
-    transition: transform 750ms var(--mc-ease);
+    transition:
+      transform 750ms var(--mc-ease),
+      bottom 750ms var(--mc-ease);
   }
   .panel:nth-child(4) h3 {
     font-size: clamp(25px, 2.2vw, 31px);
@@ -372,6 +376,7 @@
       height 750ms var(--mc-ease);
   }
   .panel:is(:hover, :focus-visible) h3 {
+    bottom: calc(100% - 102px);
     transform: none;
   }
   .panel:is(:hover, :focus-visible) .preview {
