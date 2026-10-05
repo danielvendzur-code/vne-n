@@ -1,26 +1,16 @@
 import { useState } from "react";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Box,
-  Calculator,
-  Check,
-  Mail,
-  MessageSquare,
-  Plus,
-  Minus,
-  SlidersHorizontal,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Mail, Plus, Minus } from "lucide-react";
 import { faqs } from "@/data/faq";
 import { sitePath } from "./utils";
 import s from "./HomepageSections.module.css";
+export { HomeSolutions } from "./HomeSolutions";
 
 const openBuilder = () =>
   window.dispatchEvent(new CustomEvent("site-assistant:open", { detail: { entry: "builder" } }));
 
 export function HomeFacts() {
   return (
-    <section className={s.facts} aria-label="Čo môžete očakávať">
+    <section className={s.facts} aria-label="Čo môžete očakávať" data-reveal>
       <div className={s.fact}>
         <span>Prvá odpoveď</span>
         <strong>
@@ -59,144 +49,10 @@ export function HomeFacts() {
   );
 }
 
-const tools = [
-  {
-    title: "Chatbot",
-    icon: MessageSquare,
-    copy: "Odpovedá z vašich podkladov. Zistí potrebu a pripraví dopyt.",
-    image: "/work/solutions/chatbot-aplan.webp",
-    href: "/nastroj?t=chatbot",
-  },
-  {
-    title: "Cenová kalkulačka",
-    icon: Calculator,
-    copy: "Spočíta cenu podľa rozmerov, množstva a vašich pravidiel.",
-    image: "/work/solutions/kalkulacka-derat.webp",
-    href: "/nastroj?t=kalkulacka",
-  },
-  {
-    title: "Interaktívny poradca",
-    icon: SlidersHorizontal,
-    copy: "Pomôže zákazníkovi vybrať produkt alebo službu, ktorá mu sedí.",
-    image: "/work/solutions/poradca-kava.webp",
-    href: "/nastroj?t=poradca",
-  },
-];
-
-export function HomeSolutions() {
-  return (
-    <section id="riesenia" className={s.solutions}>
-      <header className={s.sectionHead}>
-        <span className={s.label}>Riešenia pre váš web</span>
-        <h2>
-          Každý nástroj má
-          <br />
-          svoju dobrú úlohu.
-        </h2>
-        <p>
-          Od prvej otázky po pripravený dopyt. Vyberieme riešenie podľa toho, čo zákazníci na vašom
-          webe potrebujú.
-        </p>
-      </header>
-      <div className={s.tools}>
-        <article className={s.featuredTool}>
-          <a
-            className={s.scene}
-            href={sitePath("/3d-konfigurator")}
-            aria-label="Pozrieť 3D konfigurátor"
-          >
-            <img
-              src={sitePath("/work/koverta/model-porsche.webp")}
-              width={1200}
-              height={843}
-              alt="Ilustračný 3D model strieborného Porsche pod hliníkovým prístreškom"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-          <div className={s.featuredCopy}>
-            <Box size={24} strokeWidth={1.6} aria-hidden="true" />
-            <h3>
-              Nech si ho zákazník
-              <br />
-              poskladá sám.
-            </h3>
-            <p>
-              Rozmery, materiály a doplnky vidí priamo v 3D. Vy dostanete dopyt s konkrétnou
-              zostavou.
-            </p>
-            <a className={s.action} href={sitePath("/3d-konfigurator")}>
-              Pozrieť 3D konfigurátor <ArrowUpRight size={18} />
-            </a>
-            <small>
-              Cena podľa rozsahu. Porsche je ilustračný model, nie referencia spolupráce.
-            </small>
-          </div>
-        </article>
-        <div className={s.otherTools}>
-          {tools.map(({ title, icon: Icon, copy, image, href }) => (
-            <a className={s.tool} href={sitePath(href)} key={title}>
-              <div className={s.toolImage}>
-                <img
-                  src={sitePath(image)}
-                  width={400}
-                  height={480}
-                  alt={`Ukážka rozhrania: ${title}`}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div>
-                <Icon size={22} strokeWidth={1.6} aria-hidden="true" />
-                <h3>{title}</h3>
-                <p>{copy}</p>
-                <span className={s.toolLink}>
-                  Ako funguje <ArrowUpRight size={16} aria-hidden="true" />
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-      <div className={s.combinations}>
-        <div>
-          <h3>Samostatne alebo spolu.</h3>
-          <p>
-            Podľa toho, čo váš web potrebuje. 3D konfigurátor môže fungovať sám. Chatbot môže pomôcť
-            s výberom alebo nadviazať na kalkulačku.
-          </p>
-          <button type="button" className="mc-btn" onClick={openBuilder}>
-            Vyskladať riešenie <ArrowRight size={18} />
-          </button>
-        </div>
-        <div
-          className={s.toolNetwork}
-          aria-label="Štyri samostatné nástroje s možnosťou kombinovania"
-        >
-          {[
-            { name: "Chatbot", icon: MessageSquare },
-            { name: "Kalkulačka", icon: Calculator },
-            { name: "3D konfigurátor", icon: Box },
-            { name: "Poradca", icon: SlidersHorizontal },
-          ].map(({ name, icon: Icon }) => (
-            <div className={s.networkNode} key={name}>
-              <span>
-                <Icon size={28} strokeWidth={1.5} aria-hidden="true" />
-              </span>
-              <strong>{name}</strong>
-            </div>
-          ))}
-          <p>Jeden nástroj. Alebo premyslené prepojenie.</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function InquiryComparison() {
   return (
     <section id="pred-a-po" className={s.comparison}>
-      <div className={s.comparisonInner}>
+      <div className={s.comparisonInner} data-reveal>
         <header className={s.sectionHead}>
           <h2>
             Rovnaký záujem.
@@ -267,7 +123,7 @@ export function InquiryComparison() {
 export function HomeFAQ() {
   const [opened, setOpened] = useState<number | null>(0);
   return (
-    <section id="faq" className={s.faq}>
+    <section id="faq" className={s.faq} data-reveal>
       <div className={s.faqIntro}>
         <span className={s.label}>OTÁZKY A ODPOVEDE</span>
         <h2>Často sa pýtate</h2>
