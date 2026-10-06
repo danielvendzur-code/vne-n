@@ -15,7 +15,7 @@ const slides = [
   },
   {
     title: "Nastaví otočné lamely",
-    copy: "Otvorí lamely a pozrie si, ako sa mení strecha aj tieň pod ňou. Vie si predstaviť otvorenú aj zatvorenú zostavu.",
+    copy: "Zvolí kontrastné antracitové lamely a nastaví ich otvorenie. Hneď vidí strechu aj tieň pod pergolou.",
     image: "config-step-3",
   },
   {
@@ -38,6 +38,21 @@ const slides = [
 export function ProjectGallery() {
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [pageVisible, setPageVisible] = useState(true);
+  useEffect(() => {
+    const sync = () => setPageVisible(!document.hidden);
+    sync();
+    document.addEventListener("visibilitychange", sync);
+    return () => document.removeEventListener("visibilitychange", sync);
+  }, []);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReducedMotion(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
   const root = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -48,19 +63,21 @@ export function ProjectGallery() {
     return () => observer.disconnect();
   }, []);
   useEffect(() => {
-    if (!playing || !visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-      return;
+    if (!playing || !visible || !pageVisible || reducedMotion) return;
     const id = setInterval(() => {
       if (!document.hidden) setActive((n) => (n + 1) % slides.length);
     }, 6500);
     return () => clearInterval(id);
-  }, [playing, visible]);
+  }, [playing, visible, pageVisible, reducedMotion, active]);
   const pick = (n: number) => {
     setActive((n + slides.length) % slides.length);
-    setPlaying(false);
   };
   return (
-    <div className={s.gallery} ref={root}>
+    <div
+      className={s.gallery}
+      ref={root}
+      data-playing={playing && visible && pageVisible && !reducedMotion}
+    >
       <header className={s.heading}>
         <div>
           <span>OD PRVEJ VOĽBY PO HOTOVÚ ZOSTAVU</span>
@@ -72,11 +89,18 @@ export function ProjectGallery() {
           </button>
           <button
             type="button"
-            aria-label={playing ? "Pozastaviť carousel" : "Spustiť carousel"}
-            aria-pressed={playing}
+            disabled={reducedMotion}
+            aria-label={
+              reducedMotion
+                ? "Automatické prehrávanie je vypnuté podľa nastavenia pohybu"
+                : playing
+                  ? "Pozastaviť carousel"
+                  : "Spustiť carousel"
+            }
+            aria-pressed={playing && !reducedMotion}
             onClick={() => setPlaying(!playing)}
           >
-            {playing ? <Pause size={17} /> : <Play size={17} />}
+            {playing && !reducedMotion ? <Pause size={17} /> : <Play size={17} />}
           </button>
           <button type="button" aria-label="Ďalší krok" onClick={() => pick(active + 1)}>
             <ArrowRight size={18} />
@@ -97,12 +121,12 @@ export function ProjectGallery() {
             loading="lazy"
           />
         </div>
-        <div className={s.info} aria-live="polite">
+        <div className={s.info} aria-live={playing && !reducedMotion ? "off" : "polite"}>
           <span>
             0{active + 1} / 0{slides.length}
           </span>
-          <h4>{slides[active].title}</h4>
-          <p>{slides[active].copy}</p>
+          <h4 key={`title-${active}`}>{slides[active].title}</h4>
+          <p key={`copy-${active}`}>{slides[active].copy}</p>
           <div className={s.pagination}>
             {slides.map((slide, i) => (
               <button
@@ -112,7 +136,7 @@ export function ProjectGallery() {
                 aria-pressed={i === active}
                 onClick={() => pick(i)}
               >
-                <i />
+                <i key={i === active ? active : `idle-${i}`} />
               </button>
             ))}
           </div>

@@ -1,116 +1,38 @@
-import { ArrowRight, ArrowUpRight, Send, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { BrandMark } from "@/components/BrandMark";
 import { PergolaDemo } from "./PergolaDemo";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
-const openChat = () =>
-  window.dispatchEvent(new CustomEvent("site-assistant:open", { detail: { entry: "recommend" } }));
-const answers = [
-  {
-    q: "Čo dokáže chatbot na webe?",
-    a: "Odpovie z vašich podkladov, odporučí vhodné riešenie a pripraví dopyt s kontaktom.",
-  },
-  {
-    q: "Kam prídu dopyty?",
-    a: "Na váš e-mail. Kontakt aj všetky voľby zákazníka dostanete v jednej prehľadnej správe.",
-  },
-];
-function ChatPreview() {
-  const [question, setQuestion] = useState<number | null>(null);
-  const [typing, setTyping] = useState(false);
+function NativePreview({ mode }: { mode: "chat" | "calc" }) {
+  const root = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ scale: 0.6, height: 510 });
   useEffect(() => {
-    if (question === null) return;
-    setTyping(true);
-    const id = setTimeout(() => setTyping(false), 750);
-    return () => clearTimeout(id);
-  }, [question]);
+    if (!root.current) return;
+    const observer = new ResizeObserver(([entry]) => {
+      const scale = entry.contentRect.width / 400;
+      if (scale > 0) setSize({ scale, height: entry.contentRect.height / scale });
+    });
+    observer.observe(root.current);
+    return () => observer.disconnect();
+  }, []);
   return (
-    <div className={s.chat}>
-      <div className={s.chatHead}>
-        <BrandMark size={24} tone="paper" />
-        <span>
-          Môj Chatbot<small>Ukážka rozhovoru</small>
-        </span>
-        <i />
-      </div>
-      <div className={s.messages}>
-        <p className={s.bot}>Dobrý deň. Čo by mal váš web robiť za vás?</p>
-        {question !== null && (
-          <>
-            <p className={s.user}>{answers[question].q}</p>
-            <p className={s.bot} key={question}>
-              {typing ? <BrandMark size={20} loop tone="brand" /> : answers[question].a}
-            </p>
-          </>
-        )}
-      </div>
-      <div className={s.questions}>
-        {answers.map((a, i) => (
-          <button type="button" key={a.q} onClick={() => setQuestion(i)}>
-            {a.q}
-            <ArrowUpRight size={14} />
-          </button>
-        ))}
-      </div>
-      <button className={s.composer} type="button" onClick={openChat}>
-        Napíšte vlastnú otázku <Send size={15} />
-      </button>
-    </div>
-  );
-}
-function CalculatorPreview() {
-  const [length, setLength] = useState(20);
-  const [type, setType] = useState("3D panel");
-  const price = length * (type === "3D panel" ? 30 : 50);
-  return (
-    <div className={s.calculator}>
-      <div className={s.calcTop}>
-        <span>Oplotenie pozemku</span>
-        <small>Ukážka výpočtu</small>
-      </div>
-      <img
-        className={s.fencePhoto}
-        key={type}
-        src={sitePath(
-          `/work/solutions/${type === "3D panel" ? "fence-panel" : "fence-concrete"}.webp`,
-        )}
-        alt={
-          type === "3D panel"
-            ? "Skutočný panelový plot z katalógu Môj Plot"
-            : "Betónový plot z katalógu Môj Plot"
+    <div className={s.nativePreview} ref={root}>
+      <iframe
+        src={sitePath(`/work/mojplot/index.html?demo=${mode}`)}
+        title={
+          mode === "calc"
+            ? "Pôvodná kalkulačka MôjPlot – interaktívna ukážka"
+            : "Pôvodný chatbot MôjPlot – interaktívna ukážka"
         }
-        width={600}
-        height={300}
         loading="lazy"
+        sandbox="allow-scripts allow-same-origin"
+        style={{ height: size.height, transform: `scale(${size.scale})` }}
       />
-      <div className={s.segment}>
-        {["3D panel", "Betón"].map((t) => (
-          <button type="button" aria-pressed={type === t} onClick={() => setType(t)} key={t}>
-            {t}
-          </button>
-        ))}
-      </div>
-      <label>
-        Dĺžka plotu <output>{length} m</output>
-        <input
-          aria-label="Dĺžka plotu"
-          type="range"
-          min="5"
-          max="60"
-          value={length}
-          onChange={(e) => setLength(Number(e.target.value))}
-        />
-      </label>
-      <div className={s.total}>
-        <span>
-          Orientačne za plot<small>Modelový výpočet bez montáže</small>
-        </span>
-        <strong key={price}>{price.toLocaleString("sk-SK")} €</strong>
-      </div>
     </div>
   );
 }
+const ChatPreview = () => <NativePreview mode="chat" />;
+const CalculatorPreview = () => <NativePreview mode="calc" />;
 function AdvisorPreview() {
   const [skin, setSkin] = useState("Suchá");
   const [chosen, setChosen] = useState(false);
@@ -159,6 +81,12 @@ function AdvisorPreview() {
 }
 const solutions = [
   {
+    title: "3D konfigurátor",
+    copy: "Zákazník vidí farbu, otočné lamely aj ZIP tienenie na svojej zostave.",
+    href: "/3d-konfigurator",
+    demo: () => <PergolaDemo compact />,
+  },
+  {
     title: "Chatbot",
     copy: "Zodpovie otázku, pochopí potrebu a prevedie zákazníka k ďalšiemu kroku.",
     href: "/nastroj?t=chatbot",
@@ -176,12 +104,6 @@ const solutions = [
     href: "/nastroj?t=poradca",
     demo: AdvisorPreview,
   },
-  {
-    title: "3D konfigurátor",
-    copy: "Farby, pohyb lamiel aj tienenie uvidí zákazník priamo na vlastnej zostave.",
-    href: "/3d-konfigurator",
-    demo: () => <PergolaDemo compact />,
-  },
 ];
 export function HomeSolutions() {
   const root = useRef<HTMLDivElement>(null);
@@ -189,7 +111,7 @@ export function HomeSolutions() {
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading}>
         <h2 id="solutions-title">Riešenia pre váš web</h2>
-        <p>Vyskúšajte, čo sa zmení po otázke, posunutí rozmeru alebo výbere farby.</p>
+        <p>Vyskúšajte pohyb lamiel, zmenu farby aj cestu od otázky k pripravenému dopytu.</p>
       </header>
       <div ref={root} className={s.panels}>
         {solutions.map(({ title, copy, href, demo: Demo }, i) => (
@@ -208,6 +130,10 @@ export function HomeSolutions() {
           </article>
         ))}
       </div>
+      <p className={s.scope}>
+        Ukážky predstavujú len časť možností. Kompletný 3D konfigurátor pridáva výber modelu,
+        rozmery, materiály, výbavu aj odoslanie konkrétnej zostavy.
+      </p>
       <div className={s.connection}>
         <h3>Samostatne alebo spolu.</h3>
         <p>Jeden nástroj alebo premyslené prepojenie.</p>

@@ -1839,14 +1839,14 @@ function kvAdresa(kluc, zaloha) {
         const zoomPan = { x:0, y:0 };
         let cameraRun = 0;
         const stopCamera = () => { if (cameraRun) cancelAnimationFrame(cameraRun); cameraRun = 0; };
-        const animateCamera = (az, el) => {
+        const animateCamera = (az, el, duration = 180) => {
           stopCamera();
           const a0 = view.az, e0 = view.el;
           const delta = Math.atan2(Math.sin(az - a0), Math.cos(az - a0));
           if (reducedMotion) { view.az = a0 + delta; view.el = el; scheduleStage(); return; }
           const start = performance.now();
           const tick = now => {
-            const t = Math.min(1, (now - start) / 180), ease = t * t * (3 - 2 * t);
+            const t = Math.min(1, (now - start) / duration), ease = t * t * (3 - 2 * t);
             view.az = a0 + delta * ease; view.el = e0 + (el - e0) * ease;
             scheduleStage();
             cameraRun = t < 1 ? requestAnimationFrame(tick) : 0;
@@ -2028,6 +2028,8 @@ function kvAdresa(kluc, zaloha) {
           if (face.bg) return M.dlazba;
           if (face.material === 'zinc') return M.zinok;
           if (face.material === 'latka') return M.latka || M.lak;
+          if (face.material === 'led') return M.led;
+          if (face.material === 'led-spill') return M.ledSpill;
           const text = String(face.sourceFill || '');
           const c = window.KvRender3D.rozlozFarbu(text);
           if (c[3] < 0.96) return M.sklo;
@@ -3405,7 +3407,7 @@ function kvAdresa(kluc, zaloha) {
                [x1 + (alongX ? 0 : m), y0 - (alongX ? m : 0), z - drop],
                [x1 + (alongX ? 0 : m), y1 + (alongX ? m : 0), z - drop],
                [x0 - (alongX ? 0 : m), y1 + (alongX ? m : 0), z - drop]],
-              fill, { normal: [0,0,-1], cull: true, edge: false, raw: true, bias: bias });
+              fill, { normal: [0,0,-1], cull: true, edge: false, raw: true, bias: bias, material: bias === 400 ? 'led' : bias < 396 ? 'led-spill' : undefined });
             const n = Math.min(x1 - x0, y1 - y0);
             /* Rozliate svetlo. Poznámka nad tabuľkou ho sľubuje a odtieň naň
                má pripravený, ale nakreslené nikdy nebolo: z pásu ostal holý
@@ -6019,7 +6021,7 @@ function kvAdresa(kluc, zaloha) {
                 const strip = (w, fill, bias, gap = 0) => quad([
                   [cx + gap * bladeUz - bladeUx * w, yc - hy, cz - gap * bladeUx - bladeUz * w], [cx + gap * bladeUz + bladeUx * w, yc - hy, cz - gap * bladeUx + bladeUz * w],
                   [cx + gap * bladeUz + bladeUx * w, yc + hy, cz - gap * bladeUx + bladeUz * w], [cx + gap * bladeUz - bladeUx * w, yc + hy, cz - gap * bladeUx - bladeUz * w]
-                ], fill, { normal: [bladeUz, 0, -bladeUx], cull: true, edge: false, raw: true, bias: bias });
+                ], fill, { normal: [bladeUz, 0, -bladeUx], cull: true, edge: false, raw: true, bias: bias, material: bias === 400 ? 'led' : bias < 396 ? 'led-spill' : undefined });
                 /* To isté na lamele: bez rozptylu svietil pás ako nálepka. */
                 strip(62, `rgba(${ledCol.spill},.13)`, 386, 0.2);
                 strip(32, `rgba(${ledCol.spill},.24)`, 391, 0.45);
@@ -7828,6 +7830,8 @@ function kvAdresa(kluc, zaloha) {
 
         if (window.SP_SCENE) {
           sceneLife=window.SP_SCENE.create(cfgRoot,()=>drawStage(),BIO.page||'bio');
+          // This embedded showcase has a fixed, furniture-compatible footprint.
+          sceneLife.state.mode='bistro';sceneLife.state.count='1';
           /* Snímok dažďa prekreslí uložené buffery. Konštrukcia sa medzi
              snímkami nemení, tak sa ani nepočíta znova; vracia sa false, keď
              hĺbkový renderer nebeží (SVG záloha, stratený kontext) a modul si
@@ -7989,15 +7993,27 @@ function kvAdresa(kluc, zaloha) {
         let resizeTick = false;
         window.MC_PERGOLA = {
           update(p) {
-            if(Number.isFinite(p.louver)) state.louverT=Math.max(0,Math.min(1,p.louver));
-            if(Number.isFinite(p.screen)) {state.sides.front=p.screen>0?'zip':'open';state.sideOpen.front=1-Math.max(0,Math.min(1,p.screen));}
-            if(p.color) {const col=BIO.colors.find(c=>c.ral===p.color);if(col)state.frameColor=col;}
-            if(typeof p.led==='boolean') state.ledSet.on=p.led;
-            if(p.reset) {state.sides.front='open';state.ledSet.on=false;state.louverT=.84;state.frameColor=BIO.colors.find(c=>c.ral==='RAL 7016')||BIO.colors[0];}
-            cachedGeometry=null;drawStage();
+            let dirty = false;
+            if(Number.isFinite(p.louver)) { const t=Math.max(0,Math.min(1,p.louver)); if(state.louverT!==t){state.louverT=t;dirty=true;} }
+            if(Number.isFinite(p.screen)) {
+              const t=Math.max(0,Math.min(1,p.screen)), kind=t>0?'zip':'open';
+              if(state.sides.front!==kind || state.sideOpen.front!==1-t){state.sides.front=kind;state.sideOpen.front=1-t;dirty=true;}
+            }
+            if(p.color) {const col=BIO.colors.find(c=>c.ral===p.color);if(col && (state.frameColor.ral!==col.ral || state.louverColor.ral!==col.ral)){state.frameColor=col;state.louverColor=col;dirty=true;}}
+            if(p.louverColor) {const col=BIO.colors.find(c=>c.ral===p.louverColor);if(col && state.louverColor.ral!==col.ral){state.louverColor=col;dirty=true;}}
+            if(typeof p.led==='boolean' && state.ledSet.on!==p.led) {state.ledSet.on=p.led;state.ledSet.len=2;state.ledSet.qty=4;state.ledSet.type='warm';dirty=true;}
+            if(p.reset) {state.sides.front='open';state.ledSet.on=false;state.louverT=.84;state.frameColor=BIO.colors.find(c=>c.ral==='RAL 7016')||BIO.colors[0];state.louverColor=state.frameColor;dirty=true;}
+            if(dirty) {cachedGeometry=null;scheduleStage();}
           },
           snapshot(){return window.SP_TEST.snapshot()},
-          view(az,el){window.SP_TEST.setView(az,el);window.SP_TEST.setZoom(.77);drawStage();}
+          view(az,el){
+            viewTouched = true;
+            // A roof detail hides furniture below the floor plane.
+            if(sceneLife) sceneLife.state.mode = el < 0 ? 'none' : 'bistro';
+            manualZoom = canvas.clientHeight < 200 ? 1 : .9;
+            zoomPan.x = 0; zoomPan.y = 0;
+            animateCamera(az,el,720);
+          }
         };
         window.parent.postMessage({source:'mc-pergola',type:'ready'},location.origin);
         window.addEventListener('resize', () => {

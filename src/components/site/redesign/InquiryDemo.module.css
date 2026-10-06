@@ -433,3 +433,386 @@
     font-size: 10px;
   }
 }
+
+/* Two readable, compact inboxes on a single desktop viewport. */
+.section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.heading {
+  margin-bottom: 24px;
+  gap: 32px;
+}
+.heading h2 {
+  font-size: clamp(36px, 4vw, 52px);
+}
+.heading p {
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+.comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 18px;
+}
+.comparisonLabel {
+  display: block;
+  font:
+    10px/1.5 "Geist Mono",
+    monospace;
+  letter-spacing: 0.07em;
+  margin-bottom: 9px;
+  color: var(--mc-brand);
+}
+.comparison .gmail {
+  border-radius: 12px;
+  min-height: 440px;
+}
+.comparison .topbar {
+  height: 44px;
+  padding: 0 14px;
+  gap: 12px;
+}
+.comparison .topbar > svg {
+  display: none;
+}
+.comparison .gmailLogo {
+  font-size: 17px;
+  gap: 7px;
+}
+.comparison .gmailLogo svg {
+  width: 22px;
+}
+.comparison .search {
+  padding: 8px 12px;
+  font-size: 10px;
+}
+.comparison .sidebar {
+  display: none;
+}
+.comparison .body {
+  display: block;
+  padding: 0 8px 8px;
+}
+.comparison .message {
+  padding: 12px 16px;
+  border-radius: 10px;
+}
+.comparison .toolbar {
+  padding-bottom: 12px;
+  gap: 18px;
+}
+.comparison .subject {
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.comparison .subject h3 {
+  font-size: 15px;
+}
+.comparison .sender {
+  margin-bottom: 12px;
+  gap: 8px;
+  font-size: 11px;
+}
+.comparison .avatar {
+  height: 28px;
+  width: 28px;
+  font-size: 12px;
+}
+.comparison .mailBrand {
+  padding: 9px 12px;
+}
+.comparison .mailBrand img {
+  height: 18px;
+  width: 98px;
+}
+.comparison .quote {
+  padding: 10px 12px;
+}
+.comparison .quote h4 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.comparison .quote > p {
+  font-size: 10px;
+  margin: 5px 0;
+}
+.comparison .eyebrow {
+  font-size: 8px !important;
+  margin-bottom: 5px !important;
+}
+.comparison .quote dl {
+  margin: 9px 0;
+}
+.comparison .quote dl > div {
+  font-size: 10px;
+  gap: 10px;
+  grid-template-columns: 82px 1fr;
+  padding: 4px 0;
+}
+.comparison .contact {
+  font-size: 10px;
+  padding: 8px;
+  gap: 4px;
+}
+.comparison .contact span:last-child {
+  font-size: 9px;
+}
+.comparison .attachment {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+}
+.comparison .attachment img {
+  height: 68px;
+}
+.comparison .attachment > span {
+  padding: 8px;
+  font-size: 10px;
+  gap: 6px;
+}
+.comparison .reply {
+  font-size: 10px;
+  padding: 6px 12px;
+  margin-top: 10px;
+}
+.ordinary {
+  font:
+    13px/1.7 Arial,
+    sans-serif;
+  min-height: 230px;
+  padding: 12px 0;
+}
+.missing {
+  border-top: 1px solid #e0e3e7;
+  padding: 14px 0 4px;
+  font:
+    11px/1.6 Arial,
+    sans-serif;
+  color: #747775;
+}
+.missing span {
+  font-weight: 600;
+  color: #454746;
+}
+.missing p {
+  margin: 5px 0;
+}
+.comparison .before .message {
+  margin: 0 8px 8px;
+}
+@media (max-width: 700px) {
+  .comparison {
+    grid-template-columns: 1fr;
+  }
+  .comparison .gmail {
+    min-height: 0;
+  }
+  .ordinary {
+    min-height: 140px;
+  }
+  .comparison .quote dl > div {
+    grid-template-columns: 75px 1fr;
+  }
+  .comparison .attachment {
+    grid-template-columns: 95px 1fr;
+  }
+  .comparison .subject {
+    flex-direction: row;
+  }
+  .comparison .mailBrand {
+    gap: 6px;
+  }
+}
+
+.brief {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.comparison .brief dl {
+  margin: 0;
+}
+.comparison .brief dl > div {
+  padding: 3px 0;
+  line-height: 1.35;
+  grid-template-columns: 68px 1fr;
+  font-size: 9px;
+  gap: 8px;
+}
+.metadata {
+  min-width: 0;
+}
+.comparison .metadata .contact {
+  padding: 8px;
+  font-size: 10px;
+  gap: 4px;
+}
+.comparison .metadata .note {
+  margin: 8px 0;
+  font-size: 9px;
+  line-height: 1.45;
+}
+.comparison .metadata .attachment {
+  display: block;
+  margin-top: 8px;
+}
+.comparison .metadata .attachment img {
+  height: 86px;
+}
+.comparison .metadata .attachment > span {
+  padding: 6px;
+  font-size: 9px;
+}
+.comparison .quote > p {
+  margin-bottom: 10px;
+}
+.comparison .gmail {
+  min-height: 410px;
+}
+@media (max-width: 700px) {
+  .brief {
+    grid-template-columns: 1fr;
+  }
+  .comparison .brief dl > div {
+    font-size: 11px;
+    grid-template-columns: 86px 1fr;
+    padding: 6px 0;
+  }
+  .metadata {
+    margin-top: 8px;
+  }
+  .comparison .metadata .attachment img {
+    height: 140px;
+  }
+  .comparison .metadata .note {
+    font-size: 10px;
+  }
+  .comparison .gmail {
+    min-height: 0;
+  }
+}
+@media (min-width: 701px) {
+  .section {
+    padding-top: 26px;
+    padding-bottom: 26px;
+  }
+  .heading {
+    margin-bottom: 18px;
+  }
+  .heading h2 {
+    font-size: 40px;
+    line-height: 1.06;
+  }
+  .heading p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .section .comparison .toolbar {
+    height: 26px;
+    padding: 0 0 8px;
+  }
+  .section .comparison .subject {
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .section .comparison .sender {
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .section .comparison .sender button {
+    min-height: 0;
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+  }
+  .section .comparison .quote > p {
+    line-height: 1.4;
+  }
+  .section .comparison .metadata .contact {
+    line-height: 1.3;
+    gap: 3px;
+  }
+  .section .comparison .metadata .note {
+    font-size: 9px;
+    line-height: 1.35;
+    margin: 6px 0;
+  }
+  .section .comparison .metadata .attachment img {
+    height: 64px;
+  }
+  .section .comparison .reply {
+    min-height: 0;
+    height: 28px;
+    line-height: 1;
+    padding: 6px 10px;
+  }
+  .section .comparison .gmail {
+    min-height: 390px;
+  }
+  .section .ordinary {
+    min-height: 200px;
+    line-height: 1.5;
+  }
+  .section .caption {
+    margin-top: 12px;
+  }
+}
+
+@media (min-width: 701px) {
+  .section {
+    padding: 16px max(32px, calc((100vw - 1216px) / 2));
+  }
+  .section .heading {
+    margin-bottom: 18px;
+  }
+  .section .heading h2 {
+    font-size: 36px;
+  }
+  .section .comparison .quote > p {
+    margin-bottom: 7px;
+  }
+  .section .comparison .quote {
+    padding: 9px 10px;
+  }
+  .section .comparison .brief {
+    gap: 12px;
+  }
+  .section .comparison .brief dl > div {
+    padding: 4px 0;
+  }
+  .section .comparison .mailContent > p {
+    margin: 6px 0;
+  }
+  .section .comparison .message {
+    padding: 10px 14px;
+  }
+  .section .caption {
+    margin-top: 10px;
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 1101px) {
+  .section .heading p {
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    max-width: 48ch;
+  }
+  .section .tabs button {
+    min-height: 32px;
+    padding: 7px 12px;
+  }
+  .section .comparison .brief dl > div {
+    padding: 2px 0;
+  }
+  .section .comparison .brief dl dt,
+  .section .comparison .brief dl dd {
+    line-height: 1.4;
+    margin: 0;
+  }
+}

@@ -155,6 +155,8 @@
        biely plech s priehľadnosťou, vyzerala zasklená strecha ako doska
        z bieleho plastu. */
     sklo:     { kov: 0.00, drsnost: 0.04, odraz: 1.00, sklo: 1 },
+    led:      { kov: 0.00, drsnost: 0.50, odraz: 4.0, svetlo: 1 },
+    ledSpill: { kov: 0.00, drsnost: 1.00, odraz: 1.5, svetlo: 1 },
     panel:    { kov: 0.04, drsnost: 0.55, odraz: 0.68 },
     drevo:    { kov: 0.00, drsnost: 0.72, odraz: 0.62 },
     /* Tkanina ZIP rolety: matná, bez lesku, nepriehľadná. */
@@ -782,6 +784,8 @@ void main() {
     farba = mix(dalka, farba, zanik);
   }
 
+  // LEDs emit light; their brightness does not depend on roof shadow.
+  if ((priznakyBit & 8) != 0) farba = vFarba;
   oFarba = vec4(uKodovat > 0.5 ? zakoduj(farba) : farba, priehladnost);
   oNormHlbka = vec4(n * 0.5 + 0.5, 1.0);
 }
@@ -1386,7 +1390,7 @@ void main() {
             data[at + 9] = mat.kov; data[at + 10] = mat.drsnost;
             /* Príznaky: 1 = podklad, 2 = jednostranná plocha. Sčítané. */
             data[at + 11] = farba[3];
-            data[at + 12] = (f.bg ? 1 : 0) + (f.cull ? 2 : 0) + (mat.sklo ? 4 : 0);
+            data[at + 12] = (f.bg ? 1 : 0) + (f.cull ? 2 : 0) + (mat.sklo ? 4 : 0) + (mat.svetlo ? 8 : 0);
             data[at + 13] = (stupne.get(f.bias || 0) || 0) + (mat.poradie || 0);
             at += PLAVAKOV;
             for (let k = 0; k < 3; k++) {

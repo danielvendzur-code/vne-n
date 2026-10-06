@@ -190,3 +190,68 @@
   border-bottom: 1px solid var(--mc-line);
   padding-bottom: 10px;
 }
+
+.compact .stage {
+  height: 172px;
+}
+.compact .controls {
+  padding: 8px 10px;
+  gap: 7px;
+}
+.compact .status {
+  font-size: 9px;
+  padding-bottom: 5px;
+}
+.compact .controls label {
+  font-size: 10px;
+  gap: 4px;
+}
+.compact .controls output {
+  font-size: 9px;
+}
+.compact .controls input {
+  height: 14px;
+}
+.compact .bottom {
+  gap: 8px;
+}
+.compact .tour {
+  font-size: 9px;
+  padding: 5px;
+}
+.compact .swatches {
+  gap: 6px;
+}
+.compact .swatches button {
+  width: 18px;
+  height: 18px;
+}
+.compact .led {
+  font-size: 10px;
+  gap: 4px;
+}
+.compact .hint {
+  font-size: 9px;
+  left: 10px;
+  bottom: 7px;
+}
+.compact .reset {
+  width: 27px;
+  height: 27px;
+  right: 8px;
+  top: 8px;
+}
+
+@media (min-width: 1101px) {
+  .compact .stage {
+    height: 155px;
+  }
+  .compact .controls {
+    gap: 6px;
+    padding: 7px 9px;
+  }
+  .compact .status {
+    font-size: 9px;
+    line-height: 1.4;
+  }
+}

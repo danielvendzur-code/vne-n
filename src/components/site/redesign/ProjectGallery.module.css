@@ -57,7 +57,7 @@
 .media > img {
   display: block;
   width: 100%;
-  height: 530px;
+  height: 330px;
   object-fit: contain;
   background: var(--mc-page);
 }
@@ -66,7 +66,7 @@
   border-radius: 0;
 }
 .info {
-  padding: 42px 32px;
+  padding: 28px 26px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -181,7 +181,7 @@
     margin-top: 15px;
   }
   .media > img {
-    height: 400px;
+    height: 310px;
   }
   .thumbnails {
     grid-template-columns: 1fr 1fr;
@@ -221,5 +221,55 @@
   color: var(--mc-paper);
 }
 .gallery {
-  padding-top: 72px;
+  padding-top: 42px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pagination button[aria-pressed="true"] i {
+    transform-origin: left;
+    animation: step-progress 6.5s linear both;
+  }
+  .info h4,
+  .info p {
+    animation: caption-in 0.45s var(--mc-ease) both;
+  }
+  .controls button {
+    transition:
+      background 0.25s,
+      transform 0.25s;
+  }
+  .controls button:active {
+    transform: scale(0.92);
+  }
+  .thumbnails button {
+    transition:
+      color 0.3s,
+      border-color 0.3s;
+  }
+  @keyframes step-progress {
+    from {
+      transform: scaleX(0.12);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes caption-in {
+    from {
+      opacity: 0;
+      filter: blur(3px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+}
+.controls button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.gallery[data-playing="false"] .pagination i {
+  animation-play-state: paused;
 }

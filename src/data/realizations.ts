@@ -31,21 +31,21 @@ const items: Realization[] = [
     result: "Kalkulačka prevedie návštevníka od problému k orientačnej cene a pripravenému dopytu.",
     detail:
       "Reálne nasadená deratizačná služba. Návštevník vyberie typ problému a rozsah zásahu, dostane orientačný výsledok a firma prijme kontakt spolu s kontextom potrebným na ďalší krok.",
-    image: `${import.meta.env.BASE_URL}work/live/derat.webp`,
-    alt: "Domovská stránka DERAT s nadpisom Bez škodcov a kalkulačkou zásahu",
+    image: `${import.meta.env.BASE_URL}work/live/derat-chat.webp`,
+    alt: "Web DERAT s otvoreným chatbotom",
     tools: ["Kalkulačka ceny", "Dopytový asistent"],
     caseStudyPath: "/projekty/derat",
   },
   {
     name: "Môj Plot",
-    type: "E-shop · chatbot a kalkulačka",
+    type: "E-shop · ukážka widgetu",
     domain: "mojplot.sk",
     href: "https://mojplot.sk/",
     result: "Chatbot poradí s výberom plotu a kalkulačka spočíta cenu podľa dĺžky a výšky.",
     detail:
-      "E-shop s plotmi, kde chatbot odpovedá na otázky k typom oplotenia a kalkulačka z dĺžky, výšky a doplnkov spočíta orientačnú cenu. Zákazník sa dostane k objednávke alebo dopytu bez telefonovania.",
+      "Rozhranie pre e-shop s plotmi: chatbot odpovedá na otázky k typom oplotenia a kalkulačka z dĺžky, výšky a doplnkov spočíta orientačnú cenu. Zákazník sa dostane k objednávke alebo dopytu bez telefonovania.",
     image: `${import.meta.env.BASE_URL}work/live/mojplot-chat.webp`,
-    alt: "Domovská stránka Môj Plot s kategóriami plotov a hlavným bannerom",
+    alt: "Web Môj Plot s pôvodným otvoreným widgetom",
     tools: ["Chatbot", "Kalkulačka plotu"],
   },
   {
@@ -57,21 +57,21 @@ const items: Realization[] = [
       "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
     detail:
       "Web výrobcu prístreškov a pergol s 3D konfigurátorom. Zákazník vyberie typ, umiestnenie, rozmer, farbu, strechu a výplne, vidí model aj orientačnú cenu a firma dostane dopyt so všetkými údajmi potrebnými na ponuku.",
-    image: `${import.meta.env.BASE_URL}work/koverta/konfigurator-carport.webp`,
-    alt: "Rozhranie 3D konfigurátora Koverta s nastavením carportu",
+    image: `${import.meta.env.BASE_URL}work/koverta/konfigurator-pergola.webp`,
+    alt: "Rozhranie 3D konfigurátora Koverta s nastavením bioklimatickej pergoly",
     tools: ["3D konfigurátor", "Dopyt so zostavou"],
     caseStudyPath: "/3d-konfigurator",
   },
   {
     name: "Koverta · chatbot",
-    type: "Výroba na mieru · chatbot",
+    type: "Výroba na mieru · ukážka chatbota",
     domain: "koverta.sk",
     href: "https://koverta.sk/",
     result: "Asistent poradí s výberom prístrešku alebo pergoly a pripraví ďalší krok.",
     detail:
-      "Chatbot na webe Koverta pomáha s otázkami k produktom, výberom riešenia a prípravou dopytu. Samostatná realizácia popri 3D konfigurátore.",
+      "Ukážka chatbota pre Koverta pomáha s otázkami k produktom, výberom riešenia a prípravou dopytu. Samostatná realizácia popri 3D konfigurátore.",
     image: `${import.meta.env.BASE_URL}work/live/koverta-chat.webp`,
-    alt: "Web Koverta, na ktorom beží produktový chatbot",
+    alt: "Web Koverta s ukážkou pôvodného produktového chatbota",
     tools: ["Chatbot", "Produktové poradenstvo"],
   },
   {

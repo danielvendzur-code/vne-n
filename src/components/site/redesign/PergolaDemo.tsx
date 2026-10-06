@@ -115,7 +115,7 @@ export function PergolaDemo({ compact = false }: { compact?: boolean }) {
         last = now;
         const view = t > 0.8 ? "under" : "top";
         if (view !== lastView) {
-          api()?.view(-0.62, view === "under" ? -0.16 : 0.42);
+          api()?.view(view === "under" ? 2.52 : -0.62, view === "under" ? -0.45 : 0.42);
           lastView = view;
         }
         if (t < 0.28) {
@@ -136,7 +136,7 @@ export function PergolaDemo({ compact = false }: { compact?: boolean }) {
           setLed(false);
         } else {
           setPhase("LED rozsvieti vybranú zostavu");
-          setAngle(35);
+          setAngle(0);
           setScreen(20);
           setColor(colors[0].ral);
           setLed(true);
@@ -156,6 +156,7 @@ export function PergolaDemo({ compact = false }: { compact?: boolean }) {
     setColor(colors[0].ral);
     setLed(false);
     api()?.update({ reset: true });
+    api()?.view(-0.62, 0.42);
   };
   return (
     <div
@@ -264,6 +265,8 @@ export function PergolaDemo({ compact = false }: { compact?: boolean }) {
             onClick={() => {
               stopTour();
               setLed(!led);
+              if (!led) setAngle(0);
+              api()?.view(!led ? 2.52 : -0.62, !led ? -0.45 : 0.42);
             }}
           >
             LED <i data-on={led} />
