@@ -25,20 +25,24 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  height: 42px;
+  height: 44px;
   min-width: 102px;
-  padding: 0 18px;
-  border: 1px solid rgba(255, 252, 247, 0.24);
-  border-radius: 999px;
-  background: var(--mc-paper);
-  color: var(--mc-ink);
+  padding: 0 2px 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--mc-paper);
   font-family: inherit;
   font-size: 14px;
   font-weight: 550;
-  transition: background-color 180ms ease;
+  transition: opacity 180ms ease;
 }
 .toggle:hover {
-  background: var(--mc-page);
+  opacity: 0.75;
+}
+.toggle:focus-visible {
+  outline: 2px solid var(--mc-paper);
+  outline-offset: 4px;
 }
 .menu {
   position: absolute;
@@ -97,7 +101,7 @@
     height: 34px;
   }
   .toggle {
-    height: 40px;
+    height: 44px;
     min-width: 100px;
   }
   .menu {
