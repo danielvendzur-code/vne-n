@@ -3,8 +3,8 @@ import { sitePath } from "./utils";
 import s from "./ProjectGallery.module.css";
 const slides = [
   {
-    title: "Vyberie si prístrešok podľa predstáv",
-    copy: "Vyberie model, rozmery a spôsob umiestnenia. Táto ukážka pokračuje bioklimatickou pergolou.",
+    title: "Vyberie si bioklimatickú pergolu",
+    copy: "Zvolí model bioklimatickej pergoly, jej rozmery a spôsob umiestnenia. Ďalšími voľbami ju prispôsobí svojmu domu.",
     image: "config-step-1",
   },
   {
