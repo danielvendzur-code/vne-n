@@ -206,27 +206,30 @@
   border-top: 1px solid rgba(255, 252, 247, 0.15);
 }
 
-/* Text stays opaque from SSR through hydration; motion is carried by position. */
-.hero.hero h1,
-.hero.hero h1 > * {
-  animation: none;
+/* Letter motion starts after hydration, not while styles are downloading. */
+.headlineLine {
+  white-space: nowrap;
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.headlineLine[data-accent="true"] {
+  color: var(--mc-accent);
+}
+.headlineGlyph {
+  display: inline-block;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .hero.hero h1 > * {
-    animation: mc-headline-arrive 1100ms var(--mc-ease) both;
+  .hero.hero[data-headline-ready="true"] .headlineGlyph {
+    animation: mc-letter-arrive 950ms cubic-bezier(0.16, 1, 0.3, 1) var(--letter-delay) both;
   }
-  .hero.hero h1 > :nth-child(2) {
-    animation-delay: 120ms;
-  }
-  .hero.hero h1 > :nth-child(3) {
-    animation-delay: 240ms;
-  }
-  @keyframes mc-headline-arrive {
+  @keyframes mc-letter-arrive {
     from {
-      translate: 0 48px;
+      transform: translateY(110%) rotate(7deg);
     }
     to {
-      translate: 0 0;
+      transform: translateY(0) rotate(0);
     }
   }
   .case.case {

@@ -19,7 +19,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "product-motion-20261006-v27";
+  const WIDGET_RELEASE = "product-motion-20261006-v28";
 
   let settled = false;
   let loading = false;

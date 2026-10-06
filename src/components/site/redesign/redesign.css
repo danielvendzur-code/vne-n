@@ -378,7 +378,7 @@ body:has(.redesign[data-page="home"]) {
   .redesign main .redesign-case-shot img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important;
+    object-fit: contain !important;
   }
   .redesign-case-card > div {
     padding: 6px !important;

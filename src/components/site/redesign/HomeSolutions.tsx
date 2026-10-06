@@ -1,6 +1,6 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
-import { PergolaDemo } from "./PergolaDemo";
+import { PergolaVideo } from "./PergolaVideo";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
 function NativePreview({ mode }: { mode: "chat" | "calc" }) {
@@ -14,7 +14,7 @@ function NativePreview({ mode }: { mode: "chat" | "calc" }) {
             : "Pôvodná kalkulačka MôjPlot s výberom plotu"
         }
         width={400}
-        height={420}
+        height={mode === "chat" ? 480 : 560}
         loading="lazy"
       />
     </div>
@@ -53,7 +53,7 @@ const solutions = [
     title: "3D konfigurátor",
     copy: "Zákazník vidí farbu, otočné lamely aj ZIP tienenie na svojej zostave.",
     href: "/3d-konfigurator",
-    demo: () => <PergolaDemo compact />,
+    demo: PergolaVideo,
   },
   {
     title: "Chatbot",
@@ -80,7 +80,7 @@ export function HomeSolutions() {
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading}>
         <h2 id="solutions-title">Riešenia pre váš web</h2>
-        <p>Ukážky nástrojov pre váš web. Pri pergole si vyskúšajte lamely, tienenie aj farbu.</p>
+        <p>Ukážky nástrojov pre váš web. Od prvej otázky po výber produktu a pripravený dopyt.</p>
       </header>
       <div ref={root} className={s.panels}>
         {solutions.map(({ title, copy, href, demo: Demo }, i) => (
