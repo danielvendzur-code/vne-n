@@ -56,8 +56,8 @@ function WhyPage() {
         accent="a ďalším krokom."
         lead="Hodnota nie je v tom, že na webe „je AI“. Hodnota je v tom, že človek vie rýchlejšie zistiť, vybrať alebo vypočítať to, čo potrebuje."
         visual={{
-          src: `${import.meta.env.BASE_URL}work/solutions/poradca-kava.webp`,
-          alt: "Produktový poradca pre e-shop s kávou: výber chuti cez štyri otázky",
+          src: `${import.meta.env.BASE_URL}work/solutions/skincare-photo.webp`,
+          alt: "Produktový poradca pre kozmetiku: výber starostlivosti podľa typu pleti",
           width: 640,
           height: 1116,
           portrait: true,

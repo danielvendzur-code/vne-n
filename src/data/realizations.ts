@@ -22,7 +22,7 @@ export interface Realization {
   caseStudyPath?: "/projekty/derat" | "/3d-konfigurator";
 }
 
-export const realizations: Realization[] = [
+const items: Realization[] = [
   {
     name: "DERAT",
     type: "Služby · kalkulačka a dopytový asistent",
@@ -44,7 +44,7 @@ export const realizations: Realization[] = [
     result: "Chatbot poradí s výberom plotu a kalkulačka spočíta cenu podľa dĺžky a výšky.",
     detail:
       "E-shop s plotmi, kde chatbot odpovedá na otázky k typom oplotenia a kalkulačka z dĺžky, výšky a doplnkov spočíta orientačnú cenu. Zákazník sa dostane k objednávke alebo dopytu bez telefonovania.",
-    image: `${import.meta.env.BASE_URL}work/live/mojplot.webp`,
+    image: `${import.meta.env.BASE_URL}work/live/mojplot-chat.webp`,
     alt: "Domovská stránka Môj Plot s kategóriami plotov a hlavným bannerom",
     tools: ["Chatbot", "Kalkulačka plotu"],
   },
@@ -70,7 +70,7 @@ export const realizations: Realization[] = [
     result: "Asistent poradí s výberom prístrešku alebo pergoly a pripraví ďalší krok.",
     detail:
       "Chatbot na webe Koverta pomáha s otázkami k produktom, výberom riešenia a prípravou dopytu. Samostatná realizácia popri 3D konfigurátore.",
-    image: `${import.meta.env.BASE_URL}work/live/koverta.webp`,
+    image: `${import.meta.env.BASE_URL}work/live/koverta-chat.webp`,
     alt: "Web Koverta, na ktorom beží produktový chatbot",
     tools: ["Chatbot", "Produktové poradenstvo"],
   },
@@ -87,6 +87,11 @@ export const realizations: Realization[] = [
     tools: ["Prezentačný web", "Cesta ku kontaktu"],
   },
 ];
+export const realizations = items.sort(
+  (a, b) =>
+    ["Koverta · konfigurátor", "DERAT", "Môj Plot", "Koverta · chatbot", "WEBKO"].indexOf(a.name) -
+    ["Koverta · konfigurátor", "DERAT", "Môj Plot", "Koverta · chatbot", "WEBKO"].indexOf(b.name),
+);
 
 /** Živé nástroje mimo vlastnej domény, ktoré sa dajú priamo vyskúšať. */
 export const liveTools = [

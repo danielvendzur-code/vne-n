@@ -43,7 +43,8 @@ export function Header({ active = "home" }: HeaderProps) {
       }}
     >
       <a className={s.brand} href={sitePath("/")} aria-label="Môj Chatbot — úvod">
-        <BrandMark size={36} tone="paper" />
+        <BrandMark intro size={32} tone="paper" />
+        <span>Môj Chatbot</span>
       </a>
       <button
         ref={toggleRef}

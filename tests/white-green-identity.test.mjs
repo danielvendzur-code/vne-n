@@ -3,36 +3,33 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const approvedStart = "M24 71.2L24.003 32.706";
-const approvedEnd = "L98.928 84.804L98.217 85.056L97.485 85.275L96.6 85.5";
+const approvedStart = "M6 46.5A29 29 0 0 1 64 46.5Z";
+const approvedEnd =
+  "M36 53.5H94A29 29 0 0 1 93.01 61C91.7 65.8 92.34 67.76 93.43 72.64L96.1 84.6L84.14 81.93C79.26 80.84 77.34 80.21 72.51 81.51A29 29 0 0 1 36 53.5Z";
 
-test("brand mark uses the approved one-stroke chatbot geometry across site assets", async () => {
+test("delivered Rozhovor identity uses the exact two filled paths across public assets", async () => {
   const component = await read("src/components/BrandMark.tsx");
-  const logo = await read("public/brand/logo.svg");
-  const logoMark = await read("public/brand/logo-mark.svg");
-  const logoLight = await read("public/brand/logo-light.svg");
-  const favicon = await read("public/favicon.svg");
-
   assert.equal((component.match(/<path\b/g) ?? []).length, 2);
-  assert.match(component, /viewBox="0 0 112 112"/);
-  assert.match(component, new RegExp(approvedStart.replaceAll(".", "\\.")));
-  assert.match(component, new RegExp(approvedEnd.replaceAll(".", "\\.")));
-  assert.match(component, /strokeWidth: ?7\.25/);
-  assert.match(component, /strokeLinecap: ?['"]round['"]/);
-  assert.match(component, /strokeLinejoin: ?['"]round['"]/);
-
-  for (const asset of [logo, logoMark, logoLight, favicon]) {
-    assert.match(asset, /viewBox="0 0 112 112"/);
-    assert.match(asset, new RegExp(approvedStart.replaceAll(".", "\\.")));
-    assert.match(asset, new RegExp(approvedEnd.replaceAll(".", "\\.")));
-    assert.match(asset, /stroke-width="7\.25"/);
+  assert.match(component, /viewBox="0 0 100 100"/);
+  assert.doesNotMatch(component, /strokeWidth|strokeLinecap|strokeLinejoin/);
+  for (const source of [
+    component,
+    ...(await Promise.all(
+      [
+        "public/brand/logo.svg",
+        "public/brand/logo-mark.svg",
+        "public/brand/logo-light.svg",
+        "public/favicon.svg",
+      ].map(read),
+    )),
+  ]) {
+    assert.ok(source.includes(approvedStart));
+    assert.ok(source.includes(approvedEnd));
   }
-
-  assert.match(logo, /stroke="#1C1612"/);
-  assert.match(logoMark, /stroke="#1C1612"/);
-  assert.match(logoLight, /stroke="#FFFCF7"/);
-  assert.match(favicon, /fill="#1C1612"/);
-  assert.match(favicon, /stroke="#FFFCF7"/);
+  const motion = await read("src/components/brand-mark.css");
+  assert.match(motion, /prefers-reduced-motion/);
+  assert.match(motion, /translate\(15px, 3\.9px\)/);
+  assert.doesNotMatch(motion, /stroke-dash|blur|filter:/);
 });
 
 test("design tokens use restrained paper, ink and one forest brand colour", async () => {
@@ -65,21 +62,18 @@ test("marketing surfaces stay low-radius and shadow-light", async () => {
   assert.doesNotMatch(css, /border-radius:\s*(?:2[0-9]|3[0-9]|4[0-9])px/);
 });
 
-test("chatbot fallback is the approved round static one-stroke launcher", async () => {
+test("chatbot fallback carries the delivered symbol and same-origin versioned widget", async () => {
   const loader = await read("public/widget-loader.js");
-
-  assert.match(loader, new RegExp(approvedStart.replaceAll(".", "\\.")));
-  assert.match(loader, new RegExp(approvedEnd.replaceAll(".", "\\.")));
-  assert.match(loader, /pathLength="1"/);
-  assert.equal((loader.match(/<path\b/g) ?? []).length, 1);
-  assert.match(loader, /width:\s*"72px"/);
-  assert.match(loader, /height:\s*"72px"/);
+  assert.ok(loader.includes(approvedStart));
+  assert.ok(loader.includes(approvedEnd));
+  assert.equal((loader.match(/<path\b/g) ?? []).length, 2);
   assert.match(loader, /borderRadius:\s*"50%"/);
   assert.match(loader, /background:\s*"#FFFCF7"/);
-  assert.doesNotMatch(loader, /requestAnimationFrame|stroke-dasharray|strokeDashoffset/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"mobile-finish-20261006-v24"/);
-  assert.doesNotMatch(loader, /<strong>Môj Chatbot<\/strong>/);
-  assert.doesNotMatch(loader, /<small>Otvoriť krátke zadanie<\/small>/);
+  assert.doesNotMatch(loader, /requestAnimationFrame|strokeDashoffset/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"product-motion-20261006-v25"/);
+  assert.match(loader, /assistant\/widget\.js/);
+  assert.match(loader, /pendingOpen/);
+  assert.match(loader, /MOUNT_TIMEOUT[\s\S]*scheduleRetry\(\)/);
 });
 
 test("homepage art direction explicitly handles reduced motion and mobile composition", async () => {
