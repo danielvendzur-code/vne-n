@@ -168,7 +168,7 @@ export class Solutions extends Component<{
           price: "od 347 €",
           customer: "Rýchlejšie sa dostane k produktu, ktorý mu dáva zmysel.",
           business: "Asistovaný výber bez poznania celého katalógu.",
-          img: P + "solutions/poradca-kava.webp",
+          img: P + "solutions/skincare-photo.webp",
           w: "56%",
           href: "/nastroj?t=poradca",
         },

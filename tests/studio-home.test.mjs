@@ -20,7 +20,7 @@ test("homepage preserves its hero, four solutions, real work and keyword H1", as
   assert.match(landing, /className=\{styles\.home\}/);
   assert.match(landing, /<FlowStory \/>/);
   assert.match(landing, /title: "Všetko spolu"/);
-  for (const shot of ["kalkulacka-derat", "chatbot-aplan", "poradca-kava"]) {
+  for (const shot of ["kalkulacka-derat", "chatbot-aplan", "skincare-photo"]) {
     assert.match(landing, new RegExp(`work/solutions/${shot}\\.webp`));
   }
   assert.match(landing, /realizations\.map/);

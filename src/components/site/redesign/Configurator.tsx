@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
+import { PergolaDemo } from "./PergolaDemo";
 import { Footer } from "./Footer";
 
 export class Configurator extends Component<{
@@ -8,26 +9,12 @@ export class Configurator extends Component<{
   copy?: string;
   tool?: string;
 }> {
-  state = { i: 0 };
   componentDidMount() {
     if (document.documentElement.dataset.solutionOpening === "true")
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }
   renderVals() {
-    const P = "/work/koverta/";
-    const shots = [
-      { label: "Bioklimatická pergola", img: P + "model-pergola.webp", fit: "contain" },
-      { label: "Hliníkový carport", img: P + "model-carport.webp", fit: "contain" },
-      { label: "Na mobile", img: P + "konfigurator-mobil.webp", fit: "contain" },
-    ];
     return {
-      tabs: shots.map((s, i) => ({
-        ...s,
-        bg: i === this.state.i ? "var(--mc-paper)" : "transparent",
-        color: i === this.state.i ? "var(--mc-ink)" : "rgba(255,255,255,.75)",
-        pick: () => this.setState({ i }),
-      })),
-      shot: shots[this.state.i],
       steps: [
         {
           num: "01",
@@ -70,7 +57,7 @@ export class Configurator extends Component<{
     };
   }
   render() {
-    const { faqs, shot, steps, tabs } = this.renderVals();
+    const { faqs, steps } = this.renderVals();
     return (
       <Fragment>
         <div
@@ -189,50 +176,15 @@ export class Configurator extends Component<{
                 </div>
               </div>
               <div style={cssStyle(`display:flex;flex-direction:column;gap:14px;min-width:0`)}>
-                <div
-                  style={cssStyle(
-                    `display:flex;gap:4px;background:rgba(255,255,255,.06);padding:5px;border-radius:999px;flex-wrap:wrap;align-self:flex-start`,
-                  )}
+                <PergolaDemo />
+                <a
+                  className="mc-btn"
+                  href="https://koverta.sk/pages/konfigurator"
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  {tabs.map((k, index) => (
-                    <Fragment key={index}>
-                      <button
-                        onClick={k.pick}
-                        style={cssStyle(
-                          `all:unset;cursor:pointer;padding:10px 18px;border-radius:999px;font-size:14px;background:${k.bg};color:${k.color}`,
-                        )}
-                        type="button"
-                      >
-                        {k.label}
-                      </button>
-                    </Fragment>
-                  ))}
-                </div>
-                <div
-                  className="redesign-koverta-preview"
-                  style={cssStyle(
-                    `position:relative;border-radius:24px;overflow:hidden;height:clamp(300px,56vh,480px);background:var(--mc-page)`,
-                  )}
-                >
-                  <img
-                    src={sitePath(shot.img)}
-                    alt={shot.label}
-                    style={cssStyle(`width:100%;height:100%;object-fit:${shot.fit};display:block`)}
-                    loading="eager"
-                  />
-                  <a
-                    href={sitePath(
-                      "https://danielvendzur-code.github.io/koverta-web/konfigurator/",
-                    )}
-                    target={"_blank"}
-                    rel={"noreferrer"}
-                    style={cssStyle(
-                      `position:absolute;right:16px;bottom:16px;background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
-                    )}
-                  >
-                    {"Spustiť živý konfigurátor ↗"}
-                  </a>
-                </div>
+                  Celý konfigurátor Koverta ↗
+                </a>
               </div>
             </div>
           </section>

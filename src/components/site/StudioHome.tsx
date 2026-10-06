@@ -207,7 +207,7 @@ const solutionShots = {
     height: 1101,
   },
   advisor: {
-    src: `${BASE}work/solutions/poradca-kava.webp`,
+    src: `${BASE}work/solutions/skincare-photo.webp`,
     width: 640,
     height: 1116,
   },
@@ -279,7 +279,7 @@ const tools = [
     copy: "Pár otázok a zákazník dostane konkrétny produkt z ponuky.",
     icon: Sparkles,
     image: solutionShots.advisor.src,
-    alt: "Produktový poradca pre e-shop s kávou: výber chuti cez štyri otázky",
+    alt: "Produktový poradca pre kozmetiku: výber starostlivosti podľa typu pleti",
     wide: false,
     cta: "Vyskladať poradcu",
     to: undefined,

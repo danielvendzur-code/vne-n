@@ -11,19 +11,8 @@ export class Home extends Component<{
   copy?: string;
   tool?: string;
 }> {
-  state = { kov: 0 };
-
   renderVals() {
     const P = "/work/";
-    const kovShots = [
-      {
-        label: "Bioklimatická pergola",
-        img: P + "koverta/model-pergola.webp",
-        fit: "contain",
-      },
-      { label: "Hliníkový carport", img: P + "koverta/model-carport.webp", fit: "contain" },
-      { label: "Na mobile", img: P + "koverta/konfigurator-mobil.webp", fit: "contain" },
-    ];
     const themes = [
       {
         bg: "var(--mc-paper)",
@@ -66,7 +55,7 @@ export class Home extends Component<{
         type: "Výroba na mieru · 3D konfigurátor",
         result:
           "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
-        img: P + "koverta/konfigurator-carport.webp",
+        img: P + "koverta/konfigurator-pergola.webp",
         tools: ["3D konfigurátor", "Dopyt so zostavou"],
         case: true,
         caseHref: "/3d-konfigurator",
@@ -75,9 +64,9 @@ export class Home extends Component<{
         name: "Koverta · chatbot",
         domain: "koverta.sk",
         href: "https://koverta.sk/",
-        type: "Výroba na mieru · chatbot",
+        type: "Výroba na mieru · ukážka chatbota",
         result: "Asistent odpovie na otázky k prístreškom a pergolám a pomôže pripraviť dopyt.",
-        img: P + "live/koverta.webp",
+        img: P + "live/koverta-chat.webp",
         tools: ["Chatbot", "Produktové poradenstvo"],
         case: false,
       },
@@ -88,7 +77,7 @@ export class Home extends Component<{
         type: "Služby · kalkulačka a dopytový asistent",
         result:
           "Kalkulačka prevedie návštevníka od problému k orientačnej cene a pripravenému dopytu.",
-        img: P + "live/derat.webp",
+        img: P + "live/derat-chat.webp",
         tools: ["Kalkulačka ceny", "Dopytový asistent"],
         case: true,
         caseHref: "/postup",
@@ -97,9 +86,9 @@ export class Home extends Component<{
         name: "Môj Plot",
         domain: "mojplot.sk",
         href: "https://mojplot.sk/",
-        type: "E-shop · chatbot a kalkulačka",
+        type: "E-shop · ukážka widgetu",
         result: "Chatbot poradí s výberom plotu a kalkulačka spočíta cenu podľa dĺžky a výšky.",
-        img: P + "live/mojplot.webp",
+        img: P + "live/mojplot-chat.webp",
         tools: ["Chatbot", "Kalkulačka plotu"],
         case: false,
       },
@@ -113,41 +102,24 @@ export class Home extends Component<{
         tools: ["Prezentačný web", "Cesta ku kontaktu"],
         case: false,
       },
-    ].map((w, i) => ({
-      ...w,
-      ...themes[i % themes.length],
-      num: "0" + (i + 1),
-      top: 100 + i * 22 + "px",
-    }));
+    ]
+      .sort(
+        (a, b) =>
+          ["Koverta · konfigurátor", "DERAT", "Môj Plot", "WEBKO", "Koverta · chatbot"].indexOf(
+            a.name,
+          ) -
+          ["Koverta · konfigurátor", "DERAT", "Môj Plot", "WEBKO", "Koverta · chatbot"].indexOf(
+            b.name,
+          ),
+      )
+      .map((w, i) => ({
+        ...w,
+        ...themes[i % themes.length],
+        num: "0" + (i + 1),
+        top: 100 + i * 22 + "px",
+      }));
 
     return {
-      kovTabs: kovShots.map((k, i) => {
-        const a = i === this.state.kov;
-        return {
-          ...k,
-          bg: a ? "var(--mc-paper)" : "transparent",
-          color: a ? "var(--mc-ink)" : "rgba(255,255,255,.75)",
-          pick: () => this.setState({ kov: i }),
-        };
-      }),
-      kovShot: kovShots[this.state.kov],
-      kovSteps: [
-        {
-          num: "01",
-          title: "Vyberie typ a umiestnenie",
-          copy: "Samostatne, pri stene alebo v rohu.",
-        },
-        {
-          num: "02",
-          title: "Nastaví rozmer, farbu a strechu",
-          copy: "Model aj cena sa menia okamžite.",
-        },
-        {
-          num: "03",
-          title: "Pošle dopyt so zostavou",
-          copy: "Bez prepisovania rozmerov do e-mailu.",
-        },
-      ],
       work,
       steps: [
         {
@@ -178,7 +150,7 @@ export class Home extends Component<{
     };
   }
   render() {
-    const { kovShot, kovSteps, kovTabs, steps, work } = this.renderVals();
+    const { steps, work } = this.renderVals();
     return (
       <Fragment>
         <div
@@ -194,136 +166,6 @@ export class Home extends Component<{
             id={"koverta"}
             style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}
           >
-            <div
-              className="redesign-koverta-grid"
-              data-reveal
-              style={cssStyle(
-                `max-width:1280px;margin:0 auto;padding:88px 32px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:48px;align-items:center`,
-              )}
-            >
-              <div
-                style={cssStyle(
-                  `display:flex;flex-direction:column;gap:28px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)`,
-                )}
-              >
-                <div
-                  style={cssStyle(
-                    `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
-                  )}
-                >
-                  {"03 / REALIZÁCIA · KOVERTA.SK"}
-                </div>
-                <h2
-                  style={cssStyle(
-                    `margin:0;font-size:clamp(36px,4vw,52px);line-height:1.04;letter-spacing:-.045em;font-weight:600`,
-                  )}
-                >
-                  {"Prístrešok si zákazník poskladá v 3D."}
-                </h2>
-                <p
-                  style={cssStyle(
-                    `margin:0;font-size:17px;line-height:1.5;color:rgba(255,255,255,.72)`,
-                  )}
-                >
-                  {
-                    "Každá voľba sa hneď prepíše do 3D modelu aj do orientačnej ceny. Firma dostane dopyt, v ktorom už je všetko podstatné."
-                  }
-                </p>
-                <div style={cssStyle(`display:flex;flex-direction:column`)}>
-                  {kovSteps.map((s, index) => (
-                    <Fragment key={index}>
-                      <div
-                        style={cssStyle(
-                          `display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;padding:14px 0;border-top:1px solid rgba(255,255,255,.12)`,
-                        )}
-                      >
-                        <span
-                          style={cssStyle(
-                            `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent);padding-top:4px`,
-                          )}
-                        >
-                          {s.num}
-                        </span>
-                        <div>
-                          <div style={cssStyle(`font-size:17px;font-weight:600`)}>{s.title}</div>
-                          <div
-                            style={cssStyle(
-                              `font-size:14px;color:rgba(255,255,255,.65);margin-top:2px`,
-                            )}
-                          >
-                            {s.copy}
-                          </div>
-                        </div>
-                      </div>
-                    </Fragment>
-                  ))}
-                </div>
-                <a
-                  href={sitePath("https://koverta.sk/pages/konfigurator")}
-                  target={"_blank"}
-                  rel={"noreferrer"}
-                  style={cssStyle(
-                    `align-self:flex-start;color:var(--mc-paper);font-size:15px;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:3px`,
-                  )}
-                >
-                  {"Otvoriť na koverta.sk ↗"}
-                </a>
-              </div>
-              <div
-                style={cssStyle(
-                  `display:flex;flex-direction:column;gap:14px;grid-column:span 1;min-width:0`,
-                )}
-              >
-                <div
-                  className="koverta-tabs"
-                  style={cssStyle(`display:flex;gap:8px;flex-wrap:wrap;align-self:flex-start`)}
-                >
-                  {kovTabs.map((k, index) => (
-                    <Fragment key={index}>
-                      <button
-                        className="koverta-tab"
-                        aria-pressed={index === this.state.kov}
-                        onClick={k.pick}
-                        style={cssStyle(
-                          `cursor:pointer;padding:12px 18px;border:1px solid rgba(255,252,247,.24);border-radius:12px;font-size:14px;background:${k.bg};color:${k.color}`,
-                        )}
-                        type="button"
-                      >
-                        {k.label}
-                      </button>
-                    </Fragment>
-                  ))}
-                </div>
-                <div
-                  className="redesign-koverta-preview"
-                  style={cssStyle(
-                    `position:relative;border-radius:12px;overflow:hidden;height:clamp(300px,56vh,520px);background:var(--mc-page)`,
-                  )}
-                >
-                  <img
-                    key={kovShot.img}
-                    className="koverta-model"
-                    src={sitePath(kovShot.img)}
-                    alt={kovShot.label}
-                    style={cssStyle(
-                      `width:100%;height:100%;object-fit:${kovShot.fit};display:block`,
-                    )}
-                    loading="lazy"
-                  />
-                </div>
-                <a
-                  href={sitePath("https://danielvendzur-code.github.io/koverta-web/konfigurator/")}
-                  target={"_blank"}
-                  rel={"noreferrer"}
-                  className="redesign-action redesign-action--lime koverta-launch"
-                  style={cssStyle(
-                    `position:relative;align-self:flex-end;background:var(--mc-accent);color:var(--mc-ink);font-weight:600;font-size:14px;padding:12px 18px;border-radius:999px`,
-                  )}
-                >
-                  {"Spustiť živý konfigurátor ↗"}
-                </a>
-              </div>
-            </div>
             <ProjectGallery />
           </section>
           <section

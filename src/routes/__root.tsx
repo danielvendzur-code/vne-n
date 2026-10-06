@@ -159,8 +159,7 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
 }
 
 const publicOrigin = SITE_ORIGIN.replace(/\/$/, "");
-const defaultAssistantEmbedUrl =
-  "https://danielvendzur-code.github.io/moj.chatbot.backend/widget.js";
+const defaultAssistantEmbedUrl = `${import.meta.env.BASE_URL}assistant/widget.js`;
 
 const safeAssistantEmbedUrl = (() => {
   const candidate = import.meta.env.VITE_ASSISTANT_EMBED_URL?.trim();
@@ -177,7 +176,7 @@ const safeAssistantEmbedUrl = (() => {
   }
 })();
 
-const assistantOrigin = new URL(safeAssistantEmbedUrl).origin;
+const assistantOrigin = new URL(safeAssistantEmbedUrl, publicOrigin).origin;
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",

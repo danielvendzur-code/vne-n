@@ -15,7 +15,11 @@
   justify-content: center;
   min-width: 44px;
   min-height: 44px;
+  gap: 10px;
   color: var(--mc-paper);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
 }
 .brand:is(:hover, :visited, :focus-visible) {
   color: var(--mc-paper);
@@ -29,62 +33,212 @@
   min-width: 102px;
   padding: 0 2px 0 14px;
   border: 0;
-  border-radius: 0;
   background: transparent;
   color: var(--mc-paper);
   font-family: inherit;
   font-size: 14px;
   font-weight: 550;
-  transition: opacity 180ms ease;
+  cursor: pointer;
 }
-.toggle:hover {
-  opacity: 0.75;
+.toggleIcon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.toggleIcon svg {
+  position: absolute;
+  inset: 0;
+  transition:
+    opacity 0.25s,
+    transform 0.4s var(--mc-ease);
+}
+.toggleIcon svg:last-child {
+  opacity: 0;
+  transform: rotate(-60deg) scale(0.6);
+}
+.toggleIcon[data-open="true"] svg:first-child {
+  opacity: 0;
+  transform: rotate(60deg) scale(0.6);
+}
+.toggleIcon[data-open="true"] svg:last-child {
+  opacity: 1;
+  transform: rotate(0) scale(1);
 }
 .toggle:focus-visible {
   outline: 2px solid var(--mc-paper);
   outline-offset: 4px;
 }
+.backdrop {
+  position: fixed;
+  inset: 72px 0 0;
+  background: rgba(28, 22, 18, 0.32);
+  z-index: 1;
+}
 .menu {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 12px);
   right: 0;
-  width: min(400px, 100%);
-  padding: 12px 24px;
+  width: min(780px, 100%);
+  padding: 24px;
   border: 1px solid var(--mc-line);
   border-radius: 16px;
   background: var(--mc-paper);
   color: var(--mc-ink);
-  box-shadow: 0 16px 40px rgba(28, 22, 18, 0.12);
+  box-shadow: 0 28px 80px -24px rgba(28, 22, 18, 0.35);
+  z-index: 2;
+  max-height: calc(100dvh - 104px);
+  overflow: auto;
 }
-.menu[hidden] {
+.menu[hidden],
+.backdrop[hidden] {
   display: none;
 }
-.menu a {
+.menuEyebrow {
+  font:
+    10px/1.4 "Geist Mono",
+    monospace;
+  letter-spacing: 0.1em;
+  color: var(--mc-muted);
+  margin-bottom: 20px;
+}
+.menuGrid {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr) 20px;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+}
+.links > a {
+  display: grid;
+  grid-template-columns: 24px 1fr 22px;
   align-items: center;
   gap: 14px;
-  min-height: 60px;
+  min-height: 75px;
   border-bottom: 1px solid var(--mc-line);
   color: var(--mc-ink);
-  font-size: 20px;
-  font-weight: 500;
-  transition: color 180ms ease;
+  padding: 8px 4px;
+  position: relative;
+  isolation: isolate;
 }
-.menu a:last-child {
+.links > a:last-child {
   border: 0;
 }
-.menu a:is(:hover, :visited, :focus-visible, [aria-current="page"]) {
+.links > a::before {
+  content: "";
+  position: absolute;
+  inset: 4px -8px;
+  border-radius: 8px;
+  background: var(--mc-sand);
+  opacity: 0;
+  transform: scale(0.97);
+  z-index: -1;
+  transition:
+    opacity 0.25s,
+    transform 0.35s var(--mc-ease);
+}
+.links > a:is(:hover, :focus-visible, [aria-current="page"])::before {
+  opacity: 1;
+  transform: scale(1);
+}
+.links > a:is(:hover, :focus-visible, [aria-current="page"]) {
   color: var(--mc-brand);
 }
-.index {
-  color: var(--mc-muted);
-  font-size: 11px;
-  font-family: "Geist Mono", monospace;
+.linkCopy strong {
+  display: block;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
 }
-.nav .menu a:focus-visible {
-  outline-color: var(--mc-ink);
-  outline-offset: -2px;
+.linkCopy small {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--mc-muted);
+  margin-top: 5px;
+}
+.index {
+  font:
+    10px/1 "Geist Mono",
+    monospace;
+  color: var(--mc-muted);
+  align-self: start;
+  padding-top: 9px;
+}
+.links svg {
+  transition: transform 0.35s var(--mc-ease);
+}
+.links a:hover svg {
+  transform: translate(3px, -3px);
+}
+.menuFeature {
+  background: var(--mc-ink);
+  color: var(--mc-paper);
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.menuFeature h2 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.16;
+  letter-spacing: -0.035em;
+  color: inherit;
+  margin: 16px 0 12px;
+}
+.menuFeature p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255, 252, 247, 0.7);
+  margin: 0 0 16px;
+}
+.quickLinks {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.quickLinks a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: var(--mc-paper);
+  font-size: 11px;
+  border-bottom: 1px solid rgba(255, 252, 247, 0.15);
+  transition: color 0.25s;
+}
+.quickLinks a:hover {
+  color: var(--mc-accent);
+}
+.menuCta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--mc-paper);
+  color: var(--mc-ink);
+  font:
+    550 11px/1.4 "Geist",
+    sans-serif;
+  cursor: pointer;
+  margin-top: auto;
+  transition: background 0.25s;
+}
+.menuCta:hover {
+  background: var(--mc-accent);
+}
+.menu :is(a, button):focus-visible {
+  outline: 2px solid var(--mc-brand);
+  outline-offset: 3px;
+}
+.menuFeature :is(a, button):focus-visible {
+  outline-color: var(--mc-accent);
 }
 @media (max-width: 1100px) {
   .nav {
@@ -100,59 +254,103 @@
     width: 34px;
     height: 34px;
   }
-  .toggle {
-    height: 44px;
-    min-width: 100px;
+  .backdrop {
+    inset-block-start: 64px;
   }
   .menu {
     top: calc(100% + 8px);
-    padding: 8px 20px;
+    padding: 20px;
+    max-height: calc(100dvh - 88px);
+  }
+  .menuGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .menuEyebrow {
+    margin-bottom: 12px;
+  }
+  .links > a {
+    min-height: 60px;
+  }
+  .linkCopy strong {
+    font-size: 27px;
+  }
+  .menuFeature {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .menuFeature > svg,
+  .menuFeature h2,
+  .menuFeature p {
+    display: none;
+  }
+  .quickLinks {
+    display: none;
+  }
+  .menuCta {
+    margin-top: 0;
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .menu:not([hidden]) {
-    animation: menu-enter 180ms var(--mc-ease) both;
+  .menu[data-state="open"] {
+    animation: menu-enter 0.5s var(--mc-ease) both;
+    transform-origin: top right;
+  }
+  .menu[data-state="closing"] {
+    animation: menu-exit 0.22s ease both;
+    pointer-events: none;
+  }
+  .backdrop[data-state="open"] {
+    animation: veil-in 0.4s ease both;
+  }
+  .backdrop[data-state="closing"] {
+    animation: veil-in 0.22s ease reverse both;
+  }
+  .menu[data-state="open"] .links > a {
+    animation: row-in 0.5s var(--mc-ease) both;
+    animation-delay: calc(70ms + var(--row) * 45ms);
   }
   @keyframes menu-enter {
     from {
       opacity: 0;
-      translate: 0 -4px;
+      transform: scale(0.96);
+      clip-path: inset(0 0 85% 0 round 16px);
     }
     to {
       opacity: 1;
-      translate: 0 0;
+      transform: scale(1);
+      clip-path: inset(0 round 16px);
+    }
+  }
+  @keyframes menu-exit {
+    to {
+      opacity: 0;
+      transform: scale(0.98) translateY(-6px);
+    }
+  }
+  @keyframes row-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes veil-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .menu:not([hidden]) a {
-    animation: menu-row 450ms var(--mc-ease) both;
-  }
-  .menu a:nth-child(2) {
-    animation-delay: 40ms;
-  }
-  .menu a:nth-child(3) {
-    animation-delay: 80ms;
-  }
-  .menu a:nth-child(4) {
-    animation-delay: 120ms;
-  }
-  .menu a:nth-child(5) {
-    animation-delay: 160ms;
-  }
-  .menu a svg {
-    transition: translate 350ms var(--mc-ease);
-  }
-  .menu a:hover svg {
-    translate: 3px -3px;
-  }
-  @keyframes menu-row {
-    from {
-      translate: -12px 0;
-    }
-    to {
-      translate: 0 0;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .nav * {
+    animation: none !important;
+    transition: none !important;
   }
 }

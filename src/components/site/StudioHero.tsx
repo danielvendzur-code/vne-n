@@ -7,25 +7,25 @@ const BASE = import.meta.env.BASE_URL;
 
 const heroProjects = [
   {
-    slug: "koverta",
+    slug: "koverta-chat",
     name: "Koverta",
     href: "https://koverta.sk/",
-    image: `${BASE}work/live/koverta.webp`,
-    alt: "Domovská stránka Koverta s pergolou nad terasou",
+    image: `${BASE}work/live/koverta-chat.webp`,
+    alt: "Web Koverta s otvoreným produktovým asistentom",
   },
   {
-    slug: "derat",
+    slug: "derat-chat",
     name: "DERAT",
     href: "https://derat.sk/",
-    image: `${BASE}work/live/derat.webp`,
-    alt: "Domovská stránka DERAT s nadpisom Bez škodcov",
+    image: `${BASE}work/live/derat-chat.webp`,
+    alt: "Web DERAT s otvoreným chatbotom",
   },
   {
-    slug: "mojplot",
+    slug: "mojplot-chat",
     name: "Môj Plot",
     href: "https://mojplot.sk/",
-    image: `${BASE}work/live/mojplot.webp`,
-    alt: "Domovská stránka Môj Plot s kategóriami plotov",
+    image: `${BASE}work/live/mojplot-chat.webp`,
+    alt: "Web Môj Plot s pôvodným chatbotom",
   },
 ] as const;
 
@@ -60,7 +60,10 @@ export function StudioHero() {
             <em>konfigurátory</em>
             <em>na mieru.</em>
           </h1>
-          <div className={`${styles.collage} ${fit.collage}`} aria-label="Vybrané živé realizácie">
+          <div
+            className={`${styles.collage} ${fit.collage}`}
+            aria-label="Vybrané projekty a ukážky nástrojov"
+          >
             {heroProjects.map((project, index) => (
               <a
                 key={project.slug}

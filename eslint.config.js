@@ -8,7 +8,19 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   // Generated bundles must never be linted as application source. This mirrors
   // local output directories and published static bundles in docs.
-  { ignores: ["dist", ".output", ".vinxi", "pages-dist", ".vercel", ".wrangler", "docs"] },
+  {
+    ignores: [
+      "dist",
+      ".output",
+      ".vinxi",
+      "pages-dist",
+      ".vercel",
+      ".wrangler",
+      "docs",
+      "public/assistant",
+      "public/work/pergola",
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

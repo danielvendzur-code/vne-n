@@ -505,3 +505,8 @@
     width: calc(100% - 40px);
   }
 }
+
+.mc-brand-texture {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22100%22%20viewBox%3D%220%200%20120%20100%22%3E%3Cg%20transform%3D%22translate%2840%2020%29%20scale%28.38%29%22%20opacity%3D%22.07%22%20fill%3D%22none%22%20stroke%3D%22%23C8925E%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M6%2046.5A29%2029%200%200%201%2064%2046.5Z%22%20transform%3D%22translate%2815%203.6%29%22%2F%3E%3Cpath%20d%3D%22M36%2053.5H94A29%2029%200%200%201%2093.01%2061C91.7%2065.8%2092.34%2067.76%2093.43%2072.64L96.1%2084.6L84.14%2081.93C79.26%2080.84%2077.34%2080.21%2072.51%2081.51A29%2029%200%200%201%2036%2053.5Z%22%20transform%3D%22translate%28-15%20-3.6%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-size: 120px 100px;
+}

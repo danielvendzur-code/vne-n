@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, ArrowUpRight, Check, Mail, Plus, Minus } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { faqs } from "@/data/faq";
 import { sitePath } from "./utils";
 import s from "./HomepageSections.module.css";
@@ -75,76 +75,7 @@ export function HomeFacts() {
   );
 }
 
-export function InquiryComparison() {
-  return (
-    <section id="pred-a-po" className={s.comparison}>
-      <div className={s.comparisonInner} data-reveal>
-        <header className={s.sectionHead}>
-          <h2>
-            Rovnaký záujem.
-            <br />
-            <span>Oveľa lepší dopyt.</span>
-          </h2>
-          <p>
-            Keď sa váš web opýta správne, môžete pripraviť ponuku namiesto ďalšieho kola otázok.
-          </p>
-        </header>
-        <div className={s.comparePanels}>
-          <article className={s.email} aria-labelledby="before-title">
-            <header>
-              <span>
-                <Mail size={18} aria-hidden="true" /> Pred
-              </span>
-              <span>Bežný e-mail</span>
-            </header>
-            <div className={s.emailMeta}>
-              <span>Od</span>
-              <b>zákazník@example.invalid</b>
-              <span>Predmet</span>
-              <b>Cenová ponuka</b>
-            </div>
-            <div className={s.emailBody}>
-              <h3 id="before-title">„Koľko by to stálo?“</h3>
-              <p>
-                Dobrý deň, prosím vás, vedeli by ste mi poslať cenovú ponuku na prístrešok? Ďakujem.
-              </p>
-              <span className={s.signature}>Zákazník</span>
-            </div>
-            <footer>Ešte chýbajú rozmery, materiál, miesto aj termín.</footer>
-          </article>
-          <article className={`${s.email} ${s.emailAfter}`} aria-labelledby="after-title">
-            <header>
-              <span>
-                <Check size={18} aria-hidden="true" /> Po
-              </span>
-              <span>Dopyt pripravený na ponuku</span>
-            </header>
-            <h3 id="after-title">Viete, čo zákazník potrebuje.</h3>
-            <dl>
-              {[
-                ["Riešenie", "Hliníkový prístrešok"],
-                ["Rozmer a materiál", "6 × 3 m · antracit · hliník"],
-                ["Lokalita a termín", "Nitra · do 2 mesiacov"],
-                ["Požiadavky", "Montáž pri dome, bočné tienenie"],
-                ["Kontakt", "zákazník@example.invalid"],
-              ].map(([label, value]) => (
-                <div key={label}>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
-                </div>
-              ))}
-            </dl>
-            <footer>
-              <Check size={16} aria-hidden="true" /> Podstatné údaje už máte. Môžete sa venovať
-              ponuke.
-            </footer>
-          </article>
-        </div>
-        <p className={s.simulation}>Oba dopyty sú dizajnové ukážky s fiktívnymi údajmi.</p>
-      </div>
-    </section>
-  );
-}
+export { InquiryDemo as InquiryComparison } from "./InquiryDemo";
 
 export function HomeFAQ() {
   const [opened, setOpened] = useState<number | null>(0);

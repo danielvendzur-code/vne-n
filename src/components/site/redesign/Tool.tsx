@@ -190,9 +190,9 @@ export class Tool extends Component<{
         accent: "ktorý vyberie za zákazníka.",
         price: "347 €",
         lead: "Pár jednoduchých otázok a zákazník dostane konkrétny produkt z vašej ponuky — bez toho, aby musel poznať celý katalóg.",
-        img: P + "solutions/poradca-kava.webp",
+        img: P + "solutions/skincare-photo.webp",
         imgW: "46%",
-        caption: "E-SHOP S KÁVOU · VÝBER CHUTI",
+        caption: "STAROSTLIVOSŤ O PLEŤ · PORADCA",
         steps: steps([
           [
             "OTÁZKY",
@@ -203,8 +203,8 @@ export class Tool extends Component<{
           [
             "PREFERENCIE",
             "Poradca pochopí, čo mu vyhovuje.",
-            "Chuť, použitie, veľkosť alebo rozpočet.",
-            "Použitie / chuť / rozpočet",
+            "Typ pleti, rutina, preferencie alebo rozpočet.",
+            "Typ pleti / preferencie / rozpočet",
           ],
           [
             "ODPORÚČANIE",
@@ -234,7 +234,7 @@ export class Tool extends Component<{
         exName: "Môj Chatbot",
         exDomain: "vyskúšať ukážku",
         exHref: "https://danielvendzur-code.github.io/moj.chatbot.backend/",
-        exImg: P + "solutions/poradca-kava.webp",
+        exImg: P + "solutions/skincare-photo.webp",
         exCopy:
           "Vyskúšajte si, ako vyzerá riadený výber v praxi. Poradca sa dá napojiť na váš e-shop a produkty.",
       },
