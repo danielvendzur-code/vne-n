@@ -114,9 +114,9 @@
 }
 @media (max-width: 767px) {
   .hero.hero {
-    height: calc(100svh - var(--hero-header-height, 72px));
+    height: calc(100lvh - var(--hero-header-height, 64px));
     min-height: min(650px, calc(100svh - var(--hero-header-height, 72px)));
-    max-height: 920px;
+    max-height: none;
     padding-top: 28px;
   }
   .stage.stage {
@@ -223,21 +223,21 @@
   }
   @keyframes mc-headline-arrive {
     from {
-      translate: 0 32px;
+      translate: 0 48px;
     }
     to {
       translate: 0 0;
     }
   }
   .case.case {
-    animation: mc-case-settle 1400ms var(--mc-ease) calc(var(--case) * 160ms) both;
+    animation: mc-case-settle 1600ms var(--mc-ease) calc(var(--case) * 160ms) both;
     transition:
       transform 450ms var(--mc-ease),
       box-shadow 450ms var(--mc-ease);
   }
   @keyframes mc-case-settle {
     from {
-      translate: 0 38px;
+      translate: -64px 32px;
     }
     to {
       translate: 0 0;
@@ -264,5 +264,32 @@
   }
   .case.case:nth-child(3) {
     margin-left: calc(var(--case-width) * -0.42);
+  }
+}
+
+/* The large viewport includes Safari's translucent toolbar area. */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .case.case {
+    animation:
+      mc-case-settle 1600ms var(--mc-ease) calc(var(--case) * 180ms) both,
+      mc-case-drift 7s ease-in-out calc(1800ms + var(--case) * 600ms) infinite;
+  }
+  .case.case:nth-child(1) {
+    --case-angle: 6deg;
+  }
+  .case.case:nth-child(2) {
+    --case-angle: -6deg;
+  }
+  .case.case:nth-child(3) {
+    --case-angle: 3deg;
+  }
+  @keyframes mc-case-drift {
+    0%,
+    100% {
+      transform: rotate(var(--case-angle)) translateY(0);
+    }
+    50% {
+      transform: rotate(var(--case-angle)) translateY(-10px);
+    }
   }
 }
