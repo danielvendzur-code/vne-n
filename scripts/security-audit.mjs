@@ -92,12 +92,17 @@ for (const token of [
   "__DV_ASSISTANT_LOADER_ACTIVE__",
   "MOUNT_TIMEOUT",
   "showFallback",
-  "https://danielvendzur-code.github.io",
+  "/assistant/widget.js",
   "buildKey",
   "Môj Chatbot",
 ]) {
   if (!loader.includes(token)) fail(`Resilient assistant loader is missing ${token}`);
 }
+// The default widget now shares the site's origin; keep its bundle reviewable.
+for (const asset of ["public/assistant/widget.js", "public/assistant/widget.css"]) {
+  if (!(await read(asset)).trim()) fail(`Same-origin assistant asset is empty: ${asset}`);
+}
+if (!rootRoute.includes("assistant/widget.js")) fail("Same-origin assistant default is missing");
 if (/\?v=[\w-]*['"`]/.test(loader)) {
   fail("Assistant loader pins a constant cache key instead of rotating it");
 }
