@@ -105,10 +105,10 @@ export class Home extends Component<{
     ]
       .sort(
         (a, b) =>
-          ["Koverta · konfigurátor", "DERAT", "Môj Plot", "Koverta · chatbot", "WEBKO"].indexOf(
+          ["Koverta · konfigurátor", "DERAT", "Môj Plot", "WEBKO", "Koverta · chatbot"].indexOf(
             a.name,
           ) -
-          ["Koverta · konfigurátor", "DERAT", "Môj Plot", "Koverta · chatbot", "WEBKO"].indexOf(
+          ["Koverta · konfigurátor", "DERAT", "Môj Plot", "WEBKO", "Koverta · chatbot"].indexOf(
             b.name,
           ),
       )

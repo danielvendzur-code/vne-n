@@ -89,8 +89,8 @@ const items: Realization[] = [
 ];
 export const realizations = items.sort(
   (a, b) =>
-    ["Koverta · konfigurátor", "DERAT", "Môj Plot", "Koverta · chatbot", "WEBKO"].indexOf(a.name) -
-    ["Koverta · konfigurátor", "DERAT", "Môj Plot", "Koverta · chatbot", "WEBKO"].indexOf(b.name),
+    ["Koverta · konfigurátor", "DERAT", "Môj Plot", "WEBKO", "Koverta · chatbot"].indexOf(a.name) -
+    ["Koverta · konfigurátor", "DERAT", "Môj Plot", "WEBKO", "Koverta · chatbot"].indexOf(b.name),
 );
 
 /** Živé nástroje mimo vlastnej domény, ktoré sa dajú priamo vyskúšať. */

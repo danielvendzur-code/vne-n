@@ -1,32 +1,21 @@
-import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
 import { PergolaDemo } from "./PergolaDemo";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
 function NativePreview({ mode }: { mode: "chat" | "calc" }) {
-  const root = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState({ scale: 0.6, height: 510 });
-  useEffect(() => {
-    if (!root.current) return;
-    const observer = new ResizeObserver(([entry]) => {
-      const scale = entry.contentRect.width / 400;
-      if (scale > 0) setSize({ scale, height: entry.contentRect.height / scale });
-    });
-    observer.observe(root.current);
-    return () => observer.disconnect();
-  }, []);
   return (
-    <div className={s.nativePreview} ref={root}>
-      <iframe
-        src={sitePath(`/work/mojplot/index.html?demo=${mode}`)}
-        title={
-          mode === "calc"
-            ? "Pôvodná kalkulačka MôjPlot – interaktívna ukážka"
-            : "Pôvodný chatbot MôjPlot – interaktívna ukážka"
+    <div className={s.snapshot}>
+      <img
+        src={sitePath(`/work/solutions/mojplot-${mode}-preview.webp`)}
+        alt={
+          mode === "chat"
+            ? "Pôvodný widget MôjPlot s ukážkou rozhovoru"
+            : "Pôvodná kalkulačka MôjPlot s výberom plotu"
         }
+        width={400}
+        height={420}
         loading="lazy"
-        sandbox="allow-scripts allow-same-origin"
-        style={{ height: size.height, transform: `scale(${size.scale})` }}
       />
     </div>
   );
@@ -34,13 +23,11 @@ function NativePreview({ mode }: { mode: "chat" | "calc" }) {
 const ChatPreview = () => <NativePreview mode="chat" />;
 const CalculatorPreview = () => <NativePreview mode="calc" />;
 function AdvisorPreview() {
-  const [skin, setSkin] = useState("Suchá");
-  const [chosen, setChosen] = useState(false);
   return (
     <div className={s.advisor}>
       <img
         src={sitePath("/work/solutions/skincare-photo.webp")}
-        alt="Reálna fotografia prírodnej starostlivosti o pleť"
+        alt="Neznačková starostlivosť o pleť"
         width={900}
         height={600}
         loading="lazy"
@@ -48,33 +35,15 @@ function AdvisorPreview() {
       <div className={s.advice}>
         <span>Čo potrebuje vaša pleť?</span>
         <div className={s.segment}>
-          {["Suchá", "Citlivá", "Mastná"].map((t) => (
-            <button
-              type="button"
-              aria-pressed={skin === t}
-              key={t}
-              onClick={() => {
-                setSkin(t);
-                setChosen(false);
-              }}
-            >
-              {t}
-            </button>
-          ))}
+          <span data-selected="true">Suchá</span>
+          <span>Citlivá</span>
+          <span>Mastná</span>
         </div>
-        <button className={s.recommend} type="button" onClick={() => setChosen(true)}>
-          {chosen ? <Check size={16} /> : <ArrowRight size={16} />}{" "}
-          {chosen ? "Odporúčanie pripravené" : "Nájsť vhodnú starostlivosť"}
-        </button>
-        {chosen && (
-          <p className={s.result} key={skin}>
-            {skin === "Mastná"
-              ? "Ľahká hydratácia bez hutnej textúry. Poradca vyberie vhodné produkty z vášho katalógu."
-              : skin === "Citlivá"
-                ? "Jemná starostlivosť s jednoduchým zložením. Výber z katalógu zohľadní vaše preferencie."
-                : "Hydratačný krém a šetrné čistenie. Poradca vysvetlí, prečo odporúča konkrétny produkt."}
-          </p>
-        )}
+        <p className={s.previewRecommendation}>
+          Hydratácia podľa vašej pleti.
+          <br />
+          <small>Poradca vysvetlí, prečo odporúča konkrétny produkt.</small>
+        </p>
       </div>
     </div>
   );
@@ -111,7 +80,7 @@ export function HomeSolutions() {
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading}>
         <h2 id="solutions-title">Riešenia pre váš web</h2>
-        <p>Vyskúšajte pohyb lamiel, zmenu farby aj cestu od otázky k pripravenému dopytu.</p>
+        <p>Ukážky nástrojov pre váš web. Pri pergole si vyskúšajte lamely, tienenie aj farbu.</p>
       </header>
       <div ref={root} className={s.panels}>
         {solutions.map(({ title, copy, href, demo: Demo }, i) => (
@@ -120,8 +89,8 @@ export function HomeSolutions() {
               <span className={s.number}>0{i + 1}</span>
               <h3>{title}</h3>
               <p>{copy}</p>
-              <a href={sitePath(href)}>
-                Pozrieť riešenie <ArrowUpRight size={17} />
+              <a href={sitePath(href)} aria-label={`Pozrieť riešenie: ${title}`}>
+                <ArrowUpRight size={20} />
               </a>
             </div>
             <div className={s.preview}>

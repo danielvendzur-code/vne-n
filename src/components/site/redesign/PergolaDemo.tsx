@@ -70,9 +70,9 @@ export function PergolaDemo({ compact = false }: { compact?: boolean }) {
     };
   }, [ready]);
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || touring) return;
     api()?.update({ louver: angle / 100, screen: screen / 100, color, led });
-  }, [angle, screen, color, led, ready]);
+  }, [angle, screen, color, led, ready, touring]);
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
@@ -111,36 +111,44 @@ export function PergolaDemo({ compact = false }: { compact?: boolean }) {
       }
       if (!start) start = now;
       const t = ((now - start) % 22000) / 22000;
-      if (now - last > 50) {
+      const view = t > 0.8 ? "under" : "top";
+      if (view !== lastView) {
+        api()?.view(view === "under" ? 2.52 : -0.62, view === "under" ? -0.45 : 0.42);
+        lastView = view;
+      }
+      let nextAngle = 84,
+        nextScreen = 0,
+        nextColor = colors[0].ral,
+        nextLed = false;
+      let nextPhase = "Lamely regulujú svetlo";
+      if (t < 0.28) {
+        nextAngle = 50 + 50 * Math.cos((t / 0.28) * Math.PI * 2);
+      } else if (t < 0.57) {
+        nextPhase = "ZIP roleta pridáva tieň a súkromie";
+        nextScreen = 100 * Math.sin(((t - 0.28) / 0.29) * Math.PI) ** 2;
+      } else if (t < 0.8) {
+        nextPhase = "Farba zladí pergolu s domom";
+        nextColor = colors[Math.min(2, Math.floor(((t - 0.57) / 0.23) * 3))].ral;
+      } else {
+        nextPhase = "LED rozsvieti vybranú zostavu";
+        nextAngle = 0;
+        nextScreen = 20;
+        nextLed = true;
+      }
+      // Render model motion every browser frame; labels need fewer React updates.
+      api()?.update({
+        louver: nextAngle / 100,
+        screen: nextScreen / 100,
+        color: nextColor,
+        led: nextLed,
+      });
+      if (now - last > 120) {
         last = now;
-        const view = t > 0.8 ? "under" : "top";
-        if (view !== lastView) {
-          api()?.view(view === "under" ? 2.52 : -0.62, view === "under" ? -0.45 : 0.42);
-          lastView = view;
-        }
-        if (t < 0.28) {
-          setPhase("Lamely regulujú svetlo");
-          setAngle(Math.round(50 + 50 * Math.cos((t / 0.28) * Math.PI * 2)));
-          setScreen(0);
-          setColor(colors[0].ral);
-          setLed(false);
-        } else if (t < 0.57) {
-          setPhase("ZIP roleta pridáva tieň a súkromie");
-          setAngle(84);
-          setScreen(Math.round(100 * Math.sin(((t - 0.28) / 0.29) * Math.PI) ** 2));
-          setLed(false);
-        } else if (t < 0.8) {
-          setPhase("Farba zladí pergolu s domom");
-          setScreen(0);
-          setColor(colors[Math.min(2, Math.floor(((t - 0.57) / 0.23) * 3))].ral);
-          setLed(false);
-        } else {
-          setPhase("LED rozsvieti vybranú zostavu");
-          setAngle(0);
-          setScreen(20);
-          setColor(colors[0].ral);
-          setLed(true);
-        }
+        setAngle(Math.round(nextAngle));
+        setScreen(Math.round(nextScreen));
+        setColor(nextColor);
+        setLed(nextLed);
+        setPhase(nextPhase);
       }
       id = requestAnimationFrame(tick);
     };

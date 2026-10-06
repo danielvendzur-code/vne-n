@@ -2217,7 +2217,7 @@ function kvAdresa(kluc, zaloha) {
              myšou ho zruší. Rozpočet času aj počet snímok sú zhora
              obmedzené, aby na slabšom stroji nebežalo doostrovanie dlhšie,
              než trvá pohľad naň. */
-          if (hotovo && !vPohybe && r.maxDoostrenia > 1) {
+          if (hotovo && !vPohybe && r.maxDoostrenia > 1 && !window.MC_PERGOLA) {
             let vzorka = 1;
             let predoslyRamec = 0;
             let strop = r.maxDoostrenia;

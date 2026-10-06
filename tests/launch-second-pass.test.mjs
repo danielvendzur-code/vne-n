@@ -52,7 +52,7 @@ test("mobile hero typography is viewport-bounded and swept across phone widths",
   const workflow = await read(".github/workflows/production-visual-verify.yml");
   const visual = await read("scripts/verify-live-visual.mjs");
 
-  assert.match(css, /font-size: clamp\(39px, min\(10\.9vw, 6\.6vh\), 65px\)/);
+  assert.match(css, /font-size: clamp\(42px, min\(11\.8vw, 7\.3vh\), 70px\)/);
   assert.match(workflow, /node scripts\/verify-live-visual\.mjs/);
   assert.match(visual, /\[1440, 1280, 768, 390, 360\]/);
   assert.match(visual, /document\.createTreeWalker/);

@@ -42,7 +42,7 @@ export function Header({ active = "home" }: HeaderProps) {
   return (
     <nav
       ref={navRef}
-      className={s.nav}
+      className={`${s.nav} mc-brand-texture`}
       aria-label="Hlavná navigácia"
       onBlur={(event) => {
         if (
@@ -60,7 +60,7 @@ export function Header({ active = "home" }: HeaderProps) {
       }}
     >
       <a className={s.brand} href={sitePath("/")} aria-label="Môj Chatbot — úvod">
-        <BrandMark intro size={32} tone="paper" />
+        <BrandMark size={32} tone="paper" className="mc-mark--static" />
         <span>Môj Chatbot</span>
       </a>
       <button
@@ -120,7 +120,7 @@ export function Header({ active = "home" }: HeaderProps) {
             ))}
           </div>
           <div className={s.menuFeature}>
-            <BrandMark size={60} tone="paper" loop />
+            <BrandMark size={60} tone="paper" className="mc-mark--static" />
             <h2>
               Od prvej otázky
               <br />k ďalšiemu kroku.

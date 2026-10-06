@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Play, Pause } from "lucide-react";
 import { sitePath } from "./utils";
 import s from "./ProjectGallery.module.css";
 const slides = [
   {
-    title: "Vyberie bioklimatickú pergolu",
-    copy: "Začne základnou zostavou. V konfigurátore si určí model, rozmery a spôsob umiestnenia.",
+    title: "Vyberie si prístrešok podľa predstáv",
+    copy: "Vyberie model, rozmery a spôsob umiestnenia. Táto ukážka pokračuje bioklimatickou pergolou.",
     image: "config-step-1",
   },
   {
@@ -37,123 +36,85 @@ const slides = [
 
 export function ProjectGallery() {
   const [active, setActive] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [pageVisible, setPageVisible] = useState(true);
-  useEffect(() => {
-    const sync = () => setPageVisible(!document.hidden);
-    sync();
-    document.addEventListener("visibilitychange", sync);
-    return () => document.removeEventListener("visibilitychange", sync);
-  }, []);
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReducedMotion(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
   const root = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const stage = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
-    observer.observe(el);
-    return () => observer.disconnect();
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (!root.current || !stage.current) return;
+      const r = root.current.getBoundingClientRect();
+      const inset = parseFloat(getComputedStyle(stage.current).top) || 88;
+      const travel = Math.max(1, r.height - stage.current.offsetHeight);
+      const progress = Math.max(0, Math.min(1, (inset - r.top) / travel));
+      setActive(Math.min(slides.length - 1, Math.floor(progress * slides.length)));
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    update();
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      cancelAnimationFrame(raf);
+    };
   }, []);
-  useEffect(() => {
-    if (!playing || !visible || !pageVisible || reducedMotion) return;
-    const id = setInterval(() => {
-      if (!document.hidden) setActive((n) => (n + 1) % slides.length);
-    }, 6500);
-    return () => clearInterval(id);
-  }, [playing, visible, pageVisible, reducedMotion, active]);
-  const pick = (n: number) => {
-    setActive((n + slides.length) % slides.length);
-  };
   return (
-    <div
-      className={s.gallery}
-      ref={root}
-      data-playing={playing && visible && pageVisible && !reducedMotion}
-    >
-      <header className={s.heading}>
-        <div>
-          <span>OD PRVEJ VOĽBY PO HOTOVÚ ZOSTAVU</span>
-          <h3>Takto si zákazník vyskladá pergolu.</h3>
-        </div>
-        <div className={s.controls}>
-          <button type="button" aria-label="Predchádzajúci krok" onClick={() => pick(active - 1)}>
-            <ArrowLeft size={18} />
-          </button>
-          <button
-            type="button"
-            disabled={reducedMotion}
-            aria-label={
-              reducedMotion
-                ? "Automatické prehrávanie je vypnuté podľa nastavenia pohybu"
-                : playing
-                  ? "Pozastaviť carousel"
-                  : "Spustiť carousel"
-            }
-            aria-pressed={playing && !reducedMotion}
-            onClick={() => setPlaying(!playing)}
-          >
-            {playing && !reducedMotion ? <Pause size={17} /> : <Play size={17} />}
-          </button>
-          <button type="button" aria-label="Ďalší krok" onClick={() => pick(active + 1)}>
-            <ArrowRight size={18} />
-          </button>
-        </div>
-      </header>
-      <div
-        className={s.stage}
-        aria-roledescription="carousel"
-        aria-label="Ako zákazník konfiguruje bioklimatickú pergolu"
-      >
-        <div className={s.media} key={active}>
-          <img
-            src={sitePath(`/work/koverta/${slides[active].image}.webp`)}
-            alt={slides[active].title}
-            width={1400}
-            height={875}
-            loading="lazy"
-          />
-        </div>
-        <div className={s.info} aria-live={playing && !reducedMotion ? "off" : "polite"}>
-          <span>
-            0{active + 1} / 0{slides.length}
-          </span>
-          <h4 key={`title-${active}`}>{slides[active].title}</h4>
-          <p key={`copy-${active}`}>{slides[active].copy}</p>
-          <div className={s.pagination}>
+    <div className={`${s.gallery} ${s.scrollGallery}`} ref={root} data-scroll-gallery>
+      <div className={s.scrollScene} ref={stage}>
+        <header className={s.heading}>
+          <div>
+            <span>OD PRVEJ VOĽBY PO HOTOVÚ ZOSTAVU</span>
+            <h3>Takto si zákazník vyskladá svoju zostavu.</h3>
+          </div>
+          <p className={s.scrollHint}>Posúvajte stránku a sledujte jednotlivé voľby ↓</p>
+        </header>
+        <div className={s.stage} aria-label="Postup skladania pergoly pri posúvaní stránky">
+          <div className={`${s.media} ${s.scrollMedia}`}>
             {slides.map((slide, i) => (
-              <button
-                type="button"
-                key={slide.title}
-                aria-label={slide.title}
-                aria-pressed={i === active}
-                onClick={() => pick(i)}
-              >
-                <i key={i === active ? active : `idle-${i}`} />
-              </button>
+              <img
+                key={slide.image}
+                src={sitePath(`/work/koverta/${slide.image}.webp`)}
+                alt={i === active ? slide.title : ""}
+                aria-hidden={i !== active}
+                data-active={i === active}
+                width={1400}
+                height={875}
+                loading="lazy"
+              />
             ))}
           </div>
+          <div className={s.info}>
+            <span>
+              0{active + 1} / 0{slides.length}
+            </span>
+            <h4 key={`title-${active}`}>{slides[active].title}</h4>
+            <p key={`copy-${active}`}>{slides[active].copy}</p>
+            <div className={s.scrollProgress} aria-hidden="true">
+              {slides.map((slide, i) => (
+                <i key={slide.image} data-active={i === active} />
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={s.thumbnails}>
-        {slides.map((slide, i) => (
-          <button
-            type="button"
-            key={slide.title}
-            aria-pressed={i === active}
-            onClick={() => pick(i)}
-          >
-            <img src={sitePath(`/work/koverta/${slide.image}-thumb.webp`)} alt="" loading="lazy" />
-            <span>{slide.title}</span>
-          </button>
-        ))}
+        <ol className={`${s.thumbnails} ${s.scrollSteps}`}>
+          {slides.map((slide, i) => (
+            <li
+              key={slide.image}
+              data-active={i === active}
+              aria-current={i === active ? "step" : undefined}
+            >
+              <img
+                src={sitePath(`/work/koverta/${slide.image}-thumb.webp`)}
+                alt=""
+                loading="lazy"
+              />
+              <span>{slide.title}</span>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );

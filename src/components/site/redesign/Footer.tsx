@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/BrandMark";
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { openAnalyticsPreferences } from "@/lib/analytics-consent";
@@ -26,8 +27,9 @@ export class Footer extends Component<{
       <Fragment>
         <section
           id={"kontakt"}
+          className="mc-brand-texture"
           style={cssStyle(
-            `background:var(--mc-ink);color:var(--mc-paper);padding:24px;font-family:'Geist',system-ui,sans-serif`,
+            `background-color:var(--mc-ink);color:var(--mc-paper);padding:24px;font-family:'Geist',system-ui,sans-serif`,
           )}
         >
           <div
@@ -81,12 +83,7 @@ export class Footer extends Component<{
             >
               <div style={cssStyle(`display:flex;flex-direction:column;gap:14px`)}>
                 <div style={cssStyle(`display:flex;align-items:center;gap:10px`)}>
-                  <img
-                    src={sitePath("/brand/logo-light.svg")}
-                    alt={""}
-                    style={cssStyle(`width:32px;height:32px`)}
-                    loading="lazy"
-                  />
+                  <BrandMark size={32} tone="paper" className="mc-mark--static" />
                   <span style={cssStyle(`font-weight:600;font-size:18px`)}>{"Môj Chatbot"}</span>
                 </div>
                 <p
