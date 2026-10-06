@@ -192,7 +192,7 @@ export class Tool extends Component<{
         lead: "Pár jednoduchých otázok a zákazník dostane konkrétny produkt z vašej ponuky — bez toho, aby musel poznať celý katalóg.",
         img: P + "solutions/skincare-photo.webp",
         imgW: "46%",
-        caption: "E-SHOP S KÁVOU · VÝBER CHUTI",
+        caption: "STAROSTLIVOSŤ O PLEŤ · PORADCA",
         steps: steps([
           [
             "OTÁZKY",
@@ -203,8 +203,8 @@ export class Tool extends Component<{
           [
             "PREFERENCIE",
             "Poradca pochopí, čo mu vyhovuje.",
-            "Chuť, použitie, veľkosť alebo rozpočet.",
-            "Použitie / chuť / rozpočet",
+            "Typ pleti, rutina, preferencie alebo rozpočet.",
+            "Typ pleti / preferencie / rozpočet",
           ],
           [
             "ODPORÚČANIE",
