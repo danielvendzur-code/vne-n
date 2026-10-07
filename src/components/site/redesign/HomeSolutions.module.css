@@ -872,8 +872,8 @@
   outline-offset: -4px;
 }
 .panelBody {
-  height: 178px;
-  flex-basis: 178px;
+  height: 240px;
+  flex-basis: 240px;
 }
 .panelBody p {
   font-size: 15px;
@@ -961,8 +961,8 @@
     min-height: 0;
   }
   .panelBody {
-    height: 176px;
-    flex-basis: 176px;
+    height: 240px;
+    flex-basis: 240px;
   }
   .panelBody p {
     font-size: 15px;

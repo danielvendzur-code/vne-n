@@ -65,6 +65,13 @@ for (const viewport of sizes) {
       await card.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1350);
       assert.equal(await card.getByRole("link").count(), 1, "whole card uses one link");
+      const title = await card.locator("h3").boundingBox();
+      const frameBounds = await card.boundingBox();
+      assert.ok(
+        title.y >= frameBounds.y + 8 &&
+          title.y + title.height <= frameBounds.y + frameBounds.height - 8,
+        "solution title must be fully visible",
+      );
       const capture = card.locator("[data-real-preview] img");
       if (await capture.count()) {
         assert.ok(
@@ -91,7 +98,9 @@ for (const viewport of sizes) {
       const after = await preview.boundingBox();
       assert.ok(after.y < before.y - 3, "hover must move the product preview");
     }
-    await page.locator("#riesenia").screenshot({ path: `${output}/solutions-${viewport.width}.png` });
+    await page
+      .locator("#riesenia")
+      .screenshot({ path: `${output}/solutions-${viewport.width}.png` });
     await page.locator("#pred-a-po").scrollIntoViewIfNeeded();
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
