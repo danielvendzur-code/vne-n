@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
+import { ProductPreview } from "./ProductPreview";
 
 export class Tool extends Component<{
   active?: string;
@@ -75,9 +76,9 @@ export class Tool extends Component<{
         accent: "ktorý vie odpovedať.",
         price: "347 €",
         lead: "Odpovedá z vašich podkladov, zistí, čo zákazník potrebuje, a pošle vám kontakt so zhrnutím.",
-        img: P + "solutions/chatbot-aplan.webp",
+        img: P + "solutions/webko-chat-preview.webp",
         imgW: "46%",
-        caption: "APLAN AI · ASISTENT",
+        caption: "WEBKO · AI ASISTENT",
         steps: steps([
           [
             "OTÁZKA",
@@ -383,30 +384,17 @@ export class Tool extends Component<{
                   `background:var(--mc-ink);border-radius:32px;height:clamp(380px,62vh,540px);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center`,
                 )}
               >
-                <div
-                  style={cssStyle(
-                    `position:absolute;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.7)`,
-                  )}
-                >
-                  <span style={cssStyle(`display:flex;align-items:center;gap:8px`)}>
-                    <span
-                      style={cssStyle(
-                        `width:7px;height:7px;border-radius:50%;background:var(--mc-accent)`,
-                      )}
-                    ></span>
-                    {"ŽIVÁ UKÁŽKA"}
-                  </span>
-                  <span>{t.caption}</span>
+                <div className="solution-detail__image solution-detail__native">
+                  <ProductPreview
+                    kind={
+                      this.state.t === "kalkulacka"
+                        ? "calculator"
+                        : this.state.t === "poradca"
+                          ? "advisor"
+                          : "chatbot"
+                    }
+                  />
                 </div>
-                <img
-                  className="solution-detail__image"
-                  src={sitePath(t.img)}
-                  alt={t.caption}
-                  style={cssStyle(
-                    `width:${t.imgW};max-height:84%;object-fit:cover;object-position:top;border-radius:20px 20px 0 0;display:block`,
-                  )}
-                  loading="eager"
-                />
               </div>
             </div>
           </section>

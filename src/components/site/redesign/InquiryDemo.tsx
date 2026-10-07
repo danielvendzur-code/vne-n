@@ -17,6 +17,7 @@ import { sitePath } from "./utils";
 import s from "./InquiryDemo.module.css";
 const configuration = [
   ["Model", "Bioklimatická pergola Soltec"],
+  ["Cena zostavy", "8 490 € s DPH · vypočítané podľa cenníka"],
   ["Rozmery", "5 076 × 2 500 mm · výška 2 500 mm"],
   ["Konštrukcia", "Biela · RAL 9010"],
   ["Lamely", "Antracit · RAL 7016 · otočná strecha"],
@@ -30,7 +31,7 @@ const calculation = [
   ["Dĺžka", "20 m"],
   ["Výška", "1,53 m"],
   ["Farba", "Antracit"],
-  ["Orientačná cena", "892 € vrátane montáže · ukážková zostava"],
+  ["Cena zostavy", "892 € vrátane montáže · ukážková zostava"],
   ["Lokalita", "Nitra"],
   ["Požiadavka", "Prosím aj ponuku na montáž a bránku."],
 ];
@@ -58,8 +59,8 @@ export function InquiryDemo() {
         </h2>
         <div>
           <p>
-            Vo vašej schránke nájdete kontakt, rozmery aj všetky voľby. Môžete pripraviť ponuku bez
-            ďalšieho kola otázok.
+            Zákazník už pozná cenu. Vám príde jeho kontakt, hotový výber aj vypočítaná suma. Môžete
+            sa rovno dohodnúť na ďalšom kroku.
           </p>
           <div className={s.tabs} aria-label="Zdroj vzorového dopytu">
             {[
@@ -131,7 +132,7 @@ export function InquiryDemo() {
           </div>
         </div>
         <div className={s.after}>
-          <span className={s.comparisonLabel}>DOPYT S KONKRÉTNYM VÝBEROM</span>
+          <span className={s.comparisonLabel}>HOTOVÝ VÝBER AJ CENA</span>
           <div className={s.gmail}>
             <div className={s.topbar}>
               <Menu size={18} />
@@ -199,18 +200,16 @@ export function InquiryDemo() {
                     ) : (
                       <span>Kalkulačka plotu</span>
                     )}
-                    <small>Nový nezáväzný dopyt</small>
+                    <small>Hotový výber zákazníka</small>
                   </div>
                   <div className={s.quote}>
                     <p className={s.eyebrow}>DOPYT #UKÁŽKA-026</p>
                     <h4>
                       {kind === "config"
-                        ? "Bioklimatická pergola · žiadosť o ponuku"
-                        : "3D panelový plot · žiadosť o ponuku"}
+                        ? "Bioklimatická pergola · hotová zostava"
+                        : "3D panelový plot · hotový výber"}
                     </h4>
-                    <p>
-                      Martin K. žiada o cenovú ponuku. Nižšie nájdete jeho výber a kontaktné údaje.
-                    </p>
+                    <p>Martin K. posiela svoj výber. Cenu už videl v nástroji na webe.</p>
                     <div className={s.brief}>
                       <dl>
                         {(kind === "config" ? configuration : calculation).map(([label, value]) => (
@@ -224,7 +223,7 @@ export function InquiryDemo() {
                         <div className={s.contact}>
                           <strong>Martin K.</strong>
                           <span>martin.k@example.com</span>
-                          <span>Telefón je súčasťou odoslaného dopytu.</span>
+                          <span>+421 900 123 456</span>
                         </div>
                         <p className={s.note}>
                           Poznámka zákazníka: „Prosím o preverenie dostupného termínu a podmienok
@@ -255,7 +254,7 @@ export function InquiryDemo() {
                     <label htmlFor="sample-reply">Vzorová odpoveď zákazníkovi</label>
                     <textarea
                       id="sample-reply"
-                      defaultValue="Dobrý deň, ďakujeme za váš dopyt. Výber aj rozmery máme. Preveríme montáž a pripravíme vám ponuku."
+                      defaultValue="Dobrý deň, Martin, ďakujeme. Váš výber aj vypočítanú cenu máme. Dohodnime si termín montáže."
                     />
                     <span>Toto je ukážka schránky. Správa sa neodosiela.</span>
                   </div>

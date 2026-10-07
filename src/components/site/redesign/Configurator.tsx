@@ -34,6 +34,10 @@ export class Configurator extends Component<{
       ],
       faqs: [
         [
+          "Platí sa mesačne za prevádzku?",
+          "Nie. Samostatný 3D konfigurátor nemá mesačný poplatok za prevádzku. Vytvorenie a prípadné rozšírenia sa nacenia vopred podľa rozsahu.",
+        ],
+        [
           "Koľko stojí 3D konfigurátor?",
           "Cena 3D konfigurátora sa určuje podľa rozsahu. Ovplyvní ju počet produktov a modelov, množstvo variantov a pravidlá výpočtu ceny. Presnú sumu vrátane DPH dostanete pred začiatkom práce.",
         ],
@@ -51,7 +55,7 @@ export class Configurator extends Component<{
         ],
         [
           "Čo presne príde firme v dopyte?",
-          "Kontakt zákazníka a celá zostava — typ, rozmer, umiestnenie, farba, strecha, výplne a orientačná cena.",
+          "Kontakt zákazníka a celá zostava — typ, rozmer, umiestnenie, farba, strecha, výplne a vypočítaná cena.",
         ],
       ].map(([q, a], i) => ({ q, a, num: "0" + (i + 1) })),
     };

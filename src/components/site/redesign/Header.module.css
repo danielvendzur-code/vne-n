@@ -354,3 +354,86 @@
     transition: none !important;
   }
 }
+
+/* A full-width espresso header, with the ornament kept inside its safe margins. */
+.nav {
+  width: min(1440px, calc(100% - 80px));
+  min-height: 80px;
+  gap: 24px;
+}
+.brand {
+  font-size: 20px;
+  min-width: max-content;
+  gap: 12px;
+}
+.brand svg {
+  width: 36px;
+  height: 36px;
+}
+.ornament {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  width: 280px;
+  pointer-events: none;
+}
+.toggle {
+  border: 1px solid #fffcf72e;
+  border-radius: 30px;
+  padding: 0 16px;
+  min-width: 116px;
+  height: 46px;
+}
+.menuEyebrow {
+  font-size: 12px;
+}
+.linkCopy small {
+  font-size: 13px;
+}
+.quickLinks a,
+.menuCta {
+  font-size: 14px;
+}
+.menuFeature p {
+  font-size: 14px;
+}
+.index {
+  font-size: 12px;
+}
+@media (max-width: 767px) {
+  .nav {
+    width: calc(100% - 40px);
+    min-height: 72px;
+    gap: 10px;
+  }
+  .brand {
+    font-size: 17px;
+    gap: 8px;
+  }
+  .brand svg {
+    width: 32px;
+    height: 32px;
+  }
+  .toggle {
+    min-width: 96px;
+    padding: 0 12px;
+    height: 42px;
+  }
+  .ornament {
+    position: static;
+    translate: none;
+    margin-left: auto;
+    width: 68px;
+  }
+  .backdrop {
+    inset-block-start: 72px;
+  }
+}
+@media (max-width: 380px) {
+  .ornament {
+    display: none;
+  }
+  .brand {
+    font-size: 17px;
+  }
+}

@@ -50,11 +50,12 @@ test("legal page does not pretend a contact form creates a consumer contract", a
 test("mobile hero typography is viewport-bounded and swept across phone widths", async () => {
   const css = await read("src/components/site/StudioHero.module.css");
   const workflow = await read(".github/workflows/production-visual-verify.yml");
-  const visual = await read("scripts/verify-live-visual.mjs");
+  const visual = await read("scripts/verify-cinematic-ui.mjs");
 
   assert.match(css, /font-size: clamp\(42px, min\(11\.8vw, 7\.3vh\), 70px\)/);
-  assert.match(workflow, /node scripts\/verify-live-visual\.mjs/);
-  assert.match(visual, /\[1440, 1280, 768, 390, 360\]/);
-  assert.match(visual, /document\.createTreeWalker/);
-  assert.match(visual, /all headline glyphs must fit/);
+  assert.match(workflow, /node scripts\/verify-cinematic-ui\.mjs/);
+  assert.match(visual, /width: 1920/);
+  assert.match(visual, /width: 320/);
+  assert.match(visual, /document\.documentElement\.scrollWidth/);
+  assert.match(visual, /homepage must fit horizontally/);
 });

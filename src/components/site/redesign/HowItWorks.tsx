@@ -12,7 +12,7 @@ const steps = [
   {
     icon: SlidersHorizontal,
     title: "Vyberie možnosti a pozná cenu.",
-    copy: "Kalkulačka počíta podľa vášho cenníka. Konfigurátor ukáže rozmery, farby a doplnky na konkrétnej zostave.",
+    copy: "Chatbot aj kalkulačka ukážu cenu podľa vášho cenníka. Konfigurátor doplní rozmery, farby a výbavu konkrétnej zostavy.",
     detail: "Voľby → výpočet alebo 3D náhľad",
   },
   {
@@ -46,7 +46,7 @@ export function HowItWorks() {
           </article>
         ))}
       </div>
-      <a className={s.link} href={sitePath("/postup")}>
+      <a className={`mc-btn mc-btn--on-dark ${s.link}`} href={sitePath("/postup")}>
         Ako pripravíme riešenie pre váš web <ArrowRight size={17} />
       </a>
     </section>
