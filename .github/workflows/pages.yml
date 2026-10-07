@@ -99,7 +99,7 @@ jobs:
           grep -Fq "Content-Security-Policy" pages-dist/index.html
           grep -Fq "DV_ASSISTANT_LOADER_ACTIVE" pages-dist/widget-loader.js
           grep -Fq "buildKey" pages-dist/widget-loader.js
-          grep -Fq "koverta-motion-20261007-v32" pages-dist/widget-loader.js
+          grep -Fq "compact-ui-fixes-20261007-v33" pages-dist/widget-loader.js
           grep -Fq 'import "./SiteVisualAuthority.css";' src/components/site/LegacySiteLayout.tsx
           grep -Fq '@/components/site/SubPage' src/routes/sluzby.tsx
           grep -Fq '@/components/site/SubPage' src/routes/postup.tsx
@@ -198,7 +198,7 @@ jobs:
           fetch_with_retry "/robots.txt" "Sitemap: https://mojchatbot.sk/sitemap.xml"
           fetch_with_retry "/sitemap.xml" "https://mojchatbot.sk/sluzby"
           fetch_with_retry "/brand/logo.svg" "fill=\"#1C1612\""
-          fetch_with_retry "/widget-loader.js" "koverta-motion-20261007-v32"
+          fetch_with_retry "/widget-loader.js" "compact-ui-fixes-20261007-v33"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
 

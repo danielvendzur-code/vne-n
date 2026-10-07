@@ -116,7 +116,7 @@ export class Home extends Component<{
         ...w,
         ...themes[i % themes.length],
         num: "0" + (i + 1),
-        top: 100 + i * 22 + "px",
+        top: "100px",
       }));
 
     return {
@@ -204,14 +204,14 @@ export class Home extends Component<{
             </div>
             <ol
               style={cssStyle(
-                `list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:32px`,
+                `list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:32px;isolation:isolate`,
               )}
             >
               {work.map((w, index) => (
                 <Fragment key={index}>
                   <li
                     className="redesign-case-item"
-                    style={cssStyle(`position:sticky;top:${w.top}`)}
+                    style={cssStyle(`position:sticky;top:${w.top};z-index:${index + 1}`)}
                   >
                     <article
                       className="redesign-case-card"

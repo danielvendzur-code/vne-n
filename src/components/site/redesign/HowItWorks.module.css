@@ -69,23 +69,6 @@
   margin-top: auto;
   padding-top: 22px;
 }
-.link {
-  display: inline-flex;
-  gap: 12px;
-  align-items: center;
-  color: var(--mc-paper) !important;
-  text-decoration: none;
-  border-bottom: 1px solid #fffcf744;
-  padding: 10px 0;
-  margin-top: 32px;
-  font-size: 13px;
-}
-.link svg {
-  transition: transform 250ms ease;
-}
-.link:hover svg {
-  transform: translateX(4px);
-}
 @media (max-width: 700px) {
   .section {
     padding: 44px 20px;

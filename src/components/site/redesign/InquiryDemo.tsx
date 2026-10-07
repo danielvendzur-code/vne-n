@@ -63,7 +63,12 @@ function MailWindow({
         </div>
         <span className={s.account}>K</span>
       </div>
-      <div className={s.message}>
+      <div
+        className={s.message}
+        tabIndex={0}
+        role="region"
+        aria-label={`Ukážka e-mailu: ${subject}`}
+      >
         <div className={s.toolbar} aria-hidden="true">
           <ArrowLeft size={18} />
           <Archive size={18} />

@@ -19,7 +19,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "koverta-motion-20261007-v32";
+  const WIDGET_RELEASE = "compact-ui-fixes-20261007-v33";
 
   let settled = false;
   let loading = false;
