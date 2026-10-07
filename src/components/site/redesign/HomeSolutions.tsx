@@ -1,20 +1,24 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useRef } from "react";
-import { PergolaDemo } from "./PergolaDemo";
+import { useEffect, useRef } from "react";
+import { PergolaVideo } from "./PergolaVideo";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
 function NativePreview({ mode }: { mode: "chat" | "calc" }) {
   return (
     <div className={s.snapshot}>
       <img
-        src={sitePath(`/work/solutions/mojplot-${mode}-preview.webp`)}
+        src={sitePath(
+          mode === "chat"
+            ? "/work/solutions/webko-chat-preview.webp"
+            : "/work/solutions/mojplot-calc-preview.webp",
+        )}
         alt={
           mode === "chat"
-            ? "Pôvodný widget MôjPlot s ukážkou rozhovoru"
-            : "Pôvodná kalkulačka MôjPlot s výberom plotu"
+            ? "Skutočný chatbot WEBKO s úvodným rozhovorom"
+            : "Kalkulačka MôjPlot s vypočítanou cenou a rozpisom zostavy, bez odoslania dopytu"
         }
         width={400}
-        height={420}
+        height={480}
         loading="lazy"
       />
     </div>
@@ -53,7 +57,7 @@ const solutions = [
     title: "3D konfigurátor",
     copy: "Zákazník vidí farbu, otočné lamely aj ZIP tienenie na svojej zostave.",
     href: "/3d-konfigurator",
-    demo: () => <PergolaDemo compact />,
+    demo: PergolaVideo,
   },
   {
     title: "Chatbot",
@@ -76,11 +80,31 @@ const solutions = [
 ];
 export function HomeSolutions() {
   const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const cards = root.current?.querySelectorAll<HTMLElement>("[data-solution-card]");
+    if (!cards) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (isIntersecting) {
+            (target as HTMLElement).dataset.visible = "true";
+            observer.unobserve(target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    cards.forEach((card) => {
+      card.dataset.reveal = "pending";
+      observer.observe(card);
+    });
+    return () => observer.disconnect();
+  }, []);
   return (
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading}>
         <h2 id="solutions-title">Riešenia pre váš web</h2>
-        <p>Ukážky nástrojov pre váš web. Pri pergole si vyskúšajte lamely, tienenie aj farbu.</p>
+        <p>Ukážky nástrojov pre váš web. Od prvej otázky po výber produktu a pripravený dopyt.</p>
       </header>
       <div ref={root} className={s.panels}>
         {solutions.map(({ title, copy, href, demo: Demo }, i) => (

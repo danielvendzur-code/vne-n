@@ -452,7 +452,7 @@
 }
 .comparison {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 18px;
 }
 .comparisonLabel {
@@ -814,5 +814,16 @@
   .section .comparison .brief dl dd {
     line-height: 1.4;
     margin: 0;
+  }
+}
+
+@media (min-width: 701px) {
+  .comparison > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .comparison .gmail {
+    flex: 1;
   }
 }

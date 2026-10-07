@@ -32,6 +32,18 @@ const heroProjects = [
 export function StudioHero() {
   const heroRef = useRef<HTMLElement>(null);
   useEffect(() => {
+    let second = 0;
+    const first = requestAnimationFrame(() => {
+      second = requestAnimationFrame(() =>
+        heroRef.current?.setAttribute("data-headline-ready", "true"),
+      );
+    });
+    return () => {
+      cancelAnimationFrame(first);
+      cancelAnimationFrame(second);
+    };
+  }, []);
+  useEffect(() => {
     const header = document.querySelector(".redesign-header");
     if (!header) return;
     const resize = () =>
@@ -56,9 +68,26 @@ export function StudioHero() {
       >
         <div className={`${styles.heroStage} ${fit.stage}`}>
           <h1 id="hybrid-hero-title" aria-label="Chatboty a konfigurátory na mieru pre váš web.">
-            <span>Chatboty a</span>
-            <em>konfigurátory</em>
-            <em>na mieru.</em>
+            {["Chatboty a", "konfigurátory", "na mieru."].map((line, lineIndex) => (
+              <span
+                className={fit.headlineLine}
+                key={line}
+                aria-hidden="true"
+                data-accent={lineIndex > 0}
+              >
+                {Array.from(line).map((letter, index) => (
+                  <span
+                    key={index}
+                    className={fit.headlineGlyph}
+                    style={
+                      { "--letter-delay": `${lineIndex * 180 + index * 32}ms` } as CSSProperties
+                    }
+                  >
+                    {letter === " " ? "\u00a0" : letter}
+                  </span>
+                ))}
+              </span>
+            ))}
           </h1>
           <div
             className={`${styles.collage} ${fit.collage}`}

@@ -238,7 +238,7 @@ export class Home extends Component<{
                           src={sitePath(w.img)}
                           alt={w.name}
                           style={cssStyle(
-                            `width:100%;height:100%;object-fit:cover;object-position:top;display:block`,
+                            `width:100%;height:100%;object-fit:contain;object-position:center;display:block`,
                           )}
                           loading="lazy"
                         />
