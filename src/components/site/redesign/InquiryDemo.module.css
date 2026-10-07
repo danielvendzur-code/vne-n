@@ -827,3 +827,237 @@
     flex: 1;
   }
 }
+
+/* Matched email windows, with a readable compact comparison on phones. */
+.section .comparison {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+.section .comparison > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.section .comparison .gmail {
+  flex: 1;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px -18px #1c161233;
+  background: #f6f8fc;
+}
+.section .comparison .message {
+  border-radius: 10px;
+  background: #fff;
+}
+.section .comparison .quote {
+  background: #fff;
+  border: 0;
+  padding: 12px 0;
+}
+.section .comparison .brief dl > div {
+  border-bottom: 1px solid #edf0f4;
+  padding: 5px 0;
+}
+.section .comparison .metadata .contact {
+  background: #f6f8fc;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px;
+}
+.section .comparison .metadata .attachment {
+  background: #f6f8fc;
+  border: 1px solid #edf0f4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.section .comparison .metadata .attachment img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.6;
+  object-fit: contain;
+}
+.section .comparison .mailBrand {
+  background: transparent;
+  border-bottom: 1px solid #edf0f4;
+  padding: 12px 0;
+}
+.section .comparison .quote h4 {
+  font-size: 17px;
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .section {
+    padding: 36px 12px;
+  }
+  .section .comparison {
+    gap: 8px;
+  }
+  .section .heading {
+    display: block;
+  }
+  .section .heading h2 {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  .section .comparisonLabel {
+    font-size: 9px;
+    line-height: 1.4;
+    min-height: 28px;
+    letter-spacing: 0.025em;
+  }
+  .section .comparison .topbar {
+    height: 34px;
+    padding: 0 8px;
+    gap: 8px;
+  }
+  .section .comparison .gmailLogo {
+    font-size: 13px;
+    gap: 5px;
+  }
+  .section .comparison .gmailLogo svg {
+    width: 18px;
+  }
+  .section .comparison .topbar > svg,
+  .section .comparison .search,
+  .section .comparison .account,
+  .section .comparison .toolbar {
+    display: none;
+  }
+  .section .comparison .body {
+    padding: 0 4px 4px;
+  }
+  .section .comparison .message,
+  .section .comparison .before .message {
+    margin: 0 4px 4px;
+    padding: 10px 8px;
+  }
+  .section .comparison .body .message {
+    margin: 0;
+  }
+  .section .comparison .subject h3 {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .section .comparison .subject > span {
+    display: none;
+  }
+  .section .comparison .sender {
+    gap: 4px;
+    font-size: 10px;
+    flex-wrap: wrap;
+    align-items: start;
+  }
+  .section .comparison .sender > .avatar {
+    display: none;
+  }
+  .section .comparison .sender time,
+  .section .comparison .sender button {
+    display: none;
+  }
+  .section .comparison .sender small {
+    font-size: 9px;
+    overflow-wrap: anywhere;
+  }
+  .section .comparison .mailBrand {
+    flex-direction: column;
+    align-items: start;
+    gap: 6px;
+    padding: 8px 0;
+  }
+  .section .comparison .mailBrand small {
+    font-size: 9px;
+  }
+  .section .comparison .quote {
+    padding: 8px 0;
+  }
+  .section .comparison .quote h4 {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .section .comparison .quote > p {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .section .comparison .brief {
+    display: block;
+  }
+  .section .comparison .brief dl > div {
+    display: block;
+    font-size: 11px;
+    padding: 6px 0;
+  }
+  .section .comparison .brief dt {
+    font-size: 9px;
+    color: #747775;
+  }
+  .section .comparison .brief dd {
+    margin: 2px 0 0;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .section .comparison .metadata {
+    margin-top: 10px;
+  }
+  .section .comparison .metadata .contact {
+    padding: 8px;
+    font-size: 10px;
+    overflow-wrap: anywhere;
+  }
+  .section .comparison .ordinary {
+    font-size: 12px;
+    min-height: 180px;
+  }
+  .section .comparison .missing {
+    font-size: 10px;
+  }
+  .section .comparison .reply {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+  .section .comparison .replyBox {
+    padding: 8px;
+  }
+  .section .comparison .attachment > span {
+    font-size: 9px;
+    padding: 6px;
+  }
+  .section .comparison .attachment > span svg {
+    width: 10px;
+  }
+  .section .caption {
+    font-size: 10px;
+  }
+}
+@media (max-width: 700px) {
+  .section .comparison .gmail {
+    height: 520px;
+    min-height: 0;
+    flex: none;
+  }
+  .section .comparison .body {
+    height: calc(100% - 34px);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .section .comparison .body .message {
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+  }
+  .section .comparison .before .message {
+    height: calc(100% - 42px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+  }
+}
+@media (min-width: 701px) {
+  .section .comparison .metadata .attachment img {
+    height: 84px;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+}

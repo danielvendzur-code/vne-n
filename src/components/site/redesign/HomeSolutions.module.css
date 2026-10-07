@@ -846,3 +846,10 @@
     }
   }
 }
+
+.advisor img {
+  height: 132px;
+  object-fit: contain;
+  object-position: center;
+  background: #ebe5dd;
+}

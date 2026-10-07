@@ -7,13 +7,6 @@ const BASE = import.meta.env.BASE_URL;
 
 const heroProjects = [
   {
-    slug: "koverta-chat",
-    name: "Koverta",
-    href: "https://koverta.sk/",
-    image: `${BASE}work/live/koverta-chat.webp`,
-    alt: "Web Koverta s otvoreným produktovým asistentom",
-  },
-  {
     slug: "derat-chat",
     name: "DERAT",
     href: "https://derat.sk/",
@@ -44,17 +37,23 @@ export function StudioHero() {
     };
   }, []);
   useEffect(() => {
+    const resize = () => {
+      const hero = heroRef.current;
+      if (!hero) return;
+      const top = hero.getBoundingClientRect().top + window.scrollY;
+      hero.style.setProperty("--hero-header-height", `${Math.max(0, top)}px`);
+    };
+    const frame = requestAnimationFrame(resize);
     const header = document.querySelector(".redesign-header");
-    if (!header) return;
-    const resize = () =>
-      heroRef.current?.style.setProperty(
-        "--hero-header-height",
-        `${header.getBoundingClientRect().height}px`,
-      );
     const observer = new ResizeObserver(resize);
-    observer.observe(header);
+    if (header) observer.observe(header);
+    window.addEventListener("resize", resize);
     resize();
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", resize);
+    };
   }, []);
   return (
     <div className={styles.home}>
@@ -107,8 +106,8 @@ export function StudioHero() {
                   srcSet={`${BASE}work/live/${project.slug}-640.webp 640w, ${BASE}work/live/${project.slug}-1000.webp 1000w, ${project.image} 1600w`}
                   sizes="(max-width: 767px) 74vw, (max-width: 1100px) 40vw, 38vw"
                   alt={project.alt}
-                  width={1600}
-                  height={1000}
+                  width={project.slug === "mojplot-chat" ? 2200 : 1600}
+                  height={project.slug === "mojplot-chat" ? 1480 : 1000}
                   loading="eager"
                   decoding="async"
                   fetchPriority={index === 0 ? "high" : "auto"}
