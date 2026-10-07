@@ -4,7 +4,6 @@ import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
 import { HowItWorks } from "./HowItWorks";
-import { ProjectPreview } from "./ProjectPreview";
 
 export class Home extends Component<{
   active?: string;
@@ -210,12 +209,15 @@ export class Home extends Component<{
             >
               {work.map((w, index) => (
                 <Fragment key={index}>
-                  <li className="redesign-case-item" style={cssStyle(`position:relative`)}>
+                  <li
+                    className="redesign-case-item"
+                    style={cssStyle(`position:sticky;top:${w.top}`)}
+                  >
                     <article
                       className="redesign-case-card"
                       data-reveal
                       style={cssStyle(
-                        `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:0 -24px 48px -32px rgba(12,26,21,.25);box-sizing:border-box;overflow:visible`,
+                        `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:0 -24px 48px -32px rgba(12,26,21,.25);height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
                       )}
                     >
                       <a
@@ -227,7 +229,14 @@ export class Home extends Component<{
                           `border-radius:18px;overflow:hidden;border:1px solid ${w.line};background:var(--mc-paper);align-self:stretch;display:flex;flex-direction:column`,
                         )}
                       >
-                        <ProjectPreview name={w.name} />
+                        <img
+                          src={sitePath(w.img)}
+                          alt={w.name}
+                          style={cssStyle(
+                            `width:100%;height:100%;object-fit:contain;object-position:center;display:block`,
+                          )}
+                          loading="lazy"
+                        />
                       </a>
                       <div
                         style={cssStyle(

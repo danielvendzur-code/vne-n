@@ -3,8 +3,24 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import styles from "./StudioHome.module.css";
 
 import fit from "./StudioHero.module.css";
-import { ProductPreview } from "./redesign/ProductPreview";
-import { sitePath } from "./redesign/utils";
+const BASE = import.meta.env.BASE_URL;
+
+const heroProjects = [
+  {
+    slug: "derat-chat",
+    name: "DERAT",
+    href: "https://derat.sk/",
+    image: `${BASE}work/live/derat-chat.webp`,
+    alt: "Web DERAT s otvoreným chatbotom",
+  },
+  {
+    slug: "mojplot-chat",
+    name: "Môj Plot",
+    href: "https://mojplot.sk/",
+    image: `${BASE}work/live/mojplot-chat.webp`,
+    alt: "Web Môj Plot s pôvodným chatbotom",
+  },
+] as const;
 
 export function StudioHero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -74,27 +90,33 @@ export function StudioHero() {
           </h1>
           <div
             className={`${styles.collage} ${fit.collage}`}
-            aria-label="Ukážka chatbota WEBKO a výpočtu Môj Plot"
+            aria-label="Vybrané projekty a ukážky nástrojov"
           >
-            <a
-              className={fit.liveCase}
-              href={sitePath("/nastroj?t=chatbot")}
-              aria-label="Pozrieť chatbot WEBKO"
-            >
-              <ProductPreview client="WEBKO" compact />
-            </a>
-            <a
-              className={fit.priceCard}
-              href={sitePath("/nastroj?t=kalkulacka")}
-              aria-label="Pozrieť kalkulačku Môj Plot"
-            >
-              <span>MÔJ PLOT · CENA ZOSTAVY</span>
-              <strong>
-                892 <small>€</small>
-              </strong>
-              <p>20 m · antracit · montáž</p>
-              <ArrowUpRight size={20} />
-            </a>
+            {heroProjects.map((project, index) => (
+              <a
+                key={project.slug}
+                className={`${styles.heroCase} ${fit.case}`}
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{ "--case": index } as CSSProperties}
+              >
+                <img
+                  src={project.image}
+                  srcSet={`${BASE}work/live/${project.slug}-640.webp 640w, ${BASE}work/live/${project.slug}-1000.webp 1000w, ${project.image} 1600w`}
+                  sizes="(max-width: 767px) 74vw, (max-width: 1100px) 40vw, 38vw"
+                  alt={project.alt}
+                  width={project.slug === "mojplot-chat" ? 2200 : 1600}
+                  height={project.slug === "mojplot-chat" ? 1480 : 1000}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                />
+                <span>
+                  0{index + 1} / {project.name} <ArrowUpRight size={14} aria-hidden="true" />
+                </span>
+              </a>
+            ))}
           </div>
         </div>
         <div className={`${styles.heroBottom} ${fit.bottom}`}>

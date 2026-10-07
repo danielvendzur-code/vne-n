@@ -36,10 +36,8 @@ Chatbot v29 reveals introductory messages with punctuation and a pause between t
 
 Verification: 48 web contract tests, 14 backend regressions, 15 Playwright widget checks, TypeScript, targeted ESLint and both production builds. Focused browser checks cover hero fill and visible CTA at 1366×768, 1920×1080, 390×844 and 320×640; equal Gmail windows at all widths; gradual formatted replies and a successful subsequent question; and unchanged 3D projection through louver/ZIP changes. All chat/lead test responses are mocked.
 
-## Cinematic UI v30
 
-The hero and solution/detail previews use native HTML interface demonstrations rather than scaled screenshots. WEBKO keeps its blue/black palette and Môj Plot its green palette. The full solution card is a semantic link and starts a router view transition, linking the card surface and preview to the detail page. Hover lifts the preview and reveals the demonstration reply. No demonstration sends a lead or message. The existing pergola film is retained.
 
-Header and footer now contain contained vector ornaments. The mark keeps its approved paths, with 1.8 units of overlap in the joined state and a wider seam underlay. The widget unfolds over 780ms with staged header/content; closing takes 360ms. Replies reveal on animation frames with adaptive pacing, punctuation pauses and complete emoji pairs. Three animated dots accompany waiting and writing. Composer drafts remain protected during a reply. The widget uses a dark espresso header, white assistant bubbles, pale sand user bubbles and a restrained composer.
+## Obnova pôvodného dizajnu — v31
 
-The email comparison uses larger type, matched side-by-side windows on mobile, complete illustrative contact details and prices already calculated by the tool. The standalone 3D configurator explicitly has no monthly operating fee. Browser verification covers 1920, 1366, 768, 390 and 320px, full interface bounds, actual card-body clicks, hover, menu, email tabs, streamed replies and preserved drafts. API responses are mocked.
+Hero, hlavička, ornamentová textúra a pôvodné farby chatbota sú obnovené z verzie ee0008f. Realizácie používajú fotografie a skutočné zachytené rozhrania. E-maily zostávajú rovnako široké na desktope, na telefóne sú pod sebou. Zachované sú smooth písanie, bodky, spoj loga, klik celej karty a informácia o 3D konfigurátore bez mesačného poplatku.

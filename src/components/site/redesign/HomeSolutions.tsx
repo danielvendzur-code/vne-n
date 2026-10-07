@@ -2,9 +2,36 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, type MouseEvent, type CSSProperties } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { PergolaVideo } from "./PergolaVideo";
-import { ProductPreview } from "./ProductPreview";
+
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
+
+function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
+  const file =
+    kind === "chatbot"
+      ? "webko-chat-preview"
+      : kind === "calculator"
+        ? "mojplot-calc-preview"
+        : "mojplot-chat-preview";
+  const alt =
+    kind === "chatbot"
+      ? "Skutočný chatbot WEBKO — celé rozhranie v pôvodných farbách"
+      : kind === "calculator"
+        ? "Skutočný výsledok kalkulačky Môj Plot s cenou 892 €"
+        : "Skutočný produktový asistent Môj Plot";
+  return (
+    <div className={s.snapshot} data-real-preview>
+      <img
+        src={sitePath(`/work/solutions/${file}.webp`)}
+        alt={alt}
+        width={1200}
+        height={1440}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  );
+}
 
 const solutions = [
   {
@@ -78,7 +105,7 @@ export function HomeSolutions() {
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading}>
         <h2 id="solutions-title">Riešenia pre váš web</h2>
-        <p>Vyskúšajte si cestu od prvej otázky po konkrétny výber a cenu.</p>
+        <p>Skutočné ukážky nástrojov. Od prvej otázky po konkrétny výber a cenu.</p>
       </header>
       <div ref={root} className={s.panels}>
         {solutions.map(({ title, copy, href, kind }, i) => (
@@ -101,7 +128,7 @@ export function HomeSolutions() {
                 <p>{copy}</p>
               </div>
               <div className={s.preview} data-solution-preview>
-                {kind === "3d" ? <PergolaVideo /> : <ProductPreview kind={kind} />}
+                {kind === "3d" ? <PergolaVideo /> : <RealPreview kind={kind} />}
               </div>
               <span className={s.openLabel}>
                 Pozrieť možnosti <ArrowRight size={17} />

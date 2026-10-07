@@ -3,7 +3,6 @@ import { BrandMark } from "@/components/BrandMark";
 import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
 import { sitePath } from "./utils";
 import s from "./Header.module.css";
-import { BrandOrnament } from "./BrandOrnament";
 
 type HeaderProps = { active?: string; title?: string; copy?: string; tool?: string };
 const links = [
@@ -43,7 +42,7 @@ export function Header({ active = "home" }: HeaderProps) {
   return (
     <nav
       ref={navRef}
-      className={s.nav}
+      className={`${s.nav} mc-brand-texture`}
       aria-label="Hlavná navigácia"
       onBlur={(event) => {
         if (
@@ -64,9 +63,6 @@ export function Header({ active = "home" }: HeaderProps) {
         <BrandMark size={32} tone="paper" className="mc-mark--static" />
         <span>Môj Chatbot</span>
       </a>
-      <div className={s.ornament}>
-        <BrandOrnament />
-      </div>
       <button
         ref={toggleRef}
         className={s.toggle}
