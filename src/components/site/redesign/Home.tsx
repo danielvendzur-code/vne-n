@@ -217,7 +217,7 @@ export class Home extends Component<{
                       className="redesign-case-card"
                       data-reveal
                       style={cssStyle(
-                        `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:0 -24px 48px -32px rgba(12,26,21,.25);height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
+                        `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:none;height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
                       )}
                     >
                       <a
