@@ -41,11 +41,11 @@ export function PergolaVideo() {
         poster={sitePath("/work/solutions/pergola-film-poster.webp")}
         width={800}
         height={600}
-        aria-label="Video pergoly: pohyb lamiel, ZIP rolety, výber farby a LED osvetlenie"
+        aria-label="Video bioklimatickej pergoly: opakovaný pohyb lamiel a ZIP rolety s LED osvetlením"
       >
         <source src={sitePath("/work/solutions/pergola-film.mp4")} type="video/mp4" />
       </video>
-      <span>Lamely · ZIP tienenie · farby · LED</span>
+      <span>Pohyb lamiel · ZIP tienenie · LED</span>
     </div>
   );
 }

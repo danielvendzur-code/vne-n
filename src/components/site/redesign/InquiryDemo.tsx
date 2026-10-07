@@ -30,7 +30,7 @@ const calculation = [
   ["Dĺžka", "20 m"],
   ["Výška", "1,53 m"],
   ["Farba", "Antracit"],
-  ["Orientačná cena", "600 € bez montáže · modelový cenník"],
+  ["Orientačná cena", "892 € vrátane montáže · ukážková zostava"],
   ["Lokalita", "Nitra"],
   ["Požiadavka", "Prosím aj ponuku na montáž a bránku."],
 ];
@@ -127,14 +127,6 @@ export function InquiryDemo() {
                   Martin
                 </p>
               </div>
-              <div className={s.missing}>
-                <span>Ešte potrebujete zistiť</span>
-                <p>
-                  {kind === "config"
-                    ? "Rozmery · farbu · tienenie · výbavu · miesto montáže"
-                    : "Typ plotu · dĺžku · výšku · farbu · montáž"}
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -213,8 +205,8 @@ export function InquiryDemo() {
                     <p className={s.eyebrow}>DOPYT #UKÁŽKA-026</p>
                     <h4>
                       {kind === "config"
-                        ? "Zákazník si už vybral zostavu."
-                        : "Výpočet aj požiadavky v jednej správe."}
+                        ? "Bioklimatická pergola · žiadosť o ponuku"
+                        : "3D panelový plot · žiadosť o ponuku"}
                     </h4>
                     <p>
                       Martin K. žiada o cenovú ponuku. Nižšie nájdete jeho výber a kontaktné údaje.

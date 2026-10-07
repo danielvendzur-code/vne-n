@@ -1,7 +1,7 @@
 .hero.hero {
-  height: calc(100svh - var(--hero-header-height, 76px));
+  height: calc(100dvh - var(--hero-header-height, 76px) + 2px);
   min-height: 500px;
-  max-height: 900px;
+  max-height: none;
   padding-top: clamp(24px, 4vh, 48px);
   display: flex;
   flex-direction: column;
@@ -114,7 +114,7 @@
 }
 @media (max-width: 767px) {
   .hero.hero {
-    height: calc(100lvh - var(--hero-header-height, 64px));
+    height: calc(100dvh - var(--hero-header-height, 64px) + 2px);
     min-height: min(650px, calc(100svh - var(--hero-header-height, 72px)));
     max-height: none;
     padding-top: 28px;
@@ -294,5 +294,41 @@
     50% {
       transform: rotate(var(--case-angle)) translateY(-10px);
     }
+  }
+}
+/* Preserve each capture's proportions; never stretch a website into a fixed crop. */
+.case.case img {
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+/* Two distinct projects leave more of each real capture visible. */
+.case.case:nth-child(1) {
+  top: 8%;
+  transform: rotate(3deg);
+  margin-left: calc(var(--case-width) * -0.42);
+}
+.case.case:nth-child(2) {
+  top: 38%;
+  transform: rotate(-3deg);
+  margin-left: calc(var(--case-width) * -0.66);
+}
+@media (max-width: 767px) {
+  .case.case:nth-child(1) {
+    top: 0;
+    --case-angle: 3deg;
+  }
+  .case.case:nth-child(2) {
+    top: 22%;
+    --case-angle: -3deg;
+    margin-left: calc(var(--case-width) * -0.56);
+  }
+}
+.case.case:is(:hover, :focus-visible) {
+  transform: rotate(0) translateY(-4px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .case.case:is(:hover, :focus-visible) {
+    transform: none;
   }
 }

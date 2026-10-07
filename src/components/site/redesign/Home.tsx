@@ -3,7 +3,7 @@ import { HomeFacts, HomeSolutions, InquiryComparison, HomeFAQ } from "./Homepage
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
-import { ProjectGallery } from "./ProjectGallery";
+import { HowItWorks } from "./HowItWorks";
 
 export class Home extends Component<{
   active?: string;
@@ -162,12 +162,7 @@ export class Home extends Component<{
           <HomeFacts />
           <HomeSolutions />
           <InquiryComparison />
-          <section
-            id={"koverta"}
-            style={cssStyle(`background:var(--mc-ink);color:var(--mc-paper)`)}
-          >
-            <ProjectGallery />
-          </section>
+          <HowItWorks />
           <section
             id={"realizacie"}
             style={cssStyle(
