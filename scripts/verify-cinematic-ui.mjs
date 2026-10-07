@@ -49,10 +49,13 @@ for (const viewport of sizes) {
       "header mark and name must be fully visible",
     );
     await page.screenshot({ path: `${output}/hero-${viewport.width}.png` });
-    const menu = page.getByRole("button", { name: "Otvoriť menu", exact: true });
+    const menu = header.locator('button[aria-controls="site-menu"]');
     await menu.click();
     assert.equal(await menu.getAttribute("aria-expanded"), "true");
-    await page.getByRole("link", { name: /01 Riešenia/ }).waitFor({ state: "visible" });
+    await page
+      .locator("#site-menu")
+      .getByRole("link", { name: /Riešenia/ })
+      .waitFor({ state: "visible" });
     await page.screenshot({ path: `${output}/menu-${viewport.width}.png` });
     await page.keyboard.press("Escape");
     assert.equal(await menu.getAttribute("aria-expanded"), "false");
