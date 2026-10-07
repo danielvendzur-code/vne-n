@@ -118,8 +118,9 @@ jobs:
           grep -Fq "Venaco s.r.o." pages-dist/pravne-informacie/index.html
           grep -Fq "45648107" pages-dist/pravne-informacie/index.html
           grep -Fq "SK2023076407" pages-dist/pravne-informacie/index.html
-          grep -Fq 'viewBox="0 0 112 112"' pages-dist/brand/logo.svg
-          grep -Fq 'stroke="#12372D"' pages-dist/brand/logo.svg
+          grep -Fq 'viewBox="0 0 533 100"' pages-dist/brand/logo.svg
+          grep -Fq 'fill="#1C1612"' pages-dist/brand/logo.svg
+          grep -Fq 'M6 46.5A29 29 0 0 1 64 46.5Z' pages-dist/brand/logo.svg
           ! grep -Fq "Váš web odpovie" pages-dist/index.html
           ! grep -Fq "Webové nástroje, ktoré odovzdajú hotový dopyt" pages-dist/index.html
 
