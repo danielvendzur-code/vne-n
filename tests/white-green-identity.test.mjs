@@ -31,9 +31,9 @@ test("delivered Rozhovor identity uses the exact two filled paths across public 
   const top = Number(motion.match(/translate\(15px, ([0-9.]+)px\)/)?.[1]);
   const bottom = Number(motion.match(/translate\(-15px, (-[0-9.]+)px\)/)?.[1]);
   // Approved paths close at y=46.5 / y=53.5. Their transformed edges must
-  // overlap by less than half a unit, preventing a raster seam at small sizes.
+  // overlap by 1.5–2 units, preventing a raster seam at small sizes and fractional scales.
   const overlap = 46.5 + top - (53.5 + bottom);
-  assert.ok(overlap >= 0 && overlap < 0.5, `Merged logo seam: ${overlap}`);
+  assert.ok(overlap >= 1.5 && overlap <= 2, `Merged logo seam: ${overlap}`);
   assert.match(motion, /scale\(1\.22\)/);
   assert.doesNotMatch(motion, /stroke-dash|blur|filter:/);
 });
@@ -76,7 +76,7 @@ test("chatbot fallback carries the delivered symbol and same-origin versioned wi
   assert.match(loader, /borderRadius:\s*"50%"/);
   assert.match(loader, /background:\s*"#FFFCF7"/);
   assert.doesNotMatch(loader, /requestAnimationFrame|strokeDashoffset/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"product-motion-20261007-v29"/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"cinematic-ui-20261007-v30"/);
   assert.match(loader, /assistant\/widget\.js/);
   assert.match(loader, /pendingOpen/);
   assert.match(loader, /MOUNT_TIMEOUT[\s\S]*scheduleRetry\(\)/);

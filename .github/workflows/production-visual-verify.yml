@@ -50,7 +50,7 @@ jobs:
       - name: Inspect current visual and functional rules
         shell: bash
         run: |
-          node scripts/verify-live-visual.mjs
+          LIVE_SITE_ORIGIN=https://mojchatbot.sk node scripts/verify-cinematic-ui.mjs
 
       - name: Upload visual verification evidence
         if: always()

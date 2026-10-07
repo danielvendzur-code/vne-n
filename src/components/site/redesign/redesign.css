@@ -373,7 +373,7 @@ body:has(.redesign[data-page="home"]) {
   }
   .redesign main .redesign-case-shot {
     display: block !important;
-    aspect-ratio: 16/10;
+    aspect-ratio: auto;
   }
   .redesign main .redesign-case-shot img {
     width: 100% !important;

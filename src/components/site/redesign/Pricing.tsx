@@ -35,7 +35,7 @@ export class Pricing extends Component<{
         {
           name: "3D konfigurátor",
           setup: "podľa rozsahu",
-          monthly: "podľa riešenia",
+          monthly: "bez mesačného poplatku",
           copy: "Interaktívny 3D model s rozmermi, farbami, variantmi, doplnkami a produktovou logikou.",
           href: "/3d-konfigurator",
         },
@@ -69,7 +69,7 @@ export class Pricing extends Component<{
         },
         {
           label: "MESAČNE",
-          copy: "Prevádzka riešenia a bežná technická údržba podľa aktuálne dohodnutých podmienok.",
+          copy: "Chatbot a kalkulačka majú technickú prevádzku podľa dohodnutých podmienok. Samostatný 3D konfigurátor nemá mesačný poplatok za prevádzku.",
         },
         {
           label: "AK TREBA NIEČO NAVYŠE",
@@ -201,7 +201,7 @@ export class Pricing extends Component<{
                   {"10 €"}
                 </span>
               </div>
-              <div style={cssStyle(`font-size:14px`)}>{"mesačne pri štandardných riešeniach"}</div>
+              <div style={cssStyle(`font-size:14px`)}>{"mesačne pri chatbote a kalkulačke"}</div>
             </div>
           </section>
           <section

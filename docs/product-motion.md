@@ -18,7 +18,7 @@ The approved Rozhovor vector paths remain intact. A small solid underlay closes 
 
 The navigation opens as a compact two-column panel with main links, tool shortcuts and the shared builder CTA. It has staggered rows, an animated menu icon, hover surfaces and an exit transition. On mobile it becomes one column. Escape restores focus to the toggle; outside clicks and opening the assistant dismiss it. Closing content is inert.
 
-The assistant bundle is served from this site's origin. Rebuild `moj.chatbot.backend`, then run `node scripts/sync-assistant.mjs ../moj.chatbot.backend/dist`. Both repositories now identify the release as `product-motion-20261007-v29`.
+The assistant bundle is served from this site's origin. Rebuild `moj.chatbot.backend`, then run `node scripts/sync-assistant.mjs ../moj.chatbot.backend/dist`. Both repositories now identify the release as `cinematic-ui-20261007-v30`.
 
 Validation: 48 web contract tests; TypeScript and targeted ESLint; production builds; 14 backend regressions and 14 desktop/mobile Playwright checks. Browser checks cover 1366 × 768 desktop and 390/320px mobile layouts, all six scroll-driven choices, video playback and pause, equally sized mail windows, static menu marks, 122% launcher growth, unchanged projected pergola corners through louver changes, and stable chip dimensions. Chat and lead responses in browser tests are mocked.
 
@@ -35,3 +35,11 @@ Gmail comparison uses matched restrained windows and simpler email content. On 3
 Chatbot v29 reveals introductory messages with punctuation and a pause between them. Reply chunks are queued into one existing bubble, with a quiet cursor, paragraph spacing and safely rendered bold emphasis. Completion does not replay the old bubble scale/slide. A draft cannot be cleared by Enter while a reply is still streaming. Abort and reset clean up the reveal; authoritative trimmed final replies cannot leave the queue waiting indefinitely. Reduced motion displays replies directly. Selection and form behaviour are preserved.
 
 Verification: 48 web contract tests, 14 backend regressions, 15 Playwright widget checks, TypeScript, targeted ESLint and both production builds. Focused browser checks cover hero fill and visible CTA at 1366×768, 1920×1080, 390×844 and 320×640; equal Gmail windows at all widths; gradual formatted replies and a successful subsequent question; and unchanged 3D projection through louver/ZIP changes. All chat/lead test responses are mocked.
+
+## Cinematic UI v30
+
+The hero and solution/detail previews use native HTML interface demonstrations rather than scaled screenshots. WEBKO keeps its blue/black palette and Môj Plot its green palette. The full solution card is a semantic link and starts a router view transition, linking the card surface and preview to the detail page. Hover lifts the preview and reveals the demonstration reply. No demonstration sends a lead or message. The existing pergola film is retained.
+
+Header and footer now contain contained vector ornaments. The mark keeps its approved paths, with 1.8 units of overlap in the joined state and a wider seam underlay. The widget unfolds over 780ms with staged header/content; closing takes 360ms. Replies reveal on animation frames with adaptive pacing, punctuation pauses and complete emoji pairs. Three animated dots accompany waiting and writing. Composer drafts remain protected during a reply. The widget uses a dark espresso header, white assistant bubbles, pale sand user bubbles and a restrained composer.
+
+The email comparison uses larger type, matched side-by-side windows on mobile, complete illustrative contact details and prices already calculated by the tool. The standalone 3D configurator explicitly has no monthly operating fee. Browser verification covers 1920, 1366, 768, 390 and 320px, full interface bounds, actual card-body clicks, hover, menu, email tabs, streamed replies and preserved drafts. API responses are mocked.

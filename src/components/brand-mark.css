@@ -13,10 +13,10 @@
   transition: opacity 60ms;
 }
 .cw-launcher:is(:hover, :focus-visible, [aria-expanded="true"]) .mc-half--top {
-  transform: translate(15px, 3.6px);
+  transform: translate(15px, 4.4px);
 }
 .cw-launcher:is(:hover, :focus-visible, [aria-expanded="true"]) .mc-half--bottom {
-  transform: translate(-15px, -3.6px);
+  transform: translate(-15px, -4.4px);
 }
 .cw-launcher:is(:hover, :focus-visible) .mc-mark {
   transform: scale(1.22);
@@ -43,7 +43,7 @@
   }
   40%,
   60% {
-    transform: translate(15px, 3.6px);
+    transform: translate(15px, 4.4px);
   }
 }
 @keyframes mc-type-bottom {
@@ -55,7 +55,7 @@
   }
   40%,
   60% {
-    transform: translate(-15px, -3.6px);
+    transform: translate(-15px, -4.4px);
   }
 }
 @keyframes mc-type-join {

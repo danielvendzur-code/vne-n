@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
 import { realizations } from "@/data/realizations";
+import { ProjectPreview } from "./ProjectPreview";
 
 export class Work extends Component<{
   active?: string;
@@ -96,14 +97,7 @@ export class Work extends Component<{
                     rel={"noreferrer"}
                     style={cssStyle(`display:block`)}
                   >
-                    <img
-                      src={sitePath(w.img)}
-                      alt={w.name}
-                      style={cssStyle(
-                        `width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block`,
-                      )}
-                      loading="eager"
-                    />
+                    <ProjectPreview name={w.name} />
                   </a>
                   <div
                     style={cssStyle(

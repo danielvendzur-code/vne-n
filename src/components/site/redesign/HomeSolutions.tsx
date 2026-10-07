@@ -1,88 +1,44 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type MouseEvent, type CSSProperties } from "react";
+import { useRouter } from "@tanstack/react-router";
 import { PergolaVideo } from "./PergolaVideo";
+import { ProductPreview } from "./ProductPreview";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
-function NativePreview({ mode }: { mode: "chat" | "calc" }) {
-  return (
-    <div className={s.snapshot}>
-      <img
-        src={sitePath(
-          mode === "chat"
-            ? "/work/solutions/webko-chat-preview.webp"
-            : "/work/solutions/mojplot-calc-preview.webp",
-        )}
-        alt={
-          mode === "chat"
-            ? "Skutočný chatbot WEBKO s úvodným rozhovorom"
-            : "Kalkulačka MôjPlot s vypočítanou cenou a rozpisom zostavy, bez odoslania dopytu"
-        }
-        width={400}
-        height={480}
-        loading="lazy"
-      />
-    </div>
-  );
-}
-const ChatPreview = () => <NativePreview mode="chat" />;
-const CalculatorPreview = () => <NativePreview mode="calc" />;
-function AdvisorPreview() {
-  return (
-    <div className={s.advisor}>
-      <img
-        src={sitePath("/work/solutions/skincare-photo.webp")}
-        alt="Neznačková starostlivosť o pleť"
-        width={900}
-        height={600}
-        loading="lazy"
-      />
-      <div className={s.advice}>
-        <span>Čo potrebuje vaša pleť?</span>
-        <div className={s.segment}>
-          <span data-selected="true">Suchá</span>
-          <span>Citlivá</span>
-          <span>Mastná</span>
-        </div>
-        <p className={s.previewRecommendation}>
-          Hydratácia podľa vašej pleti.
-          <br />
-          <small>Poradca vysvetlí, prečo odporúča konkrétny produkt.</small>
-        </p>
-      </div>
-    </div>
-  );
-}
+
 const solutions = [
   {
     title: "3D konfigurátor",
-    copy: "Zákazník vidí farbu, otočné lamely aj ZIP tienenie na svojej zostave.",
+    copy: "Zákazník vidí rozmery, farbu aj výbavu na svojej zostave.",
     href: "/3d-konfigurator",
-    demo: PergolaVideo,
+    kind: "3d",
   },
   {
     title: "Chatbot",
-    copy: "Zodpovie otázku, pochopí potrebu a prevedie zákazníka k ďalšiemu kroku.",
+    copy: "Odpovie na otázku, poradí s výberom a ukáže cenu podľa vášho cenníka.",
     href: "/nastroj?t=chatbot",
-    demo: ChatPreview,
+    kind: "chatbot",
   },
   {
     title: "Kalkulačka",
-    copy: "Rozmery a možnosti premení na cenu podľa vášho cenníka. Bez ručného počítania.",
+    copy: "Rozmery a možnosti premení na konkrétnu cenu. Bez ručného počítania.",
     href: "/nastroj?t=kalkulacka",
-    demo: CalculatorPreview,
+    kind: "calculator",
   },
   {
     title: "Poradca",
-    copy: "Pomôže s výberom z vášho katalógu. Vysvetlí odporúčanie a zjednoduší rozhodovanie.",
+    copy: "Vyberie vhodný produkt z vášho katalógu a vysvetlí svoje odporúčanie.",
     href: "/nastroj?t=poradca",
-    demo: AdvisorPreview,
+    kind: "advisor",
   },
-];
+] as const;
+
 export function HomeSolutions() {
   const root = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   useEffect(() => {
     const cards = root.current?.querySelectorAll<HTMLElement>("[data-solution-card]");
-    if (!cards) return;
+    if (!cards || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(({ target, isIntersecting }) => {
@@ -92,7 +48,7 @@ export function HomeSolutions() {
           }
         });
       },
-      { threshold: 0.12 },
+      { threshold: 0.08 },
     );
     cards.forEach((card) => {
       card.dataset.reveal = "pending";
@@ -100,36 +56,65 @@ export function HomeSolutions() {
     });
     return () => observer.disconnect();
   }, []);
+  const open = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      return;
+    event.preventDefault();
+    const card = event.currentTarget.closest<HTMLElement>("[data-solution-card]");
+    const preview = card?.querySelector<HTMLElement>("[data-solution-preview]");
+    const motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (card && motion) card.style.viewTransitionName = "solution-surface";
+    if (preview && motion) preview.style.viewTransitionName = "solution-image";
+    document.documentElement.dataset.solutionOpening = "true";
+    void router
+      .navigate({ href: sitePath(href), viewTransition: motion, resetScroll: true })
+      .finally(() => {
+        if (card) card.style.viewTransitionName = "";
+        if (preview) preview.style.viewTransitionName = "";
+        delete document.documentElement.dataset.solutionOpening;
+      });
+  };
   return (
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading}>
         <h2 id="solutions-title">Riešenia pre váš web</h2>
-        <p>Ukážky nástrojov pre váš web. Od prvej otázky po výber produktu a pripravený dopyt.</p>
+        <p>Vyskúšajte si cestu od prvej otázky po konkrétny výber a cenu.</p>
       </header>
       <div ref={root} className={s.panels}>
-        {solutions.map(({ title, copy, href, demo: Demo }, i) => (
-          <article className={s.panel} key={title} data-solution-card={i}>
-            <div className={s.panelBody}>
-              <span className={s.number}>0{i + 1}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-              <a href={sitePath(href)} aria-label={`Pozrieť riešenie: ${title}`}>
-                <ArrowUpRight size={20} />
-              </a>
-            </div>
-            <div className={s.preview}>
-              <Demo />
-            </div>
+        {solutions.map(({ title, copy, href, kind }, i) => (
+          <article
+            className={s.panel}
+            key={title}
+            data-solution-card={i}
+            style={{ "--card-delay": `${i * 110}ms` } as CSSProperties}
+          >
+            <a
+              className={s.panelLink}
+              href={sitePath(href)}
+              onClick={(e) => open(e, href)}
+              aria-label={`Pozrieť riešenie: ${title}`}
+            >
+              <div className={s.panelBody}>
+                <span className={s.number}>0{i + 1}</span>
+                <h3>{title}</h3>
+                <ArrowUpRight size={24} className={s.arrow} />
+                <p>{copy}</p>
+              </div>
+              <div className={s.preview} data-solution-preview>
+                {kind === "3d" ? <PergolaVideo /> : <ProductPreview kind={kind} />}
+              </div>
+              <span className={s.openLabel}>
+                Pozrieť možnosti <ArrowRight size={17} />
+              </span>
+            </a>
           </article>
         ))}
       </div>
-      <p className={s.scope}>
-        Ukážky predstavujú len časť možností. Kompletný 3D konfigurátor pridáva výber modelu,
-        rozmery, materiály, výbavu aj odoslanie konkrétnej zostavy.
-      </p>
       <div className={s.connection}>
-        <h3>Samostatne alebo spolu.</h3>
-        <p>Jeden nástroj alebo premyslené prepojenie.</p>
+        <div>
+          <h3>Samostatne alebo spolu.</h3>
+          <p>Jeden nástroj alebo premyslené prepojenie.</p>
+        </div>
         <button
           className="mc-btn"
           type="button"
