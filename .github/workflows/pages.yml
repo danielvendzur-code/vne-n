@@ -197,7 +197,7 @@ jobs:
           fetch_with_retry "/ochrana-udajov/" "Venaco s.r.o."
           fetch_with_retry "/robots.txt" "Sitemap: https://mojchatbot.sk/sitemap.xml"
           fetch_with_retry "/sitemap.xml" "https://mojchatbot.sk/sluzby"
-          fetch_with_retry "/brand/logo.svg" "stroke=\"#12372D\""
+          fetch_with_retry "/brand/logo.svg" "fill=\"#1C1612\""
           fetch_with_retry "/widget-loader.js" "cinematic-ui-20261007-v30"
           fetch_with_retry "/build-meta.json" "$SOURCE_SHA"
           echo "live_smoke=success"
