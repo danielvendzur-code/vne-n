@@ -40,6 +40,47 @@
   --pv-accent: #5b3a26;
   --pv-tint: #e8dfd4;
 }
+.frame[data-theme="derat"] {
+  --pv-bg: #f7fbfa;
+  --pv-surface: #fff;
+  --pv-line: #2b726d24;
+  --pv-text: #243c39;
+  --pv-muted: #587773;
+  --pv-accent: #ff823e;
+  --pv-tint: #e3f2ef;
+}
+.frame[data-theme="derat"] .head {
+  background: #ff823e;
+  color: #fff;
+}
+.frame[data-theme="derat"] .head small,
+.frame[data-theme="derat"] .close {
+  color: #fff;
+}
+.frame[data-theme="derat"] .avatar {
+  background: #2b726d;
+}
+.frame[data-theme="koverta"] {
+  --pv-bg: #f9fbfa;
+  --pv-surface: #fff;
+  --pv-line: #3e586324;
+  --pv-text: #30423d;
+  --pv-muted: #66776f;
+  --pv-accent: #dec300;
+  --pv-tint: #fffbd7;
+}
+.frame[data-theme="koverta"] .head {
+  background: #3e5863;
+  color: #fff;
+}
+.frame[data-theme="koverta"] .head small,
+.frame[data-theme="koverta"] .close {
+  color: #eaf2ed;
+}
+.frame[data-theme="koverta"] .avatar,
+.frame[data-theme="koverta"] .composer svg {
+  color: #30423d;
+}
 .head {
   display: flex;
   align-items: center;

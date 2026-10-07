@@ -93,7 +93,7 @@ for (const viewport of sizes) {
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
     assert.ok((await mail.innerText()).includes("+421 900 123 456"));
-    const windows = await mail.locator('[class*="gmail_"]').evaluateAll((els) =>
+    const windows = await mail.locator("[data-mail-preview]").evaluateAll((els) =>
       els.map((el) => ({
         w: el.getBoundingClientRect().width,
         h: el.getBoundingClientRect().height,
@@ -107,6 +107,14 @@ for (const viewport of sizes) {
     await page.screenshot({ path: `${output}/mail-${viewport.width}.png` });
     await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).click();
     assert.ok((await mail.innerText()).includes("892 €"));
+    for (const preview of await page.locator("[data-case-preview] [data-product-preview]").all()) {
+      assert.ok(
+        await preview.evaluate(
+          (el) => el.scrollHeight <= el.clientHeight + 2 && el.scrollWidth <= el.clientWidth + 2,
+        ),
+        "case studies show the complete interface",
+      );
+    }
     await cards
       .nth(1)
       .getByRole("link")
@@ -114,6 +122,14 @@ for (const viewport of sizes) {
     await page.waitForURL(/nastroj\?t=chatbot/);
     await page.waitForTimeout(1250);
     assert.equal(await page.locator(".solution-detail__native [data-product-preview]").count(), 1);
+    assert.ok(
+      await page
+        .locator(".solution-detail__native [data-product-preview]")
+        .evaluate(
+          (el) => el.scrollHeight <= el.clientHeight + 2 && el.scrollWidth <= el.clientWidth + 2,
+        ),
+      "detail preview must be complete",
+    );
     assert.equal(await page.locator('img[src*="chatbot-aplan"]').count(), 0);
     await page.screenshot({ path: `${output}/chatbot-detail-${viewport.width}.png` });
     await page.getByTestId("widget-launcher").click();

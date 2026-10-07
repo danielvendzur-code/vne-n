@@ -21,7 +21,17 @@ export function ProductPreview({
       className={s.frame}
       data-product-preview={kind}
       data-compact={compact || undefined}
-      data-theme={green ? "green" : advisor ? "paper" : "blue"}
+      data-theme={
+        green
+          ? "green"
+          : advisor
+            ? "paper"
+            : client === "DERAT"
+              ? "derat"
+              : client === "Koverta"
+                ? "koverta"
+                : "blue"
+      }
     >
       <div className={s.head}>
         <span className={s.avatar}>
@@ -122,7 +132,12 @@ export function ProductPreview({
                           ? "derat.sk"
                           : "koverta.sk"}
                   </strong>
-                  . Pomôžem vám s výberom, cenou aj ďalším krokom.
+                  .{" "}
+                  {client === "DERAT"
+                    ? "Najrýchlejší odhad ceny získate v kalkulačke. Pomôžem vám vybrať službu."
+                    : client === "Koverta"
+                      ? "Pomôžem vám s výberom prístrešku, pergoly a doplnkov."
+                      : "Pomôžem vám s výberom, cenou aj ďalším krokom."}
                 </>
               )}
             </p>

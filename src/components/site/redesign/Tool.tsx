@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
 import { ProductPreview } from "./ProductPreview";
+import { ProjectPreview } from "./ProjectPreview";
 
 export class Tool extends Component<{
   active?: string;
@@ -620,14 +621,7 @@ export class Tool extends Component<{
               )}
               className="ref-hover-13"
             >
-              <img
-                src={sitePath(t.exImg)}
-                alt={t.exName}
-                style={cssStyle(
-                  `width:100%;height:100%;min-height:280px;max-height:380px;object-fit:cover;object-position:top;display:block`,
-                )}
-                loading="lazy"
-              />
+              <ProjectPreview name={t.exName} />
               <div
                 style={cssStyle(
                   `padding:36px;display:flex;flex-direction:column;justify-content:center;gap:14px`,

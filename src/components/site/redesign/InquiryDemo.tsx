@@ -85,7 +85,7 @@ export function InquiryDemo() {
       <div className={s.comparison}>
         <div className={s.before}>
           <span className={s.comparisonLabel}>BEŽNÁ OTÁZKA</span>
-          <div className={s.gmail}>
+          <div className={s.gmail} data-mail-preview>
             <div className={s.topbar}>
               <div className={s.gmailLogo}>
                 <GmailMark />
@@ -133,7 +133,7 @@ export function InquiryDemo() {
         </div>
         <div className={s.after}>
           <span className={s.comparisonLabel}>HOTOVÝ VÝBER AJ CENA</span>
-          <div className={s.gmail}>
+          <div className={s.gmail} data-mail-preview>
             <div className={s.topbar}>
               <Menu size={18} />
               <div className={s.gmailLogo}>
