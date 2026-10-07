@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
-import { ProductPreview } from "./ProductPreview";
-import { ProjectPreview } from "./ProjectPreview";
 
 export class Tool extends Component<{
   active?: string;
@@ -79,7 +77,7 @@ export class Tool extends Component<{
         lead: "Odpovedá z vašich podkladov, zistí, čo zákazník potrebuje, a pošle vám kontakt so zhrnutím.",
         img: P + "solutions/webko-chat-preview.webp",
         imgW: "46%",
-        caption: "WEBKO · AI ASISTENT",
+        caption: "WEBKO · SKUTOČNÝ CHATBOT",
         steps: steps([
           [
             "OTÁZKA",
@@ -135,9 +133,9 @@ export class Tool extends Component<{
         accent: "ktorá počíta za vás.",
         price: "447 €",
         lead: "Z rozmerov, množstva či doplnkov spočíta orientačnú cenu podľa vášho cenníka. Zákazník vie, s čím počítať — vy dostanete hotové zadanie.",
-        img: P + "solutions/kalkulacka-derat.webp",
+        img: P + "solutions/mojplot-calc-preview.webp",
         imgW: "62%",
-        caption: "DERAT · KALKULAČKA ZÁSAHU",
+        caption: "MÔJ PLOT · VYPOČÍTANÁ CENA",
         steps: steps([
           [
             "ZAČIATOK",
@@ -192,9 +190,9 @@ export class Tool extends Component<{
         accent: "ktorý vyberie za zákazníka.",
         price: "347 €",
         lead: "Pár jednoduchých otázok a zákazník dostane konkrétny produkt z vašej ponuky — bez toho, aby musel poznať celý katalóg.",
-        img: P + "solutions/skincare-photo.webp",
+        img: P + "solutions/mojplot-chat-preview.webp",
         imgW: "46%",
-        caption: "STAROSTLIVOSŤ O PLEŤ · PORADCA",
+        caption: "MÔJ PLOT · PRODUKTOVÝ ASISTENT",
         steps: steps([
           [
             "OTÁZKY",
@@ -205,8 +203,8 @@ export class Tool extends Component<{
           [
             "PREFERENCIE",
             "Poradca pochopí, čo mu vyhovuje.",
-            "Typ pleti, rutina, preferencie alebo rozpočet.",
-            "Typ pleti / preferencie / rozpočet",
+            "Použitie, rozmery, preferencie alebo rozpočet.",
+            "Použitie / preferencie / rozpočet",
           ],
           [
             "ODPORÚČANIE",
@@ -233,10 +231,10 @@ export class Tool extends Component<{
           "payment",
           "jazyky",
         ]),
-        exName: "Môj Chatbot",
-        exDomain: "vyskúšať ukážku",
-        exHref: "https://danielvendzur-code.github.io/moj.chatbot.backend/",
-        exImg: P + "solutions/skincare-photo.webp",
+        exName: "Môj Plot",
+        exDomain: "mojplot.sk",
+        exHref: "https://mojplot.sk/",
+        exImg: P + "solutions/mojplot-chat-preview.webp",
         exCopy:
           "Vyskúšajte si, ako vyzerá riadený výber v praxi. Poradca sa dá napojiť na váš e-shop a produkty.",
       },
@@ -385,17 +383,30 @@ export class Tool extends Component<{
                   `background:var(--mc-ink);border-radius:32px;height:clamp(380px,62vh,540px);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center`,
                 )}
               >
-                <div className="solution-detail__image solution-detail__native">
-                  <ProductPreview
-                    kind={
-                      this.state.t === "kalkulacka"
-                        ? "calculator"
-                        : this.state.t === "poradca"
-                          ? "advisor"
-                          : "chatbot"
-                    }
-                  />
+                <div
+                  style={cssStyle(
+                    `position:absolute;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.7)`,
+                  )}
+                >
+                  <span style={cssStyle(`display:flex;align-items:center;gap:8px`)}>
+                    <span
+                      style={cssStyle(
+                        `width:7px;height:7px;border-radius:50%;background:var(--mc-accent)`,
+                      )}
+                    ></span>
+                    {"ŽIVÁ UKÁŽKA"}
+                  </span>
+                  <span>{t.caption}</span>
                 </div>
+                <img
+                  className="solution-detail__image"
+                  src={sitePath(t.img)}
+                  alt={t.caption}
+                  style={cssStyle(
+                    `width:${t.imgW};max-height:84%;object-fit:cover;object-position:top;border-radius:20px 20px 0 0;display:block`,
+                  )}
+                  loading="eager"
+                />
               </div>
             </div>
           </section>
@@ -621,7 +632,12 @@ export class Tool extends Component<{
               )}
               className="ref-hover-13"
             >
-              <ProjectPreview name={t.exName} />
+              <img
+                src={sitePath(t.exImg)}
+                alt={t.exName}
+                style={cssStyle(`width:100%;height:auto;object-fit:contain;display:block`)}
+                loading="lazy"
+              />
               <div
                 style={cssStyle(
                   `padding:36px;display:flex;flex-direction:column;justify-content:center;gap:14px`,

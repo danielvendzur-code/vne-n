@@ -19,7 +19,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "cinematic-ui-20261007-v30";
+  const WIDGET_RELEASE = "original-ui-repair-20261007-v31";
 
   let settled = false;
   let loading = false;

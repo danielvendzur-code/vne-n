@@ -32,6 +32,13 @@ for (const viewport of sizes) {
   try {
     await page.goto(origin, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".analytics-consent") ||
+        document.documentElement.dataset.analyticsConsent,
+      null,
+      { timeout: 10000 },
+    );
     const refuse = page.getByRole("button", { name: "Odmietnuť analytiku", exact: true });
     if (await refuse.isVisible()) await refuse.click();
     await page.waitForTimeout(1800);
@@ -65,76 +72,104 @@ for (const viewport of sizes) {
       await card.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1350);
       assert.equal(await card.getByRole("link").count(), 1, "whole card uses one link");
-      const frame = card.locator("[data-product-preview]");
-      if (await frame.count()) {
-        const fits = await frame.evaluate((el) => ({
-          w: el.scrollWidth <= el.clientWidth + 2,
-          h: el.scrollHeight <= el.clientHeight + 2,
-          size: [el.clientWidth, el.clientHeight, el.scrollWidth, el.scrollHeight],
+      const title = await card.locator("h3").boundingBox();
+      const frameBounds = await card.boundingBox();
+      assert.ok(
+        title.y >= frameBounds.y + 8 &&
+          title.y + title.height <= frameBounds.y + frameBounds.height - 8,
+        "solution title must be fully visible",
+      );
+      const capture = card.locator("[data-real-preview] img");
+      if (await capture.count()) {
+        assert.ok(
+          await capture.evaluate((img) => img.complete && img.naturalWidth > 0),
+          "real capture must load",
+        );
+        const shape = await capture.evaluate((img) => ({
+          shown: img.clientWidth / img.clientHeight,
+          source: img.naturalWidth / img.naturalHeight,
+          fit: getComputedStyle(img).objectFit,
         }));
         assert.ok(
-          fits.w && fits.h,
-          `complete native interface must fit at ${viewport.width}: ${JSON.stringify(fits)}`,
+          Math.abs(shape.shown - shape.source) < 0.02 && shape.fit === "contain",
+          "real captures preserve their full proportions",
         );
-        assert.ok(await frame.locator("div").last().isVisible());
       }
     }
     await cards.nth(1).scrollIntoViewIfNeeded();
     if (viewport.width >= 768) {
-      const preview = cards.nth(1).locator("[data-product-preview]");
+      const preview = cards.nth(1).locator("[data-real-preview]");
       const before = await preview.boundingBox();
       await cards.nth(1).hover();
       await page.waitForTimeout(900);
       const after = await preview.boundingBox();
       assert.ok(after.y < before.y - 3, "hover must move the product preview");
     }
-    await page.screenshot({ path: `${output}/solutions-${viewport.width}.png` });
+    await page
+      .locator("#riesenia")
+      .screenshot({ path: `${output}/solutions-${viewport.width}.png` });
     await page.locator("#pred-a-po").scrollIntoViewIfNeeded();
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
     assert.ok((await mail.innerText()).includes("+421 900 123 456"));
     const windows = await mail.locator("[data-mail-preview]").evaluateAll((els) =>
-      els.map((el) => ({
-        w: el.getBoundingClientRect().width,
-        h: el.getBoundingClientRect().height,
-      })),
+      els.map((el) => {
+        const b = el.getBoundingClientRect();
+        return { w: b.width, h: b.height, x: b.x, y: b.y, bottom: b.bottom };
+      }),
     );
     assert.equal(windows.length, 2);
-    assert.ok(
-      Math.abs(windows[0].w - windows[1].w) < 2 && Math.abs(windows[0].h - windows[1].h) < 2,
-      "email windows must match",
-    );
-    await page.screenshot({ path: `${output}/mail-${viewport.width}.png` });
+    if (viewport.width > 700)
+      assert.ok(
+        Math.abs(windows[0].w - windows[1].w) < 2 && Math.abs(windows[0].h - windows[1].h) < 2,
+        "desktop email windows must match",
+      );
+    else
+      assert.ok(
+        windows[1].y > windows[0].bottom && windows[1].w > viewport.width - 70,
+        "phone email previews stack at readable width",
+      );
+    await mail.screenshot({ path: `${output}/mail-${viewport.width}.png` });
     await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).click();
     assert.ok((await mail.innerText()).includes("892 €"));
-    for (const preview of await page.locator("[data-case-preview] [data-product-preview]").all()) {
-      assert.ok(
-        await preview.evaluate(
-          (el) => el.scrollHeight <= el.clientHeight + 2 && el.scrollWidth <= el.clientWidth + 2,
-        ),
-        "case studies show the complete interface",
-      );
+    const cases = page.locator(".redesign-case-shot img");
+    assert.equal(await cases.count(), 5, "all project cards show actual photographs/captures");
+    for (const shot of await cases.all()) {
+      await shot.scrollIntoViewIfNeeded();
+      assert.ok(await shot.evaluate((img) => img.complete && img.naturalWidth > 0));
     }
     await cards
       .nth(1)
       .getByRole("link")
-      .click({ position: { x: 80, y: 220 } });
+      .click({ position: { x: 80, y: 100 } });
     await page.waitForURL(/nastroj\?t=chatbot/);
     await page.waitForTimeout(1250);
-    assert.equal(await page.locator(".solution-detail__native [data-product-preview]").count(), 1);
+    const detail = page.locator(".solution-detail__image");
+    assert.equal(await detail.count(), 1);
+    assert.ok((await detail.getAttribute("src")).includes("webko-chat-preview"));
+    const detailShape = await detail.evaluate((img) => ({
+      shown: img.clientWidth / img.clientHeight,
+      source: img.naturalWidth / img.naturalHeight,
+    }));
     assert.ok(
-      await page
-        .locator(".solution-detail__native [data-product-preview]")
-        .evaluate(
-          (el) => el.scrollHeight <= el.clientHeight + 2 && el.scrollWidth <= el.clientWidth + 2,
-        ),
-      "detail preview must be complete",
+      Math.abs(detailShape.shown - detailShape.source) < 0.02,
+      "detail shows whole real widget",
     );
     assert.equal(await page.locator('img[src*="chatbot-aplan"]').count(), 0);
     await page.screenshot({ path: `${output}/chatbot-detail-${viewport.width}.png` });
     await page.getByTestId("widget-launcher").click();
     await page.waitForTimeout(1100);
     assert.ok(await page.getByTestId("assistant-view").isVisible());
+    const bounds = await page.locator(".cw-panel").boundingBox();
+    assert.ok(
+      bounds.x >= 0 &&
+        bounds.y >= 0 &&
+        bounds.x + bounds.width <= viewport.width + 1 &&
+        bounds.y + bounds.height <= viewport.height + 1,
+      "widget must fit visible phone and desktop viewport",
+    );
+    assert.equal(await page.locator(".cw-message-row--me .cw-message-wrap p").count(), 0);
+
     assert.equal(await page.locator(".cw-writing-dots i").count(), 3);
     const input = page.getByPlaceholder("Napíšte otázku…");
     await input.fill("Ako mi pomôže kalkulačka?");
@@ -165,6 +200,20 @@ for (const viewport of sizes) {
     );
     assert.equal(await page.locator(".cw-writing-dots").count(), 0);
     await page.screenshot({ path: `${output}/widget-${viewport.width}.png` });
+    if (viewport.width < 768) {
+      await input.focus();
+      await page.setViewportSize({ width: viewport.width, height: 430 });
+      await page.waitForTimeout(300);
+      const composer = await input.boundingBox();
+      const panel = await page.locator(".cw-panel").boundingBox();
+      assert.ok(
+        panel.y >= 0 && panel.y + panel.height <= 431 && composer.y + composer.height <= 430,
+        "composer stays visible at keyboard-height viewport",
+      );
+      assert.equal(await input.evaluate((el) => getComputedStyle(el).fontSize), "16px");
+      await page.setViewportSize(viewport);
+    }
+
     await page.getByTestId("widget-close").click();
     await page.waitForTimeout(400);
     assert.equal(await page.locator(".cw-panel").isVisible(), false);

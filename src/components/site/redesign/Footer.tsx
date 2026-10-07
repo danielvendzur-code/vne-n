@@ -2,7 +2,6 @@ import { BrandMark } from "@/components/BrandMark";
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { openAnalyticsPreferences } from "@/lib/analytics-consent";
-import { BrandOrnament } from "./BrandOrnament";
 
 export class Footer extends Component<{
   active?: string;
@@ -33,7 +32,6 @@ export class Footer extends Component<{
             `background-color:var(--mc-ink);color:var(--mc-paper);padding:24px;font-family:'Geist',system-ui,sans-serif`,
           )}
         >
-          <BrandOrnament large />
           <div
             data-reveal
             style={cssStyle(
