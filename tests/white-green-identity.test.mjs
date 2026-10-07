@@ -76,7 +76,7 @@ test("chatbot fallback carries the delivered symbol and same-origin versioned wi
   assert.match(loader, /borderRadius:\s*"50%"/);
   assert.match(loader, /background:\s*"#FFFCF7"/);
   assert.doesNotMatch(loader, /requestAnimationFrame|strokeDashoffset/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"koverta-motion-20261007-v32"/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"compact-ui-fixes-20261007-v33"/);
   assert.match(loader, /assistant\/widget\.js/);
   assert.match(loader, /pendingOpen/);
   assert.match(loader, /MOUNT_TIMEOUT[\s\S]*scheduleRetry\(\)/);

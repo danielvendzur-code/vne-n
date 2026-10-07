@@ -101,12 +101,45 @@ for (const viewport of sizes) {
     assert.equal(await menu.getAttribute("aria-expanded"), "false");
     const cards = page.locator("[data-solution-card]");
     assert.equal(await cards.count(), 4);
+    if (viewport.width >= 1101) {
+      const rects = await cards.evaluateAll((es) =>
+        es.map((e) => {
+          const r = e.getBoundingClientRect();
+          return { x: r.x, y: r.y, w: r.width, h: r.height };
+        }),
+      );
+      assert.ok(
+        rects.every((r) => r.w < 330 && r.h <= 570),
+        "desktop product cards stay compact",
+      );
+      for (let i = 1; i < rects.length; i++) {
+        assert.ok(
+          rects[i].x > rects[i - 1].x + rects[i - 1].w,
+          "all four desktop products stay in one row",
+        );
+        assert.ok(
+          rects[i].y > rects[i - 1].y && rects[i].y - rects[0].y < 50,
+          "configurator leads the staggered composition",
+        );
+      }
+    }
+    assert.equal(
+      await page
+        .getByRole("link", { name: "Ako pripravíme riešenie pre váš web", exact: true })
+        .count(),
+      0,
+    );
     for (const card of await cards.all()) {
       await card.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1350);
       assert.equal(await card.getByRole("link").count(), 1, "whole card uses one link");
       const title = await card.locator("h3").boundingBox();
       const frameBounds = await card.boundingBox();
+      const arrowBounds = await card.locator("svg").first().boundingBox();
+      assert.ok(
+        title.y >= arrowBounds.y + arrowBounds.height + 3,
+        "vertical title never overlaps its opening arrow",
+      );
       assert.ok(
         title.y >= frameBounds.y + 8 &&
           title.y + title.height <= frameBounds.y + frameBounds.height - 8,
@@ -152,6 +185,30 @@ for (const viewport of sizes) {
       }),
     );
     assert.equal(windows.length, 2);
+    assert.ok(
+      windows.every((w) => w.h <= 540),
+      "email windows cannot stretch with the full message",
+    );
+    const scrollMail = mail.getByRole("region").last();
+    assert.equal(
+      await scrollMail.getAttribute("tabindex"),
+      "0",
+      "email contents remain keyboard accessible",
+    );
+    assert.ok(
+      await scrollMail.evaluate((e) => e.scrollHeight > e.clientHeight),
+      "long email stays inside a scrollable preview",
+    );
+    await scrollMail.focus();
+    await page.keyboard.press("End");
+    await page.waitForTimeout(250);
+    assert.ok(
+      await scrollMail.evaluate((e) => e.scrollTop > 0),
+      "keyboard reaches the complete quote",
+    );
+    await page.keyboard.press("Home");
+    await page.waitForTimeout(400);
+    await mail.getByRole("button", { name: "Z konfigurátora", exact: true }).focus();
     if (viewport.width > 700)
       assert.ok(
         Math.abs(windows[0].w - windows[1].w) < 2 && Math.abs(windows[0].h - windows[1].h) < 2,
@@ -171,6 +228,30 @@ for (const viewport of sizes) {
       await shot.scrollIntoViewIfNeeded();
       await shot.evaluate((img) => img.decode());
       assert.ok(await shot.evaluate((img) => img.complete && img.naturalWidth > 0));
+    }
+    const stack = page.locator(".redesign-case-item");
+    if (await stack.first().evaluate((e) => getComputedStyle(e).position === "sticky")) {
+      await stack.last().scrollIntoViewIfNeeded();
+      await page.evaluate(() => {
+        const last = document.querySelector(".redesign-case-item:last-child");
+        window.scrollTo(0, scrollY + last.getBoundingClientRect().top - 100);
+      });
+      await page.waitForTimeout(1000);
+      const geometry = await stack.evaluateAll((es) =>
+        es.map((e) => ({
+          top: e.getBoundingClientRect().top,
+          z: Number(getComputedStyle(e).zIndex),
+        })),
+      );
+      assert.ok(
+        geometry.every((g) => Math.abs(g.top - geometry.at(-1).top) < 2),
+        "covered projects have no exposed staggered outlines",
+      );
+      assert.ok(
+        geometry.every((g, i) => !i || g.z > geometry[i - 1].z),
+        "new project covers the older cards",
+      );
+      await page.screenshot({ path: `${output}/cases-${viewport.width}.png` });
     }
     await cards
       .nth(1)
@@ -227,6 +308,12 @@ for (const viewport of sizes) {
       "writing indicator contains only dots",
     );
     assert.equal(await page.locator(".cw-writing-row .cw-avatar").count(), 0);
+    const dots = await page.locator(".cw-writing-dots").boundingBox();
+    const writing = await page.locator(".cw-writing-row").boundingBox();
+    assert.ok(
+      Math.abs(dots.x - writing.x) < 2,
+      "typing dots align to the left edge without avatar indentation",
+    );
     const bubble = page.locator('.cw-message-row--bot[data-streaming="true"]');
     await bubble.waitFor({ state: "visible" });
     const first = (await bubble.innerText()).length;
@@ -267,6 +354,50 @@ for (const viewport of sizes) {
       await page.setViewportSize(viewport);
     }
 
+    await page.getByTestId("widget-close").click();
+    await page.waitForTimeout(500);
+    await page.evaluate(() =>
+      window.dispatchEvent(
+        new CustomEvent("site-assistant:open", { detail: { entry: "builder" } }),
+      ),
+    );
+    await page.waitForTimeout(600);
+    const choice = page.getByTestId("interest-chatbot");
+    await choice.waitFor({ state: "visible" });
+    const baseChoice = await choice.evaluate((e) => getComputedStyle(e).backgroundColor);
+    const chosenBounds = await choice.boundingBox();
+    await choice.click();
+    await page.waitForTimeout(850);
+    assert.equal(
+      await page.locator('[data-step="interest"]').count(),
+      0,
+      "single choice advances to a new question",
+    );
+    const fresh = page
+      .locator(
+        '.cw-rowcard:not([data-selected="true"]), .cw-scard:not([data-selected="true"]), .cw-vcard:not([data-selected="true"]), .cw-opt:not([data-selected="true"])',
+      )
+      .first();
+    await fresh.waitFor({ state: "visible" });
+    await page.mouse.move(
+      chosenBounds.x + chosenBounds.width / 2,
+      chosenBounds.y + chosenBounds.height / 2,
+    );
+    assert.ok(
+      await page
+        .locator('.cw-widget button[data-selected="false"]')
+        .evaluateAll((es) =>
+          es.every((e) => getComputedStyle(e).backgroundColor === "rgb(241, 234, 224)"),
+        ),
+      "next step choices never inherit the previous choice colour",
+    );
+    await fresh.hover();
+    await page.waitForTimeout(250);
+    assert.equal(
+      await fresh.evaluate((e) => getComputedStyle(e).backgroundColor),
+      baseChoice,
+      "hover does not imitate selection on a new step",
+    );
     await page.getByTestId("widget-close").click();
     await page.waitForTimeout(500);
     assert.equal(await page.locator(".cw-panel").isVisible(), false);

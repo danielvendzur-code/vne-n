@@ -116,7 +116,7 @@ export class Home extends Component<{
         ...w,
         ...themes[i % themes.length],
         num: "0" + (i + 1),
-        top: 100 + i * 22 + "px",
+        top: "100px",
       }));
 
     return {
@@ -204,20 +204,20 @@ export class Home extends Component<{
             </div>
             <ol
               style={cssStyle(
-                `list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:32px`,
+                `list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:32px;isolation:isolate`,
               )}
             >
               {work.map((w, index) => (
                 <Fragment key={index}>
                   <li
                     className="redesign-case-item"
-                    style={cssStyle(`position:sticky;top:${w.top}`)}
+                    style={cssStyle(`position:sticky;top:${w.top};z-index:${index + 1}`)}
                   >
                     <article
                       className="redesign-case-card"
                       data-reveal
                       style={cssStyle(
-                        `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:0 -24px 48px -32px rgba(12,26,21,.25);height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
+                        `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:none;height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
                       )}
                     >
                       <a

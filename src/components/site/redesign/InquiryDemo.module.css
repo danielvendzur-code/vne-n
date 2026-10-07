@@ -51,7 +51,9 @@
 .comparison {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  gap: 20px;
+  max-width: 1040px;
+  margin: auto;
   align-items: stretch;
 }
 .comparison > div {
@@ -73,7 +75,8 @@
   background: #f6f8fc;
   border: 1px solid #dce2ec;
   border-radius: 14px;
-  flex: 1;
+  height: 520px;
+  flex: none;
   overflow: hidden;
   box-shadow: 0 12px 36px -24px #1c16122e;
   font-family: Arial, sans-serif;
@@ -82,9 +85,9 @@
 .topbar {
   display: flex;
   align-items: center;
-  gap: 20px;
-  height: 64px;
-  flex: 0 0 64px;
+  gap: 14px;
+  height: 52px;
+  flex: 0 0 52px;
   padding: 0 20px;
 }
 .gmailLogo {
@@ -119,7 +122,11 @@
 .message {
   flex: 1;
   margin: 0 10px 10px;
-  padding: 22px;
+  padding: 18px 20px;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c9cdd3 transparent;
   background: #fff;
   border-radius: 12px;
   min-width: 0;
@@ -129,17 +136,17 @@
   align-items: center;
   gap: 24px;
   color: #5f6368;
-  padding-bottom: 26px;
+  padding-bottom: 18px;
 }
 .subject {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 }
 .subject h3 {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.4;
   font-weight: 400;
   color: #202124;
@@ -155,7 +162,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   font-size: 13px;
   color: #202124;
 }
@@ -203,13 +210,13 @@
   padding: 8px 0;
 }
 .ordinary p {
-  margin: 0 0 24px;
+  margin: 0 0 18px;
 }
 .mailBrand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px 0 22px;
+  padding: 8px 0 14px;
   border-bottom: 1px solid #e8eaed;
 }
 .mailBrand img {
@@ -226,19 +233,19 @@
   font-size: 18px;
 }
 .quote {
-  padding-top: 22px;
+  padding-top: 14px;
   font-size: 15px;
   line-height: 1.65;
 }
 .quote p {
-  margin: 0 0 18px;
+  margin: 0 0 12px;
 }
 .price {
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding: 16px 18px;
-  margin: 24px 0;
+  margin: 18px 0;
   border: 1px solid #e2d8ca;
   border-left: 3px solid #5b3a26;
   background: #fffcf7;
@@ -368,11 +375,11 @@
   }
   .gmail {
     flex: none;
-    height: auto;
+    height: 520px;
   }
   .topbar {
-    height: 56px;
-    flex-basis: 56px;
+    height: 52px;
+    flex-basis: 52px;
     padding: 0 16px;
   }
   .gmailLogo {

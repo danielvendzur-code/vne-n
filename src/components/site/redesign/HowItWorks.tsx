@@ -1,5 +1,4 @@
-import { MessageCircle, SlidersHorizontal, Send, ArrowRight } from "lucide-react";
-import { sitePath } from "./utils";
+import { MessageCircle, SlidersHorizontal, Send } from "lucide-react";
 import s from "./HowItWorks.module.css";
 
 const steps = [
@@ -46,9 +45,6 @@ export function HowItWorks() {
           </article>
         ))}
       </div>
-      <a className={s.link} href={sitePath("/postup")}>
-        Ako pripravíme riešenie pre váš web <ArrowRight size={17} />
-      </a>
     </section>
   );
 }
