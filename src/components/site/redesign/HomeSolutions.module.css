@@ -94,8 +94,8 @@
   align-self: start;
 }
 .preview {
-  min-height: 570px;
-  height: 570px;
+  min-height: 660px;
+  flex: 1;
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -105,8 +105,8 @@
 .preview > div {
   width: 100%;
   max-width: 400px;
-  min-height: 0;
-  height: 100%;
+  min-height: 660px;
+  height: auto;
   flex-shrink: 0;
 }
 .panel:first-child .preview {
@@ -277,9 +277,6 @@
     flex-direction: column;
     align-items: start;
   }
-  .preview {
-    height: 570px;
-  }
 }
 @media (max-width: 380px) {
   .panelLink {
@@ -290,18 +287,5 @@
   }
   .panel h3 {
     font-size: 27px;
-  }
-}
-
-@media (max-width: 760px) {
-  .preview {
-    min-height: 600px;
-    height: 600px;
-  }
-}
-@media (max-width: 380px) {
-  .preview {
-    min-height: 640px;
-    height: 640px;
   }
 }

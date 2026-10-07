@@ -70,6 +70,7 @@ for (const viewport of sizes) {
         const fits = await frame.evaluate((el) => ({
           w: el.scrollWidth <= el.clientWidth + 2,
           h: el.scrollHeight <= el.clientHeight + 2,
+          size: [el.clientWidth, el.clientHeight, el.scrollWidth, el.scrollHeight],
         }));
         assert.ok(
           fits.w && fits.h,
