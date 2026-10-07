@@ -32,6 +32,13 @@ for (const viewport of sizes) {
   try {
     await page.goto(origin, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".analytics-consent") ||
+        document.documentElement.dataset.analyticsConsent,
+      null,
+      { timeout: 10000 },
+    );
     const refuse = page.getByRole("button", { name: "Odmietnuť analytiku", exact: true });
     if (await refuse.isVisible()) await refuse.click();
     await page.waitForTimeout(1800);
