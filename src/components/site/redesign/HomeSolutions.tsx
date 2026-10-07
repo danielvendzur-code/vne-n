@@ -2,6 +2,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, type MouseEvent, type CSSProperties } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { PergolaVideo } from "./PergolaVideo";
+import { openSolution } from "./solution-navigation";
 
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
@@ -9,10 +10,10 @@ import s from "./HomeSolutions.module.css";
 function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
   const file =
     kind === "chatbot"
-      ? "webko-chat-preview"
+      ? "webko-chat-native"
       : kind === "calculator"
         ? "mojplot-calc-preview"
-        : "mojplot-chat-preview";
+        : "mojplot-chat-native";
   const alt =
     kind === "chatbot"
       ? "Skutočný chatbot WEBKO — celé rozhranie v pôvodných farbách"
@@ -20,16 +21,20 @@ function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
         ? "Skutočný výsledok kalkulačky Môj Plot s cenou 892 €"
         : "Skutočný produktový asistent Môj Plot";
   return (
-    <div className={s.snapshot} data-real-preview>
+    <figure className={s.snapshot} data-real-preview>
       <img
         src={sitePath(`/work/solutions/${file}.webp`)}
         alt={alt}
-        width={1200}
-        height={1440}
+        width={kind === "chatbot" ? 1140 : kind === "advisor" ? 1332 : 1200}
+        height={kind === "chatbot" ? 1680 : kind === "advisor" ? 1956 : 1440}
         loading="lazy"
         decoding="async"
       />
-    </div>
+      <figcaption className={s.previewCaption}>
+        <strong>{kind === "chatbot" ? "WEBKO" : "Môj Plot"}</strong>
+        <span>Skutočné rozhranie</span>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -64,7 +69,9 @@ export function HomeSolutions() {
   const root = useRef<HTMLDivElement>(null);
   const router = useRouter();
   useEffect(() => {
-    const cards = root.current?.querySelectorAll<HTMLElement>("[data-solution-card]");
+    const cards = root.current?.querySelectorAll<HTMLElement>(
+      "[data-solution-card], [data-solution-preview]",
+    );
     if (!cards || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const observer = new IntersectionObserver(
       (entries) => {
@@ -75,13 +82,18 @@ export function HomeSolutions() {
           }
         });
       },
-      { threshold: 0.08 },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
     );
     cards.forEach((card) => {
-      card.dataset.reveal = "pending";
+      card.dataset.solutionReveal = "pending";
       observer.observe(card);
     });
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      cards.forEach((card) => {
+        card.dataset.visible = "true";
+      });
+    };
   }, []);
   const open = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
@@ -89,17 +101,9 @@ export function HomeSolutions() {
     event.preventDefault();
     const card = event.currentTarget.closest<HTMLElement>("[data-solution-card]");
     const preview = card?.querySelector<HTMLElement>("[data-solution-preview]");
-    const motion = !matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (card && motion) card.style.viewTransitionName = "solution-surface";
-    if (preview && motion) preview.style.viewTransitionName = "solution-image";
-    document.documentElement.dataset.solutionOpening = "true";
-    void router
-      .navigate({ href: sitePath(href), viewTransition: motion, resetScroll: true })
-      .finally(() => {
-        if (card) card.style.viewTransitionName = "";
-        if (preview) preview.style.viewTransitionName = "";
-        delete document.documentElement.dataset.solutionOpening;
-      });
+    void openSolution(preview ?? null, () =>
+      router.navigate({ href: sitePath(href), viewTransition: false, resetScroll: true }),
+    );
   };
   return (
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">

@@ -36,8 +36,14 @@ Chatbot v29 reveals introductory messages with punctuation and a pause between t
 
 Verification: 48 web contract tests, 14 backend regressions, 15 Playwright widget checks, TypeScript, targeted ESLint and both production builds. Focused browser checks cover hero fill and visible CTA at 1366×768, 1920×1080, 390×844 and 320×640; equal Gmail windows at all widths; gradual formatted replies and a successful subsequent question; and unchanged 3D projection through louver/ZIP changes. All chat/lead test responses are mocked.
 
-
-
 ## Obnova pôvodného dizajnu — v31
 
 Hero, hlavička, ornamentová textúra a pôvodné farby chatbota sú obnovené z verzie ee0008f. Realizácie používajú fotografie a skutočné zachytené rozhrania. E-maily zostávajú rovnako široké na desktope, na telefóne sú pod sebou. Zachované sú smooth písanie, bodky, spoj loga, klik celej karty a informácia o 3D konfigurátore bez mesačného poplatku.
+
+## 2026-10-07 — v32 targeted motion follow-up
+
+- Chat waiting state contains only three dots, with no logo, avatar or blinking caret. Panel opening uses Koverta's 14 px / 0.985 desktop transform and 24 px mobile rise, 450 ms opening and 400 ms closing. Header, conversation and sent bubbles no longer enter separately.
+- Hero keeps its existing layout, palette and CTA. DERAT, Môj Plot and Koverta are all present; the title types sequentially at 52 ms per character, without translating letters.
+- Solution preview motion starts when the preview itself enters the viewport. A real image remains paired through an explicit 1100 ms browser view transition; unsupported browsers use the same photograph in a 1000 ms overlay animation. Reduced motion bypasses both.
+- WEBKO and Môj Plot chat captures were rendered from their original repository widgets, after opening and welcome text settled. Original fonts, logo assets, colors and controls are preserved, no question or lead was sent. Native captures: WEBKO 380 × 560 at 3×; Môj Plot 444 × 652 at 3×. They retain their natural aspect ratios in cards and details.
+- Process and home realization mobile rules now use semantic classes, independent of SSR inline-style whitespace; the process aside flows above the four steps below 1040 px.

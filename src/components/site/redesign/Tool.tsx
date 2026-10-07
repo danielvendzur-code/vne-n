@@ -75,7 +75,7 @@ export class Tool extends Component<{
         accent: "ktorý vie odpovedať.",
         price: "347 €",
         lead: "Odpovedá z vašich podkladov, zistí, čo zákazník potrebuje, a pošle vám kontakt so zhrnutím.",
-        img: P + "solutions/webko-chat-preview.webp",
+        img: P + "solutions/webko-chat-native.webp",
         imgW: "46%",
         caption: "WEBKO · SKUTOČNÝ CHATBOT",
         steps: steps([
@@ -190,7 +190,7 @@ export class Tool extends Component<{
         accent: "ktorý vyberie za zákazníka.",
         price: "347 €",
         lead: "Pár jednoduchých otázok a zákazník dostane konkrétny produkt z vašej ponuky — bez toho, aby musel poznať celý katalóg.",
-        img: P + "solutions/mojplot-chat-preview.webp",
+        img: P + "solutions/mojplot-chat-native.webp",
         imgW: "46%",
         caption: "MÔJ PLOT · PRODUKTOVÝ ASISTENT",
         steps: steps([
@@ -234,7 +234,7 @@ export class Tool extends Component<{
         exName: "Môj Plot",
         exDomain: "mojplot.sk",
         exHref: "https://mojplot.sk/",
-        exImg: P + "solutions/mojplot-chat-preview.webp",
+        exImg: P + "solutions/mojplot-chat-native.webp",
         exCopy:
           "Vyskúšajte si, ako vyzerá riadený výber v praxi. Poradca sa dá napojiť na váš e-shop a produkty.",
       },
@@ -394,7 +394,7 @@ export class Tool extends Component<{
                         `width:7px;height:7px;border-radius:50%;background:var(--mc-accent)`,
                       )}
                     ></span>
-                    {"ŽIVÁ UKÁŽKA"}
+                    {"SKUTOČNÁ UKÁŽKA"}
                   </span>
                   <span>{t.caption}</span>
                 </div>

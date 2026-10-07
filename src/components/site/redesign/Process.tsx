@@ -87,11 +87,13 @@ export class Process extends Component<{
             </div>
           </section>
           <section
+            className="process-layout"
             style={cssStyle(
               `max-width:1280px;margin:0 auto;padding:0 32px 88px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px`,
             )}
           >
             <div
+              className="process-aside"
               style={cssStyle(
                 `position:sticky;top:110px;align-self:start;background:var(--mc-ink);color:var(--mc-paper);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:20px`,
               )}
@@ -138,10 +140,15 @@ export class Process extends Component<{
                 {"Vyskladať riešenie →"}
               </button>
             </div>
-            <div style={cssStyle(`display:flex;flex-direction:column;gap:12px;grid-column:span 1`)}>
+            <div
+              className="process-steps"
+              style={cssStyle(`display:flex;flex-direction:column;gap:12px;grid-column:span 1`)}
+            >
               {steps.map((s, index) => (
                 <Fragment key={index}>
                   <div
+                    className="process-step"
+                    data-reveal
                     style={cssStyle(
                       `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px 30px;display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px`,
                     )}

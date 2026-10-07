@@ -20,6 +20,13 @@ const heroProjects = [
     image: `${BASE}work/live/mojplot-chat.webp`,
     alt: "Web Môj Plot s pôvodným chatbotom",
   },
+  {
+    slug: "koverta-chat",
+    name: "Koverta",
+    href: "https://koverta.sk/",
+    image: `${BASE}work/live/koverta-chat.webp`,
+    alt: "Web Koverta s otvoreným poradcom",
+  },
 ] as const;
 
 export function StudioHero() {
@@ -79,7 +86,9 @@ export function StudioHero() {
                     key={index}
                     className={fit.headlineGlyph}
                     style={
-                      { "--letter-delay": `${lineIndex * 180 + index * 32}ms` } as CSSProperties
+                      {
+                        "--letter-delay": `${160 + ([0, 10, 23][lineIndex] + index) * 52}ms`,
+                      } as CSSProperties
                     }
                   >
                     {letter === " " ? "\u00a0" : letter}
