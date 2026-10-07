@@ -24,11 +24,31 @@ for (const viewport of sizes) {
     reducedMotion: "no-preference",
   });
   const page = await context.newPage();
+  await page.addInitScript(() => {
+    window.__solutionMotion = { calls: 0, ready: 0, errors: [], duration: null };
+    const native = document.startViewTransition?.bind(document);
+    if (!native) return;
+    document.startViewTransition = (update) => {
+      window.__solutionMotion.calls++;
+      const transition = native(update);
+      transition.ready
+        .then(() => {
+          window.__solutionMotion.ready++;
+          window.__solutionMotion.duration = getComputedStyle(
+            document.documentElement,
+            "::view-transition-group(solution-image)",
+          ).animationDuration;
+        })
+        .catch((e) => window.__solutionMotion.errors.push(e.message));
+      return transition;
+    };
+  });
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.route("**/api/chat", (route) =>
-    route.fulfill({ json: { reply }, headers: { "access-control-allow-origin": "*" } }),
-  );
+  await page.route("**/api/chat", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    await route.fulfill({ json: { reply }, headers: { "access-control-allow-origin": "*" } });
+  });
   try {
     await page.goto(origin, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
@@ -41,7 +61,20 @@ for (const viewport of sizes) {
     );
     const refuse = page.getByRole("button", { name: "Odmietnuť analytiku", exact: true });
     if (await refuse.isVisible()) await refuse.click();
-    await page.waitForTimeout(1800);
+    await page.locator('#top[data-headline-ready="true"]').waitFor();
+    await page.waitForTimeout(2100);
+    assert.equal(
+      await page
+        .locator('[id="hybrid-hero-title"] span span')
+        .evaluateAll((els) => els.every((el) => getComputedStyle(el).opacity === "1")),
+      true,
+      "typed hero completes every letter",
+    );
+    assert.equal(
+      await page.locator('#top a[target="_blank"]').count(),
+      3,
+      "hero shows three real projects",
+    );
     assert.equal(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2),
       true,
@@ -144,10 +177,20 @@ for (const viewport of sizes) {
       .getByRole("link")
       .click({ position: { x: 80, y: 100 } });
     await page.waitForURL(/nastroj\?t=chatbot/);
+    await page.waitForFunction(
+      () => window.__solutionMotion.ready === 1 || window.__solutionMotion.errors.length > 0,
+    );
+    const motion = await page.evaluate(() => window.__solutionMotion);
+    assert.equal(motion.calls, 1, "card starts an actual browser transition");
+    assert.deepEqual(motion.errors, [], "shared image transition cannot be skipped");
+    assert.equal(motion.ready, 1, "shared image transition must render successfully");
+    assert.equal(motion.duration, "1.1s", "the image visibly travels for 1.1 seconds");
+    await page.waitForTimeout(200);
+    await page.screenshot({ path: `${output}/opening-${viewport.width}.png` });
     await page.waitForTimeout(1250);
     const detail = page.locator(".solution-detail__image");
     assert.equal(await detail.count(), 1);
-    assert.ok((await detail.getAttribute("src")).includes("webko-chat-preview"));
+    assert.ok((await detail.getAttribute("src")).includes("webko-chat-native"));
     const detailShape = await detail.evaluate((img) => ({
       shown: img.clientWidth / img.clientHeight,
       source: img.naturalWidth / img.naturalHeight,
@@ -171,10 +214,19 @@ for (const viewport of sizes) {
     );
     assert.equal(await page.locator(".cw-message-row--me .cw-message-wrap p").count(), 0);
 
-    assert.equal(await page.locator(".cw-writing-dots i").count(), 3);
     const input = page.getByPlaceholder("Napíšte otázku…");
     await input.fill("Ako mi pomôže kalkulačka?");
     await page.getByRole("button", { name: "Odoslať správu", exact: true }).click();
+    await page
+      .getByRole("status", { name: "Píšem odpoveď", exact: true })
+      .waitFor({ state: "visible" });
+    assert.equal(await page.locator(".cw-writing-dots i").count(), 3);
+    assert.equal(
+      await page.locator(".cw-typing svg").count(),
+      0,
+      "writing indicator contains only dots",
+    );
+    assert.equal(await page.locator(".cw-writing-row .cw-avatar").count(), 0);
     const bubble = page.locator('.cw-message-row--bot[data-streaming="true"]');
     await bubble.waitFor({ state: "visible" });
     const first = (await bubble.innerText()).length;
@@ -216,8 +268,24 @@ for (const viewport of sizes) {
     }
 
     await page.getByTestId("widget-close").click();
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(500);
     assert.equal(await page.locator(".cw-panel").isVisible(), false);
+    await page.goto(`${origin}/postup`, { waitUntil: "networkidle" });
+    const aside = page.locator(".process-aside");
+    if (viewport.width <= 1040) {
+      assert.equal(await aside.evaluate((el) => getComputedStyle(el).position), "relative");
+      const a = await aside.boundingBox();
+      const steps = await page.locator(".process-steps").boundingBox();
+      assert.ok(steps.y >= a.y + a.height + 20, "process aside never overlays mobile steps");
+      for (const step of await page.locator(".process-step").all()) {
+        await step.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(1100);
+        const h = await step.locator("h3").boundingBox();
+        assert.ok(h.x >= 0 && h.x + h.width <= viewport.width);
+      }
+    }
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2));
+    await page.screenshot({ path: `${output}/process-${viewport.width}.png` });
     assert.deepEqual(errors, []);
     results.push({ viewport, status: "passed" });
   } catch (error) {

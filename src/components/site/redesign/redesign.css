@@ -385,3 +385,54 @@ body:has(.redesign[data-page="home"]) {
     gap: 20px !important;
   }
 }
+
+/* Layout rules use classes, so SSR inline-style serialization cannot break mobile. */
+@media (max-width: 1040px) {
+  .redesign .process-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .redesign .process-aside {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+@media (max-width: 760px) {
+  .redesign .redesign-case-item,
+  .redesign .redesign-process-intro {
+    position: relative !important;
+    top: auto !important;
+  }
+  .redesign .redesign-case-card {
+    height: auto !important;
+    min-height: 0 !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .redesign .redesign-process-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .redesign .process-layout {
+    padding: 0 20px 56px !important;
+    gap: 24px !important;
+  }
+  .redesign .process-aside {
+    padding: 26px 24px !important;
+  }
+  .redesign .process-step {
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    padding: 22px 18px !important;
+  }
+  .redesign .process-step > span {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .redesign .process-step h3 {
+    font-size: 24px !important;
+  }
+  .redesign .process-step p {
+    font-size: 15px !important;
+  }
+  .redesign .process-step > div > div {
+    flex-wrap: wrap;
+  }
+}
