@@ -50,7 +50,7 @@ for (const route of routes) {
     if (
       !homeHtml.includes("Chatboty a konfigurátory na mieru pre váš web.") ||
       !homeHtml.includes("Nastavenia cookies") ||
-      !homeHtml.includes("Rovnaký záujem.")
+      !homeHtml.includes("data-mail-preview")
     ) {
       throw new Error("Homepage export does not contain the current rebrand hero copy");
     }

@@ -62,7 +62,7 @@ jobs:
 
           verify_text "/" "Chatboty a konfigurátory na mieru pre váš web."
           verify_text "/" "Nastavenia cookies"
-          verify_text "/widget-loader.js" "premium-redesign-20261004-v16"
+          verify_text "/widget-loader.js" "cinematic-ui-20261007-v30"
           verify_text "/cursor/clean-arrow.svg" 'M3 2v23'
           verify_text "/build-meta.json" "$SOURCE_SHA"
           verify_text "/kontakt" "Ochrana osobných údajov"
