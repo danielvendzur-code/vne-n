@@ -136,6 +136,7 @@ for (const viewport of sizes) {
     assert.equal(await cases.count(), 5, "all project cards show actual photographs/captures");
     for (const shot of await cases.all()) {
       await shot.scrollIntoViewIfNeeded();
+      await shot.evaluate((img) => img.decode());
       assert.ok(await shot.evaluate((img) => img.complete && img.naturalWidth > 0));
     }
     await cards
