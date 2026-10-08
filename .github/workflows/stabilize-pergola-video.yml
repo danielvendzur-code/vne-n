@@ -25,6 +25,11 @@ jobs:
         with:
           persist-credentials: true
 
+      - name: Install FFmpeg with vidstab support
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
       - name: Read source properties and available filters
         shell: bash
         run: |
@@ -70,6 +75,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin codex/cinematic-conversion-fixes-20261008
           git add public/work/solutions/pergola-film-stabilized.mp4 public/work/solutions/pergola-film-stabilized-poster.webp
           git diff --cached --check
           git commit -m "Add stabilized, high-bitrate pergola film and sharp poster"
