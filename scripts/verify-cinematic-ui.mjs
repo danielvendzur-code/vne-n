@@ -288,7 +288,7 @@ for (const viewport of sizes) {
     assert.equal(
       await detail.count(),
       1,
-      `Detail image missing at ${page.url()}; errors: ${errors.join(" | ")}; content: ${(await page.locator("main").innerText()).slice(0,250)}`,
+      `Detail image missing at ${page.url()}; errors: ${errors.join(" | ")}; content: ${(await page.locator("main").innerText()).slice(0, 250)}`,
     );
     assert.ok((await detail.getAttribute("src")).includes("koverta-chat"));
     const detailShape = await detail.evaluate((img) => ({
