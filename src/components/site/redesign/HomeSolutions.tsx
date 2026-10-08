@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, type MouseEvent, type CSSProperties } from "react";
+import { useEffect, useRef, type MouseEvent, type PointerEvent, type CSSProperties } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { PergolaVideo } from "./PergolaVideo";
 import { openSolution } from "./solution-navigation";
@@ -46,7 +46,7 @@ const solutions = [
   {
     title: "3D konfigurátor",
     copy: "Zákazník vidí rozmery, farbu aj výbavu na svojej zostave.",
-    href: "/3d-konfigurator",
+    href: "https://koverta.sk/pages/konfigurator",
     kind: "3d",
   },
   {
@@ -99,6 +99,12 @@ export function HomeSolutions() {
       });
     };
   }, []);
+  const onCardPointerMove = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== "mouse") return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty("--light-x", `${event.clientX - bounds.left}px`);
+    event.currentTarget.style.setProperty("--light-y", `${event.clientY - bounds.top}px`);
+  };
   const open = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
       return;
@@ -112,25 +118,44 @@ export function HomeSolutions() {
   return (
     <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
       <header className={s.heading}>
-        <h2 id="solutions-title">Riešenia pre váš web</h2>
-        <p>Skutočné ukážky nástrojov. Od prvej otázky po konkrétny výber a cenu.</p>
+        <div className={s.headingTitle}>
+          <span className={s.eyebrow}>01 / PORTFÓLIO RIEŠENÍ</span>
+          <h2 id="solutions-title">
+            Riešenia <em>pre váš web</em>
+          </h2>
+        </div>
+        <div className={s.headingAside}>
+          <span className={s.headingMarker} aria-hidden="true">
+            <span /> 4 NÁSTROJE · JEDEN WEB
+          </span>
+          <p>Od prvej otázky po hotovú zostavu. Skutočné nástroje, ktoré môžete vidieť v akcii.</p>
+        </div>
       </header>
+      <div className={s.motionTrack} aria-hidden="true">
+        <span />
+      </div>
       <div ref={root} className={s.panels}>
         {solutions.map(({ title, copy, href, kind }, i) => (
           <article
             className={s.panel}
             key={title}
             data-solution-card={i}
+            onPointerMove={onCardPointerMove}
             style={{ "--card-delay": `${i * 110}ms` } as CSSProperties}
           >
             <a
               className={s.panelLink}
               href={sitePath(href)}
-              onClick={(e) => open(e, href)}
-              aria-label={`Pozrieť riešenie: ${title}`}
+              onClick={kind === "3d" ? undefined : (e) => open(e, href)}
+              target={kind === "3d" ? "_blank" : undefined}
+              rel={kind === "3d" ? "noopener noreferrer" : undefined}
+              aria-label={kind === "3d" ? "Vyskúšať 3D konfigurátor na koverta.sk" : `Pozrieť riešenie: ${title}`}
             >
               <div className={s.panelBody}>
-                <span className={s.number}>0{i + 1}</span>
+                <span className={s.number}>
+                  0{i + 1} <span> / 04</span>
+                </span>
+                <span className={s.panelAccent} aria-hidden="true" />
                 <h3>{title}</h3>
                 <ArrowUpRight size={24} className={s.arrow} />
                 <p>{copy}</p>
@@ -139,7 +164,8 @@ export function HomeSolutions() {
                 {kind === "3d" ? <PergolaVideo /> : <RealPreview kind={kind} />}
               </div>
               <span className={s.openLabel}>
-                Pozrieť možnosti <ArrowRight size={17} />
+                {kind === "3d" ? "Vyskúšať na Koverta" : "Pozrieť možnosti"}
+                <ArrowRight size={17} aria-hidden="true" />
               </span>
             </a>
           </article>

@@ -2,113 +2,101 @@ import { useEffect, useRef, useState } from "react";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
 
-type PergolaModel = {
-  view: (azimuth: number, elevation: number) => void;
-  update: (state: Record<string, unknown>) => void;
-};
-
-/** Live 3D replaces the baked film: fixed camera, continuous louvers and shading. */
+/**
+ * Cinematic film only. The live Koverta configurator opens on koverta.sk;
+ * the marketing homepage must not instantiate WebGL or an iframe.
+ */
 export function PergolaVideo() {
   const root = useRef<HTMLDivElement>(null);
-  const frame = useRef<HTMLIFrameElement>(null);
-  const [ready, setReady] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const element = root.current;
-    if (!element) return;
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let visible = false;
-    let model: PergolaModel | undefined;
-    let frameId = 0;
-    let pollId = 0;
-    let lastPaint = 0;
-    let start = 0;
+    const player = video.current;
+    if (!element || !player) return;
 
-    const stop = () => {
-      if (frameId) cancelAnimationFrame(frameId);
-      frameId = 0;
-    };
-    const tick = (time: number) => {
-      if (!visible || document.hidden || motion.matches || !model) {
-        frameId = 0;
+    let visible = false;
+    let loaded = false;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => {
+      if (motion.matches || document.hidden || !visible || failed) {
+        player.pause();
+        setPlaying(false);
         return;
       }
-      if (!start) start = time;
-      // Limit parent updates to 30 fps; the 3D scene handles its own rendering.
-      if (time - lastPaint >= 33) {
-        lastPaint = time;
-        const t = (time - start) / 1000;
-        const louver = 0.5 + 0.4 * Math.sin((t * Math.PI) / 5);
-        const screen = 0.28 + 0.26 * Math.sin((t * Math.PI) / 8 + 1);
-        model.update({ louver, screen, color: "RAL 7016", led: false });
+
+      if (!loaded) {
+        // Defer the video request until the card is near the viewport.
+        loaded = true;
+        player.src = sitePath("/work/solutions/pergola-film-stabilized.mp4");
+        player.load();
       }
-      frameId = requestAnimationFrame(tick);
+      void player.play().catch(() => {
+        // Keep the poster available when autoplay is disabled by the browser.
+        setPlaying(false);
+      });
     };
-    const sync = () => {
-      if (!model) return;
-      if (visible && !document.hidden && !motion.matches && !frameId) {
-        start = 0;
-        frameId = requestAnimationFrame(tick);
-      } else if (!visible || document.hidden || motion.matches) {
-        stop();
-        model.update({ louver: 0.84, screen: 0.15, color: "RAL 7016", led: false });
-      }
-    };
-    const check = () => {
-      const api = (frame.current?.contentWindow as (Window & { MC_PERGOLA?: PergolaModel }) | null)
-        ?.MC_PERGOLA;
-      if (!api || model) return;
-      model = api;
-      model.view(-0.62, 0.42);
-      model.update({ louver: 0.84, screen: 0.15, color: "RAL 7016", led: false });
-      setReady(true);
-      sync();
-      window.clearInterval(pollId);
-    };
-    pollId = window.setInterval(check, 250);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
         sync();
       },
-      { threshold: 0.1 },
+      { rootMargin: "160px 0px", threshold: 0 },
     );
     observer.observe(element);
     document.addEventListener("visibilitychange", sync);
     motion.addEventListener("change", sync);
-    check();
+
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
       motion.removeEventListener("change", sync);
-      window.clearInterval(pollId);
-      stop();
+      player.pause();
     };
-  }, []);
+  }, [failed]);
 
   return (
-    <div ref={root} className={s.pergolaFilm} data-3d-ready={ready}>
+    <div ref={root} className={s.pergolaFilm} data-playing={playing}>
       <div className={s.pergolaScene}>
         <img
           className={s.pergolaPoster}
           src={sitePath("/work/solutions/pergola-film-poster.webp")}
-          alt="3D model bioklimatickej pergoly"
+          alt="Bioklimatická pergola Koverta v 3D vizualizácii"
           width={800}
           height={600}
           loading="lazy"
           decoding="async"
         />
-        <iframe
-          ref={frame}
-          className={s.pergolaFrame}
-          src={sitePath("/work/pergola/index.html")}
-          title="Plynulá 3D animácia lamiel a tienenia pergoly"
-          loading="lazy"
-          tabIndex={-1}
-          aria-hidden="true"
-        />
+        {!failed && (
+          <video
+            ref={video}
+            className={s.pergolaFilmVideo}
+            muted
+            loop
+            playsInline
+            preload="none"
+            autoPlay={false}
+            disablePictureInPicture
+            aria-hidden="true"
+            tabIndex={-1}
+            onPlaying={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onError={() => {
+              setFailed(true);
+              setPlaying(false);
+            }}
+          />
+        )}
+        <span className={s.videoIndex} aria-hidden="true">
+          01 / 04
+        </span>
       </div>
-      <span>Plynulé 3D · lamely · ZIP tienenie</span>
+      <span className={s.videoCaption}>
+        Video ukážka <span aria-hidden="true">·</span> Konfigurátor Koverta
+      </span>
     </div>
   );
 }
