@@ -195,9 +195,15 @@ for (const viewport of sizes) {
       "0",
       "email contents remain keyboard accessible",
     );
+    const configurationSummary = mail.locator(".configurationDetails summary");
+    await configurationSummary.click();
     assert.ok(
       await scrollMail.evaluate((e) => e.scrollHeight > e.clientHeight),
-      "long email stays inside a scrollable preview",
+      "expanded configuration remains inside a scrollable email",
+    );
+    assert.ok(
+      (await mail.innerText()).includes("Bioklimatická pergola Soltec"),
+      "expanded details show the complete selected configuration",
     );
     await scrollMail.focus();
     await page.keyboard.press("End");
@@ -208,7 +214,8 @@ for (const viewport of sizes) {
     );
     await page.keyboard.press("Home");
     await page.waitForTimeout(400);
-    await mail.getByRole("button", { name: "Z konfigurátora", exact: true }).focus();
+    await configurationSummary.focus();
+    await configurationSummary.click();
     if (viewport.width > 700)
       assert.ok(
         Math.abs(windows[0].w - windows[1].w) < 2 && Math.abs(windows[0].h - windows[1].h) < 2,
@@ -220,8 +227,11 @@ for (const viewport of sizes) {
         "phone email previews stack at readable width",
       );
     await mail.screenshot({ path: `${output}/mail-${viewport.width}.png` });
-    await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).click();
-    assert.ok((await mail.innerText()).includes("892 €"));
+    assert.equal(
+      await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).count(),
+      0,
+      "the email demo contains only the requested configurator inquiry",
+    );
     const cases = page.locator(".redesign-case-shot img");
     assert.equal(await cases.count(), 5, "all project cards show actual photographs/captures");
     for (const shot of await cases.all()) {
@@ -271,7 +281,7 @@ for (const viewport of sizes) {
     await page.waitForTimeout(1250);
     const detail = page.locator(".solution-detail__image");
     assert.equal(await detail.count(), 1);
-    assert.ok((await detail.getAttribute("src")).includes("webko-chat-native"));
+    assert.ok((await detail.getAttribute("src")).includes("koverta-chat"));
     const detailShape = await detail.evaluate((img) => ({
       shown: img.clientWidth / img.clientHeight,
       source: img.naturalWidth / img.naturalHeight,

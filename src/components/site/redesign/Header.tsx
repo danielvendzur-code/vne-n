@@ -62,7 +62,7 @@ export function Header({ active = "home" }: HeaderProps) {
       <a
         className={s.brand}
         href={sitePath("/")}
-        aria-label="Môj Chatbot — naspäť hore"
+        aria-label="Môj Chatbot — úvod"
         onClick={(e) => {
           if (window.location.pathname === "/") {
             e.preventDefault();
