@@ -390,7 +390,8 @@
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .heading[data-solution-reveal="pending"]:not([data-visible="true"]) {
+  .heading[data-solution-reveal="pending"]:not([data-visible="true"])
+    :is(.headingTitle, .headingAside) {
     clip-path: inset(0 0 100%);
   }
   .heading[data-visible="true"] .headingTitle {

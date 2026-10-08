@@ -112,6 +112,19 @@ for (const viewport of sizes) {
     await page.screenshot({ path: `${output}/menu-${viewport.width}.png` });
     await page.keyboard.press("Escape");
     assert.equal(await menu.getAttribute("aria-expanded"), "false");
+    const solutionHeading = page.locator("[data-section-heading]");
+    await solutionHeading.scrollIntoViewIfNeeded();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-section-heading]")?.getAttribute("data-visible") === "true",
+    );
+    await page.waitForTimeout(900);
+    assert.equal(
+      await solutionHeading.evaluate((e) => getComputedStyle(e).clipPath),
+      "none",
+      "observed heading retains its full intersection geometry",
+    );
+    assert.ok(await page.locator("#solutions-title").isVisible(), "solutions heading is revealed");
     const cards = page.locator("[data-solution-card]");
     assert.equal(await cards.count(), 4);
     if (viewport.width >= 1101) {

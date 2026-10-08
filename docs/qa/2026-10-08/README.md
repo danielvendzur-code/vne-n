@@ -30,7 +30,7 @@ All 720 frames of both 12-second, 60 fps sources were measured against the fixed
 
 - Website: lint, production Vercel build, 48 tests, security audit (176 scanned files).
 - Backend: type check, production/embed builds, 14 tests; the JS bundle remains unchanged by these CSS-only additions.
-- Chromium: 320, 390, 768, 1366 and 1920 px, navigation/menu/hero/cases/mail/detail transitions/chat/widget/keyboard-height composer. [Report](cinematic-report.json).
+- Chromium: 320, 390, 768, 1366 and 1920 px, navigation/menu/hero/cases/mail/detail transitions/chat/widget/keyboard-height composer. [Report](cinematic-report.json). The final mask correction was checked at all five widths: [heading report](heading-report.json). The observer watches an unmasked parent; only its inner text is clipped.
 - Normal and reduced motion at 390 and 1366 px: fallback transition, Back, direct product URLs, all skincare choices, equal footer CTA geometry and intercepted contact submission. [Report](regression.json).
 - Full widget flow at 320, 390 and 1366 px: features, details, industry, timeline, contact; selected feedback and lead payload validated with intercepted submission. [Report](widget-flow.json).
 - [Motion recording](motion.mp4) shows menu, solution hover/takeover and scroll-led panels.
