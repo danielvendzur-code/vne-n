@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
-import { PergolaDemo } from "./PergolaDemo";
+import { PergolaVideo } from "./PergolaVideo";
 import { Footer } from "./Footer";
 
 export class Configurator extends Component<{
@@ -148,14 +148,14 @@ export class Configurator extends Component<{
                     `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-accent)`,
                   )}
                 >
-                  {"ŽIVÁ REALIZÁCIA · KOVERTA"}
+                  {"REÁLNY PROJEKT · VIDEO KOVERTA"}
                 </div>
                 <h2
                   style={cssStyle(
                     `margin:0;font-size:clamp(32px,3.6vw,46px);line-height:1.04;letter-spacing:-.045em;font-weight:600`,
                   )}
                 >
-                  {"Vyskúšajte si ho priamo tu."}
+                  {"Pozrite si, ako sa mení zostava."}
                 </h2>
                 <div style={cssStyle(`display:flex;flex-direction:column`)}>
                   {steps.map((s, index) => (
@@ -188,14 +188,14 @@ export class Configurator extends Component<{
                 </div>
               </div>
               <div style={cssStyle(`display:flex;flex-direction:column;gap:14px;min-width:0`)}>
-                <PergolaDemo />
+                <PergolaVideo large />
                 <a
                   className="mc-btn"
                   href="https://koverta.sk/pages/konfigurator"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Celý konfigurátor Koverta ↗
+                  Otvoriť 3D konfigurátor na Koverta.sk ↗
                 </a>
               </div>
             </div>

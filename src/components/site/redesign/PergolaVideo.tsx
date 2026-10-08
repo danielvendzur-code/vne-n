@@ -6,7 +6,7 @@ import s from "./HomeSolutions.module.css";
  * Cinematic film only. The live Koverta configurator opens on koverta.sk;
  * the marketing homepage must not instantiate WebGL or an iframe.
  */
-export function PergolaVideo() {
+export function PergolaVideo({ large = false }: { large?: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -59,7 +59,7 @@ export function PergolaVideo() {
   }, [failed]);
 
   return (
-    <div ref={root} className={s.pergolaFilm} data-playing={playing}>
+    <div ref={root} className={s.pergolaFilm} data-playing={playing} data-size={large ? "large" : "card"}>
       <div className={s.pergolaScene}>
         <img
           className={s.pergolaPoster}
