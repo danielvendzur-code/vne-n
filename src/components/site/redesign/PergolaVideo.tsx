@@ -59,7 +59,12 @@ export function PergolaVideo({ large = false }: { large?: boolean }) {
   }, [failed]);
 
   return (
-    <div ref={root} className={s.pergolaFilm} data-playing={playing} data-size={large ? "large" : "card"}>
+    <div
+      ref={root}
+      className={s.pergolaFilm}
+      data-playing={playing}
+      data-size={large ? "large" : "card"}
+    >
       <div className={s.pergolaScene}>
         <img
           className={s.pergolaPoster}

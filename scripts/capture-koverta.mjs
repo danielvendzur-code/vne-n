@@ -29,7 +29,7 @@ try {
   const canvases = await page.locator("canvas").count();
   console.log("Live site:", await page.title(), "canvas count:", canvases);
   const canvas = page.locator("canvas").first();
-  if (canvases && await canvas.isVisible()) {
+  if (canvases && (await canvas.isVisible())) {
     await canvas.scrollIntoViewIfNeeded();
   } else {
     const heading = page.getByText("3D konfigurátor prístreškov a pergol", { exact: true }).first();

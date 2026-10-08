@@ -445,9 +445,9 @@
   .headingAside p { font-size: 15px; max-width: 42ch; }
   .panels { grid-template-columns: 1fr; gap: 14px; }
   .panel { height: auto; }
-  .panelBody { height: 215px; flex-basis: 215px; }
+  .panelBody { height: 250px; flex-basis: 250px; }
   .panel h3 { font-size: 27px; }
-  .panel:first-child h3 { font-size: 23px; }
+  .panel:first-child h3 { font-size: 20px; }
   .panelBody p { max-width: 24ch; }
   .preview { height: auto; flex: none; min-height: 240px; margin-bottom: 0; }
   .snapshot { width: min(360px,100%); }
@@ -458,8 +458,9 @@
   .connection button { margin-left: 0; }
 }
 @media (max-width: 380px) {
-  .panelBody { height: 207px; flex-basis: 207px; }
+  .panelBody { height: 245px; flex-basis: 245px; }
   .panelBody p { font-size: 14px; }
+  .panel:first-child h3 { font-size: 19px; }
   .preview { min-height: 215px; }
   .previewCaption { flex-wrap: wrap; font-size: 11px; }
 }

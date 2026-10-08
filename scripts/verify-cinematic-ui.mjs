@@ -44,7 +44,10 @@ for (const viewport of sizes) {
     };
   });
   const errors = [];
-  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("pageerror", (error) => {
+    errors.push(error.message);
+    console.error("PAGE ERROR", viewport.width, error.message);
+  });
   await page.route("**/api/chat", async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 700));
     await route.fulfill({ json: { reply }, headers: { "access-control-allow-origin": "*" } });
@@ -282,7 +285,11 @@ for (const viewport of sizes) {
     await page.screenshot({ path: `${output}/opening-${viewport.width}.png` });
     await page.waitForTimeout(1250);
     const detail = page.locator(".solution-detail__image");
-    assert.equal(await detail.count(), 1);
+    assert.equal(
+      await detail.count(),
+      1,
+      `Detail image missing at ${page.url()}; errors: ${errors.join(" | ")}; content: ${(await page.locator("main").innerText()).slice(0,250)}`,
+    );
     assert.ok((await detail.getAttribute("src")).includes("koverta-chat"));
     const detailShape = await detail.evaluate((img) => ({
       shown: img.clientWidth / img.clientHeight,
