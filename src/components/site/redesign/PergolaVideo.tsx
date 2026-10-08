@@ -55,9 +55,8 @@ export function PergolaVideo() {
       }
     };
     const check = () => {
-      const api = (
-        frame.current?.contentWindow as (Window & { MC_PERGOLA?: PergolaModel }) | null
-      )?.MC_PERGOLA;
+      const api = (frame.current?.contentWindow as (Window & { MC_PERGOLA?: PergolaModel }) | null)
+        ?.MC_PERGOLA;
       if (!api || model) return;
       model = api;
       model.view(-0.62, 0.42);
