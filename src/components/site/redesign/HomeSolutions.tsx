@@ -149,7 +149,11 @@ export function HomeSolutions() {
               onClick={kind === "3d" ? undefined : (e) => open(e, href)}
               target={kind === "3d" ? "_blank" : undefined}
               rel={kind === "3d" ? "noopener noreferrer" : undefined}
-              aria-label={kind === "3d" ? "Vyskúšať 3D konfigurátor na koverta.sk" : `Pozrieť riešenie: ${title}`}
+              aria-label={
+                kind === "3d"
+                  ? "Vyskúšať 3D konfigurátor na koverta.sk"
+                  : `Pozrieť riešenie: ${title}`
+              }
             >
               <div className={s.panelBody}>
                 <span className={s.number}>
