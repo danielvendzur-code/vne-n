@@ -19,7 +19,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "compact-ui-fixes-20261007-v33";
+  const WIDGET_RELEASE = "compact-ui-fixes-20261007-v33-site-patch-20261008";
 
   let settled = false;
   let loading = false;
@@ -179,7 +179,17 @@
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = SOURCE;
-    script.onload = () => confirmMount();
+    script.onload = () => {
+      // Load after the compiled CSS so this small same-origin patch owns the final layout.
+      if (!document.querySelector('link[data-dv-widget-cinematic="true"]')) {
+        const stylesheet = document.createElement("link");
+        stylesheet.rel = "stylesheet";
+        stylesheet.href = new URL("widget-cinematic.css", new URL(SOURCE, document.baseURI)).toString();
+        stylesheet.dataset.dvWidgetCinematic = "true";
+        document.head.appendChild(stylesheet);
+      }
+      confirmMount();
+    };
     script.onerror = () => {
       loading = false;
       script.remove();
