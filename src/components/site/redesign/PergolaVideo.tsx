@@ -63,7 +63,7 @@ export function PergolaVideo() {
       <div className={s.pergolaScene}>
         <img
           className={s.pergolaPoster}
-          src={sitePath("/work/solutions/pergola-film-poster.webp")}
+          src={sitePath("/work/solutions/pergola-film-stabilized-poster.webp")}
           alt="Bioklimatická pergola Koverta v 3D vizualizácii"
           width={800}
           height={600}
