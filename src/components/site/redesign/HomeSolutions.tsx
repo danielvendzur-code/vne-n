@@ -10,32 +10,26 @@ import s from "./HomeSolutions.module.css";
 function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
   const file =
     kind === "chatbot"
-      ? "koverta-chat-editorial"
+      ? "koverta-chat-quiet"
       : kind === "calculator"
-        ? "mojplot-calc-editorial"
-        : "skincare-advisor-demo";
+        ? "mojplot-calc-quiet"
+        : "skincare-advisor-real";
   const alt =
     kind === "chatbot"
       ? "Chatbot Koverta vo svojom reálnom webovom rozhraní"
       : kind === "calculator"
-        ? "Skutočný výsledok kalkulačky Môj Plot s cenou 892 €"
-        : "Ukážka poradenstva pre pleťovú kozmetiku bez značky predajcu";
+        ? "Úvodný krok skutočnej kalkulačky Môj Plot bez vypočítanej ceny"
+        : "Skutočný poradca starostlivosti o pleť bez označenia firmy";
   return (
     <figure className={s.snapshot} data-real-preview>
       <img
         src={sitePath(`/work/solutions/${file}.webp`)}
         alt={alt}
-        width={kind === "chatbot" ? 768 : kind === "advisor" ? 962 : 808}
-        height={kind === "chatbot" ? 1132 : kind === "advisor" ? 938 : 928}
+        width={kind === "advisor" ? 904 : kind === "calculator" ? 888 : 768}
+        height={kind === "advisor" ? 1300 : kind === "calculator" ? 1544 : 1280}
         loading="lazy"
         decoding="async"
       />
-      <figcaption className={s.previewCaption}>
-        <strong>
-          {kind === "chatbot" ? "Koverta" : kind === "advisor" ? "Pleťová kozmetika" : "Môj Plot"}
-        </strong>
-        <span>{kind === "advisor" ? "Ukážkový katalóg" : "Rozhranie produktu"}</span>
-      </figcaption>
     </figure>
   );
 }
@@ -71,30 +65,42 @@ export function HomeSolutions() {
   const root = useRef<HTMLElement>(null);
   const router = useRouter();
   useEffect(() => {
-    const cards = root.current?.querySelectorAll<HTMLElement>(
-      "[data-solution-card], [data-section-heading]",
-    );
-    if (!cards || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const element = root.current;
+    if (!element) return;
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    let visible = false;
+    const paint = () => {
+      frame = 0;
+      const top = element.getBoundingClientRect().top;
+      const progress = media.matches
+        ? 1
+        : Math.min(1, Math.max(0, (innerHeight * 0.95 - top) / (innerHeight * 0.58)));
+      element.style.setProperty("--scene-open", String(progress));
+      element.dataset.motion = media.matches ? "off" : "on";
+      element.querySelector("[data-section-heading]")?.setAttribute("data-visible", "true");
+    };
+    const schedule = () => {
+      if (visible && !frame) frame = requestAnimationFrame(paint);
+    };
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(({ target, isIntersecting }) => {
-          if (isIntersecting) {
-            (target as HTMLElement).dataset.visible = "true";
-            observer.unobserve(target);
-          }
-        });
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) paint();
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+      { rootMargin: "160px" },
     );
-    cards.forEach((card) => {
-      card.dataset.solutionReveal = "pending";
-      observer.observe(card);
-    });
+    observer.observe(element);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    media.addEventListener("change", paint);
     return () => {
       observer.disconnect();
-      cards.forEach((card) => {
-        card.dataset.visible = "true";
-      });
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      media.removeEventListener("change", paint);
+      delete element.dataset.motion;
     };
   }, []);
   const open = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -132,7 +138,12 @@ export function HomeSolutions() {
             className={s.panel}
             key={title}
             data-solution-card={i}
-            style={{ "--card-delay": `${i * 110}ms` } as CSSProperties}
+            style={
+              {
+                "--card-lift": `${(4 - i) * 28}px`,
+                "--card-turn": `${(i - 1.5) * 2.5}deg`,
+              } as CSSProperties
+            }
           >
             <a
               className={s.panelLink}

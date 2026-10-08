@@ -45,7 +45,7 @@
   gap: 20px;
   height: auto !important;
   min-height: 0;
-  padding: 24px;
+  padding: 16px;
   border-radius: 16px !important;
   background: var(--mc-ink);
 }
@@ -57,11 +57,12 @@
 }
 .redesign .solution-detail__preview .solution-detail__image {
   display: block;
-  width: min(400px, 100%) !important;
+  width: auto !important;
   height: auto;
-  max-height: none !important;
+  max-height: 760px !important;
+  max-width: 100%;
   object-fit: contain !important;
-  border-radius: 10px !important;
+  border-radius: 16px !important;
 }
 .redesign .solution-detail__preview [data-skincare-demo] img {
   width: 88px;
@@ -82,14 +83,14 @@
 }
 ::view-transition-group(solution-surface),
 ::view-transition-group(solution-image) {
-  animation-duration: 650ms;
+  animation-duration: 1050ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 ::view-transition-old(root) {
-  animation: solution-page-out 180ms ease both;
+  animation: solution-page-out 450ms ease both;
 }
 ::view-transition-new(root) {
-  animation: solution-page-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: solution-page-in 1050ms cubic-bezier(0.76, 0, 0.24, 1) both;
 }
 ::view-transition-old(solution-surface),
 ::view-transition-new(solution-surface) {
@@ -113,10 +114,10 @@
 }
 @keyframes solution-page-in {
   from {
-    opacity: 0;
+    clip-path: inset(0 0 100%);
   }
   to {
-    opacity: 1;
+    clip-path: inset(0);
   }
 }
 .solution-flight {
@@ -142,7 +143,7 @@
     padding: 28px 0 48px !important;
   }
   .redesign .solution-detail__preview {
-    padding: 18px 12px;
+    padding: 0;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -182,4 +183,26 @@
   .solution-detail--3d[data-shared-arrival="true"] p {
     animation: none;
   }
+}
+
+.redesign .solution-detail__preview:has(.solution-detail__image) {
+  background: var(--mc-ink);
+}
+.solution-demo-toggle {
+  margin: 0 0 16px;
+  background: var(--mc-ink) !important;
+}
+
+.redesign .solution-detail__layout {
+  align-items: start !important;
+}
+@media (min-width: 1060px) {
+  .redesign .solution-detail__preview .solution-detail__image {
+    max-height: min(760px, calc(100svh - 245px)) !important;
+  }
+}
+
+.redesign .solution-detail[data-tool="poradca"] .solution-detail__image {
+  width: min(520px, 100%) !important;
+  max-height: none !important;
 }

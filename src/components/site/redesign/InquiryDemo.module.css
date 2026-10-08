@@ -423,22 +423,6 @@
     aspect-ratio: 16/10;
   }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .mailContent {
-    animation: mail-arrive 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  @keyframes mail-arrive {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
 /* Compact Gmail comparison: contacts first, itemized configuration on demand. */
 .heading > p {
   align-self: end;
@@ -467,56 +451,6 @@
   font-size: 24px;
   line-height: 1.2;
 }
-.configurationDetails {
-  margin-top: 11px;
-  border: 1px solid #dfd5c9;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #fffcf7;
-}
-.configurationDetails summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  cursor: pointer;
-  list-style: none;
-  font-size: 13px;
-  font-weight: 700;
-  color: #34251b;
-}
-.configurationDetails summary::-webkit-details-marker {
-  display: none;
-}
-.configurationDetails summary svg {
-  flex: 0 0 auto;
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.configurationDetails[open] summary svg {
-  transform: rotate(180deg);
-}
-.configurationBody {
-  border-top: 1px solid #e9e2d9;
-  padding: 8px 16px 12px;
-}
-.configurationBody .note {
-  padding-top: 12px;
-  margin: 0;
-}
-.configurationBody .attachment {
-  margin: 13px 0 0;
-}
-.configurationDetails:focus-within {
-  outline: 2px solid #8f6245;
-  outline-offset: 1px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .configurationDetails summary svg {
-    transition: none;
-  }
-}
-
 /* Each mail owns its natural height; disclosure extends the page, never a nested scroller. */
 .summary {
   margin: 0 0 12px !important;
@@ -524,23 +458,6 @@
   line-height: 1.6;
   color: #5f6368;
 }
-.configurationDetails[open] .configurationBody {
-  animation: mail-detail-open 260ms ease-out;
-}
-@keyframes mail-detail-open {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .configurationBody {
-    animation: none !important;
-  }
-}
-
 /* Contacts form a compact, readable two-column block before the price. */
 .quote {
   padding-top: 0;
@@ -570,9 +487,6 @@
 .price {
   padding: 10px 14px;
 }
-.configurationDetails summary {
-  padding: 12px 14px;
-}
 .topbar {
   height: 48px;
   flex-basis: 48px;
@@ -592,4 +506,19 @@
     display: grid;
     grid-template-columns: 65px minmax(0, 1fr);
   }
+}
+
+.configurationBody {
+  padding: 0;
+}
+.comparisonLabel {
+  font-family: "Geist", sans-serif;
+  font-size: 22px;
+  font-weight: 550;
+  letter-spacing: -0.04em;
+  color: var(--mc-ink);
+}
+.comparison {
+  max-width: 1180px;
+  gap: 28px;
 }

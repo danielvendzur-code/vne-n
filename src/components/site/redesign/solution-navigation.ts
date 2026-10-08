@@ -69,7 +69,7 @@ export async function openSolution(preview: HTMLElement | null, navigate: () => 
             opacity: 1,
           },
         ],
-        { duration: 650, easing: ease, fill: "forwards" },
+        { duration: 1050, easing: ease, fill: "forwards" },
       );
       await animation.finished.catch(() => {});
       target!.style.visibility = "";
