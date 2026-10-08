@@ -20,20 +20,22 @@ jobs:
       - run: bun run scripts/install-frozen.mjs
       - name: Install Chromium test runtime
         run: |
-          npm install --no-save --ignore-scripts playwright@1.55.0
-          npx playwright install --with-deps chromium
+          npm install --prefix /tmp/cinematic-runtime --no-save --ignore-scripts playwright@1.55.0
+          node /tmp/cinematic-runtime/node_modules/playwright/cli.js install --with-deps chromium
+      - name: Build the production Vercel output
+        run: bun run build
       - name: Check responsive layouts and actual interactions
         shell: bash
         run: |
           set -euo pipefail
-          npm run dev -- --host 127.0.0.1 --port 4173 > /tmp/cinematic-vite.log 2>&1 &
+          node scripts/serve-vercel-build.mjs "$PWD" 4173 > /tmp/cinematic-server.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for attempt in {1..30}; do
             if curl -fsS http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
-          node scripts/verify-cinematic-ui.mjs
+          PLAYWRIGHT_MODULE=/tmp/cinematic-runtime/node_modules/playwright/index.mjs node scripts/verify-cinematic-ui.mjs
       - name: Save screenshots and test report
         if: always()
         uses: actions/upload-artifact@v4

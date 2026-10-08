@@ -16,6 +16,8 @@ This review builds on website PR #200 (`beac46714ba491dd3fc643e5fd9ee16f14dd4de1
 
 ## Real product sources
 
+The real Koverta 3D configurator was recaptured with the pergola selected and cookies refused through the provided control. [Clean 3D capture](../../../public/work/koverta/configurator-live-screenshot.jpg).
+
 Koverta's widget loads lazily after user interaction. Its current **Poradca** was opened on the real site, cookies were refused through the provided control, and a question about pergola versus fixed roofing received a real answer and product links. Its actual client logo is retained. [Original capture](koverta-source.png).
 
 Môj Plot's real widget was opened, configured for 20 bm, 153 cm and 4 mm, with anthracite finish, round posts, underboards and installation. Its own calculator returned **1 175 €** (rounded display; detailed total 1 175,29 €). The fictional test contact submission was intercepted before network delivery. [Input](calculator-input-source.png), [result](calculator-result-source.png).
@@ -28,7 +30,7 @@ All 720 frames of both 12-second, 60 fps sources were measured against the fixed
 
 ## Verification
 
-- Website: lint, production Vercel build, 48 tests, security audit (176 scanned files).
+- Website: lint with the frozen Bun dependencies used by CI, production Vercel build, 48 tests, security audit (176 scanned files). The original type formatting is retained; npm and Bun locks use different Prettier versions.
 - Backend: type check, production/embed builds, 14 tests; the JS bundle remains unchanged by these CSS-only additions.
 - Chromium: 320, 390, 768, 1366 and 1920 px, navigation/menu/hero/cases/mail/detail transitions/chat/widget/keyboard-height composer. [Report](cinematic-report.json). The final mask correction was checked at all five widths: [heading report](heading-report.json). The observer watches an unmasked parent; only its inner text is clipped.
 - Normal and reduced motion at 390 and 1366 px: fallback transition, Back, direct product URLs, all skincare choices, equal footer CTA geometry and intercepted contact submission. [Report](regression.json).
@@ -41,7 +43,7 @@ Solutions before: [desktop](solutions-before-desktop.png), [mobile](solutions-be
 
 Solutions after: [desktop](solutions-after-desktop.png), [mobile](solutions-after-mobile.png). Gmail: [desktop](mail-after-desktop.png), [mobile](mail-after-mobile.png). Section-only captures omit fixed navigation to prevent its duplication in stitched images; hero/menu screenshots retain it.
 
-Browser scripts are included for reproducibility. Run from the repository with Playwright available (`PLAYWRIGHT_MODULE` can point to an installed package), Chromium specified by `PLAYWRIGHT_CHROMIUM_EXECUTABLE`, and the production build served on port 4183. `serve-vercel.mjs <repository-path> 4183` serves the generated Vercel handler and static files because the existing `vite preview` expects a missing `dist/server/server.js`. Reports/videos are written under `/workspace/qa`, outside the checkout. Playwright recording needs its ffmpeg installation.
+Browser scripts are included for reproducibility. CI now installs Playwright in a separate runtime directory so it cannot re-resolve application dependencies, then tests the real production Vercel output. The development-only Lovable source tagger emits inconsistent SSR/client line coordinates; production testing avoids those debug attributes while retaining strict console-error assertions. Run from the repository with Playwright available (`PLAYWRIGHT_MODULE` can point to an installed package), Chromium specified by `PLAYWRIGHT_CHROMIUM_EXECUTABLE`, and the production build served on port 4183. `node scripts/serve-vercel-build.mjs <repository-path> 4183` serves the generated Vercel handler and static files because the existing `vite preview` expects a missing `dist/server/server.js`. Reports/videos are written under `/workspace/qa`, outside the checkout. Playwright recording needs its ffmpeg installation.
 
 ## Performance and release limits
 

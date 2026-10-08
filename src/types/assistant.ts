@@ -1,5 +1,10 @@
 export type AssistantEntry =
-  "recommend" | "builder" | "calculator" | "inquiry" | "advisor" | "booking";
+  | "recommend"
+  | "builder"
+  | "calculator"
+  | "inquiry"
+  | "advisor"
+  | "booking";
 
 export type AssistantPreset = "calculator" | "product" | "inquiry" | "advisor" | "booking";
 

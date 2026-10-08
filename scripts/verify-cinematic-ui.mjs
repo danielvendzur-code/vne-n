@@ -1,4 +1,4 @@
-import { chromium } from "playwright";
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || "playwright");
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 
