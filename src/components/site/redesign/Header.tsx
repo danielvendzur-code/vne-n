@@ -59,7 +59,7 @@ export function Header({ active = "home" }: HeaderProps) {
         }
       }}
     >
-      <a className={s.brand} href={sitePath("/")} aria-label="Môj Chatbot — úvod">
+      <a className={s.brand} href={sitePath("/")} aria-label="Môj Chatbot — naspäť hore" onClick={(e) => { if (window.location.pathname === "/") { e.preventDefault(); close(); window.scrollTo({ top:0, left:0, behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" }); } }}>
         <BrandMark size={32} tone="paper" className="mc-mark--static" />
         <span>Môj Chatbot</span>
       </a>

@@ -10,29 +10,29 @@ import s from "./HomeSolutions.module.css";
 function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
   const file =
     kind === "chatbot"
-      ? "webko-chat-native"
+      ? "koverta-chat"
       : kind === "calculator"
         ? "mojplot-calc-preview"
-        : "mojplot-chat-native";
+        : "skincare-photo";
   const alt =
     kind === "chatbot"
-      ? "Skutočný chatbot WEBKO — celé rozhranie v pôvodných farbách"
+      ? "Chatbot Koverta vo svojom reálnom webovom rozhraní"
       : kind === "calculator"
         ? "Skutočný výsledok kalkulačky Môj Plot s cenou 892 €"
-        : "Skutočný produktový asistent Môj Plot";
+        : "Ukážka poradenstva pre pleťovú kozmetiku bez značky predajcu";
   return (
     <figure className={s.snapshot} data-real-preview>
       <img
-        src={sitePath(`/work/solutions/${file}.webp`)}
+        src={sitePath(kind === "chatbot" ? `/work/live/${file}.webp` : `/work/solutions/${file}.webp`)}
         alt={alt}
-        width={kind === "chatbot" ? 1140 : kind === "advisor" ? 1332 : 1200}
-        height={kind === "chatbot" ? 1680 : kind === "advisor" ? 1956 : 1440}
+        width={kind === "chatbot" ? 1000 : kind === "advisor" ? 1200 : 1200}
+        height={kind === "chatbot" ? 1300 : kind === "advisor" ? 900 : 1440}
         loading="lazy"
         decoding="async"
       />
       <figcaption className={s.previewCaption}>
-        <strong>{kind === "chatbot" ? "WEBKO" : "Môj Plot"}</strong>
-        <span>Skutočné rozhranie</span>
+        <strong>{kind === "chatbot" ? "Koverta" : kind === "advisor" ? "Pleťová kozmetika" : "Môj Plot"}</strong>
+        <span>{kind === "advisor" ? "Ukážka poradenstva" : "Skutočná ukážka"}</span>
       </figcaption>
     </figure>
   );

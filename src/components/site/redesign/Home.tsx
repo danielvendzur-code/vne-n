@@ -55,7 +55,7 @@ export class Home extends Component<{
         type: "Výroba na mieru · 3D konfigurátor",
         result:
           "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
-        img: P + "koverta/konfigurator-pergola.webp",
+        img: P + "koverta/config-step-6.webp",
         tools: ["3D konfigurátor", "Dopyt so zostavou"],
         case: true,
         caseHref: "/3d-konfigurator",

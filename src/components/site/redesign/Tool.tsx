@@ -75,9 +75,9 @@ export class Tool extends Component<{
         accent: "ktorý vie odpovedať.",
         price: "347 €",
         lead: "Odpovedá z vašich podkladov, zistí, čo zákazník potrebuje, a pošle vám kontakt so zhrnutím.",
-        img: P + "solutions/webko-chat-native.webp",
+        img: P + "live/koverta-chat.webp",
         imgW: "46%",
-        caption: "WEBKO · SKUTOČNÝ CHATBOT",
+        caption: "KOVERTA · CHATBOT",
         steps: steps([
           [
             "OTÁZKA",
@@ -190,9 +190,9 @@ export class Tool extends Component<{
         accent: "ktorý vyberie za zákazníka.",
         price: "347 €",
         lead: "Pár jednoduchých otázok a zákazník dostane konkrétny produkt z vašej ponuky — bez toho, aby musel poznať celý katalóg.",
-        img: P + "solutions/mojplot-chat-native.webp",
+        img: P + "solutions/skincare-photo.webp",
         imgW: "46%",
-        caption: "MÔJ PLOT · PRODUKTOVÝ ASISTENT",
+        caption: "PLEŤOVÁ KOZMETIKA · UKÁŽKA PORADCU",
         steps: steps([
           [
             "OTÁZKY",
@@ -234,7 +234,7 @@ export class Tool extends Component<{
         exName: "Môj Plot",
         exDomain: "mojplot.sk",
         exHref: "https://mojplot.sk/",
-        exImg: P + "solutions/mojplot-chat-native.webp",
+        exImg: P + "solutions/skincare-photo.webp",
         exCopy:
           "Vyskúšajte si, ako vyzerá riadený výber v praxi. Poradca sa dá napojiť na váš e-shop a produkty.",
       },

@@ -37,7 +37,7 @@ export function PergolaVideo() {
         muted
         loop
         playsInline
-        preload="none"
+        preload="metadata"
         poster={sitePath("/work/solutions/pergola-film-poster.webp")}
         width={800}
         height={600}
