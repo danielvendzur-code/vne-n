@@ -1,3 +1,4 @@
+import { revealElement } from "./reveal-element";
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
 import { Footer } from "./Footer";
@@ -148,6 +149,7 @@ export class Process extends Component<{
                 <Fragment key={index}>
                   <div
                     className="process-step"
+                    ref={revealElement}
                     data-reveal
                     style={cssStyle(
                       `background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:24px;padding:28px 30px;display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px`,

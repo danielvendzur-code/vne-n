@@ -53,28 +53,31 @@ export async function openSolution(preview: HTMLElement | null, navigate: () => 
     });
     document.body.append(flight);
   }
+  let hiddenTarget: HTMLElement | null = null;
   try {
     await settle();
     const target = document.querySelector<HTMLElement>(".solution-detail__image");
     const end = target?.getBoundingClientRect();
     if (flight && start && end) {
+      hiddenTarget = target ?? null;
       target!.style.visibility = "hidden";
       const animation = flight.animate(
         [
           { transform: "none", opacity: 1 },
           {
-            transform: `translate(${end.x - start.x}px, ${end.y - start.y}px) scale(${end.width / start.width})`,
+            transform: `translate(${end.x - start.x}px, ${end.y - start.y}px) scale(${end.width / start.width}, ${end.height / start.height})`,
             opacity: 1,
           },
         ],
-        { duration: 1000, easing: ease, fill: "forwards" },
+        { duration: 650, easing: ease, fill: "forwards" },
       );
       await animation.finished.catch(() => {});
       target!.style.visibility = "";
     } else {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Navigation without a source image is immediately usable.
     }
   } finally {
+    if (hiddenTarget) hiddenTarget.style.visibility = "";
     flight?.remove();
     clean();
   }

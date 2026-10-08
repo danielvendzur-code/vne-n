@@ -1,3 +1,4 @@
+import { revealElement } from "./reveal-element";
 import { BrandMark } from "@/components/BrandMark";
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
@@ -33,6 +34,7 @@ export class Footer extends Component<{
           )}
         >
           <div
+            ref={revealElement}
             data-reveal
             style={cssStyle(
               `max-width:1232px;margin:0 auto;background:var(--mc-paper);color:var(--mc-ink);border-radius:14px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:end`,
@@ -62,9 +64,7 @@ export class Footer extends Component<{
                 </button>
                 <a
                   href={sitePath("mailto:info@mojchatbot.sk")}
-                  style={cssStyle(
-                    `color:var(--mc-ink);font-size:16px;padding:16px 26px;border-radius:999px;border:1px solid rgba(12,26,21,.3);text-decoration:none`,
-                  )}
+                  className="mc-btn mc-btn--secondary"
                 >
                   {"info@mojchatbot.sk"}
                 </a>

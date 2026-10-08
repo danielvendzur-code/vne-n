@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
+import { SkincareAdvisor } from "./SkincareAdvisor";
 import { Footer } from "./Footer";
 
 export class Tool extends Component<{
@@ -8,7 +9,7 @@ export class Tool extends Component<{
   copy?: string;
   tool?: string;
 }> {
-  state = { t: this.props.tool ?? "kalkulacka" };
+  state = { t: this.props.tool ?? "kalkulacka", advisorDemo: false };
   componentDidMount() {
     if (document.documentElement.dataset.solutionOpening === "true")
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -75,7 +76,7 @@ export class Tool extends Component<{
         accent: "ktorý vie odpovedať.",
         price: "347 €",
         lead: "Odpovedá z vašich podkladov, zistí, čo zákazník potrebuje, a pošle vám kontakt so zhrnutím.",
-        img: P + "live/koverta-chat.webp",
+        img: P + "solutions/koverta-chat-editorial.webp",
         imgW: "46%",
         caption: "KOVERTA · CHATBOT",
         steps: steps([
@@ -133,9 +134,9 @@ export class Tool extends Component<{
         accent: "ktorá počíta za vás.",
         price: "447 €",
         lead: "Z rozmerov, množstva či doplnkov spočíta orientačnú cenu podľa vášho cenníka. Zákazník vie, s čím počítať — vy dostanete hotové zadanie.",
-        img: P + "solutions/mojplot-calc-preview.webp",
+        img: P + "solutions/mojplot-calc-editorial.webp",
         imgW: "62%",
-        caption: "MÔJ PLOT · VYPOČÍTANÁ CENA",
+        caption: "Môj Plot · kalkulačka",
         steps: steps([
           [
             "ZAČIATOK",
@@ -190,7 +191,7 @@ export class Tool extends Component<{
         accent: "ktorý vyberie za zákazníka.",
         price: "347 €",
         lead: "Pár jednoduchých otázok a zákazník dostane konkrétny produkt z vašej ponuky — bez toho, aby musel poznať celý katalóg.",
-        img: P + "solutions/skincare-photo.webp",
+        img: P + "solutions/skincare-advisor-demo.webp",
         imgW: "46%",
         caption: "PLEŤOVÁ KOZMETIKA · UKÁŽKA PORADCU",
         steps: steps([
@@ -234,7 +235,7 @@ export class Tool extends Component<{
         exName: "Poradca pre pleťovú kozmetiku",
         exDomain: "Chcem podobného poradcu",
         exHref: "#",
-        exImg: P + "solutions/skincare-photo.webp",
+        exImg: P + "solutions/skincare-advisor-demo.webp",
         exCopy:
           "Ukážka výberu pleťovej starostlivosti bez značky alebo loga predajcu. Poradca sa pýta na typ pleti, potreby a preferencie, potom vysvetlí odporúčanie.",
       },
@@ -385,8 +386,9 @@ export class Tool extends Component<{
                 )}
               >
                 <div
+                  className="solution-detail__caption"
                   style={cssStyle(
-                    `position:absolute;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.7)`,
+                    `display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.7)`,
                   )}
                 >
                   <span style={cssStyle(`display:flex;align-items:center;gap:8px`)}>
@@ -395,19 +397,32 @@ export class Tool extends Component<{
                         `width:7px;height:7px;border-radius:50%;background:var(--mc-accent)`,
                       )}
                     ></span>
-                    {"SKUTOČNÁ UKÁŽKA"}
+                    {key === "poradca" ? "UKÁŽKOVÝ KATALÓG" : "ROZHRANIE PRODUKTU"}
                   </span>
                   <span>{t.caption}</span>
                 </div>
-                <img
-                  className="solution-detail__image"
-                  src={sitePath(t.img)}
-                  alt={t.caption}
-                  style={cssStyle(
-                    `width:${t.imgW};max-height:84%;object-fit:cover;object-position:top;border-radius:20px 20px 0 0;display:block`,
-                  )}
-                  loading="eager"
-                />
+                {key === "poradca" && this.state.advisorDemo ? (
+                  <SkincareAdvisor />
+                ) : (
+                  <img
+                    className="solution-detail__image"
+                    src={sitePath(t.img)}
+                    alt={t.caption}
+                    style={cssStyle(
+                      `width:${t.imgW};max-height:84%;object-fit:cover;object-position:top;border-radius:20px 20px 0 0;display:block`,
+                    )}
+                    loading="eager"
+                  />
+                )}
+                {key === "poradca" ? (
+                  <button
+                    type="button"
+                    className="mc-btn solution-demo-toggle"
+                    onClick={() => this.setState({ advisorDemo: !this.state.advisorDemo })}
+                  >
+                    {this.state.advisorDemo ? "Zobraziť náhľad" : "Vyskúšať poradcu"}
+                  </button>
+                ) : null}
               </div>
             </div>
           </section>

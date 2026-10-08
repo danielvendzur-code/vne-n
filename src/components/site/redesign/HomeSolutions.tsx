@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, type MouseEvent, type PointerEvent, type CSSProperties } from "react";
+import { useEffect, useRef, type MouseEvent, type CSSProperties } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { PergolaVideo } from "./PergolaVideo";
 import { openSolution } from "./solution-navigation";
@@ -10,10 +10,10 @@ import s from "./HomeSolutions.module.css";
 function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
   const file =
     kind === "chatbot"
-      ? "koverta-chat"
+      ? "koverta-chat-editorial"
       : kind === "calculator"
-        ? "mojplot-calc-preview"
-        : "skincare-photo";
+        ? "mojplot-calc-editorial"
+        : "skincare-advisor-demo";
   const alt =
     kind === "chatbot"
       ? "Chatbot Koverta vo svojom reálnom webovom rozhraní"
@@ -23,12 +23,10 @@ function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
   return (
     <figure className={s.snapshot} data-real-preview>
       <img
-        src={sitePath(
-          kind === "chatbot" ? `/work/live/${file}.webp` : `/work/solutions/${file}.webp`,
-        )}
+        src={sitePath(`/work/solutions/${file}.webp`)}
         alt={alt}
-        width={kind === "chatbot" ? 1000 : kind === "advisor" ? 1200 : 1200}
-        height={kind === "chatbot" ? 1300 : kind === "advisor" ? 900 : 1440}
+        width={kind === "chatbot" ? 768 : kind === "advisor" ? 962 : 808}
+        height={kind === "chatbot" ? 1132 : kind === "advisor" ? 938 : 928}
         loading="lazy"
         decoding="async"
       />
@@ -36,7 +34,7 @@ function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
         <strong>
           {kind === "chatbot" ? "Koverta" : kind === "advisor" ? "Pleťová kozmetika" : "Môj Plot"}
         </strong>
-        <span>{kind === "advisor" ? "Ukážka poradenstva" : "Skutočná ukážka"}</span>
+        <span>{kind === "advisor" ? "Ukážkový katalóg" : "Rozhranie produktu"}</span>
       </figcaption>
     </figure>
   );
@@ -70,11 +68,11 @@ const solutions = [
 ] as const;
 
 export function HomeSolutions() {
-  const root = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLElement>(null);
   const router = useRouter();
   useEffect(() => {
     const cards = root.current?.querySelectorAll<HTMLElement>(
-      "[data-solution-card], [data-solution-preview]",
+      "[data-solution-card], [data-section-heading]",
     );
     if (!cards || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const observer = new IntersectionObserver(
@@ -99,12 +97,6 @@ export function HomeSolutions() {
       });
     };
   }, []);
-  const onCardPointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (event.pointerType !== "mouse") return;
-    const bounds = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty("--light-x", `${event.clientX - bounds.left}px`);
-    event.currentTarget.style.setProperty("--light-y", `${event.clientY - bounds.top}px`);
-  };
   const open = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
       return;
@@ -116,8 +108,8 @@ export function HomeSolutions() {
     );
   };
   return (
-    <section id="riesenia" className={s.section} aria-labelledby="solutions-title">
-      <header className={s.heading}>
+    <section ref={root} id="riesenia" className={s.section} aria-labelledby="solutions-title">
+      <header className={s.heading} data-section-heading>
         <div className={s.headingTitle}>
           <span className={s.eyebrow}>01 / PORTFÓLIO RIEŠENÍ</span>
           <h2 id="solutions-title">
@@ -134,13 +126,12 @@ export function HomeSolutions() {
       <div className={s.motionTrack} aria-hidden="true">
         <span />
       </div>
-      <div ref={root} className={s.panels}>
+      <div className={s.panels}>
         {solutions.map(({ title, copy, href, kind }, i) => (
           <article
             className={s.panel}
             key={title}
             data-solution-card={i}
-            onPointerMove={onCardPointerMove}
             style={{ "--card-delay": `${i * 110}ms` } as CSSProperties}
           >
             <a

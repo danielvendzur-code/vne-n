@@ -1,4 +1,3 @@
-import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, type CSSProperties } from "react";
 import styles from "./StudioHome.module.css";
 
@@ -106,6 +105,7 @@ export function StudioHero() {
                 key={project.slug}
                 className={`${styles.heroCase} ${fit.case}`}
                 href={project.href}
+                aria-label={`Otvoriť realizáciu ${project.name}`}
                 target="_blank"
                 rel="noreferrer"
                 style={{ "--case": index } as CSSProperties}
@@ -121,9 +121,6 @@ export function StudioHero() {
                   decoding="async"
                   fetchPriority={index === 0 ? "high" : "auto"}
                 />
-                <span>
-                  0{index + 1} / {project.name} <ArrowUpRight size={14} aria-hidden="true" />
-                </span>
               </a>
             ))}
           </div>

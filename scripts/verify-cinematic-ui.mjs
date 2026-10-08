@@ -5,7 +5,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 const origin = process.env.LIVE_SITE_ORIGIN || "http://127.0.0.1:4173";
 const output = process.env.VISUAL_OUTPUT || "visual-artifacts";
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({
+  headless: true,
+  executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
+});
 const results = [];
 const failures = [];
 const reply =
@@ -50,6 +53,7 @@ for (const viewport of sizes) {
   });
   page.on("console", (message) => {
     if (message.type() === "error") {
+      errors.push(message.text());
       console.error("BROWSER CONSOLE ERROR", viewport.width, message.text().slice(0, 2000));
     }
   });
@@ -104,6 +108,7 @@ for (const viewport of sizes) {
       .locator("#site-menu")
       .getByRole("link", { name: /Riešenia/ })
       .waitFor({ state: "visible" });
+    await page.waitForTimeout(700);
     await page.screenshot({ path: `${output}/menu-${viewport.width}.png` });
     await page.keyboard.press("Escape");
     assert.equal(await menu.getAttribute("aria-expanded"), "false");
@@ -183,6 +188,7 @@ for (const viewport of sizes) {
       .locator("#riesenia")
       .screenshot({ path: `${output}/solutions-${viewport.width}.png` });
     await page.locator("#pred-a-po").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
     assert.ok((await mail.innerText()).includes("+421 900 123 456"));
@@ -193,43 +199,34 @@ for (const viewport of sizes) {
       }),
     );
     assert.equal(windows.length, 2);
-    assert.ok(
-      windows.every((w) => w.h <= 540),
-      "email windows cannot stretch with the full message",
-    );
     const scrollMail = mail.getByRole("region").last();
-    assert.equal(
-      await scrollMail.getAttribute("tabindex"),
-      "0",
-      "email contents remain keyboard accessible",
+    assert.ok(
+      await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
+      "collapsed email shows its full contents without an inner scrollbar",
     );
+    const collapsedHeight = await mail.evaluate((e) => e.getBoundingClientRect().height);
     const configurationSummary = mail
       .locator("details summary")
       .filter({ hasText: "Celá zostava zákazníka" });
-    await configurationSummary.click();
+    await configurationSummary.focus();
+    await page.keyboard.press("Enter");
     assert.ok(
-      await scrollMail.evaluate((e) => e.scrollHeight > e.clientHeight),
-      "expanded configuration remains inside a scrollable email",
+      await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
+      "expanded email grows naturally without an inner scrollbar",
     );
     assert.ok(
       (await mail.innerText()).includes("Bioklimatická pergola Soltec"),
       "expanded details show the complete selected configuration",
     );
-    await scrollMail.focus();
-    await page.keyboard.press("End");
-    await page.waitForTimeout(250);
     assert.ok(
-      await scrollMail.evaluate((e) => e.scrollTop > 0),
-      "keyboard reaches the complete quote",
+      (await mail.evaluate((e) => e.getBoundingClientRect().height)) > collapsedHeight,
+      "keyboard disclosure expands the page",
     );
-    await page.keyboard.press("Home");
-    await page.waitForTimeout(400);
-    await configurationSummary.focus();
-    await configurationSummary.click();
+    await page.keyboard.press("Enter");
     if (viewport.width > 700)
       assert.ok(
-        Math.abs(windows[0].w - windows[1].w) < 2 && Math.abs(windows[0].h - windows[1].h) < 2,
-        "desktop email windows must match",
+        Math.abs(windows[0].w - windows[1].w) < 2,
+        "desktop email previews have equal readable widths",
       );
     else
       assert.ok(
@@ -285,7 +282,11 @@ for (const viewport of sizes) {
     assert.equal(motion.calls, 1, "card starts an actual browser transition");
     assert.deepEqual(motion.errors, [], "shared image transition cannot be skipped");
     assert.equal(motion.ready, 1, "shared image transition must render successfully");
-    assert.equal(motion.duration, "1.1s", "the image visibly travels for 1.1 seconds");
+    assert.equal(
+      motion.duration,
+      "0.65s",
+      "the shared image follows the specified transition timing",
+    );
     await page.waitForTimeout(200);
     await page.screenshot({ path: `${output}/opening-${viewport.width}.png` });
     await page.waitForTimeout(1250);
@@ -391,6 +392,12 @@ for (const viewport of sizes) {
     const baseChoice = await choice.evaluate((e) => getComputedStyle(e).backgroundColor);
     const chosenBounds = await choice.boundingBox();
     await choice.click();
+    assert.equal(
+      await choice.getAttribute("data-selected"),
+      "true",
+      "selection is immediately reflected",
+    );
+    await page.getByTestId("flow-next").click();
     await page.waitForTimeout(850);
     assert.equal(
       await page.locator('[data-step="interest"]').count(),

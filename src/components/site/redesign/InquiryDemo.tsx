@@ -1,3 +1,4 @@
+import { SectionReveal } from "./SectionReveal";
 import type { ReactNode } from "react";
 import {
   Search,
@@ -55,12 +56,7 @@ function MailWindow({
         </div>
         <span className={s.account}>K</span>
       </div>
-      <div
-        className={s.message}
-        tabIndex={0}
-        role="region"
-        aria-label={`Ukážka e-mailu: ${subject}`}
-      >
+      <div className={s.message} role="region" aria-label={`Ukážka e-mailu: ${subject}`}>
         <div className={s.toolbar} aria-hidden="true">
           <ArrowLeft size={18} />
           <Archive size={18} />
@@ -93,16 +89,18 @@ function MailWindow({
 export function InquiryDemo() {
   return (
     <section id="pred-a-po" className={s.section}>
-      <header className={s.heading}>
-        <h2>
-          Od otázky k<br />
-          <span>pripravenému dopytu.</span>
-        </h2>
-        <p>
-          Zákazník odošle zostavu v 3D. Vám príde meno, kontakt, orientačná cena a podrobný výber –
-          bez ďalšieho dopisovania.
-        </p>
-      </header>
+      <SectionReveal>
+        <header className={s.heading}>
+          <h2>
+            Od otázky k<br />
+            <span>pripravenému dopytu.</span>
+          </h2>
+          <p>
+            Zákazník odošle zostavu v 3D. Vám príde meno, kontakt, orientačná cena a podrobný výber
+            – bez ďalšieho dopisovania.
+          </p>
+        </header>
+      </SectionReveal>
       <div className={s.comparison}>
         <div>
           <span className={s.comparisonLabel}>BEŽNÝ E-MAIL</span>
@@ -139,9 +137,8 @@ export function InquiryDemo() {
           >
             <div className={s.mailContent}>
               <div className={s.quote}>
-                <span className={s.emailEyebrow}>NOVÝ DOPYT · PERGOLA</span>
                 <h4>Údaje zákazníka</h4>
-                <dl>
+                <dl className={s.contacts}>
                   <div>
                     <dt>Meno</dt>
                     <dd>Martin Kováč</dd>
@@ -164,6 +161,9 @@ export function InquiryDemo() {
                   <strong>8 490 € s DPH</strong>
                   <small>Vzorová cena pre ukážku</small>
                 </div>
+                <p className={s.summary}>
+                  Bioklimatická pergola · 5 × 2,5 m · ZIP roleta · LED osvetlenie
+                </p>
                 <details className={s.configurationDetails}>
                   <summary>
                     Celá zostava zákazníka <ChevronDown size={18} aria-hidden="true" />

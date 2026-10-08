@@ -1,0 +1,72 @@
+.scene {
+  position: relative;
+  isolation: isolate;
+  margin-bottom: 32px;
+}
+.content {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+}
+.content > * {
+  width: 100%;
+  margin-bottom: 0;
+}
+.doors {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: clip;
+  border-radius: 12px;
+}
+.scene[data-motion="true"] .doors {
+  display: block;
+}
+.left,
+.right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--mc-ink);
+}
+.left {
+  left: 0;
+  transform: translate3d(calc(var(--door-open, 0) * -101%), 0, 0);
+}
+.right {
+  right: 0;
+  transform: translate3d(calc(var(--door-open, 0) * 101%), 0, 0);
+}
+.left span,
+.right span {
+  position: absolute;
+  top: 50%;
+  width: 104px;
+  height: 104px;
+  transform: translateY(-50%);
+}
+.left span {
+  right: -52px;
+}
+.right span {
+  left: -52px;
+}
+.left,
+.right {
+  overflow: clip;
+}
+@media (max-width: 700px) {
+  .content {
+    min-height: 270px;
+  }
+  .scene {
+    margin-bottom: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene[data-motion] .doors {
+    display: none;
+  }
+}

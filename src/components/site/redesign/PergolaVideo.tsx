@@ -30,7 +30,7 @@ export function PergolaVideo({ large = false }: { large?: boolean }) {
       if (!loaded) {
         // Defer the video request until the card is near the viewport.
         loaded = true;
-        player.src = sitePath("/work/solutions/pergola-film-stabilized.mp4");
+        player.src = sitePath("/work/solutions/pergola-film.mp4");
         player.load();
       }
       void player.play().catch(() => {
@@ -68,7 +68,7 @@ export function PergolaVideo({ large = false }: { large?: boolean }) {
       <div className={s.pergolaScene}>
         <img
           className={s.pergolaPoster}
-          src={sitePath("/work/solutions/pergola-film-stabilized-poster.webp")}
+          src={sitePath("/work/solutions/pergola-fixed-camera-poster.webp")}
           alt="Bioklimatická pergola Koverta v 3D vizualizácii"
           width={800}
           height={600}
@@ -95,9 +95,6 @@ export function PergolaVideo({ large = false }: { large?: boolean }) {
             }}
           />
         )}
-        <span className={s.videoIndex} aria-hidden="true">
-          01 / 04
-        </span>
       </div>
       <span className={s.videoCaption}>
         Video ukážka <span aria-hidden="true">·</span> Konfigurátor Koverta

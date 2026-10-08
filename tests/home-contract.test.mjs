@@ -136,11 +136,12 @@ test("each page has one reveal owner and never re-stages visible content", async
 
   // Avoid two controllers writing opacity/transform on the same page.
   assert.doesNotMatch(legacy, /PageRevealController/);
-  assert.match(redesign, /useLayoutEffect/);
-  assert.match(redesign, /element.dataset.revealed !== "true"/);
+  const reveal = await read("src/components/site/redesign/reveal-element.ts");
+  assert.doesNotMatch(redesign, /querySelectorAll<HTMLElement>\("\[data-reveal\]"\)/);
+  assert.match(reveal, /getBoundingClientRect\(\)\.top < innerHeight/);
   assert.match(hook, /item.dataset.shown !== "true"/);
-  assert.match(redesign, /observer.unobserve\(entry.target\)/);
-  assert.match(redesign, /prefers-reduced-motion: reduce/);
+  assert.match(reveal, /observer.disconnect\(\)/);
+  assert.match(reveal, /prefers-reduced-motion: reduce/);
   assert.doesNotMatch(css, /animation: mc-content-in|animation: mc-editorial-in/);
 });
 

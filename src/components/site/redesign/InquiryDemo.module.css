@@ -54,7 +54,7 @@
   gap: 20px;
   max-width: 1040px;
   margin: auto;
-  align-items: stretch;
+  align-items: start;
 }
 .comparison > div {
   min-width: 0;
@@ -75,9 +75,8 @@
   background: #f6f8fc;
   border: 1px solid #dce2ec;
   border-radius: 14px;
-  height: 520px;
+  height: auto;
   flex: none;
-  overflow: hidden;
   box-shadow: 0 12px 36px -24px #1c16122e;
   font-family: Arial, sans-serif;
   color: #202124;
@@ -124,9 +123,7 @@
   margin: 0 10px 10px;
   padding: 18px 20px;
   min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #c9cdd3 transparent;
+  overflow: visible;
   background: #fff;
   border-radius: 12px;
   min-width: 0;
@@ -375,7 +372,7 @@
   }
   .gmail {
     flex: none;
-    height: 520px;
+    height: auto;
   }
   .topbar {
     height: 52px;
@@ -443,19 +440,156 @@
 }
 
 /* Compact Gmail comparison: contacts first, itemized configuration on demand. */
-.heading > p{align-self:end;max-width:54ch}
-.emailEyebrow{display:block;font:600 10px/1.5 "Geist Mono",monospace;letter-spacing:.1em;color:#775033}
-.quote h4{margin:13px 0 7px}
-.quote dl > div{padding:6px 0}
-.price{padding:12px 16px;margin:14px 0 12px;border-radius:10px}
-.price strong{font-size:24px;line-height:1.2}
-.configurationDetails{margin-top:11px;border:1px solid #dfd5c9;border-radius:10px;overflow:hidden;background:#fffcf7}
-.configurationDetails summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;cursor:pointer;list-style:none;font-size:13px;font-weight:700;color:#34251b}
-.configurationDetails summary::-webkit-details-marker{display:none}
-.configurationDetails summary svg{flex:0 0 auto;transition:transform 240ms cubic-bezier(.16,1,.3,1)}
-.configurationDetails[open] summary svg{transform:rotate(180deg)}
-.configurationBody{border-top:1px solid #e9e2d9;padding:8px 16px 12px}
-.configurationBody .note{padding-top:12px;margin:0}
-.configurationBody .attachment{margin:13px 0 0}
-.configurationDetails:focus-within{outline:2px solid #8f6245;outline-offset:1px}
-@media(prefers-reduced-motion:reduce){.configurationDetails summary svg{transition:none}}
+.heading > p {
+  align-self: end;
+  max-width: 54ch;
+}
+.emailEyebrow {
+  display: block;
+  font:
+    600 10px/1.5 "Geist Mono",
+    monospace;
+  letter-spacing: 0.1em;
+  color: #775033;
+}
+.quote h4 {
+  margin: 13px 0 7px;
+}
+.quote dl > div {
+  padding: 6px 0;
+}
+.price {
+  padding: 12px 16px;
+  margin: 14px 0 12px;
+  border-radius: 10px;
+}
+.price strong {
+  font-size: 24px;
+  line-height: 1.2;
+}
+.configurationDetails {
+  margin-top: 11px;
+  border: 1px solid #dfd5c9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fffcf7;
+}
+.configurationDetails summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: #34251b;
+}
+.configurationDetails summary::-webkit-details-marker {
+  display: none;
+}
+.configurationDetails summary svg {
+  flex: 0 0 auto;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.configurationDetails[open] summary svg {
+  transform: rotate(180deg);
+}
+.configurationBody {
+  border-top: 1px solid #e9e2d9;
+  padding: 8px 16px 12px;
+}
+.configurationBody .note {
+  padding-top: 12px;
+  margin: 0;
+}
+.configurationBody .attachment {
+  margin: 13px 0 0;
+}
+.configurationDetails:focus-within {
+  outline: 2px solid #8f6245;
+  outline-offset: 1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .configurationDetails summary svg {
+    transition: none;
+  }
+}
+
+/* Each mail owns its natural height; disclosure extends the page, never a nested scroller. */
+.summary {
+  margin: 0 0 12px !important;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5f6368;
+}
+.configurationDetails[open] .configurationBody {
+  animation: mail-detail-open 260ms ease-out;
+}
+@keyframes mail-detail-open {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .configurationBody {
+    animation: none !important;
+  }
+}
+
+/* Contacts form a compact, readable two-column block before the price. */
+.quote {
+  padding-top: 0;
+}
+.quote .contacts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 16px;
+}
+.quote .contacts > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+}
+.contacts dt {
+  font-size: 11px;
+}
+.contacts dd {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.quote h4 {
+  margin-top: 6px;
+}
+.price {
+  padding: 10px 14px;
+}
+.configurationDetails summary {
+  padding: 12px 14px;
+}
+.topbar {
+  height: 48px;
+  flex-basis: 48px;
+}
+.toolbar {
+  padding-bottom: 12px;
+}
+.sender {
+  margin-bottom: 12px;
+}
+@media (max-width: 360px) {
+  .quote .contacts {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .quote .contacts > div {
+    display: grid;
+    grid-template-columns: 65px minmax(0, 1fr);
+  }
+}

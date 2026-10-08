@@ -1,0 +1,172 @@
+.demo {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+  color: #1c1612;
+  background: #fffcf7;
+  border: 1px solid #e6dacd;
+  border-radius: 16px;
+  font-family: "Geist", sans-serif;
+}
+.head {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e6dacd;
+}
+.head strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+.head > span:last-child {
+  margin-left: auto;
+  color: #776454;
+  font-size: 11px;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5b3a26;
+}
+.body {
+  padding: 24px 20px 20px;
+}
+.intro {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #776454;
+}
+.body h3 {
+  margin: 0 0 20px;
+  font-size: clamp(20px, 3vw, 25px);
+  font-weight: 550;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+.choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+.choices button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #dfd2c3;
+  background: #f5efe6;
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 8px 4px;
+  color: #5b3a26;
+  font:
+    500 13px/1.2 "Geist",
+    sans-serif;
+  cursor: pointer;
+  transition:
+    background-color 180ms,
+    color 180ms;
+}
+.choices button[aria-pressed="true"] {
+  background: #5b3a26;
+  color: #fffcf7;
+  border-color: #5b3a26;
+}
+.choices button:focus-visible {
+  outline: 2px solid #5b3a26;
+  outline-offset: 3px;
+}
+.result {
+  min-height: 204px;
+  padding-top: 20px;
+}
+.recommendation {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+.recommendation img {
+  width: 88px;
+  height: 100px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+.recommendation span {
+  font:
+    500 9px/1.5 "Geist Mono",
+    monospace;
+  letter-spacing: 0.04em;
+  color: #776454;
+}
+.recommendation h4 {
+  margin: 8px 0;
+  font-size: 19px;
+  font-weight: 550;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+.recommendation p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+  color: #776454;
+}
+.recommendation .reason {
+  grid-column: 1/-1;
+  border-top: 1px solid #e6dacd;
+  padding-top: 12px;
+  font-size: 13px;
+  color: #5b3a26;
+}
+.empty {
+  margin: 12px 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #776454;
+}
+.empty svg {
+  display: block;
+  margin-top: 16px;
+}
+.demo footer {
+  border-top: 1px solid #e6dacd;
+  padding: 12px 16px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #776454;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .recommendation {
+    animation: skincare-arrive 240ms ease-out;
+  }
+  @keyframes skincare-arrive {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+@media (max-width: 360px) {
+  .head {
+    padding: 16px 12px;
+  }
+  .body {
+    padding: 20px 12px 12px;
+  }
+  .head strong {
+    font-size: 12px;
+  }
+  .recommendation {
+    gap: 10px;
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+  .recommendation img {
+    width: 70px;
+    height: 88px;
+  }
+}
