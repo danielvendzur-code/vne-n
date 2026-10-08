@@ -184,7 +184,10 @@
       if (!document.querySelector('link[data-dv-widget-cinematic="true"]')) {
         const stylesheet = document.createElement("link");
         stylesheet.rel = "stylesheet";
-        stylesheet.href = new URL("widget-cinematic.css", new URL(SOURCE, document.baseURI)).toString();
+        stylesheet.href = new URL(
+          "widget-cinematic.css",
+          new URL(SOURCE, document.baseURI),
+        ).toString();
         stylesheet.dataset.dvWidgetCinematic = "true";
         document.head.appendChild(stylesheet);
       }
