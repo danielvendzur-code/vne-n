@@ -94,33 +94,70 @@ export function InquiryDemo() {
   return (
     <section id="pred-a-po" className={s.section}>
       <header className={s.heading}>
-        <h2>Od otázky k<br /><span>pripravenému dopytu.</span></h2>
-        <p>Zákazník odošle zostavu v 3D. Vám príde meno, kontakt, orientačná cena a podrobný výber – bez ďalšieho dopisovania.</p>
+        <h2>
+          Od otázky k<br />
+          <span>pripravenému dopytu.</span>
+        </h2>
+        <p>
+          Zákazník odošle zostavu v 3D. Vám príde meno, kontakt, orientačná cena a podrobný výber –
+          bez ďalšieho dopisovania.
+        </p>
       </header>
       <div className={s.comparison}>
         <div>
           <span className={s.comparisonLabel}>BEŽNÝ E-MAIL</span>
-          <MailWindow subject="Pergola na terasu" sender="Martin Kováč" email="martin.kovac@example.com">
+          <MailWindow
+            subject="Pergola na terasu"
+            sender="Martin Kováč"
+            email="martin.kovac@example.com"
+          >
             <div className={s.ordinary}>
               <p>Dobrý deň,</p>
-              <p>mám záujem o pergolu na terasu v Nitre, približne 5 × 2,5 m. Viete mi poslať cenu aj s montážou?</p>
-              <p>Ďakujem.<br />Martin Kováč<br />+421 900 123 456</p>
-              <div className={s.reply}><Reply size={16} /> Odpovedať</div>
+              <p>
+                mám záujem o pergolu na terasu v Nitre, približne 5 × 2,5 m. Viete mi poslať cenu aj
+                s montážou?
+              </p>
+              <p>
+                Ďakujem.
+                <br />
+                Martin Kováč
+                <br />
+                +421 900 123 456
+              </p>
+              <div className={s.reply}>
+                <Reply size={16} /> Odpovedať
+              </div>
             </div>
           </MailWindow>
         </div>
         <div>
           <span className={s.comparisonLabel}>DOPYT Z 3D KONFIGURÁTORA</span>
-          <MailWindow subject="Nový dopyt z konfigurátora" sender="Koverta · 3D konfigurátor" email="konfigurator@koverta.sk">
+          <MailWindow
+            subject="Nový dopyt z konfigurátora"
+            sender="Koverta · 3D konfigurátor"
+            email="konfigurator@koverta.sk"
+          >
             <div className={s.mailContent}>
               <div className={s.quote}>
                 <span className={s.emailEyebrow}>NOVÝ DOPYT · PERGOLA</span>
                 <h4>Údaje zákazníka</h4>
                 <dl>
-                  <div><dt>Meno</dt><dd>Martin Kováč</dd></div>
-                  <div><dt>Telefón</dt><dd>+421 900 123 456</dd></div>
-                  <div><dt>E-mail</dt><dd>martin.kovac@example.com</dd></div>
-                  <div><dt>Lokalita</dt><dd>Nitra</dd></div>
+                  <div>
+                    <dt>Meno</dt>
+                    <dd>Martin Kováč</dd>
+                  </div>
+                  <div>
+                    <dt>Telefón</dt>
+                    <dd>+421 900 123 456</dd>
+                  </div>
+                  <div>
+                    <dt>E-mail</dt>
+                    <dd>martin.kovac@example.com</dd>
+                  </div>
+                  <div>
+                    <dt>Lokalita</dt>
+                    <dd>Nitra</dd>
+                  </div>
                 </dl>
                 <div className={s.price}>
                   <span>Orientačná cena zostavy</span>
@@ -128,27 +165,47 @@ export function InquiryDemo() {
                   <small>Vzorová cena pre ukážku</small>
                 </div>
                 <details className={s.configurationDetails}>
-                  <summary>Celá zostava zákazníka <ChevronDown size={18} aria-hidden="true" /></summary>
+                  <summary>
+                    Celá zostava zákazníka <ChevronDown size={18} aria-hidden="true" />
+                  </summary>
                   <div className={s.configurationBody}>
                     <dl>
                       {configuration.map(([label, value]) => (
-                        <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
+                        <div key={label}>
+                          <dt>{label}</dt>
+                          <dd>{value}</dd>
+                        </div>
                       ))}
                     </dl>
-                    <p className={s.note}><strong>Poznámka:</strong> Prosím o voľný termín montáže. Dlažba je pripravená.</p>
+                    <p className={s.note}>
+                      <strong>Poznámka:</strong> Prosím o voľný termín montáže. Dlažba je
+                      pripravená.
+                    </p>
                     <div className={s.attachment}>
-                      <img src={sitePath("/work/koverta/config-step-6.webp")} width={1400} height={875} alt="Náhľad vybratej pergoly" />
-                      <span><Paperclip size={15} /> Náhľad zostavy</span>
+                      <img
+                        src={sitePath("/work/koverta/config-step-6.webp")}
+                        width={1400}
+                        height={875}
+                        alt="Náhľad vybratej pergoly"
+                      />
+                      <span>
+                        <Paperclip size={15} /> Náhľad zostavy
+                      </span>
                     </div>
                   </div>
                 </details>
-                <div className={s.reply}><Reply size={16} /> Odpovedať zákazníkovi</div>
+                <div className={s.reply}>
+                  <Reply size={16} /> Odpovedať zákazníkovi
+                </div>
               </div>
             </div>
           </MailWindow>
         </div>
       </div>
-      <p className={s.caption}>Ilustračné e-maily s fiktívnymi kontaktnými údajmi a cenou. Konkrétna štruktúra sa prispôsobuje firme.</p>
+      <p className={s.caption}>
+        Ilustračné e-maily s fiktívnymi kontaktnými údajmi a cenou. Konkrétna štruktúra sa
+        prispôsobuje firme.
+      </p>
     </section>
   );
 }
