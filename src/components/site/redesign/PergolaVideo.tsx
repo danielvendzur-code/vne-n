@@ -38,7 +38,7 @@ export function PergolaVideo() {
       if (time - lastPaint >= 33) {
         lastPaint = time;
         const t = (time - start) / 1000;
-        const louver = 0.50 + 0.40 * Math.sin((t * Math.PI) / 5);
+        const louver = 0.5 + 0.4 * Math.sin((t * Math.PI) / 5);
         const screen = 0.28 + 0.26 * Math.sin((t * Math.PI) / 8 + 1);
         model.update({ louver, screen, color: "RAL 7016", led: false });
       }
@@ -55,7 +55,9 @@ export function PergolaVideo() {
       }
     };
     const check = () => {
-      const api = (frame.current?.contentWindow as (Window & { MC_PERGOLA?: PergolaModel }) | null)?.MC_PERGOLA;
+      const api = (
+        frame.current?.contentWindow as (Window & { MC_PERGOLA?: PergolaModel }) | null
+      )?.MC_PERGOLA;
       if (!api || model) return;
       model = api;
       model.view(-0.62, 0.42);
@@ -65,10 +67,13 @@ export function PergolaVideo() {
       window.clearInterval(pollId);
     };
     pollId = window.setInterval(check, 250);
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      sync();
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0.1 },
+    );
     observer.observe(element);
     document.addEventListener("visibilitychange", sync);
     motion.addEventListener("change", sync);

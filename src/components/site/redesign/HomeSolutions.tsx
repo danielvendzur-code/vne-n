@@ -23,7 +23,9 @@ function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
   return (
     <figure className={s.snapshot} data-real-preview>
       <img
-        src={sitePath(kind === "chatbot" ? `/work/live/${file}.webp` : `/work/solutions/${file}.webp`)}
+        src={sitePath(
+          kind === "chatbot" ? `/work/live/${file}.webp` : `/work/solutions/${file}.webp`,
+        )}
         alt={alt}
         width={kind === "chatbot" ? 1000 : kind === "advisor" ? 1200 : 1200}
         height={kind === "chatbot" ? 1300 : kind === "advisor" ? 900 : 1440}
@@ -31,7 +33,9 @@ function RealPreview({ kind }: { kind: "chatbot" | "calculator" | "advisor" }) {
         decoding="async"
       />
       <figcaption className={s.previewCaption}>
-        <strong>{kind === "chatbot" ? "Koverta" : kind === "advisor" ? "Pleťová kozmetika" : "Môj Plot"}</strong>
+        <strong>
+          {kind === "chatbot" ? "Koverta" : kind === "advisor" ? "Pleťová kozmetika" : "Môj Plot"}
+        </strong>
         <span>{kind === "advisor" ? "Ukážka poradenstva" : "Skutočná ukážka"}</span>
       </figcaption>
     </figure>

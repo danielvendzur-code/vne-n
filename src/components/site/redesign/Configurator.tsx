@@ -110,7 +110,15 @@ export class Configurator extends Component<{
                 </p>
                 <div style={cssStyle(`display:flex;gap:16px;align-items:center;flex-wrap:wrap`)}>
                   <a
-                    href="#" onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent("site-assistant:open", { detail: { entry:"builder", preset:"product" } })); }}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.dispatchEvent(
+                        new CustomEvent("site-assistant:open", {
+                          detail: { entry: "builder", preset: "product" },
+                        }),
+                      );
+                    }}
                     style={cssStyle(
                       `background:var(--mc-ink);color:var(--mc-paper);font-weight:600;font-size:15px;padding:15px 24px;border-radius:999px`,
                     )}
