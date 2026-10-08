@@ -135,8 +135,8 @@ for (const viewport of sizes) {
         }),
       );
       assert.ok(
-        rects.every((r) => r.w < 330 && r.h <= 570),
-        "desktop product cards stay compact",
+        rects.every((r) => r.w < 370 && r.h <= 740),
+        "desktop product captures have enough room to be read",
       );
       for (let i = 1; i < rects.length; i++) {
         assert.ok(
@@ -184,7 +184,12 @@ for (const viewport of sizes) {
         }));
         assert.ok(
           Math.abs(shape.shown - shape.source) < 0.02 && shape.fit === "contain",
-          "real captures preserve their full proportions",
+          "real interfaces preserve their full proportions",
+        );
+        assert.equal(
+          await card.locator("figcaption").count(),
+          0,
+          "captures have no added captions",
         );
       }
     }
@@ -217,25 +222,14 @@ for (const viewport of sizes) {
       await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
       "collapsed email shows its full contents without an inner scrollbar",
     );
-    const collapsedHeight = await mail.evaluate((e) => e.getBoundingClientRect().height);
-    const configurationSummary = mail
-      .locator("details summary")
-      .filter({ hasText: "Celá zostava zákazníka" });
-    await configurationSummary.focus();
-    await page.keyboard.press("Enter");
-    assert.ok(
-      await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
-      "expanded email grows naturally without an inner scrollbar",
-    );
+    assert.ok((await mail.innerText()).includes("ČO VIDÍ ZÁKAZNÍK"));
+    assert.ok((await mail.innerText()).includes("ČO VIDÍTE VY"));
+    assert.ok((await mail.innerText()).includes("Javorová 12, 949 01 Nitra"));
     assert.ok(
       (await mail.innerText()).includes("Bioklimatická pergola Soltec"),
-      "expanded details show the complete selected configuration",
+      "full configuration is visible without expanding anything",
     );
-    assert.ok(
-      (await mail.evaluate((e) => e.getBoundingClientRect().height)) > collapsedHeight,
-      "keyboard disclosure expands the page",
-    );
-    await page.keyboard.press("Enter");
+    assert.equal(await mail.locator("details").count(), 0);
     if (viewport.width > 700)
       assert.ok(
         Math.abs(windows[0].w - windows[1].w) < 2,
@@ -297,7 +291,7 @@ for (const viewport of sizes) {
     assert.equal(motion.ready, 1, "shared image transition must render successfully");
     assert.equal(
       motion.duration,
-      "0.65s",
+      "1.05s",
       "the shared image follows the specified transition timing",
     );
     await page.waitForTimeout(200);
@@ -309,7 +303,12 @@ for (const viewport of sizes) {
       1,
       `Detail image missing at ${page.url()}; errors: ${errors.join(" | ")}; content: ${(await page.locator("main").innerText()).slice(0, 250)}`,
     );
-    assert.ok((await detail.getAttribute("src")).includes("koverta-chat"));
+    assert.ok((await detail.getAttribute("src")).includes("koverta-chat-quiet"));
+    assert.equal(
+      await page.locator(".solution-detail__caption").count(),
+      0,
+      "detail has no artificial product labels",
+    );
     const detailShape = await detail.evaluate((img) => ({
       shown: img.clientWidth / img.clientHeight,
       source: img.naturalWidth / img.naturalHeight,
@@ -320,7 +319,16 @@ for (const viewport of sizes) {
     );
     assert.equal(await page.locator('img[src*="chatbot-aplan"]').count(), 0);
     await page.screenshot({ path: `${output}/chatbot-detail-${viewport.width}.png` });
-    await page.getByTestId("widget-launcher").click();
+    const launcher = page.getByTestId("widget-launcher");
+    await launcher.hover();
+    await page.waitForTimeout(650);
+    assert.ok(
+      await launcher
+        .locator(".mc-half")
+        .evaluateAll((es) => es.every((e) => getComputedStyle(e).transform === "none")),
+      "hover preserves the supplied split brand mark",
+    );
+    await launcher.click();
     await page.waitForTimeout(1100);
     assert.ok(await page.getByTestId("assistant-view").isVisible());
     const bounds = await page.locator(".cw-panel").boundingBox();

@@ -96,9 +96,6 @@ export function PergolaVideo({ large = false }: { large?: boolean }) {
           />
         )}
       </div>
-      <span className={s.videoCaption}>
-        Video ukážka <span aria-hidden="true">·</span> Konfigurátor Koverta
-      </span>
     </div>
   );
 }

@@ -2,7 +2,7 @@
    A purposeful editorial grid: one visual system, no layered legacy overrides.
    Every animation is composited, leaves the actual layout intact, and has a reduced-motion fallback. */
 .section {
-  width: min(1280px, calc(100% - 96px));
+  width: min(1440px, calc(100% - 96px));
   margin: 0 auto;
   padding: 54px 0 64px;
   isolation: isolate;
@@ -96,7 +96,7 @@
 .panel {
   position: relative;
   isolation: isolate;
-  height: 560px;
+  height: 720px;
   min-width: 0;
   border-radius: 13px;
   overflow: hidden;
@@ -199,11 +199,11 @@
   opacity: 0.83;
 }
 .preview {
-  flex: 0 0 274px;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 274px;
+  height: 420px;
   min-height: 0;
   min-width: 0;
   margin: 0 12px;
@@ -227,7 +227,7 @@
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 240px;
+  max-height: 420px;
   object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 18px 28px -12px #0004;
@@ -389,64 +389,16 @@
     transform: translateX(5px);
   }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .heading[data-solution-reveal="pending"]:not([data-visible="true"])
-    :is(.headingTitle, .headingAside) {
-    clip-path: inset(0 0 100%);
+/* A single scroll-driven camera move; product UI is always visible. */
+@media (min-width: 1101px) and (prefers-reduced-motion: no-preference) {
+  .panels {
+    perspective: 1600px;
   }
-  .heading[data-visible="true"] .headingTitle {
-    animation: mc-heading-mask 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .heading[data-visible="true"] .headingAside {
-    animation: mc-heading-mask 760ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
-  }
-  .panel[data-solution-reveal="pending"]:not([data-visible="true"])
-    :is(.panelBody, .preview, .openLabel) {
-    visibility: hidden;
-  }
-  .panel[data-visible="true"] .panelAccent {
-    animation: mc-draw-accent 460ms cubic-bezier(0.16, 1, 0.3, 1) var(--card-delay) both;
-  }
-  .panel[data-visible="true"] :is(h3, .panelBody p) {
-    animation: mc-heading-mask 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: calc(var(--card-delay) + 80ms);
-  }
-  .panel[data-visible="true"] .panelBody p {
-    animation-delay: calc(var(--card-delay) + 160ms);
-  }
-  .panel[data-visible="true"] .preview {
-    animation: mc-lens-open 840ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: calc(var(--card-delay) + 180ms);
-  }
-  .panel[data-visible="true"] .openLabel {
-    animation: mc-heading-mask 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: calc(var(--card-delay) + 360ms);
-  }
-  @keyframes mc-heading-mask {
-    from {
-      clip-path: inset(0 0 100%);
-      opacity: 0.5;
-    }
-    to {
-      clip-path: inset(0);
-      opacity: 1;
-    }
-  }
-  @keyframes mc-lens-open {
-    from {
-      clip-path: inset(0 42% round 10px);
-    }
-    to {
-      clip-path: inset(0 round 10px);
-    }
-  }
-  @keyframes mc-draw-accent {
-    from {
-      transform: scaleY(0);
-    }
-    to {
-      transform: scaleY(1);
-    }
+  .section[data-motion="on"] .panel {
+    transform: translate3d(0, calc((1 - var(--scene-open, 1)) * var(--card-lift)), 0)
+      rotateX(calc((1 - var(--scene-open, 1)) * 12deg))
+      rotateZ(calc((1 - var(--scene-open, 1)) * var(--card-turn)));
+    transform-origin: center bottom;
   }
 }
 @media (max-width: 1100px) {
@@ -520,18 +472,18 @@
     display: none;
   }
   .preview {
-    height: auto;
     flex: none;
-    min-height: 240px;
+    height: 440px;
+    min-height: 0;
     margin-bottom: 0;
   }
   .snapshot {
-    width: min(360px, 100%);
+    width: 100%;
   }
   .snapshot img {
     width: auto;
     max-width: 100%;
-    max-height: 245px;
+    max-height: 460px;
     height: auto;
   }
   .pergolaFilm {
@@ -562,7 +514,8 @@
     font-size: 25px;
   }
   .preview {
-    min-height: 215px;
+    height: 400px;
+    min-height: 0;
   }
   .previewCaption {
     flex-wrap: wrap;
@@ -619,4 +572,22 @@
 .pergolaFilm[data-size="large"] .videoCaption {
   padding: 12px 16px;
   font-size: 13px;
+}
+
+.preview:has(.pergolaFilm) {
+  background: #f1efea;
+}
+.pergolaFilm[data-size="card"] {
+  height: auto;
+}
+.pergolaFilm[data-size="card"] .pergolaScene {
+  flex: none;
+  aspect-ratio: 4 / 3;
+}
+
+.snapshot img[src*="skincare-advisor-real"] {
+  width: auto;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
 }
