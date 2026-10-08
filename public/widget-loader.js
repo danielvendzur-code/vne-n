@@ -179,7 +179,9 @@
     script.async = true;
     script.referrerPolicy = "strict-origin-when-cross-origin";
     script.dataset.dvAssistantSource = SOURCE;
-    script.onload = () => confirmMount();
+    script.onload = () => {
+      confirmMount();
+    };
     script.onerror = () => {
       loading = false;
       script.remove();

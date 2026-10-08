@@ -1,3 +1,4 @@
+import { revealElement } from "./reveal-element";
 import { StudioHero } from "../StudioHero";
 import { HomeFacts, HomeSolutions, InquiryComparison, HomeFAQ } from "./HomepageSections";
 import React, { Component, Fragment } from "react";
@@ -55,7 +56,7 @@ export class Home extends Component<{
         type: "Výroba na mieru · 3D konfigurátor",
         result:
           "Zákazník si prístrešok alebo pergolu poskladá v 3D a dopyt pošle aj s hotovou zostavou.",
-        img: P + "koverta/konfigurator-pergola.webp",
+        img: P + "koverta/configurator-live-screenshot.jpg",
         tools: ["3D konfigurátor", "Dopyt so zostavou"],
         case: true,
         caseHref: "/3d-konfigurator",
@@ -215,6 +216,7 @@ export class Home extends Component<{
                   >
                     <article
                       className="redesign-case-card"
+                      ref={revealElement}
                       data-reveal
                       style={cssStyle(
                         `background:${w.bg};color:${w.fg};border:1px solid ${w.line};border-radius:28px;padding:20px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,3vw,32px);box-shadow:none;height:min(470px,calc(100vh - 190px));box-sizing:border-box;overflow:hidden`,
@@ -371,6 +373,7 @@ export class Home extends Component<{
                 {steps.map((s, index) => (
                   <Fragment key={index}>
                     <div
+                      ref={revealElement}
                       data-reveal
                       style={cssStyle(
                         `display:grid;grid-template-columns:110px minmax(0,1fr);gap:24px;padding:32px 0;border-top:1px solid rgba(255,255,255,.12)`,

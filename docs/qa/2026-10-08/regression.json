@@ -1,0 +1,22 @@
+[
+  {
+    "width": 390,
+    "reducedMotion": "no-preference",
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "reducedMotion": "reduce",
+    "status": "passed"
+  },
+  {
+    "width": 1366,
+    "reducedMotion": "no-preference",
+    "status": "passed"
+  },
+  {
+    "width": 1366,
+    "reducedMotion": "reduce",
+    "status": "passed"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "before",
+    "width": 390,
+    "round": 0,
+    "lcp": 5016,
+    "cls": 0.0005716911371664711,
+    "longTasks": 923,
+    "bytes": 1395396,
+    "domReady": 5051
+  },
+  {
+    "name": "after",
+    "width": 390,
+    "round": 0,
+    "lcp": 5036,
+    "cls": 0.0005716911371664711,
+    "longTasks": 731,
+    "bytes": 1396725,
+    "domReady": 5037.4000000003725
+  },
+  {
+    "name": "before",
+    "width": 390,
+    "round": 1,
+    "lcp": 5024,
+    "cls": 0.0005716911371664711,
+    "longTasks": 803,
+    "bytes": 1395396,
+    "domReady": 5076.4000000003725
+  },
+  {
+    "name": "after",
+    "width": 390,
+    "round": 1,
+    "lcp": 4992,
+    "cls": 0.0005716911371664711,
+    "longTasks": 707,
+    "bytes": 1396725,
+    "domReady": 5017
+  },
+  {
+    "name": "before",
+    "width": 390,
+    "round": 2,
+    "lcp": 4976,
+    "cls": 0.0005716911371664711,
+    "longTasks": 699,
+    "bytes": 1395396,
+    "domReady": 5011.799999999814
+  },
+  {
+    "name": "after",
+    "width": 390,
+    "round": 2,
+    "lcp": 4984,
+    "cls": 0.0005716911371664711,
+    "longTasks": 654,
+    "bytes": 1396725,
+    "domReady": 5019.200000000186
+  },
+  {
+    "name": "before",
+    "width": 1366,
+    "round": 0,
+    "lcp": 4916,
+    "cls": 0.0022967592262452988,
+    "longTasks": 981,
+    "bytes": 1680950,
+    "domReady": 4878.4000000003725
+  },
+  {
+    "name": "after",
+    "width": 1366,
+    "round": 0,
+    "lcp": 4896,
+    "cls": 0.002027462494124837,
+    "longTasks": 748,
+    "bytes": 1579305,
+    "domReady": 4887.700000000186
+  },
+  {
+    "name": "before",
+    "width": 1366,
+    "round": 1,
+    "lcp": 4916,
+    "cls": 0.0022967592262452988,
+    "longTasks": 1176,
+    "bytes": 1680950,
+    "domReady": 4905.200000000186
+  },
+  {
+    "name": "after",
+    "width": 1366,
+    "round": 1,
+    "lcp": 4856,
+    "cls": 0.002027462494124837,
+    "longTasks": 877,
+    "bytes": 1579305,
+    "domReady": 4819.100000000559
+  },
+  {
+    "name": "before",
+    "width": 1366,
+    "round": 2,
+    "lcp": 4876,
+    "cls": 0.0022967592262452988,
+    "longTasks": 811,
+    "bytes": 1680950,
+    "domReady": 4889.899999999441
+  },
+  {
+    "name": "after",
+    "width": 1366,
+    "round": 2,
+    "lcp": 5052,
+    "cls": 0.000506552660568265,
+    "longTasks": 757,
+    "bytes": 1579305,
+    "domReady": 5033.5
+  }
+]

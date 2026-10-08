@@ -1,0 +1,32 @@
+[
+  {
+    "width": 320,
+    "status": "passed",
+    "observedHeadingClip": "none",
+    "revealedTextOpacity": 1
+  },
+  {
+    "width": 390,
+    "status": "passed",
+    "observedHeadingClip": "none",
+    "revealedTextOpacity": 1
+  },
+  {
+    "width": 768,
+    "status": "passed",
+    "observedHeadingClip": "none",
+    "revealedTextOpacity": 1
+  },
+  {
+    "width": 1366,
+    "status": "passed",
+    "observedHeadingClip": "none",
+    "revealedTextOpacity": 1
+  },
+  {
+    "width": 1920,
+    "status": "passed",
+    "observedHeadingClip": "none",
+    "revealedTextOpacity": 1
+  }
+]

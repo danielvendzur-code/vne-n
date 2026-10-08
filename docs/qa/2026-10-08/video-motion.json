@@ -1,0 +1,14 @@
+{
+  "pergola-film": {
+    "frames": 720,
+    "columnRangePx": [1.0, 1.0],
+    "maxFrameStepPx": [1.0, 1.0],
+    "minMatch": 0.9827403426170349
+  },
+  "pergola-film-stabilized": {
+    "frames": 720,
+    "columnRangePx": [10.0, 22.0],
+    "maxFrameStepPx": [3.0, 9.0],
+    "minMatch": 0.8651041984558105
+  }
+}

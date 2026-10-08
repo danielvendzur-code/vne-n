@@ -1,11 +1,14 @@
-import { chromium } from "playwright";
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || "playwright");
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 
 const origin = process.env.LIVE_SITE_ORIGIN || "http://127.0.0.1:4173";
 const output = process.env.VISUAL_OUTPUT || "visual-artifacts";
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({
+  headless: true,
+  executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
+});
 const results = [];
 const failures = [];
 const reply =
@@ -44,13 +47,22 @@ for (const viewport of sizes) {
     };
   });
   const errors = [];
-  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("pageerror", (error) => {
+    errors.push(error.message);
+    console.error("PAGE ERROR", viewport.width, error.message);
+  });
+  page.on("console", (message) => {
+    if (message.type() === "error") {
+      errors.push(message.text());
+      console.error("BROWSER CONSOLE ERROR", viewport.width, message.text().slice(0, 2000));
+    }
+  });
   await page.route("**/api/chat", async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 700));
     await route.fulfill({ json: { reply }, headers: { "access-control-allow-origin": "*" } });
   });
   try {
-    await page.goto(origin, { waitUntil: "networkidle" });
+    await page.goto(origin, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => document.fonts.ready);
     await page.waitForFunction(
       () =>
@@ -96,9 +108,23 @@ for (const viewport of sizes) {
       .locator("#site-menu")
       .getByRole("link", { name: /Riešenia/ })
       .waitFor({ state: "visible" });
+    await page.waitForTimeout(700);
     await page.screenshot({ path: `${output}/menu-${viewport.width}.png` });
     await page.keyboard.press("Escape");
     assert.equal(await menu.getAttribute("aria-expanded"), "false");
+    const solutionHeading = page.locator("[data-section-heading]");
+    await solutionHeading.scrollIntoViewIfNeeded();
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-section-heading]")?.getAttribute("data-visible") === "true",
+    );
+    await page.waitForTimeout(900);
+    assert.equal(
+      await solutionHeading.evaluate((e) => getComputedStyle(e).clipPath),
+      "none",
+      "observed heading retains its full intersection geometry",
+    );
+    assert.ok(await page.locator("#solutions-title").isVisible(), "solutions heading is revealed");
     const cards = page.locator("[data-solution-card]");
     assert.equal(await cards.count(), 4);
     if (viewport.width >= 1101) {
@@ -175,6 +201,7 @@ for (const viewport of sizes) {
       .locator("#riesenia")
       .screenshot({ path: `${output}/solutions-${viewport.width}.png` });
     await page.locator("#pred-a-po").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
     assert.ok((await mail.innerText()).includes("+421 900 123 456"));
@@ -185,34 +212,34 @@ for (const viewport of sizes) {
       }),
     );
     assert.equal(windows.length, 2);
-    assert.ok(
-      windows.every((w) => w.h <= 540),
-      "email windows cannot stretch with the full message",
-    );
     const scrollMail = mail.getByRole("region").last();
-    assert.equal(
-      await scrollMail.getAttribute("tabindex"),
-      "0",
-      "email contents remain keyboard accessible",
+    assert.ok(
+      await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
+      "collapsed email shows its full contents without an inner scrollbar",
+    );
+    const collapsedHeight = await mail.evaluate((e) => e.getBoundingClientRect().height);
+    const configurationSummary = mail
+      .locator("details summary")
+      .filter({ hasText: "Celá zostava zákazníka" });
+    await configurationSummary.focus();
+    await page.keyboard.press("Enter");
+    assert.ok(
+      await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
+      "expanded email grows naturally without an inner scrollbar",
     );
     assert.ok(
-      await scrollMail.evaluate((e) => e.scrollHeight > e.clientHeight),
-      "long email stays inside a scrollable preview",
+      (await mail.innerText()).includes("Bioklimatická pergola Soltec"),
+      "expanded details show the complete selected configuration",
     );
-    await scrollMail.focus();
-    await page.keyboard.press("End");
-    await page.waitForTimeout(250);
     assert.ok(
-      await scrollMail.evaluate((e) => e.scrollTop > 0),
-      "keyboard reaches the complete quote",
+      (await mail.evaluate((e) => e.getBoundingClientRect().height)) > collapsedHeight,
+      "keyboard disclosure expands the page",
     );
-    await page.keyboard.press("Home");
-    await page.waitForTimeout(400);
-    await mail.getByRole("button", { name: "Z konfigurátora", exact: true }).focus();
+    await page.keyboard.press("Enter");
     if (viewport.width > 700)
       assert.ok(
-        Math.abs(windows[0].w - windows[1].w) < 2 && Math.abs(windows[0].h - windows[1].h) < 2,
-        "desktop email windows must match",
+        Math.abs(windows[0].w - windows[1].w) < 2,
+        "desktop email previews have equal readable widths",
       );
     else
       assert.ok(
@@ -220,8 +247,11 @@ for (const viewport of sizes) {
         "phone email previews stack at readable width",
       );
     await mail.screenshot({ path: `${output}/mail-${viewport.width}.png` });
-    await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).click();
-    assert.ok((await mail.innerText()).includes("892 €"));
+    assert.equal(
+      await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).count(),
+      0,
+      "the email demo contains only the requested configurator inquiry",
+    );
     const cases = page.locator(".redesign-case-shot img");
     assert.equal(await cases.count(), 5, "all project cards show actual photographs/captures");
     for (const shot of await cases.all()) {
@@ -265,13 +295,21 @@ for (const viewport of sizes) {
     assert.equal(motion.calls, 1, "card starts an actual browser transition");
     assert.deepEqual(motion.errors, [], "shared image transition cannot be skipped");
     assert.equal(motion.ready, 1, "shared image transition must render successfully");
-    assert.equal(motion.duration, "1.1s", "the image visibly travels for 1.1 seconds");
+    assert.equal(
+      motion.duration,
+      "0.65s",
+      "the shared image follows the specified transition timing",
+    );
     await page.waitForTimeout(200);
     await page.screenshot({ path: `${output}/opening-${viewport.width}.png` });
     await page.waitForTimeout(1250);
     const detail = page.locator(".solution-detail__image");
-    assert.equal(await detail.count(), 1);
-    assert.ok((await detail.getAttribute("src")).includes("webko-chat-native"));
+    assert.equal(
+      await detail.count(),
+      1,
+      `Detail image missing at ${page.url()}; errors: ${errors.join(" | ")}; content: ${(await page.locator("main").innerText()).slice(0, 250)}`,
+    );
+    assert.ok((await detail.getAttribute("src")).includes("koverta-chat"));
     const detailShape = await detail.evaluate((img) => ({
       shown: img.clientWidth / img.clientHeight,
       source: img.naturalWidth / img.naturalHeight,
@@ -367,6 +405,12 @@ for (const viewport of sizes) {
     const baseChoice = await choice.evaluate((e) => getComputedStyle(e).backgroundColor);
     const chosenBounds = await choice.boundingBox();
     await choice.click();
+    assert.equal(
+      await choice.getAttribute("data-selected"),
+      "true",
+      "selection is immediately reflected",
+    );
+    await page.getByTestId("flow-next").click();
     await page.waitForTimeout(850);
     assert.equal(
       await page.locator('[data-step="interest"]').count(),
@@ -401,7 +445,7 @@ for (const viewport of sizes) {
     await page.getByTestId("widget-close").click();
     await page.waitForTimeout(500);
     assert.equal(await page.locator(".cw-panel").isVisible(), false);
-    await page.goto(`${origin}/postup`, { waitUntil: "networkidle" });
+    await page.goto(`${origin}/postup`, { waitUntil: "domcontentloaded" });
     const aside = page.locator(".process-aside");
     if (viewport.width <= 1040) {
       assert.equal(await aside.evaluate((el) => getComputedStyle(el).position), "relative");

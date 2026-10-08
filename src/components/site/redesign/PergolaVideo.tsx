@@ -1,51 +1,104 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { sitePath } from "./utils";
 import s from "./HomeSolutions.module.css";
 
-export function PergolaVideo() {
+/**
+ * Cinematic film only. The live Koverta configurator opens on koverta.sk;
+ * the marketing homepage must not instantiate WebGL or an iframe.
+ */
+export function PergolaVideo({ large = false }: { large?: boolean }) {
+  const root = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [failed, setFailed] = useState(false);
+
   useEffect(() => {
-    const element = video.current;
-    if (!element) return;
-    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const element = root.current;
+    const player = video.current;
+    if (!element || !player) return;
+
     let visible = false;
+    let loaded = false;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => {
-      if (visible && !document.hidden && !motion.matches) void element.play().catch(() => {});
-      else element.pause();
+      if (motion.matches || document.hidden || !visible || failed) {
+        player.pause();
+        setPlaying(false);
+        return;
+      }
+
+      if (!loaded) {
+        // Defer the video request until the card is near the viewport.
+        loaded = true;
+        player.src = sitePath("/work/solutions/pergola-film.mp4");
+        player.load();
+      }
+      void player.play().catch(() => {
+        // Keep the poster available when autoplay is disabled by the browser.
+        setPlaying(false);
+      });
     };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
         sync();
       },
-      { threshold: 0.2 },
+      { rootMargin: "160px 0px", threshold: 0 },
     );
     observer.observe(element);
-    motion.addEventListener("change", sync);
     document.addEventListener("visibilitychange", sync);
+    motion.addEventListener("change", sync);
+
     return () => {
       observer.disconnect();
-      motion.removeEventListener("change", sync);
       document.removeEventListener("visibilitychange", sync);
-      element.pause();
+      motion.removeEventListener("change", sync);
+      player.pause();
     };
-  }, []);
+  }, [failed]);
+
   return (
-    <div className={s.pergolaFilm}>
-      <video
-        ref={video}
-        muted
-        loop
-        playsInline
-        preload="none"
-        poster={sitePath("/work/solutions/pergola-film-poster.webp")}
-        width={800}
-        height={600}
-        aria-label="Video bioklimatickej pergoly: opakovaný pohyb lamiel a ZIP rolety s LED osvetlením"
-      >
-        <source src={sitePath("/work/solutions/pergola-film.mp4")} type="video/mp4" />
-      </video>
-      <span>Pohyb lamiel · ZIP tienenie · LED</span>
+    <div
+      ref={root}
+      className={s.pergolaFilm}
+      data-playing={playing}
+      data-size={large ? "large" : "card"}
+    >
+      <div className={s.pergolaScene}>
+        <img
+          className={s.pergolaPoster}
+          src={sitePath("/work/solutions/pergola-fixed-camera-poster.webp")}
+          alt="Bioklimatická pergola Koverta v 3D vizualizácii"
+          width={800}
+          height={600}
+          loading="lazy"
+          decoding="async"
+        />
+        {!failed && (
+          <video
+            ref={video}
+            className={s.pergolaFilmVideo}
+            muted
+            loop
+            playsInline
+            preload="none"
+            autoPlay={false}
+            disablePictureInPicture
+            aria-hidden="true"
+            tabIndex={-1}
+            onPlaying={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onError={() => {
+              setFailed(true);
+              setPlaying(false);
+            }}
+          />
+        )}
+      </div>
+      <span className={s.videoCaption}>
+        Video ukážka <span aria-hidden="true">·</span> Konfigurátor Koverta
+      </span>
     </div>
   );
 }

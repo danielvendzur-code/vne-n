@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { cssStyle, sitePath } from "./utils";
+import { SkincareAdvisor } from "./SkincareAdvisor";
 import { Footer } from "./Footer";
 
 export class Tool extends Component<{
@@ -8,7 +9,7 @@ export class Tool extends Component<{
   copy?: string;
   tool?: string;
 }> {
-  state = { t: this.props.tool ?? "kalkulacka" };
+  state = { t: this.props.tool ?? "kalkulacka", advisorDemo: false };
   componentDidMount() {
     if (document.documentElement.dataset.solutionOpening === "true")
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -75,9 +76,9 @@ export class Tool extends Component<{
         accent: "ktorý vie odpovedať.",
         price: "347 €",
         lead: "Odpovedá z vašich podkladov, zistí, čo zákazník potrebuje, a pošle vám kontakt so zhrnutím.",
-        img: P + "solutions/webko-chat-native.webp",
+        img: P + "solutions/koverta-chat-editorial.webp",
         imgW: "46%",
-        caption: "WEBKO · SKUTOČNÝ CHATBOT",
+        caption: "KOVERTA · CHATBOT",
         steps: steps([
           [
             "OTÁZKA",
@@ -133,9 +134,9 @@ export class Tool extends Component<{
         accent: "ktorá počíta za vás.",
         price: "447 €",
         lead: "Z rozmerov, množstva či doplnkov spočíta orientačnú cenu podľa vášho cenníka. Zákazník vie, s čím počítať — vy dostanete hotové zadanie.",
-        img: P + "solutions/mojplot-calc-preview.webp",
+        img: P + "solutions/mojplot-calc-editorial.webp",
         imgW: "62%",
-        caption: "MÔJ PLOT · VYPOČÍTANÁ CENA",
+        caption: "Môj Plot · kalkulačka",
         steps: steps([
           [
             "ZAČIATOK",
@@ -190,9 +191,9 @@ export class Tool extends Component<{
         accent: "ktorý vyberie za zákazníka.",
         price: "347 €",
         lead: "Pár jednoduchých otázok a zákazník dostane konkrétny produkt z vašej ponuky — bez toho, aby musel poznať celý katalóg.",
-        img: P + "solutions/mojplot-chat-native.webp",
+        img: P + "solutions/skincare-advisor-demo.webp",
         imgW: "46%",
-        caption: "MÔJ PLOT · PRODUKTOVÝ ASISTENT",
+        caption: "PLEŤOVÁ KOZMETIKA · UKÁŽKA PORADCU",
         steps: steps([
           [
             "OTÁZKY",
@@ -231,12 +232,12 @@ export class Tool extends Component<{
           "payment",
           "jazyky",
         ]),
-        exName: "Môj Plot",
-        exDomain: "mojplot.sk",
-        exHref: "https://mojplot.sk/",
-        exImg: P + "solutions/mojplot-chat-native.webp",
+        exName: "Poradca pre pleťovú kozmetiku",
+        exDomain: "Chcem podobného poradcu",
+        exHref: "#",
+        exImg: P + "solutions/skincare-advisor-demo.webp",
         exCopy:
-          "Vyskúšajte si, ako vyzerá riadený výber v praxi. Poradca sa dá napojiť na váš e-shop a produkty.",
+          "Ukážka výberu pleťovej starostlivosti bez značky alebo loga predajcu. Poradca sa pýta na typ pleti, potreby a preferencie, potom vysvetlí odporúčanie.",
       },
     };
     const key = this.state.t in T ? (this.state.t as keyof typeof T) : "kalkulacka";
@@ -264,6 +265,7 @@ export class Tool extends Component<{
   }
   render() {
     const { openWidget, switcher, t } = this.renderVals();
+    const key = this.state.t;
     return (
       <Fragment>
         <div
@@ -384,8 +386,9 @@ export class Tool extends Component<{
                 )}
               >
                 <div
+                  className="solution-detail__caption"
                   style={cssStyle(
-                    `position:absolute;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.7)`,
+                    `display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.7)`,
                   )}
                 >
                   <span style={cssStyle(`display:flex;align-items:center;gap:8px`)}>
@@ -394,19 +397,32 @@ export class Tool extends Component<{
                         `width:7px;height:7px;border-radius:50%;background:var(--mc-accent)`,
                       )}
                     ></span>
-                    {"SKUTOČNÁ UKÁŽKA"}
+                    {key === "poradca" ? "UKÁŽKOVÝ KATALÓG" : "ROZHRANIE PRODUKTU"}
                   </span>
                   <span>{t.caption}</span>
                 </div>
-                <img
-                  className="solution-detail__image"
-                  src={sitePath(t.img)}
-                  alt={t.caption}
-                  style={cssStyle(
-                    `width:${t.imgW};max-height:84%;object-fit:cover;object-position:top;border-radius:20px 20px 0 0;display:block`,
-                  )}
-                  loading="eager"
-                />
+                {key === "poradca" && this.state.advisorDemo ? (
+                  <SkincareAdvisor />
+                ) : (
+                  <img
+                    className="solution-detail__image"
+                    src={sitePath(t.img)}
+                    alt={t.caption}
+                    style={cssStyle(
+                      `width:${t.imgW};max-height:84%;object-fit:cover;object-position:top;border-radius:20px 20px 0 0;display:block`,
+                    )}
+                    loading="eager"
+                  />
+                )}
+                {key === "poradca" ? (
+                  <button
+                    type="button"
+                    className="mc-btn solution-demo-toggle"
+                    onClick={() => this.setState({ advisorDemo: !this.state.advisorDemo })}
+                  >
+                    {this.state.advisorDemo ? "Zobraziť náhľad" : "Vyskúšať poradcu"}
+                  </button>
+                ) : null}
               </div>
             </div>
           </section>
@@ -624,9 +640,18 @@ export class Tool extends Component<{
             )}
           >
             <a
-              href={sitePath(t.exHref)}
-              target={"_blank"}
-              rel={"noreferrer"}
+              href={key === "poradca" ? "#" : sitePath(t.exHref)}
+              target={key === "poradca" ? undefined : "_blank"}
+              rel={key === "poradca" ? undefined : "noreferrer"}
+              onClick={(event) => {
+                if (key !== "poradca") return;
+                event.preventDefault();
+                window.dispatchEvent(
+                  new CustomEvent("site-assistant:open", {
+                    detail: { entry: "builder", preset: "advisor" },
+                  }),
+                );
+              }}
               style={cssStyle(
                 `display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:28px;overflow:hidden`,
               )}
@@ -648,7 +673,7 @@ export class Tool extends Component<{
                     `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                   )}
                 >
-                  {"03 / NASADENÉ NA WEBE"}
+                  {key === "poradca" ? "03 / UKÁŽKA BEZ ZNAČKY" : "03 / NASADENÉ NA WEBE"}
                 </div>
                 <div
                   style={cssStyle(

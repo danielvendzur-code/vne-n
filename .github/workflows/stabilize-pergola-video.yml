@@ -1,0 +1,82 @@
+name: Stabilize pergola showcase video
+
+on:
+  push:
+    branches:
+      - codex/cinematic-conversion-fixes-20261008
+    paths:
+      - .github/workflows/stabilize-pergola-video.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stable-pergola-film
+  cancel-in-progress: false
+
+jobs:
+  stabilize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact working branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Install FFmpeg with vidstab support
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
+      - name: Read source properties and available filters
+        shell: bash
+        run: |
+          set -euo pipefail
+          ffmpeg -hide_banner -filters | grep -E 'vidstabdetect|vidstabtransform'
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height,avg_frame_rate,r_frame_rate,nb_frames,codec_name -of default=noprint_wrappers=1 public/work/solutions/pergola-film.mp4
+
+      - name: Analyze camera motion
+        shell: bash
+        run: |
+          set -euo pipefail
+          ffmpeg -hide_banner -loglevel warning -y -i public/work/solutions/pergola-film.mp4 -an -vf "vidstabdetect=shakiness=8:accuracy=15:stepsize=6:result=/tmp/pergola-motion.trf" -f null -
+          test -s /tmp/pergola-motion.trf
+
+      - name: Render stabilized high quality H264 film
+        shell: bash
+        run: |
+          set -euo pipefail
+          ffmpeg -hide_banner -loglevel warning -y \
+            -i public/work/solutions/pergola-film.mp4 \
+            -map 0:v:0 -an -sn -dn \
+            -vf "vidstabtransform=input=/tmp/pergola-motion.trf:smoothing=28:optzoom=1:interpol=bicubic,eq=contrast=1.025:saturation=1.03,unsharp=5:5:0.35:3:3:0.15,format=yuv420p" \
+            -c:v libx264 -preset slow -crf 17 -pix_fmt yuv420p -movflags +faststart \
+            public/work/solutions/pergola-film-stabilized.mp4
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height,avg_frame_rate,codec_name,duration -of default=noprint_wrappers=1 public/work/solutions/pergola-film-stabilized.mp4
+          test "$(stat -c %s public/work/solutions/pergola-film-stabilized.mp4)" -gt 100000
+          ffmpeg -hide_banner -loglevel error -i public/work/solutions/pergola-film-stabilized.mp4 -f null -
+
+      - name: Export sharp matching poster
+        shell: bash
+        run: |
+          set -euo pipefail
+          ffmpeg -hide_banner -loglevel error -y -ss 0.7 \
+            -i public/work/solutions/pergola-film-stabilized.mp4 \
+            -frames:v 1 -vf "scale=1200:-2:flags=lanczos" \
+            -c:v libwebp -quality 86 \
+            public/work/solutions/pergola-film-stabilized-poster.webp
+          test "$(stat -c %s public/work/solutions/pergola-film-stabilized-poster.webp)" -gt 5000
+
+      - name: Commit media only to this feature branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin codex/cinematic-conversion-fixes-20261008
+          git add public/work/solutions/pergola-film-stabilized.mp4 public/work/solutions/pergola-film-stabilized-poster.webp
+          git diff --cached --check
+          git commit -m "Add stabilized, high-bitrate pergola film and sharp poster"
+          git push origin HEAD:codex/cinematic-conversion-fixes-20261008

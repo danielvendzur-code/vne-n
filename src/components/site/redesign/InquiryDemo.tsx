@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { SectionReveal } from "./SectionReveal";
+import type { ReactNode } from "react";
 import {
   Search,
   Archive,
@@ -20,14 +21,6 @@ const configuration = [
   ["Lamely", "Antracit · RAL 7016"],
   ["Výbava", "ZIP roleta vpredu, teplé LED osvetlenie"],
   ["Umiestnenie", "Samostatne stojaca · pripravená dlažba"],
-];
-const calculation = [
-  ["Typ plotu", "3D panelový plot"],
-  ["Dĺžka", "20 m · 8 panelov"],
-  ["Výška", "153 cm"],
-  ["Hrúbka drôtu", "4 mm"],
-  ["Farba", "Antracit · RAL 7016"],
-  ["Stĺpiky", "Hranaté · 60 × 40 mm"],
 ];
 function GmailMark() {
   return (
@@ -63,12 +56,7 @@ function MailWindow({
         </div>
         <span className={s.account}>K</span>
       </div>
-      <div
-        className={s.message}
-        tabIndex={0}
-        role="region"
-        aria-label={`Ukážka e-mailu: ${subject}`}
-      >
+      <div className={s.message} role="region" aria-label={`Ukážka e-mailu: ${subject}`}>
         <div className={s.toolbar} aria-hidden="true">
           <ArrowLeft size={18} />
           <Archive size={18} />
@@ -99,51 +87,33 @@ function MailWindow({
   );
 }
 export function InquiryDemo() {
-  const [kind, setKind] = useState<"config" | "calc">("config");
-  const config = kind === "config";
   return (
     <section id="pred-a-po" className={s.section}>
-      <header className={s.heading}>
-        <h2>
-          Od otázky k<br />
-          <span>pripravenému dopytu.</span>
-        </h2>
-        <div>
+      <SectionReveal>
+        <header className={s.heading}>
+          <h2>
+            Od otázky k<br />
+            <span>pripravenému dopytu.</span>
+          </h2>
           <p>
-            Zákazník pozná cenu ešte na webe. Vám príde jeho kontakt, konkrétny výber a vypočítaná
-            suma.
+            Zákazník odošle zostavu v 3D. Vám príde meno, kontakt, orientačná cena a podrobný výber
+            – bez ďalšieho dopisovania.
           </p>
-          <div className={s.tabs} aria-label="Zdroj vzorového dopytu">
-            {[
-              ["config", "Z konfigurátora"],
-              ["calc", "Z kalkulačky"],
-            ].map(([key, label]) => (
-              <button
-                type="button"
-                key={key}
-                aria-pressed={kind === key}
-                onClick={() => setKind(key as "config" | "calc")}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
+        </header>
+      </SectionReveal>
       <div className={s.comparison}>
         <div>
           <span className={s.comparisonLabel}>BEŽNÝ E-MAIL</span>
           <MailWindow
-            subject={config ? "Pergola na terasu" : "Plot k rodinnému domu"}
+            subject="Pergola na terasu"
             sender="Martin Kováč"
             email="martin.kovac@example.com"
           >
             <div className={s.ordinary}>
               <p>Dobrý deň,</p>
               <p>
-                {config
-                  ? "mám záujem o pergolu na terasu v Nitre, približne 5 × 2,5 m. Viete mi, prosím, poslať cenu aj s montážou?"
-                  : "potrebujem približne 20 metrov plotu k domu v Nitre. Viete mi, prosím, poslať cenu aj s montážou?"}
+                mám záujem o pergolu na terasu v Nitre, približne 5 × 2,5 m. Viete mi poslať cenu aj
+                s montážou?
               </p>
               <p>
                 Ďakujem.
@@ -159,103 +129,73 @@ export function InquiryDemo() {
           </MailWindow>
         </div>
         <div>
-          <span className={s.comparisonLabel}>DOPYT Z NÁSTROJA</span>
+          <span className={s.comparisonLabel}>DOPYT Z 3D KONFIGURÁTORA</span>
           <MailWindow
-            subject={
-              config
-                ? "Nový dopyt z konfigurátora — Martin Kováč"
-                : "Nový dopyt z kalkulačky — Martin Kováč"
-            }
-            sender={config ? "Koverta — konfigurátor" : "Môj Plot — kalkulačka"}
-            email={config ? "konfigurator@koverta.sk" : "kalkulacka@mojplot.sk"}
+            subject="Nový dopyt z konfigurátora"
+            sender="Koverta · 3D konfigurátor"
+            email="konfigurator@koverta.sk"
           >
-            <div className={s.mailContent} key={kind}>
-              <div className={s.mailBrand}>
-                {config ? (
-                  <img
-                    src={sitePath("/work/koverta/logo.svg")}
-                    width={140}
-                    height={30}
-                    alt="Koverta"
-                  />
-                ) : (
-                  <>
-                    <img
-                      src={sitePath("/work/mojplot/logo.png")}
-                      width={44}
-                      height={44}
-                      alt="Môj Plot"
-                    />
-                    <strong>Môj Plot</strong>
-                  </>
-                )}
-              </div>
+            <div className={s.mailContent}>
               <div className={s.quote}>
-                <p>Dobrý deň,</p>
-                <p>
-                  {config
-                    ? "Martin Kováč odoslal dopyt z 3D konfigurátora."
-                    : "Martin Kováč odoslal dopyt z kalkulačky plotu."}{" "}
-                  Nižšie nájdete jeho výber a kontaktné údaje.
-                </p>
-                <div className={s.price}>
-                  <span>Cena zobrazená zákazníkovi</span>
-                  <strong>{config ? "8 490 € s DPH" : "892 €"}</strong>
-                  <small>
-                    {config ? "Vybraná zostava podľa cenníka" : "Materiál a montáž spolu"}
-                  </small>
-                </div>
-                <h4>{config ? "Zostava pergoly" : "Kalkulácia plotu"}</h4>
-                <dl>
-                  {(config ? configuration : calculation).map(([label, value]) => (
-                    <div key={label}>
-                      <dt>{label}</dt>
-                      <dd>{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-                <h4>Kontakt zákazníka</h4>
-                <dl>
+                <h4>Údaje zákazníka</h4>
+                <dl className={s.contacts}>
                   <div>
                     <dt>Meno</dt>
                     <dd>Martin Kováč</dd>
-                  </div>
-                  <div>
-                    <dt>E-mail</dt>
-                    <dd>martin.kovac@example.com</dd>
                   </div>
                   <div>
                     <dt>Telefón</dt>
                     <dd>+421 900 123 456</dd>
                   </div>
                   <div>
+                    <dt>E-mail</dt>
+                    <dd>martin.kovac@example.com</dd>
+                  </div>
+                  <div>
                     <dt>Lokalita</dt>
                     <dd>Nitra</dd>
                   </div>
                 </dl>
-                <p className={s.note}>
-                  <b>Poznámka zákazníka:</b>
-                  <br />„
-                  {config
-                    ? "Prosím o voľný termín montáže. Pod pergolou máme pripravenú dlažbu."
-                    : "Prosím o voľný termín montáže. Plot bude na rovnom pozemku."}
-                  “
+                <div className={s.price}>
+                  <span>Orientačná cena zostavy</span>
+                  <strong>8 490 € s DPH</strong>
+                  <small>Vzorová cena pre ukážku</small>
+                </div>
+                <p className={s.summary}>
+                  Bioklimatická pergola · 5 × 2,5 m · ZIP roleta · LED osvetlenie
                 </p>
-                {config && (
-                  <div className={s.attachment}>
-                    <img
-                      src={sitePath("/work/koverta/config-step-6.webp")}
-                      width={1400}
-                      height={875}
-                      alt="Náhľad vybratej pergoly"
-                    />
-                    <span>
-                      <Paperclip size={15} /> zostava-pergoly.png
-                    </span>
+                <details className={s.configurationDetails}>
+                  <summary>
+                    Celá zostava zákazníka <ChevronDown size={18} aria-hidden="true" />
+                  </summary>
+                  <div className={s.configurationBody}>
+                    <dl>
+                      {configuration.map(([label, value]) => (
+                        <div key={label}>
+                          <dt>{label}</dt>
+                          <dd>{value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <p className={s.note}>
+                      <strong>Poznámka:</strong> Prosím o voľný termín montáže. Dlažba je
+                      pripravená.
+                    </p>
+                    <div className={s.attachment}>
+                      <img
+                        src={sitePath("/work/koverta/config-step-6.webp")}
+                        width={1400}
+                        height={875}
+                        alt="Náhľad vybratej pergoly"
+                      />
+                      <span>
+                        <Paperclip size={15} /> Náhľad zostavy
+                      </span>
+                    </div>
                   </div>
-                )}
+                </details>
                 <div className={s.reply}>
-                  <Reply size={16} /> Odpovedať Martinovi
+                  <Reply size={16} /> Odpovedať zákazníkovi
                 </div>
               </div>
             </div>
@@ -263,8 +203,8 @@ export function InquiryDemo() {
         </div>
       </div>
       <p className={s.caption}>
-        Vzorové e-maily s fiktívnymi kontaktnými údajmi. Výstup sa prispôsobí vašej značke a
-        nástroju.
+        Ilustračné e-maily s fiktívnymi kontaktnými údajmi a cenou. Konkrétna štruktúra sa
+        prispôsobuje firme.
       </p>
     </section>
   );

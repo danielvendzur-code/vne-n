@@ -1,3 +1,4 @@
+import { revealElement } from "./reveal-element";
 import { useState } from "react";
 import { ArrowRight, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { faqs } from "@/data/faq";
@@ -13,7 +14,7 @@ export function HomeFacts() {
   return (
     <div className={facts.band}>
       <section className={facts.section} aria-label="Čo môžete očakávať">
-        <div className={facts.item} data-reveal data-motion="horizontal">
+        <div className={facts.item} ref={revealElement} data-reveal data-motion="horizontal">
           <span className={facts.label}>Prvá odpoveď</span>
           <div className={facts.value}>
             <strong>1 deň</strong>
@@ -24,6 +25,7 @@ export function HomeFacts() {
         <a
           className={facts.item}
           href={sitePath("/cennik")}
+          ref={revealElement}
           data-reveal
           data-motion="horizontal"
           style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
@@ -42,6 +44,7 @@ export function HomeFacts() {
         <a
           className={facts.item}
           href={sitePath("/cennik")}
+          ref={revealElement}
           data-reveal
           data-motion="horizontal"
           style={{ "--reveal-delay": "240ms" } as React.CSSProperties}
@@ -59,6 +62,7 @@ export function HomeFacts() {
         </a>
         <div
           className={facts.item}
+          ref={revealElement}
           data-reveal
           data-motion="horizontal"
           style={{ "--reveal-delay": "360ms" } as React.CSSProperties}
@@ -80,7 +84,7 @@ export { InquiryDemo as InquiryComparison } from "./InquiryDemo";
 export function HomeFAQ() {
   const [opened, setOpened] = useState<number | null>(0);
   return (
-    <section id="faq" className={s.faq} data-reveal>
+    <section id="faq" className={s.faq} ref={revealElement} data-reveal>
       <div className={s.faqIntro}>
         <span className={s.label}>OTÁZKY A ODPOVEDE</span>
         <h2>Často sa pýtate</h2>

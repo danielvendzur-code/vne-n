@@ -1,0 +1,36 @@
+name: Capture live Koverta configurator screenshot
+
+on:
+  push:
+    branches:
+      - codex/cinematic-conversion-fixes-20261008
+    paths:
+      - .github/workflows/capture-koverta.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save --ignore-scripts playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Capture real live UI, not a mockup
+        run: node scripts/capture-koverta.mjs
+      - name: Commit only photograph to proposed branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin codex/cinematic-conversion-fixes-20261008
+          git add public/work/koverta/configurator-live-screenshot.jpg
+          git diff --cached --check
+          git commit -m "Capture genuine live Koverta 3D configurator screenshot"
+          git push origin HEAD:codex/cinematic-conversion-fixes-20261008

@@ -3,7 +3,7 @@
   position: relative;
   width: min(1280px, calc(100% - 96px));
   margin-inline: auto;
-  min-height: 72px;
+  min-height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -29,14 +29,14 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  height: 44px;
-  min-width: 102px;
+  height: 48px;
+  min-width: 116px;
   padding: 0 2px 0 14px;
   border: 0;
   background: transparent;
   color: var(--mc-paper);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 550;
   cursor: pointer;
 }
@@ -70,7 +70,7 @@
 }
 .backdrop {
   position: fixed;
-  inset: 72px 0 0;
+  inset: 76px 0 0;
   background: rgba(28, 22, 18, 0.32);
   z-index: 1;
 }
@@ -78,8 +78,8 @@
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
-  width: min(780px, 100%);
-  padding: 24px;
+  width: min(980px, 100%);
+  padding: 32px;
   border: 1px solid var(--mc-line);
   border-radius: 16px;
   background: var(--mc-paper);
@@ -111,7 +111,7 @@
   grid-template-columns: 24px 1fr 22px;
   align-items: center;
   gap: 14px;
-  min-height: 75px;
+  min-height: 86px;
   border-bottom: 1px solid var(--mc-line);
   color: var(--mc-ink);
   padding: 8px 4px;
@@ -143,14 +143,14 @@
 }
 .linkCopy strong {
   display: block;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 500;
   letter-spacing: -0.045em;
   line-height: 1.1;
 }
 .linkCopy small {
   display: block;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 400;
   color: var(--mc-muted);
   margin-top: 5px;
@@ -179,7 +179,7 @@
   align-items: start;
 }
 .menuFeature h2 {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 500;
   line-height: 1.16;
   letter-spacing: -0.035em;
@@ -187,7 +187,7 @@
   margin: 16px 0 12px;
 }
 .menuFeature p {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.6;
   color: rgba(255, 252, 247, 0.7);
   margin: 0 0 16px;
@@ -204,7 +204,7 @@
   justify-content: space-between;
   padding: 8px 0;
   color: var(--mc-paper);
-  font-size: 11px;
+  font-size: 14px;
   border-bottom: 1px solid rgba(255, 252, 247, 0.15);
   transition: color 0.25s;
 }
@@ -224,7 +224,7 @@
   background: var(--mc-paper);
   color: var(--mc-ink);
   font:
-    550 11px/1.4 "Geist",
+    550 14px/1.4 "Geist",
     sans-serif;
   cursor: pointer;
   margin-top: auto;
@@ -270,10 +270,10 @@
     margin-bottom: 12px;
   }
   .links > a {
-    min-height: 60px;
+    min-height: 70px;
   }
   .linkCopy strong {
-    font-size: 27px;
+    font-size: 30px;
   }
   .menuFeature {
     padding: 16px;
@@ -352,5 +352,26 @@
   .nav * {
     animation: none !important;
     transition: none !important;
+  }
+}
+@media (max-width: 360px) {
+  .nav {
+    gap: 12px;
+  }
+  .brand {
+    gap: 8px;
+    font-size: 17px;
+    white-space: nowrap;
+  }
+  .brand svg {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+  .toggle {
+    min-width: 96px;
+    padding-left: 8px;
+    gap: 8px;
+    font-size: 15px;
   }
 }

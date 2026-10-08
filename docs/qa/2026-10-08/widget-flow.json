@@ -1,0 +1,62 @@
+[
+  {
+    "width": 320,
+    "steps": ["features", "details", "industry", "timeline", "contact"],
+    "payloadFields": [
+      "source",
+      "name",
+      "email",
+      "phone",
+      "company",
+      "web",
+      "note",
+      "interest",
+      "industry",
+      "features",
+      "timeline",
+      "reference",
+      "consent"
+    ],
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "steps": ["features", "details", "industry", "timeline", "contact"],
+    "payloadFields": [
+      "source",
+      "name",
+      "email",
+      "phone",
+      "company",
+      "web",
+      "note",
+      "interest",
+      "industry",
+      "features",
+      "timeline",
+      "reference",
+      "consent"
+    ],
+    "status": "passed"
+  },
+  {
+    "width": 1366,
+    "steps": ["features", "details", "industry", "timeline", "contact"],
+    "payloadFields": [
+      "source",
+      "name",
+      "email",
+      "phone",
+      "company",
+      "web",
+      "note",
+      "interest",
+      "industry",
+      "features",
+      "timeline",
+      "reference",
+      "consent"
+    ],
+    "status": "passed"
+  }
+]
