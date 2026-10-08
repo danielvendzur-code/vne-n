@@ -195,7 +195,9 @@ for (const viewport of sizes) {
       "0",
       "email contents remain keyboard accessible",
     );
-    const configurationSummary = mail.locator("details summary").filter({ hasText: "Celá zostava zákazníka" });
+    const configurationSummary = mail
+      .locator("details summary")
+      .filter({ hasText: "Celá zostava zákazníka" });
     await configurationSummary.click();
     assert.ok(
       await scrollMail.evaluate((e) => e.scrollHeight > e.clientHeight),
