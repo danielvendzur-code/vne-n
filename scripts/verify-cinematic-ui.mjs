@@ -50,7 +50,7 @@ for (const viewport of sizes) {
     await route.fulfill({ json: { reply }, headers: { "access-control-allow-origin": "*" } });
   });
   try {
-    await page.goto(origin, { waitUntil: "networkidle" });
+    await page.goto(origin, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => document.fonts.ready);
     await page.waitForFunction(
       () =>
@@ -411,7 +411,7 @@ for (const viewport of sizes) {
     await page.getByTestId("widget-close").click();
     await page.waitForTimeout(500);
     assert.equal(await page.locator(".cw-panel").isVisible(), false);
-    await page.goto(`${origin}/postup`, { waitUntil: "networkidle" });
+    await page.goto(`${origin}/postup`, { waitUntil: "domcontentloaded" });
     const aside = page.locator(".process-aside");
     if (viewport.width <= 1040) {
       assert.equal(await aside.evaluate((el) => getComputedStyle(el).position), "relative");
