@@ -341,3 +341,15 @@
 @keyframes mc-panel-curtain{from{opacity:0;clip-path:inset(0 0 22% 0 round 12px);transform:translate3d(0,20px,0) scale(.985)}to{opacity:1;clip-path:inset(0 0 0 0 round 12px);transform:none}}
 }
 @media (prefers-reduced-motion:reduce){.panel,.panel::after,.snapshot img{animation:none!important;transition:none!important}}
+
+/* A real-time render keeps a fixed view: no baked camera shake or low-res MP4. */
+.pergolaScene { position:relative;flex:1;min-height:0;width:100%;overflow:hidden;background:#f1efea; }
+.pergolaPoster, .pergolaFrame { position:absolute;inset:0;width:100%;height:100%;display:block; }
+.pergolaPoster { z-index:1;object-fit:contain;transition:opacity 480ms ease; }
+.pergolaFrame { z-index:2;border:0;pointer-events:none;opacity:0;transition:opacity 480ms ease; }
+.pergolaFilm[data-3d-ready="true"] .pergolaFrame { opacity:1; }
+.pergolaFilm[data-3d-ready="true"] .pergolaPoster { opacity:0; }
+@media (max-width:700px){ .pergolaScene { aspect-ratio:4 / 3;flex:none; } }
+@media (prefers-reduced-motion:reduce){
+ .pergolaPoster, .pergolaFrame { transition:none; }
+}
