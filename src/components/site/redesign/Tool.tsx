@@ -231,12 +231,12 @@ export class Tool extends Component<{
           "payment",
           "jazyky",
         ]),
-        exName: "Môj Plot",
-        exDomain: "mojplot.sk",
-        exHref: "https://mojplot.sk/",
+        exName: "Poradca pre pleťovú kozmetiku",
+        exDomain: "Chcem podobného poradcu",
+        exHref: "#",
         exImg: P + "solutions/skincare-photo.webp",
         exCopy:
-          "Vyskúšajte si, ako vyzerá riadený výber v praxi. Poradca sa dá napojiť na váš e-shop a produkty.",
+          "Ukážka výberu pleťovej starostlivosti bez značky alebo loga predajcu. Poradca sa pýta na typ pleti, potreby a preferencie, potom vysvetlí odporúčanie.",
       },
     };
     const key = this.state.t in T ? (this.state.t as keyof typeof T) : "kalkulacka";
@@ -624,9 +624,18 @@ export class Tool extends Component<{
             )}
           >
             <a
-              href={sitePath(t.exHref)}
-              target={"_blank"}
-              rel={"noreferrer"}
+              href={key === "poradca" ? "#" : sitePath(t.exHref)}
+              target={key === "poradca" ? undefined : "_blank"}
+              rel={key === "poradca" ? undefined : "noreferrer"}
+              onClick={(event) => {
+                if (key !== "poradca") return;
+                event.preventDefault();
+                window.dispatchEvent(
+                  new CustomEvent("site-assistant:open", {
+                    detail: { entry: "builder", preset: "advisor" },
+                  }),
+                );
+              }}
               style={cssStyle(
                 `display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));background:var(--mc-paper);border:1px solid rgba(14,21,18,.12);border-radius:28px;overflow:hidden`,
               )}
@@ -648,7 +657,7 @@ export class Tool extends Component<{
                     `font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--mc-muted)`,
                   )}
                 >
-                  {"03 / NASADENÉ NA WEBE"}
+                  {key === "poradca" ? "03 / UKÁŽKA BEZ ZNAČKY" : "03 / NASADENÉ NA WEBE"}
                 </div>
                 <div
                   style={cssStyle(
