@@ -451,7 +451,7 @@
   .panelBody p { max-width: 24ch; }
   .preview { height: auto; flex: none; min-height: 240px; margin-bottom: 0; }
   .snapshot { width: min(360px,100%); }
-  .snapshot img { width: 100%; max-height: 245px; height: auto; }
+  .snapshot img { width: auto; max-width: 100%; max-height: 245px; height: auto; }
   .pergolaFilm { min-height: 245px; }
   .pergolaScene { aspect-ratio: 4 / 3; flex: none; }
   .connection { align-items: start; flex-direction: column; gap: 16px; margin-top: 22px; }

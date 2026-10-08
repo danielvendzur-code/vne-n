@@ -48,6 +48,11 @@ for (const viewport of sizes) {
     errors.push(error.message);
     console.error("PAGE ERROR", viewport.width, error.message);
   });
+  page.on("console", (message) => {
+    if (message.type() === "error") {
+      console.error("BROWSER CONSOLE ERROR", viewport.width, message.text().slice(0, 2000));
+    }
+  });
   await page.route("**/api/chat", async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 700));
     await route.fulfill({ json: { reply }, headers: { "access-control-allow-origin": "*" } });
