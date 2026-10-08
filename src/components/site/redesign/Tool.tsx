@@ -264,6 +264,7 @@ export class Tool extends Component<{
   }
   render() {
     const { openWidget, switcher, t } = this.renderVals();
+    const key = this.state.t;
     return (
       <Fragment>
         <div
