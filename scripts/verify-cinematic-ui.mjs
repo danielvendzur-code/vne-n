@@ -210,6 +210,44 @@ for (const viewport of sizes) {
     await page.waitForTimeout(500);
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
+    assert.ok((await mail.innerText()).includes("Ozveme sa vám do 24 hodín"));
+    assert.ok(
+      (await mail.innerText()).includes("Vaša zostava z konfigurátora bola úspešne odoslaná."),
+    );
+    assert.doesNotMatch(
+      await mail.innerText(),
+      /Zostava na nacenenie|Orientačná cena|Presnú cenu potvrdíme|VÁŠ VÝBER JE ULOŽENÝ|Tu je pergola, ktorú ste si vybrali/,
+      "confirmation shows the supplied price without suggesting another pricing step",
+    );
+    const expandMail = mail.getByRole("button", {
+      name: "Zobraziť zostavu a kontakty",
+      exact: true,
+    });
+    assert.equal(await expandMail.count(), 2);
+    assert.equal(
+      await mail.getByRole("region", { name: "Vaša zostava a kontaktné údaje" }).count(),
+      0,
+    );
+    const collapsedHeights = await mail
+      .locator("[data-mail-preview]")
+      .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
+    assert.ok(
+      Math.abs(collapsedHeights[0] - collapsedHeights[1]) < 2,
+      "collapsed Gmail previews are equally tall",
+    );
+    await mail.screenshot({
+      path: `${output}/mail-collapsed-${viewport.width}.png`,
+      style: ".redesign-header{visibility:hidden!important}",
+    });
+    await expandMail.first().click();
+    await page.waitForTimeout(750);
+    const hideMail = mail.getByRole("button", { name: "Skryť zostavu a kontakty", exact: true });
+    assert.equal(await hideMail.count(), 2);
+    assert.equal(await hideMail.first().getAttribute("aria-expanded"), "true");
+    assert.equal(
+      await mail.getByRole("region", { name: "Vaša zostava a kontaktné údaje" }).count(),
+      1,
+    );
     assert.ok((await mail.innerText()).includes("+421 900 123 456"));
     const windows = await mail.locator("[data-mail-preview]").evaluateAll((els) =>
       els.map((el) => {
@@ -218,17 +256,20 @@ for (const viewport of sizes) {
       }),
     );
     assert.equal(windows.length, 2);
-    const scrollMail = mail.getByRole("region").last();
+    const scrollMail = mail.getByRole("region", {
+      name: "Ukážka e-mailu: Nový dopyt z konfigurátora",
+      exact: true,
+    });
     assert.ok(
       await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
-      "collapsed email shows its full contents without an inner scrollbar",
+      "expanded email shows its full contents without an inner scrollbar",
     );
     assert.ok((await mail.innerText()).includes("ČO VIDÍ ZÁKAZNÍK"));
     assert.ok((await mail.innerText()).includes("ČO VIDÍTE VY"));
     assert.ok((await mail.innerText()).includes("Javorová 12, 949 01 Nitra"));
     assert.ok(
       (await mail.innerText()).includes("Bioklimatická pergola Soltec"),
-      "full configuration is visible without expanding anything",
+      "expanding reveals the complete configuration",
     );
     assert.equal(await mail.locator("details").count(), 0);
     if (viewport.width > 700)
@@ -249,6 +290,22 @@ for (const viewport of sizes) {
       path: `${output}/mail-${viewport.width}.png`,
       style: ".redesign-header{visibility:hidden!important}",
     });
+    await hideMail.first().focus();
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(750);
+    assert.equal(await expandMail.first().getAttribute("aria-expanded"), "false");
+    assert.equal(
+      await mail.getByRole("region", { name: "Vaša zostava a kontaktné údaje" }).count(),
+      0,
+    );
+    assert.ok(
+      await expandMail.first().evaluate((el) => el === document.activeElement),
+      "collapsing retains keyboard focus",
+    );
+    assert.ok(
+      (await mail.innerText()).includes("8 490 €"),
+      "price remains visible after collapsing the details",
+    );
     assert.equal(
       await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).count(),
       0,
@@ -368,6 +425,11 @@ for (const viewport of sizes) {
     assert.equal(await page.locator('img[src*="chatbot-aplan"]').count(), 0);
     await page.screenshot({ path: `${output}/chatbot-detail-${viewport.width}.png` });
     const launcher = page.getByTestId("widget-launcher");
+    assert.equal(
+      await launcher.locator(".cw-launcher-hint").count(),
+      0,
+      "launcher hover has no text popup",
+    );
     await launcher.hover();
     await page.waitForTimeout(650);
     assert.ok(

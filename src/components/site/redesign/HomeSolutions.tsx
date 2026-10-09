@@ -43,19 +43,19 @@ const solutions = [
   },
   {
     title: "Chatbot",
-    copy: "Odpovie na otázku, poradí s výberom a ukáže cenu podľa vášho cenníka.",
+    copy: "Odpovie na otázky, pomôže s výberom a ukáže cenu podľa vášho cenníka.",
     href: "/nastroj?t=chatbot",
     kind: "chatbot",
   },
   {
     title: "Kalkulačka",
-    copy: "Rozmery a možnosti premení na konkrétnu cenu. Bez ručného počítania.",
+    copy: "Spočíta cenu podľa rozmerov a vybraných možností. Bez ručného počítania.",
     href: "/nastroj?t=kalkulacka",
     kind: "calculator",
   },
   {
     title: "Poradca",
-    copy: "Vyberie vhodný produkt z vášho katalógu a vysvetlí svoje odporúčanie.",
+    copy: "Odporučí produkt z vášho katalógu a vysvetlí, prečo sa hodí.",
     href: "/nastroj?t=poradca",
     kind: "advisor",
   },
@@ -83,23 +83,29 @@ export function HomeSolutions() {
           const rect = card.getBoundingClientRect();
           const stage = panels?.getBoundingClientRect();
           const inward =
-            desktop && stage ? (stage.x + stage.width / 2 - rect.x - rect.width / 2) * 0.3 : 0;
+            desktop && stage ? (stage.x + stage.width / 2 - rect.x - rect.width / 2) * 0.42 : 0;
           animations.push(
             card.animate(
               [
                 {
-                  transform: `perspective(1800px) translate3d(${inward}px, ${desktop ? 130 : 54}px, 0) rotateX(${desktop ? 9 : 0}deg) rotateZ(${desktop ? (index - 1.5) * 4 : 0}deg) scale(0.96)`,
-                  opacity: 0.3,
+                  transform: `perspective(1800px) translate3d(${inward}px, ${desktop ? 155 : 54}px, ${desktop ? -90 : 0}px) rotateX(${desktop ? 12 : 0}deg) rotateY(${desktop ? (1.5 - index) * 9 : 0}deg) rotateZ(${desktop ? (index - 1.5) * 7 : 0}deg) scale(${desktop ? 0.92 : 0.97})`,
+                  opacity: 0.35,
+                },
+                {
+                  offset: 0.72,
+                  transform:
+                    "perspective(1800px) translate3d(0, -4px, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1.003)",
+                  opacity: 1,
                 },
                 {
                   transform:
-                    "perspective(1800px) translate3d(0, 0, 0) rotateX(0deg) rotateZ(0deg) scale(1)",
+                    "perspective(1800px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)",
                   opacity: 1,
                 },
               ],
               {
-                duration: desktop ? 1450 : 1050,
-                delay: desktop ? index * 95 : 0,
+                duration: desktop ? 1550 : 1050,
+                delay: desktop ? index * 110 : 0,
                 easing: "cubic-bezier(0.22, 1, 0.36, 1)",
                 fill: "backwards",
               },
@@ -110,12 +116,12 @@ export function HomeSolutions() {
             animations.push(
               preview.animate(
                 [
-                  { transform: "translate3d(0, 26px, 0)", opacity: 0.35 },
-                  { transform: "translate3d(0, 0, 0)", opacity: 1 },
+                  { transform: "translate3d(0, 42px, 0) scale(1.065)", opacity: 0.5 },
+                  { transform: "translate3d(0, 0, 0) scale(1)", opacity: 1 },
                 ],
                 {
                   duration: 1400,
-                  delay: desktop ? 150 + index * 95 : 100,
+                  delay: desktop ? 180 + index * 110 : 100,
                   easing: "cubic-bezier(0.22, 1, 0.36, 1)",
                 },
               ),
