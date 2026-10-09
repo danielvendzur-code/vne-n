@@ -118,7 +118,7 @@ for (const viewport of sizes) {
       () =>
         document.querySelector("[data-section-heading]")?.getAttribute("data-visible") === "true",
     );
-    await page.waitForTimeout(900);
+    await page.waitForTimeout(1800);
     assert.equal(
       await solutionHeading.evaluate((e) => getComputedStyle(e).clipPath),
       "none",
@@ -206,6 +206,7 @@ for (const viewport of sizes) {
       .locator("#riesenia")
       .screenshot({ path: `${output}/solutions-${viewport.width}.png` });
     await page.locator("#pred-a-po").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1800);
     await page.waitForTimeout(500);
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
@@ -240,7 +241,14 @@ for (const viewport of sizes) {
         windows[1].y > windows[0].bottom && windows[1].w > viewport.width - 70,
         "phone email previews stack at readable width",
       );
-    await mail.screenshot({ path: `${output}/mail-${viewport.width}.png` });
+    assert.ok(
+      Math.abs(windows[0].h - windows[1].h) < 2,
+      "both Gmail previews have the same complete height",
+    );
+    await mail.screenshot({
+      path: `${output}/mail-${viewport.width}.png`,
+      style: ".redesign-header{visibility:hidden!important}",
+    });
     assert.equal(
       await mail.getByRole("button", { name: "Z kalkulačky", exact: true }).count(),
       0,
@@ -250,7 +258,18 @@ for (const viewport of sizes) {
     assert.equal(await cases.count(), 5, "all project cards show actual photographs/captures");
     for (const shot of await cases.all()) {
       await shot.scrollIntoViewIfNeeded();
-      await shot.evaluate((img) => img.decode());
+      await page.waitForFunction(
+        (img) => img.complete && img.naturalWidth > 0,
+        await shot.elementHandle(),
+        { timeout: 10000 },
+      );
+      await shot.evaluate(async (img) => {
+        try {
+          await img.decode();
+        } catch (error) {
+          throw new Error(`Could not decode ${img.currentSrc}: ${error.message}`);
+        }
+      });
       assert.ok(await shot.evaluate((img) => img.complete && img.naturalWidth > 0));
     }
     const stack = page.locator(".redesign-case-item");
@@ -277,6 +296,35 @@ for (const viewport of sizes) {
       );
       await page.screenshot({ path: `${output}/cases-${viewport.width}.png` });
     }
+    await page.locator("#faq").scrollIntoViewIfNeeded();
+    await page
+      .getByRole("button", { name: "Napíšte ju sem…" })
+      .evaluate((e) => e.scrollIntoView({ block: "center", behavior: "instant" }));
+    await page.waitForTimeout(1200);
+    const faqPosition = await page.evaluate(() => scrollY);
+    await page.getByRole("button", { name: "Napíšte ju sem…" }).click();
+    await page.getByRole("textbox", { name: "Vaša otázka" }).waitFor();
+    await page.waitForTimeout(500);
+    if (viewport.width >= 768) {
+      assert.ok(
+        await page
+          .getByRole("textbox", { name: "Vaša otázka" })
+          .evaluate((e) => e === document.activeElement),
+        "FAQ opens directly into the question field",
+      );
+    }
+    await page.getByRole("textbox", { name: "Vaša otázka" }).fill("Moja otázka");
+    await page.getByTestId("widget-close").click();
+    await page.waitForTimeout(500);
+    assert.ok(
+      Math.abs((await page.evaluate(() => scrollY)) - faqPosition) < 3,
+      "FAQ close restores the original page position",
+    );
+    assert.notEqual(
+      await page.evaluate(() => document.body.style.position),
+      "fixed",
+      "FAQ cannot leave scrolling locked",
+    );
     await cards
       .nth(1)
       .getByRole("link")
@@ -325,8 +373,8 @@ for (const viewport of sizes) {
     assert.ok(
       await launcher
         .locator(".mc-half")
-        .evaluateAll((es) => es.every((e) => getComputedStyle(e).transform === "none")),
-      "hover preserves the supplied split brand mark",
+        .evaluateAll((es) => es.every((e) => getComputedStyle(e).transform !== "none")),
+      "hover joins the two pieces of the supplied brand mark",
     );
     await launcher.click();
     await page.waitForTimeout(1100);

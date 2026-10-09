@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { revealMailPair } from "./scene-motion";
 import {
   Search,
   Archive,
@@ -6,8 +7,6 @@ import {
   ArrowLeft,
   MoreVertical,
   Star,
-  Reply,
-  Paperclip,
   ChevronDown,
   Mail,
 } from "lucide-react";
@@ -85,6 +84,88 @@ function MailWindow({
     </div>
   );
 }
+function EmailBody({ business }: { business: boolean }) {
+  return (
+    <div className={s.emailBody}>
+      <div className={s.emailMasthead}>
+        <strong>Koverta</strong>
+        <span>3D konfigurátor</span>
+      </div>
+      <div className={s.emailIntro}>
+        <span className={s.emailEyebrow}>{business ? "NOVÝ DOPYT" : "VÁŠ VÝBER JE ULOŽENÝ"}</span>
+        <h4>{business ? "Nová pergola. Nový zákazník." : "Vaša terasa, podľa vás."}</h4>
+        <p>
+          {business
+            ? "Martin Kováč má záujem o túto zostavu. Máte všetko na prípravu konkrétnej ponuky."
+            : "Dobrý deň, pán Kováč. Tu je pergola, ktorú ste si vybrali — spolu s výbavou a orientačnou cenou."}
+        </p>
+      </div>
+      <div className={s.product}>
+        <img
+          src={sitePath("/work/koverta/config-step-6.webp")}
+          width={1400}
+          height={875}
+          loading="lazy"
+          decoding="async"
+          alt="Vybraná bioklimatická pergola s roletou a LED osvetlením"
+        />
+        <div className={s.price}>
+          <span>Orientačná cena zostavy</span>
+          <strong>
+            8 490 € <small>s DPH</small>
+          </strong>
+          <span>Presnú cenu potvrdíme v ponuke.</span>
+        </div>
+      </div>
+      <div className={s.emailSection}>
+        <h5>{business ? "Zostava na nacenenie" : "Čo ste si vybrali"}</h5>
+        <dl className={s.configuration}>
+          {configuration.map(([label, value]) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div className={s.emailSection}>
+        <h5>{business ? "Kontakt a miesto montáže" : "Váš dopyt"}</h5>
+        <dl className={s.contacts}>
+          <div>
+            <dt>Meno</dt>
+            <dd>Martin Kováč</dd>
+          </div>
+          <div>
+            <dt>Telefón</dt>
+            <dd>+421 900 123 456</dd>
+          </div>
+          <div>
+            <dt>E-mail</dt>
+            <dd>martin.kovac@example.com</dd>
+          </div>
+          <div>
+            <dt>Adresa montáže</dt>
+            <dd>Javorová 12, 949 01 Nitra</dd>
+          </div>
+        </dl>
+      </div>
+      <div className={s.nextStep}>
+        <h5>{business ? "Poznámka zákazníka" : "Čo bude nasledovať"}</h5>
+        <p>
+          {business
+            ? "Prosím o voľný termín montáže. Dlažba je pripravená, prístup na pozemok z ulice."
+            : "Ozveme sa vám, overíme miesto montáže a potvrdíme cenu aj voľný termín. Váš výber už máme, nemusíte ho zadávať znova."}
+        </p>
+      </div>
+      <div className={s.emailFooter}>
+        {business
+          ? "Dopyt pripravený na osobnú odpoveď zákazníkovi."
+          : "Ďakujeme za váš záujem. Tešíme sa na vašu novú terasu."}
+      </div>
+    </div>
+  );
+}
+
 export function InquiryDemo() {
   return (
     <section id="pred-a-po" className={s.section}>
@@ -99,136 +180,21 @@ export function InquiryDemo() {
           kontaktmi a údajmi na prípravu ponuky.
         </p>
       </header>
-      <div className={s.comparison}>
-        <div>
-          <span className={s.comparisonLabel}>ČO VIDÍ ZÁKAZNÍK</span>
-          <MailWindow
-            subject="Vaša pergola — výber a cena"
-            sender="Koverta · 3D konfigurátor"
-            email="konfigurator@koverta.sk"
-          >
-            <div className={s.quote}>
-              <p>Dobrý deň, pán Kováč,</p>
-              <p>
-                tu je zostava, ktorú ste si vybrali. Výber máte uložený a viete, s akou cenou
-                počítať.
-              </p>
-              <div className={s.price}>
-                <span>Orientačná cena vášho výberu</span>
-                <strong>8 490 € s DPH</strong>
-              </div>
-              <h4>Váš výber</h4>
-              <dl>
-                <div>
-                  <dt>Produkt</dt>
-                  <dd>Bioklimatická pergola Soltec</dd>
-                </div>
-                <div>
-                  <dt>Rozmery</dt>
-                  <dd>5 076 × 2 500 mm</dd>
-                </div>
-                <div>
-                  <dt>Farby</dt>
-                  <dd>Biela konštrukcia · antracitové lamely</dd>
-                </div>
-                <div>
-                  <dt>Výbava</dt>
-                  <dd>ZIP roleta · teplé LED osvetlenie</dd>
-                </div>
-              </dl>
-              <div className={s.attachment}>
-                <img
-                  src={sitePath("/work/koverta/config-step-6.webp")}
-                  width={1400}
-                  height={875}
-                  alt="Zostava vybraná zákazníkom"
-                />
-                <span>
-                  <Paperclip size={15} /> Vaša pergola
-                </span>
-              </div>
-              <p>Váš dopyt sme prijali. Ozveme sa vám s potvrdením ceny a termínom montáže.</p>
-            </div>
-          </MailWindow>
-        </div>
-        <div>
-          <span className={s.comparisonLabel}>ČO VIDÍTE VY</span>
-          <MailWindow
-            subject="Nový dopyt z konfigurátora"
-            sender="Koverta · 3D konfigurátor"
-            email="konfigurator@koverta.sk"
-          >
-            <div className={s.mailContent}>
-              <div className={s.quote}>
-                <span className={s.emailEyebrow}>NOVÝ DOPYT · 3D KONFIGURÁTOR</span>
-                <h4>Všetky údaje zákazníka</h4>
-                <dl className={s.contacts}>
-                  <div>
-                    <dt>Meno</dt>
-                    <dd>Martin Kováč</dd>
-                  </div>
-                  <div>
-                    <dt>Telefón</dt>
-                    <dd>+421 900 123 456</dd>
-                  </div>
-                  <div>
-                    <dt>E-mail</dt>
-                    <dd>martin.kovac@example.com</dd>
-                  </div>
-                  <div>
-                    <dt>Adresa montáže</dt>
-                    <dd>Javorová 12, 949 01 Nitra</dd>
-                  </div>
-                  <div>
-                    <dt>Typ zákazníka</dt>
-                    <dd>Súkromná osoba</dd>
-                  </div>
-                  <div>
-                    <dt>Preferovaný kontakt</dt>
-                    <dd>Telefón · popoludní</dd>
-                  </div>
-                </dl>
-                <div className={s.price}>
-                  <span>Orientačná cena zostavy</span>
-                  <strong>8 490 € s DPH</strong>
-                </div>
-                <p className={s.summary}>
-                  Bioklimatická pergola · 5 × 2,5 m · ZIP roleta · LED osvetlenie
-                </p>
-                <h4>Celá zostava zákazníka</h4>
-                <div className={s.configurationBody}>
-                  <dl>
-                    {configuration.map(([label, value]) => (
-                      <div key={label}>
-                        <dt>{label}</dt>
-                        <dd>{value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                  <p className={s.note}>
-                    <strong>Poznámka zákazníka:</strong> Prosím o voľný termín montáže. Dlažba je
-                    pripravená, prístup na pozemok z ulice.
-                  </p>
-                  <div className={s.attachment}>
-                    <img
-                      src={sitePath("/work/koverta/config-step-6.webp")}
-                      width={1400}
-                      height={875}
-                      alt="Náhľad vybratej pergoly"
-                    />
-                    <span>
-                      <Paperclip size={15} /> Náhľad zostavy
-                    </span>
-                  </div>
-                </div>
-                <p className={s.note}>Súhlas so spracovaním údajov: udelený pri odoslaní dopytu.</p>
-                <div className={s.reply}>
-                  <Reply size={16} /> Odpovedať zákazníkovi
-                </div>
-              </div>
-            </div>
-          </MailWindow>
-        </div>
+      <div className={s.comparison} ref={revealMailPair}>
+        {[false, true].map((business) => (
+          <div key={String(business)} data-mail-scene>
+            <span className={s.comparisonLabel}>
+              {business ? "ČO VIDÍTE VY" : "ČO VIDÍ ZÁKAZNÍK"}
+            </span>
+            <MailWindow
+              subject={business ? "Nový dopyt z konfigurátora" : "Vaša pergola — výber a cena"}
+              sender="Koverta · 3D konfigurátor"
+              email="konfigurator@koverta.sk"
+            >
+              <EmailBody business={business} />
+            </MailWindow>
+          </div>
+        ))}
       </div>
       <p className={s.caption}>
         Ilustračné e-maily s fiktívnymi kontaktnými údajmi a cenou. Konkrétna štruktúra sa
