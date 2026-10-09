@@ -338,7 +338,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
         <script
-          src={`${import.meta.env.BASE_URL}widget-loader.js?v=animated-launcher-20261009-v36`}
+          src={`${import.meta.env.BASE_URL}widget-loader.js?v=confirmation-hover-20261009-v37`}
           defer
         />
       </head>

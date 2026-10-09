@@ -1,5 +1,6 @@
 import { MessageCircle, SlidersHorizontal, Send } from "lucide-react";
 import s from "./HowItWorks.module.css";
+import { revealJourney } from "./scene-motion";
 
 const steps = [
   {
@@ -17,7 +18,7 @@ const steps = [
   {
     icon: Send,
     title: "Vy dostanete všetko podstatné.",
-    copy: "Keď zákazník požiada o ponuku, príde vám kontakt spolu s jeho výberom. Máte podklady na konkrétnu odpoveď.",
+    copy: "Keď zákazník odošle dopyt, príde vám jeho výber a kontaktné údaje. Môžete rovno dohodnúť ďalší krok.",
     detail: "Záujem → pripravený dopyt",
   },
 ];
@@ -27,14 +28,14 @@ export function HowItWorks() {
     <section id="ako-to-funguje" className={s.section} aria-labelledby="how-title">
       <header>
         <span>AKO TO FUNGUJE</span>
-        <h2 id="how-title">Menej otázok medzi záujmom a ponukou.</h2>
+        <h2 id="how-title">Od prvej otázky po odoslaný dopyt.</h2>
         <p>
           Nástroje môžu fungovať samostatne aj spolu. Každý má jasnú úlohu v ceste vášho zákazníka.
         </p>
       </header>
-      <div className={s.steps}>
+      <div className={s.steps} ref={revealJourney}>
         {steps.map(({ icon: Icon, title, copy, detail }, i) => (
-          <article key={title}>
+          <article key={title} data-journey-step>
             <div className={s.top}>
               <span>0{i + 1}</span>
               <Icon size={28} strokeWidth={1.4} />
