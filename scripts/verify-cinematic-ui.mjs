@@ -258,7 +258,18 @@ for (const viewport of sizes) {
     assert.equal(await cases.count(), 5, "all project cards show actual photographs/captures");
     for (const shot of await cases.all()) {
       await shot.scrollIntoViewIfNeeded();
-      await shot.evaluate((img) => img.decode());
+      await page.waitForFunction(
+        (img) => img.complete && img.naturalWidth > 0,
+        await shot.elementHandle(),
+        { timeout: 10000 },
+      );
+      await shot.evaluate(async (img) => {
+        try {
+          await img.decode();
+        } catch (error) {
+          throw new Error(`Could not decode ${img.currentSrc}: ${error.message}`);
+        }
+      });
       assert.ok(await shot.evaluate((img) => img.complete && img.naturalWidth > 0));
     }
     const stack = page.locator(".redesign-case-item");
@@ -362,8 +373,8 @@ for (const viewport of sizes) {
     assert.ok(
       await launcher
         .locator(".mc-half")
-        .evaluateAll((es) => es.every((e) => getComputedStyle(e).transform === "none")),
-      "hover preserves the supplied split brand mark",
+        .evaluateAll((es) => es.every((e) => getComputedStyle(e).transform !== "none")),
+      "hover joins the two pieces of the supplied brand mark",
     );
     await launcher.click();
     await page.waitForTimeout(1100);
