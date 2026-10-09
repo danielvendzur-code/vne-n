@@ -19,7 +19,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "quiet-product-previews-20261008-v34";
+  const WIDGET_RELEASE = "faq-word-stream-20261009-v35";
 
   let settled = false;
   let loading = false;

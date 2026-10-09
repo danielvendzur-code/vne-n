@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, type MouseEvent, type CSSProperties } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { PergolaVideo } from "./PergolaVideo";
 import { openSolution } from "./solution-navigation";
@@ -68,39 +68,71 @@ export function HomeSolutions() {
     const element = root.current;
     if (!element) return;
     const media = matchMedia("(prefers-reduced-motion: reduce)");
-    let frame = 0;
-    let visible = false;
-    const paint = () => {
-      frame = 0;
-      const top = element.getBoundingClientRect().top;
-      const progress = media.matches
-        ? 1
-        : Math.min(1, Math.max(0, (innerHeight * 0.95 - top) / (innerHeight * 0.58)));
-      element.style.setProperty("--scene-open", String(progress));
-      element.dataset.motion = media.matches ? "off" : "on";
-      element.querySelector("[data-section-heading]")?.setAttribute("data-visible", "true");
-    };
-    const schedule = () => {
-      if (visible && !frame) frame = requestAnimationFrame(paint);
-    };
+    const panels = element.querySelector<HTMLElement>(`[data-solution-panels]`);
+    const cards = Array.from(element.querySelectorAll<HTMLElement>("[data-solution-card]"));
+    const animations: Animation[] = [];
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        visible = entry.isIntersecting;
-        if (visible) paint();
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          observer.unobserve(entry.target);
+          if (media.matches) continue;
+          const card = entry.target as HTMLElement;
+          const index = Number(card.dataset.solutionCard);
+          const desktop = innerWidth > 1100;
+          const rect = card.getBoundingClientRect();
+          const stage = panels?.getBoundingClientRect();
+          const inward =
+            desktop && stage ? (stage.x + stage.width / 2 - rect.x - rect.width / 2) * 0.3 : 0;
+          animations.push(
+            card.animate(
+              [
+                {
+                  transform: `perspective(1800px) translate3d(${inward}px, ${desktop ? 130 : 54}px, 0) rotateX(${desktop ? 9 : 0}deg) rotateZ(${desktop ? (index - 1.5) * 4 : 0}deg) scale(0.96)`,
+                  opacity: 0.3,
+                },
+                {
+                  transform:
+                    "perspective(1800px) translate3d(0, 0, 0) rotateX(0deg) rotateZ(0deg) scale(1)",
+                  opacity: 1,
+                },
+              ],
+              {
+                duration: desktop ? 1450 : 1050,
+                delay: desktop ? index * 95 : 0,
+                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                fill: "backwards",
+              },
+            ),
+          );
+          const preview = card.querySelector("[data-solution-preview]");
+          if (preview)
+            animations.push(
+              preview.animate(
+                [
+                  { transform: "translate3d(0, 26px, 0)", opacity: 0.35 },
+                  { transform: "translate3d(0, 0, 0)", opacity: 1 },
+                ],
+                {
+                  duration: 1400,
+                  delay: desktop ? 150 + index * 95 : 100,
+                  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                },
+              ),
+            );
+        }
       },
-      { rootMargin: "160px" },
+      { threshold: 0.08 },
     );
-    observer.observe(element);
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    media.addEventListener("change", paint);
+    cards.forEach((card) => observer.observe(card));
+    const stop = () => {
+      if (media.matches) animations.forEach((animation) => animation.cancel());
+    };
+    media.addEventListener("change", stop);
     return () => {
       observer.disconnect();
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      media.removeEventListener("change", paint);
-      delete element.dataset.motion;
+      animations.forEach((animation) => animation.cancel());
+      media.removeEventListener("change", stop);
     };
   }, []);
   const open = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -115,7 +147,7 @@ export function HomeSolutions() {
   };
   return (
     <section ref={root} id="riesenia" className={s.section} aria-labelledby="solutions-title">
-      <header className={s.heading} data-section-heading>
+      <header className={s.heading} data-section-heading data-visible="true">
         <div className={s.headingTitle}>
           <span className={s.eyebrow}>01 / PORTFÓLIO RIEŠENÍ</span>
           <h2 id="solutions-title">
@@ -132,19 +164,9 @@ export function HomeSolutions() {
       <div className={s.motionTrack} aria-hidden="true">
         <span />
       </div>
-      <div className={s.panels}>
+      <div className={s.panels} data-solution-panels>
         {solutions.map(({ title, copy, href, kind }, i) => (
-          <article
-            className={s.panel}
-            key={title}
-            data-solution-card={i}
-            style={
-              {
-                "--card-lift": `${(4 - i) * 28}px`,
-                "--card-turn": `${(i - 1.5) * 2.5}deg`,
-              } as CSSProperties
-            }
-          >
+          <article className={s.panel} key={title} data-solution-card={i}>
             <a
               className={s.panelLink}
               href={sitePath(href)}
