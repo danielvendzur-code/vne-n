@@ -306,8 +306,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.svg`, type: "image/svg+xml" },
-      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, sizes: "32x32" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico?v=brand-20261011`, sizes: "32x32" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.svg?v=brand-20261011`, type: "image/svg+xml" },
       {
         rel: "apple-touch-icon",
         href: `${import.meta.env.BASE_URL}icons/apple-touch-icon.png`,
@@ -338,7 +338,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
         <script
-          src={`${import.meta.env.BASE_URL}widget-loader.js?v=confirmation-hover-20261009-v37`}
+          src={`${import.meta.env.BASE_URL}widget-loader.js?v=visible-mobile-20261011-v38`}
           defer
         />
       </head>
