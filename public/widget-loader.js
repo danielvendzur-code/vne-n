@@ -19,7 +19,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "confirmation-hover-20261009-v37";
+  const WIDGET_RELEASE = "visible-mobile-20261011-v38";
 
   let settled = false;
   let loading = false;
