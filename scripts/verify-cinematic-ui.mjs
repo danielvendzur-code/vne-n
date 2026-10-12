@@ -210,9 +210,9 @@ for (const viewport of sizes) {
     await page.waitForTimeout(500);
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
-    assert.ok((await mail.innerText()).includes("Ozveme sa vám do 24 hodín"));
+    assert.ok((await mail.innerText()).includes("Čo bude nasledovať"));
     assert.ok(
-      (await mail.innerText()).includes("Vaša zostava z konfigurátora bola úspešne odoslaná."),
+      (await mail.innerText()).includes("Tu je prehľad zostavy, ktorú ste si vytvorili."),
     );
     assert.doesNotMatch(
       await mail.innerText(),
