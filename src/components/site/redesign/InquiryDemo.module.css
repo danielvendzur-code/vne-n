@@ -595,3 +595,41 @@
     font-size: 22px;
   }
 }
+
+/* Scoped mail preview refinements: real Koverta identity and quiet surface motion. */
+.emailMasthead {
+  background: #fff;
+  color: #455a64;
+  padding: 17px 22px;
+  border-bottom: 1px solid #e8e9e6;
+}
+.kovertaLogo {
+  display: block;
+  width: min(190px, 56%);
+  height: auto;
+  max-height: 34px;
+  object-fit: contain;
+  object-position: left center;
+}
+.emailMasthead span {
+  color: #52616a;
+  opacity: 1;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .075em;
+  text-align: right;
+}
+.avatar {
+  background: #f2f5f4;
+  border: 1px solid #dce4e5;
+}
+.avatar img { width: 24px; height: 24px; object-fit: contain; }
+.gmail { box-shadow: 0 16px 42px -32px rgba(20, 35, 40, .25); }
+.product img { object-fit: contain; }
+@media (max-width: 700px) {
+  .emailMasthead { padding: 14px 16px; }
+  .kovertaLogo { width: min(160px, 54%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .comparison [data-mail-scene] { animation: none; }
+}

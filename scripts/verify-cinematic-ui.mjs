@@ -210,10 +210,8 @@ for (const viewport of sizes) {
     await page.waitForTimeout(500);
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
-    assert.ok((await mail.innerText()).includes("Ozveme sa vám do 24 hodín"));
-    assert.ok(
-      (await mail.innerText()).includes("Vaša zostava z konfigurátora bola úspešne odoslaná."),
-    );
+    assert.ok((await mail.innerText()).includes("Čo bude nasledovať"));
+    assert.ok((await mail.innerText()).includes("Tu je prehľad zostavy, ktorú ste si vytvorili."));
     assert.doesNotMatch(
       await mail.innerText(),
       /Zostava na nacenenie|Orientačná cena|Presnú cenu potvrdíme|VÁŠ VÝBER JE ULOŽENÝ|Tu je pergola, ktorú ste si vybrali/,
@@ -257,7 +255,7 @@ for (const viewport of sizes) {
     );
     assert.equal(windows.length, 2);
     const scrollMail = mail.getByRole("region", {
-      name: "Ukážka e-mailu: Nový dopyt z konfigurátora",
+      name: "Ukážka e-mailu: Nový dopyt – Pergola Soltec | Martin Kováč",
       exact: true,
     });
     assert.ok(
