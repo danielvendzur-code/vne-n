@@ -306,8 +306,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico?v=brand-20261011`, sizes: "32x32" },
-      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.svg?v=brand-20261011`, type: "image/svg+xml" },
+      {
+        rel: "icon",
+        href: `${import.meta.env.BASE_URL}favicon.ico?v=brand-20261011`,
+        sizes: "32x32",
+      },
+      {
+        rel: "icon",
+        href: `${import.meta.env.BASE_URL}favicon.svg?v=brand-20261011`,
+        type: "image/svg+xml",
+      },
       {
         rel: "apple-touch-icon",
         href: `${import.meta.env.BASE_URL}icons/apple-touch-icon.png`,
