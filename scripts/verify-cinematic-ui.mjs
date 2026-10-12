@@ -255,7 +255,7 @@ for (const viewport of sizes) {
     );
     assert.equal(windows.length, 2);
     const scrollMail = mail.getByRole("region", {
-      name: "Ukážka e-mailu: Nový dopyt z konfigurátora",
+      name: "Ukážka e-mailu: Nový dopyt – Pergola Soltec | Martin Kováč",
       exact: true,
     });
     assert.ok(
