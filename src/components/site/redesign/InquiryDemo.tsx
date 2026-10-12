@@ -68,7 +68,9 @@ function MailWindow({
           <span>Doručené</span>
         </div>
         <div className={s.sender}>
-          <span className={s.avatar}>{sender[0]}</span>
+          <span className={s.avatar} aria-hidden="true">
+            <img src={sitePath("/work/koverta/koverta-k.svg")} alt="" width={27} height={27} />
+          </span>
           <div>
             <b>{sender}</b>
             <small>
@@ -98,16 +100,22 @@ function EmailBody({
   return (
     <div className={s.emailBody} data-mail-body>
       <div className={s.emailMasthead}>
-        <strong>Koverta</strong>
-        <span>3D konfigurátor</span>
+        <img
+          className={s.kovertaLogo}
+          src={sitePath("/work/koverta/logo.svg")}
+          width={206}
+          height={31}
+          alt="Koverta"
+        />
+        <span>3D KONFIGURÁTOR</span>
       </div>
       <div className={s.emailIntro}>
         <span className={s.emailEyebrow}>{business ? "NOVÝ DOPYT" : "POTVRDENIE ODOSLANIA"}</span>
-        <h4>{business ? "Zostava od zákazníka." : "Ďakujeme za váš dopyt."}</h4>
+        <h4>{business ? "Nový dopyt: bioklimatická pergola" : "Vaša zostava bola odoslaná"}</h4>
         <p>
           {business
-            ? "Martin Kováč odoslal zostavu z konfigurátora vrátane ceny a výbavy."
-            : "Dobrý deň, pán Kováč. Vaša zostava z konfigurátora bola úspešne odoslaná."}
+            ? "Martin Kováč si nakonfiguroval pergolu Soltec. Nižšie nájdete zostavu, orientačnú cenu aj kontaktné údaje."
+            : "Dobrý deň, pán Kováč, ďakujeme za odoslanie. Tu je prehľad zostavy, ktorú ste si vytvorili."}
         </p>
       </div>
       <div className={s.product}>
@@ -130,11 +138,11 @@ function EmailBody({
       <div className={s.nextStep}>
         <CheckCircle2 size={21} strokeWidth={1.6} aria-hidden="true" />
         <div>
-          <h5>{business ? "Pripravené na odpoveď" : "Ozveme sa vám do 24 hodín"}</h5>
+          <h5>{business ? "Čo treba potvrdiť" : "Čo bude nasledovať"}</h5>
           <p>
             {business
-              ? "Dohodnite so zákazníkom termín montáže a ďalší postup."
-              : "Prejdeme si s vami miesto a termín montáže a dohodneme ďalší postup."}
+              ? "Overte technické možnosti, miesto osadenia a dostupný termín pred prípravou záväznej ponuky."
+              : "Overíme rozmery a podmienky montáže a následne pripravíme presnú ponuku."}
           </p>
         </div>
       </div>
@@ -143,7 +151,7 @@ function EmailBody({
         className={s.detailsToggle}
         data-email-toggle
         aria-expanded={expanded}
-        aria-controls="inquiry-details-customer inquiry-details-business"
+        aria-controls={detailsId}
         onClick={onToggle}
       >
         {expanded ? "Skryť zostavu a kontakty" : "Zobraziť zostavu a kontakty"}
@@ -228,8 +236,8 @@ export function InquiryDemo() {
               {business ? "ČO VIDÍTE VY" : "ČO VIDÍ ZÁKAZNÍK"}
             </span>
             <MailWindow
-              subject={business ? "Nový dopyt z konfigurátora" : "Potvrdenie odoslania zostavy"}
-              sender="Koverta · 3D konfigurátor"
+              subject={business ? "Nový dopyt – Pergola Soltec | Martin Kováč" : "Potvrdenie zostavy – Pergola Soltec"}
+              sender="Koverta | konfigurátor"
               email="konfigurator@koverta.sk"
             >
               <EmailBody business={business} expanded={expanded} onToggle={toggleDetails} />
