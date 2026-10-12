@@ -236,7 +236,11 @@ export function InquiryDemo() {
               {business ? "ČO VIDÍTE VY" : "ČO VIDÍ ZÁKAZNÍK"}
             </span>
             <MailWindow
-              subject={business ? "Nový dopyt – Pergola Soltec | Martin Kováč" : "Potvrdenie zostavy – Pergola Soltec"}
+              subject={
+                business
+                  ? "Nový dopyt – Pergola Soltec | Martin Kováč"
+                  : "Potvrdenie zostavy – Pergola Soltec"
+              }
               sender="Koverta | konfigurátor"
               email="konfigurator@koverta.sk"
             >
