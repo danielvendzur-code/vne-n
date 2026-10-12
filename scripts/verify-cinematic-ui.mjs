@@ -211,9 +211,7 @@ for (const viewport of sizes) {
     const mail = page.locator("#pred-a-po");
     assert.ok((await mail.innerText()).includes("8 490 €"));
     assert.ok((await mail.innerText()).includes("Čo bude nasledovať"));
-    assert.ok(
-      (await mail.innerText()).includes("Tu je prehľad zostavy, ktorú ste si vytvorili."),
-    );
+    assert.ok((await mail.innerText()).includes("Tu je prehľad zostavy, ktorú ste si vytvorili."));
     assert.doesNotMatch(
       await mail.innerText(),
       /Zostava na nacenenie|Orientačná cena|Presnú cenu potvrdíme|VÁŠ VÝBER JE ULOŽENÝ|Tu je pergola, ktorú ste si vybrali/,
