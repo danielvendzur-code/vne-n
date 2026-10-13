@@ -20,6 +20,10 @@ async function check(viewport, reducedMotion) {
   });
   const page = await context.newPage();
   const errors = [];
+  const failedRequests = [];
+  page.on("requestfailed", (request) => {
+    failedRequests.push(`${request.url()}: ${request.failure()?.errorText || "unknown"}`);
+  });
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
@@ -28,8 +32,12 @@ async function check(viewport, reducedMotion) {
   try {
     await page.goto(origin, { waitUntil: "domcontentloaded" });
     await page.locator("[data-solution-card]").first().waitFor();
-    // Safari may not emit the hero-typing completion marker. The motion
-    // contract depends on the card's own staged state, not on the hero.
+    const refuse = page.getByRole("button", {
+      name: "Odmietnuť analytiku",
+      exact: true,
+    });
+    if (await refuse.isVisible()) await refuse.click();
+    // Motion testing must not mistake the cookie panel for an animation layer.
     const first = page.locator("[data-solution-card]").first();
 
     if (reducedMotion === "reduce") {
@@ -115,7 +123,9 @@ async function check(viewport, reducedMotion) {
         fullPage: true,
       })
       .catch(() => undefined);
-    throw new Error(`${String(error)}; browser errors: ${JSON.stringify(errors.slice(0, 5))}`);
+    throw new Error(
+      `${String(error)}; browser errors: ${JSON.stringify(errors.slice(0, 5))}; failed requests: ${JSON.stringify(failedRequests.slice(0, 5))}`,
+    );
   } finally {
     await context.close();
   }
