@@ -200,7 +200,7 @@ export function HomeSolutions() {
           <p>Od prvej otázky po hotovú zostavu. Skutočné nástroje, ktoré môžete vidieť v akcii.</p>
         </div>
       </header>
-      <div className={s.motionTrack} aria-hidden="true">
+      <div className={s.motionTrack} data-solution-motion-track aria-hidden="true">
         <span />
       </div>
       <div className={s.panels} data-solution-panels>
