@@ -19,6 +19,17 @@ async function check(viewport, reducedMotion) {
     isMobile: viewport.width <= 700,
   });
   const page = await context.newPage();
+  // Safari can apply the production HTTPS-upgrade CSP to lazy assets after
+  // hydration, even on the HTTP-only local test host. Route those loopback
+  // requests to the identical local HTTP fixture, never to the public site.
+  if (engineName === "webkit" && origin.startsWith("http://127.0.0.1:")) {
+    await page.route(`${origin.replace(/^http:/, "https:")}/**`, async (route) => {
+      const response = await route.fetch({
+        url: route.request().url().replace(/^https:/, "http:"),
+      });
+      await route.fulfill({ response });
+    });
+  }
   const errors = [];
   const failedRequests = [];
   page.on("requestfailed", (request) => {
@@ -32,11 +43,25 @@ async function check(viewport, reducedMotion) {
   try {
     await page.goto(origin, { waitUntil: "domcontentloaded" });
     await page.locator("[data-solution-card]").first().waitFor();
+    await page.waitForFunction(
+      () =>
+        document.querySelector(".analytics-consent") ||
+        document.documentElement.dataset.analyticsConsent,
+      null,
+      { timeout: 10000 },
+    );
     const refuse = page.getByRole("button", {
       name: "Odmietnuť analytiku",
       exact: true,
     });
-    if (await refuse.isVisible()) await refuse.click();
+    if (await refuse.isVisible()) {
+      await refuse.click();
+      await page.waitForFunction(
+        () => document.documentElement.dataset.analyticsConsent === "denied",
+        null,
+        { timeout: 3000 },
+      );
+    }
     // Motion testing must not mistake the cookie panel for an animation layer.
     const first = page.locator("[data-solution-card]").first();
 
