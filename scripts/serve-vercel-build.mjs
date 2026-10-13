@@ -47,8 +47,7 @@ createServer(async (req, res) => {
     // Only this HTTP-only test server omits the production HTTPS-upgrade rule.
     // WebKit otherwise upgrades http://127.0.0.1 resources to HTTPS and cannot
     // hydrate the page. The real HTTPS deployment keeps its original CSP.
-    const omitLocalUpgrade = (value) =>
-      value.replace(/;\s*upgrade-insecure-requests\b/g, "");
+    const omitLocalUpgrade = (value) => value.replace(/;\s*upgrade-insecure-requests\b/g, "");
     if (headers.has("content-security-policy")) {
       headers.set(
         "content-security-policy",
