@@ -15,7 +15,7 @@ export function revealElement(element: HTMLElement | null) {
       element.dataset.revealed = "true";
       observer.disconnect();
     },
-    { rootMargin: "0px 0px -48px 0px" },
+    { rootMargin: "0px 0px 100px 0px" },
   );
   observer.observe(element);
   const preference = () => {
