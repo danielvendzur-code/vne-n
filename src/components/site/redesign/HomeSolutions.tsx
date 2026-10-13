@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, type MouseEvent } from "react";
+import { useLayoutEffect, useRef, type MouseEvent } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { PergolaVideo } from "./PergolaVideo";
 import { openSolution } from "./solution-navigation";
@@ -64,80 +64,65 @@ const solutions = [
 export function HomeSolutions() {
   const root = useRef<HTMLElement>(null);
   const router = useRouter();
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = root.current;
-    if (!element) return;
+    if (!element || typeof IntersectionObserver === "undefined") return;
     const media = matchMedia("(prefers-reduced-motion: reduce)");
-    const panels = element.querySelector<HTMLElement>(`[data-solution-panels]`);
+    if (media.matches) return;
     const cards = Array.from(element.querySelectorAll<HTMLElement>("[data-solution-card]"));
+    // Only offscreen cards are staged. Visible/SSR-hydrated cards are never hidden again.
+    const pending = cards.filter((card) => {
+      if (card.getBoundingClientRect().top < innerHeight - 8) return false;
+      card.style.opacity = "0";
+      return true;
+    });
     const animations: Animation[] = [];
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
           observer.unobserve(entry.target);
-          if (media.matches) continue;
           const card = entry.target as HTMLElement;
-          const index = Number(card.dataset.solutionCard);
-          const desktop = innerWidth > 1100;
-          const rect = card.getBoundingClientRect();
-          const stage = panels?.getBoundingClientRect();
-          const inward =
-            desktop && stage ? (stage.x + stage.width / 2 - rect.x - rect.width / 2) * 0.42 : 0;
-          animations.push(
-            card.animate(
-              [
-                {
-                  transform: `perspective(1800px) translate3d(${inward}px, ${desktop ? 155 : 54}px, ${desktop ? -90 : 0}px) rotateX(${desktop ? 12 : 0}deg) rotateY(${desktop ? (1.5 - index) * 9 : 0}deg) rotateZ(${desktop ? (index - 1.5) * 7 : 0}deg) scale(${desktop ? 0.92 : 0.97})`,
-                  opacity: 0.35,
-                },
-                {
-                  offset: 0.72,
-                  transform:
-                    "perspective(1800px) translate3d(0, -4px, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1.003)",
-                  opacity: 1,
-                },
-                {
-                  transform:
-                    "perspective(1800px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)",
-                  opacity: 1,
-                },
-              ],
-              {
-                duration: desktop ? 1550 : 1050,
-                delay: desktop ? index * 110 : 0,
-                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-                fill: "backwards",
-              },
-            ),
+          if (media.matches) {
+            card.style.removeProperty("opacity");
+            continue;
+          }
+          const animation = card.animate(
+            [
+              { opacity: 0, transform: "translate3d(0, 24px, 0) scale(.99)" },
+              { opacity: 1, transform: "none" },
+            ],
+            {
+              duration: 540,
+              delay: 0,
+              easing: "cubic-bezier(0.2, 0.7, 0.2, 1)",
+              fill: "both",
+            },
           );
-          const preview = card.querySelector("[data-solution-preview]");
-          if (preview)
-            animations.push(
-              preview.animate(
-                [
-                  { transform: "translate3d(0, 42px, 0) scale(1.065)", opacity: 0.5 },
-                  { transform: "translate3d(0, 0, 0) scale(1)", opacity: 1 },
-                ],
-                {
-                  duration: 1400,
-                  delay: desktop ? 180 + index * 110 : 100,
-                  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-                },
-              ),
-            );
+          animations.push(animation);
+          void animation.finished.then(
+            () => {
+              card.style.removeProperty("opacity");
+              animation.cancel();
+            },
+            () => undefined,
+          );
         }
       },
-      { threshold: 0.08 },
+      { threshold: 0, rootMargin: "0px 0px 120px 0px" },
     );
-    cards.forEach((card) => observer.observe(card));
+    pending.forEach((card) => observer.observe(card));
     const stop = () => {
-      if (media.matches) animations.forEach((animation) => animation.cancel());
+      if (!media.matches) return;
+      observer.disconnect();
+      animations.forEach((animation) => animation.cancel());
+      pending.forEach((card) => card.style.removeProperty("opacity"));
     };
     media.addEventListener("change", stop);
     return () => {
       observer.disconnect();
       animations.forEach((animation) => animation.cancel());
+      pending.forEach((card) => card.style.removeProperty("opacity"));
       media.removeEventListener("change", stop);
     };
   }, []);

@@ -1,20 +1,27 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { BrandMark } from "@/components/BrandMark";
 import s from "./SectionReveal.module.css";
 
 /** A single scroll-led scene. With no JS or reduced motion, all content is already open. */
 export function SectionReveal({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = root.current;
     if (!element) return;
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
     let visible = false;
+    const initiallyVisible = element.getBoundingClientRect().top < innerHeight;
     const paint = () => {
       frame = 0;
       if (media.matches) {
         delete element.dataset.motion;
+        element.style.removeProperty("--door-open");
+        return;
+      }
+      if (initiallyVisible) {
+        element.style.setProperty("--door-open", "1");
+        element.dataset.motion = "true";
         return;
       }
       const top = element.getBoundingClientRect().top;
@@ -33,6 +40,8 @@ export function SectionReveal({ children }: { children: ReactNode }) {
       },
       { rootMargin: "120px" },
     );
+    // Prepare the closed doors before the first paint, not after the scene appears.
+    paint();
     observer.observe(element);
     const preference = () => {
       paint();
