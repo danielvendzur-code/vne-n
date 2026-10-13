@@ -129,12 +129,15 @@ export function HomeSolutions() {
 
           // A hidden tab or cancelled WAAPI animation must never leave a card
           // invisible. The timer is a safety net; it does not delay a normal run.
-          const timer = window.setTimeout(() => {
-            releaseTimers.delete(timer);
-            release(card);
-            animation.cancel();
-            animations.delete(animation);
-          }, duration + delay + 180);
+          const timer = window.setTimeout(
+            () => {
+              releaseTimers.delete(timer);
+              release(card);
+              animation.cancel();
+              animations.delete(animation);
+            },
+            duration + delay + 180,
+          );
           releaseTimers.add(timer);
           void animation.finished.then(
             () => {
