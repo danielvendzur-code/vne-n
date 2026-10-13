@@ -75,7 +75,8 @@ for (const viewport of sizes) {
     if (await refuse.isVisible()) await refuse.click();
     await page.locator('#top[data-headline-ready="true"]').waitFor();
     assert.ok(
-      await page.locator('#main-content section > header[data-motion-staged="true"]').count() >= 1,
+      (await page.locator('#main-content section > header[data-motion-staged="true"]').count()) >=
+        1,
       "new redesign must prepare its own section-heading animations before scrolling",
     );
     const unstagedOffscreenCards = await page.evaluate(() =>
