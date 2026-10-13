@@ -48,7 +48,7 @@ createServer(async (req, res) => {
     // WebKit otherwise upgrades http://127.0.0.1 resources to HTTPS and cannot
     // hydrate the page. The real HTTPS deployment keeps its original CSP.
     const omitLocalUpgrade = (value) =>
-      value.replace(/;\\s*upgrade-insecure-requests\\b/g, "");
+      value.replace(/;\s*upgrade-insecure-requests\b/g, "");
     if (headers.has("content-security-policy")) {
       headers.set(
         "content-security-policy",
