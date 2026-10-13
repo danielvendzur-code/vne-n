@@ -208,7 +208,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
           );
         }
       },
-      { threshold: 0, rootMargin: "0px 0px 110px 0px" },
+      { threshold: 0, rootMargin: "0px 0px -12px 0px" },
     );
 
     passes.forEach((pass, element) => {
