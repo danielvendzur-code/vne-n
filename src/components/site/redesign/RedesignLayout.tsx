@@ -43,9 +43,7 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
 
     // The new site has no .page-transition container. Stage its own section
     // headings before first paint so animation is visible when scrolling.
-    const headings = Array.from(
-      root.querySelectorAll<HTMLElement>("section > header"),
-    );
+    const headings = Array.from(root.querySelectorAll<HTMLElement>("section > header"));
     const pending = headings.filter((heading) => {
       if (heading.getBoundingClientRect().top < window.innerHeight - 12) return false;
       heading.style.opacity = "0";
@@ -105,7 +103,9 @@ export function RedesignLayout({ children }: { children: ReactNode }) {
       <div className="redesign-header">
         <Header active={active} />
       </div>
-      <main id="main-content" ref={rootRef}>{children}</main>
+      <main id="main-content" ref={rootRef}>
+        {children}
+      </main>
     </div>
   );
 }
