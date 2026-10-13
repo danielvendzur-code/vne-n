@@ -125,9 +125,6 @@ try {
   process.exitCode = 1;
 } finally {
   await browser.close();
-  await writeFile(
-    `${output}/motion-contract-${engineName}.json`,
-    JSON.stringify(results, null, 2),
-  );
+  await writeFile(`${output}/motion-contract-${engineName}.json`, JSON.stringify(results, null, 2));
   console.log(JSON.stringify(results, null, 2));
 }
