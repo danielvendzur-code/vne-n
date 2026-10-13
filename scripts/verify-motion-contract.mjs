@@ -25,7 +25,10 @@ async function check(viewport, reducedMotion) {
   if (engineName === "webkit" && origin.startsWith("http://127.0.0.1:")) {
     await page.route(`${origin.replace(/^http:/, "https:")}/**`, async (route) => {
       const response = await route.fetch({
-        url: route.request().url().replace(/^https:/, "http:"),
+        url: route
+          .request()
+          .url()
+          .replace(/^https:/, "http:"),
       });
       await route.fulfill({ response });
     });
