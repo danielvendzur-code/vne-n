@@ -74,6 +74,10 @@ for (const viewport of sizes) {
     const refuse = page.getByRole("button", { name: "Odmietnuť analytiku", exact: true });
     if (await refuse.isVisible()) await refuse.click();
     await page.locator('#top[data-headline-ready="true"]').waitFor();
+    assert.ok(
+      await page.locator('#main-content section > header[data-motion-staged="true"]').count() >= 1,
+      "new redesign must prepare its own section-heading animations before scrolling",
+    );
     const unstagedOffscreenCards = await page.evaluate(() =>
       Array.from(document.querySelectorAll("[data-solution-card]"))
         .filter((card) => card.getBoundingClientRect().top > innerHeight + 150)
@@ -123,7 +127,17 @@ for (const viewport of sizes) {
     await page.keyboard.press("Escape");
     assert.equal(await menu.getAttribute("aria-expanded"), "false");
     const solutionHeading = page.locator("[data-section-heading]");
+    const headingWasStaged = (await solutionHeading.getAttribute("data-motion-staged")) === "true";
     await solutionHeading.scrollIntoViewIfNeeded();
+    if (headingWasStaged) {
+      await page.waitForFunction(
+        () =>
+          document.querySelector("[data-section-heading]")?.getAttribute("data-motion-entered") ===
+          "true",
+        null,
+        { timeout: 3000 },
+      );
+    }
     await page.waitForFunction(
       () =>
         document.querySelector("[data-section-heading]")?.getAttribute("data-visible") === "true",
