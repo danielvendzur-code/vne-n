@@ -66,44 +66,86 @@ export function HomeSolutions() {
   const router = useRouter();
   useLayoutEffect(() => {
     const element = root.current;
-    if (!element || typeof IntersectionObserver === "undefined") return;
+    if (
+      !element ||
+      typeof IntersectionObserver === "undefined" ||
+      typeof Element.prototype.animate !== "function"
+    ) {
+      return;
+    }
+
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     if (media.matches) return;
     const cards = Array.from(element.querySelectorAll<HTMLElement>("[data-solution-card]"));
-    // Only offscreen cards are staged. Visible/SSR-hydrated cards are never hidden again.
+    const desktop = matchMedia("(min-width: 1101px)").matches;
+
+    // Prepare ONLY content below the viewport before paint. Once seen, a card
+    // must never disappear or repeat its entrance while the user scrolls.
     const pending = cards.filter((card) => {
-      if (card.getBoundingClientRect().top < innerHeight - 8) return false;
+      if (card.getBoundingClientRect().top < innerHeight - 12) return false;
       card.style.opacity = "0";
+      card.dataset.motionCard = "staged";
       return true;
     });
-    const animations: Animation[] = [];
+    const animations = new Set<Animation>();
+    const releaseTimers = new Set<number>();
+
+    const release = (card: HTMLElement) => {
+      card.style.removeProperty("opacity");
+      card.dataset.motionCard = "complete";
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          observer.unobserve(entry.target);
           const card = entry.target as HTMLElement;
+          observer.unobserve(card);
           if (media.matches) {
-            card.style.removeProperty("opacity");
+            release(card);
             continue;
           }
+
+          const index = cards.indexOf(card);
+          const delay = desktop ? Math.min(index * 65, 195) : 0;
+          const duration = desktop ? 620 : 510;
           const animation = card.animate(
             [
-              { opacity: 0, transform: "translate3d(0, 24px, 0) scale(.99)" },
-              { opacity: 1, transform: "none" },
+              {
+                opacity: 0,
+                transform: `translate3d(0, ${desktop ? 30 : 17}px, 0) scale(.988)`,
+              },
+              { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
             ],
             {
-              duration: 540,
-              delay: 0,
+              duration,
+              delay,
               easing: "cubic-bezier(0.2, 0.7, 0.2, 1)",
               fill: "both",
             },
           );
-          animations.push(animation);
+          card.dataset.motionCard = "playing";
+          animations.add(animation);
+
+          // A hidden tab or cancelled WAAPI animation must never leave a card
+          // invisible. The timer is a safety net; it does not delay a normal run.
+          const timer = window.setTimeout(
+            () => {
+              releaseTimers.delete(timer);
+              release(card);
+              animation.cancel();
+              animations.delete(animation);
+            },
+            duration + delay + 180,
+          );
+          releaseTimers.add(timer);
           void animation.finished.then(
             () => {
-              card.style.removeProperty("opacity");
+              window.clearTimeout(timer);
+              releaseTimers.delete(timer);
+              release(card);
               animation.cancel();
+              animations.delete(animation);
             },
             () => undefined,
           );
@@ -111,19 +153,28 @@ export function HomeSolutions() {
       },
       { threshold: 0, rootMargin: "0px 0px -12px 0px" },
     );
+
     pending.forEach((card) => observer.observe(card));
     const stop = () => {
       if (!media.matches) return;
       observer.disconnect();
       animations.forEach((animation) => animation.cancel());
-      pending.forEach((card) => card.style.removeProperty("opacity"));
+      animations.clear();
+      releaseTimers.forEach((timer) => window.clearTimeout(timer));
+      releaseTimers.clear();
+      pending.forEach(release);
     };
     media.addEventListener("change", stop);
+
     return () => {
       observer.disconnect();
-      animations.forEach((animation) => animation.cancel());
-      pending.forEach((card) => card.style.removeProperty("opacity"));
       media.removeEventListener("change", stop);
+      releaseTimers.forEach((timer) => window.clearTimeout(timer));
+      animations.forEach((animation) => animation.cancel());
+      pending.forEach((card) => {
+        card.style.removeProperty("opacity");
+        delete card.dataset.motionCard;
+      });
     };
   }, []);
   const open = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -152,7 +203,7 @@ export function HomeSolutions() {
           <p>Od prvej otázky po hotovú zostavu. Skutočné nástroje, ktoré môžete vidieť v akcii.</p>
         </div>
       </header>
-      <div className={s.motionTrack} aria-hidden="true">
+      <div className={s.motionTrack} data-solution-motion-track aria-hidden="true">
         <span />
       </div>
       <div className={s.panels} data-solution-panels>

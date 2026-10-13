@@ -41,8 +41,25 @@ createServer(async (req, res) => {
         : {}),
     });
     const response = await handler.fetch(request, {});
-    res.writeHead(response.status, Object.fromEntries(response.headers));
-    res.end(Buffer.from(await response.arrayBuffer()));
+    const headers = new Headers(response.headers);
+    let body = Buffer.from(await response.arrayBuffer());
+
+    // Only this HTTP-only test server omits the production HTTPS-upgrade rule.
+    // WebKit otherwise upgrades http://127.0.0.1 resources to HTTPS and cannot
+    // hydrate the page. The real HTTPS deployment keeps its original CSP.
+    const omitLocalUpgrade = (value) => value.replace(/;\s*upgrade-insecure-requests\b/g, "");
+    if (headers.has("content-security-policy")) {
+      headers.set(
+        "content-security-policy",
+        omitLocalUpgrade(headers.get("content-security-policy") || ""),
+      );
+    }
+    if ((headers.get("content-type") || "").includes("text/html")) {
+      body = Buffer.from(omitLocalUpgrade(body.toString("utf8")));
+      headers.set("content-length", String(body.byteLength));
+    }
+    res.writeHead(response.status, Object.fromEntries(headers));
+    res.end(body);
   } catch (e) {
     console.error(e);
     res.writeHead(500);

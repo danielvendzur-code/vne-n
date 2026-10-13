@@ -21,7 +21,7 @@ jobs:
       - name: Install Chromium test runtime
         run: |
           npm install --prefix /tmp/cinematic-runtime --no-save --ignore-scripts playwright@1.55.0
-          node /tmp/cinematic-runtime/node_modules/playwright/cli.js install --with-deps chromium
+          node /tmp/cinematic-runtime/node_modules/playwright/cli.js install --with-deps chromium webkit
       - name: Build the production Vercel output
         run: bun run build
       - name: Check responsive layouts and actual interactions
@@ -35,6 +35,8 @@ jobs:
             if curl -fsS http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          PLAYWRIGHT_MODULE=/tmp/cinematic-runtime/node_modules/playwright/index.mjs MOTION_BROWSER=chromium node scripts/verify-motion-contract.mjs
+          PLAYWRIGHT_MODULE=/tmp/cinematic-runtime/node_modules/playwright/index.mjs MOTION_BROWSER=webkit node scripts/verify-motion-contract.mjs
           PLAYWRIGHT_MODULE=/tmp/cinematic-runtime/node_modules/playwright/index.mjs node scripts/verify-cinematic-ui.mjs
       - name: Save screenshots and test report
         if: always()
