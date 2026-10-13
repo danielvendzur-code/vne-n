@@ -137,8 +137,7 @@ export function PageRevealController({ pathname }: { pathname: string }) {
     const compactViewport = window.matchMedia("(max-width: 720px)").matches;
     const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
       (element) =>
-        !element.closest('[aria-hidden="true"]') &&
-        element.getAttribute("aria-hidden") !== "true",
+        !element.closest('[aria-hidden="true"]') && element.getAttribute("aria-hidden") !== "true",
     );
     const passes = new Map<HTMLElement, RevealPass>();
     const animations = new Set<Animation>();
