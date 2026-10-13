@@ -16,7 +16,7 @@ export function SectionReveal({ children }: { children: ReactNode }) {
       frame = 0;
       if (media.matches) {
         delete element.dataset.motion;
-      element.style.removeProperty("--door-open");
+        element.style.removeProperty("--door-open");
         return;
       }
       if (initiallyVisible) {
