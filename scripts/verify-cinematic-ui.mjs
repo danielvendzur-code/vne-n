@@ -74,6 +74,16 @@ for (const viewport of sizes) {
     const refuse = page.getByRole("button", { name: "Odmietnuť analytiku", exact: true });
     if (await refuse.isVisible()) await refuse.click();
     await page.locator('#top[data-headline-ready="true"]').waitFor();
+    const unstagedOffscreenCards = await page.evaluate(() =>
+      Array.from(document.querySelectorAll("[data-solution-card]"))
+        .filter((card) => card.getBoundingClientRect().top > innerHeight + 150)
+        .some((card) => Number(getComputedStyle(card).opacity) > 0.05),
+    );
+    assert.equal(
+      unstagedOffscreenCards,
+      false,
+      "offscreen cards must be staged before the user scrolls to them",
+    );
     await page.waitForTimeout(2100);
     assert.equal(
       await page
