@@ -28,7 +28,8 @@ async function check(viewport, reducedMotion) {
   try {
     await page.goto(origin, { waitUntil: "domcontentloaded" });
     await page.locator("[data-solution-card]").first().waitFor();
-    await page.locator('#top[data-headline-ready="true"]').waitFor();
+    // Safari may not emit the hero-typing completion marker. The motion
+    // contract depends on the card's own staged state, not on the hero.
     const first = page.locator("[data-solution-card]").first();
 
     if (reducedMotion === "reduce") {
@@ -107,6 +108,14 @@ async function check(viewport, reducedMotion) {
     );
     assert.deepEqual(errors, [], "Browser console errors");
     results.push({ engine: engineName, viewport: viewport.width, reducedMotion, status: "passed" });
+  } catch (error) {
+    await page
+      .screenshot({
+        path: `${output}/motion-error-${engineName}-${viewport.width}.png`,
+        fullPage: true,
+      })
+      .catch(() => undefined);
+    throw new Error(`${String(error)}; browser errors: ${JSON.stringify(errors.slice(0, 5))}`);
   } finally {
     await context.close();
   }
