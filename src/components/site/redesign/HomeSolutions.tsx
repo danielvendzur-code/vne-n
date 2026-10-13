@@ -109,7 +109,7 @@ export function HomeSolutions() {
           );
         }
       },
-      { threshold: 0, rootMargin: "0px 0px 120px 0px" },
+      { threshold: 0, rootMargin: "0px 0px -12px 0px" },
     );
     pending.forEach((card) => observer.observe(card));
     const stop = () => {
