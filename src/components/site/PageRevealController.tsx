@@ -130,12 +130,12 @@ export function PageRevealController({ pathname }: { pathname: string }) {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       typeof IntersectionObserver === "undefined" ||
       typeof Element.prototype.animate !== "function"
-    ) return;
+    ) {
+      return;
+    }
 
     const compactViewport = window.matchMedia("(max-width: 720px)").matches;
-    const candidates = Array.from(
-      root.querySelectorAll<HTMLElement>(REVEAL_TARGETS),
-    ).filter(
+    const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
       (element) =>
         !element.closest('[aria-hidden="true"]') &&
         element.getAttribute("aria-hidden") !== "true",
