@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 const REVEAL_TARGETS = [
   ".kage-home .hybrid-tools__intro > *",
@@ -37,12 +37,9 @@ type RevealState = {
 };
 
 type RevealPass = {
-  down: number;
-  up: number;
-  inside: boolean;
+  animation: Animation | null;
   staged: boolean;
-  initialized: boolean;
-  activeAnimation: Animation | null;
+  done: boolean;
 };
 
 const siblingIndex = (element: HTMLElement) =>
@@ -122,259 +119,110 @@ const revealState = (element: HTMLElement, compactViewport: boolean): RevealStat
   };
 };
 
-const revealDelay = (element: HTMLElement, compactViewport: boolean) => {
-  const scale = compactViewport ? 0.42 : 1;
-
-  if (element.matches(".hybrid-work__grid > article")) {
-    return siblingIndex(element) * 58 * scale;
-  }
-  if (element.matches(".hybrid-tool")) {
-    return siblingIndex(element) * 50 * scale;
-  }
-  if (element.matches(".hybrid-process__list > li")) {
-    return siblingIndex(element) * 55 * scale;
-  }
-  if (element.matches(".outcome-comparison__group")) {
-    return siblingIndex(element) * 70 * scale;
-  }
-  if (element.matches(".outcome-comparison__group li")) {
-    return siblingIndex(element) * 35 * scale;
-  }
-  if (element.matches(".hybrid-manifesto__inner h2 em")) {
-    return siblingIndex(element) * 55 * scale;
-  }
-  if (element.matches(".kage-flow__step")) {
-    return siblingIndex(element) * 45 * scale;
-  }
-  return 0;
-};
-
-const applyStage = (element: HTMLElement, state: RevealState, pass: RevealPass) => {
-  element.style.opacity = String(state.opacity);
-  element.style.transform = state.transform;
-  element.style.willChange = "opacity, transform";
-  element.dataset.motionReveal = "staged";
-  pass.staged = true;
-};
-
-const releaseStage = (element: HTMLElement, pass: RevealPass) => {
-  element.style.removeProperty("opacity");
-  element.style.removeProperty("transform");
-  element.style.removeProperty("will-change");
-  element.dataset.motionReveal = "shown";
-  pass.staged = false;
-};
-
-/**
- * One-way reveal controller. Initial visibility is resolved by IntersectionObserver
- * instead of synchronously calling getBoundingClientRect() for every candidate.
- * That keeps the effect without forcing a large layout pass during startup.
+/** Stage only below-viewport content during layout, before the browser paints.
+ * In-view content is never hidden after being shown. Every reveal plays once.
  */
 export function PageRevealController({ pathname }: { pathname: string }) {
-  useEffect(() => {
-    let removeReveal: (() => void) | undefined;
+  useLayoutEffect(() => {
+    const root = document.querySelector<HTMLElement>(".page-transition");
+    if (!root) return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      typeof IntersectionObserver === "undefined" ||
+      typeof Element.prototype.animate !== "function"
+    ) return;
 
-    const installReveal = () => {
-      const root = document.querySelector<HTMLElement>(".page-transition");
-      if (!root) return undefined;
+    const compactViewport = window.matchMedia("(max-width: 720px)").matches;
+    const candidates = Array.from(
+      root.querySelectorAll<HTMLElement>(REVEAL_TARGETS),
+    ).filter(
+      (element) =>
+        !element.closest('[aria-hidden="true"]') &&
+        element.getAttribute("aria-hidden") !== "true",
+    );
+    const passes = new Map<HTMLElement, RevealPass>();
+    const animations = new Set<Animation>();
 
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const compactViewport = window.matchMedia("(max-width: 720px)").matches;
-      const supportsReveal =
-        !reducedMotion &&
-        typeof IntersectionObserver !== "undefined" &&
-        typeof Element.prototype.animate === "function";
-
-      if (!supportsReveal) return undefined;
-
-      const candidates = Array.from(root.querySelectorAll<HTMLElement>(REVEAL_TARGETS)).filter(
-        (element) =>
-          !element.closest('[aria-hidden="true"]') &&
-          element.getAttribute("aria-hidden") !== "true",
-      );
-
-      const animations = new Set<Animation>();
-      const states = new Map(
-        candidates.map((element) => [element, revealState(element, compactViewport)]),
-      );
-      const passes = new Map<HTMLElement, RevealPass>(
-        candidates.map((element) => [
-          element,
-          {
-            down: 0,
-            up: 0,
-            inside: false,
-            staged: false,
-            initialized: false,
-            activeAnimation: null,
-          },
-        ]),
-      );
-      let lastScrollY = window.scrollY;
-      let scrollDirection: "down" | "up" = "down";
-      let directionFrame = 0;
-
-      const registerAnimation = (
-        element: HTMLElement,
-        pass: RevealPass,
-        animation: Animation,
-        releaseAfter: boolean,
-      ) => {
-        pass.activeAnimation?.cancel();
-        pass.activeAnimation = animation;
-        animations.add(animation);
-
-        void animation.finished
-          .then(() => {
-            animations.delete(animation);
-            if (pass.activeAnimation !== animation) return;
-            pass.activeAnimation = null;
-            if (releaseAfter) releaseStage(element, pass);
-          })
-          .catch(() => {
-            animations.delete(animation);
-            if (pass.activeAnimation === animation) pass.activeAnimation = null;
-          });
+    // One geometry pass before paint: do not let the observer hide
+    // content that the user already saw on the first frame.
+    candidates.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const offscreenBelow = rect.top >= window.innerHeight - 8;
+      const pass: RevealPass = {
+        animation: null,
+        staged: offscreenBelow,
+        done: !offscreenBelow,
       };
+      passes.set(element, pass);
+      if (offscreenBelow) {
+        const state = revealState(element, compactViewport);
+        element.style.opacity = String(state.opacity);
+        element.style.transform = state.transform;
+        element.dataset.motionReveal = "staged";
+      } else {
+        element.dataset.motionReveal = "shown";
+      }
+    });
 
-      const playDownReveal = (element: HTMLElement, pass: RevealPass) => {
-        if (!pass.staged || pass.down >= 2) return;
-        const state = states.get(element) ?? revealState(element, compactViewport);
-        const firstPass = pass.down === 0;
-        pass.down += 1;
-
-        const animation = element.animate(
-          [
-            { opacity: state.opacity, transform: state.transform },
-            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
-          ],
-          {
-            duration: state.duration,
-            delay: firstPass ? revealDelay(element, compactViewport) : 0,
-            easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-            fill: "both",
-          },
-        );
-
-        registerAnimation(element, pass, animation, true);
-      };
-
-      const playUpCue = (element: HTMLElement, pass: RevealPass) => {
-        if (pass.up >= 2) return;
-        if (pass.staged) releaseStage(element, pass);
-        pass.up += 1;
-        const distance = compactViewport ? 2 : 3;
-        const animation = element.animate(
-          [
-            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
-            {
-              opacity: 0.98,
-              transform: `translate3d(0, -${distance}px, 0) scale(0.999)`,
-            },
-            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
-          ],
-          {
-            duration: compactViewport ? 320 : 380,
-            easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-            fill: "none",
-          },
-        );
-
-        registerAnimation(element, pass, animation, false);
-      };
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const element = entry.target as HTMLElement;
-            const pass = passes.get(element);
-            if (!pass) return;
-
-            if (!pass.initialized) {
-              pass.initialized = true;
-              if (!entry.isIntersecting) {
-                const state = states.get(element) ?? revealState(element, compactViewport);
-                applyStage(element, state, pass);
-                return;
-              }
-
-              pass.inside = true;
-              element.dataset.motionReveal = "shown";
-              return;
-            }
-
-            if (!entry.isIntersecting) {
-              pass.inside = false;
-              if (
-                scrollDirection === "up" &&
-                pass.down < 2 &&
-                entry.boundingClientRect.top > window.innerHeight * 0.55
-              ) {
-                pass.activeAnimation?.cancel();
-                const state = states.get(element) ?? revealState(element, compactViewport);
-                applyStage(element, state, pass);
-              }
-              return;
-            }
-
-            if (pass.inside) return;
-            pass.inside = true;
-
-            if (scrollDirection === "down") {
-              playDownReveal(element, pass);
-              return;
-            }
-
-            playUpCue(element, pass);
-          });
-        },
-        {
-          threshold: 0.04,
-          rootMargin: "0px 0px 18% 0px",
-        },
-      );
-
-      // IntersectionObserver resolves initial geometry asynchronously. Avoid a
-      // synchronous getBoundingClientRect() sweep here: that was the main forced
-      // layout hotspot on startup.
-      candidates.forEach((element) => observer.observe(element));
-
-      const readScrollDirection = () => {
-        directionFrame = 0;
-        const nextScrollY = window.scrollY;
-        if (nextScrollY > lastScrollY + 2) scrollDirection = "down";
-        if (nextScrollY < lastScrollY - 2) scrollDirection = "up";
-        lastScrollY = nextScrollY;
-      };
-
-      const onScroll = () => {
-        if (directionFrame !== 0) return;
-        directionFrame = window.requestAnimationFrame(readScrollDirection);
-      };
-
-      window.addEventListener("scroll", onScroll, { passive: true });
-
-      return () => {
-        observer.disconnect();
-        window.removeEventListener("scroll", onScroll);
-        if (directionFrame !== 0) window.cancelAnimationFrame(directionFrame);
-        animations.forEach((animation) => animation.cancel());
-        animations.clear();
-        candidates.forEach((element) => {
-          const pass = passes.get(element);
-          if (pass) releaseStage(element, pass);
-          delete element.dataset.motionReveal;
-        });
-      };
+    const release = (element: HTMLElement, pass: RevealPass) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("transform");
+      element.dataset.motionReveal = "shown";
+      pass.staged = false;
+      pass.done = true;
     };
 
-    const installationTimer = window.setTimeout(() => {
-      removeReveal = installReveal();
-    }, 120);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const element = entry.target as HTMLElement;
+          observer.unobserve(element);
+          const pass = passes.get(element);
+          if (!pass || pass.done || !pass.staged) continue;
+          const state = revealState(element, compactViewport);
+          const animation = element.animate(
+            [
+              { opacity: state.opacity, transform: state.transform },
+              { opacity: 1, transform: "none" },
+            ],
+            {
+              duration: Math.min(state.duration, compactViewport ? 450 : 520),
+              delay: 0,
+              easing: "cubic-bezier(0.2, 0.7, 0.2, 1)",
+              fill: "both",
+            },
+          );
+          pass.animation = animation;
+          animations.add(animation);
+          void animation.finished.then(
+            () => {
+              animations.delete(animation);
+              if (pass.animation !== animation) return;
+              release(element, pass);
+              animation.cancel();
+              pass.animation = null;
+            },
+            () => {
+              animations.delete(animation);
+            },
+          );
+        }
+      },
+      { threshold: 0, rootMargin: "0px 0px 110px 0px" },
+    );
+
+    passes.forEach((pass, element) => {
+      if (pass.staged) observer.observe(element);
+    });
 
     return () => {
-      window.clearTimeout(installationTimer);
-      removeReveal?.();
+      observer.disconnect();
+      animations.forEach((animation) => animation.cancel());
+      passes.forEach((pass, element) => {
+        if (pass.staged) release(element, pass);
+        delete element.dataset.motionReveal;
+      });
     };
   }, [pathname]);
 
