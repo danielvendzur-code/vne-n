@@ -152,6 +152,15 @@ for (const viewport of sizes) {
     assert.ok(await page.locator("#solutions-title").isVisible(), "solutions heading is revealed");
     const cards = page.locator("[data-solution-card]");
     assert.equal(await cards.count(), 4);
+    const ambientFilm = page.locator(".redesign video").first();
+    assert.equal(await ambientFilm.count(), 1, "portfolio includes one decorative pergola film");
+    assert.equal(
+      await ambientFilm.evaluate(
+        (video) => !video.controls && getComputedStyle(video).pointerEvents === "none",
+      ),
+      true,
+      "decorative pergola preview must never expose native video controls",
+    );
     if (viewport.width >= 1101) {
       const rects = await cards.evaluateAll((es) =>
         es.map((e) => {
