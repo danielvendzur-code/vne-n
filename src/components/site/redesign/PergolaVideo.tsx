@@ -84,7 +84,10 @@ export function PergolaVideo({ large = false }: { large?: boolean }) {
             playsInline
             preload="none"
             autoPlay={false}
+            controls={false}
+            controlsList="nodownload nofullscreen noplaybackrate noremoteplayback"
             disablePictureInPicture
+            disableRemotePlayback
             aria-hidden="true"
             tabIndex={-1}
             onPlaying={() => setPlaying(true)}

@@ -306,10 +306,22 @@
 }
 .pergolaFilmVideo {
   z-index: 2;
+  /* This is a silent decorative film, not an interactive media player. */
+  pointer-events: none;
+  -webkit-touch-callout: none;
   background: transparent;
   opacity: 0;
   transition: opacity 500ms ease;
   backface-visibility: hidden;
+}
+/* Suppress browser-generated play/skip overlays over the product render. */
+.pergolaFilmVideo::-webkit-media-controls,
+.pergolaFilmVideo::-webkit-media-controls-enclosure,
+.pergolaFilmVideo::-webkit-media-controls-overlay-play-button,
+.pergolaFilmVideo::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 .pergolaFilm[data-playing="true"] .pergolaPoster {
   opacity: 0;

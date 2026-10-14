@@ -152,6 +152,21 @@ for (const viewport of sizes) {
     assert.ok(await page.locator("#solutions-title").isVisible(), "solutions heading is revealed");
     const cards = page.locator("[data-solution-card]");
     assert.equal(await cards.count(), 4);
+    const pergolaPreview = cards.first();
+    const ambientPoster = pergolaPreview.locator(
+      'img[alt="Bioklimatická pergola Koverta v 3D vizualizácii"]',
+    );
+    assert.equal(await ambientPoster.count(), 1, "pergola always retains a poster fallback");
+    const ambientFilm = pergolaPreview.locator("video");
+    if (await ambientFilm.count()) {
+      assert.equal(
+        await ambientFilm.evaluate(
+          (video) => !video.controls && getComputedStyle(video).pointerEvents === "none",
+        ),
+        true,
+        "decorative pergola preview must never expose native video controls",
+      );
+    }
     if (viewport.width >= 1101) {
       const rects = await cards.evaluateAll((es) =>
         es.map((e) => {
