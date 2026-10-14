@@ -153,7 +153,9 @@ for (const viewport of sizes) {
     const cards = page.locator("[data-solution-card]");
     assert.equal(await cards.count(), 4);
     const pergolaPreview = cards.first();
-    const ambientPoster = pergolaPreview.locator('img[alt="Bioklimatická pergola Koverta v 3D vizualizácii"]');
+    const ambientPoster = pergolaPreview.locator(
+      'img[alt="Bioklimatická pergola Koverta v 3D vizualizácii"]',
+    );
     assert.equal(await ambientPoster.count(), 1, "pergola always retains a poster fallback");
     const ambientFilm = pergolaPreview.locator("video");
     if (await ambientFilm.count()) {
