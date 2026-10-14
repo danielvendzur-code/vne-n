@@ -24,13 +24,19 @@ async function check(viewport, reducedMotion) {
   // requests to the identical local HTTP fixture, never to the public site.
   if (engineName === "webkit" && origin.startsWith("http://127.0.0.1:")) {
     await page.route(`${origin.replace(/^http:/, "https:")}/**`, async (route) => {
-      const response = await route.fetch({
-        url: route
-          .request()
-          .url()
-          .replace(/^https:/, "http:"),
-      });
-      await route.fulfill({ response });
+      try {
+        const response = await route.fetch({
+          url: route
+            .request()
+            .url()
+            .replace(/^https:/, "http:"),
+        });
+        await route.fulfill({ response });
+      } catch {
+        // A request may be cancelled while closing the browser context.
+        // Never turn that harmless race into an unhandled test-process error.
+        await route.abort().catch(() => undefined);
+      }
     });
   }
   const errors = [];
