@@ -1,0 +1,381 @@
+/* Isolated homepage hero concept. Keeps the production brand palette and logo. */
+
+html:root body .site-theme-white-green .lp-page .lp-hero.lp-hero--architectural {
+  position: relative;
+  min-height: auto !important;
+  padding: 0 !important;
+  overflow: clip;
+  background: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-glide,
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-glow {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(31rem, 0.98fr);
+  gap: clamp(4.5rem, 7vw, 8rem);
+  min-height: auto !important;
+  padding-top: clamp(2.35rem, 4.8vh, 4rem) !important;
+  padding-bottom: clamp(3rem, 6vh, 5rem) !important;
+  align-items: center;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-grid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 51%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(11, 47, 32, 0.08) 18%, rgba(11, 47, 32, 0.08) 82%, transparent);
+  pointer-events: none;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 47rem;
+  padding-top: 0;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-context {
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural h1 {
+  max-width: 12ch;
+  margin: 0;
+  color: #0b2f20;
+  font-size: clamp(3.55rem, 5.25vw, 6.55rem);
+  font-weight: 760;
+  line-height: 0.94;
+  letter-spacing: -0.067em;
+  text-wrap: balance;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-line {
+  display: block;
+  overflow: visible;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-line span,
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-line em {
+  display: block;
+  font-style: normal;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-line:last-child em {
+  color: #19834f;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-lead {
+  max-width: 38rem;
+  margin: clamp(1.7rem, 3vh, 2.35rem) 0 0;
+  color: #536159;
+  font-size: clamp(1rem, 1.15vw, 1.16rem);
+  line-height: 1.62;
+  letter-spacing: -0.015em;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: clamp(1.65rem, 2.7vh, 2.2rem);
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-cta {
+  min-height: 3.45rem;
+  padding-inline: 1.5rem;
+  border-radius: 0.8rem !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-cta--primary {
+  border: 1px solid #19834f !important;
+  background: #19834f !important;
+  color: #ffffff !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-cta--secondary {
+  border: 1px solid rgba(11, 47, 32, 0.14) !important;
+  background: #ffffff !important;
+  color: #0b2f20 !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 0.85rem 2rem;
+  margin: clamp(2.1rem, 3.5vh, 3rem) 0 0 !important;
+  padding: 1.2rem 0 0;
+  border-top: 1px solid rgba(11, 47, 32, 0.1);
+  list-style: none;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-proof li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #445249;
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-proof li:nth-child(3) {
+  display: none;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-proof svg {
+  width: 1rem;
+  height: 1rem;
+  color: #19834f;
+  stroke-width: 1.8;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: 0 !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-card {
+  position: relative;
+  width: 100%;
+  padding: clamp(1.6rem, 2.6vw, 2.45rem);
+  border: 1px solid rgba(11, 47, 32, 0.14) !important;
+  border-radius: 1.35rem !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: 0 28px 75px -56px rgba(11, 47, 32, 0.34) !important;
+  overflow: hidden;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-card::before {
+  content: "MÔJ CHATBOT";
+  display: block;
+  margin-bottom: 1rem;
+  color: #19834f;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-card > p {
+  max-width: 12ch;
+  margin: 0 0 clamp(1.55rem, 2.4vw, 2rem) !important;
+  color: #0b2f20 !important;
+  background: none !important;
+  font-size: clamp(1.8rem, 2.45vw, 2.75rem);
+  font-weight: 735;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-picker {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(11, 47, 32, 0.12);
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4.2rem;
+  width: 100%;
+  padding: 0.9rem 0;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(11, 47, 32, 0.1) !important;
+  border-radius: 0 !important;
+  color: #0b2f20 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  text-align: left;
+  cursor: pointer;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick::before,
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick::after {
+  content: none !important;
+  display: none !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 0;
+  color: #19834f;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick-label {
+  font-size: 0.93rem;
+  font-weight: 690;
+  letter-spacing: -0.018em;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick::marker {
+  display: none;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick::after {
+  content: "→" !important;
+  display: block !important;
+  justify-self: end;
+  color: rgba(11, 47, 32, 0.34);
+  font-size: 1rem;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick:is(:hover, :focus-visible)::after,
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick[data-active="true"]::after,
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick[data-preview="true"]::after {
+  color: #19834f;
+  transform: translateX(3px);
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick[data-active="true"],
+html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick[data-preview="true"] {
+  color: #19834f !important;
+  background: transparent !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-answer {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: start;
+  margin: 1.25rem 0 0;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #536159 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-answer svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-top: 0.15rem;
+  color: #19834f;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-cta {
+  width: 100%;
+  min-height: 3.4rem;
+  margin-top: 1.35rem;
+  border: 1px solid #19834f !important;
+  border-radius: 0.8rem !important;
+  color: #ffffff !important;
+  background: #19834f !important;
+  box-shadow: none !important;
+}
+
+html:root body .site-theme-white-green .lp-hero--architectural .lp-sweep-action::before,
+html:root body .site-theme-white-green .lp-hero--architectural .lp-sweep-action::after {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(27rem, 0.9fr);
+    gap: 3rem;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-grid::before {
+    left: 52%;
+  }
+}
+
+@media (max-width: 899px) {
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-top: 1.5rem !important;
+    padding-bottom: 3.25rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-grid::before {
+    display: none;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural h1 {
+    max-width: 10.5ch;
+    font-size: clamp(3rem, 10vw, 5.4rem);
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-stage {
+    max-width: 42rem;
+  }
+}
+
+@media (max-width: 560px) {
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-grid {
+    gap: 2rem;
+    padding-top: 1rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural h1 {
+    max-width: none;
+    font-size: clamp(2.75rem, 13.7vw, 4.2rem);
+    line-height: 0.96;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-lead {
+    max-width: 34rem;
+    margin-top: 1.35rem;
+    font-size: 0.96rem;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    margin-top: 1.35rem;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-proof {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    margin-top: 1.6rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-card {
+    padding: 1.3rem;
+    border-radius: 1rem !important;
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-assistant-card > p {
+    max-width: none;
+    font-size: clamp(1.65rem, 8.8vw, 2.15rem);
+  }
+
+  html:root body .site-theme-white-green .lp-hero--architectural .lp-hero-pick {
+    min-height: 3.8rem;
+  }
+}
