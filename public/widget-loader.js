@@ -54,7 +54,11 @@
       background: "transparent",
     };
     for (const [property, value] of Object.entries(properties)) {
-      host.style.setProperty(property.replace(/[A-Z]/g, (letter) => "-" + letter.toLowerCase()), value, "important");
+      host.style.setProperty(
+        property.replace(/[A-Z]/g, (letter) => "-" + letter.toLowerCase()),
+        value,
+        "important",
+      );
     }
 
     if (document.getElementById("dv-assistant-mobile-position-fix")) return;

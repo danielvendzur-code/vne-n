@@ -76,7 +76,7 @@ test("chatbot fallback carries the delivered symbol and same-origin versioned wi
   assert.match(loader, /borderRadius:\s*"50%"/);
   assert.match(loader, /background:\s*"#FFFCF7"/);
   assert.doesNotMatch(loader, /requestAnimationFrame|strokeDashoffset/);
-  assert.match(loader, /WIDGET_RELEASE\s*=\s*"visible-mobile-20261011-v38"/);
+  assert.match(loader, /WIDGET_RELEASE\s*=\s*"ios-panel-fixed-host-20261027-v39"/);
   assert.match(loader, /assistant\/widget\.js/);
   assert.match(loader, /pendingOpen/);
   assert.match(loader, /MOUNT_TIMEOUT[\s\S]*scheduleRetry\(\)/);

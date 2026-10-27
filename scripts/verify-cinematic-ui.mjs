@@ -428,13 +428,25 @@ for (const viewport of sizes) {
         };
       });
       assert.equal(geometry.hostPosition, "fixed", "widget host is viewport-anchored");
-      assert.ok(Math.abs(geometry.hostX) <= 2 && Math.abs(geometry.hostY) <= 2, "host begins at viewport origin");
+      assert.ok(
+        Math.abs(geometry.hostX) <= 2 && Math.abs(geometry.hostY) <= 2,
+        "host begins at viewport origin",
+      );
       assert.ok(geometry.panelY >= -1 && geometry.panelY < 100, "panel is on screen after opening");
-      assert.ok(geometry.panelX >= -1 && geometry.panelX < 100, "panel is not shifted horizontally");
+      assert.ok(
+        geometry.panelX >= -1 && geometry.panelX < 100,
+        "panel is not shifted horizontally",
+      );
       assert.ok(geometry.panelWidth >= viewport.width - 3, "mobile panel fills viewport");
       assert.ok(geometry.panelHeight > 400, "panel has usable height");
-      assert.ok(geometry.headerVisible && geometry.headerHeight > 35, "close button and header remain visible");
-      assert.ok(await page.getByTestId("widget-close").isVisible(), "close button remains reachable");
+      assert.ok(
+        geometry.headerVisible && geometry.headerHeight > 35,
+        "close button and header remain visible",
+      );
+      assert.ok(
+        await page.getByTestId("widget-close").isVisible(),
+        "close button remains reachable",
+      );
       await page.screenshot({ path: `${output}/widget-mobile-open-${viewport.width}.png` });
     }
     await page.getByRole("textbox", { name: "Vaša otázka" }).fill("Moja otázka");
