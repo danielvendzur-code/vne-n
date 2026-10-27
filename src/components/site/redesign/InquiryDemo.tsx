@@ -1,18 +1,17 @@
 import { useState, type ReactNode } from "react";
-import { revealMailPair } from "./scene-motion";
 import {
-  Search,
   Archive,
-  Trash2,
   ArrowLeft,
-  MoreVertical,
-  Star,
   ChevronDown,
-  Mail,
-  CheckCircle2,
+  MoreVertical,
+  Search,
+  Star,
+  Trash2,
 } from "lucide-react";
+import { revealMailPair } from "./scene-motion";
 import { sitePath } from "./utils";
 import s from "./InquiryDemo.module.css";
+
 const configuration = [
   ["Model", "Bioklimatická pergola Soltec"],
   ["Rozmery", "5 076 × 2 500 mm · výška 2 500 mm"],
@@ -21,6 +20,7 @@ const configuration = [
   ["Výbava", "ZIP roleta vpredu, teplé LED osvetlenie"],
   ["Umiestnenie", "Samostatne stojaca · pripravená dlažba"],
 ];
+
 function GmailMark() {
   return (
     <svg width="30" height="24" viewBox="64 116 384 286" aria-hidden="true" focusable="false">
@@ -32,15 +32,14 @@ function GmailMark() {
     </svg>
   );
 }
+
 function MailWindow({
   subject,
-  sender,
-  email,
+  business,
   children,
 }: {
   subject: string;
-  sender: string;
-  email: string;
+  business: boolean;
   children: ReactNode;
 }) {
   return (
@@ -50,54 +49,75 @@ function MailWindow({
           <GmailMark />
           <span>Gmail</span>
         </div>
-        <div className={s.search}>
+        <div className={s.search} aria-hidden="true">
           <Search size={17} />
           <span>Hľadať v pošte</span>
         </div>
-        <span className={s.account}>K</span>
+        <span className={s.account} aria-hidden="true">{business ? "K" : "M"}</span>
       </div>
-      <div className={s.message} role="region" aria-label={`Ukážka e-mailu: ${subject}`}>
+      <div className={s.message} role="region" aria-label={"Ukážka e-mailu: " + subject}>
         <div className={s.toolbar} aria-hidden="true">
-          <ArrowLeft size={18} />
-          <Archive size={18} />
-          <Trash2 size={18} />
-          <Mail size={18} />
-          <MoreVertical size={18} />
+          <ArrowLeft size={17} />
+          <Archive size={17} />
+          <Trash2 size={17} />
+          <MoreVertical size={17} />
         </div>
-        <div className={s.subject}>
-          <h3>{subject}</h3>
-          <span>Doručené</span>
-        </div>
+        <h3 className={s.subject}>{subject}</h3>
         <div className={s.sender}>
           <span className={s.avatar} aria-hidden="true">
-            <img src={sitePath("/work/koverta/koverta-symbol.svg")} alt="" width={32} height={24} />
+            <img
+              src={sitePath("/work/koverta/koverta-symbol.svg")}
+              alt=""
+              width={32}
+              height={24}
+            />
           </span>
-          <div>
-            <b>{sender}</b>
-            <small>
-              {email}
-              <br />
-              komu: mne <ChevronDown size={11} />
-            </small>
+          <div className={s.senderInfo}>
+            <b>Koverta</b>
+            <small>konfigurator@koverta.sk</small>
+            <small>komu: mne <ChevronDown size={11} aria-hidden="true" /></small>
           </div>
           <time>10:42</time>
-          <Star size={16} aria-hidden="true" />
+          <Star size={16} className={s.star} aria-hidden="true" />
         </div>
         {children}
       </div>
     </div>
   );
 }
-function EmailBody({
-  business,
-  expanded,
-  onToggle,
-}: {
-  business: boolean;
-  expanded: boolean;
-  onToggle: () => void;
-}) {
-  const detailsId = `inquiry-details-${business ? "business" : "customer"}`;
+
+function Details({ business, expanded }: { business: boolean; expanded: boolean }) {
+  return (
+    <div
+      id={business ? "mail-business-details" : "mail-customer-details"}
+      className={s.details}
+      data-email-details
+      data-expanded={expanded}
+      aria-hidden={!expanded}
+      inert={!expanded ? true : undefined}
+    >
+      <div className={s.detailsInner}>
+        <h5>Parametre zostavy</h5>
+        <dl className={s.configuration}>
+          {configuration.map(([label, value]) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+        {!business && (
+          <p className={s.customerNote}>
+            <strong>Vaša poznámka:</strong> Prosím o voľný termín montáže. Dlažba je pripravená,
+            prístup na pozemok z ulice.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function EmailBody({ business, expanded }: { business: boolean; expanded: boolean }) {
   return (
     <div className={s.emailBody} data-mail-body>
       <div className={s.emailMasthead}>
@@ -108,107 +128,64 @@ function EmailBody({
           height={31}
           alt="Koverta"
         />
-        <span>3D KONFIGURÁTOR</span>
       </div>
-      <div className={s.emailIntro}>
-        <span className={s.emailEyebrow}>{business ? "NOVÝ DOPYT" : "POTVRDENIE ODOSLANIA"}</span>
-        <h4>{business ? "Nový dopyt: bioklimatická pergola" : "Vaša zostava bola odoslaná"}</h4>
-        <p>
+      <div className={s.emailContent}>
+        <h4>{business ? "Nový dopyt od Martina Kováča" : "Váš dopyt sme prijali"}</h4>
+        <p className={s.intro}>
           {business
-            ? "Martin Kováč si nakonfiguroval pergolu Soltec. Nižšie nájdete zostavu, orientačnú cenu aj kontaktné údaje."
-            : "Dobrý deň, pán Kováč, ďakujeme za odoslanie. Tu je prehľad zostavy, ktorú ste si vytvorili."}
+            ? "Zákazník poslal konfiguráciu pergoly Soltec cez koverta.sk. Tu sú údaje k dopytu."
+            : "Dobrý deň, pán Kováč, ďakujeme za záujem. Vašu konfiguráciu pergoly sme prijali a po preverení možností vám pripravíme cenovú ponuku."}
         </p>
-      </div>
-      <div className={s.product}>
-        <img
-          src={sitePath("/work/koverta/config-step-6.webp")}
-          width={1400}
-          height={875}
-          loading="lazy"
-          decoding="async"
-          alt="Vybraná bioklimatická pergola s roletou a LED osvetlením"
-        />
-        <div className={s.price}>
-          <span>Cena zostavy</span>
-          <strong>
-            8 490 € <small>s DPH</small>
-          </strong>
-          <span>Vrátane vybranej výbavy.</span>
-        </div>
-      </div>
-      <div className={s.nextStep}>
-        <CheckCircle2 size={21} strokeWidth={1.6} aria-hidden="true" />
-        <div>
-          <h5>{business ? "Čo treba potvrdiť" : "Čo bude nasledovať"}</h5>
-          <p>
-            {business
-              ? "Overte technické možnosti, miesto osadenia a dostupný termín pred prípravou záväznej ponuky."
-              : "Overíme rozmery a podmienky montáže a následne pripravíme presnú ponuku."}
-          </p>
-        </div>
-      </div>
-      <button
-        type="button"
-        className={s.detailsToggle}
-        data-email-toggle
-        aria-expanded={expanded}
-        aria-controls={detailsId}
-        onClick={onToggle}
-      >
-        {expanded ? "Skryť zostavu a kontakty" : "Zobraziť zostavu a kontakty"}
-        <ChevronDown size={18} aria-hidden="true" />
-      </button>
-      <div
-        id={detailsId}
-        className={s.details}
-        data-email-details
-        data-expanded={expanded}
-        role="region"
-        aria-label={business ? "Zostava a kontakt zákazníka" : "Vaša zostava a kontaktné údaje"}
-        aria-hidden={!expanded}
-        inert={!expanded ? true : undefined}
-      >
-        <div className={s.detailsInner}>
-          <div className={s.emailSection}>
-            <h5>Zostava z konfigurátora</h5>
-            <dl className={s.configuration}>
-              {configuration.map(([label, value]) => (
-                <div key={label}>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
-                </div>
-              ))}
-            </dl>
+
+        <div className={s.productSummary}>
+          <div className={s.productDescription}>
+            <h5>Bioklimatická pergola Soltec</h5>
+            <p>5 076 × 2 500 mm</p>
+            <p>Biela konštrukcia, antracitové lamely</p>
+            <div className={s.estimate}>
+              <span>Orientačná cena s DPH</span>
+              <strong>8 490 €</strong>
+            </div>
           </div>
-          <div className={s.emailSection}>
-            <h5>Kontaktné údaje</h5>
-            <dl className={s.contacts}>
-              <div>
-                <dt>Meno</dt>
-                <dd>Martin Kováč</dd>
-              </div>
-              <div>
-                <dt>Telefón</dt>
-                <dd>+421 900 123 456</dd>
-              </div>
-              <div>
-                <dt>E-mail</dt>
-                <dd>martin.kovac@example.com</dd>
-              </div>
-              <div>
-                <dt>Adresa montáže</dt>
-                <dd>Javorová 12, 949 01 Nitra</dd>
-              </div>
-            </dl>
-          </div>
-          <div className={s.customerNote}>
-            <h5>{business ? "Poznámka zákazníka" : "Vaša poznámka"}</h5>
-            <p>Prosím o voľný termín montáže. Dlažba je pripravená, prístup na pozemok z ulice.</p>
-          </div>
+          <img
+            src={sitePath("/work/koverta/config-step-6.webp")}
+            width={1400}
+            height={875}
+            loading="lazy"
+            decoding="async"
+            alt="Náhľad zvolenej bioklimatickej pergoly"
+          />
         </div>
+
+        {business ? (
+          <>
+            <div className={s.contactBlock}>
+              <h5>Kontakt na zákazníka</h5>
+              <dl className={s.contacts}>
+                <div><dt>Meno</dt><dd>Martin Kováč</dd></div>
+                <div><dt>Telefón</dt><dd>+421 900 123 456</dd></div>
+                <div><dt>E-mail</dt><dd>martin.kovac@example.com</dd></div>
+                <div><dt>Montáž</dt><dd>Javorová 12, 949 01 Nitra</dd></div>
+              </dl>
+            </div>
+            <div className={s.note}>
+              <h5>Poznámka zákazníka</h5>
+              <p>Prosím o voľný termín montáže. Dlažba je pripravená, prístup na pozemok z ulice.</p>
+            </div>
+          </>
+        ) : (
+          <div className={s.followup}>
+            <h5>Čo bude nasledovať</h5>
+            <p>Preveríme rozmery a podmienky montáže. Potom sa vám ozveme s presnou ponukou.</p>
+          </div>
+        )}
+
+        <Details business={business} expanded={expanded} />
       </div>
       <div className={s.emailFooter}>
-        {business ? "Nový dopyt z 3D konfigurátora." : "Potvrdenie odoslania z 3D konfigurátora."}
+        {business
+          ? "Automatické oznámenie z konfigurátora Koverta."
+          : "Toto je potvrdenie prijatia dopytu, nie záväzná objednávka."}
       </div>
     </div>
   );
@@ -216,43 +193,52 @@ function EmailBody({
 
 export function InquiryDemo() {
   const [expanded, setExpanded] = useState(false);
-  const toggleDetails = () => setExpanded((value) => !value);
   return (
     <section id="pred-a-po" className={s.section}>
       <header className={s.heading}>
         <h2>
-          Jeden výber.
+          Čo príde zákazníkovi.
           <br />
-          <span>Jasno na oboch stranách.</span>
+          <span>A čo príde vám.</span>
         </h2>
         <p>
-          Zákazník dostane potvrdenie odoslania a cenu svojej zostavy. Vám príde tá istá zostava s
-          výbavou a kontaktnými údajmi.
+          Po odoslaní zostavy dostane zákazník potvrdenie. Vy dostanete dopyt s cenou,
+          konfiguráciou a kontaktom na zákazníka.
         </p>
       </header>
+      <div className={s.previewControls}>
+        <button
+          type="button"
+          className={s.expandControl}
+          data-email-toggle
+          aria-expanded={expanded}
+          aria-controls="mail-customer-details mail-business-details"
+          onClick={() => setExpanded((value) => !value)}
+        >
+          {expanded ? "Skryť podrobné parametre" : "Zobraziť podrobné parametre"}
+          <ChevronDown size={16} aria-hidden="true" />
+        </button>
+      </div>
       <div className={s.comparison} ref={revealMailPair}>
         {[false, true].map((business) => (
           <div key={String(business)} data-mail-scene>
-            <span className={s.comparisonLabel}>
-              {business ? "ČO VIDÍTE VY" : "ČO VIDÍ ZÁKAZNÍK"}
-            </span>
+            <h3 className={s.comparisonLabel}>
+              {business ? "E-mail pre firmu" : "Potvrdenie pre zákazníka"}
+            </h3>
             <MailWindow
-              subject={
-                business
-                  ? "Nový dopyt – Pergola Soltec | Martin Kováč"
-                  : "Potvrdenie zostavy – Pergola Soltec"
-              }
-              sender="Koverta"
-              email="konfigurator@koverta.sk"
+              business={business}
+              subject={business
+                ? "Nový dopyt – pergola Soltec – Martin Kováč"
+                : "Potvrdenie prijatia dopytu – Koverta"}
             >
-              <EmailBody business={business} expanded={expanded} onToggle={toggleDetails} />
+              <EmailBody business={business} expanded={expanded} />
             </MailWindow>
           </div>
         ))}
       </div>
       <p className={s.caption}>
-        Ilustračné e-maily s fiktívnymi kontaktnými údajmi a cenou. Konkrétna štruktúra sa
-        prispôsobuje firme.
+        Ilustračné e-maily s fiktívnymi kontaktnými údajmi a orientačnou cenou.
+        Skutočnú podobu prispôsobujeme konkrétnej firme.
       </p>
     </section>
   );
