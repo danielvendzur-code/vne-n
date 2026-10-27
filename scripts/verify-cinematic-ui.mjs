@@ -249,23 +249,26 @@ for (const viewport of sizes) {
     await page.waitForTimeout(1800);
     await page.waitForTimeout(500);
     const mail = page.locator("#pred-a-po");
-    assert.ok((await mail.innerText()).includes("8 490 €"));
-    assert.ok((await mail.innerText()).includes("Čo bude nasledovať"));
-    assert.ok((await mail.innerText()).includes("Tu je prehľad zostavy, ktorú ste si vytvorili."));
+    const mailText = await mail.innerText();
+    assert.ok(mailText.includes("8 490 €"));
+    assert.ok(mailText.includes("Orientačná cena s DPH"));
+    assert.ok(mailText.includes("Čo bude nasledovať"));
+    assert.ok(mailText.includes("Váš dopyt sme prijali"));
+    assert.ok(mailText.includes("Nový dopyt od Martina Kováča"));
+    assert.ok(mailText.includes("Kontakt na zákazníka"));
+    assert.ok(mailText.includes("+421 900 123 456"));
     assert.doesNotMatch(
-      await mail.innerText(),
-      /Zostava na nacenenie|Orientačná cena|Presnú cenu potvrdíme|VÁŠ VÝBER JE ULOŽENÝ|Tu je pergola, ktorú ste si vybrali/,
-      "confirmation shows the supplied price without suggesting another pricing step",
+      mailText,
+      /VÁŠ VÝBER JE ULOŽENÝ|POTVRDENIE ODOSLANIA|Cena zostavy/,
+      "transactional mail avoids artificial status decorations",
     );
     const expandMail = mail.getByRole("button", {
-      name: "Zobraziť zostavu a kontakty",
+      name: "Zobraziť podrobné parametre",
       exact: true,
     });
-    assert.equal(await expandMail.count(), 2);
-    assert.equal(
-      await mail.getByRole("region", { name: "Vaša zostava a kontaktné údaje" }).count(),
-      0,
-    );
+    assert.equal(await expandMail.count(), 1, "one preview control outside both emails");
+    assert.equal(await mail.locator("[data-mail-preview] [data-email-toggle]").count(), 0);
+    assert.equal(await mail.locator('[data-email-details][data-expanded="true"]').count(), 0);
     const collapsedHeights = await mail
       .locator("[data-mail-preview]")
       .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
@@ -274,19 +277,19 @@ for (const viewport of sizes) {
       "collapsed Gmail previews are equally tall",
     );
     await mail.screenshot({
-      path: `${output}/mail-collapsed-${viewport.width}.png`,
+      path: output + "/mail-collapsed-" + viewport.width + ".png",
       style: ".redesign-header{visibility:hidden!important}",
     });
-    await expandMail.first().click();
+    await expandMail.click();
     await page.waitForTimeout(750);
-    const hideMail = mail.getByRole("button", { name: "Skryť zostavu a kontakty", exact: true });
-    assert.equal(await hideMail.count(), 2);
-    assert.equal(await hideMail.first().getAttribute("aria-expanded"), "true");
-    assert.equal(
-      await mail.getByRole("region", { name: "Vaša zostava a kontaktné údaje" }).count(),
-      1,
-    );
-    assert.ok((await mail.innerText()).includes("+421 900 123 456"));
+    const hideMail = mail.getByRole("button", {
+      name: "Skryť podrobné parametre",
+      exact: true,
+    });
+    assert.equal(await hideMail.count(), 1);
+    assert.equal(await hideMail.getAttribute("aria-expanded"), "true");
+    assert.equal(await mail.locator('[data-email-details][data-expanded="true"]').count(), 2);
+    assert.ok((await mail.innerText()).includes("ZIP roleta vpredu, teplé LED osvetlenie"));
     const windows = await mail.locator("[data-mail-preview]").evaluateAll((els) =>
       els.map((el) => {
         const b = el.getBoundingClientRect();
@@ -295,20 +298,16 @@ for (const viewport of sizes) {
     );
     assert.equal(windows.length, 2);
     const scrollMail = mail.getByRole("region", {
-      name: "Ukážka e-mailu: Nový dopyt – Pergola Soltec | Martin Kováč",
+      name: "Ukážka e-mailu: Nový dopyt – pergola Soltec – Martin Kováč",
       exact: true,
     });
     assert.ok(
       await scrollMail.evaluate((e) => e.scrollHeight <= e.clientHeight + 1),
       "expanded email shows its full contents without an inner scrollbar",
     );
-    assert.ok((await mail.innerText()).includes("ČO VIDÍ ZÁKAZNÍK"));
-    assert.ok((await mail.innerText()).includes("ČO VIDÍTE VY"));
+    assert.ok((await mail.innerText()).includes("Potvrdenie pre zákazníka"));
+    assert.ok((await mail.innerText()).includes("E-mail pre firmu"));
     assert.ok((await mail.innerText()).includes("Javorová 12, 949 01 Nitra"));
-    assert.ok(
-      (await mail.innerText()).includes("Bioklimatická pergola Soltec"),
-      "expanding reveals the complete configuration",
-    );
     assert.equal(await mail.locator("details").count(), 0);
     if (viewport.width > 700)
       assert.ok(
@@ -325,19 +324,16 @@ for (const viewport of sizes) {
       "both Gmail previews have the same complete height",
     );
     await mail.screenshot({
-      path: `${output}/mail-${viewport.width}.png`,
+      path: output + "/mail-" + viewport.width + ".png",
       style: ".redesign-header{visibility:hidden!important}",
     });
-    await hideMail.first().focus();
+    await hideMail.focus();
     await page.keyboard.press("Enter");
     await page.waitForTimeout(750);
-    assert.equal(await expandMail.first().getAttribute("aria-expanded"), "false");
-    assert.equal(
-      await mail.getByRole("region", { name: "Vaša zostava a kontaktné údaje" }).count(),
-      0,
-    );
+    assert.equal(await expandMail.getAttribute("aria-expanded"), "false");
+    assert.equal(await mail.locator('[data-email-details][data-expanded="true"]').count(), 0);
     assert.ok(
-      await expandMail.first().evaluate((el) => el === document.activeElement),
+      await expandMail.evaluate((el) => el === document.activeElement),
       "collapsing retains keyboard focus",
     );
     assert.ok(
