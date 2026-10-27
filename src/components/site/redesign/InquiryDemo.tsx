@@ -1,13 +1,5 @@
 import { useState, type ReactNode } from "react";
-import {
-  Archive,
-  ArrowLeft,
-  ChevronDown,
-  MoreVertical,
-  Search,
-  Star,
-  Trash2,
-} from "lucide-react";
+import { Archive, ArrowLeft, ChevronDown, MoreVertical, Search, Star, Trash2 } from "lucide-react";
 import { revealMailPair } from "./scene-motion";
 import { sitePath } from "./utils";
 import s from "./InquiryDemo.module.css";
@@ -53,7 +45,9 @@ function MailWindow({
           <Search size={17} />
           <span>Hľadať v pošte</span>
         </div>
-        <span className={s.account} aria-hidden="true">{business ? "K" : "M"}</span>
+        <span className={s.account} aria-hidden="true">
+          {business ? "K" : "M"}
+        </span>
       </div>
       <div className={s.message} role="region" aria-label={"Ukážka e-mailu: " + subject}>
         <div className={s.toolbar} aria-hidden="true">
@@ -65,17 +59,14 @@ function MailWindow({
         <h3 className={s.subject}>{subject}</h3>
         <div className={s.sender}>
           <span className={s.avatar} aria-hidden="true">
-            <img
-              src={sitePath("/work/koverta/koverta-symbol.svg")}
-              alt=""
-              width={32}
-              height={24}
-            />
+            <img src={sitePath("/work/koverta/koverta-symbol.svg")} alt="" width={32} height={24} />
           </span>
           <div className={s.senderInfo}>
             <b>Koverta</b>
             <small>konfigurator@koverta.sk</small>
-            <small>komu: mne <ChevronDown size={11} aria-hidden="true" /></small>
+            <small>
+              komu: mne <ChevronDown size={11} aria-hidden="true" />
+            </small>
           </div>
           <time>10:42</time>
           <Star size={16} className={s.star} aria-hidden="true" />
@@ -162,15 +153,29 @@ function EmailBody({ business, expanded }: { business: boolean; expanded: boolea
             <div className={s.contactBlock}>
               <h5>Kontakt na zákazníka</h5>
               <dl className={s.contacts}>
-                <div><dt>Meno</dt><dd>Martin Kováč</dd></div>
-                <div><dt>Telefón</dt><dd>+421 900 123 456</dd></div>
-                <div><dt>E-mail</dt><dd>martin.kovac@example.com</dd></div>
-                <div><dt>Montáž</dt><dd>Javorová 12, 949 01 Nitra</dd></div>
+                <div>
+                  <dt>Meno</dt>
+                  <dd>Martin Kováč</dd>
+                </div>
+                <div>
+                  <dt>Telefón</dt>
+                  <dd>+421 900 123 456</dd>
+                </div>
+                <div>
+                  <dt>E-mail</dt>
+                  <dd>martin.kovac@example.com</dd>
+                </div>
+                <div>
+                  <dt>Montáž</dt>
+                  <dd>Javorová 12, 949 01 Nitra</dd>
+                </div>
               </dl>
             </div>
             <div className={s.note}>
               <h5>Poznámka zákazníka</h5>
-              <p>Prosím o voľný termín montáže. Dlažba je pripravená, prístup na pozemok z ulice.</p>
+              <p>
+                Prosím o voľný termín montáže. Dlažba je pripravená, prístup na pozemok z ulice.
+              </p>
             </div>
           </>
         ) : (
@@ -202,8 +207,8 @@ export function InquiryDemo() {
           <span>A čo príde vám.</span>
         </h2>
         <p>
-          Po odoslaní zostavy dostane zákazník potvrdenie. Vy dostanete dopyt s cenou,
-          konfiguráciou a kontaktom na zákazníka.
+          Po odoslaní zostavy dostane zákazník potvrdenie. Vy dostanete dopyt s cenou, konfiguráciou
+          a kontaktom na zákazníka.
         </p>
       </header>
       <div className={s.previewControls}>
@@ -227,9 +232,11 @@ export function InquiryDemo() {
             </h3>
             <MailWindow
               business={business}
-              subject={business
-                ? "Nový dopyt – pergola Soltec – Martin Kováč"
-                : "Potvrdenie prijatia dopytu – Koverta"}
+              subject={
+                business
+                  ? "Nový dopyt – pergola Soltec – Martin Kováč"
+                  : "Potvrdenie prijatia dopytu – Koverta"
+              }
             >
               <EmailBody business={business} expanded={expanded} />
             </MailWindow>
@@ -237,8 +244,8 @@ export function InquiryDemo() {
         ))}
       </div>
       <p className={s.caption}>
-        Ilustračné e-maily s fiktívnymi kontaktnými údajmi a orientačnou cenou.
-        Skutočnú podobu prispôsobujeme konkrétnej firme.
+        Ilustračné e-maily s fiktívnymi kontaktnými údajmi a orientačnou cenou. Skutočnú podobu
+        prispôsobujeme konkrétnej firme.
       </p>
     </section>
   );
