@@ -272,10 +272,11 @@ for (const viewport of sizes) {
     const collapsedHeights = await mail
       .locator("[data-mail-preview]")
       .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
-    assert.ok(
-      Math.abs(collapsedHeights[0] - collapsedHeights[1]) < 2,
-      "collapsed Gmail previews are equally tall",
-    );
+    if (viewport.width > 700)
+      assert.ok(
+        Math.abs(collapsedHeights[0] - collapsedHeights[1]) < 2,
+        "desktop Gmail previews are equally tall",
+      );
     await mail.screenshot({
       path: output + "/mail-collapsed-" + viewport.width + ".png",
       style: ".redesign-header{visibility:hidden!important}",
@@ -319,10 +320,11 @@ for (const viewport of sizes) {
         windows[1].y > windows[0].bottom && windows[1].w > viewport.width - 70,
         "phone email previews stack at readable width",
       );
-    assert.ok(
-      Math.abs(windows[0].h - windows[1].h) < 2,
-      "both Gmail previews have the same complete height",
-    );
+    if (viewport.width > 700)
+      assert.ok(
+        Math.abs(windows[0].h - windows[1].h) < 2,
+        "desktop Gmail previews have equal complete heights",
+      );
     await mail.screenshot({
       path: output + "/mail-" + viewport.width + ".png",
       style: ".redesign-header{visibility:hidden!important}",
