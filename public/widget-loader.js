@@ -19,7 +19,7 @@
   const OPEN_EVENT = "site-assistant:open";
   const MOUNT_TIMEOUT = 9000;
   const RETRY_DELAY = 5000;
-  const WIDGET_RELEASE = "visible-mobile-20261011-v38";
+  const WIDGET_RELEASE = "ios-panel-fixed-host-20261027-v39";
 
   let settled = false;
   let loading = false;
@@ -33,6 +33,59 @@
       .filter(Boolean);
 
     return `/${segments.join("/")}`;
+  };
+
+  // The Koverta widget keeps its overlay in a viewport-anchored host. Our
+  // embedded React widget also needs a stable host: iOS Safari can otherwise
+  // place a fixed panel offscreen when the page body is scroll-locked at a
+  // non-zero scroll position. Keep all page content and the widget independent.
+  const ensureViewportHost = () => {
+    const host = document.getElementById(HOST_ID);
+    if (!host) return;
+
+    const properties = {
+      position: "fixed",
+      inset: "0",
+      width: "100vw",
+      height: "100dvh",
+      zIndex: "2147483000",
+      pointerEvents: "none",
+      overflow: "visible",
+      background: "transparent",
+    };
+    for (const [property, value] of Object.entries(properties)) {
+      host.style.setProperty(property.replace(/[A-Z]/g, (letter) => "-" + letter.toLowerCase()), value, "important");
+    }
+
+    if (document.getElementById("dv-assistant-mobile-position-fix")) return;
+    const style = document.createElement("style");
+    style.id = "dv-assistant-mobile-position-fix";
+    style.textContent = `
+      #dv-assistant-root .cw-launcher,
+      #dv-assistant-root .cw-launcher-dock,
+      #dv-assistant-root .cw-panel { pointer-events: auto; }
+      @media (max-width: 640px) {
+        #dv-assistant-root .cw-widget[data-open="true"] > .cw-panel:not([hidden])[data-state="open"] {
+          position: fixed !important;
+          top: var(--cw-viewport-top, 0px) !important;
+          right: 0 !important;
+          bottom: auto !important;
+          left: 0 !important;
+          width: 100vw !important;
+          height: var(--cw-viewport-height, 100dvh) !important;
+          max-width: none !important;
+          max-height: none !important;
+          border-radius: 0 !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: none !important;
+          animation: none !important;
+          clip-path: none !important;
+          -webkit-clip-path: none !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
   };
 
   const hasMountedWidget = () => {
@@ -122,6 +175,7 @@
 
   const completeMount = () => {
     if (!hasMountedWidget()) return false;
+    ensureViewportHost();
     settled = true;
     loading = false;
     if (retryTimer !== null) {

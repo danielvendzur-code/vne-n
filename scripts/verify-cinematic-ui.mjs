@@ -406,6 +406,37 @@ for (const viewport of sizes) {
         "FAQ opens directly into the question field",
       );
     }
+    // Regression: on a scrolled iPhone page, the assistant must show a real
+    // header and content in the viewport (not an empty dark screen).
+    if (viewport.width <= 640) {
+      const geometry = await page.locator("#dv-assistant-root").evaluate((host) => {
+        const hostRect = host.getBoundingClientRect();
+        const panel = host.querySelector(".cw-panel:not([hidden])");
+        const panelRect = panel?.getBoundingClientRect();
+        const header = panel?.querySelector(".cw-panel-head");
+        const headerRect = header?.getBoundingClientRect();
+        return {
+          hostPosition: getComputedStyle(host).position,
+          hostX: hostRect.x,
+          hostY: hostRect.y,
+          panelX: panelRect?.x,
+          panelY: panelRect?.y,
+          panelWidth: panelRect?.width,
+          panelHeight: panelRect?.height,
+          headerHeight: headerRect?.height,
+          headerVisible: header ? getComputedStyle(header).visibility === "visible" : false,
+        };
+      });
+      assert.equal(geometry.hostPosition, "fixed", "widget host is viewport-anchored");
+      assert.ok(Math.abs(geometry.hostX) <= 2 && Math.abs(geometry.hostY) <= 2, "host begins at viewport origin");
+      assert.ok(geometry.panelY >= -1 && geometry.panelY < 100, "panel is on screen after opening");
+      assert.ok(geometry.panelX >= -1 && geometry.panelX < 100, "panel is not shifted horizontally");
+      assert.ok(geometry.panelWidth >= viewport.width - 3, "mobile panel fills viewport");
+      assert.ok(geometry.panelHeight > 400, "panel has usable height");
+      assert.ok(geometry.headerVisible && geometry.headerHeight > 35, "close button and header remain visible");
+      assert.ok(await page.getByTestId("widget-close").isVisible(), "close button remains reachable");
+      await page.screenshot({ path: `${output}/widget-mobile-open-${viewport.width}.png` });
+    }
     await page.getByRole("textbox", { name: "Vaša otázka" }).fill("Moja otázka");
     await page.getByTestId("widget-close").click();
     await page.waitForTimeout(500);

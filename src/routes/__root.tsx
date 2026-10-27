@@ -346,7 +346,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
         <script
-          src={`${import.meta.env.BASE_URL}widget-loader.js?v=visible-mobile-20261011-v38`}
+          src={`${import.meta.env.BASE_URL}widget-loader.js?v=ios-panel-fixed-host-20261027-v39`}
           defer
         />
       </head>
