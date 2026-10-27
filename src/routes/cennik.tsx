@@ -173,7 +173,7 @@ function PricingPage() {
                 </div>
                 <div>
                   <dt>Prevádzka</dt>
-                  <dd>podľa riešenia</dd>
+                  <dd>od 10 € / mesiac</dd>
                 </div>
               </dl>
               <Link to="/3d-konfigurator" className={actions.action}>

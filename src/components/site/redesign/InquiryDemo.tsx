@@ -23,11 +23,12 @@ const configuration = [
 ];
 function GmailMark() {
   return (
-    <svg width="28" height="22" viewBox="0 0 28 22" aria-hidden="true">
-      <path d="M2 21V4l12 9L26 4v17" fill="none" stroke="#4285f4" strokeWidth="4" />
-      <path d="M2 4l12 9L26 4" fill="none" stroke="#ea4335" strokeWidth="4" />
-      <path d="M26 10v11" stroke="#34a853" strokeWidth="4" />
-      <path d="M2 10v11" stroke="#fbbc04" strokeWidth="4" />
+    <svg width="30" height="24" viewBox="64 116 384 286" aria-hidden="true" focusable="false">
+      <path d="m76 190v171q0 30 30 30h52V190" fill="#4285f4" />
+      <path d="m354 190v201h52q30 0 30-30V190" fill="#34a853" />
+      <path d="M350 255V149l28-21c24-18 58 2 58 30v32" fill="#fbbc04" />
+      <path d="M154 249V143l102 77 98-74v106l-98 74" fill="#ea4335" />
+      <path d="m76 190v-32c0-29 34-48 58-30l24 18v106" fill="#c5221f" />
     </svg>
   );
 }
@@ -69,7 +70,7 @@ function MailWindow({
         </div>
         <div className={s.sender}>
           <span className={s.avatar} aria-hidden="true">
-            <img src={sitePath("/work/koverta/koverta-k.svg")} alt="" width={27} height={27} />
+            <img src={sitePath("/work/koverta/koverta-symbol.svg")} alt="" width={32} height={24} />
           </span>
           <div>
             <b>{sender}</b>
@@ -241,7 +242,7 @@ export function InquiryDemo() {
                   ? "Nový dopyt – Pergola Soltec | Martin Kováč"
                   : "Potvrdenie zostavy – Pergola Soltec"
               }
-              sender="Koverta | konfigurátor"
+              sender="Koverta"
               email="konfigurator@koverta.sk"
             >
               <EmailBody business={business} expanded={expanded} onToggle={toggleDetails} />

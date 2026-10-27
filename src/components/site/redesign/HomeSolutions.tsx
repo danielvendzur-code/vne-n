@@ -196,12 +196,6 @@ export function HomeSolutions() {
             Riešenia <em>pre váš web</em>
           </h2>
         </div>
-        <div className={s.headingAside}>
-          <span className={s.headingMarker} aria-hidden="true">
-            <span /> 4 NÁSTROJE · JEDEN WEB
-          </span>
-          <p>Od prvej otázky po hotovú zostavu. Skutočné nástroje, ktoré môžete vidieť v akcii.</p>
-        </div>
       </header>
       <div className={s.motionTrack} data-solution-motion-track aria-hidden="true">
         <span />

@@ -206,16 +206,16 @@
   border-radius: 50%;
 }
 .avatar img {
-  width: 24px;
+  width: 32px;
   height: 24px;
   object-fit: contain;
 }
 
 .emailBody {
-  border: 1px solid #ece8e0;
+  border: 1px solid #e1e7e9;
   border-radius: 10px;
   overflow: hidden;
-  background: #fffcf8;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -225,16 +225,16 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 17px 22px;
+  padding: 20px 22px;
   background: #fff;
   color: #455a64;
-  border-bottom: 1px solid #e8e9e6;
+  border-bottom: 2px solid #ffcc00;
 }
 .kovertaLogo {
   display: block;
-  width: min(190px, 56%);
+  width: min(205px, 62%);
   height: auto;
-  max-height: 34px;
+  max-height: 40px;
   object-fit: contain;
   object-position: left center;
 }
@@ -256,7 +256,7 @@
 }
 .emailEyebrow {
   display: block;
-  color: #746247;
+  color: #455a64;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -290,7 +290,7 @@
 }
 .price {
   padding: 19px 20px;
-  background: #1c241f;
+  background: #344a55;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -357,7 +357,7 @@
 .nextStep {
   margin: 22px;
   padding: 16px;
-  background: #eeeee5;
+  background: #f1f4f5;
   border-radius: 7px;
   display: flex;
   align-items: flex-start;
@@ -365,7 +365,7 @@
 }
 .nextStep > svg {
   flex: 0 0 21px;
-  color: #536149;
+  color: #455a64;
   margin-top: 1px;
 }
 .nextStep h5 {
@@ -387,7 +387,7 @@
   border: 1px solid #deded2;
   border-radius: 7px;
   background: transparent;
-  color: #293327;
+  color: #344a55;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -403,11 +403,11 @@
     border-color 180ms;
 }
 .detailsToggle:hover {
-  background: #eeeee5;
-  border-color: #b7c0ae;
+  background: #f0f4f6;
+  border-color: #b4c4cc;
 }
 .detailsToggle:focus-visible {
-  outline: 2px solid #536149;
+  outline: 2px solid #455a64;
   outline-offset: 3px;
 }
 .detailsToggle svg {
@@ -555,7 +555,7 @@
     padding: 14px 16px;
   }
   .kovertaLogo {
-    width: min(160px, 54%);
+    width: min(176px, 62%);
   }
   .emailIntro {
     padding: 22px 16px 18px;

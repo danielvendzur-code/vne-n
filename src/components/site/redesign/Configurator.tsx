@@ -35,7 +35,7 @@ export class Configurator extends Component<{
       faqs: [
         [
           "Platí sa mesačne za prevádzku?",
-          "Nie. Samostatný 3D konfigurátor nemá mesačný poplatok za prevádzku. Vytvorenie a prípadné rozšírenia sa nacenia vopred podľa rozsahu.",
+          "Áno. Technická prevádzka 3D konfigurátora začína od 10 € mesačne. Pri náročnejších riešeniach môže byť vyššia. Presnú cenu vytvorenia aj prevádzky dohodneme vopred.",
         ],
         [
           "Koľko stojí 3D konfigurátor?",
