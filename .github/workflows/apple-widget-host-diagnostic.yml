@@ -1,0 +1,53 @@
+name: Apple widget host diagnostic
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/apple-widget-host-diagnostic.yml
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect loader, embed wiring and mobile overrides
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== LOADER ==='
+          sed -n '1,500p' public/widget-loader.js
+          echo '=== ROOT EMBED ==='
+          grep -RInE --exclude-dir=node_modules --exclude-dir=.git \
+            'widget-loader|embed.js|widget.js|assistantSource|site-assistant-widget-host|dv-assistant|contact|@media.*(720|760|820)|display:\s*none|visibility:\s*hidden' \
+            src public tests scripts | sed -n '1,1200p' || true
+          echo '=== BUILD SCRIPTS ==='
+          cat package.json
+      - name: Probe production page and loader assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p diagnostic
+          for url in \
+            'https://mojchatbot.sk/' \
+            'https://mojchatbot.sk/widget-loader.js' \
+            'https://danielvendzur-code.github.io/moj.chatbot.backend/embed.js'; do
+            safe=$(echo "$url" | sed 's#[^A-Za-z0-9]#_#g')
+            curl --silent --show-error --location --max-time 30 \
+              -D "diagnostic/$safe.headers" -o "diagnostic/$safe.body" "$url"
+            echo "--- $url headers ---"
+            cat "diagnostic/$safe.headers"
+            echo "--- body fingerprint ---"
+            wc -c "diagnostic/$safe.body"
+            sha256sum "diagnostic/$safe.body"
+            grep -Eo 'https://[^"'"' ]+|\?v=[A-Za-z0-9_-]+' "diagnostic/$safe.body" | head -40 || true
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apple-widget-host-diagnostic
+          path: diagnostic
+          retention-days: 2
